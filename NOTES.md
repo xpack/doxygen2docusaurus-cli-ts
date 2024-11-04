@@ -21,7 +21,8 @@ As aspect, it'll stay close to the [Doxygen Awesome](https://jothepro.github.io/
 
 - https://github.com/doxygen/doxygen
 - https://docusaurus.io
-- https://github.com/milesj/docusaurus-plugin-typedoc-api/
+- https://github.com/milesj/docusaurus-plugin-typedoc-api
+- https://github.com/typedoc2md/typedoc-plugin-markdown
 - https://github.com/microsoft/react-native-windows/tree/main/packages/%40rnw-scripts/doxysaurus
 - https://github.com/sourcey/moxygen
 - https://github.com/matusnovak/doxybook2 (archived)
