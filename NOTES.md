@@ -16,6 +16,7 @@ As aspect, it'll stay close to the [Doxygen Awesome](https://jothepro.github.io/
 - https://github.com/typedoc2md/typedoc-plugin-markdown/discussions/710#discussioncomment-11130976
 - https://github.com/jothepro/doxygen-awesome-css/discussions/165
 - https://github.com/doxygen/doxygen/discussions/11215
+- https://github.com/milesj/docusaurus-plugin-typedoc-api/issues/157
 
 ## Links
 
