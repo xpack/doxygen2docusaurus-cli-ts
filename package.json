@@ -1,0 +1,56 @@
+{
+  "name": "@xpack/docusaurus-plugin-doxygen",
+  "version": "0.1.0",
+  "description": "A Docusaurus plugin to integrate Doxygen into a Docusaurus project.",
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist/"
+  ],
+  "keywords": [
+    "docusaurus",
+    "doxygen",
+    "plugin"
+  ],
+  "homepage": "https://github.com/xpack/docusaurus-plugin-doxygen#readme",
+  "bugs": {
+    "url": "https://github.com/xpack/docusaurus-plugin-doxygen/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xpack/docusaurus-plugin-doxygen.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Liviu Ionescu",
+    "email": "ilg@livius.net",
+    "url": "https://github.com/ilg-ul"
+  },
+  "scripts": {
+    "compile-watch": "tsc --build --verbose --watch src",
+    "fix": "ts-standard --fix src",
+    "compile": "tsc --build --verbose src",
+    "npm-install": "npm install",
+    "npm-link": "npm link",
+    "npm-link-deps": "echo none",
+    "npm-link-helpers": "echo none",
+    "npm-outdated": "npm outdated",
+    "npm-update": "npm update",
+    "npm-pack": "npm pack",
+    "npm-version-patch": "npm version patch",
+    "npm-version-minor": "npm version minor",
+    "postversion": "git push origin --all && git push origin --tags",
+    "git-log": "git log --pretty='%cd * %h %s' --date=short",
+    "lint": "ts-standard src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.11",
+    "del-cli": "^6.0.0",
+    "ts-node": "^10.9.2",
+    "ts-standard": "^12.0.2",
+    "typescript": "^5.8.2"
+  }
+}

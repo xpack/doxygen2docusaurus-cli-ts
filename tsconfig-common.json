@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "module": "Node16",
+      "lib": ["es2023", "dom"],
+      "target": "es2022",
+      "declaration": true,
+      "experimentalDecorators": true,
+      "esModuleInterop": true,
+      "noImplicitAny": false,
+      "noUnusedLocals": true,
+      "removeComments": false,
+      "sourceMap": false,
+      "strictNullChecks": true
+    }
+  }
