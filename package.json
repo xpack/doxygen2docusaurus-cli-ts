@@ -46,6 +46,9 @@
     "lint": "ts-standard src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "fast-xml-parser": "^5.0.9"
+  },
   "devDependencies": {
     "@types/node": "^22.13.11",
     "del-cli": "^6.0.0",

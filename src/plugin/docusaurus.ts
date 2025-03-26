@@ -1,9 +1,19 @@
-import * as fs from 'node:fs'
-import * as util from 'node:util'
+/*
+ * This file is part of the xPack project (http://xpack.github.io).
+ * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
+ *
+ * Permission to use, copy, modify, and/or distribute this software
+ * for any purpose is hereby granted, under the terms of the MIT license.
+ *
+ * If a copy of the license was not distributed with this file, it can
+ * be obtained from https://opensource.org/licenses/MIT.
+ */
 
-import { defaultOptions } from '../options/defaults.js'
+// ----------------------------------------------------------------------------
 
-export default async function pluginDocusaurus (
+import { generateDoxygen } from '../cli/generate.js'
+
+export default async function pluginDocusaurus(
   context: any,
   options: any
 ): Promise<any> {
@@ -16,15 +26,29 @@ export default async function pluginDocusaurus (
 
   return {
     name: '@xpack/docusaurus-plugin-doxygen',
+
     // https://docusaurus.io/docs/api/plugin-methods/lifecycle-apis
-    async loadContent () {
-      console.log('plugin-doxygen: loadContent()')
+    // Fetch from data sources. The return value is the content it needs.
+    async loadContent() {
+      console.log('docusaurus-plugin-doxygen: loadContent()')
+
+      return {}
     },
-    async contentLoaded ({ content, actions }) {
-      console.log('plugin-doxygen: contentLoaded()')
+
+    // The return value of `loadContent()` will be passed to
+    // `contentLoaded()` as `content`.
+    async contentLoaded({
+      content,
+      actions
+    }: {
+      content: any
+      actions: any
+    }) {
+      console.log('docusaurus-plugin-doxygen: contentLoaded()')
     },
+
     // https://docusaurus.io/docs/api/plugin-methods/extend-infrastructure#extendCli
-    extendCli (cli: any) {
+    extendCli(cli: any) {
       cli
         .command('generate-doxygen')
         .description(
@@ -32,30 +56,9 @@ export default async function pluginDocusaurus (
         )
         .action(async () => {
           return await generateDoxygen(context, options)
-        }).then((exitCode) => { process.exitCode = exitCode })
-        .catch(() => {})
+        })
     }
   }
 }
 
-async function generateDoxygen (context: any, options: any): Promise<number> {
-  console.log('generateDoxygen()')
-  // console.log(`context: ${util.inspect(context)}`)
-  // console.log(`options: ${util.inspect(options)}`)
-
-  // Merge with the defaults.
-  const actualOptions = {
-    ...defaultOptions,
-    ...options
-  }
-  console.log(`actualOptions:${util.inspect(actualOptions)}`)
-
-  // Create output folder if it doesn't exist.
-  if (!fs.existsSync(actualOptions.outputFolderPath)) {
-    fs.mkdirSync(actualOptions.outputFolderPath, { recursive: true })
-  }
-
-  console.log('more generateDoxygen() to come...')
-
-  return 0
-}
+// ----------------------------------------------------------------------------

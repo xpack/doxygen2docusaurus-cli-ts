@@ -11,10 +11,22 @@
 
 // ----------------------------------------------------------------------------
 
-export const defaultOptions = {
-  doxygenXmlInputFolderPath: 'doxygen/xml',
-  outputFolderPath: 'docs/api',
-  sidebarFileName: 'sidebar-doxygen.ts'
+import { XmlRawData } from '../xml-parser/types.js'
+import { Group, Groups } from './groups.js'
+
+export class DataModel {
+  groups = new Groups()
+
+  constructor(rawData: XmlRawData) {
+    for (const item of rawData.doxygen) {
+      if (item[':@']['@_kind'] === 'group') {
+        this.groups.add(item[':@']['@_id'], new Group(item))
+      }
+    }
+
+    this.groups.createHierarchies()
+    this.groups.computePermalinks()
+  }
 }
 
 // ----------------------------------------------------------------------------
