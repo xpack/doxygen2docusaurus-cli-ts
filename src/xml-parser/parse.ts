@@ -23,7 +23,7 @@ import type { XmlRawData, XmlDoxygenIndexParsed, XmlDoxygenFileParsed, XmlCompou
 
 // ----------------------------------------------------------------------------
 
-async function parseFile({
+async function parseFile ({
   fileName,
   folderPath,
   xmlParser
@@ -39,7 +39,7 @@ async function parseFile({
   return xmlParser.parse(xmlString)
 }
 
-export async function parseXmlAll({
+export async function parseXmlAll ({
   folderPath
 }: {
   folderPath: string

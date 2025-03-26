@@ -13,7 +13,7 @@
 
 import { generateDoxygen } from '../cli/generate.js'
 
-export default async function pluginDocusaurus(
+export default async function pluginDocusaurus (
   context: any,
   options: any
 ): Promise<any> {
@@ -29,7 +29,7 @@ export default async function pluginDocusaurus(
 
     // https://docusaurus.io/docs/api/plugin-methods/lifecycle-apis
     // Fetch from data sources. The return value is the content it needs.
-    async loadContent() {
+    async loadContent () {
       console.log('docusaurus-plugin-doxygen: loadContent()')
 
       return {}
@@ -37,7 +37,7 @@ export default async function pluginDocusaurus(
 
     // The return value of `loadContent()` will be passed to
     // `contentLoaded()` as `content`.
-    async contentLoaded({
+    async contentLoaded ({
       content,
       actions
     }: {
@@ -48,7 +48,7 @@ export default async function pluginDocusaurus(
     },
 
     // https://docusaurus.io/docs/api/plugin-methods/extend-infrastructure#extendCli
-    extendCli(cli: any) {
+    extendCli (cli: any) {
       cli
         .command('generate-doxygen')
         .description(

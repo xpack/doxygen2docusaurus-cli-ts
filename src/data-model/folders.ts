@@ -14,77 +14,84 @@
 // import * as util from 'node:util'
 
 import assert from 'node:assert'
-import type { XmlCompoundDef, XmlTitle, XmlInnerGroup } from '../xml-parser/types.js'
+import type { XmlCompoundDef, XmlInnerDir, XmlInnerFile } from '../xml-parser/types.js'
 import { Compound } from './compound.js'
 
 // ----------------------------------------------------------------------------
 
-export class Groups {
-  membersById: Map<string, Group>
+export class Folders {
+  membersById: Map<string, Folder>
 
   constructor () {
     this.membersById = new Map()
   }
 
-  add (id: string, compound: Group): void {
+  add (id: string, compound: Folder): void {
     this.membersById.set(id, compound)
   }
 
-  get (id: string): Group {
+  get (id: string): Folder {
     const value = this.membersById.get(id)
     if (value !== undefined) {
       return value
     }
-    throw new Error(`Groups.get(${id}) not found`)
+    throw new Error(`Folders.get(${id}) not found`)
   }
 
   createHierarchies (): void {
-    console.log('Groups.createHierarchies()...')
+    console.log('Folders.createHierarchies()...')
 
     for (const item of this.membersById.values()) {
-      for (const childId of item.childrenGroupsIds) {
+      for (const childId of item.childrenFoldersIds) {
         const childItem = this.get(childId)
-        assert(childItem.parentGroupId.length === 0)
-        childItem.parentGroupId = item.id
+        assert(childItem.parentFolderId.length === 0)
+        childItem.parentFolderId = item.id
       }
     }
 
     for (const item of this.membersById.values()) {
-      if (item.parentGroupId.length === 0) {
-        console.log(item.id, item.name, item.title)
+      if (item.parentFolderId.length === 0) {
+        console.log(item.id, item.name)
       }
     }
   }
 
   computePermalinks (): void {
-    console.log('Groups.computePermalinks()...')
+    console.log('Folders.computePermalinks()...')
     for (const item of this.membersById.values()) {
-      item.permalink = `topics/${(item as Group).name}`
+      item.permalink = `folders/${this.getPermalink(item)}`
       console.log('permalink: ', item.permalink)
     }
   }
+
+  getPermalink (item: Folder): string {
+    let parentPermalink = ''
+    if (item.parentFolderId.length > 0) {
+      parentPermalink = this.getPermalink(this.get(item.parentFolderId)) + '/'
+    }
+    const name: string = item.name.replaceAll('.', '-')
+    return parentPermalink + name
+  }
 }
 
-export class Group extends Compound {
-  title: string = ''
-  parentGroupId: string = ''
-  childrenGroupsIds: string[] = []
+export class Folder extends Compound {
+  parentFolderId: string = ''
+  childrenFoldersIds: string[] = []
+  childrenFilesIds: string[] = []
   permalink: string = ''
 
   constructor (xmlCompoundDef: XmlCompoundDef) {
     super(xmlCompoundDef)
 
     for (const item of xmlCompoundDef.compounddef) {
-      if (Object.hasOwn(item, 'title') === true) {
-        this.title = (item as XmlTitle).title[0]['#text']
-        break
+      if (Object.hasOwn(item, 'innerdir') === true) {
+        this.childrenFoldersIds.push((item as XmlInnerDir)[':@']['@_refid'])
       }
     }
-    assert(this.title)
 
     for (const item of xmlCompoundDef.compounddef) {
-      if (Object.hasOwn(item, 'innergroup') === true) {
-        this.childrenGroupsIds.push((item as XmlInnerGroup)[':@']['@_refid'])
+      if (Object.hasOwn(item, 'innerfile') === true) {
+        this.childrenFilesIds.push((item as XmlInnerFile)[':@']['@_refid'])
       }
     }
   }

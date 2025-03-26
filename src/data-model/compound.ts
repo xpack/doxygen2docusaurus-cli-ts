@@ -14,7 +14,7 @@
 import assert from 'assert'
 // import * as util from 'node:util'
 
-import type { XmlCompoundDef, XmlCompoundName, XmlCompoundTile } from '../xml-parser/types.js'
+import type { XmlCompoundDef, XmlCompoundName } from '../xml-parser/types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -22,28 +22,20 @@ export class Compound {
   id: string
   kind: string
   name: string = ''
-  title: string = ''
   detailedDescription: string
 
-  constructor(xmlCompoundDef: XmlCompoundDef) {
+  constructor (xmlCompoundDef: XmlCompoundDef) {
     // console.log(util.inspect(xmlCompoundDef))
 
     this.id = xmlCompoundDef[':@']['@_id']
     this.kind = xmlCompoundDef[':@']['@_kind']
     for (const item of xmlCompoundDef.compounddef) {
-      if (Object.hasOwn(item, 'compoundname')) {
+      if (Object.hasOwn(item, 'compoundname') === true) {
         this.name = (item as XmlCompoundName).compoundname[0]['#text']
         break
       }
     }
     assert(this.name)
-    for (const item of xmlCompoundDef.compounddef) {
-      if (Object.hasOwn(item, 'title')) {
-        this.title = (item as XmlCompoundTile).title[0]['#text']
-        break
-      }
-    }
-    assert(this.title)
 
     this.detailedDescription = '' // xmlCompoundDef.detaileddescription
   }

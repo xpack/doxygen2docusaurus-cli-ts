@@ -87,19 +87,10 @@ export interface XmlDoxygen extends XmlTopBase {
   doxygen: XmlCompoundDef[]
 }
 
-export type XmlCompoundDefChildren = XmlCompoundName | XmlCompoundTile | XmlInnerGroup
+export type XmlCompoundDefChildren = XmlCompoundName | XmlTitle | XmlInnerGroup | XmlInnerNamespace | XmlInnerDir | XmlInnerFile | XmlInnerNamespace
 
 export interface XmlCompoundDef extends XmlCompoundDefBase {
   compounddef: XmlCompoundDefChildren[]
-  //   compoundname: string
-  //   title: string
-  //   innerfile: any[]
-  //   innergroup: XmlInnerGroup[]
-  //   briefdescription: string | XmlDescriptionType
-  //   detaileddescription: string | XmlDescriptionType
-  //   location: any
-  //   '@_id': string
-  //   '@_kind': string
 }
 
 export interface XmlCompoundName {
@@ -108,7 +99,7 @@ export interface XmlCompoundName {
   }]
 }
 
-export interface XmlCompoundTile {
+export interface XmlTitle {
   title: [{
     '#text': string
   }]
@@ -120,6 +111,44 @@ export interface XmlInnerGroup {
   }]
   ':@': {
     '@_refid': string
+  }
+}
+
+export interface XmlInnerNamespace {
+  innernamespace: [{
+    '#text': string
+  }]
+  ':@': {
+    '@_refid': string
+  }
+}
+
+export interface XmlInnerDir {
+  innerdir: [{
+    '#text': string
+  }]
+  ':@': {
+    '@_refid': string
+  }
+}
+
+export interface XmlInnerFile {
+  innerfile: [{
+    '#text': string
+  }]
+  ':@': {
+    '@_refid': string
+  }
+}
+
+export interface XmlDerivedCompound {
+  derivedcompoundref: [{
+    '#text': string
+  }]
+  ':@': {
+    '@_refid': string
+    '@_prot': string
+    '@_virt': string
   }
 }
 

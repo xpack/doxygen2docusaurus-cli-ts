@@ -19,7 +19,7 @@ import { parseXmlAll } from '../xml-parser/parse.js'
 import type { XmlRawData } from '../xml-parser/types.js'
 import { DataModel } from '../data-model/data-model.js'
 
-export async function generateDoxygen(context: any, options: any): Promise<number> {
+export async function generateDoxygen (context: any, options: any): Promise<number> {
   console.log('generateDoxygen()')
   // console.log(`context: ${util.inspect(context)}`)
   // console.log(`options: ${util.inspect(options)}`)

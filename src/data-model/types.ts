@@ -16,15 +16,15 @@
 export class Compounds<T> {
   membersById: Map<string, T>
 
-  constructor() {
+  constructor () {
     this.membersById = new Map()
   }
 
-  add(id: string, compound: T): void {
+  add (id: string, compound: T): void {
     this.membersById.set(id, compound)
   }
 
-  get(id: string): T {
+  get (id: string): T {
     const value = this.membersById.get(id)
     if (value !== undefined) {
       return value
