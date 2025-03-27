@@ -87,64 +87,54 @@ export interface XmlDoxygen extends XmlTopBase {
   doxygen: XmlCompoundDef[]
 }
 
-export type XmlCompoundDefChildren = XmlCompoundName | XmlTitle | XmlInnerGroup | XmlInnerNamespace | XmlInnerDir | XmlInnerFile | XmlInnerNamespace
+export type XmlCompoundDefChildren = XmlCompoundName | XmlTitle | XmlInnerGroup | XmlInnerNamespace | XmlInnerDir | XmlInnerFile | XmlInnerNamespace | XmlBriefDescription | XmlDetailedDescription
 
 export interface XmlCompoundDef extends XmlCompoundDefBase {
   compounddef: XmlCompoundDefChildren[]
 }
 
+export interface XmlText {
+  '#text': string
+}
+
 export interface XmlCompoundName {
-  compoundname: [{
-    '#text': string
-  }]
+  compoundname: [XmlText]
 }
 
 export interface XmlTitle {
-  title: [{
-    '#text': string
-  }]
+  title: [XmlText]
 }
 
 export interface XmlInnerGroup {
-  innergroup: [{
-    '#text': string
-  }]
+  innergroup: [XmlText]
   ':@': {
     '@_refid': string
   }
 }
 
 export interface XmlInnerNamespace {
-  innernamespace: [{
-    '#text': string
-  }]
+  innernamespace: [XmlText]
   ':@': {
     '@_refid': string
   }
 }
 
 export interface XmlInnerDir {
-  innerdir: [{
-    '#text': string
-  }]
+  innerdir: [XmlText]
   ':@': {
     '@_refid': string
   }
 }
 
 export interface XmlInnerFile {
-  innerfile: [{
-    '#text': string
-  }]
+  innerfile: [XmlText]
   ':@': {
     '@_refid': string
   }
 }
 
 export interface XmlDerivedCompound {
-  derivedcompoundref: [{
-    '#text': string
-  }]
+  derivedcompoundref: [XmlText]
   ':@': {
     '@_refid': string
     '@_prot': string
@@ -152,35 +142,146 @@ export interface XmlDerivedCompound {
   }
 }
 
-export interface XmlDescriptionType {
-  title?: string
-  para?: string | XmlDocParaType | XmlDocParaType[]
-  internal?: XmlDocInternalType
-  sect1?: any // TODO
+export interface XmlBriefDescription {
+  briefdescription: XmlDescriptionType[]
 }
 
-export interface XmlDocParaType extends XmlDocCmdGroup {
+export interface XmlDetailedDescription {
+  detaileddescription: XmlDescriptionType[]
 }
 
-export interface XmlDocInternalType {
-  para?: XmlDocParaType
-  sect1?: any // TODO
+export type XmlDescriptionType = XmlPara | XmlText | XmlBold | XmlParameterList | XmlComputerOutput | XmlRef | XmlSimpleSect | XmlProgramListing
+
+export interface XmlPara {
+  para: XmlDescriptionType[]
 }
 
-export interface XmlDocSect1Type {
-  title?: XmlDocTitleType
+export interface XmlBold {
+  bold: XmlDescriptionType[]
 }
 
-export interface XmlDocTitleType extends XmlDocTitleCmdGroup {
+export interface XmlComputerOutput {
+  computeroutput: XmlDescriptionType[]
 }
 
-export interface XmlDocTitleCmdGroup {
-  [key: string]: string // TODO
+export interface XmlRef {
+  ref: XmlDescriptionType[]
+  ':@': {
+    '@_refid': string
+    '@_kindref': string
+  }
 }
 
-export interface XmlDocCmdGroup {
-  [key: string]: string // TODO
+export interface XmlParameterList {
+  parameterlist: XmlParameterItem[]
+  ':@': {
+    '@_kind': string
+  }
 }
+
+// Two items array.
+export interface XmlParameterItem {
+  parameteritem: [XmlParameterNameList, XmlParameterDescription]
+}
+
+// Array of names.
+export interface XmlParameterNameList {
+  parameternamelist: XmlParameterName[]
+}
+
+export interface XmlParameterDescription {
+  parameterdescription: XmlDescriptionType[]
+}
+
+export interface XmlParameterName {
+  parametername: [XmlText]
+}
+
+export interface XmlSimpleSect {
+  simplesect: Array<XmlTitle | XmlPara>
+  ':@': {
+    '@_kind': string
+  }
+}
+
+export interface XmlProgramListing {
+  programlisting: XmlCodeLine[]
+  ':@': {
+    '@_filename': string
+  }
+}
+
+export interface XmlCodeLine {
+  codeline: XmlHighlight[]
+  ':@': {
+    '@_lineno': string
+    '@_refid': string
+    '@_refkind': string
+    '@_external': string
+  }
+}
+
+export interface XmlHighlight {
+  highlight: Array<XmlText | XmlSp | XmlRefText>
+  ':@': {
+    '@_filename': string
+  }
+}
+
+export interface XmlSp {
+  sp: any[]
+  ':@': {
+    '@_value': string
+  }
+}
+
+export interface XmlRefText {
+  ref: XmlText[]
+  ':@': {
+    '@_refid': string
+    '@_kindref': string
+    '@_external': string
+    '@_tooltip': string
+  }
+}
+
+export interface XmlInclude {
+  include: XmlText[]
+  ':@': {
+    '@_refid': string
+    '@_local': string
+  }
+}
+
+// export interface XmlDescriptionType {
+//   title?: string
+//   para?: string | XmlDocParaType | XmlDocParaType[]
+//   internal?: XmlDocInternalType
+//   sect1?: any // TODO
+// }
+
+// export interface XmlDocParaType extends XmlDocCmdGroup {
+// }
+
+// export interface XmlDocInternalType {
+//   para?: XmlDocParaType
+//   sect1?: any // TODO
+// }
+
+// export interface XmlDocSect1Type {
+//   title?: XmlDocTitleType
+// }
+
+// export interface XmlDocTitleType extends XmlDocTitleCmdGroup {
+// }
+
+// export interface XmlDocTitleCmdGroup {
+//   [key: string]: string // TODO
+// }
+
+// export interface XmlDocCmdGroup {
+//   [key: string]: string // TODO
+// }
 
 // ----------------------------------------------------------------------------
 
