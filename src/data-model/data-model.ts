@@ -26,6 +26,7 @@ export class DataModel {
   classes = new Classes()
 
   constructor (rawData: XmlRawData) {
+    console.log('Processing components...')
     for (const item of rawData.doxygen) {
       if (item[':@']['@_kind'] === 'group') {
         this.groups.add(item[':@']['@_id'], new Group(item))
@@ -48,6 +49,7 @@ export class DataModel {
     this.files.createHierarchies()
     this.classes.createHierarchies()
 
+    console.log('Permalinks...')
     this.groups.computePermalinks()
     this.namespaces.computePermalinks()
     this.folders.computePermalinks()

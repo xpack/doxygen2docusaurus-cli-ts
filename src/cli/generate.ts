@@ -20,7 +20,7 @@ import type { XmlRawData } from '../xml-parser/types.js'
 import { DataModel } from '../data-model/data-model.js'
 
 export async function generateDoxygen (context: any, options: any): Promise<number> {
-  console.log('generateDoxygen()')
+  // console.log('generateDoxygen()')
   // console.log(`context: ${util.inspect(context)}`)
   // console.log(`options: ${util.inspect(options)}`)
 
@@ -29,7 +29,7 @@ export async function generateDoxygen (context: any, options: any): Promise<numb
     ...defaultOptions,
     ...options
   }
-  console.log(`actualOptions:${util.inspect(actualOptions)}`)
+  console.log('options:', util.inspect(actualOptions))
 
   // Create output folder if it doesn't exist.
   if (!fs.existsSync(actualOptions.outputFolderPath)) {
@@ -40,7 +40,7 @@ export async function generateDoxygen (context: any, options: any): Promise<numb
   // console.log('xmlRawData: ', util.inspect(xmlRawData))
 
   const dataModel = new DataModel(xmlRawData)
-  console.log(util.inspect(dataModel))
+  // console.log(util.inspect(dataModel))
 
   console.log('more generateDoxygen() to come...')
 

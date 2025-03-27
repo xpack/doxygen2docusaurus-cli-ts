@@ -11,13 +11,13 @@
 
 // ----------------------------------------------------------------------------
 
-// import * as util from 'node:util'
+import * as util from 'node:util'
 
 import assert from 'node:assert'
-import { Compound } from './compound.js'
+import { Compound, Includes } from './compound.js'
 import { Folders } from './folders.js'
 
-import type { XmlCompoundDef } from '../xml-parser/types.js'
+import type { XmlCompoundDef, XmlIncludes, XmlInnerClass, XmlInnerNamespace, XmlProgramListing } from '../xml-parser/types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -44,7 +44,7 @@ export class Files {
   }
 
   createHierarchies (): void {
-    console.log('Files.createHierarchies()...')
+    // console.log('Files.createHierarchies()...')
 
     for (const itemFolder of this.folders.membersById.values()) {
       // console.log(itemFolder)
@@ -56,15 +56,16 @@ export class Files {
         // console.log(childFileItem)
       }
     }
-    for (const item of this.membersById.values()) {
-      if (item.parentFolderId.length === 0) {
-        console.log(item.id, item.name)
-      }
-    }
+
+    // for (const item of this.membersById.values()) {
+    //   if (item.parentFolderId.length === 0) {
+    //     console.log(item.id, item.name)
+    //   }
+    // }
   }
 
   computePermalinks (): void {
-    console.log('Files.computePermalinks()...')
+    // console.log('Files.computePermalinks()...')
     for (const item of this.membersById.values()) {
       if (item.parentFolderId.length > 0) {
         const itemFolder = this.folders.get(item.parentFolderId)
@@ -75,7 +76,7 @@ export class Files {
         const name: string = item.name.replaceAll('.', '-')
         item.permalink = `files/${name}`
       }
-      console.log('permalink: ', item.permalink)
+      console.log('-', item.permalink)
     }
   }
 }
@@ -83,15 +84,40 @@ export class Files {
 export class File extends Compound {
   parentFolderId: string = ''
   permalink: string = ''
+  includes: Includes[] = []
+  programlisting: string = ''
+  innerNamespacesIds: string[] = []
+  innerClassesIds: string[] = []
 
   constructor (xmlCompoundDef: XmlCompoundDef) {
     super(xmlCompoundDef)
 
     for (const item of xmlCompoundDef.compounddef) {
-      if (!this.wasItemProcessedByParent(item)) {
+      if (Object.hasOwn(item, 'includes') === true) {
+        // console.log(util.inspect(item))
+        this.includes.push(this.parseIncludes(item as XmlIncludes))
+      } else if (Object.hasOwn(item, 'programlisting') === true) {
+        // console.log(util.inspect(item))
+        this.programlisting = this.parseProgramListing(item as XmlProgramListing)
+        // console.log('listing:', this.programlisting)
+      } else if (Object.hasOwn(item, 'innernamespace') === true) {
+        this.innerNamespacesIds.push((item as XmlInnerNamespace)[':@']['@_refid'])
+      } else if (Object.hasOwn(item, 'innerclass') === true) {
+        this.innerClassesIds.push((item as XmlInnerClass)[':@']['@_refid'])
+      } else if (Object.hasOwn(item, 'location') === true) {
+        // Ignored, not used for now.
+      } else if (Object.hasOwn(item, 'incdepgraph') === true) {
+        // Ignored, not used for now.
+      } else if (Object.hasOwn(item, 'invincdepgraph') === true) {
+        // Ignored, not used for now.
+      } else if (Object.hasOwn(item, 'includedby') === true) {
+        // Ignored, not used for now. (perhaps re-evaluate later).
+      } else if (!this.wasItemProcessedByParent(item)) {
         console.error('files element:', Object.keys(item), 'not implemented yet')
       }
     }
+    // console.log(util.inspect(this.innerNamespacesIds))
+    // console.log(util.inspect(this.innerClassesIds))
   }
 }
 

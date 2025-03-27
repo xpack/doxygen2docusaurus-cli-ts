@@ -11,11 +11,11 @@
 
 // ----------------------------------------------------------------------------
 
-// import * as util from 'node:util'
+import * as util from 'node:util'
 
 import assert from 'node:assert'
-import type { XmlCompoundDef, XmlInnerGroup } from '../xml-parser/types.js'
-import { Compound } from './compound.js'
+import type { XmlCompoundDef, XmlInnerGroup, XmlIncludes } from '../xml-parser/types.js'
+import { Compound, Includes } from './compound.js'
 
 // ----------------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ export class Classes {
   }
 
   createHierarchies (): void {
-    console.log('Classes.createHierarchies()...')
+    // console.log('Classes.createHierarchies()...')
 
     for (const item of this.membersById.values()) {
       for (const childId of item.childrenDerivedIds) {
@@ -49,19 +49,19 @@ export class Classes {
       }
     }
 
-    for (const item of this.membersById.values()) {
-      if (item.parentId.length === 0) {
-        console.log(item.id, item.name)
-      }
-    }
+    // for (const item of this.membersById.values()) {
+    //   if (item.parentId.length === 0) {
+    //     console.log(item.id, item.name)
+    //   }
+    // }
   }
 
   computePermalinks (): void {
-    console.log('Classes.computePermalinks()...')
+    // console.log('Classes.computePermalinks()...')
     for (const item of this.membersById.values()) {
       const name: string = item.name.replaceAll('::', '/')
       item.permalink = `classes/${name}`
-      console.log('permalink: ', item.permalink)
+      console.log('-', item.permalink)
     }
   }
 }
@@ -70,6 +70,7 @@ export class Class extends Compound {
   parentId: string = ''
   childrenDerivedIds: string[] = []
   permalink: string = ''
+  includes: Includes[] = []
 
   constructor (xmlCompoundDef: XmlCompoundDef) {
     super(xmlCompoundDef)
@@ -77,6 +78,15 @@ export class Class extends Compound {
     for (const item of xmlCompoundDef.compounddef) {
       if (Object.hasOwn(item, 'derivedcompoundref') === true) {
         this.childrenDerivedIds.push((item as XmlInnerGroup)[':@']['@_refid'])
+      } else if (Object.hasOwn(item, 'includes') === true) {
+        // console.log(util.inspect(item))
+        this.includes.push(this.parseIncludes(item as XmlIncludes))
+      } else if (Object.hasOwn(item, 'location') === true) {
+        // Ignored, not used for now.
+      } else if (Object.hasOwn(item, 'collaborationgraph') === true) {
+        // Ignored, not used for now.
+      } else if (Object.hasOwn(item, 'inheritancegraph') === true) {
+        // Ignored, not used for now.
       } else if (!this.wasItemProcessedByParent(item)) {
         console.error('class element:', Object.keys(item), 'not implemented yet')
       }

@@ -81,4 +81,8 @@ export async function parseXmlAll ({
   }
 }
 
+export function parseBoolean (s: string): boolean {
+  return s.toLowerCase() === 'yes'
+}
+
 // ----------------------------------------------------------------------------

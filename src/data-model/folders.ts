@@ -39,7 +39,7 @@ export class Folders {
   }
 
   createHierarchies (): void {
-    console.log('Folders.createHierarchies()...')
+    // console.log('Folders.createHierarchies()...')
 
     for (const item of this.membersById.values()) {
       for (const childId of item.childrenFoldersIds) {
@@ -49,18 +49,18 @@ export class Folders {
       }
     }
 
-    for (const item of this.membersById.values()) {
-      if (item.parentFolderId.length === 0) {
-        console.log(item.id, item.name)
-      }
-    }
+    // for (const item of this.membersById.values()) {
+    //   if (item.parentFolderId.length === 0) {
+    //     console.log(item.id, item.name)
+    //   }
+    // }
   }
 
   computePermalinks (): void {
-    console.log('Folders.computePermalinks()...')
+    // console.log('Folders.computePermalinks()...')
     for (const item of this.membersById.values()) {
       item.permalink = `folders/${this.getPermalink(item)}`
-      console.log('permalink: ', item.permalink)
+      console.log('-', item.permalink)
     }
   }
 
@@ -88,6 +88,8 @@ export class Folder extends Compound {
         this.childrenFoldersIds.push((item as XmlInnerDir)[':@']['@_refid'])
       } else if (Object.hasOwn(item, 'innerfile') === true) {
         this.childrenFilesIds.push((item as XmlInnerFile)[':@']['@_refid'])
+      } else if (Object.hasOwn(item, 'location') === true) {
+        // Ignored, not used for now.
       } else if (!this.wasItemProcessedByParent(item)) {
         console.error('folders element:', Object.keys(item), 'not implemented yet')
       }

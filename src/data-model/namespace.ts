@@ -11,10 +11,10 @@
 
 // ----------------------------------------------------------------------------
 
-// import * as util from 'node:util'
+import * as util from 'node:util'
 
 import assert from 'node:assert'
-import type { XmlCompoundDef, XmlInnerGroup } from '../xml-parser/types.js'
+import type { XmlCompoundDef, XmlInnerClass, XmlInnerGroup } from '../xml-parser/types.js'
 import { Compound } from './compound.js'
 
 // ----------------------------------------------------------------------------
@@ -39,36 +39,37 @@ export class Namespaces {
   }
 
   createHierarchies (): void {
-    console.log('Namespaces.createHierarchies()...')
+    // console.log('Namespaces.createHierarchies()...')
 
     for (const item of this.membersById.values()) {
-      for (const childId of item.childrenNamespacesIds) {
+      for (const childId of item.innerNamespacesIds) {
         const childItem = this.get(childId)
         assert(childItem.parentNamespaceId.length === 0)
         childItem.parentNamespaceId = item.id
       }
     }
 
-    for (const item of this.membersById.values()) {
-      if (item.parentNamespaceId.length === 0) {
-        console.log(item.id, item.name)
-      }
-    }
+    // for (const item of this.membersById.values()) {
+    //   if (item.parentNamespaceId.length === 0) {
+    //     console.log(item.id, item.name)
+    //   }
+    // }
   }
 
   computePermalinks (): void {
-    console.log('Namespaces.computePermalinks()...')
+    // console.log('Namespaces.computePermalinks()...')
     for (const item of this.membersById.values()) {
       const name: string = item.name.replaceAll('::', '/')
       item.permalink = `namespaces/${name}`
-      console.log('permalink: ', item.permalink)
+      console.log('-', item.permalink)
     }
   }
 }
 
 export class Namespace extends Compound {
   parentNamespaceId: string = ''
-  childrenNamespacesIds: string[] = []
+  innerNamespacesIds: string[] = []
+  innerClassesIds: string[] = []
   permalink: string = ''
 
   constructor (xmlCompoundDef: XmlCompoundDef) {
@@ -76,11 +77,16 @@ export class Namespace extends Compound {
 
     for (const item of xmlCompoundDef.compounddef) {
       if (Object.hasOwn(item, 'innernamespace') === true) {
-        this.childrenNamespacesIds.push((item as XmlInnerGroup)[':@']['@_refid'])
+        this.innerNamespacesIds.push((item as XmlInnerGroup)[':@']['@_refid'])
+      } else if (Object.hasOwn(item, 'innerclass') === true) {
+        this.innerClassesIds.push((item as XmlInnerClass)[':@']['@_refid'])
+      } else if (Object.hasOwn(item, 'location') === true) {
+        // Ignored, not used for now.
       } else if (!this.wasItemProcessedByParent(item)) {
         console.error('namespace element:', Object.keys(item), 'not implemented yet')
       }
     }
+    // console.log(util.inspect(this.innerClassesIds))
   }
 }
 

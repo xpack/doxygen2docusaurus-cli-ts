@@ -17,7 +17,7 @@ export default async function pluginDocusaurus (
   context: any,
   options: any
 ): Promise<any> {
-  console.log('@xpack/docusaurus-plugin-doxygen')
+  console.log('@xpack/docusaurus-plugin-doxygen initialising...')
   // console.log(`context: ${util.inspect(context)}`)
   // The plugin configuration options.
   // console.log(`options: ${util.inspect(options)}`)

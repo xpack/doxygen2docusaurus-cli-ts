@@ -87,7 +87,7 @@ export interface XmlDoxygen extends XmlTopBase {
   doxygen: XmlCompoundDef[]
 }
 
-export type XmlCompoundDefChildren = XmlCompoundName | XmlTitle | XmlInnerGroup | XmlInnerNamespace | XmlInnerDir | XmlInnerFile | XmlInnerNamespace | XmlBriefDescription | XmlDetailedDescription
+export type XmlCompoundDefChildren = XmlCompoundName | XmlTitle | XmlInnerGroup | XmlInnerNamespace | XmlInnerDir | XmlInnerFile | XmlInnerNamespace | XmlInnerClass | XmlBriefDescription | XmlDetailedDescription | XmlIncludes | XmlProgramListing
 
 export interface XmlCompoundDef extends XmlCompoundDefBase {
   compounddef: XmlCompoundDefChildren[]
@@ -114,6 +114,13 @@ export interface XmlInnerGroup {
 
 export interface XmlInnerNamespace {
   innernamespace: [XmlText]
+  ':@': {
+    '@_refid': string
+  }
+}
+
+export interface XmlInnerClass {
+  innerclass: [XmlText]
   ':@': {
     '@_refid': string
   }
@@ -245,8 +252,8 @@ export interface XmlRefText {
   }
 }
 
-export interface XmlInclude {
-  include: XmlText[]
+export interface XmlIncludes {
+  includes: [XmlText]
   ':@': {
     '@_refid': string
     '@_local': string

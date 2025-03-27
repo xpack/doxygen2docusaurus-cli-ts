@@ -39,7 +39,7 @@ export class Groups {
   }
 
   createHierarchies (): void {
-    console.log('Groups.createHierarchies()...')
+    // console.log('Groups.createHierarchies()...')
 
     for (const item of this.membersById.values()) {
       for (const childId of item.childrenGroupsIds) {
@@ -49,18 +49,18 @@ export class Groups {
       }
     }
 
-    for (const item of this.membersById.values()) {
-      if (item.parentGroupId.length === 0) {
-        console.log(item.id, item.name, item.title)
-      }
-    }
+    // for (const item of this.membersById.values()) {
+    //   if (item.parentGroupId.length === 0) {
+    //     console.log(item.id, item.name, item.title)
+    //   }
+    // }
   }
 
   computePermalinks (): void {
-    console.log('Groups.computePermalinks()...')
+    // console.log('Groups.computePermalinks()...')
     for (const item of this.membersById.values()) {
       item.permalink = `topics/${(item as Group).name}`
-      console.log('permalink: ', item.permalink)
+      console.log('-', item.permalink)
     }
   }
 }
@@ -79,6 +79,8 @@ export class Group extends Compound {
         this.title = (item as XmlTitle).title[0]['#text']
       } else if (Object.hasOwn(item, 'innergroup') === true) {
         this.childrenGroupsIds.push((item as XmlInnerGroup)[':@']['@_refid'])
+      } else if (Object.hasOwn(item, 'innerclass') === true) {
+        // Ignored, not used for now.
       } else if (!this.wasItemProcessedByParent(item)) {
         console.error('class element:', Object.keys(item), 'not implemented yet')
       }
