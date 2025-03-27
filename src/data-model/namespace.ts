@@ -77,6 +77,8 @@ export class Namespace extends Compound {
     for (const item of xmlCompoundDef.compounddef) {
       if (Object.hasOwn(item, 'innernamespace') === true) {
         this.childrenNamespacesIds.push((item as XmlInnerGroup)[':@']['@_refid'])
+      } else if (!this.wasItemProcessedByParent(item)) {
+        console.error('namespace element:', Object.keys(item), 'not implemented yet')
       }
     }
   }

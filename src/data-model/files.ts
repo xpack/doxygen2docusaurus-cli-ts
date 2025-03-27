@@ -82,9 +82,15 @@ export class File extends Compound {
   parentFolderId: string = ''
   permalink: string = ''
 
-  // constructor (xmlCompoundDef: XmlCompoundDef) {
-  //   super(xmlCompoundDef)
-  // }
+  constructor (xmlCompoundDef: XmlCompoundDef) {
+    super(xmlCompoundDef)
+
+    for (const item of xmlCompoundDef.compounddef) {
+      if (!this.wasItemProcessedByParent(item)) {
+        console.error('files element:', Object.keys(item), 'not implemented yet')
+      }
+    }
+  }
 }
 
 // ----------------------------------------------------------------------------

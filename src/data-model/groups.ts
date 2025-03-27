@@ -77,16 +77,14 @@ export class Group extends Compound {
     for (const item of xmlCompoundDef.compounddef) {
       if (Object.hasOwn(item, 'title') === true) {
         this.title = (item as XmlTitle).title[0]['#text']
-        break
-      }
-    }
-    assert(this.title)
-
-    for (const item of xmlCompoundDef.compounddef) {
-      if (Object.hasOwn(item, 'innergroup') === true) {
+      } else if (Object.hasOwn(item, 'innergroup') === true) {
         this.childrenGroupsIds.push((item as XmlInnerGroup)[':@']['@_refid'])
+      } else if (!this.wasItemProcessedByParent(item)) {
+        console.error('class element:', Object.keys(item), 'not implemented yet')
       }
     }
+
+    assert(this.title)
   }
 }
 

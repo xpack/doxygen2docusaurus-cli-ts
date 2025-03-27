@@ -86,12 +86,10 @@ export class Folder extends Compound {
     for (const item of xmlCompoundDef.compounddef) {
       if (Object.hasOwn(item, 'innerdir') === true) {
         this.childrenFoldersIds.push((item as XmlInnerDir)[':@']['@_refid'])
-      }
-    }
-
-    for (const item of xmlCompoundDef.compounddef) {
-      if (Object.hasOwn(item, 'innerfile') === true) {
+      } else if (Object.hasOwn(item, 'innerfile') === true) {
         this.childrenFilesIds.push((item as XmlInnerFile)[':@']['@_refid'])
+      } else if (!this.wasItemProcessedByParent(item)) {
+        console.error('folders element:', Object.keys(item), 'not implemented yet')
       }
     }
   }

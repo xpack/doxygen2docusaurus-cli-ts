@@ -77,6 +77,8 @@ export class Class extends Compound {
     for (const item of xmlCompoundDef.compounddef) {
       if (Object.hasOwn(item, 'derivedcompoundref') === true) {
         this.childrenDerivedIds.push((item as XmlInnerGroup)[':@']['@_refid'])
+      } else if (!this.wasItemProcessedByParent(item)) {
+        console.error('class element:', Object.keys(item), 'not implemented yet')
       }
     }
   }

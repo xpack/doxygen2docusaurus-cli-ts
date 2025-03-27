@@ -22,7 +22,7 @@ export class Compound {
   id: string
   kind: string
   name: string = ''
-  detailedDescription: string
+  commonElements = ['compoundname', 'briefdescription', 'detaileddescription']
 
   constructor (xmlCompoundDef: XmlCompoundDef) {
     // console.log(util.inspect(xmlCompoundDef))
