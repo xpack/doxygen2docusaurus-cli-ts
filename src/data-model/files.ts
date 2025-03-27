@@ -17,6 +17,8 @@ import assert from 'node:assert'
 import { Compound } from './compound.js'
 import { Folders } from './folders.js'
 
+import type { XmlCompoundDef } from '../xml-parser/types.js'
+
 // ----------------------------------------------------------------------------
 
 export class Files {
