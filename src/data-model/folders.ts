@@ -14,7 +14,7 @@
 // import * as util from 'node:util'
 
 import assert from 'node:assert'
-import type { XmlCompoundDef, XmlInnerDir, XmlInnerFile } from '../xml-parser/types.js'
+import type { XmlCompoundDefElement, XmlInnerDirElement, XmlInnerFileElement } from '../xml-parser/compound-xsd-types.js'
 import { Compound } from './compound.js'
 
 // ----------------------------------------------------------------------------
@@ -80,14 +80,14 @@ export class Folder extends Compound {
   childrenFilesIds: string[] = []
   permalink: string = ''
 
-  constructor (xmlCompoundDef: XmlCompoundDef) {
+  constructor (xmlCompoundDef: XmlCompoundDefElement) {
     super(xmlCompoundDef)
 
     for (const item of xmlCompoundDef.compounddef) {
       if (Object.hasOwn(item, 'innerdir') === true) {
-        this.childrenFoldersIds.push((item as XmlInnerDir)[':@']['@_refid'])
+        this.childrenFoldersIds.push((item as XmlInnerDirElement)[':@']['@_refid'])
       } else if (Object.hasOwn(item, 'innerfile') === true) {
-        this.childrenFilesIds.push((item as XmlInnerFile)[':@']['@_refid'])
+        this.childrenFilesIds.push((item as XmlInnerFileElement)[':@']['@_refid'])
       } else if (Object.hasOwn(item, 'location') === true) {
         // Ignored, not used for now.
       } else if (!this.wasItemProcessedByParent(item)) {

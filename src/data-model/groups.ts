@@ -14,7 +14,7 @@
 // import * as util from 'node:util'
 
 import assert from 'node:assert'
-import type { XmlCompoundDef, XmlTitle, XmlInnerGroup } from '../xml-parser/types.js'
+import type { XmlCompoundDefElement, XmlTitleElement, XmlInnerGroupElement } from '../xml-parser/compound-xsd-types.js'
 import { Compound } from './compound.js'
 
 // ----------------------------------------------------------------------------
@@ -71,14 +71,14 @@ export class Group extends Compound {
   childrenGroupsIds: string[] = []
   permalink: string = ''
 
-  constructor (xmlCompoundDef: XmlCompoundDef) {
+  constructor (xmlCompoundDef: XmlCompoundDefElement) {
     super(xmlCompoundDef)
 
     for (const item of xmlCompoundDef.compounddef) {
       if (Object.hasOwn(item, 'title') === true) {
-        this.title = (item as XmlTitle).title[0]['#text']
+        this.title = (item as XmlTitleElement).title[0]['#text']
       } else if (Object.hasOwn(item, 'innergroup') === true) {
-        this.childrenGroupsIds.push((item as XmlInnerGroup)[':@']['@_refid'])
+        this.childrenGroupsIds.push((item as XmlInnerGroupElement)[':@']['@_refid'])
       } else if (Object.hasOwn(item, 'innerclass') === true) {
         // Ignored, not used for now.
       } else if (!this.wasItemProcessedByParent(item)) {

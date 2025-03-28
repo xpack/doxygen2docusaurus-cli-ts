@@ -14,7 +14,7 @@
 import * as util from 'node:util'
 
 import assert from 'node:assert'
-import type { XmlCompoundDef, XmlInnerClass, XmlInnerGroup } from '../xml-parser/types.js'
+import type { XmlCompoundDefElement, XmlInnerClassElement, XmlInnerGroupElement } from '../xml-parser/compound-xsd-types.js'
 import { Compound } from './compound.js'
 
 // ----------------------------------------------------------------------------
@@ -72,14 +72,14 @@ export class Namespace extends Compound {
   innerClassesIds: string[] = []
   permalink: string = ''
 
-  constructor (xmlCompoundDef: XmlCompoundDef) {
+  constructor (xmlCompoundDef: XmlCompoundDefElement) {
     super(xmlCompoundDef)
 
     for (const item of xmlCompoundDef.compounddef) {
       if (Object.hasOwn(item, 'innernamespace') === true) {
-        this.innerNamespacesIds.push((item as XmlInnerGroup)[':@']['@_refid'])
+        this.innerNamespacesIds.push((item as XmlInnerGroupElement)[':@']['@_refid'])
       } else if (Object.hasOwn(item, 'innerclass') === true) {
-        this.innerClassesIds.push((item as XmlInnerClass)[':@']['@_refid'])
+        this.innerClassesIds.push((item as XmlInnerClassElement)[':@']['@_refid'])
       } else if (Object.hasOwn(item, 'location') === true) {
         // Ignored, not used for now.
       } else if (!this.wasItemProcessedByParent(item)) {

@@ -14,8 +14,9 @@
 import * as util from 'node:util'
 
 import assert from 'node:assert'
-import type { XmlCompoundDef, XmlInnerGroup, XmlIncludes } from '../xml-parser/types.js'
+import type { XmlCompoundDefElement, XmlInnerGroupElement, XmlIncludesElement, XmlTemplateParamListElement, XmlParamElement, XmlTypeElement, XmlDefvalElement, XmlRefElement } from '../xml-parser/compound-xsd-types.js'
 import { Compound, Includes } from './compound.js'
+import { XmlText } from '../xml-parser/common-types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -66,21 +67,56 @@ export class Classes {
   }
 }
 
+export class Reference {
+  name: string
+  refid: string
+  kindref: string
+
+  constructor ({
+    name,
+    refid,
+    kindref
+  }: {
+    name: string
+    refid: string
+    kindref: string
+  }) {
+    this.name = name
+    this.refid = refid
+    this.kindref = kindref
+  }
+}
+
+export class TemplateParam {
+  type: string
+  defval: Reference | undefined = undefined
+
+  constructor (type: string) {
+    this.type = type
+  }
+}
+
 export class Class extends Compound {
   parentId: string = ''
   childrenDerivedIds: string[] = []
   permalink: string = ''
   includes: Includes[] = []
+  templateParams: TemplateParam[] = []
 
-  constructor (xmlCompoundDef: XmlCompoundDef) {
+  constructor (xmlCompoundDef: XmlCompoundDefElement) {
     super(xmlCompoundDef)
 
     for (const item of xmlCompoundDef.compounddef) {
       if (Object.hasOwn(item, 'derivedcompoundref') === true) {
-        this.childrenDerivedIds.push((item as XmlInnerGroup)[':@']['@_refid'])
+        this.childrenDerivedIds.push((item as XmlInnerGroupElement)[':@']['@_refid'])
       } else if (Object.hasOwn(item, 'includes') === true) {
         // console.log(util.inspect(item))
-        this.includes.push(this.parseIncludes(item as XmlIncludes))
+        this.includes.push(this.parseIncludes(item as XmlIncludesElement))
+      } else if (Object.hasOwn(item, 'templateparamlist') === true) {
+        // console.log(util.inspect(item))
+        for (const itemParam of (item as XmlTemplateParamListElement).templateparamlist) {
+          this.templateParams.push(this.parseTemplateParam(itemParam))
+        }
       } else if (Object.hasOwn(item, 'location') === true) {
         // Ignored, not used for now.
       } else if (Object.hasOwn(item, 'collaborationgraph') === true) {
@@ -91,6 +127,51 @@ export class Class extends Compound {
         console.error('class element:', Object.keys(item), 'not implemented yet')
       }
     }
+  }
+
+  parseTemplateParam (element: XmlParamElement): TemplateParam {
+    // console.log(util.inspect(element))
+
+    let templateParam
+
+    for (const paramElement of element.param) {
+      // console.log(util.inspect(paramElement))
+      if (Object.hasOwn(paramElement, 'type') === true) {
+        const typeElements = (paramElement as XmlTypeElement).type
+        assert(typeElements.length === 1)
+        assert(typeElements[0])
+        if (Object.hasOwn(typeElements[0], '#text') === true) {
+          assert(templateParam === undefined)
+          templateParam = new TemplateParam((typeElements[0] as XmlText)['#text'])
+        }
+      } else if (Object.hasOwn(paramElement, 'defval') === true) {
+        const defvalElements = (paramElement as XmlDefvalElement).defval
+        // console.log(util.inspect(defvalElements))
+        assert(defvalElements.length === 1)
+        assert(defvalElements[0])
+        if (Object.hasOwn(defvalElements[0], 'ref') === true) {
+          const refval = (defvalElements[0]) as XmlRefElement
+          const refElements = refval.ref
+          // console.log(util.inspect(refElements))
+          assert(refElements.length === 1)
+          assert(refElements[0])
+          assert(Object.hasOwn(refElements[0], '#text') === true)
+          assert(Object.hasOwn(refval, ':@') === true)
+          assert(templateParam)
+          templateParam.defval = new Reference({
+            name: refElements[0]['#text'],
+            refid: refval[':@']['@_refid'],
+            kindref: refval[':@']['@_kindref']
+          })
+        }
+      } else {
+        console.log(util.inspect(paramElement))
+        console.error('param', Object.keys(paramElement), 'not implemented yet')
+      }
+    }
+
+    assert(templateParam)
+    return templateParam
   }
 }
 

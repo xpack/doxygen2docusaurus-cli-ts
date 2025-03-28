@@ -16,7 +16,7 @@ import * as util from 'node:util'
 
 import { defaultOptions } from '../options/defaults.js'
 import { parseXmlAll } from '../xml-parser/parse.js'
-import type { XmlRawData } from '../xml-parser/types.js'
+import type { XmlRawData } from '../xml-parser/all.js'
 import { DataModel } from '../data-model/data-model.js'
 
 export async function generateDoxygen (context: any, options: any): Promise<number> {

@@ -11,7 +11,7 @@
 
 // ----------------------------------------------------------------------------
 
-import { XmlRawData } from '../xml-parser/types.js'
+import { XmlRawData } from '../xml-parser/all.js'
 import { Class, Classes } from './class.js'
 import { Files, File } from './files.js'
 import { Folder, Folders } from './folders.js'

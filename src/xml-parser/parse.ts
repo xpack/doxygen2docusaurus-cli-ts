@@ -13,11 +13,14 @@
 
 import path from 'node:path'
 import * as fs from 'node:fs/promises'
-// import * as util from 'node:util'
+import * as util from 'node:util'
 
 // https://www.npmjs.com/package/fast-xml-parser
 import { XMLParser } from 'fast-xml-parser'
-import type { XmlRawData, XmlDoxygenIndexParsed, XmlDoxygenFileParsed, XmlCompoundDef, XmlDoxygenParsed } from './types.js'
+import type { XmlRawData } from './all.js'
+import type { XmlCompoundDefElement, XmlComponentParsed } from './compound-xsd-types.js'
+import type { XmlDoxygenIndexParsed } from './index-xsd-types.js'
+import type { XmlDoxygenFileParsed } from './doxyfile-xsd-types.js'
 // import type { XmlData } from '../types/xml-data.js'
 // import { indexKinds } from '../types/xml-data.js'
 
@@ -56,13 +59,14 @@ export async function parseXmlAll ({
 
   const parsedIndex: XmlDoxygenIndexParsed = await parseFile({ fileName: 'index.xml', folderPath, xmlParser })
   // console.log(util.inspect(parsedIndex))
+  // console.log(util.inspect(parsedIndex[0]['?xml']))
   // console.log(JSON.stringify(parsedIndex, null, '  '))
 
-  const doxygen: XmlCompoundDef[] = []
+  const doxygen: XmlCompoundDefElement[] = []
 
   for (const compound of parsedIndex[1].doxygenindex) {
     const refid = compound[':@']['@_refid']
-    const parsedDoxygen: XmlDoxygenParsed = await parseFile({ fileName: `${refid}.xml`, folderPath, xmlParser })
+    const parsedDoxygen: XmlComponentParsed = await parseFile({ fileName: `${refid}.xml`, folderPath, xmlParser })
     // console.log(util.inspect(parsedDoxygen))
     // console.log(JSON.stringify(parsedDoxygen, null, '  '))
 

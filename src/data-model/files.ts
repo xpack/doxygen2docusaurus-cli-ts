@@ -17,7 +17,7 @@ import assert from 'node:assert'
 import { Compound, Includes } from './compound.js'
 import { Folders } from './folders.js'
 
-import type { XmlCompoundDef, XmlIncludes, XmlInnerClass, XmlInnerNamespace, XmlProgramListing } from '../xml-parser/types.js'
+import type { XmlCompoundDefElement, XmlIncludesElement, XmlInnerClassElement, XmlInnerNamespaceElement, XmlProgramListingElement } from '../xml-parser/compound-xsd-types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -89,21 +89,21 @@ export class File extends Compound {
   innerNamespacesIds: string[] = []
   innerClassesIds: string[] = []
 
-  constructor (xmlCompoundDef: XmlCompoundDef) {
+  constructor (xmlCompoundDef: XmlCompoundDefElement) {
     super(xmlCompoundDef)
 
     for (const item of xmlCompoundDef.compounddef) {
       if (Object.hasOwn(item, 'includes') === true) {
         // console.log(util.inspect(item))
-        this.includes.push(this.parseIncludes(item as XmlIncludes))
+        this.includes.push(this.parseIncludes(item as XmlIncludesElement))
       } else if (Object.hasOwn(item, 'programlisting') === true) {
         // console.log(util.inspect(item))
-        this.programlisting = this.parseProgramListing(item as XmlProgramListing)
+        this.programlisting = this.parseProgramListing(item as XmlProgramListingElement)
         // console.log('listing:', this.programlisting)
       } else if (Object.hasOwn(item, 'innernamespace') === true) {
-        this.innerNamespacesIds.push((item as XmlInnerNamespace)[':@']['@_refid'])
+        this.innerNamespacesIds.push((item as XmlInnerNamespaceElement)[':@']['@_refid'])
       } else if (Object.hasOwn(item, 'innerclass') === true) {
-        this.innerClassesIds.push((item as XmlInnerClass)[':@']['@_refid'])
+        this.innerClassesIds.push((item as XmlInnerClassElement)[':@']['@_refid'])
       } else if (Object.hasOwn(item, 'location') === true) {
         // Ignored, not used for now.
       } else if (Object.hasOwn(item, 'incdepgraph') === true) {
