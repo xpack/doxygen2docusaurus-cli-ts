@@ -14,8 +14,9 @@
 // import * as util from 'node:util'
 
 import assert from 'node:assert'
-import type { XmlCompoundDefElement, XmlInnerDirElement, XmlInnerFileElement } from '../xml-parser/compound-xsd-types.js'
+import type { XmlCompoundDefElement } from '../xml-parser/compound-xsd-types.js'
 import { Compound } from './compound.js'
+import { xml } from '../xml-parser/parse.js'
 
 // ----------------------------------------------------------------------------
 
@@ -83,15 +84,17 @@ export class Folder extends Compound {
   constructor (xmlCompoundDef: XmlCompoundDefElement) {
     super(xmlCompoundDef)
 
-    for (const item of xmlCompoundDef.compounddef) {
-      if (Object.hasOwn(item, 'innerdir') === true) {
-        this.childrenFoldersIds.push((item as XmlInnerDirElement)[':@']['@_refid'])
-      } else if (Object.hasOwn(item, 'innerfile') === true) {
-        this.childrenFilesIds.push((item as XmlInnerFileElement)[':@']['@_refid'])
-      } else if (Object.hasOwn(item, 'location') === true) {
+    for (const element of xmlCompoundDef.compounddef) {
+      if (xml.hasInnerElement(element, '#text')) {
+        // Ignore top texts.
+      } else if (xml.hasInnerElement(element, 'innerdir')) {
+        this.childrenFoldersIds.push(xml.getAttributeStringValue(element, '@_refid'))
+      } else if (xml.hasInnerElement(element, 'innerfile')) {
+        this.childrenFilesIds.push(xml.getAttributeStringValue(element, '@_refid'))
+      } else if (xml.hasInnerElement(element, 'location')) {
         // Ignored, not used for now.
-      } else if (!this.wasItemProcessedByParent(item)) {
-        console.error('folders element:', Object.keys(item), 'not implemented yet')
+      } else if (!this.wasItemProcessedByParent(element)) {
+        console.error('folders element:', Object.keys(element), 'not implemented yet')
       }
     }
   }

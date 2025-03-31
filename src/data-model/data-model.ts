@@ -11,7 +11,10 @@
 
 // ----------------------------------------------------------------------------
 
-import { XmlRawData } from '../xml-parser/all.js'
+import * as util from 'node:util'
+
+import { XmlCompoundDefElement } from '../xml-parser/compound-xsd-types.js'
+import { xml, XmlRawData } from '../xml-parser/parse.js'
 import { Class, Classes } from './class.js'
 import { Files, File } from './files.js'
 import { Folder, Folders } from './folders.js'
@@ -27,19 +30,30 @@ export class DataModel {
 
   constructor (rawData: XmlRawData) {
     console.log('Processing components...')
-    for (const item of rawData.doxygen) {
-      if (item[':@']['@_kind'] === 'group') {
-        this.groups.add(item[':@']['@_id'], new Group(item))
-      } else if (item[':@']['@_kind'] === 'namespace') {
-        this.namespaces.add(item[':@']['@_id'], new Namespace(item))
-      } else if (item[':@']['@_kind'] === 'dir') {
-        this.folders.add(item[':@']['@_id'], new Folder(item))
-      } else if (item[':@']['@_kind'] === 'file') {
-        this.files.add(item[':@']['@_id'], new File(item))
-      } else if (item[':@']['@_kind'] === 'class') {
-        this.classes.add(item[':@']['@_id'], new Class(item))
+    for (const element of rawData.doxygen) {
+      // console.log(util.inspect(element))
+      if (xml.hasInnerText(element)) {
+        // Ignore top texts.
+      } else if (xml.hasAttributes(element)) {
+        const kind = xml.getAttributeStringValue(element, '@_kind')
+        const id = xml.getAttributeStringValue(element, '@_id')
+        const compoundDefElement = element as XmlCompoundDefElement
+        if (kind === 'group') {
+          this.groups.add(id, new Group(compoundDefElement))
+        } else if (kind === 'namespace') {
+          this.namespaces.add(id, new Namespace(compoundDefElement))
+        } else if (kind === 'dir') {
+          this.folders.add(id, new Folder(compoundDefElement))
+        } else if (kind === 'file') {
+          this.files.add(id, new File(compoundDefElement))
+        } else if (kind === 'class') {
+          this.classes.add(id, new Class(compoundDefElement))
+        } else {
+          console.error(`compounddef kind: ${kind} not yet implemented`)
+        }
       } else {
-        console.log(`compounddef kind '${item[':@']['@_kind']}' not yet implemented`)
+        console.error(util.inspect(element))
+        console.error('doxygen element:', Object.keys(element), 'not processed')
       }
     }
 

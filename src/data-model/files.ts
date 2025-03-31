@@ -17,7 +17,8 @@ import assert from 'node:assert'
 import { Compound, Includes } from './compound.js'
 import { Folders } from './folders.js'
 
-import type { XmlCompoundDefElement, XmlIncludesElement, XmlInnerClassElement, XmlInnerNamespaceElement, XmlProgramListingElement } from '../xml-parser/compound-xsd-types.js'
+import type { XmlCompoundDefElement, XmlIncludesElement, XmlProgramListingElement } from '../xml-parser/compound-xsd-types.js'
+import { xml } from '../xml-parser/parse.js'
 
 // ----------------------------------------------------------------------------
 
@@ -92,28 +93,30 @@ export class File extends Compound {
   constructor (xmlCompoundDef: XmlCompoundDefElement) {
     super(xmlCompoundDef)
 
-    for (const item of xmlCompoundDef.compounddef) {
-      if (Object.hasOwn(item, 'includes') === true) {
+    for (const element of xmlCompoundDef.compounddef) {
+      if (xml.hasInnerElement(element, '#text')) {
+        // Ignore top texts.
+      } else if (xml.hasInnerElement(element, 'includes')) {
         // console.log(util.inspect(item))
-        this.includes.push(this.parseIncludes(item as XmlIncludesElement))
-      } else if (Object.hasOwn(item, 'programlisting') === true) {
+        this.includes.push(this.parseIncludes(element as XmlIncludesElement))
+      } else if (xml.hasInnerElement(element, 'programlisting')) {
         // console.log(util.inspect(item))
-        this.programlisting = this.parseProgramListing(item as XmlProgramListingElement)
+        this.programlisting = this.parseProgramListing(element as XmlProgramListingElement)
         // console.log('listing:', this.programlisting)
-      } else if (Object.hasOwn(item, 'innernamespace') === true) {
-        this.innerNamespacesIds.push((item as XmlInnerNamespaceElement)[':@']['@_refid'])
-      } else if (Object.hasOwn(item, 'innerclass') === true) {
-        this.innerClassesIds.push((item as XmlInnerClassElement)[':@']['@_refid'])
-      } else if (Object.hasOwn(item, 'location') === true) {
+      } else if (xml.hasInnerElement(element, 'innernamespace')) {
+        this.innerNamespacesIds.push(xml.getAttributeStringValue(element, '@_refid'))
+      } else if (xml.hasInnerElement(element, 'innerclass')) {
+        this.innerClassesIds.push(xml.getAttributeStringValue(element, '@_refid'))
+      } else if (xml.hasInnerElement(element, 'location')) {
         // Ignored, not used for now.
-      } else if (Object.hasOwn(item, 'incdepgraph') === true) {
+      } else if (xml.hasInnerElement(element, 'incdepgraph')) {
         // Ignored, not used for now.
-      } else if (Object.hasOwn(item, 'invincdepgraph') === true) {
+      } else if (xml.hasInnerElement(element, 'invincdepgraph')) {
         // Ignored, not used for now.
-      } else if (Object.hasOwn(item, 'includedby') === true) {
+      } else if (xml.hasInnerElement(element, 'includedby')) {
         // Ignored, not used for now. (perhaps re-evaluate later).
-      } else if (!this.wasItemProcessedByParent(item)) {
-        console.error('files element:', Object.keys(item), 'not implemented yet')
+      } else if (!this.wasItemProcessedByParent(element)) {
+        console.error('files element:', Object.keys(element), 'not implemented yet')
       }
     }
     // console.log(util.inspect(this.innerNamespacesIds))

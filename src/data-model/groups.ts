@@ -11,11 +11,13 @@
 
 // ----------------------------------------------------------------------------
 
-// import * as util from 'node:util'
+import * as util from 'node:util'
 
 import assert from 'node:assert'
-import type { XmlCompoundDefElement, XmlTitleElement, XmlInnerGroupElement } from '../xml-parser/compound-xsd-types.js'
+import type { XmlCompoundDefElement } from '../xml-parser/compound-xsd-types.js'
 import { Compound } from './compound.js'
+import { xml } from '../xml-parser/parse.js'
+import { XmlText } from '../xml-parser/common-types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -74,15 +76,21 @@ export class Group extends Compound {
   constructor (xmlCompoundDef: XmlCompoundDefElement) {
     super(xmlCompoundDef)
 
-    for (const item of xmlCompoundDef.compounddef) {
-      if (Object.hasOwn(item, 'title') === true) {
-        this.title = (item as XmlTitleElement).title[0]['#text']
-      } else if (Object.hasOwn(item, 'innergroup') === true) {
-        this.childrenGroupsIds.push((item as XmlInnerGroupElement)[':@']['@_refid'])
-      } else if (Object.hasOwn(item, 'innerclass') === true) {
+    for (const element of xmlCompoundDef.compounddef) {
+      if (xml.hasInnerElement(element, '#text')) {
+        // Ignore top texts.
+      } else if (xml.hasInnerElement(element, 'title')) {
+        // console.log(util.inspect(element))
+        const titleInnerElements = xml.getInnerElements<XmlText[]>(element, 'title')
+        assert(titleInnerElements.length === 1)
+        assert(titleInnerElements[0] !== undefined && xml.hasInnerElement(titleInnerElements[0], '#text'))
+        this.title = xml.getInnerText(titleInnerElements[0])
+      } else if (xml.hasInnerElement(element, 'innergroup')) {
+        this.childrenGroupsIds.push(xml.getAttributeStringValue(element, '@_refid'))
+      } else if (xml.hasInnerElement(element, 'innerclass')) {
         // Ignored, not used for now.
-      } else if (!this.wasItemProcessedByParent(item)) {
-        console.error('class element:', Object.keys(item), 'not implemented yet')
+      } else if (!this.wasItemProcessedByParent(element)) {
+        console.error('class element:', Object.keys(element), 'not implemented yet')
       }
     }
 

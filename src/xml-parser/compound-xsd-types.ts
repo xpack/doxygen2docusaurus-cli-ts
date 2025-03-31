@@ -15,15 +15,25 @@ import { XmlProlog, XmlTopElementAttributes, XmlText } from './common-types.js'
 
 // ----------------------------------------------------------------------------
 // component.xsd
+
+// <?xml version='1.0' encoding='UTF-8' standalone='no'?>
+// <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+//   <compounddef id="classmicro__os__plus_1_1utils_1_1double__list__iterator" kind="class" language="C++" prot="public">
+//   ... (possibly multiple times)
+//   </compounddef>
+// </doxygen>
+
+export type XmlCompoundFile = XmlCompoundFileElements[]
+
+export type XmlCompoundFileElements = XmlProlog | XmlDoxygenElement | XmlText
+
+// ----------------------------------------------------------------------------
+
 // <xsd:element name="doxygen" type="DoxygenType"/>
 
-export interface XmlDoxygenElement extends XmlDoxygenTypeAttributes {
+export interface XmlDoxygenElement extends XmlTopElementAttributes {
   doxygen: XmlDoxygenTypeElements[]
 }
-
-// All component files have two elements.
-
-export type XmlComponentParsed = [XmlProlog, XmlDoxygenElement]
 
 // <xsd:complexType name="DoxygenType">
 //   <xsd:sequence maxOccurs="unbounded">
@@ -33,8 +43,7 @@ export type XmlComponentParsed = [XmlProlog, XmlDoxygenElement]
 //   <xsd:attribute ref="xml:lang" use="required"/>
 // </xsd:complexType>
 
-export type XmlDoxygenTypeElements = XmlCompoundDefElement
-export type XmlDoxygenTypeAttributes = XmlTopElementAttributes
+export type XmlDoxygenTypeElements = XmlCompoundDefElement | XmlText
 
 export interface XmlCompoundDefElement extends XmlCompoundDefTypeAttributes {
   compounddef: XmlCompoundDefTypeElements[]
@@ -83,7 +92,7 @@ export interface XmlCompoundDefElement extends XmlCompoundDefTypeAttributes {
 //   <xsd:attribute name="abstract" type="DoxBool" use="optional"/>
 // </xsd:complexType>
 
-export type XmlCompoundDefTypeElements = XmlCompoundNameElement | XmlTitleElement | XmlInnerGroupElement | XmlInnerNamespaceElement | XmlInnerDirElement | XmlInnerFileElement | XmlInnerNamespaceElement | XmlInnerClassElement | XmlBriefDescriptionElement | XmlDetailedDescriptionElement | XmlIncludesElement | XmlProgramListingElement | XmlTemplateParamListElement
+export type XmlCompoundDefTypeElements = XmlCompoundNameElement | XmlTitleElement | XmlInnerGroupElement | XmlInnerNamespaceElement | XmlInnerDirElement | XmlInnerFileElement | XmlInnerNamespaceElement | XmlInnerClassElement | XmlBriefDescriptionElement | XmlDetailedDescriptionElement | XmlIncludesElement | XmlProgramListingElement | XmlTemplateParamListElement | XmlBaseCompoundRefElement | XmlDerivedCompoundRefElement | XmlListOfAllMembersElement | XmlSectionDefElement | XmlText
 
 interface XmlCompoundDefTypeAttributes {
   ':@': {
@@ -103,6 +112,10 @@ export interface XmlCompoundNameElement {
 
 export interface XmlTitleElement {
   title: [XmlText]
+}
+
+export interface XmlBaseCompoundRefElement extends XmlCompoundRefTypeAttributes {
+  basecompoundref: XmlCompoundRefTypeElements[]
 }
 
 export interface XmlDerivedCompoundRefElement extends XmlCompoundRefTypeAttributes {
@@ -141,6 +154,10 @@ export interface XmlInnerGroupElement extends XmlRefTypeAttributes {
   innergroup: XmlRefTypeElements[]
 }
 
+export interface XmlSectionDefElement extends XmlSectionDefTypeAttributes {
+  sectiondef: XmlSectionDefTypeElements[]
+}
+
 export interface XmlBriefDescriptionElement {
   briefdescription: XmlDescriptionTypeElements[]
 }
@@ -153,11 +170,26 @@ export interface XmlProgramListingElement extends XmlListingTypeAttributes {
   programlisting: XmlListingTypeElements[]
 }
 
+export interface XmlLocationElement extends XmlLocationTypeAttributes {
+  location: []
+}
+
+export interface XmlListOfAllMembersElement {
+  listofallmembers: XmlListOfAllMemberTypeElements[]
+}
+
 // <xsd:complexType name="listofallmembersType">
 //   <xsd:sequence>
 //     <xsd:element name="member" type="memberRefType" minOccurs="0" maxOccurs="unbounded" />
 //   </xsd:sequence>
 // </xsd:complexType>
+
+export type XmlListOfAllMemberTypeElements = XmlMemberElement | XmlText
+
+export interface XmlMemberElement extends XmlMemberRefTypeAttributes {
+  member: XmlMemberRefTypeElements[]
+}
+
 // <xsd:complexType name="memberRefType">
 //   <xsd:sequence>
 //     <xsd:element name="scope" type="xsd:string" />
@@ -168,6 +200,22 @@ export interface XmlProgramListingElement extends XmlListingTypeAttributes {
 //   <xsd:attribute name="virt" type="DoxVirtualKind" />
 //   <xsd:attribute name="ambiguityscope" type="xsd:string" />
 // </xsd:complexType>
+
+export type XmlMemberRefTypeElements = XmlScopeElement | XmlNameElement | XmlText
+
+export interface XmlMemberRefTypeAttributes {
+  ':@': {
+    '@_refid': string
+    '@_prot': XmlDoxProtectionKind
+    '@_virt': XmlDoxVirtualKind
+    '@_ambiguityscope': string
+  }
+}
+
+export interface XmlScopeElement {
+  scope: [XmlText]
+}
+
 // <xsd:complexType name="docHtmlOnlyType">
 //   <xsd:simpleContent>
 //     <xsd:extension base="xsd:string">
@@ -175,6 +223,7 @@ export interface XmlProgramListingElement extends XmlListingTypeAttributes {
 //     </xsd:extension>
 //   </xsd:simpleContent>
 // </xsd:complexType>
+
 // <xsd:complexType name="compoundRefType">
 //   <xsd:simpleContent>
 //     <xsd:extension base="xsd:string">
@@ -226,6 +275,7 @@ export interface XmlIncTypeAttributes {
 //     <xsd:element name="export" type="exportType" maxOccurs="unbounded"/>
 //   </xsd:sequence>
 // </xsd:complexType>
+
 // <xsd:complexType name="exportType">
 //   <xsd:simpleContent>
 //     <xsd:extension base="xsd:string">
@@ -233,6 +283,7 @@ export interface XmlIncTypeAttributes {
 //     </xsd:extension>
 //   </xsd:simpleContent>
 // </xsd:complexType>
+
 // <xsd:complexType name="refType">
 //   <xsd:simpleContent>
 //     <xsd:extension base="xsd:string">
@@ -312,6 +363,26 @@ export interface XmlRefTextTypeAttributes {
 //   </xsd:sequence>
 //   <xsd:attribute name="kind" type="DoxSectionKind" />
 // </xsd:complexType>
+
+export type XmlSectionDefTypeElements = XmlHeaderElement | XmlDescriptionElement | XmlMemberDefElement | XmlMemberElement | XmlText
+
+export interface XmlSectionDefTypeAttributes {
+  ':@': {
+    '@_kind': XmlDoxSectionKind
+  }
+}
+
+export interface XmlHeaderElement {
+  header: [XmlText]
+}
+
+export interface XmlDescriptionElement {
+  description: XmlDescriptionTypeElements[]
+}
+
+export interface XmlMemberDefElement extends XmlMemberDefTypeAttributes {
+  memberdef: XmlMemberDefTypeElements[]
+}
 
 // <xsd:complexType name="memberdefType">
 //   <xsd:sequence>
@@ -396,16 +467,34 @@ export interface XmlRefTextTypeAttributes {
 //   <xsd:attribute name="maybeambiguous" type="DoxBool" use="optional"/>
 // </xsd:complexType>
 
-export type XmlMemberDefTypeElements = XmlTemplateParamListElement
+export type XmlMemberDefTypeElements = XmlTemplateParamListElement | XmlNameElement | XmlLocationElement | XmlBriefDescriptionElement | XmlDetailedDescriptionElement | XmlInbodyDescriptionElement | XmlText
 
 export interface XmlMemberDefTypeAttributes {
   ':@': {
+    '@_kind': string
+    '@_id': string
+    '@_prot': string
+    '@_static': XmlDoxBool
+    '@_const': XmlDoxBool
+    '@_constexpr': XmlDoxBool
+    '@_explicit': XmlDoxBool
+    '@_inline': XmlDoxBool
+    '@_mutable': XmlDoxBool
+    '@_virt': XmlDoxVirtualKind
     // TODO
   }
 }
 
 export interface XmlTemplateParamListElement {
   templateparamlist: XmlParamElement[]
+}
+
+export interface XmlInbodyDescriptionElement {
+  inbodydescription: XmlDescriptionTypeElements[]
+}
+
+export interface XmlEnumvalueTypeElement extends XmlEnumvalueTypeAttributes {
+  enumvalue: XmlEnumvalueTypeElements[]
 }
 
 // <xsd:complexType name="descriptionType" mixed="true">
@@ -417,10 +506,10 @@ export interface XmlTemplateParamListElement {
 //   </xsd:sequence>
 // </xsd:complexType>
 
-// There are more than listed here.
+// ??? Why there are more than listed here?
 // export type XmlDescriptionType = XmlTitleElement | XmlParaElement // internal, sect1
 
-export type XmlDescriptionTypeElements = XmlParaElement | XmlText | XmlBoldElement | XmlParameterListElement | XmlComputerOutputElement | XmlRefElement | XmlSimpleSectElement | XmlProgramListingElement | XmlDocCmdGroupElements
+export type XmlDescriptionTypeElements = XmlParaElement | XmlBoldElement | XmlParameterListElement | XmlComputerOutputElement | XmlRefElement | XmlSimpleSectElement | XmlProgramListingElement | XmlDocCmdGroupElements | XmlText
 
 export interface XmlParaElement {
   para: XmlDescriptionTypeElements[]
@@ -437,7 +526,7 @@ export interface XmlParaElement {
 //   <xsd:attribute name="prot" type="DoxProtectionKind" />
 // </xsd:complexType>
 
-export type XmlEnumvalueTypeElements = XmlNameElement | XmlInitializerElement | XmlBriefDescriptionElement | XmlDetailedDescriptionElement
+export type XmlEnumvalueTypeElements = XmlNameElement | XmlInitializerElement | XmlBriefDescriptionElement | XmlDetailedDescriptionElement | XmlText
 
 export interface XmlEnumvalueTypeAttributes {
   ':@': {
@@ -460,7 +549,7 @@ export interface XmlInitializerElement {
 //   </xsd:sequence>
 // </xsd:complexType>
 
-export type XmlTemplateParamListTypeElements = XmlParamElement
+export type XmlTemplateParamListTypeElements = XmlParamElement | XmlText
 
 export interface XmlParamElement {
   param: XmlParamTypeElements[]
@@ -479,7 +568,7 @@ export interface XmlParamElement {
 //   </xsd:sequence>
 // </xsd:complexType>
 
-export type XmlParamTypeElements = XmlAttributesElement | XmlTypeElement | XmlDeclNameElement | XmlDefNameElement | XmlArrayElement | XmlDefvalElement | XmlBriefDescriptionElement
+export type XmlParamTypeElements = XmlAttributesElement | XmlTypeElement | XmlDeclNameElement | XmlDefNameElement | XmlArrayElement | XmlDefvalElement | XmlBriefDescriptionElement | XmlText
 
 export interface XmlAttributesElement {
   attributes: [XmlText]
@@ -577,7 +666,7 @@ export type XmlCodeLineTypeElements = XmlHighlightElement | XmlText
 
 export interface XmlCodeLineTypeAttributes {
   ':@': {
-    '@_lineno': string
+    '@_lineno': number // !
     '@_refid': string
     '@_refkind': string
     '@_external': string
@@ -619,7 +708,7 @@ export type XmlSpTypeElements = XmlText
 
 export interface XmlSpTypeAttributes {
   ':@': {
-    '@_value': string
+    '@_value': number
   }
 }
 
@@ -641,6 +730,20 @@ export interface XmlSpTypeAttributes {
 //   <xsd:attribute name="bodystart" type="xsd:integer" />
 //   <xsd:attribute name="bodyend" type="xsd:integer" />
 // </xsd:complexType>
+
+export interface XmlLocationTypeAttributes {
+  ':@': {
+    '@_file': string
+    '@_line': number
+    '@_column'?: number
+    '@_declfile'?: string
+    '@_declline'?: number
+    '@_declcolumn'?: number
+    '@_bodyfile': string
+    '@_bodystart': number
+    '@_bodyend': number
+  }
+}
 
 // <xsd:complexType name="docSect1Type" mixed="true">
 //   <xsd:sequence>
@@ -1387,20 +1490,20 @@ export interface XmlSimpleSectElement extends XmlDocSimpleSectTypeAttributes {
 //   <xsd:group ref="docCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 // </xsd:complexType>
 
-export type XmlDocParaTypeElements = XmlDocCmdGroupElements
+export type XmlDocParaTypeElements = XmlDocCmdGroupElements | XmlText
 
 // <xsd:complexType name="docMarkupType" mixed="true">
 //   <xsd:group ref="docCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 // </xsd:complexType>
 
-export type XmlDocMarkupTypeElements = XmlDocCmdGroupElements
+export type XmlDocMarkupTypeElements = XmlDocCmdGroupElements | XmlText
 
 // <xsd:complexType name="docURLLink" mixed="true">
 //   <xsd:group ref="docTitleCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 //   <xsd:attribute name="url" type="xsd:string" />
 // </xsd:complexType>
 
-export type XmlDocURLLinkTypeElements = XmlDocCmdGroupElements
+export type XmlDocURLLinkTypeElements = XmlDocCmdGroupElements | XmlText
 
 export interface XmlDocURLLinkTypeAttributes {
   ':@': {
@@ -1621,7 +1724,7 @@ export interface XmlParameterItemElement {
 //   </xsd:sequence>
 // </xsd:complexType>
 
-export type XmlDocParamListItemElements = XmlParameterNameListElement | XmlParameterDescriptionElement
+export type XmlDocParamListItemElements = XmlParameterNameListElement | XmlParameterDescriptionElement | XmlText
 
 export interface XmlParameterNameListElement {
   parameternamelist: XmlDocParamNameListElements[]
@@ -1638,13 +1741,13 @@ export interface XmlParameterDescriptionElement {
 //   </xsd:sequence>
 // </xsd:complexType>
 
-export type XmlDocParamNameListElements = XmlParameterTypeElement | XmlParameterNameElement
+export type XmlDocParamNameListElements = XmlParameterTypeElement | XmlParameterNameElement | XmlText
 
-export interface XmlParameterTypeElement {
+export interface XmlParameterTypeElement extends XmlDocParamNameAttributes {
   parametertype: XmlDocParamTypeElements[]
 }
 
-export interface XmlParameterNameElement {
+export interface XmlParameterNameElement extends XmlDocParamNameAttributes {
   parametername: XmlDocParamNameElements[]
 }
 

@@ -14,8 +14,9 @@
 import * as util from 'node:util'
 
 import assert from 'node:assert'
-import type { XmlCompoundDefElement, XmlInnerClassElement, XmlInnerGroupElement } from '../xml-parser/compound-xsd-types.js'
+import type { XmlCompoundDefElement } from '../xml-parser/compound-xsd-types.js'
 import { Compound } from './compound.js'
+import { xml } from '../xml-parser/parse.js'
 
 // ----------------------------------------------------------------------------
 
@@ -75,15 +76,17 @@ export class Namespace extends Compound {
   constructor (xmlCompoundDef: XmlCompoundDefElement) {
     super(xmlCompoundDef)
 
-    for (const item of xmlCompoundDef.compounddef) {
-      if (Object.hasOwn(item, 'innernamespace') === true) {
-        this.innerNamespacesIds.push((item as XmlInnerGroupElement)[':@']['@_refid'])
-      } else if (Object.hasOwn(item, 'innerclass') === true) {
-        this.innerClassesIds.push((item as XmlInnerClassElement)[':@']['@_refid'])
-      } else if (Object.hasOwn(item, 'location') === true) {
+    for (const element of xmlCompoundDef.compounddef) {
+      if (xml.hasInnerElement(element, '#text')) {
+        // Ignore top texts.
+      } else if (xml.hasInnerElement(element, 'innernamespace')) {
+        this.innerNamespacesIds.push(xml.getAttributeStringValue(element, '@_refid'))
+      } else if (xml.hasInnerElement(element, 'innerclass')) {
+        this.innerClassesIds.push(xml.getAttributeStringValue(element, '@_refid'))
+      } else if (xml.hasInnerElement(element, 'location')) {
         // Ignored, not used for now.
-      } else if (!this.wasItemProcessedByParent(item)) {
-        console.error('namespace element:', Object.keys(item), 'not implemented yet')
+      } else if (!this.wasItemProcessedByParent(element)) {
+        console.error('namespace element:', Object.keys(element), 'not implemented yet')
       }
     }
     // console.log(util.inspect(this.innerClassesIds))

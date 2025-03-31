@@ -16,7 +16,7 @@ import * as util from 'node:util'
 
 import type { XmlText } from '../xml-parser/common-types.js'
 import type { XmlBoldElement, XmlBriefDescriptionElement, XmlCodeLineElement, XmlCompoundDefElement, XmlCompoundNameElement, XmlComputerOutputElement, XmlDescriptionTypeElements, XmlDetailedDescriptionElement, XmlHighlightElement, XmlIncludesElement, XmlParaElement, XmlParameterDescriptionElement, XmlParameterItemElement, XmlParameterListElement, XmlParameterNameElement, XmlParameterNameListElement, XmlProgramListingElement, XmlRefElement, XmlSimpleSectElement, XmlSpElement, XmlTitleElement } from '../xml-parser/compound-xsd-types.js'
-import { parseBoolean } from '../xml-parser/parse.js'
+import { xml } from '../xml-parser/parse.js'
 
 // ----------------------------------------------------------------------------
 
@@ -32,22 +32,24 @@ export class Compound {
   constructor (element: XmlCompoundDefElement) {
     // console.log(util.inspect(xmlCompoundDef))
 
-    assert(Object.hasOwn(element, ':@'))
-    this.id = element[':@']['@_id']
+    assert(xml.hasAttributes(element))
+    this.id = xml.getAttributeStringValue(element, '@_id')
     // console.log('-', this.id)
-    this.kind = element[':@']['@_kind']
+    this.kind = xml.getAttributeStringValue(element, '@_kind')
 
     for (const compoundElement of element.compounddef) {
-      if (Object.hasOwn(compoundElement, 'compoundname') === true) {
+      if (xml.hasInnerElement(compoundElement, '#text')) {
+        // Ignore top texts.
+      } else if (xml.hasInnerElement(compoundElement, 'compoundname')) {
         const compoundNameElements = (compoundElement as XmlCompoundNameElement).compoundname
         assert(compoundNameElements.length === 1)
         this.name = compoundNameElements[0]['#text']
         console.log('-', this.name, `(${this.id})`)
-      } else if (Object.hasOwn(compoundElement, 'briefdescription') === true) {
+      } else if ((xml.hasInnerElement(compoundElement, 'briefdescription'))) {
         // console.log(util.inspect(item))
         this.briefDescription = this.generateDescription((compoundElement as XmlBriefDescriptionElement).briefdescription)
         // console.log('briefdescription:', this.briefDescription)
-      } else if (Object.hasOwn(compoundElement, 'detaileddescription') === true) {
+      } else if ((xml.hasInnerElement(compoundElement, 'detaileddescription'))) {
         // console.log(util.inspect(item))
         this.detailedDescription = this.generateDescription((compoundElement as XmlDetailedDescriptionElement).detaileddescription)
         // console.log('detaileddescription:', this.detailedDescription)
@@ -79,63 +81,91 @@ export class Compound {
     let result = ''
     for (const element of elements) {
       // console.log(util.inspect(element))
-      if (Object.hasOwn(element, '#text') === true) {
-        result += (element as XmlText)['#text']
-      } else if (Object.hasOwn(element, 'para') === true) {
-        const paraElements = (element as XmlParaElement).para
-        for (const paraElement of paraElements) {
-          if (Object.hasOwn(paraElement, '#text') === true) {
+      if (xml.hasInnerElement(element, '#text')) {
+        result += xml.getInnerText(element)
+      } else if (xml.hasInnerElement(element, 'para')) {
+        const paraInnerElements = (element as XmlParaElement).para
+        if (paraInnerElements.length > 0) {
+          assert(paraInnerElements[0])
+          const paraElement = paraInnerElements[0]
+          // If the <para> element start with text, generate <p>.
+          if (xml.hasInnerElement(paraElement, '#text')) {
             result += '<p>'
-            result += this.generateDescriptionRecursive((element as XmlParaElement).para)
+            result += this.generateDescriptionRecursive(paraInnerElements)
             result += '</p>\n'
           } else {
-            result += this.generateDescriptionRecursive((element as XmlParaElement).para)
+            result += this.generateDescriptionRecursive(paraInnerElements)
           }
         }
-      } else if (Object.hasOwn(element, 'bold') === true) {
+      } else if (xml.hasInnerElement(element, 'bold')) {
         result += '<b>'
         result += this.generateDescriptionRecursive((element as XmlBoldElement).bold)
         result += '</b>'
-      } else if (Object.hasOwn(element, 'computeroutput') === true) {
+      } else if (xml.hasInnerElement(element, 'computeroutput')) {
         result += '<code>'
         // console.log(util.inspect((item as XmlComputerOutput).computeroutput))
         result += this.generateDescriptionRecursive((element as XmlComputerOutputElement).computeroutput)
         result += '</code>'
-      } else if (Object.hasOwn(element, 'ref') === true) {
-        assert(Object.hasOwn((element as XmlRefElement), ':@'))
-        const refid = (element as XmlRefElement)[':@']['@_refid']
-        const kindref = (element as XmlRefElement)[':@']['@_kindref']
-        assert(kindref === 'compound')
-        const permalink = refid // TODO
+      } else if (xml.hasInnerElement(element, 'ref')) {
+        assert(xml.hasAttributes(element))
+        const refid = xml.getAttributeStringValue(element, '@_refid')
+        const kindref = xml.getAttributeStringValue(element, '@_kindref')
+        // console.log(kindref)
+        const permalink = `TODO-link-to-${kindref}-${refid}`
         result += `<Link to="/docs/api/${permalink}">`
         result += this.generateDescriptionRecursive((element as XmlRefElement).ref)
         result += '</Link>'
-      } else if (Object.hasOwn(element, 'parameterlist') === true) {
+      } else if (xml.hasInnerElement(element, 'parameterlist')) {
         result += this.generateParameterList((element as XmlParameterListElement))
-      } else if (Object.hasOwn(element, 'simplesect') === true) {
+      } else if (xml.hasInnerElement(element, 'simplesect')) {
         result += this.generateSimpleSect(element as XmlSimpleSectElement)
-      } else if (Object.hasOwn(element, 'programlisting') === true) {
+      } else if (xml.hasInnerElement(element, 'programlisting')) {
         // console.log(util.inspect(item))
         result += this.generateProgramListing(element as XmlProgramListingElement)
       } else {
-        console.log(util.inspect(element))
+        console.error(util.inspect(element))
         console.error('description element:', Object.keys(element), 'not implemented yet')
       }
     }
 
+    // console.log(result)
     return result
   }
 
   // Object with attributes.
   generateParameterList (element: XmlParameterListElement): string {
     let result: string = ''
-    assert(element[':@'] !== undefined)
-    const kind = element[':@']['@_kind']
+    assert(xml.hasAttributes(element))
+    const kind = xml.getAttributeStringValue(element, '@_kind')
     if (kind === 'templateparam') {
       result += '<dl class="tparams">\n'
       result += '<dt>Template Parameters</dt>\n'
       result += '<dd>\n'
       result += '<table class="tparams">\n'
+      for (const parameterListElement of element.parameterlist) {
+        // console.log(util.inspect(parameterItem))
+        result += this.generateParameterItem(parameterListElement as XmlParameterItemElement)
+      }
+      result += '</table>\n'
+      result += '</dd>\n'
+      result += '</dl>\n'
+    } else if (kind === 'retval') {
+      result += '<dl class="retval">\n'
+      result += '<dt>Return values</dt>\n'
+      result += '<dd>\n'
+      result += '<table class="retval">\n'
+      for (const parameterListElement of element.parameterlist) {
+        // console.log(util.inspect(parameterItem))
+        result += this.generateParameterItem(parameterListElement as XmlParameterItemElement)
+      }
+      result += '</table>\n'
+      result += '</dd>\n'
+      result += '</dl>\n'
+    } else if (kind === 'param') {
+      result += '<dl class="params">\n'
+      result += '<dt>Parameters</dt>\n'
+      result += '<dd>\n'
+      result += '<table class="params">\n'
       for (const parameterListElement of element.parameterlist) {
         // console.log(util.inspect(parameterItem))
         result += this.generateParameterItem(parameterListElement as XmlParameterItemElement)
@@ -151,28 +181,34 @@ export class Compound {
 
   // Object, no attributes. Two items, name list & description.
   generateParameterItem (element: XmlParameterItemElement): string {
+    if (xml.hasInnerElement(element, '#text')) {
+      return ''
+    }
+
     let result: string = ''
 
     let description = ''
     const names = []
-    // console.log(util.inspect(item.parameteritem))
+
     for (const parameterItemElement of element.parameteritem) {
-      if (Object.hasOwn(parameterItemElement, 'parameternamelist') === true) {
+      if (xml.hasInnerElement(parameterItemElement, '#text')) {
+        // Ignore texts.
+      } else if (xml.hasInnerElement(parameterItemElement, 'parameternamelist')) {
         for (const parameterNameListElement of (parameterItemElement as XmlParameterNameListElement).parameternamelist) {
-          if (Object.hasOwn(parameterNameListElement, 'parametername') === true) {
+          if (xml.hasInnerElement(parameterNameListElement, 'parametername')) {
             const parameterNameElements = (parameterNameListElement as XmlParameterNameElement).parametername
             for (const parameterNameElement of parameterNameElements) {
-              if (Object.hasOwn(parameterNameElement, '#text') === true) {
+              if (xml.hasInnerElement(parameterNameElement, '#text')) {
                 names.push((parameterNameElement as XmlText)['#text'])
               }
             }
           }
         }
-      } else if (Object.hasOwn(parameterItemElement, 'parameterdescription') === true) {
+      } else if (xml.hasInnerElement(parameterItemElement, 'parameterdescription')) {
         assert(description.length === 0)
         description = this.generateDescriptionRecursive((parameterItemElement as XmlParameterDescriptionElement).parameterdescription)
       } else {
-        console.error('parameteritem ', Object.keys(parameterItemElement), 'not implemented yet')
+        console.error('parameteritem element:', Object.keys(parameterItemElement), 'not implemented yet')
       }
     }
 
@@ -191,11 +227,15 @@ export class Compound {
   generateSimpleSect (element: XmlSimpleSectElement): string {
     let result: string = ''
 
-    assert(Object.hasOwn(element, ':@'))
-    const kind = element[':@']['@_kind']
+    assert(xml.hasAttributes(element))
+    const kind = xml.getAttributeStringValue(element, '@_kind')
     // console.log(util.inspect(item.simplesect))
     if (kind === 'note') {
       result += '<Admonition type="info">\n'
+      result += this.generateDescriptionRecursive(element.simplesect as XmlDescriptionTypeElements[])
+      result += '</Admonition>\n'
+    } else if (kind === 'warning') {
+      result += '<Admonition type="caution">\n'
       result += this.generateDescriptionRecursive(element.simplesect as XmlDescriptionTypeElements[])
       result += '</Admonition>\n'
     } else if (kind === 'par') {
@@ -213,6 +253,17 @@ export class Compound {
       result += this.generateDescriptionRecursive(items as XmlDescriptionTypeElements[])
       result += '</dd>'
       result += '</dl>\n'
+    } else if (kind === 'return') {
+      result += '<dl class="section return">\n'
+      result += '<dt>'
+      result += 'Returns'
+      result += '</dt>\n'
+      result += '<dd>'
+      assert(element.simplesect.length > 1)
+      const items = element.simplesect.slice(1)
+      result += this.generateDescriptionRecursive(items as XmlDescriptionTypeElements[])
+      result += '</dd>'
+      result += '</dl>\n'
     } else {
       console.error('simplesect kind:', kind, 'not implemented yet')
     }
@@ -221,11 +272,11 @@ export class Compound {
 
   generateProgramListing (element: XmlProgramListingElement): string {
     let result: string = ''
-    assert(Object.hasOwn(element, ':@'))
-    const filename = element[':@']['@_filename'].replace('.', '')
-    result += `<CodeBlock language="${filename}">\n`
+    assert(xml.hasAttributes(element))
+    const filename = xml.getAttributeStringValue(element, '@_filename').replace('.', '')
+    result += `<CodeBlock language="${filename}">{\n`
     result += this.parseProgramListing(element)
-    result += '</CodeBlock>\n'
+    result += '}</CodeBlock>\n'
     return result
   }
 
@@ -233,50 +284,59 @@ export class Compound {
     let result: string = ''
     for (const programListingElement of element.programlisting) {
       // console.log(util.inspect(itemCodeline))
-      for (const codeLineElement of (programListingElement as XmlCodeLineElement).codeline) {
-        // console.log(util.inspect(itemHighlight))
-        for (const highlightElement of (codeLineElement as XmlHighlightElement).highlight) {
-          if (Object.hasOwn(highlightElement, '#text') === true) {
-            result += (highlightElement as XmlText)['#text']
-          } else if (Object.hasOwn(highlightElement, 'sp') === true) {
-            // console.log(util.inspect(itemHighlightText))
-            // All cases I encountered were empty <sp/>.
-            assert((highlightElement as XmlSpElement).sp.length === 0)
-            result += ' '
-          } else if (Object.hasOwn(highlightElement, 'ref') === true) {
-            // console.log(util.inspect(itemHighlightText))
-            const refElement = (highlightElement as XmlRefElement).ref
-            if (refElement[0] !== undefined) {
-              if (Object.hasOwn(refElement[0], '#text') === true) {
-                result += refElement[0]['#text']
+      if (xml.hasInnerElement(programListingElement, '#text')) {
+        // Ignore texts.
+      } else if (xml.hasInnerElement(programListingElement, 'codeline')) {
+        result += '\''
+        const codeLineInnerElements = (programListingElement as XmlCodeLineElement).codeline
+        for (const codeLineInnerElement of codeLineInnerElements) {
+          // console.log(util.inspect(itemHighlight))
+          if (xml.hasInnerElement(codeLineInnerElement, '#text')) {
+            // Ignore texts.
+          } else if (xml.hasInnerElement(codeLineInnerElement, 'highlight')) {
+            for (const highlightElement of (codeLineInnerElement as XmlHighlightElement).highlight) {
+              if (xml.hasInnerElement(highlightElement, '#text')) {
+                result += xml.getInnerText(highlightElement)
+              } else if (xml.hasInnerElement(highlightElement, 'sp')) {
+                // console.log(util.inspect(itemHighlightText))
+                // All cases I encountered were empty <sp/>.
+                assert((highlightElement as XmlSpElement).sp.length === 0)
+                result += ' '
+              } else if (xml.hasInnerElement(highlightElement, 'ref')) {
+                // console.log(util.inspect(itemHighlightText))
+                const refElement = (highlightElement as XmlRefElement).ref
+                if (refElement[0] !== undefined) {
+                  if (Object.hasOwn(refElement[0], '#text') === true) {
+                    result += refElement[0]['#text']
+                  } else {
+                    console.error(util.inspect(refElement))
+                    console.error('ref element:', Object.keys(refElement[0]), 'not implemented yet')
+                  }
+                }
               } else {
-                console.log(refElement)
-                console.error('ref element:', Object.keys(refElement[0]), 'not implemented yet')
+                console.error(util.inspect(highlightElement))
+                console.error('programlisting element:', Object.keys(highlightElement), 'not implemented yet')
               }
             }
-          } else {
-            console.log(util.inspect(highlightElement))
-            console.error('programlisting element:', Object.keys(highlightElement), 'not implemented yet')
           }
         }
+        result += '\\n\'+\n'
       }
-      result += '\n'
     }
     return result
   }
 
-  parseIncludes (item: XmlIncludesElement): Includes {
-    assert(item.includes[0] !== undefined)
+  parseIncludes (element: XmlIncludesElement): Includes {
+    assert(element.includes[0] !== undefined)
     const include = new Includes({
-      path: item.includes[0]['#text']
+      path: element.includes[0]['#text']
     })
 
-    if (Object.hasOwn(item[':@'], '@_refid') === true) {
-      assert(item[':@']['@_refid'])
-      include.fileId = item[':@']['@_refid']
+    if (xml.hasAttribute(element, '@_refid')) {
+      include.fileId = xml.getAttributeStringValue(element, '@_refid')
     }
-    if (Object.hasOwn(item[':@'], '@_local') === true) {
-      include.local = parseBoolean(item[':@']['@_local'])
+    if (xml.hasAttribute(element, '@_local')) {
+      include.local = xml.parseBoolean(xml.getAttributeStringValue(element, '@_local'))
     }
 
     return include
