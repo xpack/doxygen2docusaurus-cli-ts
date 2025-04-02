@@ -11,11 +11,12 @@
 
 // ----------------------------------------------------------------------------
 
+/*
 import * as util from 'node:util'
 
 import assert from 'node:assert'
 import type { XmlCompoundDefElement } from '../xml-parser/compound-xsd-types.js'
-import { Compound } from './compound.js'
+import { CompoundBase } from './CompoundBase.js'
 import { xml } from '../xml-parser/parse.js'
 import { XmlText } from '../xml-parser/common-types.js'
 
@@ -61,13 +62,13 @@ export class Groups {
   computePermalinks (): void {
     // console.log('Groups.computePermalinks()...')
     for (const item of this.membersById.values()) {
-      item.permalink = `topics/${(item as Group).name}`
+      item.permalink = `topics/${(item as Group).compoundName}`
       console.log('-', item.permalink)
     }
   }
 }
 
-export class Group extends Compound {
+export class Group extends CompoundBase {
   title: string = ''
   parentGroupId: string = ''
   childrenGroupsIds: string[] = []
@@ -89,8 +90,8 @@ export class Group extends Compound {
         this.childrenGroupsIds.push(xml.getAttributeStringValue(element, '@_refid'))
       } else if (xml.hasInnerElement(element, 'innerclass')) {
         // Ignored, not used for now.
-      } else if (!this.wasItemProcessedByParent(element)) {
-        console.error('class element:', Object.keys(element), 'not implemented yet')
+      } else if (!this.wasElementProcessedByParent(element)) {
+        console.error('group element:', Object.keys(element), 'not implemented yet')
       }
     }
 
@@ -99,3 +100,4 @@ export class Group extends Compound {
 }
 
 // ----------------------------------------------------------------------------
+*/

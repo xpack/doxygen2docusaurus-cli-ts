@@ -11,11 +11,12 @@
 
 // ----------------------------------------------------------------------------
 
+/*
 import * as util from 'node:util'
 
 import assert from 'node:assert'
 import type { XmlCompoundDefElement } from '../xml-parser/compound-xsd-types.js'
-import { Compound } from './compound.js'
+import { CompoundBase } from './CompoundBase.js'
 import { xml } from '../xml-parser/parse.js'
 
 // ----------------------------------------------------------------------------
@@ -60,14 +61,14 @@ export class Namespaces {
   computePermalinks (): void {
     // console.log('Namespaces.computePermalinks()...')
     for (const item of this.membersById.values()) {
-      const name: string = item.name.replaceAll('::', '/')
+      const name: string = item.compoundName.replaceAll('::', '/')
       item.permalink = `namespaces/${name}`
       console.log('-', item.permalink)
     }
   }
 }
 
-export class Namespace extends Compound {
+export class Namespace extends CompoundBase {
   parentNamespaceId: string = ''
   innerNamespacesIds: string[] = []
   innerClassesIds: string[] = []
@@ -85,7 +86,7 @@ export class Namespace extends Compound {
         this.innerClassesIds.push(xml.getAttributeStringValue(element, '@_refid'))
       } else if (xml.hasInnerElement(element, 'location')) {
         // Ignored, not used for now.
-      } else if (!this.wasItemProcessedByParent(element)) {
+      } else if (!this.wasElementProcessedByParent(element)) {
         console.error('namespace element:', Object.keys(element), 'not implemented yet')
       }
     }
@@ -94,3 +95,4 @@ export class Namespace extends Compound {
 }
 
 // ----------------------------------------------------------------------------
+*/

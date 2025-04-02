@@ -11,6 +11,7 @@
 
 // ----------------------------------------------------------------------------
 
+/*
 // For unknown reasons, importing this class template ends in a crash.
 // For now instantiate manually.
 export class Compounds<T> {
@@ -34,3 +35,4 @@ export class Compounds<T> {
 }
 
 // ----------------------------------------------------------------------------
+*/

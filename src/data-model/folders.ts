@@ -11,11 +11,12 @@
 
 // ----------------------------------------------------------------------------
 
+/*
 // import * as util from 'node:util'
 
 import assert from 'node:assert'
 import type { XmlCompoundDefElement } from '../xml-parser/compound-xsd-types.js'
-import { Compound } from './compound.js'
+import { CompoundBase } from './CompoundBase.js'
 import { xml } from '../xml-parser/parse.js'
 
 // ----------------------------------------------------------------------------
@@ -70,12 +71,12 @@ export class Folders {
     if (item.parentFolderId.length > 0) {
       parentPermalink = this.getPermalink(this.get(item.parentFolderId)) + '/'
     }
-    const name: string = item.name.replaceAll('.', '-')
+    const name: string = item.compoundName.replaceAll('.', '-')
     return parentPermalink + name
   }
 }
 
-export class Folder extends Compound {
+export class Folder extends CompoundBase {
   parentFolderId: string = ''
   childrenFoldersIds: string[] = []
   childrenFilesIds: string[] = []
@@ -93,7 +94,7 @@ export class Folder extends Compound {
         this.childrenFilesIds.push(xml.getAttributeStringValue(element, '@_refid'))
       } else if (xml.hasInnerElement(element, 'location')) {
         // Ignored, not used for now.
-      } else if (!this.wasItemProcessedByParent(element)) {
+      } else if (!this.wasElementProcessedByParent(element)) {
         console.error('folders element:', Object.keys(element), 'not implemented yet')
       }
     }
@@ -101,3 +102,5 @@ export class Folder extends Compound {
 }
 
 // ----------------------------------------------------------------------------
+
+*/

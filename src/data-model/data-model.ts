@@ -11,25 +11,29 @@
 
 // ----------------------------------------------------------------------------
 
+/*
 import * as util from 'node:util'
 
-import { XmlCompoundDefElement } from '../xml-parser/compound-xsd-types.js'
-import { xml, XmlRawData } from '../xml-parser/parse.js'
-import { Class, Classes } from './class.js'
-import { Files, File } from './files.js'
-import { Folder, Folders } from './folders.js'
-import { Group, Groups } from './groups.js'
-import { Namespace, Namespaces } from './namespace.js'
+import { DoxygenData } from '../xml-parser/parse.js'
+
+// import { XmlCompoundDefElement } from '../xml-parser/compound-xsd-types.js'
+// import { xml, XmlRawData } from '../xml-parser/parse.js'
+// import { CompoundDefType } from './CompoundDef.js'
+// import { Files, File } from './files.js'
+// import { Folder, Folders } from './folders.js'
+// import { Group, Groups } from './groups.js'
+// import { Namespace, Namespaces } from './namespace.js'
 
 export class DataModel {
-  groups = new Groups()
-  namespaces = new Namespaces()
-  folders = new Folders()
-  files = new Files(this.folders)
-  classes = new Classes()
+  // groups = new Groups()
+  // namespaces = new Namespaces()
+  // folders = new Folders()
+  // files = new Files(this.folders)
+  // classes = new CompoundDefs()
 
-  constructor (rawData: XmlRawData) {
+  constructor (rawData: DoxygenData) {
     console.log('Processing components...')
+
     for (const element of rawData.doxygen) {
       // console.log(util.inspect(element))
       if (xml.hasInnerText(element)) {
@@ -47,7 +51,7 @@ export class DataModel {
         } else if (kind === 'file') {
           this.files.add(id, new File(compoundDefElement))
         } else if (kind === 'class') {
-          this.classes.add(id, new Class(compoundDefElement))
+          // this.classes.add(id, new CompoundDefType(compoundDefElement))
         } else {
           console.error(`compounddef kind: ${kind} not yet implemented`)
         }
@@ -61,15 +65,17 @@ export class DataModel {
     this.namespaces.createHierarchies()
     this.folders.createHierarchies()
     this.files.createHierarchies()
-    this.classes.createHierarchies()
+    //this.classes.createHierarchies()
 
     console.log('Permalinks...')
     this.groups.computePermalinks()
     this.namespaces.computePermalinks()
     this.folders.computePermalinks()
     this.files.computePermalinks()
-    this.classes.computePermalinks()
+    //this.classes.computePermalinks()
+
   }
 }
 
 // ----------------------------------------------------------------------------
+*/
