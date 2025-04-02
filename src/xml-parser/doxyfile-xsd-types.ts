@@ -11,7 +11,7 @@
 
 // ----------------------------------------------------------------------------
 
-import { XmlCDATA, XmlProlog, XmlText, XmlTopElementAttributes } from './common-types.js'
+import { XmlCDATA, XmlPrologue, XmlText, XmlTopElementAttributes } from './common-types.js'
 
 // ----------------------------------------------------------------------------
 // doxyfile.xsd
@@ -24,7 +24,7 @@ import { XmlCDATA, XmlProlog, XmlText, XmlTopElementAttributes } from './common-
 
 export type XmlDoxyfileFile = XmlDoxyfileFileElements[]
 
-export type XmlDoxyfileFileElements = XmlProlog | XmlDoxyfileElement | XmlText
+export type XmlDoxyfileFileElements = XmlPrologue | XmlDoxyfileElement | XmlText
 
 // ----------------------------------------------------------------------------
 

@@ -11,7 +11,7 @@
 
 // ----------------------------------------------------------------------------
 
-import { XmlProlog, XmlTopElementAttributes, XmlNameElement, XmlText } from './common-types.js'
+import { XmlPrologue, XmlTopElementAttributes, XmlNameElement, XmlText } from './common-types.js'
 
 // ----------------------------------------------------------------------------
 // index.xsd
@@ -25,7 +25,7 @@ import { XmlProlog, XmlTopElementAttributes, XmlNameElement, XmlText } from './c
 
 export type XmlIndexFile = XmlIndexFileElements[]
 
-export type XmlIndexFileElements = XmlProlog | XmlDoxygenIndexElement | XmlText
+export type XmlIndexFileElements = XmlPrologue | XmlDoxygenIndexElement | XmlText
 
 // ----------------------------------------------------------------------------
 

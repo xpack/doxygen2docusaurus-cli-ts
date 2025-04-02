@@ -11,7 +11,7 @@
 
 // ----------------------------------------------------------------------------
 
-import { XmlProlog, XmlTopElementAttributes, XmlText } from './common-types.js'
+import { XmlPrologue, XmlTopElementAttributes, XmlText } from './common-types.js'
 
 // ----------------------------------------------------------------------------
 // component.xsd
@@ -25,7 +25,7 @@ import { XmlProlog, XmlTopElementAttributes, XmlText } from './common-types.js'
 
 export type XmlCompoundFile = XmlCompoundFileElements[]
 
-export type XmlCompoundFileElements = XmlProlog | XmlDoxygenElement | XmlText
+export type XmlCompoundFileElements = XmlPrologue | XmlDoxygenElement | XmlText
 
 // ----------------------------------------------------------------------------
 
@@ -467,7 +467,7 @@ export interface XmlMemberDefElement extends XmlMemberDefTypeAttributes {
 //   <xsd:attribute name="maybeambiguous" type="DoxBool" use="optional"/>
 // </xsd:complexType>
 
-export type XmlMemberDefTypeElements = XmlTemplateParamListElement | XmlNameElement | XmlLocationElement | XmlBriefDescriptionElement | XmlDetailedDescriptionElement | XmlInbodyDescriptionElement | XmlText
+export type XmlMemberDefTypeElements = XmlTemplateParamListElement | XmlNameElement | XmlLocationElement | XmlBriefDescriptionElement | XmlDetailedDescriptionElement | XmlInbodyDescriptionElement | XmlQualifiedNametElement | XmlText
 
 export interface XmlMemberDefTypeAttributes {
   ':@': {
@@ -489,6 +489,10 @@ export interface XmlTemplateParamListElement {
   templateparamlist: XmlParamElement[]
 }
 
+export interface XmlQualifiedNametElement {
+  qualifiedname: [XmlText]
+}
+
 export interface XmlInbodyDescriptionElement {
   inbodydescription: XmlDescriptionTypeElements[]
 }
@@ -497,7 +501,7 @@ export interface XmlEnumvalueTypeElement extends XmlEnumvalueTypeAttributes {
   enumvalue: XmlEnumvalueTypeElements[]
 }
 
-// <xsd:complexType name="descriptionType" mixed="true">
+// <xsd:complexType name="descriptionType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //     <xsd:element name="title" type="xsd:string" minOccurs="0"/>
 //     <xsd:element name="para" type="docParaType" minOccurs="0" maxOccurs="unbounded" />
@@ -598,7 +602,7 @@ export interface XmlTypeConstraintElement {
   typeconstraint: XmlLinkedTextTypeElements[]
 }
 
-// <xsd:complexType name="linkedTextType" mixed="true">
+// <xsd:complexType name="linkedTextType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //   <xsd:element name="ref" type="refTextType" minOccurs="0" maxOccurs="unbounded" />
 //   </xsd:sequence>
@@ -677,7 +681,7 @@ export interface XmlHighlightElement extends XmlHighlightTypeAttributes {
   highlight: XmlHighlightTypeElements[]
 }
 
-// <xsd:complexType name="highlightType" mixed="true">
+// <xsd:complexType name="highlightType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:choice minOccurs="0" maxOccurs="unbounded">
 //     <xsd:element name="sp" type="spType" />
 //     <xsd:element name="ref" type="refTextType" />
@@ -700,7 +704,7 @@ export interface XmlRefElement extends XmlRefTextTypeAttributes {
 export interface XmlSpElement extends XmlSpTypeAttributes {
   sp: XmlSpTypeElements[]
 }
-// <xsd:complexType name="spType" mixed="true">
+// <xsd:complexType name="spType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:attribute name="value" type="xsd:integer" use="optional"/>
 // </xsd:complexType>
 
@@ -712,7 +716,7 @@ export interface XmlSpTypeAttributes {
   }
 }
 
-// <xsd:complexType name="referenceType" mixed="true">
+// <xsd:complexType name="referenceType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:attribute name="refid" type="xsd:string" />
 //   <xsd:attribute name="compoundref" type="xsd:string" use="optional" />
 //   <xsd:attribute name="startline" type="xsd:integer" />
@@ -745,7 +749,7 @@ export interface XmlLocationTypeAttributes {
   }
 }
 
-// <xsd:complexType name="docSect1Type" mixed="true">
+// <xsd:complexType name="docSect1Type" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //     <xsd:element name="title" type="docTitleType" minOccurs="0" />
 //     <xsd:choice maxOccurs="unbounded">
@@ -757,7 +761,7 @@ export interface XmlLocationTypeAttributes {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
-// <xsd:complexType name="docSect2Type" mixed="true">
+// <xsd:complexType name="docSect2Type" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //     <xsd:element name="title" type="docTitleType" minOccurs="0" />
 //     <xsd:choice maxOccurs="unbounded">
@@ -769,7 +773,7 @@ export interface XmlLocationTypeAttributes {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
-// <xsd:complexType name="docSect3Type" mixed="true">
+// <xsd:complexType name="docSect3Type" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //     <xsd:element name="title" type="docTitleType" minOccurs="0" />
 //     <xsd:choice maxOccurs="unbounded">
@@ -781,7 +785,7 @@ export interface XmlLocationTypeAttributes {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
-// <xsd:complexType name="docSect4Type" mixed="true">
+// <xsd:complexType name="docSect4Type" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //     <xsd:element name="title" type="docTitleType" minOccurs="0" />
 //     <xsd:choice maxOccurs="unbounded">
@@ -793,7 +797,7 @@ export interface XmlLocationTypeAttributes {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
-// <xsd:complexType name="docSect5Type" mixed="true">
+// <xsd:complexType name="docSect5Type" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //     <xsd:element name="title" type="docTitleType" minOccurs="0" />
 //     <xsd:choice maxOccurs="unbounded">
@@ -805,7 +809,7 @@ export interface XmlLocationTypeAttributes {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
-// <xsd:complexType name="docSect6Type" mixed="true">
+// <xsd:complexType name="docSect6Type" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //     <xsd:element name="title" type="docTitleType" minOccurs="0" />
 //     <xsd:choice maxOccurs="unbounded">
@@ -816,49 +820,49 @@ export interface XmlLocationTypeAttributes {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
-// <xsd:complexType name="docInternalType" mixed="true">
+// <xsd:complexType name="docInternalType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //     <xsd:element name="para"  type="docParaType"  minOccurs="0" maxOccurs="unbounded" />
 //     <xsd:element name="sect1" type="docSect1Type" minOccurs="0" maxOccurs="unbounded" />
 //   </xsd:sequence>
 // </xsd:complexType>
 
-// <xsd:complexType name="docInternalS1Type" mixed="true">
+// <xsd:complexType name="docInternalS1Type" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //     <xsd:element name="para"  type="docParaType"  minOccurs="0" maxOccurs="unbounded" />
 //     <xsd:element name="sect2" type="docSect2Type" minOccurs="0" maxOccurs="unbounded" />
 //   </xsd:sequence>
 // </xsd:complexType>
 
-// <xsd:complexType name="docInternalS2Type" mixed="true">
+// <xsd:complexType name="docInternalS2Type" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //     <xsd:element name="para"  type="docParaType"  minOccurs="0" maxOccurs="unbounded" />
 //     <xsd:element name="sect3" type="docSect3Type" minOccurs="0" maxOccurs="unbounded" />
 //   </xsd:sequence>
 // </xsd:complexType>
 
-// <xsd:complexType name="docInternalS3Type" mixed="true">
+// <xsd:complexType name="docInternalS3Type" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //     <xsd:element name="para"  type="docParaType"  minOccurs="0" maxOccurs="unbounded" />
 //     <xsd:element name="sect4" type="docSect4Type" minOccurs="0" maxOccurs="unbounded" />
 //   </xsd:sequence>
 // </xsd:complexType>
 
-// <xsd:complexType name="docInternalS4Type" mixed="true">
+// <xsd:complexType name="docInternalS4Type" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //     <xsd:element name="para"  type="docParaType"  minOccurs="0" maxOccurs="unbounded" />
 //     <xsd:element name="sect5" type="docSect5Type" minOccurs="0" maxOccurs="unbounded" />
 //   </xsd:sequence>
 // </xsd:complexType>
 
-// <xsd:complexType name="docInternalS5Type" mixed="true">
+// <xsd:complexType name="docInternalS5Type" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //     <xsd:element name="para"  type="docParaType"  minOccurs="0" maxOccurs="unbounded" />
 //     <xsd:element name="sect5" type="docSect6Type" minOccurs="0" maxOccurs="unbounded" />
 //   </xsd:sequence>
 // </xsd:complexType>
 
-// <xsd:complexType name="docInternalS6Type" mixed="true">
+// <xsd:complexType name="docInternalS6Type" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //     <xsd:element name="para"  type="docParaType"  minOccurs="0" maxOccurs="unbounded" />
 //   </xsd:sequence>
@@ -1147,11 +1151,11 @@ export interface XmlLocationTypeAttributes {
 //   </xsd:choice>
 // </xsd:group>
 
-// <xsd:complexType name="docTitleType" mixed="true">
+// <xsd:complexType name="docTitleType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:group ref="docTitleCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 // </xsd:complexType>
 
-// <xsd:complexType name="docSummaryType" mixed="true">
+// <xsd:complexType name="docSummaryType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:group ref="docTitleCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 // </xsd:complexType>
 
@@ -1486,19 +1490,19 @@ export interface XmlSimpleSectElement extends XmlDocSimpleSectTypeAttributes {
   simplesect: XmlDocSimpleSectTypeElements[]
 }
 
-// <xsd:complexType name="docParaType" mixed="true">
+// <xsd:complexType name="docParaType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:group ref="docCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 // </xsd:complexType>
 
 export type XmlDocParaTypeElements = XmlDocCmdGroupElements | XmlText
 
-// <xsd:complexType name="docMarkupType" mixed="true">
+// <xsd:complexType name="docMarkupType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:group ref="docCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 // </xsd:complexType>
 
 export type XmlDocMarkupTypeElements = XmlDocCmdGroupElements | XmlText
 
-// <xsd:complexType name="docURLLink" mixed="true">
+// <xsd:complexType name="docURLLink" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:group ref="docTitleCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 //   <xsd:attribute name="url" type="xsd:string" />
 // </xsd:complexType>
@@ -1511,11 +1515,11 @@ export interface XmlDocURLLinkTypeAttributes {
   }
 }
 
-// <xsd:complexType name="docAnchorType" mixed="true">
+// <xsd:complexType name="docAnchorType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
-// <xsd:complexType name="docFormulaType" mixed="true">
+// <xsd:complexType name="docFormulaType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
@@ -1579,7 +1583,7 @@ export interface XmlDocSimpleSectTypeAttributes {
 //   </xsd:sequence>
 // </xsd:complexType>
 
-// <xsd:complexType name="docRefTextType" mixed="true">
+// <xsd:complexType name="docRefTextType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:group ref="docTitleCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 //   <xsd:attribute name="refid" type="xsd:string" />
 //   <xsd:attribute name="kindref" type="DoxRefKind" />
@@ -1616,7 +1620,7 @@ export interface XmlDocSimpleSectTypeAttributes {
 //   <xsd:anyAttribute processContents="skip"/>
 // </xsd:complexType>
 
-// <xsd:complexType name="docCaptionType" mixed="true">
+// <xsd:complexType name="docCaptionType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:group ref="docTitleCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
@@ -1628,12 +1632,12 @@ export interface XmlDocSimpleSectTypeAttributes {
 //   </xsd:restriction>
 // </xsd:simpleType>
 
-// <xsd:complexType name="docHeadingType" mixed="true">
+// <xsd:complexType name="docHeadingType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:group ref="docTitleCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 //   <xsd:attribute name="level" type="range_1_6" />
 // </xsd:complexType>
 
-// <xsd:complexType name="docImageType" mixed="true">
+// <xsd:complexType name="docImageType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:group ref="docTitleCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 //   <xsd:attribute name="type" type="DoxImageKind" use="optional"/>
 //   <xsd:attribute name="name" type="xsd:string" use="optional"/>
@@ -1644,7 +1648,7 @@ export interface XmlDocSimpleSectTypeAttributes {
 //   <xsd:attribute name="caption" type="xsd:string" use="optional"/>
 // </xsd:complexType>
 
-// <xsd:complexType name="docDotMscType" mixed="true">
+// <xsd:complexType name="docDotMscType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:group ref="docTitleCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 //   <xsd:attribute name="name" type="xsd:string" use="optional"/>
 //   <xsd:attribute name="width" type="xsd:string" use="optional"/>
@@ -1652,7 +1656,7 @@ export interface XmlDocSimpleSectTypeAttributes {
 //   <xsd:attribute name="caption" type="xsd:string" use="optional"/>
 // </xsd:complexType>
 
-// <xsd:complexType name="docImageFileType" mixed="true">
+// <xsd:complexType name="docImageFileType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:group ref="docTitleCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 //   <xsd:attribute name="name" type="xsd:string" use="optional">
 //     <xsd:annotation>
@@ -1663,7 +1667,7 @@ export interface XmlDocSimpleSectTypeAttributes {
 //   <xsd:attribute name="height" type="xsd:string" use="optional"/>
 // </xsd:complexType>
 
-// <xsd:complexType name="docPlantumlType" mixed="true">
+// <xsd:complexType name="docPlantumlType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:group ref="docTitleCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 //   <xsd:attribute name="name" type="xsd:string" use="optional"/>
 //   <xsd:attribute name="width" type="xsd:string" use="optional"/>
@@ -1672,7 +1676,7 @@ export interface XmlDocSimpleSectTypeAttributes {
 //   <xsd:attribute name="engine" type="DoxPlantumlEngine" use="optional"/>
 // </xsd:complexType>
 
-// <xsd:complexType name="docTocItemType" mixed="true">
+// <xsd:complexType name="docTocItemType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:group ref="docTitleCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
@@ -1751,7 +1755,7 @@ export interface XmlParameterNameElement extends XmlDocParamNameAttributes {
   parametername: XmlDocParamNameElements[]
 }
 
-// <xsd:complexType name="docParamType" mixed="true">
+// <xsd:complexType name="docParamType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //     <xsd:element name="ref" type="refTextType" minOccurs="0" maxOccurs="1" />
 //   </xsd:sequence>
@@ -1759,7 +1763,7 @@ export interface XmlParameterNameElement extends XmlDocParamNameAttributes {
 
 export type XmlDocParamTypeElements = XmlRefElement | XmlText
 
-// <xsd:complexType name="docParamName" mixed="true">
+// <xsd:complexType name="docParamName" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //     <xsd:element name="ref" type="refTextType" minOccurs="0" maxOccurs="1" />
 //   </xsd:sequence>
@@ -1808,6 +1812,7 @@ export interface XmlDocParamNameAttributes {
 //     <xsd:element name="para" type="docParaType" minOccurs="0" maxOccurs="unbounded" />
 //   </xsd:sequence>
 // </xsd:complexType>
+
 // <xsd:complexType name="docEmptyType"/>
 
 // <xsd:complexType name="tableofcontentsType">
