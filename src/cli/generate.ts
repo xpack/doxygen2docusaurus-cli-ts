@@ -15,7 +15,7 @@ import * as fs from 'node:fs'
 import * as util from 'node:util'
 
 import { defaultOptions } from '../options/defaults.js'
-import { parseDoxygenData, type DoxygenData } from '../xml-parser/parse.js'
+import { parseDoxygenData, type DoxygenData } from '../doxygen-xml-parser/parse.js'
 
 export async function generateDoxygen (context: any, options: any): Promise<number> {
   // console.log('generateDoxygen()')
