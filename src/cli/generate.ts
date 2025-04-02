@@ -15,9 +15,7 @@ import * as fs from 'node:fs'
 import * as util from 'node:util'
 
 import { defaultOptions } from '../options/defaults.js'
-import { xml } from '../xml-parser/parse.js'
-import type { XmlRawData } from '../xml-parser/parse.js'
-import { DataModel } from '../data-model/data-model.js'
+import { parseDoxygenData, type DoxygenData } from '../xml-parser/parse.js'
 
 export async function generateDoxygen (context: any, options: any): Promise<number> {
   // console.log('generateDoxygen()')
@@ -36,11 +34,8 @@ export async function generateDoxygen (context: any, options: any): Promise<numb
     fs.mkdirSync(actualOptions.outputFolderPath, { recursive: true })
   }
 
-  const xmlRawData: XmlRawData = await xml.parseXmlRawData({ folderPath: actualOptions.doxygenXmlInputFolderPath })
-  // console.log('xmlRawData: ', util.inspect(xmlRawData))
-
-  const dataModel = new DataModel(xmlRawData)
-  // console.log(util.inspect(dataModel))
+  const doxygenData: DoxygenData = await parseDoxygenData({ folderPath: actualOptions.doxygenXmlInputFolderPath })
+  // console.log('doxygenData:', util.inspect(doxygenData))
 
   console.log('more generateDoxygen() to come...')
 

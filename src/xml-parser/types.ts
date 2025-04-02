@@ -12,7 +12,7 @@
 // ----------------------------------------------------------------------------
 // <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 
-export interface XmlProlog {
+export interface XmlPrologue {
   '?xml': [XmlText] // an empty text
   ':@': {
     '@_version': string
@@ -22,17 +22,20 @@ export interface XmlProlog {
 }
 
 // ----------------------------------------------------------------------------
-// Attributes common to top elements in all files.
+// Generic types.
 
-// <doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.13.2" xml:lang="en-US">
-// <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
-// <doxyfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="doxyfile.xsd" version="1.13.2" xml:lang="en-US">
-
-export interface XmlTopElementAttributes {
+export interface XmlAttributes {
   ':@': {
-    '@_noNamespaceSchemaLocation': string
-    '@_version': string
-    '@_lang': string
+    [key: string]: string | number | boolean
+  }
+}
+
+export interface XmlElement {
+  // Each element has only one key mapped to an array.
+  (key: string): XmlElement[]
+  '#text': string | number | boolean
+  ':@'?: {
+    [key: string]: string | number | boolean
   }
 }
 
