@@ -14,7 +14,7 @@
 import assert from 'node:assert'
 import * as util from 'node:util'
 
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 import { MemberRefType } from './memberreftype.js'
 
 // ----------------------------------------------------------------------------
@@ -29,7 +29,7 @@ export class ListOfAllMembersType {
   // Optional elements.
   members?: MemberRefType[] | undefined
 
-  constructor (element: Object, elementName: string = 'listofallmembers') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'listofallmembers') {
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -46,7 +46,7 @@ export class ListOfAllMembersType {
         if (this.members === undefined) {
           this.members = []
         }
-        this.members.push(new MemberRefType(innerElement, 'member'))
+        this.members.push(new MemberRefType(xml, innerElement, 'member'))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')

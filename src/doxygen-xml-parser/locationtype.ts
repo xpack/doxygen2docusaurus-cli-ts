@@ -14,7 +14,7 @@
 import assert from 'assert'
 import * as util from 'node:util'
 
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 
 // ----------------------------------------------------------------------------
 
@@ -44,7 +44,7 @@ export class LocationType {
   bodystart: number | undefined
   bodyend: number | undefined
 
-  constructor (element: Object, elementName: string) {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------

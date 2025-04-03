@@ -14,7 +14,7 @@
 import assert from 'assert'
 import * as util from 'node:util'
 
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 
 // ----------------------------------------------------------------------------
 // <xsd:complexType name="MemberType">
@@ -33,7 +33,7 @@ export class IndexMemberType {
   refid: string = ''
   kind: string = '' // MemberKind
 
-  constructor (element: Object, elementName: string = 'compound') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'compound') {
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------

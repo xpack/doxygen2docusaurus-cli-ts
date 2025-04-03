@@ -13,7 +13,7 @@
 
 import assert from 'assert'
 import * as util from 'node:util'
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 
 // ----------------------------------------------------------------------------
 
@@ -33,7 +33,7 @@ export class MemberType {
   refid: string = ''
   kind: string = '' // MemberKind
 
-  constructor (element: Object, elementName: string = 'member') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'member') {
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------

@@ -14,7 +14,7 @@
 import assert from 'assert'
 import * as util from 'node:util'
 
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 import { DescriptionType } from './descriptiontype.js'
 import { LinkedTextType } from './linkedtexttype.js'
 import { LocationType } from './locationtype.js'
@@ -136,7 +136,7 @@ export class MemberDefType {
   virt: string | undefined
   // TODO: add more...
 
-  constructor (element: Object, elementName: string = 'memberdef') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'memberdef') {
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -151,23 +151,23 @@ export class MemberDefType {
       } else if (xml.isInnerElementText(innerElement, 'name')) {
         this.name = xml.getInnerElementText(innerElement, 'name')
       } else if (xml.hasInnerElement(innerElement, 'location')) {
-        this.location = new LocationType(innerElement, 'location')
+        this.location = new LocationType(xml, innerElement, 'location')
       } else if (xml.hasInnerElement(innerElement, 'briefdescription')) {
-        this.briefDescription = new DescriptionType(innerElement, 'briefdescription')
+        this.briefDescription = new DescriptionType(xml, innerElement, 'briefdescription')
       } else if (xml.hasInnerElement(innerElement, 'detaileddescription')) {
-        this.detailedDescription = new DescriptionType(innerElement, 'detaileddescription')
+        this.detailedDescription = new DescriptionType(xml, innerElement, 'detaileddescription')
       } else if (xml.hasInnerElement(innerElement, 'inbodydescription')) {
-        this.inbodyDescription = new DescriptionType(innerElement, 'inbodydescription')
+        this.inbodyDescription = new DescriptionType(xml, innerElement, 'inbodydescription')
       } else if (xml.isInnerElementText(innerElement, 'qualifiedname')) {
         this.qualifiedName = xml.getInnerElementText(innerElement, 'qualifiedname')
       } else if (xml.hasInnerElement(innerElement, 'type')) {
-        this.type = new LinkedTextType(innerElement, 'type')
+        this.type = new LinkedTextType(xml, innerElement, 'type')
       } else if (xml.isInnerElementText(innerElement, 'definition')) {
         this.definition = xml.getInnerElementText(innerElement, 'definition')
       } else if (xml.isInnerElementText(innerElement, 'argsstring')) {
         this.argsstring = xml.getInnerElementText(innerElement, 'argsstring')
       } else if (xml.hasInnerElement(innerElement, 'param')) {
-        this.param = new ParamType(innerElement, 'param')
+        this.param = new ParamType(xml, innerElement, 'param')
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')

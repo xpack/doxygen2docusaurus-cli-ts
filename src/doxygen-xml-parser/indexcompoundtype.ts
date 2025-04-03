@@ -14,7 +14,7 @@
 import assert from 'assert'
 import * as util from 'node:util'
 
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 import { IndexMemberType } from './indexmembertype.js'
 
 // ----------------------------------------------------------------------------
@@ -37,7 +37,7 @@ export class IndexCompoundType {
   refid: string = ''
   kind: string = '' // CompoundKind
 
-  constructor (element: Object, elementName: string = 'compound') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'compound') {
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -56,7 +56,7 @@ export class IndexCompoundType {
         if (this.members === undefined) {
           this.members = []
         }
-        this.members.push(new IndexMemberType(innerElement, 'member'))
+        this.members.push(new IndexMemberType(xml, innerElement, 'member'))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`index ${elementName} element:`, Object.keys(innerElement), 'not implemented yet')

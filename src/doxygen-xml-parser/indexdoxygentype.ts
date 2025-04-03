@@ -14,7 +14,7 @@
 import assert from 'assert'
 import * as util from 'node:util'
 
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 import { IndexCompoundType } from './indexcompoundtype.js'
 
 // ----------------------------------------------------------------------------
@@ -39,7 +39,7 @@ export class IndexDoxygenType {
   // Optional attributes.
   noNamespaceSchemaLocation: string | undefined
 
-  constructor (element: Object, elementName: string = 'doxygenindex') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'doxygenindex') {
     // console.log(elementName, util.inspect(element))
 
     const innerElements = xml.getInnerElements(element, elementName)
@@ -52,7 +52,7 @@ export class IndexDoxygenType {
         if (this.compounds === undefined) {
           this.compounds = []
         }
-        this.compounds.push(new IndexCompoundType(innerElement, 'compound'))
+        this.compounds.push(new IndexCompoundType(xml, innerElement, 'compound'))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`index ${elementName} element:`, Object.keys(innerElement), 'not implemented yet')

@@ -12,7 +12,7 @@
 import assert from 'assert'
 import * as util from 'node:util'
 
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 
 // ----------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ export class DescriptionType {
   // Any sequence of them.
   children: Array<string | DocParaType | DocInternalType | DocSect1Type> = []
 
-  constructor (element: Object, elementName: string = 'description') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'description') {
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -48,11 +48,11 @@ export class DescriptionType {
         assert(this.title === undefined)
         this.title = xml.getInnerElementText(innerElement, 'title')
       } else if (xml.hasInnerElement(innerElement, 'para')) {
-        this.children.push(new DocParaType(innerElement, 'para'))
+        this.children.push(new DocParaType(xml, innerElement, 'para'))
       } else if (xml.hasInnerElement(innerElement, 'internal')) {
-        this.children.push(new DocInternalType(innerElement, 'internal'))
+        this.children.push(new DocInternalType(xml, innerElement, 'internal'))
       } else if (xml.hasInnerElement(innerElement, 'sect1')) {
-        this.children.push(new DocSect1Type(innerElement, 'sect1'))
+        this.children.push(new DocSect1Type(xml, innerElement, 'sect1'))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
@@ -80,7 +80,7 @@ export class DescriptionType {
 // </xsd:complexType>
 
 export class DocInternalType {
-  constructor (element: Object, elementName: string = 'internal') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'internal') {
     // console.log(elementName, util.inspect(element))
   }
 }
@@ -92,7 +92,7 @@ export class DocInternalType {
 // </xsd:complexType>
 
 export class DocParaType {
-  constructor (element: Object, elementName: string = 'para') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'para') {
     // console.log(elementName, util.inspect(element))
   }
 }
@@ -114,7 +114,7 @@ export class DocParaType {
 export class DocSect1Type {
   title?: DocTitleType | undefined
 
-  constructor (element: Object, elementName: string = 'sect1') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'sect1') {
     // console.log(elementName, util.inspect(element))
   }
 }
@@ -128,7 +128,7 @@ export class DocSect1Type {
 export class DocTitleType {
   xxx?: DocTitleCmdGroup
 
-  constructor (element: Object, elementName: string = 'title') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'title') {
     // console.log(elementName, util.inspect(element))
   }
 }
@@ -449,7 +449,7 @@ export class DocTitleType {
 // </xsd:group>
 
 export class DocCmdGroup {
-  constructor (element: Object, elementName: string = 'xxx') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'xxx') {
     // console.log(elementName, util.inspect(element))
   }
 }
@@ -740,7 +740,7 @@ export class DocCmdGroup {
 // </xsd:group>
 
 export class DocTitleCmdGroup {
-  constructor (element: Object, elementName: string = 'xxx') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'xxx') {
     // console.log(elementName, util.inspect(element))
   }
 }
@@ -751,7 +751,7 @@ export class DocTitleCmdGroup {
 // </xsd:complexType>
 
 export class DocURLLink {
-  constructor (element: Object, elementName: string = 'xxx') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'xxx') {
     // console.log(elementName, util.inspect(element))
   }
 }
@@ -761,7 +761,7 @@ export class DocURLLink {
 // </xsd:complexType>
 
 export class DocMarkupType {
-  constructor (element: Object, elementName: string = 'xxx') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'xxx') {
     // console.log(elementName, util.inspect(element))
   }
 }

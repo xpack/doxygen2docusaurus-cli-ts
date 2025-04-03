@@ -20,7 +20,7 @@ import assert from 'node:assert'
 // import { MemberRefType } from './MemberRefType.js'
 // import { CompoundBase } from './CompoundBase.js'
 import { IncType } from './inctype.js'
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 import { CompoundRefType } from './compoundreftype.js'
 import { TemplateParamListType } from './templateparamlisttype.js'
 import { SectionDefType } from './sectiondeftype.js'
@@ -160,7 +160,7 @@ export class CompoundDefType {
   // parentId: string = ''
   // permalink: string = ''
 
-  constructor (element: Object, elementName: string = 'compounddef') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'compounddef') {
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -178,31 +178,31 @@ export class CompoundDefType {
       } else if (xml.isInnerElementText(innerElement, 'title')) {
         this.title = xml.getInnerElementText(innerElement, 'title')
       } else if (xml.hasInnerElement(innerElement, 'briefdescription')) {
-        this.briefDescription = new DescriptionType(innerElement, 'briefdescription')
+        this.briefDescription = new DescriptionType(xml, innerElement, 'briefdescription')
       } else if (xml.hasInnerElement(innerElement, 'detaileddescription')) {
-        this.detailedDescription = new DescriptionType(innerElement, 'detaileddescription')
+        this.detailedDescription = new DescriptionType(xml, innerElement, 'detaileddescription')
       } else if (xml.hasInnerElement(innerElement, 'basecompoundref')) {
         if (this.baseCompoundRefs === undefined) {
           this.baseCompoundRefs = []
         }
-        this.baseCompoundRefs.push(new CompoundRefType(innerElement, 'basecompoundref'))
+        this.baseCompoundRefs.push(new CompoundRefType(xml, innerElement, 'basecompoundref'))
       } else if (xml.hasInnerElement(innerElement, 'derivedcompoundref')) {
         if (this.derivedCompoundRefs === undefined) {
           this.derivedCompoundRefs = []
         }
-        this.derivedCompoundRefs.push(new CompoundRefType(innerElement, 'derivedcompoundref'))
+        this.derivedCompoundRefs.push(new CompoundRefType(xml, innerElement, 'derivedcompoundref'))
       } else if (xml.hasInnerElement(innerElement, 'includes')) {
         // console.log(util.inspect(item))
         if (this.includes === undefined) {
           this.includes = []
         }
-        this.includes.push(new IncType(innerElement, 'includes'))
+        this.includes.push(new IncType(xml, innerElement, 'includes'))
       } else if (xml.hasInnerElement(innerElement, 'includedby')) {
         // console.log(util.inspect(item))
         if (this.includedBy === undefined) {
           this.includedBy = []
         }
-        this.includedBy.push(new IncType(innerElement, 'includedby'))
+        this.includedBy.push(new IncType(xml, innerElement, 'includedby'))
       } else if (xml.hasInnerElement(innerElement, 'incdepgraph')) {
         // TODO: Ignored, not used for now.
       } else if (xml.hasInnerElement(innerElement, 'invincdepgraph')) {
@@ -218,12 +218,12 @@ export class CompoundDefType {
       } else if (xml.hasInnerElement(innerElement, 'innergroup')) {
         // TODO: Ignored, not used for now.
       } else if (xml.hasInnerElement(innerElement, 'templateparamlist')) {
-        this.templateParamList = new TemplateParamListType(innerElement, 'templateparamlist')
+        this.templateParamList = new TemplateParamListType(xml, innerElement, 'templateparamlist')
       } else if (xml.hasInnerElement(innerElement, 'sectiondef')) {
         if (this.sectionDefs === undefined) {
           this.sectionDefs = []
         }
-        this.sectionDefs.push(new SectionDefType(innerElement, 'sectiondef'))
+        this.sectionDefs.push(new SectionDefType(xml, innerElement, 'sectiondef'))
       } else if (xml.hasInnerElement(innerElement, 'inheritancegraph')) {
         // TODO: Ignored, not used for now.
       } else if (xml.hasInnerElement(innerElement, 'collaborationgraph')) {
@@ -233,7 +233,7 @@ export class CompoundDefType {
       } else if (xml.hasInnerElement(innerElement, 'location')) {
         // TODO: Ignored, not used for now.
       } else if (xml.hasInnerElement(innerElement, 'listofallmembers')) {
-        this.listOfAllMembers = new ListOfAllMembersType(innerElement, 'listofallmembers')
+        this.listOfAllMembers = new ListOfAllMembersType(xml, innerElement, 'listofallmembers')
       } else {
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
       }

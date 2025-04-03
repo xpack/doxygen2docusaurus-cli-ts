@@ -14,7 +14,7 @@
 import assert from 'assert'
 import util from 'util'
 
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 
 // ----------------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ export class RefTextType {
   external?: string | undefined
   tooltip?: string | undefined
 
-  constructor (element: Object, elementName: string = 'ref') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'ref') {
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------

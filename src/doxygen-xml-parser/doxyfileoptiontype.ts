@@ -14,7 +14,7 @@
 import assert from 'assert'
 import * as util from 'node:util'
 
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 
 // ----------------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ export class OptionType {
   default: string = '' // defaultType
   type: string = '' // typeType
 
-  constructor (element: Object, elementName: string = 'compound') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'compound') {
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------

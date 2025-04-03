@@ -14,7 +14,7 @@
 import assert from 'node:assert'
 import * as util from 'node:util'
 
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 import { ParamType } from './paramtype.js'
 
 // ----------------------------------------------------------------------------
@@ -29,7 +29,7 @@ export class TemplateParamListType {
   // Optional elements.
   params?: ParamType[] | undefined
 
-  constructor (element: Object, elementName: string = 'includes') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'includes') {
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -46,7 +46,7 @@ export class TemplateParamListType {
         if (this.params === undefined) {
           this.params = []
         }
-        this.params.push(new ParamType(innerElement, 'param'))
+        this.params.push(new ParamType(xml, innerElement, 'param'))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')

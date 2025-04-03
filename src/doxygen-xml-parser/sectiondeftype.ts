@@ -13,7 +13,7 @@
 
 import assert from 'assert'
 import * as util from 'node:util'
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 import { DescriptionType } from './descriptiontype.js'
 import { MemberDefType } from './memberdeftype.js'
 import { MemberType } from './membertype.js'
@@ -44,7 +44,7 @@ export class SectionDefType {
   memberDefs?: MemberDefType[] | undefined
   members?: MemberType[] | undefined
 
-  constructor (element: Object, elementName: string = 'sectiondef') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'sectiondef') {
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -61,17 +61,17 @@ export class SectionDefType {
         this.header = xml.getInnerElementText(innerElement, 'header')
       } else if (xml.hasInnerElement(innerElement, 'description')) {
         assert(this.description === undefined)
-        this.description = new DescriptionType(innerElement, 'description')
+        this.description = new DescriptionType(xml, innerElement, 'description')
       } else if (xml.hasInnerElement(innerElement, 'memberdef')) {
         if (this.memberDefs === undefined) {
           this.memberDefs = []
         }
-        this.memberDefs.push(new MemberDefType(innerElement, 'memberdef'))
+        this.memberDefs.push(new MemberDefType(xml, innerElement, 'memberdef'))
       } else if (xml.hasInnerElement(innerElement, 'member')) {
         if (this.members === undefined) {
           this.members = []
         }
-        this.members.push(new MemberType(innerElement, 'member'))
+        this.members.push(new MemberType(xml, innerElement, 'member'))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')

@@ -18,7 +18,7 @@ import * as util from 'node:util'
 // import type { XmlBoldElement, XmlBriefDescriptionElement, XmlCodeLineElement, XmlCompoundDefElement, XmlCompoundNameElement, XmlComputerOutputElement, XmlDescriptionTypeElements, XmlDetailedDescriptionElement, XmlHighlightElement, XmlIncludesElement, XmlParaElement, XmlParameterDescriptionElement, XmlParameterItemElement, XmlParameterListElement, XmlParameterNameElement, XmlParameterNameListElement, XmlProgramListingElement, XmlRefElement, XmlSimpleSectElement, XmlSpElement, XmlTitleElement } from '../xml-parser/compound-xsd-types.js'
 // import { IncType } from './IncType.js'
 
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 import { DescriptionType } from './descriptiontype.js'
 
 // ----------------------------------------------------------------------------
@@ -45,7 +45,7 @@ export class CompoundBase {
   commonElements = ['compoundname', 'briefdescription', 'detaileddescription']
   commonAttributes = ['@_id', '@_kind']
 
-  constructor (element: Object, elementName: string = 'compounddef') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'compounddef') {
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -60,9 +60,9 @@ export class CompoundBase {
       } else if (xml.isInnerElementText(innerElement, 'name')) {
         this.compoundName = xml.getInnerElementText(innerElement, 'name')
       } else if (xml.hasInnerElement(innerElement, 'briefdescription')) {
-        this.briefDescription = new DescriptionType(innerElement, 'briefdescription')
+        this.briefDescription = new DescriptionType(xml, innerElement, 'briefdescription')
       } else if (xml.hasInnerElement(innerElement, 'detaileddescription')) {
-        this.detailedDescription = new DescriptionType(innerElement, 'detaileddescription')
+        this.detailedDescription = new DescriptionType(xml, innerElement, 'detaileddescription')
       }
     }
 

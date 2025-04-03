@@ -14,7 +14,7 @@
 import assert from 'assert'
 import * as util from 'node:util'
 
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 import { OptionType } from './doxyfileoptiontype.js'
 
 // ----------------------------------------------------------------------------
@@ -40,7 +40,7 @@ export class DoxygenFileType {
   // Optional attributes.
   noNamespaceSchemaLocation: string | undefined
 
-  constructor (element: Object, elementName: string = 'doxyfile') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'doxyfile') {
     // console.log(elementName, util.inspect(element))
 
     const innerElements = xml.getInnerElements(element, elementName)
@@ -53,7 +53,7 @@ export class DoxygenFileType {
         if (this.options === undefined) {
           this.options = []
         }
-        this.options.push(new OptionType(innerElement, 'option'))
+        this.options.push(new OptionType(xml, innerElement, 'option'))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`doxyfile ${elementName} element:`, Object.keys(innerElement), 'not implemented yet')

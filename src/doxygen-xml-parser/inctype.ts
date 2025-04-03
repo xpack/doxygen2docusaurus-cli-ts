@@ -14,7 +14,7 @@
 import assert from 'assert'
 import util from 'util'
 
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 
 // ----------------------------------------------------------------------------
 
@@ -37,7 +37,7 @@ export class IncType {
   // Optional attributes.
   refId?: string | undefined // file id
 
-  constructor (element: Object, elementName: string = 'includes') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'includes') {
     // console.log(elementName, util.inspect(element))ect(element))ect(element))
 
     // ------------------------------------------------------------------------

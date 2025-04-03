@@ -14,7 +14,7 @@
 import assert from 'assert'
 import * as util from 'node:util'
 
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 import { DescriptionType } from './descriptiontype.js'
 import { LinkedTextType } from './linkedtexttype.js'
 
@@ -44,7 +44,7 @@ export class ParamType {
   typeconstraint?: LinkedTextType | undefined
   briefdescription?: DescriptionType | undefined
 
-  constructor (element: Object, elementName: string = 'param') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'param') {
     // console.log(elementName, util.inspect(element))ect(element))
 
     // ------------------------------------------------------------------------
@@ -64,7 +64,7 @@ export class ParamType {
         assert(attributesElements[0] !== undefined)
         this.attributes = xml.getInnerText(attributesElements[0])
       } else if (xml.hasInnerElement(innerElement, 'type')) {
-        this.type = new LinkedTextType(innerElement, 'type')
+        this.type = new LinkedTextType(xml, innerElement, 'type')
       } else if (xml.hasInnerElement(innerElement, 'declname')) {
         const declnameElements = xml.getInnerElements(innerElement, 'declname')
         // console.log(util.inspect(defvalElements))
@@ -84,9 +84,9 @@ export class ParamType {
         assert(arrayElements[0] !== undefined)
         this.array = xml.getInnerText(arrayElements[0])
       } else if (xml.hasInnerElement(innerElement, 'defval')) {
-        this.defval = new LinkedTextType(innerElement, 'defval')
+        this.defval = new LinkedTextType(xml, innerElement, 'defval')
       } else if (xml.hasInnerElement(innerElement, 'typeconstraint')) {
-        this.typeconstraint = new LinkedTextType(innerElement, 'typeconstraint')
+        this.typeconstraint = new LinkedTextType(xml, innerElement, 'typeconstraint')
       } else if (xml.hasInnerElement(innerElement, 'briefdescription')) {
         // TODO
       } else {

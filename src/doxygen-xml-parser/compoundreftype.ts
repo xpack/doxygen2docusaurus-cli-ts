@@ -14,7 +14,7 @@
 import assert from 'assert'
 import * as util from 'node:util'
 
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 
 // ----------------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ export class CompoundRefType {
   // Optional attributes.
   refid?: string | undefined
 
-  constructor (element: Object, elementName: string = 'includes') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'includes') {
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------

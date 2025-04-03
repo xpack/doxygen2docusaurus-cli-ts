@@ -14,7 +14,7 @@
 import assert from 'assert'
 import * as util from 'node:util'
 
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 
 // ----------------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ export class MemberRefType {
   // WARNING: Deviation from xsd, there it is not optional.
   ambiguityscope?: string | undefined
 
-  constructor (element: Object, elementName: string = 'member') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'member') {
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------

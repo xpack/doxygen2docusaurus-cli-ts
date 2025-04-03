@@ -12,7 +12,7 @@
 import assert from 'assert'
 import * as util from 'node:util'
 
-import { xml } from './xml.js'
+import { DoxygenXmlParser } from './index.js'
 import { RefTextType } from './reftexttype.js'
 
 // ----------------------------------------------------------------------------
@@ -27,7 +27,7 @@ export class LinkedTextType {
   // Any sequence of them.
   children: Array<string | RefTextType> = []
 
-  constructor (element: Object, elementName: string = 'member') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'member') {
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -39,7 +39,7 @@ export class LinkedTextType {
       if (xml.hasInnerText(innerElement)) {
         this.children.push(xml.getInnerText(innerElement))
       } else if (xml.hasInnerElement(innerElement, 'ref')) {
-        this.children.push(new RefTextType(innerElement, 'ref'))
+        this.children.push(new RefTextType(xml, innerElement, 'ref'))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
