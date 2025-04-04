@@ -17,6 +17,7 @@ import assert from 'assert'
 import { Folders } from './data-model/folders.js'
 import { Files } from './data-model/files.js'
 import path from 'path'
+import { DoxygenFileOptionType } from '../doxygen-xml-parser/doxyfileoptiontype.js'
 
 // ----------------------------------------------------------------------------
 

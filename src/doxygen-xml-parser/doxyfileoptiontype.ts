@@ -27,7 +27,7 @@ import { DoxygenXmlParser } from './index.js'
 //   <xsd:attribute name="type" type="typeType" use="required"/>
 // </xsd:complexType>
 
-export class OptionType {
+export class DoxygenFileOptionType {
   // Mandatory elements.
   values: string[] | undefined // [0-n] valueType
 
@@ -36,7 +36,7 @@ export class OptionType {
   default: string = '' // defaultType
   type: string = '' // typeType
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'compound') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'option') {
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
