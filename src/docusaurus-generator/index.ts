@@ -20,6 +20,12 @@ import path from 'path'
 
 // ----------------------------------------------------------------------------
 
+// https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
+interface FrontMatter {
+  keywords: string[]
+  [key: string]: string | string[] | null | boolean
+}
+
 export class DocusaurusGenerator {
   // The data parsed from the Doxygen XML files.
   doxygenData: DoxygenData
@@ -191,156 +197,130 @@ export class DocusaurusGenerator {
       // console.log('fileName:', fileName)
 
       const filePath = `${outputFolderPath}${fileName}`
-      const folderPath = path.dirname(filePath)
 
-      // console.log('filePath:', filePath)
+      const frontMatter: FrontMatter = {
+        title: `${compoundDef.compoundName}`,
+        slug: `${outputFolderPath.replace(/^docs/, '')}${permalink}`,
+        description: '...',
+        custom_edit_url: null,
+        keywords: ['doxygen', 'reference', `${compoundDef.kind}`]
+      }
 
-      await fs.mkdir(folderPath, { recursive: true })
-
-      const fileHandle = await fs.open(filePath, 'ax')
-
-      // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
-      let text = ''
-      text += '---\n'
-      text += '\n'
-      text += '# DO NOT EDIT!\n'
-      text += '# Automatically generated via docusaurus-plugin-doxygen by Doxygen.\n'
-      text += '\n'
-      text += `title: ${compoundDef.compoundName}\n`
-      text += `slug: /api${permalink}\n`
-      text += 'description: ...\n'
-      text += 'custom_edit_url: null\n'
-      text += 'keywords:\n'
-      text += '  - doxygen\n'
-      text += '  - reference\n'
-      text += `  - ${compoundDef.kind}\n`
-      text += '\n'
-      text += 'date: 2020-07-21 17:49:00 +0300\n'
-      text += '\n'
-      text += '---\n'
-      text += '\n'
-      text += `TODO ${compoundDef.compoundName}\n`
-
-      await fileHandle.write(text)
-
-      await fileHandle.close()
+      await this.writeFile({
+        filePath,
+        bodyText: `TODO ${compoundDef.compoundName}\n`,
+        frontMatter
+      })
     }
 
     {
-      const fileHandle = await fs.open('docs/api/index.mdx', 'ax')
+      // Home page for the API reference. Usually the same content as the top group.
+      const frontMatter: FrontMatter = {
+        title: 'Reference',
+        slug: '/api',
+        description: '...',
+        custom_edit_url: null,
+        keywords: ['doxygen', 'reference']
+      }
 
-      // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
-      let text = ''
-      text += '---\n'
-      text += '\n'
-      text += '# DO NOT EDIT!\n'
-      text += '# Automatically generated via docusaurus-plugin-doxygen by Doxygen.\n'
-      text += '\n'
-      text += 'title: Reference\n'
-      text += 'slug: /api\n'
-      text += 'description: ...\n'
-      text += 'custom_edit_url: null\n'
-      text += 'keywords:\n'
-      text += '  - doxygen\n'
-      text += '  - reference\n'
-      text += '\n'
-      text += 'date: 2020-07-21 17:49:00 +0300\n'
-      text += '\n'
-      text += '---\n'
-      text += '\n'
-      text += 'TODO Reference\n'
-
-      await fileHandle.write(text)
-
-      await fileHandle.close()
+      await this.writeFile({
+        filePath: 'docs/api/index.mdx',
+        bodyText: 'TODO Reference\n',
+        frontMatter
+      })
     }
 
     {
-      const fileHandle = await fs.open('docs/api/namespaces/index.mdx', 'ax')
+      const frontMatter: FrontMatter = {
+        title: 'Reference',
+        slug: '/api/namespaces',
+        description: '...',
+        custom_edit_url: null,
+        keywords: ['doxygen', 'namespaces']
+      }
 
-      // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
-      let text = ''
-      text += '---\n'
-      text += '\n'
-      text += '# DO NOT EDIT!\n'
-      text += '# Automatically generated via docusaurus-plugin-doxygen by Doxygen.\n'
-      text += '\n'
-      text += 'title: Reference\n'
-      text += 'slug: /api/namespaces\n'
-      text += 'description: ...\n'
-      text += 'custom_edit_url: null\n'
-      text += 'keywords:\n'
-      text += '  - doxygen\n'
-      text += '  - namespaces\n'
-      text += '\n'
-      text += 'date: 2020-07-21 17:49:00 +0300\n'
-      text += '\n'
-      text += '---\n'
-      text += '\n'
-      text += 'TODO Namespaces\n'
-
-      await fileHandle.write(text)
-
-      await fileHandle.close()
+      await this.writeFile({
+        filePath: 'docs/api/namespaces/index.mdx',
+        bodyText: 'TODO Namespaces\n',
+        frontMatter
+      })
     }
 
     {
-      const fileHandle = await fs.open('docs/api/classes/index.mdx', 'ax')
+      const frontMatter: FrontMatter = {
+        title: 'Reference',
+        slug: '/api/classes',
+        description: '...',
+        custom_edit_url: null,
+        keywords: ['doxygen', 'classes']
+      }
 
-      // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
-      let text = ''
-      text += '---\n'
-      text += '\n'
-      text += '# DO NOT EDIT!\n'
-      text += '# Automatically generated via docusaurus-plugin-doxygen by Doxygen.\n'
-      text += '\n'
-      text += 'title: Reference\n'
-      text += 'slug: /api/classes\n'
-      text += 'description: ...\n'
-      text += 'custom_edit_url: null\n'
-      text += 'keywords:\n'
-      text += '  - doxygen\n'
-      text += '  - classes\n'
-      text += '\n'
-      text += 'date: 2020-07-21 17:49:00 +0300\n'
-      text += '\n'
-      text += '---\n'
-      text += '\n'
-      text += 'TODO Classes\n'
-
-      await fileHandle.write(text)
-
-      await fileHandle.close()
+      await this.writeFile({
+        filePath: 'docs/api/classes/index.mdx',
+        bodyText: 'TODO Classes\n',
+        frontMatter
+      })
     }
 
     {
-      const fileHandle = await fs.open('docs/api/folders/index.mdx', 'ax')
+      const frontMatter: FrontMatter = {
+        title: 'Reference',
+        slug: '/api/folders',
+        description: '...',
+        custom_edit_url: null,
+        keywords: ['doxygen', 'folders']
+      }
 
-      // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
-      let text = ''
-      text += '---\n'
-      text += '\n'
-      text += '# DO NOT EDIT!\n'
-      text += '# Automatically generated via docusaurus-plugin-doxygen by Doxygen.\n'
-      text += '\n'
-      text += 'title: Reference\n'
-      text += 'slug: /api/folders\n'
-      text += 'description: ...\n'
-      text += 'custom_edit_url: null\n'
-      text += 'keywords:\n'
-      text += '  - doxygen\n'
-      text += '  - folders\n'
-      text += '\n'
-      text += `date: ${this.formatDate(new Date())}\n`
-      text += '\n'
-      text += '---\n'
-      text += '\n'
-      text += 'TODO Folders\n'
-
-      await fileHandle.write(text)
-
-      await fileHandle.close()
+      await this.writeFile({
+        filePath: 'docs/api/folders/index.mdx',
+        bodyText: 'TODO Folders\n',
+        frontMatter
+      })
     }
+  }
+
+  async writeFile ({
+    filePath,
+    bodyText,
+    frontMatter
+  }: {
+    filePath: string
+    bodyText: string
+    frontMatter: FrontMatter
+  }): Promise<void> {
+    await fs.mkdir(path.dirname(filePath), { recursive: true })
+
+    const fileHandle = await fs.open(filePath, 'ax')
+
+    // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
+    let frontMatterText = ''
+    frontMatterText += '---\n'
+    frontMatterText += '\n'
+    frontMatterText += '# DO NOT EDIT!\n'
+    frontMatterText += '# Automatically generated via docusaurus-plugin-doxygen by Doxygen.\n'
+    frontMatterText += '\n'
+    for (const [key, value] of Object.entries(frontMatter)) {
+      if (Array.isArray(value)) {
+        frontMatterText += `${key}:\n`
+        for (const arrayValue of frontMatter[key] as string[]) {
+          frontMatterText += `  - ${arrayValue}\n`
+        }
+      } else if (typeof value === 'boolean') {
+        frontMatterText += `${key}: ${value ? 'true' : 'false'}\n`
+      } else {
+        frontMatterText += `${key}: ${value}\n`
+      }
+    }
+    frontMatterText += '\n'
+    frontMatterText += `date: ${this.formatDate(new Date())}\n`
+    frontMatterText += '\n'
+    frontMatterText += '---\n'
+    frontMatterText += '\n'
+
+    await fileHandle.write(frontMatterText)
+    await fileHandle.write(bodyText)
+
+    await fileHandle.close()
   }
 
   formatDate (date: Date): string {
