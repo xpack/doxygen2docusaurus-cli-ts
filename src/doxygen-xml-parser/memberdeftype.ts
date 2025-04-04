@@ -114,7 +114,7 @@ export class MemberDefType {
   kind: string = ''
   id: string = ''
   prot: string = ''
-  _static: boolean = false
+  _static: Boolean | undefined
 
   // Optional elements.
   briefDescription: DescriptionType | undefined
@@ -128,11 +128,11 @@ export class MemberDefType {
   // TODO: add more...
 
   // Optional attributes.
-  _const: boolean = false
-  constexpr: boolean = false
-  explicit: boolean = false
-  inline: boolean = false
-  mutable: boolean = false
+  _const: Boolean | undefined
+  constexpr: Boolean | undefined
+  explicit: Boolean | undefined
+  inline: Boolean | undefined
+  mutable: Boolean | undefined
   virt: string | undefined
   // TODO: add more...
 
@@ -195,17 +195,17 @@ export class MemberDefType {
       } else if (attributeName === '@_static') {
         this._static = xml.getAttributeBooleanValue(element, '@_static')
       } else if (attributeName === '@_const') {
-        this._const = xml.getAttributeBooleanValue(element, '@_const')
+        this._const = Boolean(xml.getAttributeBooleanValue(element, '@_const'))
       } else if (attributeName === '@_explicit') {
-        this.explicit = xml.getAttributeBooleanValue(element, '@_explicit')
+        this.explicit = Boolean(xml.getAttributeBooleanValue(element, '@_explicit'))
       } else if (attributeName === '@_inline') {
-        this.inline = xml.getAttributeBooleanValue(element, '@_inline')
+        this.inline = Boolean(xml.getAttributeBooleanValue(element, '@_inline'))
       } else if (attributeName === '@_virt') {
         this.virt = xml.getAttributeStringValue(element, '@_virt')
       } else if (attributeName === '@_mutable') {
-        this.mutable = xml.getAttributeBooleanValue(element, '@_mutable')
+        this.mutable = Boolean(xml.getAttributeBooleanValue(element, '@_mutable'))
       } else if (attributeName === '@_constexpr') {
-        this.constexpr = xml.getAttributeBooleanValue(element, '@_constexpr')
+        this.constexpr = Boolean(xml.getAttributeBooleanValue(element, '@_constexpr'))
       } else {
         console.error(util.inspect(element))
         console.error(`${elementName} attribute:`, attributeName, 'not implemented yet')

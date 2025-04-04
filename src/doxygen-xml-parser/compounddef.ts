@@ -151,10 +151,10 @@ export class CompoundDefType {
   language?: string | undefined // DoxLanguage
   // WARNING: This attribute is not marked as optional, but is not present.
   prot: string | undefined
-  final: boolean = false
-  inline: boolean = false
-  sealed: boolean = false
-  abstract: boolean = false
+  final: Boolean | undefined
+  inline: Boolean | undefined
+  sealed: Boolean | undefined
+  abstract: Boolean | undefined
 
   // Not in xsd.
   // parentId: string = ''
@@ -259,13 +259,13 @@ export class CompoundDefType {
       } else if (attributeName === '@_prot') {
         this.prot = xml.getAttributeStringValue(element, '@_prot')
       } else if (attributeName === '@_final') {
-        this.final = xml.getAttributeBooleanValue(element, '@_final')
+        this.final = Boolean(xml.getAttributeBooleanValue(element, '@_final'))
       } else if (attributeName === '@_inline') {
-        this.inline = xml.getAttributeBooleanValue(element, '@_inline')
+        this.inline = Boolean(xml.getAttributeBooleanValue(element, '@_inline'))
       } else if (attributeName === '@_sealed') {
-        this.sealed = xml.getAttributeBooleanValue(element, '@_sealed')
+        this.sealed = Boolean(xml.getAttributeBooleanValue(element, '@_sealed'))
       } else if (attributeName === '@_abstract') {
-        this.abstract = xml.getAttributeBooleanValue(element, '@_abstract')
+        this.abstract = Boolean(xml.getAttributeBooleanValue(element, '@_abstract'))
       } else {
         console.error(util.inspect(element))
         console.error(`${elementName} attribute:`, attributeName, 'not implemented yet')
