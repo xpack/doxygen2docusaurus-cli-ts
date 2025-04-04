@@ -14,8 +14,8 @@ import { DoxygenData } from '../doxygen-xml-parser/index.js'
 import * as fs from 'fs/promises'
 import { PluginOptions } from '../plugin/options.js'
 import assert from 'assert'
-import { Folders } from '../data-model/folders.js'
-import { Files } from '../data-model/files.js'
+import { Folders } from './data-model/folders.js'
+import { Files } from './data-model/files.js'
 import path from 'path'
 
 // ----------------------------------------------------------------------------

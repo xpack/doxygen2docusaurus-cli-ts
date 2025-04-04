@@ -11,7 +11,7 @@
 
 // ----------------------------------------------------------------------------
 
-import { generateDoxygen } from '../cli/generate.js'
+import { generateDoxygen } from './cli/generate.js'
 
 export default async function pluginDocusaurus (
   context: any,
