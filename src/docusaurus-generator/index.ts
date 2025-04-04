@@ -30,7 +30,7 @@ export class DocusaurusGenerator {
   // The data parsed from the Doxygen XML files.
   doxygenData: DoxygenData
   // From the project docusaurus.config.ts or defaults.
-  options: PluginOptions
+  pluginOptions: PluginOptions
   // A map of compound definitions, indexed by their id.
   compoundDefsById: Map<string, CompoundDefType> = new Map()
   // Permalinks are relative to the Docusaurus baseUrl folder.
@@ -66,14 +66,14 @@ export class DocusaurusGenerator {
 
   constructor ({
     doxygenData,
-    options
+    pluginOptions
   }: {
     doxygenData: DoxygenData
-    options: PluginOptions
+    pluginOptions: PluginOptions
   }) {
     // console.log('DocusaurusGenerator.constructor()')
     this.doxygenData = doxygenData
-    this.options = options
+    this.pluginOptions = pluginOptions
 
     this.folders = new Folders(this.doxygenData.compoundDefs)
     this.files = new Files(this.doxygenData.compoundDefs)
@@ -123,7 +123,7 @@ export class DocusaurusGenerator {
   createPermalinksMap (): void {
     // console.log('DocusaurusGenerator.createPermalinksMap()')
 
-    assert(this.options.outputFolderPath)
+    assert(this.pluginOptions.outputFolderPath)
     // const outputFolderPath = this.options.outputFolderPath
 
     for (const compoundDef of this.doxygenData.compoundDefs) {
@@ -164,8 +164,8 @@ export class DocusaurusGenerator {
 
   // https://nodejs.org/en/learn/manipulating-files/working-with-folders-in-nodejs
   async prepareOutputFolder (): Promise<void> {
-    assert(this.options.outputFolderPath)
-    const outputFolderPath = this.options.outputFolderPath
+    assert(this.pluginOptions.outputFolderPath)
+    const outputFolderPath = this.pluginOptions.outputFolderPath
     try {
       await fs.access(outputFolderPath)
       // Remove the folder if it exist.
@@ -186,8 +186,8 @@ export class DocusaurusGenerator {
     for (const compoundDef of this.doxygenData.compoundDefs) {
       const permalink = this.permalinksById.get(compoundDef.id)
       assert(permalink !== undefined)
-      assert(this.options.outputFolderPath)
-      const outputFolderPath = this.options.outputFolderPath
+      assert(this.pluginOptions.outputFolderPath)
+      const outputFolderPath = this.pluginOptions.outputFolderPath
       console.log(compoundDef.compoundName, '->', `${outputFolderPath}${permalink}`)
 
       const docusaurusId = this.docusaurusIdsById.get(compoundDef.id)

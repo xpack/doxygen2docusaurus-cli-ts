@@ -37,7 +37,7 @@ export async function generateDoxygen (context: any, options: PluginOptions): Pr
   const xml = new DoxygenXmlParser()
   const doxygenData: DoxygenData = await xml.parse({ folderPath: actualOptions.doxygenXmlInputFolderPath })
   // console.log('doxygenData:', util.inspect(doxygenData))
-  const docs = new DocusaurusGenerator({ doxygenData, options: actualOptions })
+  const docs = new DocusaurusGenerator({ doxygenData, pluginOptions: actualOptions })
   await docs.generate()
 
   console.log('Done.')
