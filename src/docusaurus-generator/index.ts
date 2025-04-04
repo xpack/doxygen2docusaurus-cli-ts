@@ -18,6 +18,7 @@ import { Folders } from './data-model/folders.js'
 import { Files } from './data-model/files.js'
 import path from 'path'
 import { DoxygenFileOptionType } from '../doxygen-xml-parser/doxyfileoptiontype.js'
+import { DoxygenFileOptions } from './data-model/options.js'
 
 // ----------------------------------------------------------------------------
 
@@ -32,6 +33,8 @@ export class DocusaurusGenerator {
   doxygenData: DoxygenData
   // From the project docusaurus.config.ts or defaults.
   pluginOptions: PluginOptions
+
+  doxygenOptions: DoxygenFileOptions
   // A map of compound definitions, indexed by their id.
   compoundDefsById: Map<string, CompoundDefType> = new Map()
   // Permalinks are relative to the Docusaurus baseUrl folder.
@@ -78,6 +81,8 @@ export class DocusaurusGenerator {
 
     this.folders = new Folders(this.doxygenData.compoundDefs)
     this.files = new Files(this.doxygenData.compoundDefs)
+
+    this.doxygenOptions = new DoxygenFileOptions(this.doxygenData.doxyfile.options)
   }
 
   async generate (): Promise<void> {
@@ -216,8 +221,9 @@ export class DocusaurusGenerator {
 
     {
       // Home page for the API reference. Usually the same content as the top group.
+      const projectBrief = this.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF')
       const frontMatter: FrontMatter = {
-        title: 'Reference',
+        title: `${projectBrief} API Reference`,
         slug: '/api',
         description: '...',
         custom_edit_url: null,
