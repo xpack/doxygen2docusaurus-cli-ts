@@ -11,7 +11,14 @@
 
 // ----------------------------------------------------------------------------
 
-export const defaultOptions = {
+export interface PluginOptions {
+  doxygenXmlInputFolderPath?: string
+  outputFolderPath?: string
+  sidebarFileName?: string
+  id?: string
+}
+
+export const defaultOptions: PluginOptions = {
   doxygenXmlInputFolderPath: 'doxygen/xml',
   outputFolderPath: 'docs/api',
   sidebarFileName: 'sidebar-doxygen.ts'
