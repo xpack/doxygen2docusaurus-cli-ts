@@ -11,13 +11,14 @@
 
 // ----------------------------------------------------------------------------
 
-import * as fs from 'node:fs'
 import * as util from 'node:util'
 
-import { defaultOptions } from '../options/defaults.js'
+import { defaultOptions, PluginOptions } from '../plugin/options.js'
 import { DoxygenData, DoxygenXmlParser } from '../doxygen-xml-parser/index.js'
+import { DocusaurusGenerator } from '../docusaurus-generator/index.js'
+import assert from 'node:assert'
 
-export async function generateDoxygen (context: any, options: any): Promise<number> {
+export async function generateDoxygen (context: any, options: PluginOptions): Promise<number> {
   // console.log('generateDoxygen()')
   // console.log(`context: ${util.inspect(context)}`)
   // console.log(`options: ${util.inspect(options)}`)
@@ -29,16 +30,17 @@ export async function generateDoxygen (context: any, options: any): Promise<numb
   }
   console.log('options:', util.inspect(actualOptions))
 
-  // Create output folder if it doesn't exist.
-  if (!fs.existsSync(actualOptions.outputFolderPath)) {
-    fs.mkdirSync(actualOptions.outputFolderPath, { recursive: true })
-  }
+  assert(actualOptions?.doxygenXmlInputFolderPath !== undefined && actualOptions?.doxygenXmlInputFolderPath?.length > 0, 'doxygenXmlInputFolderPath is required')
+
+  assert(actualOptions.outputFolderPath !== undefined && actualOptions.outputFolderPath.length > 0, 'outputFolderPath is required')
 
   const xml = new DoxygenXmlParser()
   const doxygenData: DoxygenData = await xml.parse({ folderPath: actualOptions.doxygenXmlInputFolderPath })
   // console.log('doxygenData:', util.inspect(doxygenData))
+  const docs = new DocusaurusGenerator({ doxygenData, options: actualOptions })
+  await docs.generate()
 
-  console.log('more generateDoxygen() to come...')
+  console.log('Done.')
 
   return 0
 }

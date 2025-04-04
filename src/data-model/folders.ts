@@ -11,96 +11,63 @@
 
 // ----------------------------------------------------------------------------
 
-/*
 // import * as util from 'node:util'
 
 import assert from 'node:assert'
-import type { XmlCompoundDefElement } from '../xml-parser/compound-xsd-types.js'
-import { CompoundBase } from './CompoundBase.js'
-import { xml } from '../xml-parser/parse.js'
+
+import { CompoundDefType } from '../doxygen-xml-parser/compounddef.js'
 
 // ----------------------------------------------------------------------------
 
 export class Folders {
   membersById: Map<string, Folder>
 
-  constructor () {
+  constructor (compoundDefs: CompoundDefType[]) {
     this.membersById = new Map()
-  }
 
-  add (id: string, compound: Folder): void {
-    this.membersById.set(id, compound)
-  }
-
-  get (id: string): Folder {
-    const value = this.membersById.get(id)
-    if (value !== undefined) {
-      return value
-    }
-    throw new Error(`Folders.get(${id}) not found`)
-  }
-
-  createHierarchies (): void {
-    // console.log('Folders.createHierarchies()...')
-
-    for (const item of this.membersById.values()) {
-      for (const childId of item.childrenFoldersIds) {
-        const childItem = this.get(childId)
-        assert(childItem.parentFolderId.length === 0)
-        childItem.parentFolderId = item.id
+    for (const compoundDef of compoundDefs) {
+      if (compoundDef.kind === 'dir') {
+        this.membersById.set(compoundDef.id, new Folder(compoundDef))
       }
     }
-
-    // for (const item of this.membersById.values()) {
-    //   if (item.parentFolderId.length === 0) {
-    //     console.log(item.id, item.name)
-    //   }
-    // }
+    // console.log('Folders.membersById.size', this.membersById.size)
   }
 
-  computePermalinks (): void {
-    // console.log('Folders.computePermalinks()...')
-    for (const item of this.membersById.values()) {
-      item.permalink = `folders/${this.getPermalink(item)}`
-      console.log('-', item.permalink)
+  getPathRecursive (folderId: string): string {
+    const folder = this.membersById.get(folderId)
+    assert(folder !== undefined)
+    let parentPath = ''
+    if (folder.parentFolderId.length > 0) {
+      parentPath = this.getPathRecursive(folder.parentFolderId) + '/'
     }
-  }
-
-  getPermalink (item: Folder): string {
-    let parentPermalink = ''
-    if (item.parentFolderId.length > 0) {
-      parentPermalink = this.getPermalink(this.get(item.parentFolderId)) + '/'
-    }
-    const name: string = item.compoundName.replaceAll('.', '-')
-    return parentPermalink + name
+    const name: string = folder.compoundDef.compoundName
+    return parentPath + name
   }
 }
 
-export class Folder extends CompoundBase {
+export class Folder {
+  compoundDef: CompoundDefType
   parentFolderId: string = ''
   childrenFoldersIds: string[] = []
   childrenFilesIds: string[] = []
   permalink: string = ''
 
-  constructor (xmlCompoundDef: XmlCompoundDefElement) {
-    super(xmlCompoundDef)
+  constructor (compoundDef: CompoundDefType) {
+    this.compoundDef = compoundDef
 
-    for (const element of xmlCompoundDef.compounddef) {
-      if (xml.hasInnerElement(element, '#text')) {
-        // Ignore top texts.
-      } else if (xml.hasInnerElement(element, 'innerdir')) {
-        this.childrenFoldersIds.push(xml.getAttributeStringValue(element, '@_refid'))
-      } else if (xml.hasInnerElement(element, 'innerfile')) {
-        this.childrenFilesIds.push(xml.getAttributeStringValue(element, '@_refid'))
-      } else if (xml.hasInnerElement(element, 'location')) {
-        // Ignored, not used for now.
-      } else if (!this.wasElementProcessedByParent(element)) {
-        console.error('folders element:', Object.keys(element), 'not implemented yet')
+    if (compoundDef.innerDirs !== undefined) {
+      for (const ref of compoundDef.innerDirs) {
+        // console.log('component', compoundDef.id, 'has child', ref.refid)
+        this.childrenFoldersIds.push(ref.refid)
+      }
+    }
+    if (compoundDef.innerFiles !== undefined) {
+      for (const ref of compoundDef.innerFiles) {
+        // console.log('component', compoundDef.id, 'has child', ref.refid)
+        this.childrenFilesIds.push(ref.refid)
       }
     }
   }
 }
 
 // ----------------------------------------------------------------------------
-
-*/

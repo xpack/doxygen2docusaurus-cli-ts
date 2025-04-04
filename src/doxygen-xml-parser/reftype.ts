@@ -18,28 +18,35 @@ import { DoxygenXmlParser } from './index.js'
 
 // ----------------------------------------------------------------------------
 
-// <xsd:complexType name="refTextType">
-//   <xsd:simpleContent>
-//     <xsd:extension base="xsd:string">
-//      <xsd:attribute name="refid" type="xsd:string" />
-//      <xsd:attribute name="kindref" type="DoxRefKind" />
-//      <xsd:attribute name="external" type="xsd:string" use="optional"/>
-//      <xsd:attribute name="tooltip" type="xsd:string" use="optional"/>
-//     </xsd:extension>
-//   </xsd:simpleContent>
+// <xsd:complexType name="refType">
+// <xsd:simpleContent>
+//   <xsd:extension base="xsd:string">
+//     <xsd:attribute name="refid" type="xsd:string" />
+//     <xsd:attribute name="prot" type="DoxProtectionKind" use="optional"/>
+//     <xsd:attribute name="inline" type="DoxBool" use="optional"/>
+//   </xsd:extension>
+// </xsd:simpleContent>
 // </xsd:complexType>
 
-export class RefTextType {
+// <xsd:simpleType name="DoxProtectionKind">
+// <xsd:restriction base="xsd:string">
+//   <xsd:enumeration value="public" />
+//   <xsd:enumeration value="protected" />
+//   <xsd:enumeration value="private" />
+//   <xsd:enumeration value="package" />
+// </xsd:restriction>
+// </xsd:simpleType>
+
+export class RefType {
   // Mandatory elements.
   text: string = '' // The name of the reference, passed as element text.
 
   // Mandatory attributes.
   refid: string = ''
-  kindref: string = '' // DoxRefKind
 
   // Optional attributes.
-  external?: string | undefined
-  tooltip?: string | undefined
+  prot: string | undefined // DoxProtectionKind
+  inline: Boolean | undefined // DoxBool
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'ref') {
     // console.log(elementName, util.inspect(element))
@@ -61,12 +68,10 @@ export class RefTextType {
     for (const attributeName of attributesNames) {
       if (attributeName === '@_refid') {
         this.refid = xml.getAttributeStringValue(element, '@_refid')
-      } else if (attributeName === '@_kindref') {
-        this.kindref = xml.getAttributeStringValue(element, '@_kindref')
-      } else if (attributeName === '@_external') {
-        this.external = xml.getAttributeStringValue(element, '@_external')
-      } else if (attributeName === '@_tooltip') {
-        this.tooltip = xml.getAttributeStringValue(element, '@_tooltip')
+      } else if (attributeName === '@_prot') {
+        this.prot = xml.getAttributeStringValue(element, '@_prot')
+      } else if (attributeName === '@_inline') {
+        this.inline = Boolean(xml.getAttributeBooleanValue(element, '@_inline'))
       } else {
         console.error(util.inspect(element))
         console.error(`${elementName} attribute:`, attributeName, 'not implemented yet')
@@ -74,23 +79,11 @@ export class RefTextType {
     }
 
     assert(this.refid.length > 0)
-    assert(this.kindref.length > 0)
 
     // ------------------------------------------------------------------------
 
     // console.log(this)
   }
 }
-
-// ----------------------------------------------------------------------------
-
-// <xsd:simpleType name="DoxRefKind">
-//   <xsd:restriction base="xsd:string">
-//     <xsd:enumeration value="compound" />
-//     <xsd:enumeration value="member" />
-//   </xsd:restriction>
-// </xsd:simpleType>
-
-export type DoxRefKind = 'compound' | 'member'
 
 // ----------------------------------------------------------------------------

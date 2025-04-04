@@ -12,13 +12,8 @@
 // ----------------------------------------------------------------------------
 
 import * as util from 'node:util'
-
 import assert from 'node:assert'
-// import type { XmlCompoundDefElement, XmlIncludesElement, XmlTemplateParamListElement, XmlParamElement, XmlTypeElement, XmlDefvalElement, XmlRefElement, XmlDeclNameElement, XmlDefNameElement, XmlBaseCompoundRefElement, XmlDerivedCompoundRefElement, XmlCompoundRefTypeElements, XmlListOfAllMembersElement, XmlMemberElement, XmlScopeElement, XmlNameElement, XmlSectionDefElement, XmlDescriptionElement, XmlHeaderElement, XmlMemberDefElement, XmlLocationElement, XmlBriefDescriptionElement, XmlDetailedDescriptionElement, XmlInbodyDescriptionElement, XmlQualifiedNametElement } from '../xml-parser/compound-xsd-types.js'
-// import { XmlText } from '../xml-parser/common-types.js'
-// import { LocationType } from './LocationType.js'
-// import { MemberRefType } from './MemberRefType.js'
-// import { CompoundBase } from './CompoundBase.js'
+
 import { IncType } from './inctype.js'
 import { DoxygenXmlParser } from './index.js'
 import { CompoundRefType } from './compoundreftype.js'
@@ -26,6 +21,8 @@ import { TemplateParamListType } from './templateparamlisttype.js'
 import { SectionDefType } from './sectiondeftype.js'
 import { ListOfAllMembersType } from './listofallmemberstype.js'
 import { DescriptionType } from './descriptiontype.js'
+import { RefType } from './reftype.js'
+import { LocationType } from './locationtype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -127,6 +124,29 @@ export class CompoundDefs {
 //   <xsd:attribute name="abstract" type="DoxBool" use="optional"/>
 // </xsd:complexType>
 
+// <xsd:simpleType name="DoxCompoundKind">
+// <xsd:restriction base="xsd:string">
+//   <xsd:enumeration value="class" />
+//   <xsd:enumeration value="struct" />
+//   <xsd:enumeration value="union" />
+//   <xsd:enumeration value="interface" />
+//   <xsd:enumeration value="protocol" />
+//   <xsd:enumeration value="category" />
+//   <xsd:enumeration value="exception" />
+//   <xsd:enumeration value="service" />
+//   <xsd:enumeration value="singleton" />
+//   <xsd:enumeration value="module" />
+//   <xsd:enumeration value="type" />
+//   <xsd:enumeration value="file" />
+//   <xsd:enumeration value="namespace" />
+//   <xsd:enumeration value="group" />
+//   <xsd:enumeration value="page" />
+//   <xsd:enumeration value="example" />
+//   <xsd:enumeration value="dir" />
+//   <xsd:enumeration value="concept" />
+// </xsd:restriction>
+// </xsd:simpleType>
+
 export class CompoundDefType {
   // Mandatory elements.
   compoundName: string = ''
@@ -141,11 +161,20 @@ export class CompoundDefType {
   includedBy: IncType[] | undefined
   templateParamList: TemplateParamListType | undefined
   sectionDefs: SectionDefType[] | undefined
+  // innerModules
+  innerDirs: RefType[] | undefined
+  innerFiles: RefType[] | undefined
+  innerClasses: RefType[] | undefined
+  // innerConcepts
+  innerNamespaces: RefType[] | undefined
+  // innerPages
+  innerGroups: RefType[] | undefined
+  location: LocationType | undefined
   listOfAllMembers: ListOfAllMembersType | undefined
 
   // Mandatory attributes.
   id: string = ''
-  kind: string = ''
+  kind: string = '' // DoxCompoundKind
 
   // Optional attributes.
   language?: string | undefined // DoxLanguage
@@ -208,15 +237,30 @@ export class CompoundDefType {
       } else if (xml.hasInnerElement(innerElement, 'invincdepgraph')) {
         // TODO: Ignored, not used for now.
       } else if (xml.hasInnerElement(innerElement, 'innerdir')) {
-        // TODO: Ignored, not used for now.
+        if (this.innerDirs === undefined) {
+          this.innerDirs = []
+        }
+        this.innerDirs.push(new RefType(xml, innerElement, 'innerdir'))
       } else if (xml.hasInnerElement(innerElement, 'innerfile')) {
-        // TODO: Ignored, not used for now.
+        if (this.innerFiles === undefined) {
+          this.innerFiles = []
+        }
+        this.innerFiles.push(new RefType(xml, innerElement, 'innerfile'))
       } else if (xml.hasInnerElement(innerElement, 'innerclass')) {
-        // TODO: Ignored, not used for now.
+        if (this.innerClasses === undefined) {
+          this.innerClasses = []
+        }
+        this.innerClasses.push(new RefType(xml, innerElement, 'innerclass'))
       } else if (xml.hasInnerElement(innerElement, 'innernamespace')) {
-        // TODO: Ignored, not used for now.
+        if (this.innerNamespaces === undefined) {
+          this.innerNamespaces = []
+        }
+        this.innerNamespaces.push(new RefType(xml, innerElement, 'innernamespace'))
       } else if (xml.hasInnerElement(innerElement, 'innergroup')) {
-        // TODO: Ignored, not used for now.
+        if (this.innerGroups === undefined) {
+          this.innerGroups = []
+        }
+        this.innerGroups.push(new RefType(xml, innerElement, 'innergroup'))
       } else if (xml.hasInnerElement(innerElement, 'templateparamlist')) {
         this.templateParamList = new TemplateParamListType(xml, innerElement, 'templateparamlist')
       } else if (xml.hasInnerElement(innerElement, 'sectiondef')) {
@@ -231,7 +275,7 @@ export class CompoundDefType {
       } else if (xml.hasInnerElement(innerElement, 'programlisting')) {
         // TODO: Ignored, not used for now.
       } else if (xml.hasInnerElement(innerElement, 'location')) {
-        // TODO: Ignored, not used for now.
+        this.location = new LocationType(xml, innerElement, 'location')
       } else if (xml.hasInnerElement(innerElement, 'listofallmembers')) {
         this.listOfAllMembers = new ListOfAllMembersType(xml, innerElement, 'listofallmembers')
       } else {
