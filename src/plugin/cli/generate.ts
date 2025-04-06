@@ -40,7 +40,7 @@ export async function generateDoxygen (context: any, options: PluginOptions): Pr
   const docs = new DocusaurusGenerator({ doxygenData, pluginOptions: actualOptions })
   await docs.generate()
 
-  console.log('Done.')
+  console.log(`${actualOptions.outputFolderPath} done.`)
 
   return 0
 }
