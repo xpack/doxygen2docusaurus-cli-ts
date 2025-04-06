@@ -67,13 +67,13 @@ export class Folder {
   constructor (compoundDef: CompoundDefType) {
     this.compoundDef = compoundDef
 
-    if (compoundDef.innerDirs !== undefined) {
+    if (Array.isArray(compoundDef.innerDirs)) {
       for (const ref of compoundDef.innerDirs) {
         // console.log('component', compoundDef.id, 'has child', ref.refid)
         this.childrenFoldersIds.push(ref.refid)
       }
     }
-    if (compoundDef.innerFiles !== undefined) {
+    if (Array.isArray(compoundDef.innerFiles)) {
       for (const ref of compoundDef.innerFiles) {
         // console.log('component', compoundDef.id, 'has child', ref.refid)
         this.childrenFilesIds.push(ref.refid)

@@ -84,7 +84,7 @@ export class DoxygenXmlParser {
 
     const compoundDefs: CompoundDefType[] = []
 
-    if (doxygenindex.compounds !== undefined) {
+    if (Array.isArray(doxygenindex.compounds)) {
       for (const compound of doxygenindex.compounds) {
         const parsedDoxygenElements: XmlElement[] = await this.parseFile({ fileName: `${compound.refid}.xml`, folderPath, xmlParser })
         // console.log(util.inspect(parsedDoxygen))
