@@ -21,6 +21,8 @@ import { Folders } from './data-model/folders.js'
 import { Files } from './data-model/files.js'
 import { DoxygenFileOptions } from './data-model/options.js'
 import { Groups } from './data-model/groups.js'
+import { Sidebar } from './create-sidebar.js'
+import { SidebarItem } from '../plugin/types.js'
 import { Namespaces } from './data-model/namespace.js'
 
 // ----------------------------------------------------------------------------
@@ -97,6 +99,8 @@ export class DocusaurusGenerator {
 
     this.createPermalinksMap()
 
+    await this.writeSidebar()
+
     await this.prepareOutputFolder()
     await this.generatePages()
   }
@@ -112,7 +116,7 @@ export class DocusaurusGenerator {
     }
   }
 
-  createPermalinksMap(): void {
+  createPermalinksMap (): void {
     // console.log('DocusaurusGenerator.createPermalinksMap()')
 
     assert(this.pluginOptions.outputFolderPath)
@@ -152,6 +156,13 @@ export class DocusaurusGenerator {
       const docusaurusId = `/${prefix}/${name.replaceAll('/', '-') as string}`
       this.docusaurusIdsById.set(compoundDef.id, docusaurusId)
     }
+  }
+
+  async writeSidebar (): Promise<void> {
+    const sidebar = new Sidebar(this)
+
+    const sidebarItems: SidebarItem[] = sidebar.createItems()
+    console.log('sidebarItems:', util.inspect(sidebarItems, { compact: false, depth: 10 }))
   }
 
   // https://nodejs.org/en/learn/manipulating-files/working-with-folders-in-nodejs
@@ -206,7 +217,7 @@ export class DocusaurusGenerator {
     }
 
     {
-      // Home page for the API reference. Usually the same content as the top group.
+      // Home page for the API reference. Usually the same content as the first top group.
       const projectBrief = this.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF')
       const frontMatter: FrontMatter = {
         title: `${projectBrief} API Reference`,
