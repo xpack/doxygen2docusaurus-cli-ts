@@ -21,7 +21,7 @@ export interface PluginOptions {
 export const defaultOptions: PluginOptions = {
   doxygenXmlInputFolderPath: 'doxygen/xml',
   outputFolderPath: 'docs/api',
-  sidebarFileName: 'sidebar-doxygen.ts'
+  sidebarFileName: 'sidebar-doxygen.json'
 }
 
 // ----------------------------------------------------------------------------
