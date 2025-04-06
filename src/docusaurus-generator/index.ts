@@ -9,15 +9,16 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 
+import * as fs from 'fs/promises'
+import assert from 'assert'
+import path from 'path'
+import util from 'node:util'
+
 import { CompoundDefType } from '../doxygen-xml-parser/compounddef.js'
 import { DoxygenData } from '../doxygen-xml-parser/index.js'
-import * as fs from 'fs/promises'
 import { PluginOptions } from '../plugin/options.js'
-import assert from 'assert'
 import { Folders } from './data-model/folders.js'
 import { Files } from './data-model/files.js'
-import path from 'path'
-import { DoxygenFileOptionType } from '../doxygen-xml-parser/doxyfileoptiontype.js'
 import { DoxygenFileOptions } from './data-model/options.js'
 import { Groups } from './data-model/groups.js'
 import { Namespaces } from './data-model/namespace.js'
