@@ -27,23 +27,81 @@ export class Sidebar {
     const sidebarItems: SidebarItem[] = []
     const generator = this.generator
 
+    // Add groups to the sidebar.
+    // Top level groups are added directly to the top sidebar.
     if (generator.groups.topLevelGroupIds.length > 0) {
       for (const id of generator.groups.topLevelGroupIds) {
         sidebarItems.push(this.createGroupItemRecursively(id))
       }
     }
 
+    // Add namespaces to the sidebar.
+    // Top level namespaces are added below a Namespaces category.
+    const namespaceCategory: SidebarCategoryItem = {
+      type: 'category',
+      label: 'Namespaces',
+      link: {
+        type: 'doc',
+        id: 'api/namespaces/index'
+      },
+      collapsed: true,
+      items: []
+    }
+
     if (generator.namespaces.topLevelNamespaceIds.length > 0) {
       for (const id of generator.namespaces.topLevelNamespaceIds) {
-        sidebarItems.push(this.createNamespaceItemRecursively(id))
+        namespaceCategory.items.push(this.createNamespaceItemRecursively(id))
       }
     }
+
+    sidebarItems.push(namespaceCategory)
+
+    // Add classes to the sidebar.
+    // Top level classes are added below a Class category
+    const classesCategory: SidebarCategoryItem = {
+      type: 'category',
+      label: 'Classes',
+      link: {
+        type: 'doc',
+        id: 'api/classes/index'
+      },
+      collapsed: true,
+      items: []
+    }
+    // TODO: Add classes to the classesCategory.items.
+    sidebarItems.push(classesCategory)
+
+    // Add folders & files to the sidebar.
+    // Top level folders & files are added below a Files category
+    const filesCategory: SidebarCategoryItem = {
+      type: 'category',
+      label: 'Files',
+      link: {
+        type: 'doc',
+        id: 'api/folders/index'
+      },
+      collapsed: true,
+      items: []
+    }
+
+    if (generator.folders.topLevelFolderIds.length > 0) {
+      for (const id of generator.folders.topLevelFolderIds) {
+        filesCategory.items.push(this.createFolderItemRecursively(id))
+      }
+    }
+    if (generator.files.topLevelFileIds.length > 0) {
+      for (const id of generator.files.topLevelFileIds) {
+        filesCategory.items.push(this.createFileItem(id))
+      }
+    }
+
+    sidebarItems.push(filesCategory)
 
     return sidebarItems
   }
 
-  createGroupItemRecursively (id: string): SidebarItem {
-    const group = this.generator.groups.membersById.get(id)
+  createGroupItemRecursively (groupId: string): SidebarItem {
+    const group = this.generator.groups.membersById.get(groupId)
     assert(group !== undefined)
     const compoundDef = group.compoundDef
     assert(compoundDef.title !== undefined)
@@ -75,8 +133,8 @@ export class Sidebar {
     }
   }
 
-  createNamespaceItemRecursively (id: string): SidebarItem {
-    const namespace = this.generator.namespaces.membersById.get(id)
+  createNamespaceItemRecursively (namespaceId: string): SidebarItem {
+    const namespace = this.generator.namespaces.membersById.get(namespaceId)
     assert(namespace !== undefined)
     const compoundDef = namespace.compoundDef
     const label = namespace.unparentedName
@@ -104,6 +162,59 @@ export class Sidebar {
       }
       return categoryItem
     }
+  }
+
+  createFolderItemRecursively (folderId: string): SidebarItem {
+    const folder = this.generator.folders.membersById.get(folderId)
+    assert(folder !== undefined)
+    const compoundDef = folder.compoundDef
+    const label = compoundDef.compoundName
+    let parentPath = ''
+    if (folder.parentFolderId.length > 0) {
+      parentPath = this.generator.folders.getPathRecursive(folder.parentFolderId) + '/'
+    }
+    const curedName: string = (parentPath + compoundDef.compoundName).replaceAll(/[^a-zA-Z0-9-]/g, '-')
+
+    const categoryItem: SidebarCategoryItem = {
+      type: 'category',
+      label,
+      link: {
+        type: 'doc',
+        id: `${this.idPrefix}folders/${curedName}`
+      },
+      collapsed: true,
+      items: []
+    }
+
+    // Add the folders first.
+    for (const childId of folder.childrenFolderIds) {
+      categoryItem.items.push(this.createFolderItemRecursively(childId))
+    }
+
+    // Then the files.
+    for (const childId of folder.childrenFileIds) {
+      categoryItem.items.push(this.createFileItem(childId))
+    }
+
+    return categoryItem
+  }
+
+  createFileItem (fileId: string): SidebarDocItem {
+    const file = this.generator.files.membersById.get(fileId)
+    assert(file !== undefined)
+    const compoundDef = file.compoundDef
+    const label = compoundDef.compoundName
+    let parentPath = ''
+    if (file.parentFolderId.length > 0) {
+      parentPath = this.generator.folders.getPathRecursive(file.parentFolderId) + '/'
+    }
+    const curedName: string = (parentPath + compoundDef.compoundName).replaceAll(/[^a-zA-Z0-9-]/g, '-')
+    const docItem: SidebarDocItem = {
+      type: 'doc',
+      label,
+      id: `${this.idPrefix}files/${curedName}`
+    }
+    return docItem
   }
 }
 // ----------------------------------------------------------------------------

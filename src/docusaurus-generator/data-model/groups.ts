@@ -40,6 +40,7 @@ export class Groups {
         group.parentGroupId = id
       }
     }
+
     for (const [id, group] of this.membersById) {
       if (group.parentGroupId.length === 0) {
         this.topLevelGroupIds.push(id)

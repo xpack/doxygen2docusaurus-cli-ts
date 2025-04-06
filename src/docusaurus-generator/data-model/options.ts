@@ -27,8 +27,6 @@ export class DoxygenFileOptions {
     for (const option of options) {
       this.membersById.set(option.id, option)
     }
-
-    // console.log('Files.membersById.size', this.membersById.size)
   }
 
   getOptionStringValue (optionId: string): string {

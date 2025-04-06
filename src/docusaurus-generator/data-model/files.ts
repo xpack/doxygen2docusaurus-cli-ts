@@ -21,6 +21,7 @@ import { Folders } from './folders.js'
 
 export class Files {
   membersById: Map<string, File>
+  topLevelFileIds: string[] = []
 
   constructor (compoundDefs: CompoundDefType[], folders: Folders) {
     this.membersById = new Map()
@@ -34,7 +35,7 @@ export class Files {
     // Recreate files hierarchies.
     // console.log(this.folders.membersById.size)
     for (const [id, folder] of folders.membersById) {
-      for (const fileId of folder.childrenFilesIds) {
+      for (const fileId of folder.childrenFileIds) {
         const file = this.membersById.get(fileId)
         assert(file !== undefined)
         // console.log('fileId', fileId,'has parent', id)
@@ -42,16 +43,21 @@ export class Files {
       }
     }
 
-    // console.log('Files.membersById.size', this.membersById.size)
+    for (const [id, file] of this.membersById) {
+      if (file.parentFolderId.length === 0) {
+        this.topLevelFileIds.push(id)
+      }
+    }
   }
 }
 
 export class File {
   compoundDef: CompoundDefType
   parentFolderId: string = ''
-  permalink: string = ''
+  // permalink: string = ''
 
   constructor (compoundDef: CompoundDefType) {
+    // console.log('File.constructor', util.inspect(compoundDef))
     this.compoundDef = compoundDef
   }
 }

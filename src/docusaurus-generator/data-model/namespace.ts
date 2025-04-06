@@ -52,11 +52,11 @@ export class Namespaces {
     for (const id of this.topLevelNamespaceIds) {
       const namespace = this.membersById.get(id)
       assert(namespace !== undefined)
-      this.xRecursively(namespace)
+      this.makeNameLocalRecursively(namespace)
     }
   }
 
-  xRecursively (namespace: Namespace): void {
+  makeNameLocalRecursively (namespace: Namespace): void {
     if (namespace.parentNamespaceId.length === 0) {
       namespace.unparentedName = namespace.compoundDef.compoundName
     } else {
@@ -71,7 +71,7 @@ export class Namespaces {
     for (const childId of namespace.childrenNamespaceIds) {
       const childNamespace = this.membersById.get(childId)
       assert(childNamespace !== undefined)
-      this.xRecursively(childNamespace)
+      this.makeNameLocalRecursively(childNamespace)
     }
   }
 }
@@ -85,7 +85,7 @@ export class Namespace {
   unparentedName: string = ''
 
   constructor (compoundDef: CompoundDefType) {
-    console.log('Namespace.constructor', util.inspect(compoundDef))
+    // console.log('Namespace.constructor', util.inspect(compoundDef))
     this.compoundDef = compoundDef
 
     if (Array.isArray(compoundDef.innerNamespaces)) {
