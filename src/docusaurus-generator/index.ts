@@ -24,6 +24,7 @@ import { Groups } from './data-model/groups.js'
 import { Sidebar } from './create-sidebar.js'
 import { SidebarItem } from '../plugin/types.js'
 import { Namespaces } from './data-model/namespace.js'
+import { Classes } from './data-model/classes.js'
 
 // ----------------------------------------------------------------------------
 
@@ -50,6 +51,7 @@ export class DocusaurusGenerator {
   namespaces: Namespaces
   folders: Folders
   files: Files
+  classes: Classes
 
   // kind: DoxCompoundKind
   permalinkPrefixesByKind: { [key: string]: string } = {
@@ -90,6 +92,7 @@ export class DocusaurusGenerator {
     this.namespaces = new Namespaces(this.doxygenData.compoundDefs)
     this.folders = new Folders(this.doxygenData.compoundDefs)
     this.files = new Files(this.doxygenData.compoundDefs, this.folders)
+    this.classes = new Classes(this.doxygenData.compoundDefs)
 
     this.doxygenOptions = new DoxygenFileOptions(this.doxygenData.doxyfile.options)
   }

@@ -37,7 +37,7 @@ export class Sidebar {
 
     // Add namespaces to the sidebar.
     // Top level namespaces are added below a Namespaces category.
-    const namespaceCategory: SidebarCategoryItem = {
+    const namespacesCategory: SidebarCategoryItem = {
       type: 'category',
       label: 'Namespaces',
       link: {
@@ -50,11 +50,11 @@ export class Sidebar {
 
     if (generator.namespaces.topLevelNamespaceIds.length > 0) {
       for (const id of generator.namespaces.topLevelNamespaceIds) {
-        namespaceCategory.items.push(this.createNamespaceItemRecursively(id))
+        namespacesCategory.items.push(this.createNamespaceItemRecursively(id))
       }
     }
 
-    sidebarItems.push(namespaceCategory)
+    sidebarItems.push(namespacesCategory)
 
     // Add classes to the sidebar.
     // Top level classes are added below a Class category
@@ -68,7 +68,12 @@ export class Sidebar {
       collapsed: true,
       items: []
     }
-    // TODO: Add classes to the classesCategory.items.
+    if (generator.classes.topLevelClassIds.length > 0) {
+      for (const id of generator.classes.topLevelClassIds) {
+        classesCategory.items.push(this.createClassItemRecursively(id))
+      }
+    }
+
     sidebarItems.push(classesCategory)
 
     // Add folders & files to the sidebar.
@@ -215,6 +220,37 @@ export class Sidebar {
       id: `${this.idPrefix}files/${curedName}`
     }
     return docItem
+  }
+
+  createClassItemRecursively (namespaceId: string): SidebarItem {
+    const _class = this.generator.classes.membersById.get(namespaceId)
+    assert(_class !== undefined)
+    const compoundDef = _class.compoundDef
+    const label = compoundDef.compoundName.replace(/^.*::/, '')
+    const curedName: string = compoundDef.compoundName.replaceAll('::', '-').replaceAll(/[^a-zA-Z0-9-]/g, '-')
+    if (_class.childrenClassIds.length === 0) {
+      const docItem: SidebarDocItem = {
+        type: 'doc',
+        label,
+        id: `${this.idPrefix}classes/${curedName}`
+      }
+      return docItem
+    } else {
+      const categoryItem: SidebarCategoryItem = {
+        type: 'category',
+        label,
+        link: {
+          type: 'doc',
+          id: `${this.idPrefix}classes/${curedName}`
+        },
+        collapsed: true,
+        items: []
+      }
+      for (const childId of _class.childrenClassIds) {
+        categoryItem.items.push(this.createClassItemRecursively(childId))
+      }
+      return categoryItem
+    }
   }
 }
 // ----------------------------------------------------------------------------
