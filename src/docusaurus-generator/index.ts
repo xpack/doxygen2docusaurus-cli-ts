@@ -19,6 +19,8 @@ import { Files } from './data-model/files.js'
 import path from 'path'
 import { DoxygenFileOptionType } from '../doxygen-xml-parser/doxyfileoptiontype.js'
 import { DoxygenFileOptions } from './data-model/options.js'
+import { Groups } from './data-model/groups.js'
+import { Namespaces } from './data-model/namespace.js'
 
 // ----------------------------------------------------------------------------
 
@@ -41,6 +43,8 @@ export class DocusaurusGenerator {
   permalinksById: Map<string, string> = new Map()
   docusaurusIdsById: Map<string, string> = new Map()
 
+  groups: Groups
+  namespaces: Namespaces
   folders: Folders
   files: Files
 
@@ -79,6 +83,8 @@ export class DocusaurusGenerator {
     this.doxygenData = doxygenData
     this.pluginOptions = pluginOptions
 
+    this.groups = new Groups(this.doxygenData.compoundDefs)
+    this.namespaces = new Namespaces(this.doxygenData.compoundDefs)
     this.folders = new Folders(this.doxygenData.compoundDefs)
     this.files = new Files(this.doxygenData.compoundDefs, this.folders)
 
