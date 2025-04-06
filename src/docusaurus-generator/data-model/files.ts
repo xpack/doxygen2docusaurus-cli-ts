@@ -34,18 +34,18 @@ export class Files {
 
     // Recreate files hierarchies.
     // console.log(this.folders.membersById.size)
-    for (const [id, folder] of folders.membersById) {
+    for (const [folderId, folder] of folders.membersById) {
       for (const fileId of folder.childrenFileIds) {
-        const file = this.membersById.get(fileId)
-        assert(file !== undefined)
+        const childFile = this.membersById.get(fileId)
+        assert(childFile !== undefined)
         // console.log('fileId', fileId,'has parent', id)
-        file.parentFolderId = id
+        childFile.parentFolderId = folderId
       }
     }
 
-    for (const [id, file] of this.membersById) {
+    for (const [fileId, file] of this.membersById) {
       if (file.parentFolderId.length === 0) {
-        this.topLevelFileIds.push(id)
+        this.topLevelFileIds.push(fileId)
       }
     }
   }
@@ -54,7 +54,6 @@ export class Files {
 export class File {
   compoundDef: CompoundDefType
   parentFolderId: string = ''
-  // permalink: string = ''
 
   constructor (compoundDef: CompoundDefType) {
     // console.log('File.constructor', util.inspect(compoundDef))

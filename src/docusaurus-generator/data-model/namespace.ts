@@ -32,25 +32,25 @@ export class Namespaces {
     }
 
     // Recreate namespaces hierarchies.
-    for (const [id, namespace] of this.membersById) {
-      for (const namespaceId of namespace.childrenNamespaceIds) {
-        const namespace = this.membersById.get(namespaceId)
-        assert(namespace !== undefined)
+    for (const [namespaceId, namespace] of this.membersById) {
+      for (const childNamespaceId of namespace.childrenNamespaceIds) {
+        const childNamespace = this.membersById.get(childNamespaceId)
+        assert(childNamespace !== undefined)
         // console.log('folderId', folderId,'has parent', id)
-        namespace.parentNamespaceId = id
+        childNamespace.parentNamespaceId = namespaceId
       }
     }
 
     // Create the top level namespace list.
-    for (const [id, namespace] of this.membersById) {
+    for (const [namespaceId, namespace] of this.membersById) {
       if (namespace.parentNamespaceId.length === 0) {
-        this.topLevelNamespaceIds.push(id)
+        this.topLevelNamespaceIds.push(namespaceId)
       }
     }
 
     // Compute the local namespace name, without parents.
-    for (const id of this.topLevelNamespaceIds) {
-      const namespace = this.membersById.get(id)
+    for (const namespaceId of this.topLevelNamespaceIds) {
+      const namespace = this.membersById.get(namespaceId)
       assert(namespace !== undefined)
       this.makeNameLocalRecursively(namespace)
     }
@@ -68,8 +68,8 @@ export class Namespaces {
       assert(name.startsWith(parentName + '::'))
       namespace.unparentedName = name.substring(parentName.length + 2)
     }
-    for (const childId of namespace.childrenNamespaceIds) {
-      const childNamespace = this.membersById.get(childId)
+    for (const childNamespaceId of namespace.childrenNamespaceIds) {
+      const childNamespace = this.membersById.get(childNamespaceId)
       assert(childNamespace !== undefined)
       this.makeNameLocalRecursively(childNamespace)
     }
@@ -80,8 +80,6 @@ export class Namespace {
   compoundDef: CompoundDefType
   parentNamespaceId: string = ''
   childrenNamespaceIds: string[] = []
-  // childrenClassesIds: string[] = []
-  // permalink: string = ''
   unparentedName: string = ''
 
   constructor (compoundDef: CompoundDefType) {

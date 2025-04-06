@@ -33,18 +33,18 @@ export class Folders {
 
     // Recreate folders hierarchies.
     // console.log(this.folders.membersById.size)
-    for (const [id, folder] of this.membersById) {
-      for (const folderId of folder.childrenFolderIds) {
-        const folder = this.membersById.get(folderId)
-        assert(folder !== undefined)
+    for (const [folderId, folder] of this.membersById) {
+      for (const childFolderId of folder.childrenFolderIds) {
+        const childFolder = this.membersById.get(childFolderId)
+        assert(childFolder !== undefined)
         // console.log('folderId', folderId,'has parent', id)
-        folder.parentFolderId = id
+        childFolder.parentFolderId = folderId
       }
     }
 
-    for (const [id, folder] of this.membersById) {
+    for (const [folderId, folder] of this.membersById) {
       if (folder.parentFolderId.length === 0) {
-        this.topLevelFolderIds.push(id)
+        this.topLevelFolderIds.push(folderId)
       }
     }
   }
@@ -66,7 +66,6 @@ export class Folder {
   parentFolderId: string = ''
   childrenFolderIds: string[] = []
   childrenFileIds: string[] = []
-  // permalink: string = ''
 
   constructor (compoundDef: CompoundDefType) {
     // console.log('Folder.constructor', util.inspect(compoundDef))

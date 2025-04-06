@@ -32,18 +32,18 @@ export class Groups {
     }
 
     // Recreate groups hierarchies.
-    for (const [id, group] of this.membersById) {
-      for (const groupId of group.childrenGroupsIds) {
-        const group = this.membersById.get(groupId)
-        assert(group !== undefined)
+    for (const [groupId, group] of this.membersById) {
+      for (const childGroupId of group.childrenGroupsIds) {
+        const childGroup = this.membersById.get(childGroupId)
+        assert(childGroup !== undefined)
         // console.log('folderId', folderId,'has parent', id)
-        group.parentGroupId = id
+        childGroup.parentGroupId = groupId
       }
     }
 
-    for (const [id, group] of this.membersById) {
+    for (const [groupId, group] of this.membersById) {
       if (group.parentGroupId.length === 0) {
-        this.topLevelGroupIds.push(id)
+        this.topLevelGroupIds.push(groupId)
       }
     }
   }
@@ -53,7 +53,6 @@ export class Group {
   compoundDef: CompoundDefType
   parentGroupId: string = ''
   childrenGroupsIds: string[] = []
-  // permalink: string = ''
 
   constructor (compoundDef: CompoundDefType) {
     // console.log('Group.constructor', util.inspect(compoundDef))
