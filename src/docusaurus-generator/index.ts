@@ -80,14 +80,13 @@ export class DocusaurusGenerator {
     this.pluginOptions = pluginOptions
 
     this.folders = new Folders(this.doxygenData.compoundDefs)
-    this.files = new Files(this.doxygenData.compoundDefs)
+    this.files = new Files(this.doxygenData.compoundDefs, this.folders)
 
     this.doxygenOptions = new DoxygenFileOptions(this.doxygenData.doxyfile.options)
   }
 
   async generate (): Promise<void> {
     this.createCompoundDefsMap()
-    this.createFilesHierarchies()
 
     this.createPermalinksMap()
 
@@ -106,27 +105,7 @@ export class DocusaurusGenerator {
     }
   }
 
-  createFilesHierarchies (): void {
-    // console.log('DocusaurusGenerator.createFilesHierarchies()')
-    // Create Folders & Files hierarchies.
-    // console.log(this.folders.membersById.size)
-    for (const [id, item] of this.folders.membersById) {
-      for (const folderId of item.childrenFoldersIds) {
-        const folder = this.folders.membersById.get(folderId)
-        assert(folder !== undefined)
-        // console.log('folderId', folderId,'has parent', id)
-        folder.parentFolderId = id
-      }
-      for (const fileId of item.childrenFilesIds) {
-        const file = this.files.membersById.get(fileId)
-        assert(file !== undefined)
-        // console.log('fileId', fileId,'has parent', id)
-        file.parentFolderId = id
-      }
-    }
-  }
-
-  createPermalinksMap (): void {
+  createPermalinksMap(): void {
     // console.log('DocusaurusGenerator.createPermalinksMap()')
 
     assert(this.pluginOptions.outputFolderPath)

@@ -30,6 +30,18 @@ export class Folders {
         this.membersById.set(compoundDef.id, new Folder(compoundDef))
       }
     }
+
+    // Recreate folders hierarchies.
+    // console.log(this.folders.membersById.size)
+    for (const [id, folder] of this.membersById) {
+      for (const folderId of folder.childrenFoldersIds) {
+        const folder = this.membersById.get(folderId)
+        assert(folder !== undefined)
+        // console.log('folderId', folderId,'has parent', id)
+        folder.parentFolderId = id
+      }
+    }
+
     // console.log('Folders.membersById.size', this.membersById.size)
   }
 

@@ -15,13 +15,14 @@ import * as util from 'node:util'
 import assert from 'node:assert'
 
 import { CompoundDefType } from '../../doxygen-xml-parser/compounddef.js'
+import { Folders } from './folders.js'
 
 // ----------------------------------------------------------------------------
 
 export class Files {
   membersById: Map<string, File>
 
-  constructor (compoundDefs: CompoundDefType[]) {
+  constructor (compoundDefs: CompoundDefType[], folders: Folders) {
     this.membersById = new Map()
 
     for (const compoundDef of compoundDefs) {
@@ -29,6 +30,18 @@ export class Files {
         this.membersById.set(compoundDef.id, new File(compoundDef))
       }
     }
+
+    // Recreate files hierarchies.
+    // console.log(this.folders.membersById.size)
+    for (const [id, folder] of folders.membersById) {
+      for (const fileId of folder.childrenFilesIds) {
+        const file = this.membersById.get(fileId)
+        assert(file !== undefined)
+        // console.log('fileId', fileId,'has parent', id)
+        file.parentFolderId = id
+      }
+    }
+
     // console.log('Files.membersById.size', this.membersById.size)
   }
 }
