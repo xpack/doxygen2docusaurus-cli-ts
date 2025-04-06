@@ -164,13 +164,17 @@ export class DocusaurusGenerator {
     const sidebar = new Sidebar(this)
 
     const sidebarItems: SidebarItem[] = sidebar.createItems()
-    console.log('sidebarItems:', util.inspect(sidebarItems, { compact: false, depth: 10 }))
+    // console.log('sidebarItems:', util.inspect(sidebarItems, { compact: false, depth: 10 }))
     const jsonString = JSON.stringify(sidebarItems, null, 2)
+
     assert(this.pluginOptions.outputFolderPath)
     assert(this.pluginOptions.sidebarFileName)
     const filePath = path.join(this.pluginOptions.outputFolderPath, this.pluginOptions.sidebarFileName)
-    console.log(`Writing sidebar file ${filePath as string}...`)
+
+    // Superfluous if done after prepareOutputFolder()
     await fs.mkdir(path.dirname(this.pluginOptions.outputFolderPath), { recursive: true })
+
+    console.log(`Writing sidebar file ${filePath as string}...`)
     await fs.writeFile(filePath, jsonString, 'utf8')
   }
 
@@ -193,14 +197,14 @@ export class DocusaurusGenerator {
   // https://nodejs.org/en/learn/manipulating-files/working-with-file-descriptors-in-nodejs
   async generatePages (): Promise<void> {
     // console.log('DocusaurusGenerator.generatePages()')
-    console.log('Generating Docusaurus pages...')
+    console.log('Generating Docusaurus pages (object -> url)...')
 
     for (const compoundDef of this.doxygenData.compoundDefs) {
       const permalink = this.permalinksById.get(compoundDef.id)
       assert(permalink !== undefined)
       assert(this.pluginOptions.outputFolderPath)
       const outputFolderPath = this.pluginOptions.outputFolderPath
-      console.log(compoundDef.compoundName, '->', `${outputFolderPath}${permalink}`)
+      console.log(`${compoundDef.kind}: ${compoundDef.compoundName}`, '->', `${outputFolderPath}${permalink}`)
 
       const docusaurusId = this.docusaurusIdsById.get(compoundDef.id)
       assert(docusaurusId !== undefined)
