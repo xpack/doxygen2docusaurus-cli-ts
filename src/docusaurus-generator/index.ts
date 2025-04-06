@@ -102,9 +102,8 @@ export class DocusaurusGenerator {
 
     this.createPermalinksMap()
 
-    await this.writeSidebar()
-
     await this.prepareOutputFolder()
+    await this.writeSidebar()
     await this.generatePages()
   }
 
@@ -166,6 +165,13 @@ export class DocusaurusGenerator {
 
     const sidebarItems: SidebarItem[] = sidebar.createItems()
     console.log('sidebarItems:', util.inspect(sidebarItems, { compact: false, depth: 10 }))
+    const jsonString = JSON.stringify(sidebarItems, null, 2)
+    assert(this.pluginOptions.outputFolderPath)
+    assert(this.pluginOptions.sidebarFileName)
+    const filePath = path.join(this.pluginOptions.outputFolderPath, this.pluginOptions.sidebarFileName)
+    console.log(`Writing sidebar file ${filePath as string}...`)
+    await fs.mkdir(path.dirname(this.pluginOptions.outputFolderPath), { recursive: true })
+    await fs.writeFile(filePath, jsonString, 'utf8')
   }
 
   // https://nodejs.org/en/learn/manipulating-files/working-with-folders-in-nodejs

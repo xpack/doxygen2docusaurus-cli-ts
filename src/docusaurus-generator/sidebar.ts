@@ -17,10 +17,12 @@ import { SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../plugin/type
 
 export class Sidebar {
   generator: DocusaurusGenerator
-  idPrefix = 'api/'
+  idPrefix: string
 
   constructor (generator: DocusaurusGenerator) {
     this.generator = generator
+    assert(this.generator.pluginOptions.outputFolderPath !== undefined)
+    this.idPrefix = this.generator.pluginOptions.outputFolderPath.replace(/^docs/, '') + '/'
   }
 
   createItems (): SidebarItem[] {
