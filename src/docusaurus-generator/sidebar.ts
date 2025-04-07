@@ -10,6 +10,7 @@
  */
 
 import assert from 'assert'
+
 import { DocusaurusGenerator } from './index.js'
 import { SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../plugin/types.js'
 
@@ -22,7 +23,7 @@ export class Sidebar {
   constructor (generator: DocusaurusGenerator) {
     this.generator = generator
     assert(this.generator.pluginOptions.outputFolderPath !== undefined)
-    this.idPrefix = this.generator.pluginOptions.outputFolderPath.replace(/^docs/, '') + '/'
+    this.idPrefix = this.generator.pluginOptions.outputFolderPath.replace(/^docs[/]/, '') + '/'
   }
 
   createItems (): SidebarItem[] {
