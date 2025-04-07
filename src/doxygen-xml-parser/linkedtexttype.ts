@@ -13,7 +13,8 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { RefTextType } from './reftexttype.js'
+import { AbstractRefTextType, RefText } from './reftexttype.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -23,11 +24,13 @@ import { RefTextType } from './reftexttype.js'
 //   </xsd:sequence>
 // </xsd:complexType>
 
-export class LinkedTextType {
+export abstract class AbstractLinkedTextType extends AbstractParsedObjectBase {
   // Any sequence of them.
-  children: Array<string | RefTextType> = []
+  children: Array<string | AbstractRefTextType> = []
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'member') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -39,7 +42,7 @@ export class LinkedTextType {
       if (xml.hasInnerText(innerElement)) {
         this.children.push(xml.getInnerText(innerElement))
       } else if (xml.hasInnerElement(innerElement, 'ref')) {
-        this.children.push(new RefTextType(xml, innerElement, 'ref'))
+        this.children.push(new RefText(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
@@ -54,6 +57,43 @@ export class LinkedTextType {
     // ------------------------------------------------------------------------
 
     // console.log(this)
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="requiresclause" type="linkedTextType" minOccurs="0" />
+// <xsd:element name="initializer" type="linkedTextType" minOccurs="0" />
+// <xsd:element name="type" type="linkedTextType" minOccurs="0" />
+// <xsd:element name="requiresclause" type="linkedTextType" minOccurs="0" />
+// <xsd:element name="initializer" type="linkedTextType" minOccurs="0" />
+// <xsd:element name="exceptions" type="linkedTextType" minOccurs="0" />
+
+// <xsd:element name="initializer" type="linkedTextType" minOccurs="0" />
+
+// <xsd:element name="type" type="linkedTextType" minOccurs="0" />
+
+// <xsd:element name="defval" type="linkedTextType" minOccurs="0" />
+// <xsd:element name="typeconstraint" type="linkedTextType" minOccurs="0" />
+
+export class Type extends AbstractLinkedTextType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'type')
+  }
+}
+
+export class DefVal extends AbstractLinkedTextType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'defval')
+  }
+}
+
+export class TypeConstraint extends AbstractLinkedTextType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'typeconstraint')
   }
 }
 

@@ -14,70 +14,16 @@
 import * as util from 'node:util'
 import assert from 'node:assert'
 
-import { IncType } from './inctype.js'
+import { IncludedBy, Includes, AbstractIncType } from './inctype.js'
 import { DoxygenXmlParser } from './index.js'
-import { CompoundRefType } from './compoundreftype.js'
-import { TemplateParamListType } from './templateparamlisttype.js'
-import { SectionDefType } from './sectiondeftype.js'
-import { ListOfAllMembersType } from './listofallmemberstype.js'
-import { DescriptionType } from './descriptiontype.js'
-import { RefType } from './reftype.js'
-import { LocationType } from './locationtype.js'
-
-// ----------------------------------------------------------------------------
-
-/*
-export class CompoundDefs {
-  membersById: Map<string, CompoundDefType>
-
-  constructor () {
-    this.membersById = new Map()
-  }
-
-  add (id: string, compound: CompoundDefType): void {
-    this.membersById.set(id, compound)
-  }
-
-  get (id: string): CompoundDefType {
-    const value = this.membersById.get(id)
-    if (value !== undefined) {
-      return value
-    }
-    throw new Error(`Classes.get(${id}) not found`)
-  }
-
-  createHierarchies (): void {
-    // console.log('Classes.createHierarchies()...')
-
-    for (const member of this.membersById.values()) {
-      if (member.derivedCompoundsRefs !== undefined) {
-        for (const derived of member.derivedCompoundsRefs) {
-          if (derived.refid !== undefined && derived.refid?.length > 0) {
-            const child = this.get(derived.refid)
-            assert(child.parentId.length === 0)
-            child.parentId = member.id
-          }
-        }
-      }
-    }
-
-    // for (const item of this.membersById.values()) {
-    //   if (item.parentId.length === 0) {
-    //     console.log(item.id, item.name)
-    //   }
-    // }
-  }
-
-  computePermalinks (): void {
-    // console.log('Classes.computePermalinks()...')
-    for (const item of this.membersById.values()) {
-      const name: string = item.compoundName.replaceAll('::', '/')
-      item.permalink = `classes/${name}`
-      console.log('-', item.permalink)
-    }
-  }
-}
-*/
+import { BaseCompoundRef, AbstractCompoundRefType, DerivedCompoundRef } from './compoundreftype.js'
+import { TemplateParamList, AbstractTemplateParamListType } from './templateparamlisttype.js'
+import { SectionDef, AbstractSectionDefType } from './sectiondeftype.js'
+import { ListOfAllMembers, AbstractListOfAllMembersType } from './listofallmemberstype.js'
+import { BriefDescription, AbstractDescriptionType, DetailedDescription } from './descriptiontype.js'
+import { InnerClass, InnerDir, InnerFile, InnerGroup, InnerNamespace, AbstractRefType } from './reftype.js'
+import { Location, AbstractLocationType } from './locationtype.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -147,30 +93,30 @@ export class CompoundDefs {
 // </xsd:restriction>
 // </xsd:simpleType>
 
-export class CompoundDefType {
+export abstract class AbstractCompoundDefType extends AbstractParsedObjectBase {
   // Mandatory elements.
   compoundName: string = ''
 
   // Optional elements.
   title?: string | undefined
-  briefDescription?: DescriptionType | undefined
-  detailedDescription?: DescriptionType | undefined
-  baseCompoundRefs: CompoundRefType[] | undefined
-  derivedCompoundRefs: CompoundRefType[] | undefined
-  includes: IncType[] | undefined
-  includedBy: IncType[] | undefined
-  templateParamList: TemplateParamListType | undefined
-  sectionDefs: SectionDefType[] | undefined
+  briefDescription?: AbstractDescriptionType | undefined
+  detailedDescription?: AbstractDescriptionType | undefined
+  baseCompoundRefs: AbstractCompoundRefType[] | undefined
+  derivedCompoundRefs: AbstractCompoundRefType[] | undefined
+  includes: AbstractIncType[] | undefined
+  includedBy: AbstractIncType[] | undefined
+  templateParamList: AbstractTemplateParamListType | undefined
+  sectionDefs: AbstractSectionDefType[] | undefined
   // innerModules
-  innerDirs: RefType[] | undefined
-  innerFiles: RefType[] | undefined
-  innerClasses: RefType[] | undefined
+  innerDirs: AbstractRefType[] | undefined
+  innerFiles: AbstractRefType[] | undefined
+  innerClasses: AbstractRefType[] | undefined
   // innerConcepts
-  innerNamespaces: RefType[] | undefined
+  innerNamespaces: AbstractRefType[] | undefined
   // innerPages
-  innerGroups: RefType[] | undefined
-  location: LocationType | undefined
-  listOfAllMembers: ListOfAllMembersType | undefined
+  innerGroups: AbstractRefType[] | undefined
+  location: AbstractLocationType | undefined
+  listOfAllMembers: AbstractListOfAllMembersType | undefined
 
   // Mandatory attributes.
   id: string = ''
@@ -189,7 +135,9 @@ export class CompoundDefType {
   // parentId: string = ''
   // permalink: string = ''
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'compounddef') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -207,31 +155,31 @@ export class CompoundDefType {
       } else if (xml.isInnerElementText(innerElement, 'title')) {
         this.title = xml.getInnerElementText(innerElement, 'title')
       } else if (xml.hasInnerElement(innerElement, 'briefdescription')) {
-        this.briefDescription = new DescriptionType(xml, innerElement, 'briefdescription')
+        this.briefDescription = new BriefDescription(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'detaileddescription')) {
-        this.detailedDescription = new DescriptionType(xml, innerElement, 'detaileddescription')
+        this.detailedDescription = new DetailedDescription(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'basecompoundref')) {
         if (this.baseCompoundRefs === undefined) {
           this.baseCompoundRefs = []
         }
-        this.baseCompoundRefs.push(new CompoundRefType(xml, innerElement, 'basecompoundref'))
+        this.baseCompoundRefs.push(new BaseCompoundRef(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'derivedcompoundref')) {
         if (this.derivedCompoundRefs === undefined) {
           this.derivedCompoundRefs = []
         }
-        this.derivedCompoundRefs.push(new CompoundRefType(xml, innerElement, 'derivedcompoundref'))
+        this.derivedCompoundRefs.push(new DerivedCompoundRef(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'includes')) {
         // console.log(util.inspect(item))
         if (this.includes === undefined) {
           this.includes = []
         }
-        this.includes.push(new IncType(xml, innerElement, 'includes'))
+        this.includes.push(new Includes(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'includedby')) {
         // console.log(util.inspect(item))
         if (this.includedBy === undefined) {
           this.includedBy = []
         }
-        this.includedBy.push(new IncType(xml, innerElement, 'includedby'))
+        this.includedBy.push(new IncludedBy(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'incdepgraph')) {
         // TODO: Ignored, not used for now.
       } else if (xml.hasInnerElement(innerElement, 'invincdepgraph')) {
@@ -240,34 +188,34 @@ export class CompoundDefType {
         if (this.innerDirs === undefined) {
           this.innerDirs = []
         }
-        this.innerDirs.push(new RefType(xml, innerElement, 'innerdir'))
+        this.innerDirs.push(new InnerDir(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'innerfile')) {
         if (this.innerFiles === undefined) {
           this.innerFiles = []
         }
-        this.innerFiles.push(new RefType(xml, innerElement, 'innerfile'))
+        this.innerFiles.push(new InnerFile(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'innerclass')) {
         if (this.innerClasses === undefined) {
           this.innerClasses = []
         }
-        this.innerClasses.push(new RefType(xml, innerElement, 'innerclass'))
+        this.innerClasses.push(new InnerClass(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'innernamespace')) {
         if (this.innerNamespaces === undefined) {
           this.innerNamespaces = []
         }
-        this.innerNamespaces.push(new RefType(xml, innerElement, 'innernamespace'))
+        this.innerNamespaces.push(new InnerNamespace(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'innergroup')) {
         if (this.innerGroups === undefined) {
           this.innerGroups = []
         }
-        this.innerGroups.push(new RefType(xml, innerElement, 'innergroup'))
+        this.innerGroups.push(new InnerGroup(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'templateparamlist')) {
-        this.templateParamList = new TemplateParamListType(xml, innerElement, 'templateparamlist')
+        this.templateParamList = new TemplateParamList(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'sectiondef')) {
         if (this.sectionDefs === undefined) {
           this.sectionDefs = []
         }
-        this.sectionDefs.push(new SectionDefType(xml, innerElement, 'sectiondef'))
+        this.sectionDefs.push(new SectionDef(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'inheritancegraph')) {
         // TODO: Ignored, not used for now.
       } else if (xml.hasInnerElement(innerElement, 'collaborationgraph')) {
@@ -275,9 +223,9 @@ export class CompoundDefType {
       } else if (xml.hasInnerElement(innerElement, 'programlisting')) {
         // TODO: Ignored, not used for now.
       } else if (xml.hasInnerElement(innerElement, 'location')) {
-        this.location = new LocationType(xml, innerElement, 'location')
+        this.location = new Location(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'listofallmembers')) {
-        this.listOfAllMembers = new ListOfAllMembersType(xml, innerElement, 'listofallmembers')
+        this.listOfAllMembers = new ListOfAllMembers(xml, innerElement)
       } else {
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
       }
@@ -327,3 +275,16 @@ export class CompoundDefType {
     // console.log(this)
   }
 }
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="compounddef" type="compounddefType" minOccurs="0" />
+
+export class CompoundDef extends AbstractCompoundDefType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'compounddef')
+  }
+}
+
+// ----------------------------------------------------------------------------

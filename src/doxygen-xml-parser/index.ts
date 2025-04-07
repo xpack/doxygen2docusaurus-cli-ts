@@ -18,18 +18,18 @@ import * as util from 'node:util'
 
 import { XMLParser } from 'fast-xml-parser'
 import { XmlElement } from './types.js'
-import { IndexDoxygenType } from './indexdoxygentype.js'
-import { CompoundDefType } from './compounddef.js'
-import { DoxygenFileType } from './doxyfiletype.js'
-import { DoxygenType } from './doxygentype.js'
+import { DoxygenIndex, AbstractIndexDoxygenType } from './indexdoxygentype.js'
+import { AbstractCompoundDefType } from './compounddef.js'
+import { DoxygenFile, AbstractDoxygenFileType } from './doxyfiletype.js'
+import { Doxygen } from './doxygentype.js'
 
 // ----------------------------------------------------------------------------
 // Top structure to hold the parsed Doxygen xml data as JS objects.
 
 export interface DoxygenData {
-  doxygenindex: IndexDoxygenType // from index.xml
-  compoundDefs: CompoundDefType[] // from `${'@_refid'}.xml`
-  doxyfile: DoxygenFileType // from Doxyfile.xml
+  doxygenindex: AbstractIndexDoxygenType // from index.xml
+  compoundDefs: AbstractCompoundDefType[] // from `${'@_refid'}.xml`
+  doxyfile: AbstractDoxygenFileType // from Doxyfile.xml
 }
 
 // ----------------------------------------------------------------------------
@@ -63,7 +63,7 @@ export class DoxygenXmlParser {
     // console.log(util.inspect(parsedIndex[0]['?xml']))
     // console.log(JSON.stringify(parsedIndex, null, '  '))
 
-    let doxygenindex: IndexDoxygenType | undefined
+    let doxygenindex: AbstractIndexDoxygenType | undefined
 
     for (const element of parsedIndexElements) {
       if (this.hasInnerElement(element, '?xml')) {
@@ -71,7 +71,7 @@ export class DoxygenXmlParser {
       } else if (this.hasInnerText(element)) {
         // Ignore top texts.
       } else if (this.hasInnerElement(element, 'doxygenindex')) {
-        doxygenindex = new IndexDoxygenType(this, element, 'doxygenindex')
+        doxygenindex = new DoxygenIndex(this, element)
       } else {
         console.error(util.inspect(element))
         console.error('index.xml element:', Object.keys(element), 'not implemented yet')
@@ -82,7 +82,7 @@ export class DoxygenXmlParser {
 
     // ------------------------------------------------------------------------
 
-    const compoundDefs: CompoundDefType[] = []
+    const compoundDefs: AbstractCompoundDefType[] = []
 
     if (Array.isArray(doxygenindex.compounds)) {
       for (const compound of doxygenindex.compounds) {
@@ -96,7 +96,7 @@ export class DoxygenXmlParser {
           } else if (this.hasInnerText(element)) {
             // Ignore top texts.
           } else if (this.hasInnerElement(element, 'doxygen')) {
-            const doxygen = new DoxygenType(this, element, 'doxygen')
+            const doxygen = new Doxygen(this, element)
             if (Array.isArray(doxygen.compoundDefs)) {
               compoundDefs.push(...doxygen.compoundDefs)
             }
@@ -114,7 +114,7 @@ export class DoxygenXmlParser {
     // console.log(util.inspect(parsedDoxyfile))
     // console.log(JSON.stringify(parsedDoxyfile, null, '  '))
 
-    let doxyfile: DoxygenFileType | undefined
+    let doxyfile: AbstractDoxygenFileType | undefined
 
     for (const element of parsedDoxyfileElements) {
       if (this.hasInnerElement(element, '?xml')) {
@@ -122,7 +122,7 @@ export class DoxygenXmlParser {
       } else if (this.hasInnerElement(element, '#text')) {
         // Ignore top texts.
       } else if (this.hasInnerElement(element, 'doxyfile')) {
-        doxyfile = new DoxygenFileType(this, element, 'doxyfile')
+        doxyfile = new DoxygenFile(this, element)
       } else {
         console.error(util.inspect(element))
         console.error('Doxyfile.xml element:', Object.keys(element), 'not implemented yet')

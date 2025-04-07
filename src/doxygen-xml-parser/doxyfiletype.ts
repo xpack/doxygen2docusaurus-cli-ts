@@ -15,11 +15,10 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { DoxygenFileOptionType } from './doxyfileoptiontype.js'
+import { AbstractDoxygenFileOptionType, DoxygenFileOption } from './doxyfileoptiontype.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
-
-// <xsd:element name="doxyfile" type="DoxygenFileType"/>
 
 // <xsd:complexType name="DoxygenFileType">
 //   <xsd:sequence>
@@ -29,18 +28,20 @@ import { DoxygenFileOptionType } from './doxyfileoptiontype.js'
 //   <xsd:attribute ref="xml:lang" use="required"/>
 // </xsd:complexType>
 
-export class DoxygenFileType {
+export abstract class AbstractDoxygenFileType extends AbstractParsedObjectBase {
   // Mandatory attributes.
   version: string = ''
   lang: string = ''
 
   // Optional elements.
-  options: DoxygenFileOptionType[] | undefined
+  options: AbstractDoxygenFileOptionType[] | undefined
 
   // Optional attributes.
   noNamespaceSchemaLocation: string | undefined
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'doxyfile') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     const innerElements = xml.getInnerElements(element, elementName)
@@ -53,7 +54,7 @@ export class DoxygenFileType {
         if (this.options === undefined) {
           this.options = []
         }
-        this.options.push(new DoxygenFileOptionType(xml, innerElement, 'option'))
+        this.options.push(new DoxygenFileOption(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`doxyfile ${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
@@ -86,6 +87,17 @@ export class DoxygenFileType {
     // ------------------------------------------------------------------------
 
     // console.log(this)
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="doxyfile" type="DoxygenFileType"/>
+
+export class DoxygenFile extends AbstractDoxygenFileType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'doxyfile')
   }
 }
 

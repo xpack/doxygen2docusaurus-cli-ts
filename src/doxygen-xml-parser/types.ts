@@ -54,3 +54,13 @@ export interface XmlNameElement {
 }
 
 // ----------------------------------------------------------------------------
+
+export abstract class AbstractParsedObjectBase {
+  elementName: string
+
+  constructor (elementName: string) {
+    this.elementName = elementName
+  }
+}
+
+// ----------------------------------------------------------------------------

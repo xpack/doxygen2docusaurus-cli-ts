@@ -13,6 +13,7 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -25,14 +26,16 @@ import { DoxygenXmlParser } from './index.js'
 //   </xsd:sequence>
 // </xsd:complexType>
 
-export class DescriptionType {
+export abstract class AbstractDescriptionType extends AbstractParsedObjectBase {
   // Optional elements.
   title?: string | undefined // Only one.
 
   // Any sequence of them.
   children: Array<string | DocParaType | DocInternalType | DocSect1Type> = []
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'description') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -841,3 +844,44 @@ export interface DocEmptyType { }
 // </xsd:complexType>
 
 // TODO
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="briefdescription" type="descriptionType" minOccurs="0" />
+// <xsd:element name="detaileddescription" type="descriptionType" minOccurs="0" />
+
+// <xsd:element name="description" type="descriptionType" minOccurs="0" />
+
+// <xsd:element name="inbodydescription" type="descriptionType" minOccurs="0" />
+// <xsd:element name="parameterdescription" type="descriptionType" />
+// <xsd:element name="xrefdescription" type="descriptionType" />
+
+export class BriefDescription extends AbstractDescriptionType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'briefdescription')
+  }
+}
+
+export class DetailedDescription extends AbstractDescriptionType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'detaileddescription')
+  }
+}
+
+export class InbodyDescription extends AbstractDescriptionType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'inbodydescription')
+  }
+}
+
+export class Description extends AbstractDescriptionType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'description')
+  }
+}
+
+// ----------------------------------------------------------------------------

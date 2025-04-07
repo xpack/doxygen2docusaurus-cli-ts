@@ -14,9 +14,10 @@
 import assert from 'assert'
 import * as util from 'node:util'
 import { DoxygenXmlParser } from './index.js'
-import { DescriptionType } from './descriptiontype.js'
-import { MemberDefType } from './memberdeftype.js'
-import { MemberType } from './membertype.js'
+import { Description, AbstractDescriptionType } from './descriptiontype.js'
+import { MemberDef, AbstractMemberDefType } from './memberdeftype.js'
+import { AbstractMemberType, Member } from './membertype.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -32,19 +33,21 @@ import { MemberType } from './membertype.js'
 //   <xsd:attribute name="kind" type="DoxSectionKind" />
 // </xsd:complexType>
 
-export class SectionDefType {
+export abstract class AbstractSectionDefType extends AbstractParsedObjectBase {
   // Mandatory attributes.
   kind: string = ''
 
   // Optional elements.
   header?: string | undefined
-  description?: DescriptionType | undefined
+  description?: AbstractDescriptionType | undefined
 
   // Actually only one is defined at a time.
-  memberDefs?: MemberDefType[] | undefined
-  members?: MemberType[] | undefined
+  memberDefs?: AbstractMemberDefType[] | undefined
+  members?: AbstractMemberType[] | undefined
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'sectiondef') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -61,17 +64,17 @@ export class SectionDefType {
         this.header = xml.getInnerElementText(innerElement, 'header')
       } else if (xml.hasInnerElement(innerElement, 'description')) {
         assert(this.description === undefined)
-        this.description = new DescriptionType(xml, innerElement, 'description')
+        this.description = new Description(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'memberdef')) {
         if (this.memberDefs === undefined) {
           this.memberDefs = []
         }
-        this.memberDefs.push(new MemberDefType(xml, innerElement, 'memberdef'))
+        this.memberDefs.push(new MemberDef(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'member')) {
         if (this.members === undefined) {
           this.members = []
         }
-        this.members.push(new MemberType(xml, innerElement, 'member'))
+        this.members.push(new Member(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
@@ -99,6 +102,17 @@ export class SectionDefType {
     // ------------------------------------------------------------------------
 
     // console.log(this)
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="sectiondef" type="sectiondefType" minOccurs="0" maxOccurs="unbounded" />
+
+export class SectionDef extends AbstractSectionDefType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'sectiondef')
   }
 }
 

@@ -15,7 +15,8 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { IndexMemberType } from './indexmembertype.js'
+import { AbstractIndexMemberType, IndexMember } from './indexmembertype.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -28,16 +29,18 @@ import { IndexMemberType } from './indexmembertype.js'
 //   <xsd:attribute name="kind" type="CompoundKind" use="required"/>
 // </xsd:complexType>
 
-export class IndexCompoundType {
+export abstract class AbstractIndexCompoundType extends AbstractParsedObjectBase {
   // Mandatory elements.
   name: string = ''
-  members: IndexMemberType[] | undefined // [0-n]
+  members: AbstractIndexMemberType[] | undefined // [0-n]
 
   // Mandatory attributes.
   refid: string = ''
   kind: string = '' // CompoundKind
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'compound') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -56,7 +59,7 @@ export class IndexCompoundType {
         if (this.members === undefined) {
           this.members = []
         }
-        this.members.push(new IndexMemberType(xml, innerElement, 'member'))
+        this.members.push(new IndexMember(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`index ${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
@@ -115,5 +118,16 @@ export class IndexCompoundType {
 // </xsd:simpleType>
 
 export type IndexCompoundKind = 'class' | 'struct' | 'union' | 'interface' | 'protocol' | 'category' | 'exception' | 'file' | 'namespace' | 'protocol' | 'category' | 'exception' | 'file' | 'namespace' | 'group' | 'page' | 'example' | 'dir' | 'type' | 'concept' | 'module'
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="compound" type="CompoundType" minOccurs="0" maxOccurs="unbounded"/>
+
+export class IndexCompound extends AbstractIndexCompoundType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'compound')
+  }
+}
 
 // ----------------------------------------------------------------------------

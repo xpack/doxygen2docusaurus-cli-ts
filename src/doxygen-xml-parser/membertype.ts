@@ -14,6 +14,7 @@
 import assert from 'assert'
 import * as util from 'node:util'
 import { DoxygenXmlParser } from './index.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -25,7 +26,7 @@ import { DoxygenXmlParser } from './index.js'
 //   <xsd:attribute name="kind" type="MemberKind" use="required"/>
 // </xsd:complexType>
 
-export class MemberType {
+export abstract class AbstractMemberType extends AbstractParsedObjectBase {
   // Mandatory elements.
   name: string = ''
 
@@ -33,7 +34,9 @@ export class MemberType {
   refid: string = ''
   kind: string = '' // MemberKind
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'member') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -102,5 +105,16 @@ export class MemberType {
 // </xsd:simpleType>
 
 export type MemberKind = 'define' | 'property' | 'event' | 'variable' | 'typedef' | 'enum' | 'function' | 'signal' | 'prototype' | 'friend' | 'dcop' | 'slot'
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="member" type="MemberType" minOccurs="0" maxOccurs="unbounded" />
+
+export class Member extends AbstractMemberType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'member')
+  }
+}
 
 // ----------------------------------------------------------------------------

@@ -15,6 +15,7 @@ import assert from 'assert'
 import util from 'util'
 
 import { DoxygenXmlParser } from './index.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -27,7 +28,7 @@ import { DoxygenXmlParser } from './index.js'
 //   </xsd:simpleContent>
 // </xsd:complexType>
 
-export class IncType {
+export abstract class AbstractIncType extends AbstractParsedObjectBase {
   // Mandatory elements.
   text: string = '' // Passed as element text.
 
@@ -37,7 +38,9 @@ export class IncType {
   // Optional attributes.
   refId?: string | undefined // file id
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'includes') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))ect(element))ect(element))
 
     // ------------------------------------------------------------------------
@@ -70,3 +73,24 @@ export class IncType {
     // console.log(this)
   }
 }
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="includes" type="incType" minOccurs="0" maxOccurs="unbounded" />
+// <xsd:element name="includedby" type="incType" minOccurs="0" maxOccurs="unbounded" />
+
+export class Includes extends AbstractIncType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'includes')
+  }
+}
+
+export class IncludedBy extends AbstractIncType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'includedby')
+  }
+}
+
+// ----------------------------------------------------------------------------

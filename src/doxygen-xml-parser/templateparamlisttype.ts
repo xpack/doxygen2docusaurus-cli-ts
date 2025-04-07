@@ -15,7 +15,8 @@ import assert from 'node:assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { ParamType } from './paramtype.js'
+import { Param, AbstractParamType } from './paramtype.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -25,11 +26,13 @@ import { ParamType } from './paramtype.js'
 //   </xsd:sequence>
 // </xsd:complexType>
 
-export class TemplateParamListType {
+export abstract class AbstractTemplateParamListType extends AbstractParsedObjectBase {
   // Optional elements.
-  params?: ParamType[] | undefined
+  params?: AbstractParamType[] | undefined
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'includes') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -46,7 +49,7 @@ export class TemplateParamListType {
         if (this.params === undefined) {
           this.params = []
         }
-        this.params.push(new ParamType(xml, innerElement, 'param'))
+        this.params.push(new Param(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
@@ -61,6 +64,17 @@ export class TemplateParamListType {
     // ------------------------------------------------------------------------
 
     // console.log(this)
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="templateparamlist" type="templateparamlistType" minOccurs="0" />
+
+export class TemplateParamList extends AbstractTemplateParamListType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'templateparamlist')
   }
 }
 

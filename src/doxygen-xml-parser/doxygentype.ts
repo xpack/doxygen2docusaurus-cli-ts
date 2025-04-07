@@ -15,7 +15,8 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { CompoundDefType } from './compounddef.js'
+import { CompoundDef, AbstractCompoundDefType } from './compounddef.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -27,18 +28,20 @@ import { CompoundDefType } from './compounddef.js'
 //   <xsd:attribute ref="xml:lang" use="required"/>
 // </xsd:complexType>
 
-export class DoxygenType {
+export abstract class AbstractDoxygenType extends AbstractParsedObjectBase {
   // Mandatory attributes.
   version: string = ''
   lang: string = ''
 
   // Optional elements.
-  compoundDefs: CompoundDefType[] | undefined
+  compoundDefs: AbstractCompoundDefType[] | undefined
 
   // Optional attributes.
   noNamespaceSchemaLocation: string | undefined
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'doxygen') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))ect(element))ect(element))
 
     const innerElements = xml.getInnerElements(element, elementName)
@@ -51,7 +54,7 @@ export class DoxygenType {
         if (this.compoundDefs === undefined) {
           this.compoundDefs = []
         }
-        this.compoundDefs.push(new CompoundDefType(xml, innerElement, 'compounddef'))
+        this.compoundDefs.push(new CompoundDef(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
@@ -84,6 +87,17 @@ export class DoxygenType {
     // ------------------------------------------------------------------------
 
     // console.log(this)
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="doxygen" type="DoxygenType"/>
+
+export class Doxygen extends AbstractDoxygenType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'doxygen')
   }
 }
 

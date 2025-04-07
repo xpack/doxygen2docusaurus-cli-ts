@@ -15,6 +15,7 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -30,7 +31,7 @@ import { DoxygenXmlParser } from './index.js'
 //   <xsd:attribute name="bodyend" type="xsd:integer" />
 // </xsd:complexType>
 
-export class LocationType {
+export abstract class AbstractLocationType extends AbstractParsedObjectBase {
   // Mandatory attributes.
   file: string = ''
 
@@ -48,6 +49,8 @@ export class LocationType {
   bodyend: Number | undefined
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -95,6 +98,17 @@ export class LocationType {
     // ------------------------------------------------------------------------
 
     // console.log(this)
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="location" type="locationType" minOccurs="0" />
+
+export class Location extends AbstractLocationType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'location')
   }
 }
 

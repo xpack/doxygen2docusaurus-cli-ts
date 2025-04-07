@@ -15,6 +15,7 @@ import assert from 'assert'
 import util from 'util'
 
 import { DoxygenXmlParser } from './index.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -29,7 +30,7 @@ import { DoxygenXmlParser } from './index.js'
 //   </xsd:simpleContent>
 // </xsd:complexType>
 
-export class RefTextType {
+export abstract class AbstractRefTextType extends AbstractParsedObjectBase {
   // Mandatory elements.
   text: string = '' // The name of the reference, passed as element text.
 
@@ -41,7 +42,9 @@ export class RefTextType {
   external?: string | undefined
   tooltip?: string | undefined
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'ref') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -92,5 +95,16 @@ export class RefTextType {
 // </xsd:simpleType>
 
 export type DoxRefKind = 'compound' | 'member'
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="ref" type="refTextType" minOccurs="0" maxOccurs="unbounded" />
+
+export class RefText extends AbstractRefTextType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'ref')
+  }
+}
 
 // ----------------------------------------------------------------------------

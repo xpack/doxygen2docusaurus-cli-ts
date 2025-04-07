@@ -15,7 +15,8 @@ import assert from 'node:assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { MemberRefType } from './memberreftype.js'
+import { MemberRef, AbstractMemberRefType } from './memberreftype.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -25,11 +26,13 @@ import { MemberRefType } from './memberreftype.js'
 //   </xsd:sequence>
 // </xsd:complexType>
 
-export class ListOfAllMembersType {
+export abstract class AbstractListOfAllMembersType extends AbstractParsedObjectBase {
   // Optional elements.
-  members?: MemberRefType[] | undefined
+  members?: AbstractMemberRefType[] | undefined
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'listofallmembers') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -46,7 +49,7 @@ export class ListOfAllMembersType {
         if (this.members === undefined) {
           this.members = []
         }
-        this.members.push(new MemberRefType(xml, innerElement, 'member'))
+        this.members.push(new MemberRef(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
@@ -61,6 +64,17 @@ export class ListOfAllMembersType {
     // ------------------------------------------------------------------------
 
     // console.log(this)
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="listofallmembers" type="listofallmembersType" minOccurs="0" />
+
+export class ListOfAllMembers extends AbstractListOfAllMembersType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'listofallmembers')
   }
 }
 

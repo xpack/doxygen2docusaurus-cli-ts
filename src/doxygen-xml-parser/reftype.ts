@@ -15,6 +15,7 @@ import assert from 'assert'
 import util from 'util'
 
 import { DoxygenXmlParser } from './index.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -37,7 +38,7 @@ import { DoxygenXmlParser } from './index.js'
 // </xsd:restriction>
 // </xsd:simpleType>
 
-export class RefType {
+export abstract class AbstractRefType extends AbstractParsedObjectBase {
   // Mandatory elements.
   text: string = '' // The name of the reference, passed as element text.
 
@@ -48,7 +49,9 @@ export class RefType {
   prot: string | undefined // DoxProtectionKind
   inline: Boolean | undefined // DoxBool
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'ref') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -83,6 +86,52 @@ export class RefType {
     // ------------------------------------------------------------------------
 
     // console.log(this)
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="innermodule" type="refType" minOccurs="0" maxOccurs="unbounded" />
+// <xsd:element name="innerdir" type="refType" minOccurs="0" maxOccurs="unbounded" />
+// <xsd:element name="innerfile" type="refType" minOccurs="0" maxOccurs="unbounded" />
+// <xsd:element name="innerclass" type="refType" minOccurs="0" maxOccurs="unbounded" />
+// <xsd:element name="innerconcept" type="refType" minOccurs="0" maxOccurs="unbounded" />
+// <xsd:element name="innernamespace" type="refType" minOccurs="0" maxOccurs="unbounded" />
+// <xsd:element name="innerpage" type="refType" minOccurs="0" maxOccurs="unbounded" />
+// <xsd:element name="innergroup" type="refType" minOccurs="0" maxOccurs="unbounded" />
+
+export class InnerDir extends AbstractRefType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'innerdir')
+  }
+}
+
+export class InnerFile extends AbstractRefType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'innerfile')
+  }
+}
+
+export class InnerClass extends AbstractRefType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'innerclass')
+  }
+}
+
+export class InnerNamespace extends AbstractRefType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'innernamespace')
+  }
+}
+
+export class InnerGroup extends AbstractRefType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'innergroup')
   }
 }
 

@@ -15,10 +15,11 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { DescriptionType } from './descriptiontype.js'
-import { LinkedTextType } from './linkedtexttype.js'
-import { LocationType } from './locationtype.js'
-import { ParamType } from './paramtype.js'
+import { BriefDescription, AbstractDescriptionType, DetailedDescription, InbodyDescription } from './descriptiontype.js'
+import { AbstractLinkedTextType, Type } from './linkedtexttype.js'
+import { Location, AbstractLocationType } from './locationtype.js'
+import { Param, AbstractParamType } from './paramtype.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -105,10 +106,10 @@ import { ParamType } from './paramtype.js'
 //   <xsd:attribute name="maybeambiguous" type="DoxBool" use="optional"/>
 // </xsd:complexType>
 
-export class MemberDefType {
+export abstract class AbstractMemberDefType extends AbstractParsedObjectBase {
   // Mandatory elements.
   name: string = ''
-  location: LocationType | undefined
+  location: AbstractLocationType | undefined
 
   // Mandatory attributes.
   kind: string = ''
@@ -117,14 +118,14 @@ export class MemberDefType {
   _static: Boolean | undefined
 
   // Optional elements.
-  briefDescription: DescriptionType | undefined
-  detailedDescription: DescriptionType | undefined
-  inbodyDescription: DescriptionType | undefined
+  briefDescription: AbstractDescriptionType | undefined
+  detailedDescription: AbstractDescriptionType | undefined
+  inbodyDescription: AbstractDescriptionType | undefined
   qualifiedName?: string | undefined
-  type?: LinkedTextType | undefined
+  type?: AbstractLinkedTextType | undefined
   definition?: string | undefined
   argsstring?: string | undefined
-  param?: ParamType | undefined
+  param?: AbstractParamType | undefined
   // TODO: add more...
 
   // Optional attributes.
@@ -136,7 +137,9 @@ export class MemberDefType {
   virt: string | undefined
   // TODO: add more...
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'memberdef') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -151,23 +154,23 @@ export class MemberDefType {
       } else if (xml.isInnerElementText(innerElement, 'name')) {
         this.name = xml.getInnerElementText(innerElement, 'name')
       } else if (xml.hasInnerElement(innerElement, 'location')) {
-        this.location = new LocationType(xml, innerElement, 'location')
+        this.location = new Location(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'briefdescription')) {
-        this.briefDescription = new DescriptionType(xml, innerElement, 'briefdescription')
+        this.briefDescription = new BriefDescription(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'detaileddescription')) {
-        this.detailedDescription = new DescriptionType(xml, innerElement, 'detaileddescription')
+        this.detailedDescription = new DetailedDescription(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'inbodydescription')) {
-        this.inbodyDescription = new DescriptionType(xml, innerElement, 'inbodydescription')
+        this.inbodyDescription = new InbodyDescription(xml, innerElement)
       } else if (xml.isInnerElementText(innerElement, 'qualifiedname')) {
         this.qualifiedName = xml.getInnerElementText(innerElement, 'qualifiedname')
       } else if (xml.hasInnerElement(innerElement, 'type')) {
-        this.type = new LinkedTextType(xml, innerElement, 'type')
+        this.type = new Type(xml, innerElement)
       } else if (xml.isInnerElementText(innerElement, 'definition')) {
         this.definition = xml.getInnerElementText(innerElement, 'definition')
       } else if (xml.isInnerElementText(innerElement, 'argsstring')) {
         this.argsstring = xml.getInnerElementText(innerElement, 'argsstring')
       } else if (xml.hasInnerElement(innerElement, 'param')) {
-        this.param = new ParamType(xml, innerElement, 'param')
+        this.param = new Param(xml, innerElement)
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
@@ -219,6 +222,17 @@ export class MemberDefType {
     // ------------------------------------------------------------------------
 
     // console.log(this)
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="memberdef" type="memberdefType" minOccurs="0" maxOccurs="unbounded" />
+
+export class MemberDef extends AbstractMemberDefType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'memberdef')
   }
 }
 

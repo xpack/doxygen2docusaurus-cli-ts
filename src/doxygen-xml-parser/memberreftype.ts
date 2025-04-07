@@ -15,6 +15,7 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -29,7 +30,7 @@ import { DoxygenXmlParser } from './index.js'
 //   <xsd:attribute name="ambiguityscope" type="xsd:string" />
 // </xsd:complexType>
 
-export class MemberRefType {
+export abstract class AbstractMemberRefType extends AbstractParsedObjectBase {
   // Mandatory elements.
   scope: string = '' // This acts as the namespace.
   name: string = ''
@@ -41,7 +42,9 @@ export class MemberRefType {
   // WARNING: Deviation from xsd, there it is not optional.
   ambiguityscope?: string | undefined
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'member') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -95,6 +98,17 @@ export class MemberRefType {
     // ------------------------------------------------------------------------
 
     // console.log(this)
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="member" type="memberRefType" minOccurs="0" maxOccurs="unbounded" />
+
+export class MemberRef extends AbstractMemberRefType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'member')
   }
 }
 

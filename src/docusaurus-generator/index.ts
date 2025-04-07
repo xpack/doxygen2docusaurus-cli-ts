@@ -14,7 +14,7 @@ import assert from 'assert'
 import path from 'path'
 import util from 'node:util'
 
-import { CompoundDefType } from '../doxygen-xml-parser/compounddef.js'
+import { AbstractCompoundDefType } from '../doxygen-xml-parser/compounddef.js'
 import { DoxygenData } from '../doxygen-xml-parser/index.js'
 import { PluginOptions } from '../plugin/options.js'
 import { Folders } from './data-model/folders.js'
@@ -36,7 +36,7 @@ export class DocusaurusGenerator {
 
   doxygenOptions: DoxygenFileOptions
   // A map of compound definitions, indexed by their id.
-  compoundDefsById: Map<string, CompoundDefType> = new Map()
+  compoundDefsById: Map<string, AbstractCompoundDefType> = new Map()
   // Permalinks are relative to the Docusaurus baseUrl folder.
   permalinksById: Map<string, string> = new Map()
   docusaurusIdsById: Map<string, string> = new Map()

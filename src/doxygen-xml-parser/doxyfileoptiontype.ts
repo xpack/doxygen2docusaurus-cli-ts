@@ -15,6 +15,7 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -27,7 +28,7 @@ import { DoxygenXmlParser } from './index.js'
 //   <xsd:attribute name="type" type="typeType" use="required"/>
 // </xsd:complexType>
 
-export class DoxygenFileOptionType {
+export abstract class AbstractDoxygenFileOptionType extends AbstractParsedObjectBase {
   // Mandatory elements.
   values: string[] | undefined // [0-n] valueType
 
@@ -36,7 +37,9 @@ export class DoxygenFileOptionType {
   default: string = '' // defaultType
   type: string = '' // typeType
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'option') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -129,5 +132,16 @@ export type DoxyfileDefaultType = 'yes' | 'no'
 // </xsd:simpleType>
 
 export type DoxyfileTypeType = 'int' | 'bool' | 'string' | 'stringlist'
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="option" type="OptionType" minOccurs="0" maxOccurs="unbounded"/>
+
+export class DoxygenFileOption extends AbstractDoxygenFileOptionType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'option')
+  }
+}
 
 // ----------------------------------------------------------------------------

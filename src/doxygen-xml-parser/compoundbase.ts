@@ -19,7 +19,7 @@ import * as util from 'node:util'
 // import { IncType } from './IncType.js'
 
 import { DoxygenXmlParser } from './index.js'
-import { DescriptionType } from './descriptiontype.js'
+import { BriefDescription, AbstractDescriptionType, DetailedDescription } from './descriptiontype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -35,8 +35,8 @@ export class CompoundBase {
   compoundName: string = ''
 
   // Optional elements.
-  briefDescription?: DescriptionType | undefined
-  detailedDescription?: DescriptionType | undefined
+  briefDescription?: AbstractDescriptionType | undefined
+  detailedDescription?: AbstractDescriptionType | undefined
 
   // Mandatory attributes.
   id: string = ''
@@ -60,9 +60,9 @@ export class CompoundBase {
       } else if (xml.isInnerElementText(innerElement, 'name')) {
         this.compoundName = xml.getInnerElementText(innerElement, 'name')
       } else if (xml.hasInnerElement(innerElement, 'briefdescription')) {
-        this.briefDescription = new DescriptionType(xml, innerElement, 'briefdescription')
+        this.briefDescription = new BriefDescription(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'detaileddescription')) {
-        this.detailedDescription = new DescriptionType(xml, innerElement, 'detaileddescription')
+        this.detailedDescription = new DetailedDescription(xml, innerElement)
       }
     }
 

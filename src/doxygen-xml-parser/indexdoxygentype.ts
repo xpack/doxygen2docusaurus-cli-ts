@@ -15,7 +15,8 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { IndexCompoundType } from './indexcompoundtype.js'
+import { IndexCompound, AbstractIndexCompoundType } from './indexcompoundtype.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -28,18 +29,20 @@ import { IndexCompoundType } from './indexcompoundtype.js'
 //   <xsd:attribute ref="xml:lang" use="required"/>
 // </xsd:complexType>
 
-export class IndexDoxygenType {
+export abstract class AbstractIndexDoxygenType extends AbstractParsedObjectBase {
   // Mandatory attributes.
   version: string = ''
   lang: string = ''
 
   // Optional elements.
-  compounds: IndexCompoundType[] | undefined
+  compounds: AbstractIndexCompoundType[] | undefined
 
   // Optional attributes.
   noNamespaceSchemaLocation: string | undefined
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'doxygenindex') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     const innerElements = xml.getInnerElements(element, elementName)
@@ -52,7 +55,7 @@ export class IndexDoxygenType {
         if (this.compounds === undefined) {
           this.compounds = []
         }
-        this.compounds.push(new IndexCompoundType(xml, innerElement, 'compound'))
+        this.compounds.push(new IndexCompound(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`index ${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
@@ -85,6 +88,17 @@ export class IndexDoxygenType {
     // ------------------------------------------------------------------------
 
     // console.log(this)
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="doxygenindex" type="DoxygenType"/>
+
+export class DoxygenIndex extends AbstractIndexDoxygenType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'doxygenindex')
   }
 }
 

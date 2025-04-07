@@ -15,8 +15,10 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
+
 // <xsd:complexType name="MemberType">
 //   <xsd:sequence>
 //     <xsd:element name="name" type="xsd:string"/>
@@ -25,7 +27,7 @@ import { DoxygenXmlParser } from './index.js'
 //   <xsd:attribute name="kind" type="MemberKind" use="required"/>
 // </xsd:complexType>
 
-export class IndexMemberType {
+export abstract class AbstractIndexMemberType extends AbstractParsedObjectBase {
   // Mandatory elements.
   name: string = ''
 
@@ -33,7 +35,9 @@ export class IndexMemberType {
   refid: string = ''
   kind: string = '' // MemberKind
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'compound') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -103,5 +107,17 @@ export class IndexMemberType {
 // </xsd:simpleType>
 
 export type IndexMemberKind = 'define' | 'property' | 'event' | 'variable' | 'typedef' | 'enum' | 'enumvalue' | 'function' | 'signal' | 'prototype' | 'friend' | 'dcop' | 'slot'
+
+// ----------------------------------------------------------------------------
+
+// The name clashes with a similar definition in compound.xsd.
+// <xsd:element name="member" type="MemberType" minOccurs="0" maxOccurs="unbounded" />
+
+export class IndexMember extends AbstractIndexMemberType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'member')
+  }
+}
 
 // ----------------------------------------------------------------------------

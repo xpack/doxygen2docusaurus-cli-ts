@@ -15,8 +15,9 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { DescriptionType } from './descriptiontype.js'
-import { LinkedTextType } from './linkedtexttype.js'
+import { AbstractDescriptionType } from './descriptiontype.js'
+import { DefVal, AbstractLinkedTextType, Type, TypeConstraint } from './linkedtexttype.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -33,18 +34,20 @@ import { LinkedTextType } from './linkedtexttype.js'
 //   </xsd:sequence>
 // </xsd:complexType>
 
-export class ParamType {
+export abstract class AbstractParamType extends AbstractParsedObjectBase {
   // Optional elements.
   attributes?: string | undefined
-  type?: LinkedTextType | undefined
+  type?: AbstractLinkedTextType | undefined
   declname?: string | undefined
   defname?: string | undefined
   array?: string | undefined
-  defval?: LinkedTextType | undefined
-  typeconstraint?: LinkedTextType | undefined
-  briefdescription?: DescriptionType | undefined
+  defval?: AbstractLinkedTextType | undefined
+  typeconstraint?: AbstractLinkedTextType | undefined
+  briefdescription?: AbstractDescriptionType | undefined
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'param') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))ect(element))
 
     // ------------------------------------------------------------------------
@@ -64,7 +67,7 @@ export class ParamType {
         assert(attributesElements[0] !== undefined)
         this.attributes = xml.getInnerText(attributesElements[0])
       } else if (xml.hasInnerElement(innerElement, 'type')) {
-        this.type = new LinkedTextType(xml, innerElement, 'type')
+        this.type = new Type(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'declname')) {
         const declnameElements = xml.getInnerElements(innerElement, 'declname')
         // console.log(util.inspect(defvalElements))
@@ -84,9 +87,9 @@ export class ParamType {
         assert(arrayElements[0] !== undefined)
         this.array = xml.getInnerText(arrayElements[0])
       } else if (xml.hasInnerElement(innerElement, 'defval')) {
-        this.defval = new LinkedTextType(xml, innerElement, 'defval')
+        this.defval = new DefVal(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'typeconstraint')) {
-        this.typeconstraint = new LinkedTextType(xml, innerElement, 'typeconstraint')
+        this.typeconstraint = new TypeConstraint(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'briefdescription')) {
         // TODO
       } else {
@@ -103,6 +106,17 @@ export class ParamType {
     // ------------------------------------------------------------------------
 
     // console.log(this)
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="param" type="paramType" minOccurs="0" maxOccurs="unbounded" />
+
+export class Param extends AbstractParamType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'param')
   }
 }
 

@@ -15,6 +15,7 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
+import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -28,7 +29,7 @@ import { DoxygenXmlParser } from './index.js'
 //   </xsd:simpleContent>
 // </xsd:complexType>
 
-export class CompoundRefType {
+export abstract class AbstractCompoundRefType extends AbstractParsedObjectBase {
   // Mandatory elements.
   text: string = '' // Passed as element text.
 
@@ -39,7 +40,9 @@ export class CompoundRefType {
   // Optional attributes.
   refid?: string | undefined
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'includes') {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
     // console.log(elementName, util.inspect(element))
 
     // ------------------------------------------------------------------------
@@ -102,5 +105,24 @@ export type DoxProtectionKind = 'public' | 'protected' | 'private' | 'package'
 // </xsd:simpleType>
 
 export type DoxVirtualKind = 'non-virtual' | 'virtual' | 'pure-virtual'
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="basecompoundref" type="compoundRefType" minOccurs="0" maxOccurs="unbounded" />
+// <xsd:element name="derivedcompoundref" type="compoundRefType" minOccurs="0" maxOccurs="unbounded" />
+
+export class BaseCompoundRef extends AbstractCompoundRefType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'basecompoundref')
+  }
+}
+
+export class DerivedCompoundRef extends AbstractCompoundRefType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element))
+    super(xml, element, 'derivedcompoundref')
+  }
+}
 
 // ----------------------------------------------------------------------------
