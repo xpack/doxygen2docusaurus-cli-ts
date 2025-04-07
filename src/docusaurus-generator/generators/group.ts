@@ -13,10 +13,10 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { FrontMatter, GeneratorBase } from '../types.js'
-import { AbstractCompoundDefType } from '../../doxygen-xml-parser/compounddef.js'
+import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
 
 export class GroupGenerator extends GeneratorBase {
-  toMdx (compoundDef: AbstractCompoundDefType, frontMatter: FrontMatter): string {
+  toMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
     console.log(util.inspect(compoundDef), { depth: 10 })
 
     assert(compoundDef.title !== undefined)

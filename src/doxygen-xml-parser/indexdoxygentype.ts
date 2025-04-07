@@ -15,7 +15,7 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { IndexCompound, AbstractIndexCompoundType } from './indexcompoundtype.js'
+import { IndexCompound } from './indexcompoundtype.js'
 import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
@@ -35,7 +35,7 @@ export abstract class AbstractIndexDoxygenType extends AbstractParsedObjectBase 
   lang: string = ''
 
   // Optional elements.
-  compounds: AbstractIndexCompoundType[] | undefined
+  compounds: IndexCompound[] | undefined
 
   // Optional attributes.
   noNamespaceSchemaLocation: string | undefined

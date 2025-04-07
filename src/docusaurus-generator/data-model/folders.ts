@@ -14,7 +14,7 @@
 import * as util from 'node:util'
 import assert from 'node:assert'
 
-import { AbstractCompoundDefType } from '../../doxygen-xml-parser/compounddef.js'
+import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
 
 // ----------------------------------------------------------------------------
 
@@ -22,7 +22,7 @@ export class Folders {
   membersById: Map<string, Folder>
   topLevelFolderIds: string[] = []
 
-  constructor (compoundDefs: AbstractCompoundDefType[]) {
+  constructor (compoundDefs: CompoundDef[]) {
     this.membersById = new Map()
 
     for (const compoundDef of compoundDefs) {
@@ -62,12 +62,12 @@ export class Folders {
 }
 
 export class Folder {
-  compoundDef: AbstractCompoundDefType
+  compoundDef: CompoundDef
   parentFolderId: string = ''
   childrenFolderIds: string[] = []
   childrenFileIds: string[] = []
 
-  constructor (compoundDef: AbstractCompoundDefType) {
+  constructor (compoundDef: CompoundDef) {
     // console.log('Folder.constructor', util.inspect(compoundDef))
 
     this.compoundDef = compoundDef

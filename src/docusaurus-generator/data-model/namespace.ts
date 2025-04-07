@@ -14,7 +14,7 @@
 import * as util from 'node:util'
 import assert from 'node:assert'
 
-import { AbstractCompoundDefType } from '../../doxygen-xml-parser/compounddef.js'
+import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
 
 // ----------------------------------------------------------------------------
 
@@ -22,7 +22,7 @@ export class Namespaces {
   membersById: Map<string, Namespace>
   topLevelNamespaceIds: string[] = []
 
-  constructor (compoundDefs: AbstractCompoundDefType[]) {
+  constructor (compoundDefs: CompoundDef[]) {
     this.membersById = new Map()
 
     for (const compoundDef of compoundDefs) {
@@ -77,12 +77,12 @@ export class Namespaces {
 }
 
 export class Namespace {
-  compoundDef: AbstractCompoundDefType
+  compoundDef: CompoundDef
   parentNamespaceId: string = ''
   childrenNamespaceIds: string[] = []
   unparentedName: string = ''
 
-  constructor (compoundDef: AbstractCompoundDefType) {
+  constructor (compoundDef: CompoundDef) {
     // console.log('Namespace.constructor', util.inspect(compoundDef))
     this.compoundDef = compoundDef
 

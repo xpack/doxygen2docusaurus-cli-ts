@@ -15,7 +15,7 @@ import assert from 'node:assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { MemberRef, AbstractMemberRefType } from './memberreftype.js'
+import { MemberRef } from './memberreftype.js'
 import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
@@ -28,7 +28,7 @@ import { AbstractParsedObjectBase } from './types.js'
 
 export abstract class AbstractListOfAllMembersType extends AbstractParsedObjectBase {
   // Optional elements.
-  members?: AbstractMemberRefType[] | undefined
+  memberRefs?: MemberRef[] | undefined
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -46,10 +46,10 @@ export abstract class AbstractListOfAllMembersType extends AbstractParsedObjectB
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts
       } else if (xml.hasInnerElement(innerElement, 'member')) {
-        if (this.members === undefined) {
-          this.members = []
+        if (this.memberRefs === undefined) {
+          this.memberRefs = []
         }
-        this.members.push(new MemberRef(xml, innerElement))
+        this.memberRefs.push(new MemberRef(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')

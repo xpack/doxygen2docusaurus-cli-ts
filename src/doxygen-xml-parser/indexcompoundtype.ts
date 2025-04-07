@@ -15,7 +15,7 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { AbstractIndexMemberType, IndexMember } from './indexmembertype.js'
+import { IndexMember } from './indexmembertype.js'
 import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
@@ -32,7 +32,7 @@ import { AbstractParsedObjectBase } from './types.js'
 export abstract class AbstractIndexCompoundType extends AbstractParsedObjectBase {
   // Mandatory elements.
   name: string = ''
-  members: AbstractIndexMemberType[] | undefined // [0-n]
+  members: IndexMember[] | undefined // [0-n]
 
   // Mandatory attributes.
   refid: string = ''

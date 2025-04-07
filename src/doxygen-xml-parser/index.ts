@@ -18,18 +18,18 @@ import * as util from 'node:util'
 
 import { XMLParser } from 'fast-xml-parser'
 import { XmlElement } from './types.js'
-import { DoxygenIndex, AbstractIndexDoxygenType } from './indexdoxygentype.js'
-import { AbstractCompoundDefType } from './compounddef.js'
-import { DoxygenFile, AbstractDoxygenFileType } from './doxyfiletype.js'
+import { DoxygenIndex } from './indexdoxygentype.js'
+import { CompoundDef } from './compounddef.js'
+import { DoxygenFile } from './doxyfiletype.js'
 import { Doxygen } from './doxygentype.js'
 
 // ----------------------------------------------------------------------------
 // Top structure to hold the parsed Doxygen xml data as JS objects.
 
 export interface DoxygenData {
-  doxygenindex: AbstractIndexDoxygenType // from index.xml
-  compoundDefs: AbstractCompoundDefType[] // from `${'@_refid'}.xml`
-  doxyfile: AbstractDoxygenFileType // from Doxyfile.xml
+  doxygenindex: DoxygenIndex // from index.xml
+  compoundDefs: CompoundDef[] // from `${'@_refid'}.xml`
+  doxyfile: DoxygenFile // from Doxyfile.xml
 }
 
 // ----------------------------------------------------------------------------
@@ -63,7 +63,7 @@ export class DoxygenXmlParser {
     // console.log(util.inspect(parsedIndex[0]['?xml']))
     // console.log(JSON.stringify(parsedIndex, null, '  '))
 
-    let doxygenindex: AbstractIndexDoxygenType | undefined
+    let doxygenindex: DoxygenIndex | undefined
 
     for (const element of parsedIndexElements) {
       if (this.hasInnerElement(element, '?xml')) {
@@ -82,7 +82,7 @@ export class DoxygenXmlParser {
 
     // ------------------------------------------------------------------------
 
-    const compoundDefs: AbstractCompoundDefType[] = []
+    const compoundDefs: CompoundDef[] = []
 
     if (Array.isArray(doxygenindex.compounds)) {
       for (const compound of doxygenindex.compounds) {
@@ -114,7 +114,7 @@ export class DoxygenXmlParser {
     // console.log(util.inspect(parsedDoxyfile))
     // console.log(JSON.stringify(parsedDoxyfile, null, '  '))
 
-    let doxyfile: AbstractDoxygenFileType | undefined
+    let doxyfile: DoxygenFile | undefined
 
     for (const element of parsedDoxyfileElements) {
       if (this.hasInnerElement(element, '?xml')) {

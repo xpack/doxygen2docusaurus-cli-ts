@@ -15,7 +15,7 @@ import assert from 'node:assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { Param, AbstractParamType } from './paramtype.js'
+import { Param } from './paramtype.js'
 import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
@@ -28,7 +28,7 @@ import { AbstractParsedObjectBase } from './types.js'
 
 export abstract class AbstractTemplateParamListType extends AbstractParsedObjectBase {
   // Optional elements.
-  params?: AbstractParamType[] | undefined
+  params?: Param[] | undefined
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)

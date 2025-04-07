@@ -14,9 +14,9 @@
 import assert from 'assert'
 import * as util from 'node:util'
 import { DoxygenXmlParser } from './index.js'
-import { Description, AbstractDescriptionType } from './descriptiontype.js'
-import { MemberDef, AbstractMemberDefType } from './memberdeftype.js'
-import { AbstractMemberType, Member } from './membertype.js'
+import { Description } from './descriptiontype.js'
+import { MemberDef } from './memberdeftype.js'
+import { Member } from './membertype.js'
 import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
@@ -39,11 +39,11 @@ export abstract class AbstractSectionDefType extends AbstractParsedObjectBase {
 
   // Optional elements.
   header?: string | undefined
-  description?: AbstractDescriptionType | undefined
+  description?: Description | undefined
 
   // Actually only one is defined at a time.
-  memberDefs?: AbstractMemberDefType[] | undefined
-  members?: AbstractMemberType[] | undefined
+  memberDefs?: MemberDef[] | undefined
+  members?: Member[] | undefined
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)

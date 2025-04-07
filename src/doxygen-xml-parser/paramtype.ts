@@ -15,8 +15,8 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { AbstractDescriptionType } from './descriptiontype.js'
-import { DefVal, AbstractLinkedTextType, Type, TypeConstraint } from './linkedtexttype.js'
+import { BriefDescription } from './descriptiontype.js'
+import { DefVal, Type, TypeConstraint } from './linkedtexttype.js'
 import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
@@ -37,13 +37,13 @@ import { AbstractParsedObjectBase } from './types.js'
 export abstract class AbstractParamType extends AbstractParsedObjectBase {
   // Optional elements.
   attributes?: string | undefined
-  type?: AbstractLinkedTextType | undefined
+  type?: Type | undefined
   declname?: string | undefined
   defname?: string | undefined
   array?: string | undefined
-  defval?: AbstractLinkedTextType | undefined
-  typeconstraint?: AbstractLinkedTextType | undefined
-  briefdescription?: AbstractDescriptionType | undefined
+  defval?: DefVal | undefined
+  typeconstraint?: TypeConstraint | undefined
+  briefdescription?: BriefDescription | undefined
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)

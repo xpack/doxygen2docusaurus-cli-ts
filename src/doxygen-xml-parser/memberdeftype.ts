@@ -15,10 +15,10 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { BriefDescription, AbstractDescriptionType, DetailedDescription, InbodyDescription } from './descriptiontype.js'
-import { AbstractLinkedTextType, Type } from './linkedtexttype.js'
-import { Location, AbstractLocationType } from './locationtype.js'
-import { Param, AbstractParamType } from './paramtype.js'
+import { BriefDescription, DetailedDescription, InbodyDescription } from './descriptiontype.js'
+import { Type } from './linkedtexttype.js'
+import { Location } from './locationtype.js'
+import { Param } from './paramtype.js'
 import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
@@ -109,7 +109,7 @@ import { AbstractParsedObjectBase } from './types.js'
 export abstract class AbstractMemberDefType extends AbstractParsedObjectBase {
   // Mandatory elements.
   name: string = ''
-  location: AbstractLocationType | undefined
+  location: Location | undefined
 
   // Mandatory attributes.
   kind: string = ''
@@ -118,14 +118,14 @@ export abstract class AbstractMemberDefType extends AbstractParsedObjectBase {
   _static: Boolean | undefined
 
   // Optional elements.
-  briefDescription: AbstractDescriptionType | undefined
-  detailedDescription: AbstractDescriptionType | undefined
-  inbodyDescription: AbstractDescriptionType | undefined
+  briefDescription: BriefDescription | undefined
+  detailedDescription: DetailedDescription | undefined
+  inbodyDescription: InbodyDescription | undefined
   qualifiedName?: string | undefined
-  type?: AbstractLinkedTextType | undefined
+  type?: Type | undefined
   definition?: string | undefined
   argsstring?: string | undefined
-  param?: AbstractParamType | undefined
+  param?: Param | undefined
   // TODO: add more...
 
   // Optional attributes.

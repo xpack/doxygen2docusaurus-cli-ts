@@ -14,7 +14,7 @@
 import * as util from 'node:util'
 import assert from 'node:assert'
 
-import { AbstractCompoundDefType } from '../../doxygen-xml-parser/compounddef.js'
+import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
 
 // ----------------------------------------------------------------------------
 
@@ -22,7 +22,7 @@ export class Groups {
   membersById: Map<string, Group>
   topLevelGroupIds: string[] = []
 
-  constructor (compoundDefs: AbstractCompoundDefType[]) {
+  constructor (compoundDefs: CompoundDef[]) {
     this.membersById = new Map()
 
     for (const compoundDef of compoundDefs) {
@@ -50,11 +50,11 @@ export class Groups {
 }
 
 export class Group {
-  compoundDef: AbstractCompoundDefType
+  compoundDef: CompoundDef
   parentGroupId: string = ''
   childrenGroupsIds: string[] = []
 
-  constructor (compoundDef: AbstractCompoundDefType) {
+  constructor (compoundDef: CompoundDef) {
     // console.log('Group.constructor', util.inspect(compoundDef))
     this.compoundDef = compoundDef
 

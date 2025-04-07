@@ -13,14 +13,14 @@
 
 import * as util from 'node:util'
 import assert from 'node:assert'
-import { AbstractDoxygenFileOptionType } from '../../doxygen-xml-parser/doxyfileoptiontype.js'
+import { DoxygenFileOption } from '../../doxygen-xml-parser/doxyfileoptiontype.js'
 
 // ----------------------------------------------------------------------------
 
 export class DoxygenFileOptions {
-  membersById: Map<string, AbstractDoxygenFileOptionType>
+  membersById: Map<string, DoxygenFileOption>
 
-  constructor (options: AbstractDoxygenFileOptionType[] | undefined) {
+  constructor (options: DoxygenFileOption[] | undefined) {
     this.membersById = new Map()
 
     assert(options !== undefined)

@@ -14,15 +14,15 @@
 import * as util from 'node:util'
 import assert from 'node:assert'
 
-import { IncludedBy, Includes, AbstractIncType } from './inctype.js'
+import { IncludedBy, Includes } from './inctype.js'
 import { DoxygenXmlParser } from './index.js'
-import { BaseCompoundRef, AbstractCompoundRefType, DerivedCompoundRef } from './compoundreftype.js'
-import { TemplateParamList, AbstractTemplateParamListType } from './templateparamlisttype.js'
-import { SectionDef, AbstractSectionDefType } from './sectiondeftype.js'
-import { ListOfAllMembers, AbstractListOfAllMembersType } from './listofallmemberstype.js'
-import { BriefDescription, AbstractDescriptionType, DetailedDescription } from './descriptiontype.js'
-import { InnerClass, InnerDir, InnerFile, InnerGroup, InnerNamespace, AbstractRefType } from './reftype.js'
-import { Location, AbstractLocationType } from './locationtype.js'
+import { BaseCompoundRef, DerivedCompoundRef } from './compoundreftype.js'
+import { TemplateParamList } from './templateparamlisttype.js'
+import { SectionDef } from './sectiondeftype.js'
+import { ListOfAllMembers } from './listofallmemberstype.js'
+import { BriefDescription, DetailedDescription } from './descriptiontype.js'
+import { InnerClass, InnerDir, InnerFile, InnerGroup, InnerNamespace } from './reftype.js'
+import { Location } from './locationtype.js'
 import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
@@ -99,24 +99,24 @@ export abstract class AbstractCompoundDefType extends AbstractParsedObjectBase {
 
   // Optional elements.
   title?: string | undefined
-  briefDescription?: AbstractDescriptionType | undefined
-  detailedDescription?: AbstractDescriptionType | undefined
-  baseCompoundRefs: AbstractCompoundRefType[] | undefined
-  derivedCompoundRefs: AbstractCompoundRefType[] | undefined
-  includes: AbstractIncType[] | undefined
-  includedBy: AbstractIncType[] | undefined
-  templateParamList: AbstractTemplateParamListType | undefined
-  sectionDefs: AbstractSectionDefType[] | undefined
+  briefDescription?: BriefDescription | undefined
+  detailedDescription?: DetailedDescription | undefined
+  baseCompoundRefs: BaseCompoundRef[] | undefined
+  derivedCompoundRefs: DerivedCompoundRef[] | undefined
+  includes: Includes[] | undefined
+  includedBy: IncludedBy[] | undefined
+  templateParamList: TemplateParamList | undefined
+  sectionDefs: SectionDef[] | undefined
   // innerModules
-  innerDirs: AbstractRefType[] | undefined
-  innerFiles: AbstractRefType[] | undefined
-  innerClasses: AbstractRefType[] | undefined
+  innerDirs: InnerDir[] | undefined
+  innerFiles: InnerFile[] | undefined
+  innerClasses: InnerClass[] | undefined
   // innerConcepts
-  innerNamespaces: AbstractRefType[] | undefined
+  innerNamespaces: InnerNamespace[] | undefined
   // innerPages
-  innerGroups: AbstractRefType[] | undefined
-  location: AbstractLocationType | undefined
-  listOfAllMembers: AbstractListOfAllMembersType | undefined
+  innerGroups: InnerGroup[] | undefined
+  location: Location | undefined
+  listOfAllMembers: ListOfAllMembers | undefined
 
   // Mandatory attributes.
   id: string = ''

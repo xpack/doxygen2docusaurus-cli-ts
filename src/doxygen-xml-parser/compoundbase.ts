@@ -19,7 +19,7 @@ import * as util from 'node:util'
 // import { IncType } from './IncType.js'
 
 import { DoxygenXmlParser } from './index.js'
-import { BriefDescription, AbstractDescriptionType, DetailedDescription } from './descriptiontype.js'
+import { BriefDescription, DetailedDescription } from './descriptiontype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -35,8 +35,8 @@ export class CompoundBase {
   compoundName: string = ''
 
   // Optional elements.
-  briefDescription?: AbstractDescriptionType | undefined
-  detailedDescription?: AbstractDescriptionType | undefined
+  briefDescription?: BriefDescription | undefined
+  detailedDescription?: DetailedDescription | undefined
 
   // Mandatory attributes.
   id: string = ''

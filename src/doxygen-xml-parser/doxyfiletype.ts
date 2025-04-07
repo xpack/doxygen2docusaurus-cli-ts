@@ -15,7 +15,7 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { AbstractDoxygenFileOptionType, DoxygenFileOption } from './doxyfileoptiontype.js'
+import { DoxygenFileOption } from './doxyfileoptiontype.js'
 import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
@@ -34,7 +34,7 @@ export abstract class AbstractDoxygenFileType extends AbstractParsedObjectBase {
   lang: string = ''
 
   // Optional elements.
-  options: AbstractDoxygenFileOptionType[] | undefined
+  options: DoxygenFileOption[] | undefined
 
   // Optional attributes.
   noNamespaceSchemaLocation: string | undefined
