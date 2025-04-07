@@ -25,14 +25,8 @@ import { Sidebar } from './sidebar.js'
 import { SidebarItem } from '../plugin/types.js'
 import { Namespaces } from './data-model/namespace.js'
 import { Classes } from './data-model/classes.js'
-
-// ----------------------------------------------------------------------------
-
-// https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
-interface FrontMatter {
-  keywords: string[]
-  [key: string]: string | string[] | null | boolean
-}
+import { GroupGenerator } from './generators/group.js'
+import { FrontMatter, GeneratorBase } from './types.js'
 
 export class DocusaurusGenerator {
   // The data parsed from the Doxygen XML files.
@@ -74,6 +68,12 @@ export class DocusaurusGenerator {
     dir: 'folders',
     concept: 'concepts'
   }
+
+  generators: {
+    [key: string]: GeneratorBase
+  } = {
+      group: new GroupGenerator(this)
+    }
 
   // --------------------------------------------------------------------------
 
@@ -222,9 +222,15 @@ export class DocusaurusGenerator {
         keywords: ['doxygen', 'reference', `${compoundDef.kind}`]
       }
 
+      let bodyText = `TODO ${compoundDef.compoundName}\n`
+      const docusaurusGenerator = this.generators[compoundDef.kind]
+      if (docusaurusGenerator !== undefined) {
+        bodyText = await docusaurusGenerator.toMdx(compoundDef, frontMatter)
+      }
+
       await this.writeFile({
         filePath,
-        bodyText: `TODO ${compoundDef.compoundName}\n`,
+        bodyText,
         frontMatter
       })
     }
