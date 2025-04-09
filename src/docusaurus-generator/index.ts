@@ -9,6 +9,8 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 
+// ----------------------------------------------------------------------------
+
 import * as fs from 'fs/promises'
 import assert from 'assert'
 import path from 'path'
@@ -26,7 +28,7 @@ import { SidebarItem } from '../plugin/types.js'
 import { Namespaces } from './data-model/namespace.js'
 import { Classes } from './data-model/classes.js'
 import { GroupGenerator } from './generators/group.js'
-import { FrontMatter, GeneratorBase } from './types.js'
+// ----------------------------------------------------------------------------
 
 export class DocusaurusGenerator {
   // The data parsed from the Doxygen XML files.

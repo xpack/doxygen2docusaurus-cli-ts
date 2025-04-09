@@ -9,6 +9,8 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 
+// ----------------------------------------------------------------------------
+
 import assert from 'assert'
 
 import { DocusaurusGenerator } from './index.js'
@@ -256,4 +258,5 @@ export class Sidebar {
     }
   }
 }
+
 // ----------------------------------------------------------------------------

@@ -16,7 +16,7 @@ import { DocusaurusGenerator } from './index.js'
 
 // ----------------------------------------------------------------------------
 
-export abstract class GeneratorBase {
+// ----------------------------------------------------------------------------
   generator: DocusaurusGenerator
 
   constructor (generator: DocusaurusGenerator) {

@@ -9,6 +9,8 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 
+// ----------------------------------------------------------------------------
+
 import assert from 'assert'
 import * as util from 'node:util'
 
