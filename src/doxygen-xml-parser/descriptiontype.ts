@@ -1322,7 +1322,7 @@ export abstract class AbstractDocInternalS6Type extends AbstractParsedObjectBase
 //   </xsd:choice>
 // </xsd:group>
 
-export type DocTitleCmdGroup = (Bold | Emphasis | ComputerOutput | Ref | LineBreak)
+export type DocTitleCmdGroup = (Bold | Emphasis | ComputerOutput | Ref | LineBreak | Ulink)
 
 function parseDocTitleCmdGroup (
   xml: DoxygenXmlParser,
@@ -1343,6 +1343,8 @@ function parseDocTitleCmdGroup (
     children.push(new Ref(xml, element))
   } else if (xml.hasInnerElement(element, 'linebreak')) {
     children.push(new LineBreak(xml, element))
+  } else if (xml.hasInnerElement(element, 'ulink')) {
+    children.push(new Ulink(xml, element))
   } else {
     console.error(util.inspect(element, { compact: false, depth: 999 }))
     console.error(`${elementName} element:`, Object.keys(element), 'not implemented yet by parseDocTitleCmdGroup()')
@@ -1711,7 +1713,7 @@ export class AbstractDocTitleType extends AbstractParsedObjectBase {
 //   </xsd:choice>
 // </xsd:group>
 
-export type DocCmdGroup = (Bold | SimpleSect | Emphasis | ParameterList | ComputerOutput | Ref | ItemizedList | LineBreak)
+export type DocCmdGroup = (Bold | SimpleSect | Emphasis | ParameterList | ComputerOutput | Ref | ItemizedList | LineBreak | Ulink)
 
 function parseDocCmdGroup (
   xml: DoxygenXmlParser,
@@ -1740,6 +1742,8 @@ function parseDocCmdGroup (
     children.push(new LineBreak(xml, element))
   } else if (xml.hasInnerElement(element, 'programlisting')) {
     children.push(new ProgramListing(xml, element))
+  } else if (xml.hasInnerElement(element, 'ulink')) {
+    children.push(new Ulink(xml, element))
   } else {
     console.error(util.inspect(element, { compact: false, depth: 999 }))
     console.error(`${elementName} element:`, Object.keys(element), 'not implemented yet by parseDocCmdGroup()')
@@ -1835,12 +1839,52 @@ export class AbstractDocMarkupType extends AbstractParsedObjectBase {
 // </xsd:complexType>
 
 export class AbstractDocURLLink extends AbstractParsedObjectBase {
+  children: Array<string | DocTitleCmdGroup> = []
+
+  // Mandatory attributes.
+  url: string = ''
+
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
-    // TODO
-    console.error(util.inspect(element, { compact: false, depth: 999 }))
-    console.error(`${elementName} element:`, Object.keys(element), 'not implemented yet TODO AbstractDocURLLink')
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+
+    // ------------------------------------------------------------------------
+    // Process elements.
+
+    const innerElements = xml.getInnerElements(element, elementName)
+    assert(innerElements.length > 0)
+
+    for (const innerElement of innerElements) {
+      if (xml.hasInnerText(innerElement)) {
+        this.children.push(xml.getInnerText(innerElement))
+      } else {
+        this.children.push(...parseDocTitleCmdGroup(xml, innerElement, elementName))
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // Process attributes.
+
+    assert(xml.hasAttributes(element))
+
+    const attributesNames = xml.getAttributesNames(element)
+    for (const attributeName of attributesNames) {
+      if (attributeName === '@_url') {
+        this.url = xml.getAttributeStringValue(element, '@_url')
+      } else {
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
+      }
+    }
+  }
+}
+
+// <xsd:element name="ulink" type="docURLLink" />
+
+export class Ulink extends AbstractDocURLLink {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    super(xml, element, 'ulink')
   }
 }
 
