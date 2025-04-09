@@ -225,7 +225,7 @@ export class DocusaurusGenerator {
       let bodyText = `TODO ${compoundDef.compoundName}\n`
       const docusaurusGenerator = this.generators[compoundDef.kind]
       if (docusaurusGenerator !== undefined) {
-        bodyText = await docusaurusGenerator.toMdx(compoundDef, frontMatter)
+        bodyText = await docusaurusGenerator.renderMdx(compoundDef, frontMatter)
       }
 
       await this.writeFile({

@@ -9,6 +9,8 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 
+// ----------------------------------------------------------------------------
+
 import { CompoundDef } from '../doxygen-xml-parser/compounddef.js'
 import { DocusaurusGenerator } from './index.js'
 
@@ -21,7 +23,7 @@ export abstract class GeneratorBase {
     this.generator = generator
   }
 
-  abstract toMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string
+  abstract renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string
 }
 
 // ----------------------------------------------------------------------------

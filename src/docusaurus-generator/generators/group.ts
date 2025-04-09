@@ -9,14 +9,18 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 
+// ----------------------------------------------------------------------------
+
 import assert from 'assert'
 import * as util from 'node:util'
 
 import { FrontMatter, GeneratorBase } from '../types.js'
 import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
 
+// ----------------------------------------------------------------------------
+
 export class GroupGenerator extends GeneratorBase {
-  toMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
+  renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
     // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
 
     assert(compoundDef.title !== undefined)
@@ -35,3 +39,5 @@ export class GroupGenerator extends GeneratorBase {
     return bodyText
   }
 }
+
+// ----------------------------------------------------------------------------
