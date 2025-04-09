@@ -11,25 +11,28 @@
 
 // ----------------------------------------------------------------------------
 
-import * as fs from 'fs/promises'
 import assert from 'assert'
+import * as fs from 'fs/promises'
 import path from 'path'
-import util from 'node:util'
 
 import { AbstractCompoundDefType } from '../doxygen-xml-parser/compounddef.js'
 import { DoxygenData } from '../doxygen-xml-parser/index.js'
 import { PluginOptions } from '../plugin/options.js'
-import { Folders } from './data-model/folders.js'
-import { Files } from './data-model/files.js'
-import { DoxygenFileOptions } from './data-model/options.js'
-import { Groups } from './data-model/groups.js'
-import { Sidebar } from './sidebar.js'
 import { SidebarItem } from '../plugin/types.js'
-import { Namespaces } from './data-model/namespace.js'
 import { Classes } from './data-model/classes.js'
+import { Files } from './data-model/files.js'
+import { Folders } from './data-model/folders.js'
+import { Groups } from './data-model/groups.js'
+import { Namespaces } from './data-model/namespace.js'
+import { DoxygenFileOptions } from './data-model/options.js'
+import { DescriptionTypeGenerator, DocParaType, DocURLLink } from './element-generators/descriptiontype.js'
+import { ElementGeneratorBase } from './element-generators/element-generator-base.js'
+import { KindGeneratorBase as GeneratorBase } from './generators/generator-base.js'
 import { GroupGenerator } from './generators/group.js'
+import { Sidebar } from './sidebar.js'
 import { FrontMatter } from './types.js'
 import { formatDate } from './utils.js'
+import { RefType } from './element-generators/refType.js'
 
 // ----------------------------------------------------------------------------
 
@@ -74,17 +77,24 @@ export class DocusaurusGenerator {
     concept: 'concepts'
   }
 
-  generators: {
+  kindGenerators: {
     [key: string]: GeneratorBase
   } = {
       group: new GroupGenerator(this)
     }
 
-  // --------------------------------------------------------------------------
+  elementGenerators: {
+    [key: string]: ElementGeneratorBase
+  } = {
+      AbstractDescriptionType: new DescriptionTypeGenerator(this),
+      AbstractDocParaType: new DocParaType(this),
+      AbstractDocURLLink: new DocURLLink(this),
+      AbstractRefType: new RefType(this)
+    }
 
+  // --------------------------------------------------------------------------
   constructor ({
-    doxygenData,
-    pluginOptions
+    doxygenData, pluginOptions
   }: {
     doxygenData: DoxygenData
     pluginOptions: PluginOptions
@@ -113,10 +123,8 @@ export class DocusaurusGenerator {
   }
 
   // --------------------------------------------------------------------------
-
   createCompoundDefsMap (): void {
     // console.log('DocusaurusGenerator.createCompoundDefsMap()')
-
     for (const compoundDef of this.doxygenData.compoundDefs) {
       // console.log(compoundDef.id)
       this.compoundDefsById.set(compoundDef.id, compoundDef)
@@ -125,13 +133,10 @@ export class DocusaurusGenerator {
 
   createPermalinksMap (): void {
     // console.log('DocusaurusGenerator.createPermalinksMap()')
-
     assert(this.pluginOptions.outputFolderPath)
     // const outputFolderPath = this.options.outputFolderPath
-
     for (const compoundDef of this.doxygenData.compoundDefs) {
       // console.log(compoundDef.kind, compoundDef.compoundName)
-
       const kind = compoundDef.kind
       const prefix = this.permalinkPrefixesByKind[kind]
       assert(prefix !== undefined)
@@ -157,7 +162,6 @@ export class DocusaurusGenerator {
       // const permalink = `/${outputFolderPath}/${prefix}/${name}`
       const permalink = `/${prefix}/${name}`
       // console.log('permalink:', permalink)
-
       this.permalinksById.set(compoundDef.id, permalink)
 
       const docusaurusId = `/${prefix}/${name.replaceAll('/', '-') as string}`
@@ -216,7 +220,6 @@ export class DocusaurusGenerator {
 
       const fileName = `${docusaurusId}.mdx`
       // console.log('fileName:', fileName)
-
       const filePath = `${outputFolderPath}${fileName}`
 
       const frontMatter: FrontMatter = {
@@ -228,7 +231,7 @@ export class DocusaurusGenerator {
       }
 
       let bodyText = `TODO ${compoundDef.compoundName}\n`
-      const docusaurusGenerator = this.generators[compoundDef.kind]
+      const docusaurusGenerator = this.kindGenerators[compoundDef.kind]
       if (docusaurusGenerator !== undefined) {
         bodyText = await docusaurusGenerator.renderMdx(compoundDef, frontMatter)
       }
@@ -345,14 +348,48 @@ export class DocusaurusGenerator {
     frontMatterText += '---\n'
     frontMatterText += '\n'
 
-    // TODO: add imports
+    frontMatterText += 'import Link from \'@docusaurus/Link\';'
+    frontMatterText += '\n'
+    frontMatterText += '\n'
 
+    // TODO: add imports
     await fileHandle.write(frontMatterText)
     await fileHandle.write(bodyText)
 
     await fileHandle.close()
   }
 
-}
+  getPermalink (refid: string): string {
+    return `/${this.pluginOptions.outputFolderPath}${this.permalinksById.get(refid)}`
+  }
 
-// ----------------------------------------------------------------------------
+  getElementRenderer (element: Object): ElementGeneratorBase | undefined {
+    let elementClass = element.constructor
+    while (elementClass.name !== '') {
+      if (Object.hasOwn(this.elementGenerators, elementClass.name) === true) {
+        return this.elementGenerators[elementClass.name]
+      }
+      elementClass = Object.getPrototypeOf(elementClass)
+    }
+
+    console.error('no element generator for', element.constructor.name)
+    return undefined
+  }
+
+  renderElementMdx (element: Object | undefined): string {
+    if (element === undefined) {
+      return ''
+    }
+
+    if (typeof element === 'string') {
+      return element
+    }
+
+    const renderer: ElementGeneratorBase | undefined = this.getElementRenderer(element)
+    if (renderer === undefined) {
+      return ''
+    }
+
+    return renderer.renderMdx(element)
+  }
+}

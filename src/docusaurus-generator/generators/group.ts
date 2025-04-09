@@ -25,23 +25,39 @@ export class GroupGenerator extends KindGeneratorBase {
     // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
 
     assert(compoundDef.title !== undefined)
-    frontMatter.title = compoundDef.title + ' reference'
+    frontMatter.title = compoundDef.title + ' Reference'
 
     let bodyText: string = ''
 
-    const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription)
-    if (briefDescription.length > 0) {
+    const briefDescription: string = this.generator.renderElementMdx(compoundDef.briefDescription)
+    if (briefDescription.trim().length > 0) {
       bodyText += briefDescription
       bodyText += ' <a href="#details">More...</a>\n'
       bodyText += '\n'
     }
-    bodyText += '## Topics\n'
-    bodyText += '\n'
-    bodyText += 'TODO\n'
-    bodyText += '\n'
+
+    if (compoundDef.innerGroups !== undefined && compoundDef.innerGroups.length > 0) {
+      bodyText += '## Topics\n'
+      bodyText += '\n'
+      for (const innerGroup of compoundDef.innerGroups) {
+        bodyText += `- ${this.generator.renderElementMdx(innerGroup)}\n`
+      }
+      bodyText += '\n'
+    }
+
     bodyText += '## Detailed Description {#details}\n'
     bodyText += '\n'
-    bodyText += 'TODO\n'
+
+    if (briefDescription.length > 0) {
+      bodyText += briefDescription
+      bodyText += '\n'
+    }
+
+    const detailedDescription: string = this.generator.renderElementMdx(compoundDef.detailedDescription)
+    if (detailedDescription.trim().length > 0) {
+      bodyText += detailedDescription
+      bodyText += '\n'
+    }
 
     return bodyText
   }
