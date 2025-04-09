@@ -42,7 +42,7 @@ export abstract class AbstractDoxygenFileType extends AbstractParsedObjectBase {
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
@@ -57,7 +57,7 @@ export abstract class AbstractDoxygenFileType extends AbstractParsedObjectBase {
         this.options.push(new DoxygenFileOption(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
-        console.error(`doxyfile ${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
+        console.error(`doxyfile ${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
       }
     }
 
@@ -77,8 +77,8 @@ export abstract class AbstractDoxygenFileType extends AbstractParsedObjectBase {
       } else if (attributeName === '@_noNamespaceSchemaLocation') {
         this.noNamespaceSchemaLocation = xml.getAttributeStringValue(element, '@_noNamespaceSchemaLocation')
       } else {
-        console.error(util.inspect(element))
-        console.error(`doxyfile ${elementName} attribute:`, attributeName, 'not implemented yet')
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error(`doxyfile ${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
       }
     }
     assert(this.version.length > 0)
@@ -86,7 +86,7 @@ export abstract class AbstractDoxygenFileType extends AbstractParsedObjectBase {
 
     // ------------------------------------------------------------------------
 
-    // console.log(this)
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
   }
 }
 
@@ -96,7 +96,7 @@ export abstract class AbstractDoxygenFileType extends AbstractParsedObjectBase {
 
 export class DoxygenFile extends AbstractDoxygenFileType {
   constructor (xml: DoxygenXmlParser, element: Object) {
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'doxyfile')
   }
 }

@@ -45,7 +45,7 @@ export abstract class AbstractRefTextType extends AbstractParsedObjectBase {
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
 
     // ------------------------------------------------------------------------
     // Process elements.
@@ -71,8 +71,8 @@ export abstract class AbstractRefTextType extends AbstractParsedObjectBase {
       } else if (attributeName === '@_tooltip') {
         this.tooltip = xml.getAttributeStringValue(element, '@_tooltip')
       } else {
-        console.error(util.inspect(element))
-        console.error(`${elementName} attribute:`, attributeName, 'not implemented yet')
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
       }
     }
 
@@ -81,7 +81,7 @@ export abstract class AbstractRefTextType extends AbstractParsedObjectBase {
 
     // ------------------------------------------------------------------------
 
-    // console.log(this)
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
   }
 }
 
@@ -102,7 +102,7 @@ export type DoxRefKind = 'compound' | 'member'
 
 export class RefText extends AbstractRefTextType {
   constructor (xml: DoxygenXmlParser, element: Object) {
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'ref')
   }
 }

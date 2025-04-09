@@ -33,7 +33,7 @@ export abstract class AbstractListOfAllMembersType extends AbstractParsedObjectB
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
 
     // ------------------------------------------------------------------------
     // Process elements.
@@ -52,7 +52,7 @@ export abstract class AbstractListOfAllMembersType extends AbstractParsedObjectB
         this.memberRefs.push(new MemberRef(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
-        console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
+        console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
       }
     }
 
@@ -63,7 +63,7 @@ export abstract class AbstractListOfAllMembersType extends AbstractParsedObjectB
 
     // ------------------------------------------------------------------------
 
-    // console.log(this)
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
   }
 }
 
@@ -73,7 +73,7 @@ export abstract class AbstractListOfAllMembersType extends AbstractParsedObjectB
 
 export class ListOfAllMembers extends AbstractListOfAllMembersType {
   constructor (xml: DoxygenXmlParser, element: Object) {
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'listofallmembers')
   }
 }

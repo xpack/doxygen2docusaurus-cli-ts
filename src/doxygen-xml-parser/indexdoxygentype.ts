@@ -43,7 +43,7 @@ export abstract class AbstractIndexDoxygenType extends AbstractParsedObjectBase 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
@@ -58,7 +58,7 @@ export abstract class AbstractIndexDoxygenType extends AbstractParsedObjectBase 
         this.compounds.push(new IndexCompound(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
-        console.error(`index ${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
+        console.error(`index ${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
       }
     }
 
@@ -78,8 +78,8 @@ export abstract class AbstractIndexDoxygenType extends AbstractParsedObjectBase 
       } else if (attributeName === '@_noNamespaceSchemaLocation') {
         this.noNamespaceSchemaLocation = xml.getAttributeStringValue(element, '@_noNamespaceSchemaLocation')
       } else {
-        console.error(util.inspect(element))
-        console.error(`index ${elementName} attribute:`, attributeName, 'not implemented yet')
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error(`index ${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
       }
     }
     assert(this.version.length > 0)
@@ -87,7 +87,7 @@ export abstract class AbstractIndexDoxygenType extends AbstractParsedObjectBase 
 
     // ------------------------------------------------------------------------
 
-    // console.log(this)
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
   }
 }
 
@@ -97,7 +97,7 @@ export abstract class AbstractIndexDoxygenType extends AbstractParsedObjectBase 
 
 export class DoxygenIndex extends AbstractIndexDoxygenType {
   constructor (xml: DoxygenXmlParser, element: Object) {
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'doxygenindex')
   }
 }

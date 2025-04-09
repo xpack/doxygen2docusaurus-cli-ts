@@ -38,7 +38,7 @@ export abstract class AbstractIndexMemberType extends AbstractParsedObjectBase {
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
 
     // ------------------------------------------------------------------------
     // Process elements.
@@ -54,7 +54,7 @@ export abstract class AbstractIndexMemberType extends AbstractParsedObjectBase {
         this.name = xml.getInnerElementText(innerElement, 'name')
       } else {
         console.error(util.inspect(innerElement))
-        console.error(`index ${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
+        console.error(`index ${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
       }
     }
 
@@ -72,8 +72,8 @@ export abstract class AbstractIndexMemberType extends AbstractParsedObjectBase {
       } else if (attributeName === '@_kind') {
         this.kind = xml.getAttributeStringValue(element, '@_kind')
       } else {
-        console.error(util.inspect(element))
-        console.error(`index ${elementName} attribute:`, attributeName, 'not implemented yet')
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error(`index ${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
       }
     }
 
@@ -82,7 +82,7 @@ export abstract class AbstractIndexMemberType extends AbstractParsedObjectBase {
 
     // ------------------------------------------------------------------------
 
-    // console.log(this)
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
   }
 }
 
@@ -115,7 +115,7 @@ export type IndexMemberKind = 'define' | 'property' | 'event' | 'variable' | 'ty
 
 export class IndexMember extends AbstractIndexMemberType {
   constructor (xml: DoxygenXmlParser, element: Object) {
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'member')
   }
 }

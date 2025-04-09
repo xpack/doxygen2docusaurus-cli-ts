@@ -138,12 +138,12 @@ export abstract class AbstractCompoundDefType extends AbstractParsedObjectBase {
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
 
     // ------------------------------------------------------------------------
     // Process elements.
 
-    // console.log(util.inspect(element))
+    // console.log(util.inspect(element, { compact: false, depth: 999 })
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
 
@@ -227,7 +227,7 @@ export abstract class AbstractCompoundDefType extends AbstractParsedObjectBase {
       } else if (xml.hasInnerElement(innerElement, 'listofallmembers')) {
         this.listOfAllMembers = new ListOfAllMembers(xml, innerElement)
       } else {
-        console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
+        console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
       }
     }
 
@@ -259,8 +259,8 @@ export abstract class AbstractCompoundDefType extends AbstractParsedObjectBase {
       } else if (attributeName === '@_abstract') {
         this.abstract = Boolean(xml.getAttributeBooleanValue(element, '@_abstract'))
       } else {
-        console.error(util.inspect(element))
-        console.error(`${elementName} attribute:`, attributeName, 'not implemented yet')
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
       }
     }
 
@@ -272,7 +272,7 @@ export abstract class AbstractCompoundDefType extends AbstractParsedObjectBase {
 
     // ------------------------------------------------------------------------
 
-    // console.log(this)
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
   }
 }
 
@@ -282,7 +282,7 @@ export abstract class AbstractCompoundDefType extends AbstractParsedObjectBase {
 
 export class CompoundDef extends AbstractCompoundDefType {
   constructor (xml: DoxygenXmlParser, element: Object) {
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'compounddef')
   }
 }

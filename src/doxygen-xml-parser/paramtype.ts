@@ -48,7 +48,7 @@ export abstract class AbstractParamType extends AbstractParsedObjectBase {
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
-    // console.log(elementName, util.inspect(element))ect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))
 
     // ------------------------------------------------------------------------
     // Process elements.
@@ -94,7 +94,7 @@ export abstract class AbstractParamType extends AbstractParsedObjectBase {
         // TODO
       } else {
         console.error(util.inspect(innerElement))
-        console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet')
+        console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
       }
     }
 
@@ -105,7 +105,7 @@ export abstract class AbstractParamType extends AbstractParsedObjectBase {
 
     // ------------------------------------------------------------------------
 
-    // console.log(this)
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
   }
 }
 
@@ -115,7 +115,7 @@ export abstract class AbstractParamType extends AbstractParsedObjectBase {
 
 export class Param extends AbstractParamType {
   constructor (xml: DoxygenXmlParser, element: Object) {
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'param')
   }
 }

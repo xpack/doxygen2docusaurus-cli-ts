@@ -164,7 +164,7 @@ export class DocusaurusGenerator {
     const sidebar = new Sidebar(this)
 
     const sidebarItems: SidebarItem[] = sidebar.createItems()
-    // console.log('sidebarItems:', util.inspect(sidebarItems, { compact: false, depth: 10 }))
+    // console.log('sidebarItems:', util.inspect(sidebarItems, { compact: false, depth: 999 }))
     const jsonString = JSON.stringify(sidebarItems, null, 2)
 
     assert(this.pluginOptions.outputFolderPath)

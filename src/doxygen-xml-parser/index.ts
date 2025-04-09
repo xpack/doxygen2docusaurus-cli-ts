@@ -73,8 +73,8 @@ export class DoxygenXmlParser {
       } else if (this.hasInnerElement(element, 'doxygenindex')) {
         doxygenindex = new DoxygenIndex(this, element)
       } else {
-        console.error(util.inspect(element))
-        console.error('index.xml element:', Object.keys(element), 'not implemented yet')
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error('index.xml element:', Object.keys(element), 'not implemented yet in', this.constructor.name)
       }
     }
 
@@ -101,8 +101,8 @@ export class DoxygenXmlParser {
               compoundDefs.push(...doxygen.compoundDefs)
             }
           } else {
-            console.error(util.inspect(element))
-            console.error(`${compound.refid}.xml element:`, Object.keys(element), 'not implemented yet')
+            console.error(util.inspect(element, { compact: false, depth: 999 }))
+            console.error(`${compound.refid}.xml element:`, Object.keys(element), 'not implemented yet in', this.constructor.name)
           }
         }
       }
@@ -124,8 +124,8 @@ export class DoxygenXmlParser {
       } else if (this.hasInnerElement(element, 'doxyfile')) {
         doxyfile = new DoxygenFile(this, element)
       } else {
-        console.error(util.inspect(element))
-        console.error('Doxyfile.xml element:', Object.keys(element), 'not implemented yet')
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error('Doxyfile.xml element:', Object.keys(element), 'not implemented yet in', this.constructor.name)
       }
     }
 
@@ -226,7 +226,7 @@ export class DoxygenXmlParser {
   isInnerElementText (element: Object, name: string): boolean {
     if (Object.hasOwn(element, name) === true) {
       const innerElements: XmlElement[] | undefined = (element as { [name]: XmlElement[] })[name]
-      // console.log('isInnerElementText', util.inspect(element))
+      // console.log('isInnerElementText', util.inspect(element, { compact: false, depth: 999 })
       assert(innerElements !== undefined)
       if (innerElements.length === 1) {
         assert(innerElements[0] !== undefined)

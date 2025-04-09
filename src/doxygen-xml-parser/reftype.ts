@@ -52,7 +52,7 @@ export abstract class AbstractRefType extends AbstractParsedObjectBase {
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
 
     // ------------------------------------------------------------------------
     // Process elements.
@@ -76,8 +76,8 @@ export abstract class AbstractRefType extends AbstractParsedObjectBase {
       } else if (attributeName === '@_inline') {
         this.inline = Boolean(xml.getAttributeBooleanValue(element, '@_inline'))
       } else {
-        console.error(util.inspect(element))
-        console.error(`${elementName} attribute:`, attributeName, 'not implemented yet')
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
       }
     }
 
@@ -85,7 +85,7 @@ export abstract class AbstractRefType extends AbstractParsedObjectBase {
 
     // ------------------------------------------------------------------------
 
-    // console.log(this)
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
   }
 }
 
@@ -102,35 +102,35 @@ export abstract class AbstractRefType extends AbstractParsedObjectBase {
 
 export class InnerDir extends AbstractRefType {
   constructor (xml: DoxygenXmlParser, element: Object) {
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'innerdir')
   }
 }
 
 export class InnerFile extends AbstractRefType {
   constructor (xml: DoxygenXmlParser, element: Object) {
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'innerfile')
   }
 }
 
 export class InnerClass extends AbstractRefType {
   constructor (xml: DoxygenXmlParser, element: Object) {
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'innerclass')
   }
 }
 
 export class InnerNamespace extends AbstractRefType {
   constructor (xml: DoxygenXmlParser, element: Object) {
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'innernamespace')
   }
 }
 
 export class InnerGroup extends AbstractRefType {
   constructor (xml: DoxygenXmlParser, element: Object) {
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'innergroup')
   }
 }

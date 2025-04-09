@@ -17,7 +17,7 @@ import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
 
 export class GroupGenerator extends GeneratorBase {
   toMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
-    console.log(util.inspect(compoundDef), { depth: 10 })
+    // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
 
     assert(compoundDef.title !== undefined)
     frontMatter.title = compoundDef.title + ' reference'

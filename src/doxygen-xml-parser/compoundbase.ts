@@ -46,7 +46,7 @@ export class CompoundBase {
   commonAttributes = ['@_id', '@_kind']
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string = 'compounddef') {
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
 
     // ------------------------------------------------------------------------
     // Process elements.
@@ -112,7 +112,7 @@ export class CompoundBase {
   generateDescriptionRecursive(elements: XmlDescriptionTypeElements[]): string {
     let result = ''
     for (const element of elements) {
-      // console.log(util.inspect(element))
+      // console.log(util.inspect(element, { compact: false, depth: 999 })
       if (xml.hasInnerElement(element, '#text')) {
         result += xml.getInnerText(element)
       } else if (xml.hasInnerElement(element, 'para')) {
@@ -161,8 +161,8 @@ export class CompoundBase {
       } else if (xml.hasInnerElement(element, 'linebreak')) {
         // TODO
       } else {
-        console.error(util.inspect(element))
-        console.error('description element:', Object.keys(element), 'not implemented yet')
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error('description element:', Object.keys(element), 'not implemented yet in', this.constructor.name)
       }
     }
 
@@ -212,7 +212,7 @@ export class CompoundBase {
       result += '</dd>\n'
       result += '</dl>\n'
     } else {
-      console.error('parameterlist kind:', kind, 'not implemented yet')
+      console.error('parameterlist kind:', kind, 'not implemented yet in', this.constructor.name)
     }
     return result
   }
@@ -246,7 +246,7 @@ export class CompoundBase {
         assert(description.length === 0)
         description = this.generateDescriptionRecursive((parameterItemElement as XmlParameterDescriptionElement).parameterdescription)
       } else {
-        console.error('parameteritem element:', Object.keys(parameterItemElement), 'not implemented yet')
+        console.error('parameteritem element:', Object.keys(parameterItemElement), 'not implemented yet in', this.constructor.name)
       }
     }
 
@@ -303,7 +303,7 @@ export class CompoundBase {
       result += '</dd>'
       result += '</dl>\n'
     } else {
-      console.error('simplesect kind:', kind, 'not implemented yet')
+      console.error('simplesect kind:', kind, 'not implemented yet in', this.constructor.name)
     }
     return result
   }
@@ -348,12 +348,12 @@ export class CompoundBase {
                     result += refElement[0]['#text']
                   } else {
                     console.error(util.inspect(refElement))
-                    console.error('ref element:', Object.keys(refElement[0]), 'not implemented yet')
+                    console.error('ref element:', Object.keys(refElement[0]), 'not implemented yet in', this.constructor.name)
                   }
                 }
               } else {
                 console.error(util.inspect(highlightElement))
-                console.error('programlisting element:', Object.keys(highlightElement), 'not implemented yet')
+                console.error('programlisting element:', Object.keys(highlightElement), 'not implemented yet in', this.constructor.name)
               }
             }
           }

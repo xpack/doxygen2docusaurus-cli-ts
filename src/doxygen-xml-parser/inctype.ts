@@ -41,7 +41,7 @@ export abstract class AbstractIncType extends AbstractParsedObjectBase {
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
-    // console.log(elementName, util.inspect(element))ect(element))ect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))ect(element))
 
     // ------------------------------------------------------------------------
     // Process elements.
@@ -63,14 +63,14 @@ export abstract class AbstractIncType extends AbstractParsedObjectBase {
       } else if (attributeName === '@_refid') {
         this.refId = xml.getAttributeStringValue(element, '@_refid')
       } else {
-        console.error(util.inspect(element))
-        console.error(`${elementName} attribute:`, attributeName, 'not implemented yet')
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
       }
     }
 
     // ------------------------------------------------------------------------
 
-    // console.log(this)
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
   }
 }
 
@@ -81,14 +81,14 @@ export abstract class AbstractIncType extends AbstractParsedObjectBase {
 
 export class Includes extends AbstractIncType {
   constructor (xml: DoxygenXmlParser, element: Object) {
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'includes')
   }
 }
 
 export class IncludedBy extends AbstractIncType {
   constructor (xml: DoxygenXmlParser, element: Object) {
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'includedby')
   }
 }

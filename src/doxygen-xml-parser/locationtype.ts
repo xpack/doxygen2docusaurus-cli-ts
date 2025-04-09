@@ -51,7 +51,7 @@ export abstract class AbstractLocationType extends AbstractParsedObjectBase {
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
 
     // ------------------------------------------------------------------------
     // Process elements.
@@ -88,8 +88,8 @@ export abstract class AbstractLocationType extends AbstractParsedObjectBase {
       } else if (attributeName === '@_bodyend') {
         this.bodyend = xml.getAttributeNumberValue(element, '@_bodyend')
       } else {
-        console.error(util.inspect(element))
-        console.error(`${elementName} attribute:`, attributeName, 'not implemented yet')
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
       }
     }
 
@@ -97,7 +97,7 @@ export abstract class AbstractLocationType extends AbstractParsedObjectBase {
 
     // ------------------------------------------------------------------------
 
-    // console.log(this)
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
   }
 }
 
@@ -107,7 +107,7 @@ export abstract class AbstractLocationType extends AbstractParsedObjectBase {
 
 export class Location extends AbstractLocationType {
   constructor (xml: DoxygenXmlParser, element: Object) {
-    // console.log(elementName, util.inspect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'location')
   }
 }
