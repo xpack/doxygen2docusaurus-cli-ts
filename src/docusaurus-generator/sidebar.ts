@@ -13,8 +13,8 @@
 
 import assert from 'assert'
 
-import { DocusaurusGenerator } from './index.js'
 import { SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../plugin/types.js'
+import { DocusaurusGenerator } from './index.js'
 
 // ----------------------------------------------------------------------------
 

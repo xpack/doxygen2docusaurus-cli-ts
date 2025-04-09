@@ -15,8 +15,8 @@ import * as util from 'node:util'
 
 import { defaultOptions, PluginOptions } from '../options.js'
 import { DoxygenData, DoxygenXmlParser } from '../../doxygen-xml-parser/index.js'
-import { DocusaurusGenerator } from '../../docusaurus-generator/index.js'
 import assert from 'node:assert'
+import { DocusaurusGenerator } from '../../docusaurus-generator/index.js'
 
 export async function generateDoxygen (context: any, options: PluginOptions): Promise<number> {
   // console.log('generateDoxygen()')
