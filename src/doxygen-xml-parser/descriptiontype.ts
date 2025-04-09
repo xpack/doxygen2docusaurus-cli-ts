@@ -1877,6 +1877,12 @@ export class AbstractDocURLLink extends AbstractParsedObjectBase {
         console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
       }
     }
+
+    assert(this.url.length > 0)
+
+    // ------------------------------------------------------------------------
+
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
   }
 }
 
