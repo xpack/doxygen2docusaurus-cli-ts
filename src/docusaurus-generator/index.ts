@@ -28,6 +28,9 @@ import { SidebarItem } from '../plugin/types.js'
 import { Namespaces } from './data-model/namespace.js'
 import { Classes } from './data-model/classes.js'
 import { GroupGenerator } from './generators/group.js'
+import { FrontMatter } from './types.js'
+import { KindGeneratorBase as GeneratorBase } from './generators/generator-base.js'
+
 // ----------------------------------------------------------------------------
 
 export class DocusaurusGenerator {
@@ -341,6 +344,8 @@ export class DocusaurusGenerator {
     frontMatterText += '\n'
     frontMatterText += '---\n'
     frontMatterText += '\n'
+
+    // TODO: add imports
 
     await fileHandle.write(frontMatterText)
     await fileHandle.write(bodyText)

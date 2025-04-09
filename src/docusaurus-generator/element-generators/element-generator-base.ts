@@ -11,10 +11,18 @@
 
 // ----------------------------------------------------------------------------
 
-// https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
-export interface FrontMatter {
-  keywords: string[]
-  [key: string]: string | string[] | null | boolean
+import { DocusaurusGenerator } from '../index.js'
+
+// ----------------------------------------------------------------------------
+
+export abstract class ElementGeneratorBase {
+  generator: DocusaurusGenerator
+
+  constructor (generator: DocusaurusGenerator) {
+    this.generator = generator
+  }
+
+  abstract renderMdx (element: Object): string
 }
 
 // ----------------------------------------------------------------------------

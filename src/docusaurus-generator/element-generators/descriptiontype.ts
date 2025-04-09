@@ -11,10 +11,14 @@
 
 // ----------------------------------------------------------------------------
 
-// https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
-export interface FrontMatter {
-  keywords: string[]
-  [key: string]: string | string[] | null | boolean
+import { ElementGeneratorBase } from './element-generator-base.js'
+
+// ----------------------------------------------------------------------------
+
+export class DescriptionTypeGenerator extends ElementGeneratorBase {
+  renderMdx (element: Object): string {
+    return 'baburiba 2'
+  }
 }
 
 // ----------------------------------------------------------------------------

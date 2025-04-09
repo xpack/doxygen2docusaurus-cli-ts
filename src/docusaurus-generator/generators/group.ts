@@ -14,12 +14,13 @@
 import assert from 'assert'
 import * as util from 'node:util'
 
-import { FrontMatter, GeneratorBase } from '../types.js'
+import { FrontMatter } from '../types.js'
+import { KindGeneratorBase } from './generator-base.js'
 import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
 
 // ----------------------------------------------------------------------------
 
-export class GroupGenerator extends GeneratorBase {
+export class GroupGenerator extends KindGeneratorBase {
   renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
     // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
 
@@ -28,11 +29,17 @@ export class GroupGenerator extends GeneratorBase {
 
     let bodyText: string = ''
 
+    const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription)
+    if (briefDescription.length > 0) {
+      bodyText += briefDescription
+      bodyText += ' <a href="#details">More...</a>\n'
+      bodyText += '\n'
+    }
     bodyText += '## Topics\n'
     bodyText += '\n'
     bodyText += 'TODO\n'
     bodyText += '\n'
-    bodyText += '## Detailed Description\n'
+    bodyText += '## Detailed Description {#details}\n'
     bodyText += '\n'
     bodyText += 'TODO\n'
 
