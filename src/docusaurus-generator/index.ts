@@ -33,6 +33,7 @@ import { Sidebar } from './sidebar.js'
 import { FrontMatter } from './types.js'
 import { formatDate } from './utils.js'
 import { RefType } from './element-generators/refType.js'
+import { NamespaceGenerator } from './generators/namespace.js'
 
 // ----------------------------------------------------------------------------
 
@@ -102,6 +103,7 @@ export class DocusaurusGenerator {
 
     // Add generators for the top (kind) pages.
     this.kindGenerators.set('group', new GroupGenerator(this))
+    this.kindGenerators.set('namespace', new NamespaceGenerator(this))
 
     // Add generators for the parsed xml elements.
     this.elementGenerators.set('AbstractDescriptionType', new DescriptionTypeGenerator(this))
@@ -211,11 +213,12 @@ export class DocusaurusGenerator {
     // console.log('DocusaurusGenerator.generatePages()')
     console.log('Generating Docusaurus pages (object -> url)...')
 
+    assert(this.pluginOptions.outputFolderPath)
+    const outputFolderPath = this.pluginOptions.outputFolderPath
+
     for (const compoundDef of this.doxygenData.compoundDefs) {
       const permalink = this.permalinksById.get(compoundDef.id)
       assert(permalink !== undefined)
-      assert(this.pluginOptions.outputFolderPath)
-      const outputFolderPath = this.pluginOptions.outputFolderPath
       console.log(`${compoundDef.kind}: ${compoundDef.compoundName}`, '->', `${outputFolderPath}${permalink}`)
 
       const docusaurusId = this.docusaurusIdsById.get(compoundDef.id)
@@ -241,48 +244,63 @@ export class DocusaurusGenerator {
 
       await this.writeFile({
         filePath,
-        bodyText,
-        frontMatter
+        frontMatter,
+        bodyText
       })
     }
 
     {
       // Home page for the API reference. Usually the same content as the first top group.
+      const filePath = `${outputFolderPath}/index.mdx`
+
       const projectBrief = this.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF')
+      const permalink = '' // The root of the API sub-site.
+
       const frontMatter: FrontMatter = {
         title: `${projectBrief} API Reference`,
-        slug: '/api',
+        slug: `${outputFolderPath.replace(/^docs/, '')}${permalink}`,
         description: '...',
         custom_edit_url: null,
         keywords: ['doxygen', 'reference']
       }
 
+      const docusaurusGenerator = this.kindGenerators.get('group')
+      assert(docusaurusGenerator !== undefined)
+      const bodyText = await docusaurusGenerator.renderIndexMdx()
+
       await this.writeFile({
-        filePath: 'docs/api/index.mdx',
-        bodyText: 'TODO Reference\n',
-        frontMatter
+        filePath,
+        frontMatter,
+        bodyText
       })
     }
 
     {
+      const filePath = `${outputFolderPath}/namespaces/index.mdx`
+      const permalink = 'namespaces'
+
       const frontMatter: FrontMatter = {
-        title: 'Reference',
-        slug: '/api/namespaces',
+        title: 'The Namespaces Reference',
+        slug: `${outputFolderPath.replace(/^docs/, '')}${permalink}`,
         description: '...',
         custom_edit_url: null,
-        keywords: ['doxygen', 'namespaces']
+        keywords: ['doxygen', 'namespaces', 'reference']
       }
 
+      const docusaurusGenerator = this.kindGenerators.get('namespace')
+      assert(docusaurusGenerator !== undefined)
+      const bodyText = await docusaurusGenerator.renderIndexMdx()
+
       await this.writeFile({
-        filePath: 'docs/api/namespaces/index.mdx',
-        bodyText: 'TODO Namespaces\n',
-        frontMatter
+        filePath,
+        frontMatter,
+        bodyText
       })
     }
 
     {
       const frontMatter: FrontMatter = {
-        title: 'Reference',
+        title: 'The Classes Reference',
         slug: '/api/classes',
         description: '...',
         custom_edit_url: null,
@@ -291,14 +309,14 @@ export class DocusaurusGenerator {
 
       await this.writeFile({
         filePath: 'docs/api/classes/index.mdx',
-        bodyText: 'TODO Classes\n',
-        frontMatter
+        frontMatter,
+        bodyText: 'TODO Classes\n'
       })
     }
 
     {
       const frontMatter: FrontMatter = {
-        title: 'Reference',
+        title: 'The Folders & Files Reference',
         slug: '/api/folders',
         description: '...',
         custom_edit_url: null,
@@ -307,8 +325,8 @@ export class DocusaurusGenerator {
 
       await this.writeFile({
         filePath: 'docs/api/folders/index.mdx',
-        bodyText: 'TODO Folders\n',
-        frontMatter
+        frontMatter,
+        bodyText: 'TODO Folders\n'
       })
     }
   }
