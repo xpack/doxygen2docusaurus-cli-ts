@@ -25,6 +25,8 @@ export abstract class KindGeneratorBase {
   }
 
   abstract renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string
+
+  abstract renderIndexMdx (): string
 }
 
 // ----------------------------------------------------------------------------

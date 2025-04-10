@@ -17,6 +17,7 @@ import * as util from 'node:util'
 import { FrontMatter } from '../types.js'
 import { KindGeneratorBase } from './generator-base.js'
 import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
+import { Group } from '../data-model/groups.js'
 
 // ----------------------------------------------------------------------------
 
@@ -119,6 +120,59 @@ export class GroupGenerator extends KindGeneratorBase {
     } else {
       bodyText += `TODO: add <code>@details</code> to <code>@defgroup ${compoundDef.compoundName}</code>`
       bodyText += '\n'
+    }
+
+    return bodyText
+  }
+
+  renderIndexMdx (): string {
+    // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
+
+    let bodyText: string = ''
+
+    bodyText += 'The topics with brief descriptions are:\n'
+    bodyText += '\n'
+
+    bodyText += '<table>\n'
+    for (const groupId of this.generator.groups.topLevelGroupIds) {
+      bodyText += this.renderGroupRecursively(groupId, 0)
+    }
+    bodyText += '</table>\n'
+
+    return bodyText
+  }
+
+  renderGroupRecursively (groupId: string, depth: number): string {
+    const group: Group | undefined = this.generator.groups.membersById.get(groupId)
+    assert(group !== undefined)
+
+    let bodyText: string = ''
+
+    const permalink = this.generator.getPermalink(group.compoundDef.id)
+    assert(permalink !== undefined && permalink.length > 1)
+
+    bodyText += '<tr>\n'
+    bodyText += '<td>'
+    for (let i = 0; i < depth; ++i) {
+      bodyText += '&nbsp;&nbsp;&nbsp;&nbsp;'
+    }
+    bodyText += `<Link to="${permalink}">`
+    bodyText += group.compoundDef.title?.trim()
+    bodyText += '</Link>'
+    bodyText += '</td>\n'
+
+    bodyText += '<td>'
+    const briefDescription: string = this.generator.renderElementMdx(group.compoundDef.briefDescription)
+    if (briefDescription.length > 0) {
+      bodyText += briefDescription.replace(/[.]$/, '')
+    }
+    bodyText += '</td>\n'
+    bodyText += '</tr>\n'
+
+    if (group.childrenGroupsIds.length > 0) {
+      for (const childGroupId of group.childrenGroupsIds) {
+        bodyText += this.renderGroupRecursively(childGroupId, depth + 1)
+      }
     }
 
     return bodyText
