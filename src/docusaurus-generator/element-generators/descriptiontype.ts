@@ -31,8 +31,8 @@ export class DescriptionTypeGenerator extends ElementGeneratorBase {
     let result = ''
     result += this.generator.renderElementsMdx(element.children)
 
-    console.log(result)
-    return result
+    // console.log(result)
+    return result.trim()
   }
 }
 
