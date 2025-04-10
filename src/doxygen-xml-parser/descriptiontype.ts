@@ -2151,9 +2151,6 @@ export abstract class AbstractDocSimpleSectType extends AbstractParsedObjectBase
 // </xsd:complexType>
 
 export abstract class AbstractDocRefTextType extends AbstractParsedObjectBase {
-  // Mandatory elements.
-  text: string = '' // The name of the reference, passed as element text.
-
   // Any sequence of them.
   children: Array<string | DocTitleCmdGroup> = []
 

@@ -25,7 +25,7 @@ import { Folders } from './data-model/folders.js'
 import { Groups } from './data-model/groups.js'
 import { Namespaces } from './data-model/namespace.js'
 import { DoxygenFileOptions } from './data-model/options.js'
-import { DescriptionTypeGenerator, DocParaType, DocURLLink } from './element-generators/descriptiontype.js'
+import { DescriptionTypeGenerator, DocMarkupType, DocParaType, DocRefTextType, DocSimpleSectType, DocURLLink, ListingType } from './element-generators/descriptiontype.js'
 import { ElementGeneratorBase } from './element-generators/element-generator-base.js'
 import { KindGeneratorBase as GeneratorBase } from './generators/generator-base.js'
 import { GroupGenerator } from './generators/group.js'
@@ -77,20 +77,9 @@ export class DocusaurusGenerator {
     concept: 'concepts'
   }
 
-  kindGenerators: {
-    [key: string]: GeneratorBase
-  } = {
-      group: new GroupGenerator(this)
-    }
+  kindGenerators: Map<string, GeneratorBase> = new Map()
 
-  elementGenerators: {
-    [key: string]: ElementGeneratorBase
-  } = {
-      AbstractDescriptionType: new DescriptionTypeGenerator(this),
-      AbstractDocParaType: new DocParaType(this),
-      AbstractDocURLLink: new DocURLLink(this),
-      AbstractRefType: new RefType(this)
-    }
+  elementGenerators: Map<string, ElementGeneratorBase> = new Map()
 
   // --------------------------------------------------------------------------
   constructor ({
@@ -110,6 +99,20 @@ export class DocusaurusGenerator {
     this.classes = new Classes(this.doxygenData.compoundDefs)
 
     this.doxygenOptions = new DoxygenFileOptions(this.doxygenData.doxyfile.options)
+
+    // Add generators for the top (kind) pages.
+    this.kindGenerators.set('group', new GroupGenerator(this))
+
+    // Add generators for the parsed xml elements.
+    this.elementGenerators.set('AbstractDescriptionType', new DescriptionTypeGenerator(this))
+    this.elementGenerators.set('AbstractDescriptionType', new DescriptionTypeGenerator(this))
+    this.elementGenerators.set('AbstractDocParaType', new DocParaType(this))
+    this.elementGenerators.set('AbstractDocURLLink', new DocURLLink(this))
+    this.elementGenerators.set('AbstractRefType', new RefType(this))
+    this.elementGenerators.set('AbstractDocMarkupType', new DocMarkupType(this))
+    this.elementGenerators.set('AbstractDocRefTextType', new DocRefTextType(this))
+    this.elementGenerators.set('AbstractDocSimpleSectType', new DocSimpleSectType(this))
+    this.elementGenerators.set('AbstractListingType', new ListingType(this))
   }
 
   async generate (): Promise<void> {
@@ -231,7 +234,7 @@ export class DocusaurusGenerator {
       }
 
       let bodyText = `TODO ${compoundDef.compoundName}\n`
-      const docusaurusGenerator = this.kindGenerators[compoundDef.kind]
+      const docusaurusGenerator = this.kindGenerators.get(compoundDef.kind)
       if (docusaurusGenerator !== undefined) {
         bodyText = await docusaurusGenerator.renderMdx(compoundDef, frontMatter)
       }
@@ -348,8 +351,12 @@ export class DocusaurusGenerator {
     frontMatterText += '---\n'
     frontMatterText += '\n'
 
-    frontMatterText += 'import Link from \'@docusaurus/Link\';'
-    frontMatterText += '\n'
+    if (bodyText.includes('<Link')) {
+      frontMatterText += 'import Link from \'@docusaurus/Link\'\n'
+    }
+    if (bodyText.includes('<CodeBlock')) {
+      frontMatterText += 'import CodeBlock from \'@theme/CodeBlock\'\n'
+    }
     frontMatterText += '\n'
 
     // TODO: add imports
@@ -366,8 +373,9 @@ export class DocusaurusGenerator {
   getElementRenderer (element: Object): ElementGeneratorBase | undefined {
     let elementClass = element.constructor
     while (elementClass.name !== '') {
-      if (Object.hasOwn(this.elementGenerators, elementClass.name) === true) {
-        return this.elementGenerators[elementClass.name]
+      const elementGenerator = this.elementGenerators.get(elementClass.name)
+      if (elementGenerator !== undefined) {
+        return elementGenerator
       }
       elementClass = Object.getPrototypeOf(elementClass)
     }
@@ -391,5 +399,18 @@ export class DocusaurusGenerator {
     }
 
     return renderer.renderMdx(element)
+  }
+
+  renderElementsMdx (elements: Object[] | undefined): string {
+    if (elements === undefined) {
+      return ''
+    }
+
+    let result = ''
+    for (const element of elements) {
+      result += this.renderElementMdx(element)
+    }
+
+    return result
   }
 }

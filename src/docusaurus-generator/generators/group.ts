@@ -45,17 +45,21 @@ export class GroupGenerator extends KindGeneratorBase {
       bodyText += '\n'
     }
 
-    bodyText += '## Detailed Description {#details}\n'
+    bodyText += '## Description {#details}\n'
     bodyText += '\n'
 
-    if (briefDescription.length > 0) {
-      bodyText += briefDescription
-      bodyText += '\n'
-    }
+    // Deviate from Doxygen and do not repeat the brief in the detailed section.
+    // if (briefDescription.length > 0) {
+    //   bodyText += briefDescription
+    //   bodyText += '\n'
+    // }
 
     const detailedDescription: string = this.generator.renderElementMdx(compoundDef.detailedDescription)
     if (detailedDescription.trim().length > 0) {
       bodyText += detailedDescription
+      bodyText += '\n'
+    } else {
+      bodyText += `TODO: add <code>@details</code> to <code>@defgroup ${compoundDef.compoundName}</code>`
       bodyText += '\n'
     }
 

@@ -19,7 +19,14 @@ import assert from 'assert'
 
 export class RefType extends ElementGeneratorBase {
   renderMdx (element: AbstractRefType): string {
-    console.log(util.inspect(element), { compact: false, depth: 999 })
+    // console.log(util.inspect(element), { compact: false, depth: 999 })
+
+    if (element.prot !== undefined) {
+      console.error(element.elementName, 'attribute prot not yet rendered in', this.constructor.name)
+    }
+    if (element.inline !== undefined) {
+      console.error(element.elementName, 'attribute inline not yet rendered in', this.constructor.name)
+    }
 
     let result = ''
 

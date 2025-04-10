@@ -14,7 +14,9 @@
 import util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
-import { AbstractDescriptionType, AbstractDocParaType, AbstractDocURLLink } from '../../doxygen-xml-parser/descriptiontype.js'
+import { AbstractDescriptionType, AbstractDocMarkupType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractListingType, Sp } from '../../doxygen-xml-parser/descriptiontype.js'
+import assert from 'assert'
+import { RefText } from '../../doxygen-xml-parser/reftexttype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -27,9 +29,7 @@ export class DescriptionTypeGenerator extends ElementGeneratorBase {
     }
 
     let result = ''
-    for (const child of element.children) {
-      result += this.generator.renderElementMdx(child)
-    }
+    result += this.generator.renderElementsMdx(element.children)
 
     console.log(result)
     return result
@@ -43,9 +43,7 @@ export class DocParaType extends ElementGeneratorBase {
     // console.log(util.inspect(element), { compact: false, depth: 999 })
 
     let result = ''
-    for (const child of element.children) {
-      result += this.generator.renderElementMdx(child)
-    }
+    result += this.generator.renderElementsMdx(element.children)
     return result
   }
 }
@@ -58,10 +56,137 @@ export class DocURLLink extends ElementGeneratorBase {
 
     let result = ''
     result += `<a href="${element.url}">`
-    for (const child of element.children) {
-      result += this.generator.renderElementMdx(child)
-    }
+    result += this.generator.renderElementsMdx(element.children)
     result += '</a>'
+    return result
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+const htmlElements: { [key: string]: string } = {
+  Bold: 'b',
+  ComputerOutput: 'code'
+}
+
+export class DocMarkupType extends ElementGeneratorBase {
+  renderMdx (element: AbstractDocMarkupType): string {
+    // console.log(util.inspect(element), { compact: false, depth: 999 })
+
+    const htmlElement: string | undefined = htmlElements[element.constructor.name]
+    if (htmlElement === undefined) {
+      console.error(util.inspect(element, { compact: false, depth: 999 }))
+      console.error(element.constructor.name, 'not yet rendered in', this.constructor.name)
+      return ''
+    }
+
+    let result = ''
+    result += `<${htmlElement}>`
+    result += this.generator.renderElementsMdx(element.children)
+    result += `</${htmlElement}>`
+
+    return result
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+export class DocRefTextType extends ElementGeneratorBase {
+  renderMdx (element: AbstractDocRefTextType): string {
+    // console.log(util.inspect(element), { compact: false, depth: 999 })
+
+    let result = ''
+
+    // kindref not needed.
+
+    if (element.external !== undefined && element.external.length > 0) {
+      console.log('external ignored in', element.constructor.name)
+    }
+
+    const permalink = this.generator.getPermalink(element.refid)
+    assert(permalink !== undefined && permalink.length > 1)
+
+    result += `<Link to="${permalink}">`
+    result += this.generator.renderElementsMdx(element.children)
+    result += '</Link>'
+
+    return result
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+export class DocSimpleSectType extends ElementGeneratorBase {
+  renderMdx (element: AbstractDocSimpleSectType): string {
+    // console.log(util.inspect(element), { compact: false, depth: 999 })
+
+    let result = ''
+
+    if (element.kind === 'par') {
+      assert(element.title !== undefined)
+      result += '<dl class="section user">\n'
+      result += `<dt><b>${element.title}</b></dt>\n`
+      result += '<dd>\n'
+      result += this.generator.renderElementsMdx(element.children)
+      result += '</dd>\n'
+      result += '</dl>\n'
+    } else {
+      console.error(util.inspect(element, { compact: false, depth: 999 }))
+      console.error(element.constructor.name, 'kind', element.kind, 'not yet rendered in', this.constructor.name)
+    }
+
+    return result
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+export class ListingType extends ElementGeneratorBase {
+  renderMdx (element: AbstractListingType): string {
+    // console.log(util.inspect(element), { compact: false, depth: 999 })
+
+    let result = ''
+
+    if (element.filename !== undefined) {
+      const filename = element.filename.replace('.', '')
+      result += `<CodeBlock language="${filename}">{\n`
+    } else {
+      result += '<CodeBlock>{\n'
+    }
+    if (element.codelines !== undefined) {
+      for (const codeline of element.codelines) {
+        // console.log(util.inspect(codeline), { compact: false, depth: 999 })
+        result += '\''
+        if (codeline.highlights !== undefined) {
+          for (const highlight of codeline.highlights) {
+            // console.log(util.inspect(highlight), { compact: false, depth: 999 })
+            for (const child of highlight.children) {
+              if (typeof child === 'string') {
+                result += child
+              } else if (child instanceof Sp) {
+                const sp = child
+                if (sp.value !== undefined && sp.value.valueOf() > 1) {
+                  const n = sp.value.valueOf()
+                  for (let i = 0; i < n; i++) {
+                    result += ' '
+                  }
+                } else {
+                  result += ' '
+                }
+              } else if (child instanceof RefText) {
+                const ref = child
+                result += ref.text
+              } else {
+                console.error(util.inspect(child, { compact: false, depth: 999 }))
+                console.error(element.constructor.name, 'ref child not yet rendered in', this.constructor.name)
+              }
+            }
+          }
+          result += '\\n\'+\n'
+        }
+      }
+    }
+    result += '\'\'}</CodeBlock>\n'
     return result
   }
 }
