@@ -25,12 +25,12 @@ export class GroupGenerator extends KindGeneratorBase {
     // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
 
     assert(compoundDef.title !== undefined)
-    frontMatter.title = compoundDef.title + ' Reference'
+    frontMatter.title = `The ${compoundDef.title} Reference`
 
     let bodyText: string = ''
 
     const briefDescription: string = this.generator.renderElementMdx(compoundDef.briefDescription)
-    if (briefDescription.trim().length > 0) {
+    if (briefDescription.length > 0) {
       bodyText += briefDescription
       bodyText += ' <a href="#details">More...</a>\n'
       bodyText += '\n'
@@ -45,6 +45,64 @@ export class GroupGenerator extends KindGeneratorBase {
       bodyText += '\n'
     }
 
+    if (compoundDef.innerClasses !== undefined && compoundDef.innerClasses.length > 0) {
+      bodyText += '## Classes\n'
+      bodyText += '\n'
+      bodyText += '<table class="memberdecls">\n'
+      for (const innerClass of compoundDef.innerClasses) {
+        console.log(util.inspect(innerClass), { compact: false, depth: 999 })
+        const compoundDefClass = this.generator.compoundDefsById.get(innerClass.refid)
+        assert(compoundDefClass !== undefined)
+        console.log(util.inspect(compoundDefClass), { compact: false, depth: 999 })
+
+        bodyText += '<tr class="memitem:">\n'
+        bodyText += '<td class="memItemLeft" align="right" valign="top">class</td>\n'
+        bodyText += '<td class="memItemRight" valign="bottom">'
+        // bodyText += `${this.generator.renderElementMdx(innerClass).trim()}`
+        const permalink = this.generator.getPermalink(compoundDefClass.id)
+        bodyText += `<Link to="${permalink}">`
+        bodyText += compoundDefClass.compoundName
+        if (compoundDefClass.templateParamList?.params !== undefined) {
+          const paramNames: string[] = []
+          for (const param of compoundDefClass.templateParamList.params) {
+            assert(param.type !== undefined)
+            assert(param.type.children.length === 1)
+            assert(typeof param.type.children[0] === 'string')
+            if (param.declname !== undefined) {
+              paramNames.push(param.declname)
+            } else {
+              paramNames.push(param.type.children[0].replace('class ', ''))
+            }
+            console.log(param, { compact: false, depth: 999 })
+          }
+          if (paramNames.length > 0) {
+            bodyText += `&lt; ${paramNames.join(', ')} &gt;`
+          }
+        }
+        bodyText += '</Link>'
+        bodyText += '</td>\n'
+        bodyText += '</tr>\n'
+        bodyText += '<tr class="memdesc:">\n'
+        bodyText += '<td class="mdescLeft">&nbsp;</td>\n'
+        bodyText += '<td class="mdescRight">'
+
+        const innerBriefDescription: string = this.generator.renderElementMdx(compoundDefClass.briefDescription)
+        bodyText += innerBriefDescription
+        const innerPermalink = this.generator.getPermalink(innerClass.refid)
+        bodyText += ` <Link to="${innerPermalink}#details">`
+        bodyText += 'More...'
+        bodyText += '</Link>'
+
+        bodyText += '</td>\n'
+        bodyText += '</tr>\n'
+        bodyText += '<tr class="separator:">\n'
+        bodyText += '<td class="memSeparator" colspan="2">&nbsp;</td>\n'
+        bodyText += '</tr>\n'
+      }
+      bodyText += '</table>\n'
+      bodyText += '\n'
+    }
+
     bodyText += '## Description {#details}\n'
     bodyText += '\n'
 
@@ -55,7 +113,7 @@ export class GroupGenerator extends KindGeneratorBase {
     // }
 
     const detailedDescription: string = this.generator.renderElementMdx(compoundDef.detailedDescription)
-    if (detailedDescription.trim().length > 0) {
+    if (detailedDescription.length > 0) {
       bodyText += detailedDescription
       bodyText += '\n'
     } else {
