@@ -1744,6 +1744,8 @@ function parseDocCmdGroup (
     children.push(new ProgramListing(xml, element))
   } else if (xml.hasInnerElement(element, 'ulink')) {
     children.push(new Ulink(xml, element))
+  } else if (xml.hasInnerElement(element, 'hruler')) {
+    children.push(new Hruler(xml, element))
   } else {
     console.error(util.inspect(element, { compact: false, depth: 999 }))
     console.error(`${elementName} element:`, Object.keys(element), 'not implemented yet by parseDocCmdGroup()')
@@ -2876,10 +2878,17 @@ export class ItemizedList extends AbstractDocListType {
 // ----------------------------------------------------------------------------
 
 // <xsd:element name="linebreak" type="docEmptyType" />
+// <xsd:element name="hruler" type="docEmptyType" />
 
 export class LineBreak extends AbstractDocEmptyType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     super(xml, element, 'linebreak')
+  }
+}
+
+export class Hruler extends AbstractDocEmptyType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    super(xml, element, 'hruler')
   }
 }
 

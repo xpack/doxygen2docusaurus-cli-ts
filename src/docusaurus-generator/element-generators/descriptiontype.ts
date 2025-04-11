@@ -14,7 +14,7 @@
 import util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
-import { AbstractDescriptionType, AbstractDocMarkupType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractListingType, Sp } from '../../doxygen-xml-parser/descriptiontype.js'
+import { AbstractDescriptionType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractListingType, Sp } from '../../doxygen-xml-parser/descriptiontype.js'
 import assert from 'assert'
 import { RefText } from '../../doxygen-xml-parser/reftexttype.js'
 
@@ -187,6 +187,27 @@ export class ListingType extends ElementGeneratorBase {
       }
     }
     result += '\'\'}</CodeBlock>\n'
+    return result
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+export class DocEmptyType extends ElementGeneratorBase {
+  renderMdx (element: AbstractDocEmptyType): string {
+    // console.log(util.inspect(element), { compact: false, depth: 999 })
+
+    let result = ''
+
+    switch (element.constructor.name) {
+      case 'Hruler':
+        result += '<hr/>'
+        break
+      default:
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error(element.constructor.name, 'not yet rendered in', this.constructor.name)
+    }
+
     return result
   }
 }
