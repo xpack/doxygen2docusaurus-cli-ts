@@ -1,0 +1,13 @@
+/* --- Begin MembersList/styles.module.css --- */
+/* --- Part of docusaurus-plugin-doxygen --- */
+
+table.members tr {
+  background-color: var(--ifm-background-color);
+}
+
+/* Undo the Docusaurus configuration. */
+table.members tr:nth-child(2n) {
+  background-color: var(--ifm-background-color);
+}
+
+/* --- End MembersList/styles.module.css --- */

@@ -1,0 +1,46 @@
+/* --- Begin TreeTableRow/styles.module.css --- */
+/* --- Part of docusaurus-plugin-doxygen --- */
+
+tr.treeItem {
+}
+
+td.treeItemLeft {
+  white-space: nowrap;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+td.treeItemRight {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+td.treeItemRight p {
+  margin: 0
+}
+
+td.treeIndent1 {
+  padding-left: 12px;
+}
+
+td.treeIndent2 {
+  padding-left: 24px;
+}
+
+td.treeIndent3 {
+  padding-left: 36px;
+}
+
+td.treeIndent4 {
+  padding-left: 48px;
+}
+
+td.treeIndent5 {
+  padding-left: 60px;
+}
+
+td.treeIndent6 {
+  margin-left: 72px;
+}
+
+/* --- End TreeTableRow/styles.module.css --- */

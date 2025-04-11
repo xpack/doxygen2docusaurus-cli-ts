@@ -4,7 +4,12 @@
   "description": "A Docusaurus plugin to integrate Doxygen into a Docusaurus project.",
   "type": "module",
   "exports": {
-    ".": "./dist/index.js"
+    ".": "./dist/index.js",
+    "./components/GeneratedByDoxygen": "./src/components/GeneratedByDoxygen/index.js",
+    "./components/MembersList": "./src/components/MembersList/index.js",
+    "./components/MembersListItem": "./src/components/MembersListItem/index.js",
+    "./components/TreeTable": "./src/components/TreeTable/index.js",
+    "./components/TreeTableRow": "./src/components/TreeTableRow/index.js"
   },
   "files": [
     "dist/"

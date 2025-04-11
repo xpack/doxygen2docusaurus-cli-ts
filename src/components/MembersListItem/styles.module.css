@@ -1,0 +1,58 @@
+/* --- Begin MembersListItem/styles.module.css --- */
+/* --- Part of docusaurus-plugin-doxygen --- */
+
+tr.memberItem {
+}
+
+tr.memberDescription {
+}
+
+tr.memberSeparator {
+  height: 12px;
+  border: 0;
+}
+
+td.memberItemLeft {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  border-right: 0;
+  background-color: var(--ifm-table-stripe-background);
+}
+
+td.memberItemRight {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  border-left: 0;
+  background-color: var(--ifm-table-stripe-background);
+}
+
+
+td.memberDescriptionLeft {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border: 0;
+  background-color: var(--ifm-background-color);
+}
+
+
+td.memberDescriptionRight {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border: 0;
+  background-color: var(--ifm-background-color);
+}
+
+td.memberDescriptionRight p {
+  margin: 0px
+}
+
+td.memSeparatorLeft {
+  padding: 0px;
+  border: 0
+}
+
+/* --- End MembersListItem/styles.module.css --- */
