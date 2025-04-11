@@ -1,6 +1,10 @@
 /* --- Begin MembersList/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
+table.members {
+  width: 100%;
+}
+
 table.members tr {
   background-color: var(--ifm-background-color);
 }

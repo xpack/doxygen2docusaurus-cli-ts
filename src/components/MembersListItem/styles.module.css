@@ -27,6 +27,7 @@ td.memberItemRight {
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--ifm-code-font-size);
   border-left: 0;
+  width: 100%;
   background-color: var(--ifm-table-stripe-background);
 }
 

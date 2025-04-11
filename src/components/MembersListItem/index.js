@@ -34,7 +34,7 @@ export default function MembersListItem({
         <td class={styles.memberDescriptionRight}>{children}</td>
       </tr>
       <tr class={styles.memberSeparator}>
-        <td class={styles.memSeparatorLeft} colspan="2">&nbsp;</td>
+        <td class={styles.memSeparatorLeft} colspan="2"></td>
       </tr>
     </>
   );
