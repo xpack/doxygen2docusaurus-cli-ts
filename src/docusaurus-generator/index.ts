@@ -78,7 +78,7 @@ export class DocusaurusGenerator {
     concept: 'concepts'
   }
 
-  kindGenerators: Map<string, GeneratorBase> = new Map()
+  pageGenerators: Map<string, GeneratorBase> = new Map()
 
   elementGenerators: Map<string, ElementGeneratorBase> = new Map()
 
@@ -101,9 +101,9 @@ export class DocusaurusGenerator {
 
     this.doxygenOptions = new DoxygenFileOptions(this.doxygenData.doxyfile.options)
 
-    // Add generators for the top (kind) pages.
-    this.kindGenerators.set('group', new GroupGenerator(this))
-    this.kindGenerators.set('namespace', new NamespaceGenerator(this))
+    // Add generators for the top pages, grouped by 'kind'.
+    this.pageGenerators.set('group', new GroupGenerator(this))
+    this.pageGenerators.set('namespace', new NamespaceGenerator(this))
 
     // Add generators for the parsed xml elements.
     this.elementGenerators.set('AbstractDescriptionType', new DescriptionTypeGenerator(this))
@@ -237,7 +237,7 @@ export class DocusaurusGenerator {
       }
 
       let bodyText = `TODO ${compoundDef.compoundName}\n`
-      const docusaurusGenerator = this.kindGenerators.get(compoundDef.kind)
+      const docusaurusGenerator = this.pageGenerators.get(compoundDef.kind)
       if (docusaurusGenerator !== undefined) {
         bodyText = await docusaurusGenerator.renderMdx(compoundDef, frontMatter)
       }
@@ -264,7 +264,7 @@ export class DocusaurusGenerator {
         keywords: ['doxygen', 'reference']
       }
 
-      const docusaurusGenerator = this.kindGenerators.get('group')
+      const docusaurusGenerator = this.pageGenerators.get('group')
       assert(docusaurusGenerator !== undefined)
       const bodyText = await docusaurusGenerator.renderIndexMdx()
 
@@ -287,7 +287,7 @@ export class DocusaurusGenerator {
         keywords: ['doxygen', 'namespaces', 'reference']
       }
 
-      const docusaurusGenerator = this.kindGenerators.get('namespace')
+      const docusaurusGenerator = this.pageGenerators.get('namespace')
       assert(docusaurusGenerator !== undefined)
       const bodyText = await docusaurusGenerator.renderIndexMdx()
 
