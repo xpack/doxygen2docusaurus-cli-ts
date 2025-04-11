@@ -40,11 +40,22 @@ export class GroupGenerator extends KindGeneratorBase {
     if (compoundDef.innerGroups !== undefined && compoundDef.innerGroups.length > 0) {
       bodyText += '## Topics\n'
       bodyText += '\n'
+
+      bodyText += '<MembersList>\n'
       for (const innerGroup of compoundDef.innerGroups) {
-        bodyText += `- ${this.generator.renderElementMdx(innerGroup)}\n`
+        const permalink = this.generator.getPermalink(innerGroup.refid)
+        bodyText += `<MembersListItem itemKind="" itemText="${innerGroup.text}" itemLink="${permalink}">\n`
+
+        const compoundDef = this.generator.compoundDefsById.get(innerGroup.refid)
+        assert(compoundDef !== undefined)
+        const briefDescription: string = this.generator.renderElementMdx(compoundDef.briefDescription)
+        bodyText += briefDescription
+        bodyText += '\n'
+        bodyText += '</MembersListItem>\n'
       }
-      bodyText += '\n'
+      bodyText += '</MembersList>\n'
     }
+    bodyText += '\n'
 
     if (compoundDef.innerClasses !== undefined && compoundDef.innerClasses.length > 0) {
       bodyText += '## Classes\n'
