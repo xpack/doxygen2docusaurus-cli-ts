@@ -25,7 +25,7 @@ import { Folders } from './data-model/folders.js'
 import { Groups } from './data-model/groups.js'
 import { Namespaces } from './data-model/namespace.js'
 import { DoxygenFileOptions } from './data-model/options.js'
-import { DescriptionTypeGenerator, DocMarkupType, DocParaType, DocRefTextType, DocSimpleSectType, DocURLLink, ListingType } from './element-generators/descriptiontype.js'
+import { DescriptionTypeGenerator, DocEmptyType, DocMarkupType, DocParaType, DocRefTextType, DocSimpleSectType, DocURLLink, ListingType } from './element-generators/descriptiontype.js'
 import { ElementGeneratorBase } from './element-generators/element-generator-base.js'
 import { KindGeneratorBase as GeneratorBase } from './generators/generator-base.js'
 import { GroupGenerator } from './generators/group.js'
@@ -83,6 +83,7 @@ export class DocusaurusGenerator {
   elementGenerators: Map<string, ElementGeneratorBase> = new Map()
 
   // --------------------------------------------------------------------------
+
   constructor ({
     doxygenData, pluginOptions
   }: {
@@ -115,6 +116,7 @@ export class DocusaurusGenerator {
     this.elementGenerators.set('AbstractDocRefTextType', new DocRefTextType(this))
     this.elementGenerators.set('AbstractDocSimpleSectType', new DocSimpleSectType(this))
     this.elementGenerators.set('AbstractListingType', new ListingType(this))
+    this.elementGenerators.set('AbstractDocEmptyType', new DocEmptyType(this))
   }
 
   async generate (): Promise<void> {
@@ -340,9 +342,8 @@ export class DocusaurusGenerator {
     bodyText: string
     frontMatter: FrontMatter
   }): Promise<void> {
-    await fs.mkdir(path.dirname(filePath), { recursive: true })
-
-    const fileHandle = await fs.open(filePath, 'ax')
+    bodyText += '\n'
+    bodyText += `<GeneratedByDoxygen version="${this.doxygenData.doxygenindex.version}" />\n`
 
     // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
     let frontMatterText = ''
@@ -375,9 +376,27 @@ export class DocusaurusGenerator {
     if (bodyText.includes('<CodeBlock')) {
       frontMatterText += 'import CodeBlock from \'@theme/CodeBlock\'\n'
     }
+
+    const components = [
+      'GeneratedByDoxygen',
+      'MembersList',
+      'MembersListItem',
+      'TreeTable',
+      'TreeTableRow'
+    ]
+
+    for (const component of components) {
+      if (bodyText.includes(`<${component}`)) {
+        frontMatterText += `import ${component} from \'@xpack/docusaurus-plugin-doxygen/components/${component}\'\n`
+      }
+    }
+
     frontMatterText += '\n'
 
-    // TODO: add imports
+    await fs.mkdir(path.dirname(filePath), { recursive: true })
+
+    const fileHandle = await fs.open(filePath, 'ax')
+
     await fileHandle.write(frontMatterText)
     await fileHandle.write(bodyText)
 
@@ -432,3 +451,5 @@ export class DocusaurusGenerator {
     return result
   }
 }
+
+// ----------------------------------------------------------------------------

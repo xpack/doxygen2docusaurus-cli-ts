@@ -49,20 +49,18 @@ export class GroupGenerator extends KindGeneratorBase {
     if (compoundDef.innerClasses !== undefined && compoundDef.innerClasses.length > 0) {
       bodyText += '## Classes\n'
       bodyText += '\n'
-      bodyText += '<table class="memberdecls">\n'
+      bodyText += '<MembersList>\n'
       for (const innerClass of compoundDef.innerClasses) {
-        console.log(util.inspect(innerClass), { compact: false, depth: 999 })
+        // console.log(util.inspect(innerClass), { compact: false, depth: 999 })
         const compoundDefClass = this.generator.compoundDefsById.get(innerClass.refid)
         assert(compoundDefClass !== undefined)
-        console.log(util.inspect(compoundDefClass), { compact: false, depth: 999 })
+        // console.log(util.inspect(compoundDefClass), { compact: false, depth: 999 })
 
-        bodyText += '<tr class="memitem:">\n'
-        bodyText += '<td class="memItemLeft" align="right" valign="top">class</td>\n'
-        bodyText += '<td class="memItemRight" valign="bottom">'
-        // bodyText += `${this.generator.renderElementMdx(innerClass).trim()}`
         const permalink = this.generator.getPermalink(compoundDefClass.id)
-        bodyText += `<Link to="${permalink}">`
-        bodyText += compoundDefClass.compoundName
+
+        let itemText = ''
+        itemText += compoundDefClass.compoundName
+
         if (compoundDefClass.templateParamList?.params !== undefined) {
           const paramNames: string[] = []
           for (const param of compoundDefClass.templateParamList.params) {
@@ -72,35 +70,28 @@ export class GroupGenerator extends KindGeneratorBase {
             if (param.declname !== undefined) {
               paramNames.push(param.declname)
             } else {
+              // Extract the parameter name, passed as `class T`.
               paramNames.push(param.type.children[0].replace('class ', ''))
             }
-            console.log(param, { compact: false, depth: 999 })
+            // console.log(param, { compact: false, depth: 999 })
           }
           if (paramNames.length > 0) {
-            bodyText += `&lt; ${paramNames.join(', ')} &gt;`
+            itemText += `&lt; ${paramNames.join(', ')} &gt;`
           }
         }
-        bodyText += '</Link>'
-        bodyText += '</td>\n'
-        bodyText += '</tr>\n'
-        bodyText += '<tr class="memdesc:">\n'
-        bodyText += '<td class="mdescLeft">&nbsp;</td>\n'
-        bodyText += '<td class="mdescRight">'
+
+        bodyText += `<MembersListItem itemKind="class" itemText="${itemText}" itemLink="${permalink}">\n`
 
         const innerBriefDescription: string = this.generator.renderElementMdx(compoundDefClass.briefDescription)
         bodyText += innerBriefDescription
         const innerPermalink = this.generator.getPermalink(innerClass.refid)
         bodyText += ` <Link to="${innerPermalink}#details">`
         bodyText += 'More...'
-        bodyText += '</Link>'
+        bodyText += '</Link>\n'
 
-        bodyText += '</td>\n'
-        bodyText += '</tr>\n'
-        bodyText += '<tr class="separator:">\n'
-        bodyText += '<td class="memSeparator" colspan="2">&nbsp;</td>\n'
-        bodyText += '</tr>\n'
+        bodyText += '</MembersListItem>\n'
       }
-      bodyText += '</table>\n'
+      bodyText += '</MembersList>\n'
       bodyText += '\n'
     }
 
@@ -133,11 +124,11 @@ export class GroupGenerator extends KindGeneratorBase {
     bodyText += 'The topics with brief descriptions are:\n'
     bodyText += '\n'
 
-    bodyText += '<table>\n'
+    bodyText += '<TreeTable>\n'
     for (const groupId of this.generator.groups.topLevelGroupIds) {
-      bodyText += this.renderGroupRecursively(groupId, 0)
+      bodyText += this.renderGroupRecursively(groupId, 1)
     }
-    bodyText += '</table>\n'
+    bodyText += '</TreeTable>\n'
 
     return bodyText
   }
@@ -151,23 +142,13 @@ export class GroupGenerator extends KindGeneratorBase {
     const permalink = this.generator.getPermalink(group.compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    bodyText += '<tr>\n'
-    bodyText += '<td>'
-    for (let i = 0; i < depth; ++i) {
-      bodyText += '&nbsp;&nbsp;&nbsp;&nbsp;'
-    }
-    bodyText += `<Link to="${permalink}">`
-    bodyText += group.compoundDef.title?.trim()
-    bodyText += '</Link>'
-    bodyText += '</td>\n'
-
-    bodyText += '<td>'
+    bodyText += `<TreeTableRow itemText="${group.compoundDef.title?.trim()}" itemLink="${permalink}" depth="${depth}">\n`
     const briefDescription: string = this.generator.renderElementMdx(group.compoundDef.briefDescription)
     if (briefDescription.length > 0) {
       bodyText += briefDescription.replace(/[.]$/, '')
+      bodyText += '\n'
     }
-    bodyText += '</td>\n'
-    bodyText += '</tr>\n'
+    bodyText += '</TreeTableRow>\n'
 
     if (group.childrenGroupsIds.length > 0) {
       for (const childGroupId of group.childrenGroupsIds) {
