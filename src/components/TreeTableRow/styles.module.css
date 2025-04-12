@@ -13,6 +13,7 @@ td.treeItemLeft {
 td.treeItemRight {
   padding-top: 6px;
   padding-bottom: 6px;
+  width: 100%;
 }
 
 td.treeItemRight p {
