@@ -2732,7 +2732,6 @@ export class ParameterDescription extends AbstractDescriptionType {
 // <xsd:element name="internal" type="docInternalS4Type" minOccurs="0" />
 // <xsd:element name="internal" type="docInternalS5Type" minOccurs="0" />
 // <xsd:element name="internal" type="docInternalS6Type" minOccurs="0" />
-// <xsd:element name="para" type="docParaType" minOccurs="0" maxOccurs="unbounded" />
 // <xsd:element name="sect1" type="docSect1Type" minOccurs="0" maxOccurs="unbounded" />
 // <xsd:element name="sect2" type="docSect2Type" minOccurs="0" maxOccurs="unbounded" />
 // <xsd:element name="sect3" type="docSect3Type" minOccurs="0" maxOccurs="unbounded" />
@@ -2783,12 +2782,6 @@ export class InternalS6 extends AbstractDocInternalS6Type {
   }
 }
 
-export class Para extends AbstractDocParaType {
-  constructor (xml: DoxygenXmlParser, element: Object) {
-    super(xml, element, 'para')
-  }
-}
-
 export class Sect1 extends AbstractDocSect1Type {
   constructor (xml: DoxygenXmlParser, element: Object) {
     super(xml, element, 'sect1')
@@ -2828,6 +2821,25 @@ export class Sect6 extends AbstractDocSect6Type {
 export class Title extends AbstractDocTitleType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     super(xml, element, 'title')
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+// <xsd:element name="para" type="docParaType" minOccurs="0" maxOccurs="unbounded" />
+
+export class Para extends AbstractDocParaType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    super(xml, element, 'para')
+  }
+}
+
+// Not yet used, present just to remind its presence.
+// <xsd:element name="para" type="docEmptyType" />
+
+export class ParaEmpty extends AbstractDocEmptyType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    super(xml, element, 'para')
   }
 }
 
