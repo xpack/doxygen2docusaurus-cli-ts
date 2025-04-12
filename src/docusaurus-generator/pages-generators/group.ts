@@ -150,12 +150,14 @@ export class GroupGenerator extends PageGeneratorBase {
 
     let bodyText: string = ''
 
-    const permalink = this.generator.getPermalink(group.compoundDef.id)
+    const compoundDef = group.compoundDef
+    const label = compoundDef.title?.trim()
+    const permalink = this.generator.getPermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    bodyText += `<TreeTableRow itemText="${group.compoundDef.title?.trim()}" itemLink="${permalink}" depth="${depth}">\n`
+    bodyText += `<TreeTableRow itemText="${label}" itemLink="${permalink}" depth="${depth}">\n`
 
-    const briefDescription: string = this.generator.renderElementMdx(group.compoundDef.briefDescription)
+    const briefDescription: string = this.generator.renderElementMdx(compoundDef.briefDescription)
     bodyText += briefDescription.replace(/[.]$/, '')
     bodyText += '\n'
 

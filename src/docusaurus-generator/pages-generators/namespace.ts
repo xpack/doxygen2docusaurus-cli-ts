@@ -152,12 +152,14 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
     let bodyText: string = ''
 
-    const permalink = this.generator.getPermalink(namespace.compoundDef.id)
+    const compoundDef = namespace.compoundDef
+    const label = namespace.unparentedName
+    const permalink = this.generator.getPermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    bodyText += `<TreeTableRow itemText="${namespace.unparentedName}" itemLink="${permalink}" depth="${depth}">\n`
+    bodyText += `<TreeTableRow itemText="${label}" itemLink="${permalink}" depth="${depth}">\n`
 
-    const briefDescription: string = this.generator.renderElementMdx(namespace.compoundDef.briefDescription)
+    const briefDescription: string = this.generator.renderElementMdx(compoundDef.briefDescription)
     bodyText += briefDescription.replace(/[.]$/, '')
     bodyText += '\n'
 
