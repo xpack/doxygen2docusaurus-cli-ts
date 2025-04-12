@@ -19,7 +19,7 @@ import Link from '@docusaurus/Link'
 
 export default function MembersListItem({
   itemKind,
-  itemText,
+  itemLabel,
   itemLink,
   children
 }) {
@@ -27,7 +27,7 @@ export default function MembersListItem({
     <>
       <tr class={styles.memberItem}>
         <td class={styles.memberItemLeft} align="right" valign="top">{itemKind}</td>
-        <td class={styles.memberItemRight} align="left" valign="top"><Link to="${itemLink}">{itemText}</Link></td>
+        <td class={styles.memberItemRight} align="left" valign="top"><Link to="${itemLink}">{itemLabel}</Link></td>
       </tr>
       <tr class={styles.memberDescription}>
         <td class={styles.memberDescriptionLeft}>&nbsp;</td>

@@ -18,7 +18,7 @@ import Link from '@docusaurus/Link'
 // ----------------------------------------------------------------------------
 
 export default function TreeTableRow({
-  itemText,
+  itemLabel,
   itemLink,
   depth,
   children
@@ -28,7 +28,7 @@ export default function TreeTableRow({
   for (let i = 0; i < depthNumber; ++i) {
     text += ''
   }
-  text += itemText
+  text += itemLabel
   const x = `treeIndent${depth}`
 
   return (

@@ -44,7 +44,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
       for (const innerNamespace of compoundDef.innerNamespaces) {
         const namespace = this.generator.namespaces.membersById.get(innerNamespace.refid)
         const permalink = this.generator.getPermalink(innerNamespace.refid)
-        bodyText += `<MembersListItem itemKind="namespace" itemText="${namespace?.unparentedName}" itemLink="${permalink}">\n`
+        bodyText += `<MembersListItem itemKind="namespace" itemLabel="${namespace?.unparentedName}" itemLink="${permalink}">\n`
 
         const compoundDef = this.generator.compoundDefsById.get(innerNamespace.refid)
         assert(compoundDef !== undefined)
@@ -70,8 +70,8 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
         const permalink = this.generator.getPermalink(compoundDefClass.id)
 
-        let itemText = ''
-        itemText += compoundDefClass.compoundName
+        let label = ''
+        label += compoundDefClass.compoundName
 
         if (compoundDefClass.templateParamList?.params !== undefined) {
           const paramNames: string[] = []
@@ -88,11 +88,11 @@ export class NamespaceGenerator extends PageGeneratorBase {
             // console.log(param, { compact: false, depth: 999 })
           }
           if (paramNames.length > 0) {
-            itemText += `&lt; ${paramNames.join(', ')} &gt;`
+            label += `&lt; ${paramNames.join(', ')} &gt;`
           }
         }
 
-        bodyText += `<MembersListItem itemKind="class" itemText="${itemText}" itemLink="${permalink}">\n`
+        bodyText += `<MembersListItem itemKind="class" itemLabel="${label}" itemLink="${permalink}">\n`
 
         const innerBriefDescription: string = this.generator.renderElementMdx(compoundDefClass.briefDescription)
         bodyText += innerBriefDescription
@@ -157,7 +157,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
     const permalink = this.generator.getPermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    bodyText += `<TreeTableRow itemText="${label}" itemLink="${permalink}" depth="${depth}">\n`
+    bodyText += `<TreeTableRow itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
 
     const briefDescription: string = this.generator.renderElementMdx(compoundDef.briefDescription)
     bodyText += briefDescription.replace(/[.]$/, '')

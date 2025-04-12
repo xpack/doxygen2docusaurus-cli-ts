@@ -44,7 +44,7 @@ export class GroupGenerator extends PageGeneratorBase {
       bodyText += '<MembersList>\n'
       for (const innerGroup of compoundDef.innerGroups) {
         const permalink = this.generator.getPermalink(innerGroup.refid)
-        bodyText += `<MembersListItem itemKind="" itemText="${innerGroup.text}" itemLink="${permalink}">\n`
+        bodyText += `<MembersListItem itemKind="" itemLabel="${innerGroup.text}" itemLink="${permalink}">\n`
 
         const compoundDef = this.generator.compoundDefsById.get(innerGroup.refid)
         assert(compoundDef !== undefined)
@@ -70,8 +70,8 @@ export class GroupGenerator extends PageGeneratorBase {
 
         const permalink = this.generator.getPermalink(compoundDefClass.id)
 
-        let itemText = ''
-        itemText += compoundDefClass.compoundName
+        let label = ''
+        label += compoundDefClass.compoundName
 
         if (compoundDefClass.templateParamList?.params !== undefined) {
           const paramNames: string[] = []
@@ -88,11 +88,11 @@ export class GroupGenerator extends PageGeneratorBase {
             // console.log(param, { compact: false, depth: 999 })
           }
           if (paramNames.length > 0) {
-            itemText += `&lt; ${paramNames.join(', ')} &gt;`
+            label += `&lt; ${paramNames.join(', ')} &gt;`
           }
         }
 
-        bodyText += `<MembersListItem itemKind="class" itemText="${itemText}" itemLink="${permalink}">\n`
+        bodyText += `<MembersListItem itemKind="class" itemLabel="${label}" itemLink="${permalink}">\n`
 
         const innerBriefDescription: string = this.generator.renderElementMdx(compoundDefClass.briefDescription)
         bodyText += innerBriefDescription
@@ -155,7 +155,7 @@ export class GroupGenerator extends PageGeneratorBase {
     const permalink = this.generator.getPermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    bodyText += `<TreeTableRow itemText="${label}" itemLink="${permalink}" depth="${depth}">\n`
+    bodyText += `<TreeTableRow itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
 
     const briefDescription: string = this.generator.renderElementMdx(compoundDef.briefDescription)
     bodyText += briefDescription.replace(/[.]$/, '')

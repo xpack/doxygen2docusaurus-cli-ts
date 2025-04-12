@@ -70,7 +70,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     const permalink = this.generator.getPermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    bodyText += `<TreeTableRow itemText="${label}" itemLink="${permalink}" depth="${depth}">\n`
+    bodyText += `<TreeTableRow itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
 
     const briefDescription: string = this.generator.renderElementMdx(compoundDef.briefDescription)
     bodyText += briefDescription.replace(/[.]$/, '')
