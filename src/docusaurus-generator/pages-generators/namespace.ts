@@ -27,41 +27,41 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
     frontMatter.title = `The ${compoundDef.compoundName} Namespace Reference`
 
-    let bodyText: string = ''
+    let context: string = ''
 
     const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
     if (briefDescription.length > 0) {
-      bodyText += briefDescription
-      bodyText += ' <a href="#details">More...</a>\n'
-      bodyText += '\n'
+      context += briefDescription
+      context += ' <a href="#details">More...</a>\n'
+      context += '\n'
     }
 
     if (compoundDef.innerNamespaces !== undefined && compoundDef.innerNamespaces.length > 0) {
-      bodyText += '## Namespaces\n'
-      bodyText += '\n'
+      context += '## Namespaces\n'
+      context += '\n'
 
-      bodyText += '<MembersList>\n'
+      context += '<MembersList>\n'
       for (const innerNamespace of compoundDef.innerNamespaces) {
         const namespace = this.context.namespaces.membersById.get(innerNamespace.refid)
         const permalink = this.context.getPermalink(innerNamespace.refid)
-        bodyText += `<MembersListItem itemKind="namespace" itemLabel="${namespace?.unparentedName}" itemLink="${permalink}">\n`
+        context += `<MembersListItem itemKind="namespace" itemLabel="${namespace?.unparentedName}" itemLink="${permalink}">\n`
 
         const compoundDef = this.context.compoundDefsById.get(innerNamespace.refid)
         assert(compoundDef !== undefined)
         const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
-        bodyText += briefDescription
-        bodyText += '\n'
+        context += briefDescription
+        context += '\n'
 
-        bodyText += '</MembersListItem>\n'
+        context += '</MembersListItem>\n'
       }
-      bodyText += '</MembersList>\n'
-      bodyText += '\n'
+      context += '</MembersList>\n'
+      context += '\n'
     }
 
     if (compoundDef.innerClasses !== undefined && compoundDef.innerClasses.length > 0) {
-      bodyText += '## Classes\n'
-      bodyText += '\n'
-      bodyText += '<MembersList>\n'
+      context += '## Classes\n'
+      context += '\n'
+      context += '<MembersList>\n'
       for (const innerClass of compoundDef.innerClasses) {
         // console.log(util.inspect(innerClass), { compact: false, depth: 999 })
         const compoundDefClass = this.context.compoundDefsById.get(innerClass.refid)
@@ -92,56 +92,56 @@ export class NamespaceGenerator extends PageGeneratorBase {
           }
         }
 
-        bodyText += `<MembersListItem itemKind="class" itemLabel="${label}" itemLink="${permalink}">\n`
+        context += `<MembersListItem itemKind="class" itemLabel="${label}" itemLink="${permalink}">\n`
 
         const innerBriefDescription: string = this.context.renderElementMdx(compoundDefClass.briefDescription)
-        bodyText += innerBriefDescription
+        context += innerBriefDescription
         const innerPermalink = this.context.getPermalink(innerClass.refid)
-        bodyText += ` <Link to="${innerPermalink}#details">`
-        bodyText += 'More...'
-        bodyText += '</Link>\n'
+        context += ` <Link to="${innerPermalink}#details">`
+        context += 'More...'
+        context += '</Link>\n'
 
-        bodyText += '</MembersListItem>\n'
+        context += '</MembersListItem>\n'
       }
-      bodyText += '</MembersList>\n'
-      bodyText += '\n'
+      context += '</MembersList>\n'
+      context += '\n'
     }
 
-    bodyText += '## Description {#details}\n'
-    bodyText += '\n'
+    context += '## Description {#details}\n'
+    context += '\n'
 
     // Deviate from Doxygen and do not repeat the brief in the detailed section.
 
     // console.log(util.inspect(compoundDef.detailedDescription), { compact: false, depth: 999 })
     const detailedDescription: string = this.context.renderElementMdx(compoundDef.detailedDescription)
     if (detailedDescription.length > 0 && detailedDescription !== '<hr/>') {
-      bodyText += detailedDescription
-      bodyText += '\n'
+      context += detailedDescription
+      context += '\n'
     } else {
-      bodyText += `TODO: add <code>@details</code> to <code>@namespace ${compoundDef.compoundName}</code>`
-      bodyText += '\n'
+      context += `TODO: add <code>@details</code> to <code>@namespace ${compoundDef.compoundName}</code>`
+      context += '\n'
     }
 
-    return bodyText
+    return context
   }
 
   renderIndexMdx (): string {
     // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
 
-    let bodyText: string = ''
+    let context: string = ''
 
-    bodyText += 'The namespaces with brief descriptions are:\n'
-    bodyText += '\n'
+    context += 'The namespaces with brief descriptions are:\n'
+    context += '\n'
 
-    bodyText += '<TreeTable>\n'
+    context += '<TreeTable>\n'
 
     for (const groupId of this.context.namespaces.topLevelNamespaceIds) {
-      bodyText += this.renderNamespaceRecursively(groupId, 1)
+      context += this.renderNamespaceRecursively(groupId, 1)
     }
 
-    bodyText += '</TreeTable>\n'
+    context += '</TreeTable>\n'
 
-    return bodyText
+    return context
   }
 
   renderNamespaceRecursively (namespaceId: string, depth: number): string {
@@ -150,28 +150,28 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
     // console.log(util.inspect(namespace), { compact: false, depth: 999 })
 
-    let bodyText: string = ''
+    let context: string = ''
 
     const compoundDef = namespace.compoundDef
     const label = namespace.unparentedName
     const permalink = this.context.getPermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    bodyText += `<TreeTableRow itemIcon="N" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
+    context += `<TreeTableRow itemIcon="N" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
 
     const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
-    bodyText += briefDescription.replace(/[.]$/, '')
-    bodyText += '\n'
+    context += briefDescription.replace(/[.]$/, '')
+    context += '\n'
 
-    bodyText += '</TreeTableRow>\n'
+    context += '</TreeTableRow>\n'
 
     if (namespace.childrenNamespaceIds.length > 0) {
       for (const childNamespaceId of namespace.childrenNamespaceIds) {
-        bodyText += this.renderNamespaceRecursively(childNamespaceId, depth + 1)
+        context += this.renderNamespaceRecursively(childNamespaceId, depth + 1)
       }
     }
 
-    return bodyText
+    return context
   }
 }
 

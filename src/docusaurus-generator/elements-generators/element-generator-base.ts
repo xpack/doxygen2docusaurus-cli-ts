@@ -16,10 +16,10 @@ import { DocusaurusGenerator } from '../index.js'
 // ----------------------------------------------------------------------------
 
 export abstract class ElementGeneratorBase {
-  generator: DocusaurusGenerator
+  context: DocusaurusGenerator
 
   constructor (generator: DocusaurusGenerator) {
-    this.generator = generator
+    this.context = generator
   }
 
   abstract renderMdx (element: Object): string

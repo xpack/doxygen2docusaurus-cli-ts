@@ -28,40 +28,40 @@ export class GroupGenerator extends PageGeneratorBase {
     assert(compoundDef.title !== undefined)
     frontMatter.title = `The ${compoundDef.title} Reference`
 
-    let bodyText: string = ''
+    let result: string = ''
 
     const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
     if (briefDescription.length > 0) {
-      bodyText += briefDescription
-      bodyText += ' <a href="#details">More...</a>\n'
-      bodyText += '\n'
+      result += briefDescription
+      result += ' <a href="#details">More...</a>\n'
+      result += '\n'
     }
 
     if (compoundDef.innerGroups !== undefined && compoundDef.innerGroups.length > 0) {
-      bodyText += '## Topics\n'
-      bodyText += '\n'
+      result += '## Topics\n'
+      result += '\n'
 
-      bodyText += '<MembersList>\n'
+      result += '<MembersList>\n'
       for (const innerGroup of compoundDef.innerGroups) {
         const permalink = this.context.getPermalink(innerGroup.refid)
-        bodyText += `<MembersListItem itemKind="" itemLabel="${innerGroup.text}" itemLink="${permalink}">\n`
+        result += `<MembersListItem itemKind="" itemLabel="${innerGroup.text}" itemLink="${permalink}">\n`
 
         const compoundDef = this.context.compoundDefsById.get(innerGroup.refid)
         assert(compoundDef !== undefined)
         const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
-        bodyText += briefDescription
-        bodyText += '\n'
+        result += briefDescription
+        result += '\n'
 
-        bodyText += '</MembersListItem>\n'
+        result += '</MembersListItem>\n'
       }
-      bodyText += '</MembersList>\n'
-      bodyText += '\n'
+      result += '</MembersList>\n'
+      result += '\n'
     }
 
     if (compoundDef.innerClasses !== undefined && compoundDef.innerClasses.length > 0) {
-      bodyText += '## Classes\n'
-      bodyText += '\n'
-      bodyText += '<MembersList>\n'
+      result += '## Classes\n'
+      result += '\n'
+      result += '<MembersList>\n'
       for (const innerClass of compoundDef.innerClasses) {
         // console.log(util.inspect(innerClass), { compact: false, depth: 999 })
         const compoundDefClass = this.context.compoundDefsById.get(innerClass.refid)
@@ -92,66 +92,66 @@ export class GroupGenerator extends PageGeneratorBase {
           }
         }
 
-        bodyText += `<MembersListItem itemKind="class" itemLabel="${label}" itemLink="${permalink}">\n`
+        result += `<MembersListItem itemKind="class" itemLabel="${label}" itemLink="${permalink}">\n`
 
         const innerBriefDescription: string = this.context.renderElementMdx(compoundDefClass.briefDescription)
-        bodyText += innerBriefDescription
+        result += innerBriefDescription
         const innerPermalink = this.context.getPermalink(innerClass.refid)
-        bodyText += ` <Link to="${innerPermalink}#details">`
-        bodyText += 'More...'
-        bodyText += '</Link>\n'
+        result += ` <Link to="${innerPermalink}#details">`
+        result += 'More...'
+        result += '</Link>\n'
 
-        bodyText += '</MembersListItem>\n'
+        result += '</MembersListItem>\n'
       }
-      bodyText += '</MembersList>\n'
-      bodyText += '\n'
+      result += '</MembersList>\n'
+      result += '\n'
     }
 
-    bodyText += '## Description {#details}\n'
-    bodyText += '\n'
+    result += '## Description {#details}\n'
+    result += '\n'
 
     // Deviate from Doxygen and do not repeat the brief in the detailed section.
 
     const detailedDescription: string = this.context.renderElementMdx(compoundDef.detailedDescription)
     if (detailedDescription.length > 0 && detailedDescription !== '<hr/>') {
-      bodyText += detailedDescription
-      bodyText += '\n'
+      result += detailedDescription
+      result += '\n'
     } else {
-      bodyText += `TODO: add <code>@details</code> to <code>@defgroup ${compoundDef.compoundName}</code>`
-      bodyText += '\n'
+      result += `TODO: add <code>@details</code> to <code>@defgroup ${compoundDef.compoundName}</code>`
+      result += '\n'
     }
 
-    return bodyText
+    return result
   }
 
   renderIndexMdx (): string {
     // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
 
-    let bodyText: string = ''
+    let context: string = ''
 
     const projectBrief = this.context.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF')
 
-    bodyText += `${projectBrief} topics with brief descriptions are:\n`
-    bodyText += '\n'
+    context += `${projectBrief} topics with brief descriptions are:\n`
+    context += '\n'
 
-    bodyText += '<TreeTable>\n'
+    context += '<TreeTable>\n'
 
     for (const groupId of this.context.groups.topLevelGroupIds) {
-      bodyText += this.renderGroupRecursively(groupId, 1)
+      context += this.renderGroupRecursively(groupId, 1)
     }
 
-    bodyText += '</TreeTable>\n'
+    context += '</TreeTable>\n'
 
     if (this.context.pages.mainPage !== undefined) {
       const detailedDescription: string = this.context.renderElementMdx(this.context.pages.mainPage.compoundDef.detailedDescription)
 
-      bodyText += '## Description\n'
-      bodyText += '\n'
+      context += '## Description\n'
+      context += '\n'
 
-      bodyText += detailedDescription
+      context += detailedDescription
     }
 
-    return bodyText
+    return context
   }
 
   renderGroupRecursively (groupId: string, depth: number): string {
@@ -159,28 +159,28 @@ export class GroupGenerator extends PageGeneratorBase {
     assert(group !== undefined)
     assert(depth <= 6)
 
-    let bodyText: string = ''
+    let context: string = ''
 
     const compoundDef = group.compoundDef
     const label = compoundDef.title?.trim()
     const permalink = this.context.getPermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    bodyText += `<TreeTableRow itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
+    context += `<TreeTableRow itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
 
     const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
-    bodyText += briefDescription.replace(/[.]$/, '')
-    bodyText += '\n'
+    context += briefDescription.replace(/[.]$/, '')
+    context += '\n'
 
-    bodyText += '</TreeTableRow>\n'
+    context += '</TreeTableRow>\n'
 
     if (group.childrenGroupsIds.length > 0) {
       for (const childGroupId of group.childrenGroupsIds) {
-        bodyText += this.renderGroupRecursively(childGroupId, depth + 1)
+        context += this.renderGroupRecursively(childGroupId, depth + 1)
       }
     }
 
-    return bodyText
+    return context
   }
 }
 

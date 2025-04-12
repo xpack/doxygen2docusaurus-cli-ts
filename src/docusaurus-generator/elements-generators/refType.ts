@@ -30,7 +30,7 @@ export class RefType extends ElementGeneratorBase {
 
     let result = ''
 
-    const permalink = this.generator.getPermalink(element.refid)
+    const permalink = this.context.getPermalink(element.refid)
     assert(permalink !== undefined && permalink.length > 1)
 
     result += `<Link to="${permalink}">`

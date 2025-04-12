@@ -29,7 +29,7 @@ export class DescriptionTypeGenerator extends ElementGeneratorBase {
     }
 
     let result = ''
-    result += this.generator.renderElementsMdx(element.children)
+    result += this.context.renderElementsMdx(element.children)
 
     // console.log(result)
     return result.trim()
@@ -43,7 +43,7 @@ export class DocParaType extends ElementGeneratorBase {
     // console.log(util.inspect(element), { compact: false, depth: 999 })
 
     let result = ''
-    result += this.generator.renderElementsMdx(element.children)
+    result += this.context.renderElementsMdx(element.children)
     if (element instanceof Para) {
       result += '\n'
     }
@@ -59,7 +59,7 @@ export class DocURLLink extends ElementGeneratorBase {
 
     let result = ''
     result += `<a href="${element.url}">`
-    result += this.generator.renderElementsMdx(element.children)
+    result += this.context.renderElementsMdx(element.children)
     result += '</a>'
     return result
   }
@@ -85,7 +85,7 @@ export class DocMarkupType extends ElementGeneratorBase {
 
     let result = ''
     result += `<${htmlElement}>`
-    result += this.generator.renderElementsMdx(element.children)
+    result += this.context.renderElementsMdx(element.children)
     result += `</${htmlElement}>`
 
     return result
@@ -106,11 +106,11 @@ export class DocRefTextType extends ElementGeneratorBase {
       console.log('external ignored in', element.constructor.name)
     }
 
-    const permalink = this.generator.getPermalink(element.refid)
+    const permalink = this.context.getPermalink(element.refid)
     assert(permalink !== undefined && permalink.length > 1)
 
     result += `<Link to="${permalink}">`
-    result += this.generator.renderElementsMdx(element.children)
+    result += this.context.renderElementsMdx(element.children)
     result += '</Link>'
 
     return result
@@ -130,7 +130,7 @@ export class DocSimpleSectType extends ElementGeneratorBase {
       result += '<dl class="section user">\n'
       result += `<dt><b>${element.title}</b></dt>\n`
       result += '<dd>\n'
-      result += this.generator.renderElementsMdx(element.children)
+      result += this.context.renderElementsMdx(element.children)
       result += '</dd>\n'
       result += '</dl>\n'
     } else {
