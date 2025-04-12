@@ -260,7 +260,7 @@ export class DocusaurusGenerator {
 
       const frontMatter: FrontMatter = {
         title: `${projectBrief} API Reference`,
-        slug: `${outputFolderPath.replace(/^docs/, '')}${permalink}`,
+        slug: `${outputFolderPath.replace(/^docs/, '')}/${permalink}`,
         description: '...',
         custom_edit_url: null,
         keywords: ['doxygen', 'reference']
@@ -283,7 +283,7 @@ export class DocusaurusGenerator {
 
       const frontMatter: FrontMatter = {
         title: 'The Namespaces Reference',
-        slug: `${outputFolderPath.replace(/^docs/, '')}${permalink}`,
+        slug: `${outputFolderPath.replace(/^docs/, '')}/${permalink}`,
         description: '...',
         custom_edit_url: null,
         keywords: ['doxygen', 'namespaces', 'reference']
