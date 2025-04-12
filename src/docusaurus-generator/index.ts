@@ -33,10 +33,12 @@ import { GroupGenerator } from './pages-generators/group.js'
 import { Sidebar } from './sidebar.js'
 import { FrontMatter } from './types.js'
 import { formatDate } from './utils.js'
-import { RefType } from './elements-generators/refType.js'
+import { RefType } from './elements-generators/reftype.js'
 import { NamespaceGenerator } from './pages-generators/namespace.js'
 import { ClassPageGenerator } from './pages-generators/class.js'
 import { Pages } from './data-model/pages.js'
+import { IncType } from './elements-generators/inctype.js'
+import { SectionDefType } from './elements-generators/sectiondeftype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -123,6 +125,8 @@ export class DocusaurusGenerator {
     this.elementGenerators.set('AbstractDocSimpleSectType', new DocSimpleSectType(this))
     this.elementGenerators.set('AbstractListingType', new ListingType(this))
     this.elementGenerators.set('AbstractDocEmptyType', new DocEmptyType(this))
+    this.elementGenerators.set('AbstractIncType', new IncType(this))
+    this.elementGenerators.set('AbstractSectionDefType', new SectionDefType(this))
   }
 
   async generate (): Promise<void> {
