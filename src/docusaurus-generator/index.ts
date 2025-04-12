@@ -27,13 +27,14 @@ import { Namespaces } from './data-model/namespace.js'
 import { DoxygenFileOptions } from './data-model/options.js'
 import { DescriptionTypeGenerator, DocEmptyType, DocMarkupType, DocParaType, DocRefTextType, DocSimpleSectType, DocURLLink, ListingType } from './elements-generators/descriptiontype.js'
 import { ElementGeneratorBase } from './elements-generators/element-generator-base.js'
-import { KindGeneratorBase as GeneratorBase } from './pages-generators/generator-base.js'
+import { PageGeneratorBase as GeneratorBase } from './pages-generators/generator-base.js'
 import { GroupGenerator } from './pages-generators/group.js'
 import { Sidebar } from './sidebar.js'
 import { FrontMatter } from './types.js'
 import { formatDate } from './utils.js'
 import { RefType } from './elements-generators/refType.js'
 import { NamespaceGenerator } from './pages-generators/namespace.js'
+import { ClassPageGenerator } from './pages-generators/class.js'
 
 // ----------------------------------------------------------------------------
 
@@ -105,6 +106,7 @@ export class DocusaurusGenerator {
     // Add generators for the top pages, grouped by 'kind'.
     this.pageGenerators.set('group', new GroupGenerator(this))
     this.pageGenerators.set('namespace', new NamespaceGenerator(this))
+    this.pageGenerators.set('class', new ClassPageGenerator(this))
 
     // Add generators for the parsed xml elements.
     this.elementGenerators.set('AbstractDescriptionType', new DescriptionTypeGenerator(this))
@@ -301,18 +303,25 @@ export class DocusaurusGenerator {
     }
 
     {
+      const filePath = `${outputFolderPath}/classes/index.mdx`
+      const permalink = 'classes'
+
       const frontMatter: FrontMatter = {
         title: 'The Classes Reference',
-        slug: '/api/classes',
+        slug: `${outputFolderPath.replace(/^docs/, '')}/${permalink}`,
         description: '...',
         custom_edit_url: null,
-        keywords: ['doxygen', 'classes']
+        keywords: ['doxygen', 'classes', 'reference']
       }
 
+      const docusaurusGenerator = this.pageGenerators.get('class')
+      assert(docusaurusGenerator !== undefined)
+      const bodyText = await docusaurusGenerator.renderIndexMdx()
+
       await this.writeFile({
-        filePath: 'docs/api/classes/index.mdx',
+        filePath,
         frontMatter,
-        bodyText: 'TODO Classes\n'
+        bodyText
       })
     }
 
