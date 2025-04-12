@@ -44,4 +44,19 @@ td.treeIndent6 {
   margin-left: 72px;
 }
 
+span.iconBox {
+  margin-right: 6px;
+}
+
+span.icon {
+  background: var(--ifm-color-primary);
+  color: var(--ifm-color-content-inverse);
+  border-radius: 4px;
+  font-weight: bold;
+  padding: 1px 4px 1px 4px;
+  text-align: center;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
 /* --- End TreeTableRow/styles.module.css --- */

@@ -70,7 +70,13 @@ export class ClassPageGenerator extends PageGeneratorBase {
     const permalink = this.generator.getPermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    bodyText += `<TreeTableRow itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
+    const iconLetters: Record<string, string> = {
+      class: 'C'
+    }
+
+    const iconLetter: string = iconLetters[compoundDef.kind] || '?'
+
+    bodyText += `<TreeTableRow itemIcon="${iconLetter}" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
 
     const briefDescription: string = this.generator.renderElementMdx(compoundDef.briefDescription)
     bodyText += briefDescription.replace(/[.]$/, '')

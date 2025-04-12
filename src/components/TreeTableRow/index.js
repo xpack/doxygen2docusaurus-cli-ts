@@ -18,6 +18,7 @@ import Link from '@docusaurus/Link'
 // ----------------------------------------------------------------------------
 
 export default function TreeTableRow({
+  itemIcon,
   itemLabel,
   itemLink,
   depth,
@@ -33,7 +34,10 @@ export default function TreeTableRow({
 
   return (
     <tr class={styles.treeItem}>
-      <td class={`${styles.treeItemLeft} ${styles[x]}`} align="left" valign="top"><Link to="${itemLink}">{text}</Link></td>
+      <td class={`${styles.treeItemLeft} ${styles[x]}`} align="left" valign="top">
+        {itemIcon && <><span class={styles.iconBox}><span class={styles.icon}>{itemIcon}</span></span></>}
+        <Link to={itemLink}>{text}</Link>
+      </td>
       <td class={styles.treeItemRight} align="left" valign="top">{children}</td>
     </tr>
   );

@@ -112,7 +112,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
     // Deviate from Doxygen and do not repeat the brief in the detailed section.
 
-    console.log(util.inspect(compoundDef.detailedDescription), { compact: false, depth: 999 })
+    // console.log(util.inspect(compoundDef.detailedDescription), { compact: false, depth: 999 })
     const detailedDescription: string = this.generator.renderElementMdx(compoundDef.detailedDescription)
     if (detailedDescription.length > 0 && detailedDescription !== '<hr/>') {
       bodyText += detailedDescription
@@ -157,7 +157,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
     const permalink = this.generator.getPermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    bodyText += `<TreeTableRow itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
+    bodyText += `<TreeTableRow itemIcon="N" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
 
     const briefDescription: string = this.generator.renderElementMdx(compoundDef.briefDescription)
     bodyText += briefDescription.replace(/[.]$/, '')
