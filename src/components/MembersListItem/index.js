@@ -26,7 +26,7 @@ export default function MembersListItem({
   return (
     <>
       <tr class={styles.memberItem}>
-        <td class={styles.memberItemLeft} align="right" valign="middle">{itemKind}</td>
+        <td class={styles.memberItemLeft} align="right" valign="top">{itemKind}</td>
         <td class={styles.memberItemRight} align="left" valign="top"><Link to="${itemLink}">{itemText}</Link></td>
       </tr>
       <tr class={styles.memberDescription}>

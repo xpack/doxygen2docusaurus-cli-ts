@@ -33,7 +33,7 @@ export default function TreeTableRow({
 
   return (
     <tr class={styles.treeItem}>
-      <td class={`${styles.treeItemLeft} ${styles[x]}`} align="left" valign="middle"><Link to="${itemLink}">{text}</Link></td>
+      <td class={`${styles.treeItemLeft} ${styles[x]}`} align="left" valign="top"><Link to="${itemLink}">{text}</Link></td>
       <td class={styles.treeItemRight} align="left" valign="top">{children}</td>
     </tr>
   );
