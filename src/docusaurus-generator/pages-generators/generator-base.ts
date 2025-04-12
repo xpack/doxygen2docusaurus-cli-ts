@@ -17,7 +17,7 @@ import { FrontMatter } from '../types.js'
 
 // ----------------------------------------------------------------------------
 
-export abstract class KindGeneratorBase {
+export abstract class PageGeneratorBase {
   generator: DocusaurusGenerator
 
   constructor (generator: DocusaurusGenerator) {

@@ -15,13 +15,13 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { FrontMatter } from '../types.js'
-import { KindGeneratorBase } from './generator-base.js'
+import { PageGeneratorBase } from './generator-base.js'
 import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
 import { Group } from '../data-model/groups.js'
 
 // ----------------------------------------------------------------------------
 
-export class GroupGenerator extends KindGeneratorBase {
+export class GroupGenerator extends PageGeneratorBase {
   renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
     // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
 
