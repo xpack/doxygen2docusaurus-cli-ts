@@ -22,7 +22,7 @@ import { Namespace } from '../data-model/namespace.js'
 // ----------------------------------------------------------------------------
 
 export class NamespaceGenerator extends KindGeneratorBase {
-  renderMdx(compoundDef: CompoundDef, frontMatter: FrontMatter): string {
+  renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
     // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
 
     frontMatter.title = `The ${compoundDef.compoundName} Namespace Reference`
@@ -57,7 +57,6 @@ export class NamespaceGenerator extends KindGeneratorBase {
       bodyText += '</MembersList>\n'
       bodyText += '\n'
     }
-
 
     if (compoundDef.innerClasses !== undefined && compoundDef.innerClasses.length > 0) {
       bodyText += '## Classes\n'
@@ -108,7 +107,6 @@ export class NamespaceGenerator extends KindGeneratorBase {
       bodyText += '\n'
     }
 
-
     bodyText += '## Description {#details}\n'
     bodyText += '\n'
 
@@ -127,7 +125,7 @@ export class NamespaceGenerator extends KindGeneratorBase {
     return bodyText
   }
 
-  renderIndexMdx(): string {
+  renderIndexMdx (): string {
     // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
 
     let bodyText: string = ''
@@ -146,7 +144,7 @@ export class NamespaceGenerator extends KindGeneratorBase {
     return bodyText
   }
 
-  renderNamespaceRecursively(namespaceId: string, depth: number): string {
+  renderNamespaceRecursively (namespaceId: string, depth: number): string {
     const namespace: Namespace | undefined = this.generator.namespaces.membersById.get(namespaceId)
     assert(namespace !== undefined)
 
