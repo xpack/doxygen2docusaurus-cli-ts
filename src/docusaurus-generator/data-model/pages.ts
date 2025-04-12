@@ -42,7 +42,7 @@ export class Page {
   compoundDef: CompoundDef
 
   constructor (compoundDef: CompoundDef) {
-    console.log('Page.constructor', util.inspect(compoundDef))
+    // console.log('Page.constructor', util.inspect(compoundDef))
     this.compoundDef = compoundDef
   }
 }
