@@ -14,6 +14,7 @@
 import assert from 'assert'
 import * as fs from 'fs/promises'
 import path from 'path'
+import * as util from 'node:util'
 
 import { AbstractCompoundDefType } from '../doxygen-xml-parser/compounddef.js'
 import { DoxygenData } from '../doxygen-xml-parser/index.js'
@@ -35,6 +36,7 @@ import { formatDate } from './utils.js'
 import { RefType } from './elements-generators/refType.js'
 import { NamespaceGenerator } from './pages-generators/namespace.js'
 import { ClassPageGenerator } from './pages-generators/class.js'
+import { Pages } from './data-model/pages.js'
 
 // ----------------------------------------------------------------------------
 
@@ -56,6 +58,7 @@ export class DocusaurusGenerator {
   folders: Folders
   files: Files
   classes: Classes
+  pages: Pages
 
   // kind: DoxCompoundKind
   permalinkPrefixesByKind: { [key: string]: string } = {
@@ -100,6 +103,7 @@ export class DocusaurusGenerator {
     this.folders = new Folders(this.doxygenData.compoundDefs)
     this.files = new Files(this.doxygenData.compoundDefs, this.folders)
     this.classes = new Classes(this.doxygenData.compoundDefs)
+    this.pages = new Pages(this.doxygenData.compoundDefs)
 
     this.doxygenOptions = new DoxygenFileOptions(this.doxygenData.doxyfile.options)
 
@@ -221,6 +225,13 @@ export class DocusaurusGenerator {
     const outputFolderPath = this.pluginOptions.outputFolderPath
 
     for (const compoundDef of this.doxygenData.compoundDefs) {
+      if (compoundDef.kind === 'page' && compoundDef.id === 'indexpage') {
+        // This is the @mainpage. We diverge from Doxygen and generate
+        // the API main page differently, with the list of topics and
+        // this page detailed description. Therefore it is not generated
+        // as a regular page.
+        continue
+      }
       const permalink = this.permalinksById.get(compoundDef.id)
       assert(permalink !== undefined)
       console.log(`${compoundDef.kind}: ${compoundDef.compoundName}`, '->', `${outputFolderPath}${permalink}`)
@@ -244,6 +255,11 @@ export class DocusaurusGenerator {
       const docusaurusGenerator = this.pageGenerators.get(compoundDef.kind)
       if (docusaurusGenerator !== undefined) {
         bodyText = await docusaurusGenerator.renderMdx(compoundDef, frontMatter)
+      } else {
+        // console.error(util.inspect(compoundDef), { compact: false, depth: 999 })
+        console.error('page generator for', compoundDef.kind, 'not implemented yet in', this.constructor.name)
+        // TODO: enable it after implementing folders & files
+        // continue
       }
 
       await this.writeFile({
@@ -254,7 +270,9 @@ export class DocusaurusGenerator {
     }
 
     {
-      // Home page for the API reference. Usually the same content as the first top group.
+      // Home page for the API reference.
+      // It diverts from Doxygen, since it renders the list of topics and
+      // the main page.
       const filePath = `${outputFolderPath}/index.mdx`
 
       const projectBrief = this.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF')
@@ -396,7 +414,7 @@ export class DocusaurusGenerator {
 
     for (const component of components) {
       if (bodyText.includes(`<${component}`)) {
-        frontMatterText += `import ${component} from \'@xpack/docusaurus-plugin-doxygen/components/${component}\'\n`
+        frontMatterText += `import ${component} from '@xpack/docusaurus-plugin-doxygen/components/${component}'\n`
       }
     }
 
