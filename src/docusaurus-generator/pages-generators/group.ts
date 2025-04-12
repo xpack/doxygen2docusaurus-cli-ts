@@ -129,7 +129,9 @@ export class GroupGenerator extends PageGeneratorBase {
 
     let bodyText: string = ''
 
-    bodyText += 'The topics with brief descriptions are:\n'
+    const projectBrief = this.generator.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF')
+
+    bodyText += `${projectBrief} topics with brief descriptions are:\n`
     bodyText += '\n'
 
     bodyText += '<TreeTable>\n'
@@ -139,6 +141,15 @@ export class GroupGenerator extends PageGeneratorBase {
     }
 
     bodyText += '</TreeTable>\n'
+
+    if (this.generator.pages.mainPage !== undefined) {
+      const detailedDescription: string = this.generator.renderElementMdx(this.generator.pages.mainPage.compoundDef.detailedDescription)
+
+      bodyText += '## Description\n'
+      bodyText += '\n'
+
+      bodyText += detailedDescription
+    }
 
     return bodyText
   }
