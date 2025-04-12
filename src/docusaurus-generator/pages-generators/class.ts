@@ -47,7 +47,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     bodyText += '<TreeTable>\n'
 
-    for (const classId of this.generator.classes.topLevelClassIds) {
+    for (const classId of this.context.classes.topLevelClassIds) {
       bodyText += this.renderClassRecursively(classId, 1)
     }
 
@@ -57,7 +57,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
   }
 
   renderClassRecursively (classId: string, depth: number): string {
-    const _class: Class | undefined = this.generator.classes.membersById.get(classId)
+    const _class: Class | undefined = this.context.classes.membersById.get(classId)
     assert(_class !== undefined)
 
     // console.log(util.inspect(_class), { compact: false, depth: 999 })
@@ -67,7 +67,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     const compoundDef = _class.compoundDef
     const label = compoundDef.compoundName.replace(/^.*::/, '')
 
-    const permalink = this.generator.getPermalink(compoundDef.id)
+    const permalink = this.context.getPermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
     const iconLetters: Record<string, string> = {
@@ -78,7 +78,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     bodyText += `<TreeTableRow itemIcon="${iconLetter}" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
 
-    const briefDescription: string = this.generator.renderElementMdx(compoundDef.briefDescription)
+    const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
     bodyText += briefDescription.replace(/[.]$/, '')
     bodyText += '\n'
 

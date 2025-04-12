@@ -18,10 +18,10 @@ import { FrontMatter } from '../types.js'
 // ----------------------------------------------------------------------------
 
 export abstract class PageGeneratorBase {
-  generator: DocusaurusGenerator
+  context: DocusaurusGenerator
 
   constructor (generator: DocusaurusGenerator) {
-    this.generator = generator
+    this.context = generator
   }
 
   abstract renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string

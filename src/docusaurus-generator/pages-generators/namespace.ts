@@ -29,7 +29,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
     let bodyText: string = ''
 
-    const briefDescription: string = this.generator.renderElementMdx(compoundDef.briefDescription)
+    const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
     if (briefDescription.length > 0) {
       bodyText += briefDescription
       bodyText += ' <a href="#details">More...</a>\n'
@@ -42,13 +42,13 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
       bodyText += '<MembersList>\n'
       for (const innerNamespace of compoundDef.innerNamespaces) {
-        const namespace = this.generator.namespaces.membersById.get(innerNamespace.refid)
-        const permalink = this.generator.getPermalink(innerNamespace.refid)
+        const namespace = this.context.namespaces.membersById.get(innerNamespace.refid)
+        const permalink = this.context.getPermalink(innerNamespace.refid)
         bodyText += `<MembersListItem itemKind="namespace" itemLabel="${namespace?.unparentedName}" itemLink="${permalink}">\n`
 
-        const compoundDef = this.generator.compoundDefsById.get(innerNamespace.refid)
+        const compoundDef = this.context.compoundDefsById.get(innerNamespace.refid)
         assert(compoundDef !== undefined)
-        const briefDescription: string = this.generator.renderElementMdx(compoundDef.briefDescription)
+        const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
         bodyText += briefDescription
         bodyText += '\n'
 
@@ -64,11 +64,11 @@ export class NamespaceGenerator extends PageGeneratorBase {
       bodyText += '<MembersList>\n'
       for (const innerClass of compoundDef.innerClasses) {
         // console.log(util.inspect(innerClass), { compact: false, depth: 999 })
-        const compoundDefClass = this.generator.compoundDefsById.get(innerClass.refid)
+        const compoundDefClass = this.context.compoundDefsById.get(innerClass.refid)
         assert(compoundDefClass !== undefined)
         // console.log(util.inspect(compoundDefClass), { compact: false, depth: 999 })
 
-        const permalink = this.generator.getPermalink(compoundDefClass.id)
+        const permalink = this.context.getPermalink(compoundDefClass.id)
 
         let label = ''
         label += compoundDefClass.compoundName
@@ -94,9 +94,9 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
         bodyText += `<MembersListItem itemKind="class" itemLabel="${label}" itemLink="${permalink}">\n`
 
-        const innerBriefDescription: string = this.generator.renderElementMdx(compoundDefClass.briefDescription)
+        const innerBriefDescription: string = this.context.renderElementMdx(compoundDefClass.briefDescription)
         bodyText += innerBriefDescription
-        const innerPermalink = this.generator.getPermalink(innerClass.refid)
+        const innerPermalink = this.context.getPermalink(innerClass.refid)
         bodyText += ` <Link to="${innerPermalink}#details">`
         bodyText += 'More...'
         bodyText += '</Link>\n'
@@ -113,7 +113,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
     // Deviate from Doxygen and do not repeat the brief in the detailed section.
 
     // console.log(util.inspect(compoundDef.detailedDescription), { compact: false, depth: 999 })
-    const detailedDescription: string = this.generator.renderElementMdx(compoundDef.detailedDescription)
+    const detailedDescription: string = this.context.renderElementMdx(compoundDef.detailedDescription)
     if (detailedDescription.length > 0 && detailedDescription !== '<hr/>') {
       bodyText += detailedDescription
       bodyText += '\n'
@@ -135,7 +135,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
     bodyText += '<TreeTable>\n'
 
-    for (const groupId of this.generator.namespaces.topLevelNamespaceIds) {
+    for (const groupId of this.context.namespaces.topLevelNamespaceIds) {
       bodyText += this.renderNamespaceRecursively(groupId, 1)
     }
 
@@ -145,7 +145,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
   }
 
   renderNamespaceRecursively (namespaceId: string, depth: number): string {
-    const namespace: Namespace | undefined = this.generator.namespaces.membersById.get(namespaceId)
+    const namespace: Namespace | undefined = this.context.namespaces.membersById.get(namespaceId)
     assert(namespace !== undefined)
 
     // console.log(util.inspect(namespace), { compact: false, depth: 999 })
@@ -154,12 +154,12 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
     const compoundDef = namespace.compoundDef
     const label = namespace.unparentedName
-    const permalink = this.generator.getPermalink(compoundDef.id)
+    const permalink = this.context.getPermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
     bodyText += `<TreeTableRow itemIcon="N" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
 
-    const briefDescription: string = this.generator.renderElementMdx(compoundDef.briefDescription)
+    const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
     bodyText += briefDescription.replace(/[.]$/, '')
     bodyText += '\n'
 
