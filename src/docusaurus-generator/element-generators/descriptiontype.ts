@@ -14,7 +14,7 @@
 import util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
-import { AbstractDescriptionType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractListingType, Sp } from '../../doxygen-xml-parser/descriptiontype.js'
+import { AbstractDescriptionType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractListingType, Para, Sp } from '../../doxygen-xml-parser/descriptiontype.js'
 import assert from 'assert'
 import { RefText } from '../../doxygen-xml-parser/reftexttype.js'
 
@@ -44,6 +44,9 @@ export class DocParaType extends ElementGeneratorBase {
 
     let result = ''
     result += this.generator.renderElementsMdx(element.children)
+    if (element instanceof Para) {
+      result += '\n'
+    }
     return result
   }
 }

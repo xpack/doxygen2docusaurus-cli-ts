@@ -58,7 +58,7 @@ export class Namespaces {
 
   makeNameLocalRecursively (namespace: Namespace): void {
     if (namespace.parentNamespaceId.length === 0) {
-      namespace.unparentedName = namespace.compoundDef.compoundName
+      namespace.unparentedName = namespace.compoundDef.compoundName.trim()
     } else {
       // Remove the parent name from the current name
       const parentNamespace = this.membersById.get(namespace.parentNamespaceId)
@@ -66,7 +66,7 @@ export class Namespaces {
       const parentName = parentNamespace.compoundDef.compoundName
       const name = namespace.compoundDef.compoundName
       assert(name.startsWith(parentName + '::'))
-      namespace.unparentedName = name.substring(parentName.length + 2)
+      namespace.unparentedName = name.substring(parentName.length + 2).trim()
     }
     for (const childNamespaceId of namespace.childrenNamespaceIds) {
       const childNamespace = this.membersById.get(childNamespaceId)

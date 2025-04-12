@@ -51,11 +51,12 @@ export class GroupGenerator extends KindGeneratorBase {
         const briefDescription: string = this.generator.renderElementMdx(compoundDef.briefDescription)
         bodyText += briefDescription
         bodyText += '\n'
+
         bodyText += '</MembersListItem>\n'
       }
       bodyText += '</MembersList>\n'
+      bodyText += '\n'
     }
-    bodyText += '\n'
 
     if (compoundDef.innerClasses !== undefined && compoundDef.innerClasses.length > 0) {
       bodyText += '## Classes\n'
@@ -110,13 +111,9 @@ export class GroupGenerator extends KindGeneratorBase {
     bodyText += '\n'
 
     // Deviate from Doxygen and do not repeat the brief in the detailed section.
-    // if (briefDescription.length > 0) {
-    //   bodyText += briefDescription
-    //   bodyText += '\n'
-    // }
 
     const detailedDescription: string = this.generator.renderElementMdx(compoundDef.detailedDescription)
-    if (detailedDescription.length > 0) {
+    if (detailedDescription.length > 0 && detailedDescription !== '<hr/>') {
       bodyText += detailedDescription
       bodyText += '\n'
     } else {
@@ -136,9 +133,11 @@ export class GroupGenerator extends KindGeneratorBase {
     bodyText += '\n'
 
     bodyText += '<TreeTable>\n'
+
     for (const groupId of this.generator.groups.topLevelGroupIds) {
       bodyText += this.renderGroupRecursively(groupId, 1)
     }
+
     bodyText += '</TreeTable>\n'
 
     return bodyText
@@ -147,6 +146,7 @@ export class GroupGenerator extends KindGeneratorBase {
   renderGroupRecursively (groupId: string, depth: number): string {
     const group: Group | undefined = this.generator.groups.membersById.get(groupId)
     assert(group !== undefined)
+    assert(depth <= 6)
 
     let bodyText: string = ''
 
@@ -154,11 +154,11 @@ export class GroupGenerator extends KindGeneratorBase {
     assert(permalink !== undefined && permalink.length > 1)
 
     bodyText += `<TreeTableRow itemText="${group.compoundDef.title?.trim()}" itemLink="${permalink}" depth="${depth}">\n`
+
     const briefDescription: string = this.generator.renderElementMdx(group.compoundDef.briefDescription)
-    if (briefDescription.length > 0) {
-      bodyText += briefDescription.replace(/[.]$/, '')
-      bodyText += '\n'
-    }
+    bodyText += briefDescription.replace(/[.]$/, '')
+    bodyText += '\n'
+
     bodyText += '</TreeTableRow>\n'
 
     if (group.childrenGroupsIds.length > 0) {

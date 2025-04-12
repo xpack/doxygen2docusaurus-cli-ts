@@ -22,15 +22,12 @@ import { Namespace } from '../data-model/namespace.js'
 // ----------------------------------------------------------------------------
 
 export class NamespaceGenerator extends KindGeneratorBase {
-  renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
+  renderMdx(compoundDef: CompoundDef, frontMatter: FrontMatter): string {
     // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
 
     frontMatter.title = `The ${compoundDef.compoundName} Namespace Reference`
-    const bodyText: string = ''
 
-    /*
-    assert(compoundDef.title !== undefined)
-    frontMatter.title = compoundDef.title + ' Reference'
+    let bodyText: string = ''
 
     const briefDescription: string = this.generator.renderElementMdx(compoundDef.briefDescription)
     if (briefDescription.length > 0) {
@@ -39,37 +36,98 @@ export class NamespaceGenerator extends KindGeneratorBase {
       bodyText += '\n'
     }
 
-    if (compoundDef.innerGroups !== undefined && compoundDef.innerGroups.length > 0) {
-      bodyText += '## Topics\n'
+    if (compoundDef.innerNamespaces !== undefined && compoundDef.innerNamespaces.length > 0) {
+      bodyText += '## Namespaces\n'
       bodyText += '\n'
-      for (const innerGroup of compoundDef.innerGroups) {
-        bodyText += `- ${this.generator.renderElementMdx(innerGroup)}\n`
+
+      bodyText += '<MembersList>\n'
+      for (const innerNamespace of compoundDef.innerNamespaces) {
+        const namespace = this.generator.namespaces.membersById.get(innerNamespace.refid)
+        const permalink = this.generator.getPermalink(innerNamespace.refid)
+        bodyText += `<MembersListItem itemKind="namespace" itemText="${namespace?.unparentedName}" itemLink="${permalink}">\n`
+
+        const compoundDef = this.generator.compoundDefsById.get(innerNamespace.refid)
+        assert(compoundDef !== undefined)
+        const briefDescription: string = this.generator.renderElementMdx(compoundDef.briefDescription)
+        bodyText += briefDescription
+        bodyText += '\n'
+
+        bodyText += '</MembersListItem>\n'
       }
+      bodyText += '</MembersList>\n'
       bodyText += '\n'
     }
+
+
+    if (compoundDef.innerClasses !== undefined && compoundDef.innerClasses.length > 0) {
+      bodyText += '## Classes\n'
+      bodyText += '\n'
+      bodyText += '<MembersList>\n'
+      for (const innerClass of compoundDef.innerClasses) {
+        // console.log(util.inspect(innerClass), { compact: false, depth: 999 })
+        const compoundDefClass = this.generator.compoundDefsById.get(innerClass.refid)
+        assert(compoundDefClass !== undefined)
+        // console.log(util.inspect(compoundDefClass), { compact: false, depth: 999 })
+
+        const permalink = this.generator.getPermalink(compoundDefClass.id)
+
+        let itemText = ''
+        itemText += compoundDefClass.compoundName
+
+        if (compoundDefClass.templateParamList?.params !== undefined) {
+          const paramNames: string[] = []
+          for (const param of compoundDefClass.templateParamList.params) {
+            assert(param.type !== undefined)
+            assert(param.type.children.length === 1)
+            assert(typeof param.type.children[0] === 'string')
+            if (param.declname !== undefined) {
+              paramNames.push(param.declname)
+            } else {
+              // Extract the parameter name, passed as `class T`.
+              paramNames.push(param.type.children[0].replace('class ', ''))
+            }
+            // console.log(param, { compact: false, depth: 999 })
+          }
+          if (paramNames.length > 0) {
+            itemText += `&lt; ${paramNames.join(', ')} &gt;`
+          }
+        }
+
+        bodyText += `<MembersListItem itemKind="class" itemText="${itemText}" itemLink="${permalink}">\n`
+
+        const innerBriefDescription: string = this.generator.renderElementMdx(compoundDefClass.briefDescription)
+        bodyText += innerBriefDescription
+        const innerPermalink = this.generator.getPermalink(innerClass.refid)
+        bodyText += ` <Link to="${innerPermalink}#details">`
+        bodyText += 'More...'
+        bodyText += '</Link>\n'
+
+        bodyText += '</MembersListItem>\n'
+      }
+      bodyText += '</MembersList>\n'
+      bodyText += '\n'
+    }
+
 
     bodyText += '## Description {#details}\n'
     bodyText += '\n'
 
     // Deviate from Doxygen and do not repeat the brief in the detailed section.
-    // if (briefDescription.length > 0) {
-    //   bodyText += briefDescription
-    //   bodyText += '\n'
-    // }
 
+    console.log(util.inspect(compoundDef.detailedDescription), { compact: false, depth: 999 })
     const detailedDescription: string = this.generator.renderElementMdx(compoundDef.detailedDescription)
-    if (detailedDescription.length > 0) {
+    if (detailedDescription.length > 0 && detailedDescription !== '<hr/>') {
       bodyText += detailedDescription
       bodyText += '\n'
     } else {
-      bodyText += `TODO: add <code>@details</code> to <code>@defgroup ${compoundDef.compoundName}</code>`
+      bodyText += `TODO: add <code>@details</code> to <code>@namespace ${compoundDef.compoundName}</code>`
       bodyText += '\n'
     }
-*/
+
     return bodyText
   }
 
-  renderIndexMdx (): string {
+  renderIndexMdx(): string {
     // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
 
     let bodyText: string = ''
@@ -77,16 +135,18 @@ export class NamespaceGenerator extends KindGeneratorBase {
     bodyText += 'The namespaces with brief descriptions are:\n'
     bodyText += '\n'
 
-    bodyText += '<table>\n'
+    bodyText += '<TreeTable>\n'
+
     for (const groupId of this.generator.namespaces.topLevelNamespaceIds) {
-      bodyText += this.renderNamespaceRecursively(groupId, 0)
+      bodyText += this.renderNamespaceRecursively(groupId, 1)
     }
-    bodyText += '</table>\n'
+
+    bodyText += '</TreeTable>\n'
 
     return bodyText
   }
 
-  renderNamespaceRecursively (namespaceId: string, depth: number): string {
+  renderNamespaceRecursively(namespaceId: string, depth: number): string {
     const namespace: Namespace | undefined = this.generator.namespaces.membersById.get(namespaceId)
     assert(namespace !== undefined)
 
@@ -97,23 +157,13 @@ export class NamespaceGenerator extends KindGeneratorBase {
     const permalink = this.generator.getPermalink(namespace.compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    bodyText += '<tr>\n'
-    bodyText += '<td>'
-    for (let i = 0; i < depth; ++i) {
-      bodyText += '&nbsp;&nbsp;&nbsp;&nbsp;'
-    }
-    bodyText += `<Link to="${permalink}">`
-    bodyText += namespace.unparentedName.trim()
-    bodyText += '</Link>'
-    bodyText += '</td>\n'
+    bodyText += `<TreeTableRow itemText="${namespace.unparentedName}" itemLink="${permalink}" depth="${depth}">\n`
 
-    bodyText += '<td>'
     const briefDescription: string = this.generator.renderElementMdx(namespace.compoundDef.briefDescription)
-    if (briefDescription.length > 0) {
-      bodyText += briefDescription.replace(/[.]$/, '')
-    }
-    bodyText += '</td>\n'
-    bodyText += '</tr>\n'
+    bodyText += briefDescription.replace(/[.]$/, '')
+    bodyText += '\n'
+
+    bodyText += '</TreeTableRow>\n'
 
     if (namespace.childrenNamespaceIds.length > 0) {
       for (const childNamespaceId of namespace.childrenNamespaceIds) {
