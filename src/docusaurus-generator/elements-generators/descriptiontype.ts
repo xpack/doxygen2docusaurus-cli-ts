@@ -14,7 +14,7 @@
 import util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
-import { AbstractDescriptionType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractListingType, Para, Sp } from '../../doxygen-xml-parser/descriptiontype.js'
+import { AbstractDescriptionType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractListingType, Para, Sp } from '../../doxygen-xml-parser/descriptiontype.js'
 import assert from 'assert'
 import { RefText } from '../../doxygen-xml-parser/reftexttype.js'
 
@@ -133,6 +133,10 @@ export class DocSimpleSectType extends ElementGeneratorBase {
       result += this.context.renderElementsMdx(element.children)
       result += '</dd>\n'
       result += '</dl>\n'
+    } else if (element.kind === 'note') {
+      result += '<Admonition type="info">\n'
+      result += `<p>${this.context.renderElementMdx(element.children).trim()}</p>\n`
+      result += '</Admonition>\n'
     } else {
       console.error(util.inspect(element, { compact: false, depth: 999 }))
       console.error(element.constructor.name, 'kind', element.kind, 'not yet rendered in', this.constructor.name)
