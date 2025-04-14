@@ -15,7 +15,7 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { FrontMatter } from '../types.js'
-import { PageGeneratorBase } from './generator-base.js'
+import { PageGeneratorBase } from './base.js'
 import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
 import { Class } from '../data-model/classes.js'
 
