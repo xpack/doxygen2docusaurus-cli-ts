@@ -9,7 +9,10 @@
     "./components/MembersList": "./src/components/MembersList/index.js",
     "./components/MembersListItem": "./src/components/MembersListItem/index.js",
     "./components/TreeTable": "./src/components/TreeTable/index.js",
-    "./components/TreeTableRow": "./src/components/TreeTableRow/index.js"
+    "./components/TreeTableRow": "./src/components/TreeTableRow/index.js",
+    "./components/ParametersList": "./src/components/ParametersList/index.js",
+    "./components/ParametersListItem": "./src/components/ParametersListItem/index.js",
+    "./components/MemberDefinition": "./src/components/MemberDefinition/index.js"
   },
   "files": [
     "dist/"

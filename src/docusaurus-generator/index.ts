@@ -26,7 +26,7 @@ import { Folders } from './data-model/folders.js'
 import { Groups } from './data-model/groups.js'
 import { Namespaces } from './data-model/namespaces.js'
 import { DoxygenFileOptions } from './data-model/options.js'
-import { DescriptionTypeGenerator, DocEmptyType, DocMarkupType, DocParaType, DocRefTextType, DocSimpleSectType, DocURLLink, ListingType } from './elements-generators/descriptiontype.js'
+import { DescriptionTypeGenerator, DocEmptyType, DocMarkupType, DocParamListType, DocParaType, DocRefTextType, DocSimpleSectType, DocURLLink, ListingType } from './elements-generators/descriptiontype.js'
 import { ElementGeneratorBase } from './elements-generators/element-generator-base.js'
 import { PageGeneratorBase as GeneratorBase } from './pages-generators/base.js'
 import { GroupGenerator } from './pages-generators/group.js'
@@ -39,6 +39,7 @@ import { ClassPageGenerator } from './pages-generators/class.js'
 import { Pages } from './data-model/pages.js'
 import { IncType } from './elements-generators/inctype.js'
 import { SectionDefType } from './elements-generators/sectiondeftype.js'
+import { MemberDefType } from './elements-generators/memberdef.js'
 
 // ----------------------------------------------------------------------------
 
@@ -127,6 +128,7 @@ export class DocusaurusGenerator {
     this.elementGenerators.set('AbstractDocEmptyType', new DocEmptyType(this))
     this.elementGenerators.set('AbstractIncType', new IncType(this))
     this.elementGenerators.set('AbstractSectionDefType', new SectionDefType(this))
+    this.elementGenerators.set('AbstractDocParamListType', new DocParamListType(this))
   }
 
   async generate (): Promise<void> {
@@ -271,6 +273,44 @@ export class DocusaurusGenerator {
         frontMatter,
         bodyText
       })
+
+      if (compoundDef.kind === 'file') {
+        const permalink = this.permalinksById.get(compoundDef.id) + '/source'
+        assert(permalink !== undefined)
+        console.log(`${compoundDef.kind}: ${compoundDef.compoundName}`, '->', `${outputFolderPath}${permalink}`)
+
+        const docusaurusId = this.docusaurusIdsById.get(compoundDef.id)
+        assert(docusaurusId !== undefined)
+
+        const fileName = `${docusaurusId}-source.mdx`
+        // console.log('fileName:', fileName)
+        const filePath = `${outputFolderPath}${fileName}`
+
+        const frontMatter: FrontMatter = {
+          title: `${compoundDef.compoundName}`,
+          slug: `${outputFolderPath.replace(/^docs/, '')}${permalink}`,
+          description: '...',
+          custom_edit_url: null,
+          keywords: ['doxygen', 'reference', `${compoundDef.kind}`, 'source']
+        }
+
+        let bodyText = `TODO ${compoundDef.compoundName}\n`
+        const docusaurusGenerator = this.pageGenerators.get(compoundDef.kind)
+        if (docusaurusGenerator !== undefined) {
+          bodyText = await docusaurusGenerator.renderMdx(compoundDef, frontMatter)
+        } else {
+          // console.error(util.inspect(compoundDef), { compact: false, depth: 999 })
+          console.error('page generator for', compoundDef.kind, 'not implemented yet in', this.constructor.name)
+          // TODO: enable it after implementing folders & files
+          // continue
+        }
+
+        await this.writeFile({
+          filePath,
+          frontMatter,
+          bodyText
+        })
+      }
     }
 
     {
@@ -404,8 +444,13 @@ export class DocusaurusGenerator {
     if (bodyText.includes('<Link')) {
       frontMatterText += 'import Link from \'@docusaurus/Link\'\n'
     }
+
+    // Theme components.
     if (bodyText.includes('<CodeBlock')) {
       frontMatterText += 'import CodeBlock from \'@theme/CodeBlock\'\n'
+    }
+    if (bodyText.includes('<Admonition')) {
+      frontMatterText += 'import Admonition from \'@theme/Admonition\'\n'
     }
 
     const components = [
@@ -413,7 +458,10 @@ export class DocusaurusGenerator {
       'MembersList',
       'MembersListItem',
       'TreeTable',
-      'TreeTableRow'
+      'TreeTableRow',
+      'ParametersList',
+      'ParametersListItem',
+      'MemberDefinition'
     ]
 
     for (const component of components) {
@@ -448,7 +496,7 @@ export class DocusaurusGenerator {
       elementClass = Object.getPrototypeOf(elementClass)
     }
 
-    console.error('no element generator for', element.constructor.name)
+    console.error('no element generator for', element.constructor.name, 'in', this.constructor.name)
     return undefined
   }
 
@@ -461,8 +509,17 @@ export class DocusaurusGenerator {
       return element
     }
 
+    if (Array.isArray(element)) {
+      let result = ''
+      for (const elementOfArray of element) {
+        result += this.renderElementMdx(elementOfArray)
+      }
+      return result
+    }
+
     const renderer: ElementGeneratorBase | undefined = this.getElementRenderer(element)
     if (renderer === undefined) {
+      // The error was displayed in getElementRenderer().
       return ''
     }
 

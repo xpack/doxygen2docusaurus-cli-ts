@@ -220,3 +220,57 @@ export class DocEmptyType extends ElementGeneratorBase {
 }
 
 // ----------------------------------------------------------------------------
+
+export class DocParamListType extends ElementGeneratorBase {
+  renderMdx (element: AbstractDocParamListType): string {
+    // console.log(util.inspect(element), { compact: false, depth: 999 })
+
+    let result = ''
+
+    if (element.parameterItems !== undefined) {
+      const titlesByKind: Record<string, string> = {
+        templateparam: 'Template Parameters'
+      }
+
+      const title = titlesByKind[element.kind]
+      if (title === undefined) {
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error(element.constructor.name, 'kind', element.kind, 'not yet rendered in', this.constructor.name)
+      }
+
+      switch (element.constructor.name) {
+        case 'ParameterList':
+          result += `<ParametersList title="${title}">`
+          for (const parameterItem of element.parameterItems) {
+            // console.log(util.inspect(parameterItem), { compact: false, depth: 999 })
+
+            const names: string[] = []
+            if (parameterItem.parameterNameList !== undefined) {
+              for (const parameterName of parameterItem.parameterNameList) {
+                // console.log(util.inspect(parameterName.children), { compact: false, depth: 999 })
+                for (const child of parameterName.children) {
+                  for (const subChild of child.children) {
+                    assert(typeof subChild === 'string')
+                    names.push(subChild)
+                  }
+                }
+              }
+            }
+
+            result += `<ParametersListItem name="${names.join(', ')}">`
+            result += this.context.renderElementMdx(parameterItem.parameterDescription)
+            result += '</ParametersListItem>'
+          }
+          result += '</ParametersList>'
+          break
+        default:
+          console.error(util.inspect(element, { compact: false, depth: 999 }))
+          console.error(element.constructor.name, 'not yet rendered in', this.constructor.name)
+      }
+    }
+
+    return result
+  }
+}
+
+// ----------------------------------------------------------------------------

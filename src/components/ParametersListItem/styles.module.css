@@ -1,0 +1,23 @@
+/* --- Begin ParametersListItem/styles.module.css --- */
+/* --- Part of docusaurus-plugin-doxygen --- */
+
+tr.paramItem {
+  border: none;
+}
+
+
+td.paramItemDescription {
+  border: none;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+td.paramItemName {
+  font-weight: bold;
+  border: none;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+
+/* --- End ParametersListItem/styles.module.css --- */

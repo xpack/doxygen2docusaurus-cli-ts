@@ -18,7 +18,7 @@ import { ElementGeneratorBase } from './element-generator-base.js'
 import { AbstractSectionDefType } from '../../doxygen-xml-parser/sectiondeftype.js'
 
 export class SectionDefType extends ElementGeneratorBase {
-  renderMdx(element: AbstractSectionDefType): string {
+  renderMdx (element: AbstractSectionDefType): string {
     // console.log(util.inspect(element), { compact: false, depth: 999 })
 
     let result = ''
@@ -54,7 +54,7 @@ export class SectionDefType extends ElementGeneratorBase {
 
     assert(element.memberDefs !== undefined)
     for (const memberDef of element.memberDefs) {
-      console.log(util.inspect(memberDef), { compact: false, depth: 999 })
+      // console.log(util.inspect(memberDef), { compact: false, depth: 999 })
 
       let itemKind = xxx[memberDef.kind]
       if (itemKind === undefined) {
