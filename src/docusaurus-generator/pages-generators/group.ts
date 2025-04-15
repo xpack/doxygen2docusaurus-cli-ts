@@ -88,7 +88,7 @@ export class GroupGenerator extends PageGeneratorBase {
             // console.log(param, { compact: false, depth: 999 })
           }
           if (paramNames.length > 0) {
-            label += `&lt; ${paramNames.join(', ')} &gt;`
+            label += `&lt;${paramNames.join(', ')}&gt;`
           }
         }
 
