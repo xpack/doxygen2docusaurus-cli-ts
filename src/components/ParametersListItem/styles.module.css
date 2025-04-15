@@ -16,6 +16,7 @@ td:global(.doxyParamItemName) {
   border: none;
   padding-top: 0px;
   padding-bottom: 0px;
+  padding-left: 0px;
 }
 
 /* --- End ParametersListItem/styles.module.css --- */
