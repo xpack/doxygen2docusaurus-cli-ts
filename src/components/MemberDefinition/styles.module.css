@@ -1,4 +1,100 @@
 /* --- Begin MemberDefinition/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
+div:global(.doxySectionDef) h3 {
+  font-family: var(--ifm-font-family-monospace);
+  margin-top: 16px;
+}
+
+div:global(.doxySectionDef) > h2 {
+  --ifm-h2-font-size: 2rem;
+}
+
+div:global(.doxySectionDef) > h3 {
+  --ifm-h3-font-size: 1.5rem;
+}
+
+div:global(.memitem) {
+  margin-bottom: 32px;
+}
+
+div:global(.memtemplate) {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+}
+
+div:global(.memproto) {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  background-color: var(--ifm-code-background);
+  padding: 10px;
+  border: 0.1rem solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--ifm-code-border-radius);
+  margin-bottom: 1em;
+}
+
+table:global(.mlabels) {
+  border: 0;
+  margin: 0;
+}
+
+table:global(.mlabels), table:global(.mlabels) > tbody {
+  display: block;
+}
+
+table:global(.mlabels) > tbody > tr:first-child {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+tr:global(.mlabels) {
+  border: 0;
+}
+
+td:global(.mlabels-left) {
+  padding: 0;
+}
+
+
+span:global(.mlabel) {
+  background: var(--ifm-color-primary);
+  color: var(--ifm-color-content-inverse);
+  border: none;
+  padding: 4px 9px;
+  border-radius: 12px;
+  font-family: var(--ifm-font-family-base);
+  font-size: 66%;
+  white-space: nowrap;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+span:global(.mlabel):last-of-type {
+  margin-right: 2px;
+}
+
+td:global(.mlabels-left) {
+  border: 0;
+}
+
+td:global(.mlabels-right) {
+  border: 0;
+  padding: 0;
+}
+
+table:global(.memname) {
+  margin: 0;
+}
+
+table:global(.memname) tr {
+  border: 0;
+}
+
+td:global(.memname) {
+  padding: 0;
+  border: 0;
+}
+
+
 /* --- End MemberDefinition/styles.module.css --- */

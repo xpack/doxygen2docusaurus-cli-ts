@@ -16,34 +16,37 @@ import React from 'react';
 
 // ----------------------------------------------------------------------------
 
-export default function MemberDefinition({id, title, template, name, labels, children}) {
+export default function MemberDefinition({template, name, labels, children}) {
   return (
     <>
-      <a id={id} name={id}></a>
-      <h3 class="memtitle">
-        <span class="permalink"><a href={id}>◆&nbsp;</a></span>
-        {title}
-      </h3>
       <div class="memitem">
         <div class="memproto">
           {template && <div class="memtemplate">{template}</div>}
-          <table class="memname">
-            <tbody>
-              <tr>
-                <td class="memname">{name}</td>
+          <table class="mlabels">
+              <tbody>
+              <tr class="mlabels">
+                <td class="mlabels-left">
+                  <table class="memname">
+                    <tbody>
+                      <tr>
+                      <td class="memname">{name}</td>
+                      </tr>
+                     </tbody>
+                  </table>
+                </td>
                 {
-                  labels && <td class="mlabels-right">
+                  labels.length > 0 && <td class="mlabels-right">
                     <span class="mlabels">
                       {
                         labels.map((label) => (
-                          <span class="mlabel {item}">{label}</span>
+                          <span class={`mlabel ${label}`}>{label}</span>
                         ))
                       }
                     </span>
                   </td>
                 }
               </tr>
-            </tbody>
+              </tbody>
           </table>
         </div>
         <div class="memdoc">
