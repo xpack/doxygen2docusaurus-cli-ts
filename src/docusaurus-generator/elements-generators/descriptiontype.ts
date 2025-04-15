@@ -270,7 +270,11 @@ export class DocParamListType extends ElementGeneratorBase {
                   for (const subChild of child.children) {
                     if (typeof subChild === 'string') {
                       if (child instanceof ParameterName) {
-                        names.push(`[${child.direction}] ${subChild}`)
+                        if (child.direction !== undefined) {
+                          names.push(`[${child.direction}] ${subChild}`)
+                        } else {
+                          names.push(subChild)
+                        }
                       } else if (child instanceof ParameterType) {
                         console.error(util.inspect(parameterName.children), { compact: false, depth: 999 })
                         console.error(element.constructor.name, 'ParameterType not yet rendered in', this.constructor.name)
