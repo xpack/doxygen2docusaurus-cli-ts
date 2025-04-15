@@ -30,7 +30,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
   paramNames: string = ''
 
   renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
-    console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
+    // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
 
     frontMatter.title = `The ${compoundDef.compoundName.replace(/.*::/, '')}`
     frontMatter.title += ' Class'
@@ -56,7 +56,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
       }
     }
 
-    result += '## Qualified Name\n'
+    result += '## Fully Qualified Name\n'
     result += '\n'
     result += `<code>${compoundDef.compoundName}${this.renderTemplateParamsMdx(compoundDef)}</code>\n`
     result += '\n'
@@ -132,8 +132,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
       }
       this.templatePrefix = `template <${params.join(', ')}>`
       this.paramNames = `< ${paramNames.join(', ')} >`
-      console.log('templatePrefix', this.templatePrefix)
-      console.log('paramNames', this.paramNames)
+      // console.log('templatePrefix', this.templatePrefix)
+      // console.log('paramNames', this.paramNames)
     }
 
     const className = compoundDef.compoundName.replace(/.*::/, '')
@@ -177,10 +177,53 @@ export class ClassPageGenerator extends PageGeneratorBase {
   private renderSectionDefMdx (sectionDef: SectionDef, className: string): string {
     let result = ''
 
+    // <xsd:simpleType name="DoxSectionKind">
+    //   <xsd:restriction base="xsd:string">
+    //     <xsd:enumeration value="user-defined" />
+    //     <xsd:enumeration value="public-type" />
+    //     <xsd:enumeration value="public-func" />
+    //     <xsd:enumeration value="public-attrib" />
+    //     <xsd:enumeration value="public-slot" />
+    //     <xsd:enumeration value="signal" />
+    //     <xsd:enumeration value="dcop-func" />
+    //     <xsd:enumeration value="property" />
+    //     <xsd:enumeration value="event" />
+    //     <xsd:enumeration value="public-static-func" />
+    //     <xsd:enumeration value="public-static-attrib" />
+    //     <xsd:enumeration value="protected-type" />
+    //     <xsd:enumeration value="protected-func" />
+    //     <xsd:enumeration value="protected-attrib" />
+    //     <xsd:enumeration value="protected-slot" />
+    //     <xsd:enumeration value="protected-static-func" />
+    //     <xsd:enumeration value="protected-static-attrib" />
+    //     <xsd:enumeration value="package-type" />
+    //     <xsd:enumeration value="package-func" />
+    //     <xsd:enumeration value="package-attrib" />
+    //     <xsd:enumeration value="package-static-func" />
+    //     <xsd:enumeration value="package-static-attrib" />
+    //     <xsd:enumeration value="private-type" />
+    //     <xsd:enumeration value="private-func" />
+    //     <xsd:enumeration value="private-attrib" />
+    //     <xsd:enumeration value="private-slot" />
+    //     <xsd:enumeration value="private-static-func" />
+    //     <xsd:enumeration value="private-static-attrib" />
+    //     <xsd:enumeration value="friend" />
+    //     <xsd:enumeration value="related" />
+    //     <xsd:enumeration value="define" />
+    //     <xsd:enumeration value="prototype" />
+    //     <xsd:enumeration value="typedef" />
+    //     <xsd:enumeration value="enum" />
+    //     <xsd:enumeration value="func" />
+    //     <xsd:enumeration value="var" />
+    //   </xsd:restriction>
+    // </xsd:simpleType>
+
     const headersByKind: Record<string, string> = {
-      'public-type': 'Member Typedef Documentation',
-      'protected-attrib': 'Member Data Documentation',
-      'public-func': 'Member Function Documentation'
+      'public-type': 'Member Typedefs',
+      'public-attrib': 'Member Variables',
+      'protected-attrib': 'Protected Member Variables',
+      'public-func': 'Member Functions',
+      'protected-func': 'Protected Member Functions'
     }
 
     const header = headersByKind[sectionDef.kind]
@@ -197,9 +240,6 @@ export class ClassPageGenerator extends PageGeneratorBase {
     result += '<div class="doxySectionDef">\n'
 
     const sectionLabels: string[] = []
-    if (sectionDef.kind === 'protected-attrib') {
-      sectionLabels.push('protected')
-    }
 
     let memberDefs = sectionDef.memberDefs
     if (sectionDef.kind === 'public-func') {
@@ -218,33 +258,21 @@ export class ClassPageGenerator extends PageGeneratorBase {
         }
       }
 
-
-      if (constructors.length > 1) {
-        if (destructor !== undefined) {
-          result += '## Constructors & Destructor Documentation\n'
-        } else {
-          result += '## Constructors Documentation\n'
-        }
-      } else if (constructors.length === 1) {
-        if (destructor !== undefined) {
-          result += '## Constructor & Destructor Documentation\n'
-        } else {
-          result += '## Constructor Documentation\n'
-        }
-      } else {
-        if (destructor !== undefined) {
-          result += '## Destructor Documentation\n'
-        }
-      }
-      result += '\n'
-
-      for (const constructor of constructors) {
-        result += this.renderMethodDefMdx(constructor, sectionLabels)
+      if (constructors.length > 0) {
+        result += '## Constructors\n'
         result += '\n'
+
+        for (const constructor of constructors) {
+          result += this.renderMethodDefMdx(constructor, sectionLabels, true)
+          result += '\n'
+        }
       }
 
       if (destructor !== undefined) {
-        result += this.renderMethodDefMdx(destructor, sectionLabels)
+        result += '## Destructor\n'
+        result += '\n'
+        result += this.renderMethodDefMdx(destructor, sectionLabels, true)
+        result += '\n'
       }
 
       memberDefs = methods
@@ -253,8 +281,10 @@ export class ClassPageGenerator extends PageGeneratorBase {
     result += `## ${header}\n`
     result += '\n'
 
+    const isFunction: boolean = sectionDef.kind === 'public-func'
+
     for (const memberDef of memberDefs) {
-      result += this.renderMethodDefMdx(memberDef, sectionLabels)
+      result += this.renderMethodDefMdx(memberDef, sectionLabels, isFunction)
       result += '\n'
     }
 
@@ -264,38 +294,42 @@ export class ClassPageGenerator extends PageGeneratorBase {
     return result
   }
 
-  private renderMethodDefMdx (memberDef: MemberDef, sectionLabels: string[]): string {
+  private renderMethodDefMdx (memberDef: MemberDef, sectionLabels: string[], isFunction: boolean): string {
     let result = ''
 
     const labels: string[] = [...sectionLabels]
-    if (memberDef._static !== undefined && memberDef._static.valueOf()) {
-      console.error(memberDef.constructor.name, 'static not yet rendered in', this.constructor.name)
-    }
-
     if (memberDef.inline !== undefined && memberDef.inline.valueOf()) {
       labels.push('inline')
+    }
+    if (memberDef.explicit !== undefined && memberDef.explicit.valueOf()) {
+      labels.push('explicit')
     }
     if (memberDef.constexpr !== undefined && memberDef.constexpr.valueOf()) {
       labels.push('constexpr')
     }
+    if (memberDef.prot === 'protected') {
+      labels.push('protected')
+    }
+    // WARNING: could not find how to generate 'inherited'.
 
-    if (memberDef._const !== undefined && memberDef._const.valueOf()) {
-      console.error(memberDef.constructor.name, 'const not yet rendered in', this.constructor.name)
+    // Validation checks.
+    if (memberDef._static !== undefined && memberDef._static.valueOf()) {
+      console.error(memberDef.constructor.name, 'static not yet rendered in', this.constructor.name)
     }
-    if (memberDef.explicit !== undefined && memberDef.explicit.valueOf()) {
-      console.error(memberDef.constructor.name, 'explicit not yet rendered in', this.constructor.name)
-    }
+    // if (memberDef._const !== undefined && memberDef._const.valueOf()) {
+    //   console.error(memberDef.constructor.name, 'const not yet rendered in', this.constructor.name)
+    // }
     if (memberDef.mutable !== undefined && memberDef.mutable.valueOf()) {
       console.error(memberDef.constructor.name, 'mutable not yet rendered in', this.constructor.name)
     }
 
-    if (memberDef.virt !== undefined) {
+    if (memberDef.virt !== undefined && memberDef.virt !== 'non-virtual') {
       console.error(memberDef.constructor.name, 'virt not yet rendered in', this.constructor.name)
     }
 
     const id = memberDef.id.replace(/.*_1/, '')
-
-    result += `### ${memberDef.name} {#${id}}\n`
+    const name = memberDef.name + (isFunction ? '()' : '')
+    result += `### ${name} {#${id}}\n`
 
     result += '<MemberDefinition\n'
     result += `  template="${this.templatePrefix}"\n`
@@ -374,7 +408,11 @@ export class ClassPageGenerator extends PageGeneratorBase {
       class: 'C'
     }
 
-    const iconLetter: string = iconLetters[compoundDef.kind] || '?'
+    let iconLetter: string | undefined = iconLetters[compoundDef.kind]
+    if (iconLetter === undefined) {
+      console.error('Icon kind', compoundDef.kind, 'not supported yet in', this.constructor.name)
+      iconLetter = '?'
+    }
 
     result += `<TreeTableRow itemIcon="${iconLetter}" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
 

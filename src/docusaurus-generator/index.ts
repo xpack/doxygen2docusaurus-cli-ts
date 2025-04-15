@@ -39,7 +39,7 @@ import { ClassPageGenerator } from './pages-generators/class.js'
 import { Pages } from './data-model/pages.js'
 import { IncType } from './elements-generators/inctype.js'
 import { SectionDefType } from './elements-generators/sectiondeftype.js'
-import { MemberDefType } from './elements-generators/memberdef.js'
+import { DocListType } from './elements-generators/doclisttype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -129,6 +129,7 @@ export class DocusaurusGenerator {
     this.elementGenerators.set('AbstractIncType', new IncType(this))
     this.elementGenerators.set('AbstractSectionDefType', new SectionDefType(this))
     this.elementGenerators.set('AbstractDocParamListType', new DocParamListType(this))
+    this.elementGenerators.set('AbstractDocListType', new DocListType(this))
   }
 
   async generate (): Promise<void> {
@@ -496,6 +497,7 @@ export class DocusaurusGenerator {
       elementClass = Object.getPrototypeOf(elementClass)
     }
 
+    console.error(util.inspect(element), { compact: false, depth: 999 })
     console.error('no element generator for', element.constructor.name, 'in', this.constructor.name)
     return undefined
   }

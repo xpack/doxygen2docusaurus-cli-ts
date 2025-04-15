@@ -14,7 +14,7 @@
 import util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
-import { AbstractDescriptionType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractListingType, Para, Sp } from '../../doxygen-xml-parser/descriptiontype.js'
+import { AbstractDescriptionType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractListingType, Para, ParameterName, ParameterType, Sp } from '../../doxygen-xml-parser/descriptiontype.js'
 import assert from 'assert'
 import { RefText } from '../../doxygen-xml-parser/reftexttype.js'
 
@@ -69,7 +69,8 @@ export class DocURLLink extends ElementGeneratorBase {
 
 const htmlElements: { [key: string]: string } = {
   Bold: 'b',
-  ComputerOutput: 'code'
+  ComputerOutput: 'code',
+  Emphasis: 'em'
 }
 
 export class DocMarkupType extends ElementGeneratorBase {
@@ -133,10 +134,22 @@ export class DocSimpleSectType extends ElementGeneratorBase {
       result += this.context.renderElementsMdx(element.children)
       result += '</dd>\n'
       result += '</dl>\n'
+    } else if (element.kind === 'return') {
+      result += '<dl class="section user">\n'
+      result += '<dt><b>Returns</b></dt>\n'
+      result += '<dd>\n'
+      result += this.context.renderElementsMdx(element.children)
+      result += '</dd>\n'
+      result += '</dl>\n'
     } else if (element.kind === 'note') {
-      result += '<Admonition type="info">\n'
-      result += `<p>${this.context.renderElementMdx(element.children).trim()}</p>\n`
-      result += '</Admonition>\n'
+      // https://docusaurus.io/docs/markdown-features/admonitions
+      result += ':::info\n'
+      result += `${this.context.renderElementMdx(element.children).trim()}\n`
+      result += ':::\n'
+    } else if (element.kind === 'warning') {
+      result += ':::warning\n'
+      result += `${this.context.renderElementMdx(element.children).trim()}\n`
+      result += ':::\n'
     } else {
       console.error(util.inspect(element, { compact: false, depth: 999 }))
       console.error(element.constructor.name, 'kind', element.kind, 'not yet rendered in', this.constructor.name)
@@ -210,6 +223,9 @@ export class DocEmptyType extends ElementGeneratorBase {
       case 'Hruler':
         result += '<hr/>'
         break
+      case 'LineBreak':
+        result += '<br/>'
+        break
       default:
         console.error(util.inspect(element, { compact: false, depth: 999 }))
         console.error(element.constructor.name, 'not yet rendered in', this.constructor.name)
@@ -229,7 +245,9 @@ export class DocParamListType extends ElementGeneratorBase {
 
     if (element.parameterItems !== undefined) {
       const titlesByKind: Record<string, string> = {
-        templateparam: 'Template Parameters'
+        templateparam: 'Template Parameters',
+        retval: 'Return Values',
+        param: 'Parameters'
       }
 
       const title = titlesByKind[element.kind]
@@ -250,8 +268,19 @@ export class DocParamListType extends ElementGeneratorBase {
                 // console.log(util.inspect(parameterName.children), { compact: false, depth: 999 })
                 for (const child of parameterName.children) {
                   for (const subChild of child.children) {
-                    assert(typeof subChild === 'string')
-                    names.push(subChild)
+                    if (typeof subChild === 'string') {
+                      if (child instanceof ParameterName) {
+                        names.push(`[${child.direction}] ${subChild}`)
+                      } else if (child instanceof ParameterType) {
+                        console.error(util.inspect(parameterName.children), { compact: false, depth: 999 })
+                        console.error(element.constructor.name, 'ParameterType not yet rendered in', this.constructor.name)
+                      } else {
+                        names.push(subChild)
+                      }
+                    } else {
+                      console.error(util.inspect(subChild), { compact: false, depth: 999 })
+                      console.error(element.constructor.name, 'sub child not yet rendered in', this.constructor.name)
+                    }
                   }
                 }
               }
