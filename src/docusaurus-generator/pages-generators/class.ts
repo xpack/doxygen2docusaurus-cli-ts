@@ -51,7 +51,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     if (compoundDef.includes !== undefined) {
       for (const include of compoundDef.includes) {
-        result += `${this.context.renderElementMdx(include)}\n`
+        result += this.context.renderElementMdx(include)
+        result += '\n'
         result += '\n'
       }
     }
@@ -220,8 +221,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     const headersByKind: Record<string, string> = {
       'public-type': 'Member Typedefs',
-      'public-attrib': 'Member Variables',
-      'protected-attrib': 'Protected Member Variables',
+      'public-attrib': 'Member Attributes',
+      'protected-attrib': 'Protected Member Attributes',
       'public-func': 'Member Functions',
       'protected-func': 'Protected Member Functions'
     }
