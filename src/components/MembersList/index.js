@@ -18,7 +18,7 @@ import React from 'react';
 
 export default function MembersList({children}) {
   return (
-    <table class={styles.members}>
+    <table class="doxyMembers">
       {children}
     </table>
   );

@@ -24,21 +24,14 @@ export default function TreeTableRow({
   depth,
   children
 }) {
-  const depthNumber = Number(depth)
-  let text = ''
-  for (let i = 0; i < depthNumber; ++i) {
-    text += ''
-  }
-  text += itemLabel
-  const x = `treeIndent${depth}`
-
+  const doxyClass=`doxyTreeItemLeft doxyTreeIndent${depth}`
   return (
-    <tr class={styles.treeItem}>
-      <td class={`${styles.treeItemLeft} ${styles[x]}`} align="left" valign="top">
-        {itemIcon && <><span class={styles.iconBox}><span class={styles.icon}>{itemIcon}</span></span></>}
-        <Link to={itemLink}>{text}</Link>
+    <tr class="doxyTreeItem">
+      <td class={doxyClass} align="left" valign="top">
+        {itemIcon && <><span class="doxyTreeIconBox"><span class="doxyTreeIcon">{itemIcon}</span></span></>}
+        <Link to={itemLink}>{itemLabel}</Link>
       </td>
-      <td class={styles.treeItemRight} align="left" valign="top">{children}</td>
+      <td class="doxyTreeItemRight" align="left" valign="top">{children}</td>
     </tr>
   );
 }

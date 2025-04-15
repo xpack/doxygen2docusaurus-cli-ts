@@ -1,15 +1,16 @@
 /* --- Begin ParametersList/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
-table.paramsTable {
+table:global(.doxyParamsTable) {
   border: none;
 }
-dt.paramsTableTitle {
+
+dt:global(.doxyParamsTableTitle) {
   font-weight: bold;
 }
 
 /* Undo the Docusaurus configuration. */
-table.paramsTable tr:nth-child(2n) {
+table:global(.doxyParamsTable) tr:nth-child(2n) {
   background-color: var(--ifm-background-color);
 }
 

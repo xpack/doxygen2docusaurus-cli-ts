@@ -20,7 +20,7 @@ export default function GeneratedByDoxygen({version = 'undefined'}) {
   // console.log("Version:", version);
 
   return (
-    <p className={styles.doxyGeneratedBy}>
+    <p class="doxyGeneratedBy">
       Generated via <a href="https://github.com/xpack/docusaurus-plugin-doxygen">docusaurus-plugin-doxygen</a> by <a href="https://www.doxygen.nl">Doxygen</a> {version}
     </p>
   );

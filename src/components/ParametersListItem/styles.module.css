@@ -1,23 +1,21 @@
 /* --- Begin ParametersListItem/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
-tr.paramItem {
+tr:global(.doxyParamItem) {
   border: none;
 }
 
-
-td.paramItemDescription {
+td:global(.doxyParamItemDescription) {
   border: none;
   padding-top: 0px;
   padding-bottom: 0px;
 }
 
-td.paramItemName {
+td:global(.doxyParamItemName) {
   font-weight: bold;
   border: none;
   padding-top: 0px;
   padding-bottom: 0px;
 }
-
 
 /* --- End ParametersListItem/styles.module.css --- */

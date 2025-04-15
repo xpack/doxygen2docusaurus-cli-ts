@@ -25,16 +25,16 @@ export default function MembersListItem({
 }) {
   return (
     <>
-      <tr class={styles.memberItem}>
-        <td class={styles.memberItemLeft} align="right" valign="top">{itemKind}</td>
-        <td class={styles.memberItemRight} align="left" valign="top"><Link to={itemLink}>{itemLabel}</Link></td>
+      <tr class="doxyMemberItem">
+        <td class="doxyMemberItemLeft" align="right" valign="top">{itemKind}</td>
+        <td class="doxyMemberItemRight" align="left" valign="top"><Link to={itemLink}>{itemLabel}</Link></td>
       </tr>
-      <tr class={styles.memberDescription}>
-        <td class={styles.memberDescriptionLeft}>&nbsp;</td>
-        <td class={styles.memberDescriptionRight}>{children}</td>
+      <tr class="doxyMemberDescription">
+        <td class="doxyMemberDescriptionLeft">&nbsp;</td>
+        <td class="doxyMemberDescriptionRight">{children}</td>
       </tr>
-      <tr class={styles.memberSeparator}>
-        <td class={styles.memSeparatorLeft} colspan="2"></td>
+      <tr class="doxyMemberSeparator">
+        <td class="doxyMemSeparatorLeft" colspan="2"></td>
       </tr>
     </>
   );

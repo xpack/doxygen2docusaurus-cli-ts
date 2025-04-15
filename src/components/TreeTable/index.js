@@ -18,7 +18,7 @@ import React from 'react';
 
 export default function TreeTable({children}) {
   return (
-    <table class={styles.treeTable}>
+    <table class="doxyTreeTable">
       {children}
     </table>
   );

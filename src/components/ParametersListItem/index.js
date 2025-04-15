@@ -22,9 +22,9 @@ export default function ParametersListItem({
   children
 }) {
   return (
-    <tr class={styles.paramItem}>
-      <td class={styles.paramItemName}>{name}</td>
-      <td class={styles.paramItemDescription}>{children}</td>
+    <tr class="doxyParamItem">
+      <td class="doxyParamItemName">{name}</td>
+      <td class="doxyParamItemDescription">{children}</td>
     </tr>
   );
 }

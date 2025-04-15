@@ -18,10 +18,10 @@ import React from 'react';
 
 export default function ParametersList({title, children}) {
   return (
-    <dl class={styles.paramsList}>
-      <dt class={styles.paramsTableTitle}>{title}</dt>
+    <dl class="doxyParamsList">
+      <dt class="doxyParamsTableTitle">{title}</dt>
       <dd>
-        <table class={styles.paramsTable}>
+        <table class="doxyParamsTable">
           {children}
         </table>
       </dd>

@@ -1,18 +1,12 @@
 /* --- Begin MembersListItem/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
-tr.memberItem {
-}
-
-tr.memberDescription {
-}
-
-tr.memberSeparator {
+tr:global(.doxyMemberSeparator) {
   height: 12px;
   border: 0;
 }
 
-td.memberItemLeft {
+td:global(.doxyMemberItemLeft) {
   padding-top: 6px;
   padding-bottom: 6px;
   font-family: var(--ifm-font-family-monospace);
@@ -21,7 +15,7 @@ td.memberItemLeft {
   background-color: var(--ifm-table-stripe-background);
 }
 
-td.memberItemRight {
+td:global(.doxyMemberItemRight) {
   padding-top: 6px;
   padding-bottom: 6px;
   font-family: var(--ifm-font-family-monospace);
@@ -31,27 +25,25 @@ td.memberItemRight {
   background-color: var(--ifm-table-stripe-background);
 }
 
-
-td.memberDescriptionLeft {
+td:global(.doxyMemberDescriptionLeft) {
   padding-top: 6px;
   padding-bottom: 6px;
   border: 0;
   background-color: var(--ifm-background-color);
 }
 
-
-td.memberDescriptionRight {
+td:global(.doxyMemberDescriptionRight) {
   padding-top: 6px;
   padding-bottom: 6px;
   border: 0;
   background-color: var(--ifm-background-color);
 }
 
-td.memberDescriptionRight p {
+td:global(.doxyMemberDescriptionRight) p {
   margin: 0px
 }
 
-td.memSeparatorLeft {
+td:global(.doxyMemSeparatorLeft) {
   padding: 0px;
   border: 0
 }

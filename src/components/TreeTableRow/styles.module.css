@@ -1,54 +1,51 @@
 /* --- Begin TreeTableRow/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
-tr.treeItem {
-}
-
-td.treeItemLeft {
+td:global(.doxyTreeItemLeft) {
   white-space: nowrap;
   padding-top: 6px;
   padding-bottom: 6px;
 }
 
-td.treeItemRight {
+td:global(.doxyTreeItemRight) {
   padding-top: 6px;
   padding-bottom: 6px;
   width: 100%;
 }
 
-td.treeItemRight p {
+td:global(.doxyTreeItemRight) p {
   margin: 0
 }
 
-td.treeIndent1 {
+td:global(.doxyTreeIndent1) {
   padding-left: 12px;
 }
 
-td.treeIndent2 {
+td:global(.doxyTreeIndent2) {
   padding-left: 24px;
 }
 
-td.treeIndent3 {
+td:global(.doxyTreeIndent3) {
   padding-left: 36px;
 }
 
-td.treeIndent4 {
+td:global(.doxyTreeIndent4) {
   padding-left: 48px;
 }
 
-td.treeIndent5 {
+td:global(.doxyTreeIndent5) {
   padding-left: 60px;
 }
 
-td.treeIndent6 {
+td:global(.doxyTreeIndent6) {
   margin-left: 72px;
 }
 
-span.iconBox {
+span:global(.doxyTreeIconBox) {
   margin-right: 6px;
 }
 
-span.icon {
+span:global(.doxyTreeIcon) {
   background: var(--ifm-color-primary);
   color: var(--ifm-color-content-inverse);
   border-radius: 4px;

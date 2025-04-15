@@ -1,7 +1,7 @@
 /* --- Begin GeneratedByDoxygen/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
-.doxyGeneratedBy {
+p:global(.doxyGeneratedBy) {
   font-size: smaller;
   text-align: center;
 }
