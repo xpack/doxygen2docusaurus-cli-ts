@@ -38,6 +38,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
       frontMatter.title += ' Template'
     }
     frontMatter.title += ' Reference'
+    frontMatter.toc_max_heading_level = 3
 
     let result: string = ''
 
@@ -57,9 +58,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     result += '## Qualified Name\n'
     result += '\n'
-    result += `${compoundDef.compoundName}`
-    result += this.renderTemplateParamsMdx(compoundDef)
-    result += '\n'
+    result += `<code>${compoundDef.compoundName}${this.renderTemplateParamsMdx(compoundDef)}</code>\n`
     result += '\n'
 
     // if (compoundDef.sectionDefs !== undefined) {
@@ -195,6 +194,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
       return ''
     }
 
+    result += '<div class="doxySectionDef">\n'
+
     const sectionLabels: string[] = []
     if (sectionDef.kind === 'protected-attrib') {
       sectionLabels.push('protected')
@@ -216,6 +217,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
           methods.push(memberDef)
         }
       }
+
 
       if (constructors.length > 1) {
         if (destructor !== undefined) {
@@ -256,6 +258,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
       result += '\n'
     }
 
+    result += '</div>\n'
+
     result += '\n'
     return result
   }
@@ -264,6 +268,10 @@ export class ClassPageGenerator extends PageGeneratorBase {
     let result = ''
 
     const labels: string[] = [...sectionLabels]
+    if (memberDef._static !== undefined && memberDef._static.valueOf()) {
+      console.error(memberDef.constructor.name, 'static not yet rendered in', this.constructor.name)
+    }
+
     if (memberDef.inline !== undefined && memberDef.inline.valueOf()) {
       labels.push('inline')
     }
@@ -271,11 +279,25 @@ export class ClassPageGenerator extends PageGeneratorBase {
       labels.push('constexpr')
     }
 
+    if (memberDef._const !== undefined && memberDef._const.valueOf()) {
+      console.error(memberDef.constructor.name, 'const not yet rendered in', this.constructor.name)
+    }
+    if (memberDef.explicit !== undefined && memberDef.explicit.valueOf()) {
+      console.error(memberDef.constructor.name, 'explicit not yet rendered in', this.constructor.name)
+    }
+    if (memberDef.mutable !== undefined && memberDef.mutable.valueOf()) {
+      console.error(memberDef.constructor.name, 'mutable not yet rendered in', this.constructor.name)
+    }
+
+    if (memberDef.virt !== undefined) {
+      console.error(memberDef.constructor.name, 'virt not yet rendered in', this.constructor.name)
+    }
+
     const id = memberDef.id.replace(/.*_1/, '')
 
+    result += `### ${memberDef.name} {#${id}}\n`
+
     result += '<MemberDefinition\n'
-    result += `  id="${id}"\n`
-    result += `  title="${memberDef.name}"\n`
     result += `  template="${this.templatePrefix}"\n`
     result += `  name="${memberDef.qualifiedName}"\n`
     if (labels.length > 0) {

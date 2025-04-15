@@ -14,7 +14,7 @@
 // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
 export interface FrontMatter {
   keywords: string[]
-  [key: string]: string | string[] | null | boolean
+  [key: string]: string | string[] | null | boolean | number
 }
 
 // ----------------------------------------------------------------------------
