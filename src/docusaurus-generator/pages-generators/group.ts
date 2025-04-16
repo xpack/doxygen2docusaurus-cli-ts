@@ -127,31 +127,32 @@ export class GroupGenerator extends PageGeneratorBase {
   renderIndexMdx (): string {
     // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
 
-    let context: string = ''
+    let result: string = ''
 
     const projectBrief = this.context.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF')
 
-    context += `${projectBrief} topics with brief descriptions are:\n`
-    context += '\n'
+    result += `${projectBrief} topics with brief descriptions are:\n`
+    result += '\n'
 
-    context += '<TreeTable>\n'
+    result += '<TreeTable>\n'
 
     for (const groupId of this.context.groups.topLevelGroupIds) {
-      context += this.renderGroupRecursively(groupId, 1)
+      result += this.renderGroupRecursively(groupId, 1)
     }
 
-    context += '</TreeTable>\n'
+    result += '</TreeTable>\n'
 
     if (this.context.pages.mainPage !== undefined) {
       const detailedDescription: string = this.context.renderElementMdx(this.context.pages.mainPage.compoundDef.detailedDescription)
 
-      context += '## Description\n'
-      context += '\n'
+      result += '## Description\n'
+      result += '\n'
 
+      result += detailedDescription
       context += detailedDescription
     }
 
-    return context
+    return result
   }
 
   renderGroupRecursively (groupId: string, depth: number): string {
@@ -159,28 +160,28 @@ export class GroupGenerator extends PageGeneratorBase {
     assert(group !== undefined)
     assert(depth <= 6)
 
-    let context: string = ''
+    let result: string = ''
 
     const compoundDef = group.compoundDef
     const label = compoundDef.title?.trim()
     const permalink = this.context.getPermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    context += `<TreeTableRow itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
+    result += `<TreeTableRow itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
 
     const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
-    context += briefDescription.replace(/[.]$/, '')
-    context += '\n'
+    result += briefDescription.replace(/[.]$/, '')
+    result += '\n'
 
-    context += '</TreeTableRow>\n'
+    result += '</TreeTableRow>\n'
 
     if (group.childrenGroupsIds.length > 0) {
       for (const childGroupId of group.childrenGroupsIds) {
-        context += this.renderGroupRecursively(childGroupId, depth + 1)
+        result += this.renderGroupRecursively(childGroupId, depth + 1)
       }
     }
 
-    return context
+    return result
   }
 }
 
