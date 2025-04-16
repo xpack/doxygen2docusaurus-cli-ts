@@ -149,7 +149,9 @@ export class GroupGenerator extends PageGeneratorBase {
       result += '\n'
 
       result += detailedDescription
-      context += detailedDescription
+
+      result += '\n'
+      result += '<hr/>\n'
     }
 
     return result
