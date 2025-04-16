@@ -14,10 +14,13 @@ div:global(.doxySectionDef) > h2 {
 
 div:global(.doxySectionDef) > h3 {
   --ifm-h3-font-size: 1.5rem;
+  margin-bottom: 8px;
 }
 
 div:global(.memitem) {
   margin-bottom: 32px;
+  border: 0.1rem solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--ifm-code-border-radius);
 }
 
 div:global(.memtemplate) {
@@ -30,9 +33,17 @@ div:global(.memproto) {
   font-size: var(--ifm-code-font-size);
   background-color: var(--ifm-code-background);
   padding: 10px;
-  border: 0.1rem solid rgba(0, 0, 0, 0.1);
-  border-radius: var(--ifm-code-border-radius);
+  border-collapse: collapse;
+  border-bottom: 0.1rem solid rgba(0, 0, 0, 0.1);
   margin-bottom: 1em;
+}
+
+div:global(.memdoc) {
+  padding: 10px;
+}
+
+div:global(.memdoc) p:last-child {
+  margin-bottom: 4px;
 }
 
 table:global(.mlabels) {
