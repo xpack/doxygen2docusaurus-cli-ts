@@ -236,12 +236,12 @@ export class DocusaurusGenerator {
         // This is the @mainpage. We diverge from Doxygen and generate
         // the API main page differently, with the list of topics and
         // this page detailed description. Therefore it is not generated
-        // as a regular page.
+        // as a regular page and must be skipped at this stage.
         continue
       }
       const permalink = this.permalinksById.get(compoundDef.id)
       assert(permalink !== undefined)
-      console.log(`${compoundDef.kind}: ${compoundDef.compoundName}`, '->', `${outputFolderPath}${permalink}`)
+      console.log(`${compoundDef.kind}: ${compoundDef.compoundName}`, '->', `${outputFolderPath}${permalink}...`)
 
       const docusaurusId = this.docusaurusIdsById.get(compoundDef.id)
       assert(docusaurusId !== undefined)
