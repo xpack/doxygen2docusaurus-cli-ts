@@ -16,11 +16,44 @@ import React from 'react';
 
 // ----------------------------------------------------------------------------
 
-export default function MemberDefinition({children}) {
+export default function MemberDefinition({template, prototype, labels, children}) {
   return (
-    <div class="doxyMemberItem">
-      {children}
-    </div>
+    <>
+      <div class="doxyMemberItem">
+        <div class="doxyMemberProto">
+          {template && <div class="doxyMemberTemplate">{template}</div>}
+          <table class="doxyMemberLabels">
+            <tbody>
+            <tr class="doxyMemberLabels">
+              <td class="doxyMemberLabelsLeft">
+                <table class="doxyMemberName">
+                  <tbody>
+                    <tr>
+                    <td class="doxyMemberName">{prototype}</td>
+                    </tr>
+                    </tbody>
+                </table>
+              </td>
+              {
+                labels && labels.length > 0 && <td class="doxyMemberLabelsRight">
+                  <span class="doxyMemberLabels">
+                    {
+                      labels.map((label) => (
+                        <span class={`doxyMemberLabel ${label}`}>{label}</span>
+                      ))
+                    }
+                  </span>
+                </td>
+              }
+            </tr>
+          </tbody>
+          </table>
+        </div>
+        <div class="doxyMemberDoc">
+          {children}
+        </div>
+      </div>
+    </>
   );
 }
 

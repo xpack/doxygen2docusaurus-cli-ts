@@ -475,9 +475,7 @@ export class DocusaurusGenerator {
       'TreeTableRow',
       'ParametersList',
       'ParametersListItem',
-      'MemberDefinition',
-      'MemberDefinitionPrototype',
-      'MemberDefinitionDocumentation'
+      'MemberDefinition'
     ]
 
     for (const component of components) {

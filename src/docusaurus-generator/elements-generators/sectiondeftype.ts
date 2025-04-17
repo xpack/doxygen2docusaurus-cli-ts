@@ -58,13 +58,13 @@ export class SectionDefType extends ElementGeneratorBase {
     for (const memberDef of element.memberDefs) {
       // console.log(util.inspect(memberDef), { compact: false, depth: 999 })
 
-      let itemKind = xxx[memberDef.kind]
-      if (itemKind === undefined) {
+      let itemLeft = xxx[memberDef.kind]
+      if (itemLeft === undefined) {
         console.error(util.inspect(element), { compact: false, depth: 999 })
         console.error(element.constructor.name, 'member kind', memberDef.kind, 'not yet rendered in', this.constructor.name)
-        itemKind = '???'
+        itemLeft = '???'
       }
-      result += `<MembersListItem itemKind="using" itemLabel="${memberDef.name}" itemLink="xxx">\n`
+      result += `<MembersListItem itemLeft="using" itemRight={<Link to="xxx">${memberDef.name}</Link>}\n`
 
       const briefDescription: string = this.context.renderElementMdx(memberDef.briefDescription)
       result += briefDescription
