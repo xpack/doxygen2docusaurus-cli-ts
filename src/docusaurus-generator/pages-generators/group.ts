@@ -44,7 +44,9 @@ export class GroupGenerator extends PageGeneratorBase {
       result += '<MembersList>\n'
       for (const innerGroup of compoundDef.innerGroups) {
         const permalink = this.context.getCompoundPermalink(innerGroup.refid)
-        result += `<MembersListItem itemKind="" itemLabel="${innerGroup.text}" itemLink="${permalink}">\n`
+
+        const itemRight = `<Link to="${permalink}">${innerGroup.text}</Link>`
+        result += `<MembersListItem itemLeft="" itemRight={${itemRight}}>\n`
 
         const compoundDef = this.context.compoundDefsById.get(innerGroup.refid)
         assert(compoundDef !== undefined)
@@ -92,7 +94,8 @@ export class GroupGenerator extends PageGeneratorBase {
           }
         }
 
-        result += `<MembersListItem itemKind="class" itemLabel="${label}" itemLink="${permalink}">\n`
+        const itemRight = `<Link to="${permalink}">${label}</Link>`
+        result += `<MembersListItem itemLeft="class" itemRight={${itemRight}}>\n`
 
         const innerBriefDescription: string = this.context.renderElementMdx(compoundDefClass.briefDescription)
         result += innerBriefDescription

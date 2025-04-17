@@ -44,7 +44,9 @@ export class NamespaceGenerator extends PageGeneratorBase {
       for (const innerNamespace of compoundDef.innerNamespaces) {
         const namespace = this.context.namespaces.membersById.get(innerNamespace.refid)
         const permalink = this.context.getCompoundPermalink(innerNamespace.refid)
-        result += `<MembersListItem itemKind="namespace" itemLabel="${namespace?.unparentedName}" itemLink="${permalink}">\n`
+
+        const itemRight = `<Link to="${permalink}">${namespace?.unparentedName}</Link>`
+        result += `<MembersListItem itemLeft="namespace" itemRight={${itemRight}}>\n`
 
         const compoundDef = this.context.compoundDefsById.get(innerNamespace.refid)
         assert(compoundDef !== undefined)
@@ -92,7 +94,8 @@ export class NamespaceGenerator extends PageGeneratorBase {
           }
         }
 
-        result += `<MembersListItem itemKind="class" itemLabel="${label}" itemLink="${permalink}">\n`
+        const itemRight = `<Link to="${permalink}">${label}</Link>`
+        result += `<MembersListItem itemLeft="class" itemRight={${itemRight}}>\n`
 
         const innerBriefDescription: string = this.context.renderElementMdx(compoundDefClass.briefDescription)
         result += innerBriefDescription

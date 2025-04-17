@@ -18,16 +18,15 @@ import Link from '@docusaurus/Link'
 // ----------------------------------------------------------------------------
 
 export default function MembersListItem({
-  itemKind,
-  itemLabel,
-  itemLink,
+  itemLeft,
+  itemRight,
   children
 }) {
   return (
     <>
       <tr class="doxyMemberItem">
-        <td class="doxyMemberItemLeft" align="right" valign="top">{itemKind}</td>
-        <td class="doxyMemberItemRight" align="left" valign="top"><Link to={itemLink}>{itemLabel}</Link></td>
+        <td class="doxyMemberItemLeft" align="right" valign="top">{itemLeft}</td>
+        <td class="doxyMemberItemRight" align="left" valign="top">{itemRight}</td>
       </tr>
       <tr class="doxyMemberDescription">
         <td class="doxyMemberDescriptionLeft">&nbsp;</td>
