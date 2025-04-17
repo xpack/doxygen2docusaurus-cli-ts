@@ -130,17 +130,19 @@ export class DocSimpleSectType extends ElementGeneratorBase {
 
     if (element.kind === 'par') {
       assert(element.title !== undefined)
-      result += '<dl class="section user">\n'
+      result += '<dl class="doxySectionUser">\n'
       result += `<dt><b>${element.title}</b></dt>\n`
       result += '<dd>\n'
-      result += this.context.renderElementsMdx(element.children)
+      result += this.context.renderElementsMdx(element.children).trim()
+      result += '\n'
       result += '</dd>\n'
       result += '</dl>\n'
     } else if (element.kind === 'return') {
-      result += '<dl class="section user">\n'
+      result += '<dl class="doxySectionUser">\n'
       result += '<dt><b>Returns</b></dt>\n'
       result += '<dd>\n'
-      result += this.context.renderElementsMdx(element.children)
+      result += this.context.renderElementsMdx(element.children).trim()
+      result += '\n'
       result += '</dd>\n'
       result += '</dl>\n'
     } else if (element.kind === 'note') {
