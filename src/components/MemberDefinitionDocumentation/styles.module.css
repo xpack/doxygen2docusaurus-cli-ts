@@ -1,0 +1,12 @@
+/* --- Begin MemberDefinitionPrototype/styles.module.css --- */
+/* --- Part of docusaurus-plugin-doxygen --- */
+
+div:global(.doxyMemberDoc) {
+  padding: 10px;
+}
+
+div:global(.doxyMemberDoc) p:last-child {
+  margin-bottom: 4px;
+}
+
+/* --- End MemberDefinitionPrototype/styles.module.css --- */

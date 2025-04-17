@@ -17,6 +17,8 @@ import * as util from 'util'
 import { ElementGeneratorBase } from './element-generator-base.js'
 import { AbstractSectionDefType } from '../../doxygen-xml-parser/sectiondeftype.js'
 
+// ----------------------------------------------------------------------------
+
 export class SectionDefType extends ElementGeneratorBase {
   renderMdx (element: AbstractSectionDefType): string {
     // console.log(util.inspect(element), { compact: false, depth: 999 })

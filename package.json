@@ -12,7 +12,9 @@
     "./components/TreeTableRow": "./src/components/TreeTableRow/index.js",
     "./components/ParametersList": "./src/components/ParametersList/index.js",
     "./components/ParametersListItem": "./src/components/ParametersListItem/index.js",
-    "./components/MemberDefinition": "./src/components/MemberDefinition/index.js"
+    "./components/MemberDefinition": "./src/components/MemberDefinition/index.js",
+    "./components/MemberDefinitionPrototype": "./src/components/MemberDefinitionPrototype/index.js",
+    "./components/MemberDefinitionDocumentation": "./src/components/MemberDefinitionDocumentation/index.js"
   },
   "files": [
     "dist/"

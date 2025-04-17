@@ -17,98 +17,11 @@ div:global(.doxySectionDef) > h3 {
   margin-bottom: 8px;
 }
 
-div:global(.memitem) {
+div:global(.doxyMemberItem) {
   margin-bottom: 32px;
   border: 0.1rem solid var(--ifm-table-border-color);
   border-radius: var(--ifm-code-border-radius);
   box-shadow: var(--ifm-global-shadow-lw);
-}
-
-div:global(.memtemplate) {
-  font-family: var(--ifm-font-family-monospace);
-  font-size: var(--ifm-code-font-size);
-}
-
-div:global(.memproto) {
-  font-family: var(--ifm-font-family-monospace);
-  font-size: var(--ifm-code-font-size);
-  background-color: var(--ifm-code-background);
-  padding: 10px;
-  border-collapse: collapse;
-  border-bottom: 0.1rem solid var(--ifm-table-border-color);
-  margin-bottom: 1em;
-}
-
-div:global(.memdoc) {
-  padding: 10px;
-}
-
-div:global(.memdoc) p:last-child {
-  margin-bottom: 4px;
-}
-
-table:global(.mlabels) {
-  border: 0;
-  margin: 0;
-}
-
-table:global(.mlabels), table:global(.mlabels) > tbody {
-  display: block;
-}
-
-table:global(.mlabels) > tbody > tr:first-child {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-tr:global(.mlabels) {
-  border: 0;
-}
-
-td:global(.mlabels-left) {
-  padding: 0;
-}
-
-
-span:global(.mlabel) {
-  background: var(--ifm-color-primary);
-  color: var(--ifm-color-content-inverse);
-  border: none;
-  padding: 4px 9px;
-  border-radius: 12px;
-  font-family: var(--ifm-font-family-base);
-  font-weight: bold;
-  font-size: 80%;
-  white-space: nowrap;
-  vertical-align: middle;
-  margin-left: 10px;
-}
-
-span:global(.mlabel):last-of-type {
-  margin-right: 2px;
-}
-
-td:global(.mlabels-left) {
-  border: 0;
-}
-
-td:global(.mlabels-right) {
-  border: 0;
-  padding: 0;
-}
-
-table:global(.memname) {
-  margin: 0;
-}
-
-table:global(.memname) tr {
-  border: 0;
-}
-
-td:global(.memname) {
-  padding: 0;
-  border: 0;
 }
 
 

@@ -11,11 +11,11 @@
 
 // ----------------------------------------------------------------------------
 
+import assert from 'assert'
 import util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
 import { AbstractDescriptionType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractListingType, Para, ParameterName, ParameterType, Sp } from '../../doxygen-xml-parser/descriptiontype.js'
-import assert from 'assert'
 import { RefText } from '../../doxygen-xml-parser/reftexttype.js'
 
 // ----------------------------------------------------------------------------
@@ -99,15 +99,17 @@ export class DocRefTextType extends ElementGeneratorBase {
   renderMdx (element: AbstractDocRefTextType): string {
     // console.log(util.inspect(element), { compact: false, depth: 999 })
 
-    let result = ''
-
-    // kindref not needed.
-
     if (element.external !== undefined && element.external.length > 0) {
       console.log('external ignored in', element.constructor.name)
     }
 
-    const permalink = this.context.getPermalink(element.refid)
+    let result = ''
+
+    const permalink: string = this.context.getPermalink({
+      refid: element.refid,
+      kindref: element.kindref
+    })
+
     assert(permalink !== undefined && permalink.length > 1)
 
     result += `<Link to="${permalink}">`

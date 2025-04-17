@@ -1,0 +1,86 @@
+/* --- Begin MemberDefinitionDocumentation/styles.module.css --- */
+/* --- Part of docusaurus-plugin-doxygen --- */
+
+div:global(.doxyMemberProto) {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  background-color: var(--ifm-code-background);
+  padding: 10px;
+  border-collapse: collapse;
+  border-bottom: 0.1rem solid var(--ifm-table-border-color);
+  margin-bottom: 1em;
+}
+
+div:global(.doxyMemberTemplate) {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+}
+
+table:global(.doxyMemberLabels) {
+  border: 0;
+  margin: 0;
+}
+
+table:global(.doxyMemberLabels), table:global(.doxyMemberLabels) > tbody {
+  display: block;
+}
+
+table:global(.doxyMemberLabels) > tbody > tr:first-child {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+tr:global(.doxyMemberLabels) {
+  border: 0;
+}
+
+td:global(.doxyMemberLabelsLeft) {
+  padding: 0;
+}
+
+span:global(.doxyMemberLabel) {
+  background: var(--ifm-color-primary);
+  color: var(--ifm-color-content-inverse);
+  border: none;
+  padding: 4px 9px;
+  border-radius: 12px;
+  font-family: var(--ifm-font-family-base);
+  font-weight: bold;
+  font-size: 80%;
+  white-space: nowrap;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+span:global(.doxyMemberLabel):last-of-type {
+  margin-right: 2px;
+}
+
+td:global(.doxyMemberLabelsLeft) {
+  border: 0;
+}
+
+td:global(.doxyMemberLabelsRight) {
+  border: 0;
+  padding: 0;
+}
+
+table:global(.doxyMemberName) {
+  margin: 0;
+}
+
+table:global(.doxyMemberName) tr {
+  border: 0;
+}
+
+td:global(.doxyMemberName) {
+  padding: 0;
+  border: 0;
+}
+
+td:global(.doxyMemberName) p {
+  margin: 0;
+}
+
+/* --- End MemberDefinitionDocumentation/styles.module.css --- */

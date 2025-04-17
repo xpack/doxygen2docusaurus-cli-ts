@@ -14,30 +14,24 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { AbstractRefType } from '../../doxygen-xml-parser/reftype.js'
 import { ElementGeneratorBase } from './element-generator-base.js'
+import { AbstractLinkedTextType } from '../../doxygen-xml-parser/linkedtexttype.js'
 
 // ----------------------------------------------------------------------------
 
-export class RefType extends ElementGeneratorBase {
-  renderMdx (element: AbstractRefType): string {
-    // console.log(util.inspect(element), { compact: false, depth: 999 })
+// <xsd:complexType name="linkedTextType" mixed="true">   <-- Character data is allowed to appear between the child elements!
+//   <xsd:sequence>
+//   <xsd:element name="ref" type="refTextType" minOccurs="0" maxOccurs="unbounded" />
+//   </xsd:sequence>
+// </xsd:complexType>
 
-    if (element.prot !== undefined) {
-      console.error(element.elementName, 'attribute prot not yet rendered in', this.constructor.name)
-    }
-    if (element.inline !== undefined) {
-      console.error(element.elementName, 'attribute inline not yet rendered in', this.constructor.name)
-    }
+export class LinkedTextType extends ElementGeneratorBase {
+  renderMdx (element: AbstractLinkedTextType): string {
+    // console.log(util.inspect(element), { compact: false, depth: 999 })
 
     let result = ''
 
-    const permalink = this.context.getCompoundPermalink(element.refid)
-    assert(permalink !== undefined && permalink.length > 1)
-
-    result += `<Link to="${permalink}">`
-    result += element.text
-    result += '</Link>'
+    result += this.context.renderElementsMdx(element.children)
 
     return result
   }

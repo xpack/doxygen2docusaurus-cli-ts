@@ -125,7 +125,7 @@ export abstract class AbstractMemberDefType extends AbstractParsedObjectBase {
   type?: Type | undefined
   definition?: string | undefined
   argsstring?: string | undefined
-  param?: Param | undefined
+  params?: Param[] | undefined
   // TODO: add more...
 
   // Optional attributes.
@@ -170,7 +170,10 @@ export abstract class AbstractMemberDefType extends AbstractParsedObjectBase {
       } else if (xml.isInnerElementText(innerElement, 'argsstring')) {
         this.argsstring = xml.getInnerElementText(innerElement, 'argsstring')
       } else if (xml.hasInnerElement(innerElement, 'param')) {
-        this.param = new Param(xml, innerElement)
+        if (this.params === undefined) {
+          this.params = []
+        }
+        this.params.push(new Param(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)

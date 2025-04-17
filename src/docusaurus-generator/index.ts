@@ -16,7 +16,7 @@ import * as fs from 'fs/promises'
 import path from 'path'
 import * as util from 'node:util'
 
-import { AbstractCompoundDefType } from '../doxygen-xml-parser/compounddef.js'
+import { AbstractCompoundDefType, CompoundDef } from '../doxygen-xml-parser/compounddef.js'
 import { DoxygenData } from '../doxygen-xml-parser/index.js'
 import { PluginOptions } from '../plugin/options.js'
 import { SidebarItem } from '../plugin/types.js'
@@ -40,6 +40,9 @@ import { Pages } from './data-model/pages.js'
 import { IncType } from './elements-generators/inctype.js'
 import { SectionDefType } from './elements-generators/sectiondeftype.js'
 import { DocListType } from './elements-generators/doclisttype.js'
+import { ParamType } from './elements-generators/paramtype.js'
+import { LinkedTextType } from './elements-generators/linkedtexttype.js'
+import { RefTextType } from './elements-generators/reftexttype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -53,7 +56,7 @@ export class DocusaurusGenerator {
   // A map of compound definitions, indexed by their id.
   compoundDefsById: Map<string, AbstractCompoundDefType> = new Map()
   // Permalinks are relative to the Docusaurus baseUrl folder.
-  permalinksById: Map<string, string> = new Map()
+  compoundPermalinksById: Map<string, string> = new Map()
   docusaurusIdsById: Map<string, string> = new Map()
 
   groups: Groups
@@ -89,6 +92,8 @@ export class DocusaurusGenerator {
 
   elementGenerators: Map<string, ElementGeneratorBase> = new Map()
 
+  currentCompoundDef: CompoundDef | undefined
+
   // --------------------------------------------------------------------------
 
   constructor ({
@@ -121,6 +126,7 @@ export class DocusaurusGenerator {
     this.elementGenerators.set('AbstractDocParaType', new DocParaType(this))
     this.elementGenerators.set('AbstractDocURLLink', new DocURLLink(this))
     this.elementGenerators.set('AbstractRefType', new RefType(this))
+    this.elementGenerators.set('AbstractRefTextType', new RefTextType(this))
     this.elementGenerators.set('AbstractDocMarkupType', new DocMarkupType(this))
     this.elementGenerators.set('AbstractDocRefTextType', new DocRefTextType(this))
     this.elementGenerators.set('AbstractDocSimpleSectType', new DocSimpleSectType(this))
@@ -130,6 +136,8 @@ export class DocusaurusGenerator {
     this.elementGenerators.set('AbstractSectionDefType', new SectionDefType(this))
     this.elementGenerators.set('AbstractDocParamListType', new DocParamListType(this))
     this.elementGenerators.set('AbstractDocListType', new DocListType(this))
+    this.elementGenerators.set('AbstractParamType', new ParamType(this))
+    this.elementGenerators.set('AbstractLinkedTextType', new LinkedTextType(this))
   }
 
   async generate (): Promise<void> {
@@ -182,7 +190,7 @@ export class DocusaurusGenerator {
       // const permalink = `/${outputFolderPath}/${prefix}/${name}`
       const permalink = `/${prefix}/${name}`
       // console.log('permalink:', permalink)
-      this.permalinksById.set(compoundDef.id, permalink)
+      this.compoundPermalinksById.set(compoundDef.id, permalink)
 
       const docusaurusId = `/${prefix}/${name.replaceAll('/', '-') as string}`
       this.docusaurusIdsById.set(compoundDef.id, docusaurusId)
@@ -239,7 +247,10 @@ export class DocusaurusGenerator {
         // as a regular page and must be skipped at this stage.
         continue
       }
-      const permalink = this.permalinksById.get(compoundDef.id)
+
+      this.currentCompoundDef = compoundDef
+
+      const permalink = this.compoundPermalinksById.get(compoundDef.id)
       assert(permalink !== undefined)
       console.log(`${compoundDef.kind}: ${compoundDef.compoundName}`, '->', `${outputFolderPath}${permalink}...`)
 
@@ -276,7 +287,7 @@ export class DocusaurusGenerator {
       })
 
       if (compoundDef.kind === 'file') {
-        const permalink = this.permalinksById.get(compoundDef.id) + '/source'
+        const permalink = this.compoundPermalinksById.get(compoundDef.id) + '/source'
         assert(permalink !== undefined)
         console.log(`${compoundDef.kind}: ${compoundDef.compoundName}`, '->', `${outputFolderPath}${permalink}`)
 
@@ -312,6 +323,8 @@ export class DocusaurusGenerator {
           bodyText
         })
       }
+
+      this.currentCompoundDef = undefined
     }
 
     {
@@ -462,7 +475,9 @@ export class DocusaurusGenerator {
       'TreeTableRow',
       'ParametersList',
       'ParametersListItem',
-      'MemberDefinition'
+      'MemberDefinition',
+      'MemberDefinitionPrototype',
+      'MemberDefinitionDocumentation'
     ]
 
     for (const component of components) {
@@ -483,8 +498,39 @@ export class DocusaurusGenerator {
     await fileHandle.close()
   }
 
-  getPermalink (refid: string): string {
-    return `/${this.pluginOptions.outputFolderPath}${this.permalinksById.get(refid)}`
+  getCompoundPermalink (refid: string): string {
+    const compoundPermalink = this.compoundPermalinksById.get(refid)
+    if (compoundPermalink === undefined) {
+      console.error('refid', refid, 'has no permalink')
+    }
+
+    assert(compoundPermalink !== undefined)
+    return `/${this.pluginOptions.outputFolderPath}${compoundPermalink}`
+  }
+
+  getPermalink ({
+    refid,
+    kindref
+  }: {
+    refid: string
+    kindref: string
+  }): string {
+    let permalink: string | undefined
+    if (kindref === 'compound') {
+      permalink = this.getCompoundPermalink(refid)
+    } else if (kindref === 'member') {
+      const compoundId = refid.replace(/_1[0-9a-f]*$/, '')
+      if (compoundId === this.currentCompoundDef?.id) {
+        permalink = `#${refid.replace(/^.*_1/, '')}`
+      } else {
+        permalink = `${this.getCompoundPermalink(refid)}#${refid.replace(/^.*_1/, '')}`
+      }
+    } else {
+      console.error('Unsupported kindref', kindref, 'for', refid, 'in', this.constructor.name)
+    }
+
+    assert(permalink !== undefined && permalink.length > 1)
+    return permalink
   }
 
   getElementRenderer (element: Object): ElementGeneratorBase | undefined {

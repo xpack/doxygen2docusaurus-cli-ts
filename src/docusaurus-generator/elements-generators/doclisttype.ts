@@ -11,11 +11,13 @@
 
 // ----------------------------------------------------------------------------
 
-import * as util from 'util'
 import assert from 'assert'
+import * as util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
 import { AbstractDocListType } from '../../doxygen-xml-parser/descriptiontype.js'
+
+// ----------------------------------------------------------------------------
 
 export class DocListType extends ElementGeneratorBase {
   renderMdx (element: AbstractDocListType): string {

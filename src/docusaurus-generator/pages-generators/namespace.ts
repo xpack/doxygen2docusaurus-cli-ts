@@ -43,7 +43,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
       result += '<MembersList>\n'
       for (const innerNamespace of compoundDef.innerNamespaces) {
         const namespace = this.context.namespaces.membersById.get(innerNamespace.refid)
-        const permalink = this.context.getPermalink(innerNamespace.refid)
+        const permalink = this.context.getCompoundPermalink(innerNamespace.refid)
         result += `<MembersListItem itemKind="namespace" itemLabel="${namespace?.unparentedName}" itemLink="${permalink}">\n`
 
         const compoundDef = this.context.compoundDefsById.get(innerNamespace.refid)
@@ -68,7 +68,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
         assert(compoundDefClass !== undefined)
         // console.log(util.inspect(compoundDefClass), { compact: false, depth: 999 })
 
-        const permalink = this.context.getPermalink(compoundDefClass.id)
+        const permalink = this.context.getCompoundPermalink(compoundDefClass.id)
 
         let label = ''
         label += compoundDefClass.compoundName
@@ -96,7 +96,9 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
         const innerBriefDescription: string = this.context.renderElementMdx(compoundDefClass.briefDescription)
         result += innerBriefDescription
-        const innerPermalink = this.context.getPermalink(innerClass.refid)
+
+        const innerPermalink = this.context.getCompoundPermalink(innerClass.refid)
+        assert(innerPermalink !== undefined && innerPermalink.length > 1)
         result += ` <Link to="${innerPermalink}#details">`
         result += 'More...'
         result += '</Link>\n'
@@ -154,7 +156,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
     const compoundDef = namespace.compoundDef
     const label = namespace.unparentedName
-    const permalink = this.context.getPermalink(compoundDef.id)
+    const permalink = this.context.getCompoundPermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
     result += `<TreeTableRow itemIcon="N" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`

@@ -17,6 +17,8 @@ import * as util from 'util'
 import { ElementGeneratorBase } from './element-generator-base.js'
 import { AbstractIncType } from '../../doxygen-xml-parser/inctype.js'
 
+// ----------------------------------------------------------------------------
+
 export class IncType extends ElementGeneratorBase {
   renderMdx (element: AbstractIncType): string {
     // console.log(util.inspect(element), { compact: false, depth: 999 })
@@ -24,7 +26,7 @@ export class IncType extends ElementGeneratorBase {
     let result = ''
 
     assert(element.refId !== undefined)
-    const permalink = this.context.getPermalink(element.refId)
+    const permalink = this.context.getCompoundPermalink(element.refId)
     assert(permalink !== undefined && permalink.length > 1)
 
     result += '<code>#include '

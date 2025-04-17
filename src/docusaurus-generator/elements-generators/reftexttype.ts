@@ -14,25 +14,29 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { AbstractRefType } from '../../doxygen-xml-parser/reftype.js'
 import { ElementGeneratorBase } from './element-generator-base.js'
+import { AbstractRefTextType } from '../../doxygen-xml-parser/reftexttype.js'
 
 // ----------------------------------------------------------------------------
 
-export class RefType extends ElementGeneratorBase {
-  renderMdx (element: AbstractRefType): string {
+export class RefTextType extends ElementGeneratorBase {
+  renderMdx (element: AbstractRefTextType): string {
     // console.log(util.inspect(element), { compact: false, depth: 999 })
 
-    if (element.prot !== undefined) {
-      console.error(element.elementName, 'attribute prot not yet rendered in', this.constructor.name)
+    if (element.external !== undefined) {
+      console.error(element.elementName, 'attribute external not yet rendered in', this.constructor.name)
     }
-    if (element.inline !== undefined) {
-      console.error(element.elementName, 'attribute inline not yet rendered in', this.constructor.name)
+    if (element.tooltip !== undefined) {
+      console.error(element.elementName, 'attribute tooltip not yet rendered in', this.constructor.name)
     }
 
     let result = ''
 
-    const permalink = this.context.getCompoundPermalink(element.refid)
+    const permalink: string = this.context.getPermalink({
+      refid: element.refid,
+      kindref: element.kindref
+    })
+
     assert(permalink !== undefined && permalink.length > 1)
 
     result += `<Link to="${permalink}">`

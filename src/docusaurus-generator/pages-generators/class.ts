@@ -22,13 +22,12 @@ import path from 'node:path'
 import { SectionDef } from '../../doxygen-xml-parser/sectiondeftype.js'
 import { MemberDef } from '../../doxygen-xml-parser/memberdeftype.js'
 import { RefText } from '../../doxygen-xml-parser/reftexttype.js'
+import { Param } from '../../doxygen-xml-parser/paramtype.js'
+import { DefVal } from '../../doxygen-xml-parser/linkedtexttype.js'
 
 // ----------------------------------------------------------------------------
 
 export class ClassPageGenerator extends PageGeneratorBase {
-  templatePrefix: string = ''
-  paramNames: string = ''
-
   renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
     // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
 
@@ -62,6 +61,10 @@ export class ClassPageGenerator extends PageGeneratorBase {
     result += `<code>${compoundDef.compoundName}${this.renderTemplateParamsMdx(compoundDef)}</code>\n`
     result += '\n'
 
+    result += '\n'
+    result += 'TODO: add sections summaries\n'
+    result += '\n'
+
     // if (compoundDef.sectionDefs !== undefined) {
     //   for (const sectionDef of compoundDef.sectionDefs) {
     //     result += `${this.context.renderElementMdx(sectionDef)}\n`
@@ -72,6 +75,17 @@ export class ClassPageGenerator extends PageGeneratorBase {
     result += '## Description {#details}\n'
     result += '\n'
 
+    if (compoundDef.templateParamList?.params !== undefined) {
+      const templateParameters: string[] = this.collectTemplateParameters({ compoundDef, withDefaults: true })
+      const templateParameterNames: string[] = this.collectTemplateParameterNames(compoundDef)
+
+      // console.log('templateParameters', templateParameters.join(', '))
+
+      result += `<CodeBlock>template &lt;${templateParameters.join(', ')}&gt;\n`
+      result += `class ${compoundDef.compoundName}&lt; ${templateParameterNames.join(', ')} &gt;</CodeBlock>\n`
+      result += '\n'
+    }
+
     const detailedDescription: string = this.context.renderElementMdx(compoundDef.detailedDescription)
     if (detailedDescription.length > 0 && detailedDescription !== '<hr/>') {
       result += detailedDescription
@@ -79,16 +93,17 @@ export class ClassPageGenerator extends PageGeneratorBase {
       result += '\n'
     }
 
-    if (compoundDef.sectionDefs !== undefined) {
-      console.log('Class', compoundDef.compoundName)
-      for (const sectionDef of compoundDef.sectionDefs) {
-        console.log('  SectionDef', sectionDef.kind)
-        assert(sectionDef.memberDefs !== undefined)
-        for (const memberDef of sectionDef.memberDefs) {
-          console.log('    MemberDef', memberDef.kind, memberDef.prot, memberDef.name)
-        }
-      }
-    }
+    // if (compoundDef.sectionDefs !== undefined) {
+    //   console.log('Class', compoundDef.compoundName)
+    //   for (const sectionDef of compoundDef.sectionDefs) {
+    //     console.log('  SectionDef', sectionDef.kind)
+    //     assert(sectionDef.memberDefs !== undefined)
+    //     for (const memberDef of sectionDef.memberDefs) {
+    //       console.log('    MemberDef', memberDef.kind, memberDef.prot, memberDef.name)
+    //       // console.log('    MemberDef+', memberDef.definition)
+    //     }
+    //   }
+    // }
 
     if (compoundDef.location !== undefined) {
       result += 'Definition at line '
@@ -99,49 +114,15 @@ export class ClassPageGenerator extends PageGeneratorBase {
       result += '\n'
     }
 
-    if (compoundDef.templateParamList?.params !== undefined) {
-      const params: string[] = []
-      const paramNames: string[] = []
-      for (const param of compoundDef.templateParamList.params) {
-        // console.log(util.inspect(param), { compact: false, depth: 999 })
-        assert(param.type !== undefined)
-        assert(param.type.children.length === 1)
-        assert(typeof param.type.children[0] === 'string')
-        let paramName = ''
-        let paramString = ''
-
-        if (param.declname !== undefined) {
-          paramString = param.declname
-        } else if (typeof param.type.children[0] === 'string') {
-          // Extract the parameter name, passed as `class T`.
-          paramString = param.type.children[0]
-        } else if (param.type.children[0] as object instanceof RefText) {
-          paramString = (param.type.children[0] as RefText).text
-        }
-        paramName = paramString.replace(/class /, '')
-        if (param.defval !== undefined) {
-          const defval = param.defval
-          assert(defval.children.length === 1)
-          if (typeof defval.children[0] === 'string') {
-            paramString += ` = ${defval.children[0]}`
-          } else if (defval.children[0] as object instanceof RefText) {
-            paramString += ` = ${(defval.children[0] as RefText).text}`
-          }
-        }
-        params.push(paramString)
-        paramNames.push(paramName)
-      }
-      this.templatePrefix = `template <${params.join(', ')}>`
-      this.paramNames = `< ${paramNames.join(', ')} >`
-      // console.log('templatePrefix', this.templatePrefix)
-      // console.log('paramNames', this.paramNames)
-    }
-
     const className = compoundDef.compoundName.replace(/.*::/, '')
 
     if (compoundDef.sectionDefs !== undefined) {
       for (const sectionDef of compoundDef.sectionDefs) {
-        result += this.renderSectionDefMdx(sectionDef, className)
+        result += this.renderSectionDefMdx({
+          sectionDef,
+          className,
+          compoundDef
+        })
         result += '\n'
       }
     }
@@ -150,6 +131,89 @@ export class ClassPageGenerator extends PageGeneratorBase {
   }
 
   // --------------------------------------------------------------------------
+
+  /**
+   * Return an array of types, like `class T`, or `class U = T`, or `N T::* MP`
+   * @param compoundDef
+   * @returns
+   */
+  private collectTemplateParameters ({
+    compoundDef,
+    withDefaults = false
+  }: {
+    compoundDef: CompoundDef
+    withDefaults?: boolean
+  }): string[] {
+    if (compoundDef.templateParamList?.params === undefined) {
+      return []
+    }
+
+    const templateParameters: string[] = []
+
+    for (const param of compoundDef.templateParamList.params) {
+      // console.log(util.inspect(param), { compact: false, depth: 999 })
+      assert(param.type !== undefined)
+      assert(param.type.children.length === 1)
+      assert(typeof param.type.children[0] === 'string')
+
+      let paramString = ''
+
+      if (typeof param.type.children[0] === 'string') {
+        paramString += param.type.children[0]
+      } else if (param.type.children[0] as object instanceof RefText) {
+        paramString += (param.type.children[0] as RefText).text
+      }
+      if (param.declname !== undefined) {
+        paramString += ` ${param.declname}`
+      }
+
+      if (withDefaults) {
+        if (param.defval !== undefined) {
+          const defval: DefVal = param.defval
+          assert(defval.children.length === 1)
+          if (typeof defval.children[0] === 'string') {
+            paramString += ` = ${defval.children[0]}`
+          } else if (defval.children[0] as object instanceof RefText) {
+            paramString += ` = ${(defval.children[0] as RefText).text}`
+          }
+        }
+      }
+
+      templateParameters.push(paramString)
+    }
+
+    return templateParameters
+  }
+
+  private collectTemplateParameterNames (compoundDef: CompoundDef): string[] {
+    if (compoundDef.templateParamList?.params === undefined) {
+      return []
+    }
+
+    const templateParameterNames: string[] = []
+
+    for (const param of compoundDef.templateParamList.params) {
+      // console.log(util.inspect(param), { compact: false, depth: 999 })
+      assert(param.type !== undefined)
+      assert(param.type.children.length === 1)
+      assert(typeof param.type.children[0] === 'string')
+      let paramName = ''
+      let paramString = ''
+
+      // declname or defname?
+      if (param.declname !== undefined) {
+        paramString = param.declname
+      } else if (typeof param.type.children[0] === 'string') {
+        // Extract the parameter name, passed as `class T`.
+        paramString = param.type.children[0]
+      } else if (param.type.children[0] as object instanceof RefText) {
+        paramString = (param.type.children[0] as RefText).text
+      }
+      paramName = paramString.replace(/class /, '')
+      templateParameterNames.push(paramName)
+    }
+    return templateParameterNames
+  }
 
   private renderTemplateParamsMdx (compoundDef: CompoundDef): string {
     let result = ''
@@ -169,13 +233,21 @@ export class ClassPageGenerator extends PageGeneratorBase {
         // console.log(param, { compact: false, depth: 999 })
       }
       if (paramNames.length > 0) {
-        result += `&lt;${paramNames.join(', ')}&gt;`
+        result += `&lt; ${paramNames.join(', ')} &gt;`
       }
     }
     return result
   }
 
-  private renderSectionDefMdx (sectionDef: SectionDef, className: string): string {
+  private renderSectionDefMdx ({
+    sectionDef,
+    compoundDef,
+    className
+  }: {
+    sectionDef: SectionDef
+    compoundDef: CompoundDef
+    className: string
+  }): string {
     let result = ''
 
     // <xsd:simpleType name="DoxSectionKind">
@@ -239,6 +311,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     }
 
     result += '<div class="doxySectionDef">\n'
+    result += '\n'
 
     const sectionLabels: string[] = []
 
@@ -264,16 +337,14 @@ export class ClassPageGenerator extends PageGeneratorBase {
         result += '\n'
 
         for (const constructor of constructors) {
-          result += this.renderMethodDefMdx(constructor, sectionLabels, true)
-          result += '\n'
+          result += this.renderMethodDefMdx({ memberDef: constructor, compoundDef, sectionLabels, isFunction: true })
         }
       }
 
       if (destructor !== undefined) {
         result += '## Destructor\n'
         result += '\n'
-        result += this.renderMethodDefMdx(destructor, sectionLabels, true)
-        result += '\n'
+        result += this.renderMethodDefMdx({ memberDef: destructor, compoundDef, sectionLabels, isFunction: true })
       }
 
       memberDefs = methods
@@ -285,27 +356,35 @@ export class ClassPageGenerator extends PageGeneratorBase {
     const isFunction: boolean = sectionDef.kind === 'public-func'
 
     for (const memberDef of memberDefs) {
-      result += this.renderMethodDefMdx(memberDef, sectionLabels, isFunction)
-      result += '\n'
+      result += this.renderMethodDefMdx({ memberDef, compoundDef, sectionLabels, isFunction })
     }
 
     result += '</div>\n'
 
-    result += '\n'
     return result
   }
 
-  private renderMethodDefMdx (memberDef: MemberDef, sectionLabels: string[], isFunction: boolean): string {
+  private renderMethodDefMdx ({
+    memberDef,
+    compoundDef,
+    sectionLabels,
+    isFunction
+  }: {
+    memberDef: MemberDef
+    compoundDef: CompoundDef
+    sectionLabels: string[]
+    isFunction: boolean
+  }): string {
     let result = ''
 
     const labels: string[] = [...sectionLabels]
-    if (memberDef.inline !== undefined && memberDef.inline.valueOf()) {
+    if (memberDef.inline?.valueOf()) {
       labels.push('inline')
     }
-    if (memberDef.explicit !== undefined && memberDef.explicit.valueOf()) {
+    if (memberDef.explicit?.valueOf()) {
       labels.push('explicit')
     }
-    if (memberDef.constexpr !== undefined && memberDef.constexpr.valueOf()) {
+    if (memberDef.constexpr?.valueOf()) {
       labels.push('constexpr')
     }
     if (memberDef.prot === 'protected') {
@@ -314,13 +393,11 @@ export class ClassPageGenerator extends PageGeneratorBase {
     // WARNING: could not find how to generate 'inherited'.
 
     // Validation checks.
-    if (memberDef._static !== undefined && memberDef._static.valueOf()) {
+    if (memberDef._static?.valueOf()) {
       console.error(memberDef.constructor.name, 'static not yet rendered in', this.constructor.name)
     }
-    // if (memberDef._const !== undefined && memberDef._const.valueOf()) {
-    //   console.error(memberDef.constructor.name, 'const not yet rendered in', this.constructor.name)
-    // }
-    if (memberDef.mutable !== undefined && memberDef.mutable.valueOf()) {
+    // const passed via the prototype.
+    if (memberDef.mutable?.valueOf()) {
       console.error(memberDef.constructor.name, 'mutable not yet rendered in', this.constructor.name)
     }
 
@@ -331,39 +408,65 @@ export class ClassPageGenerator extends PageGeneratorBase {
     const id = memberDef.id.replace(/.*_1/, '')
     const name = memberDef.name + (isFunction ? '()' : '')
     result += `### ${name} {#${id}}\n`
+    result += '\n'
 
-    result += '<MemberDefinition\n'
-    result += `  template="${this.templatePrefix}"\n`
-    result += `  name="${memberDef.qualifiedName}"\n`
-    if (labels.length > 0) {
-      result += `  labels={["${labels.join('","')}"]}>\n`
-    } else {
-      result += '  labels={[]}>\n'
+    const templateParameters = this.collectTemplateParameters({ compoundDef })
+    assert(memberDef.definition !== undefined)
+    let prototype = memberDef.definition.replace(/[<]/g, '&lt;').replace(/[>]/g, '&gt;')
+    if (memberDef.kind === 'function') {
+      prototype += ' ('
+
+      if (memberDef.params !== undefined) {
+        const params: string[] = []
+        for (const param of memberDef.params) {
+          params.push(this.context.renderElementMdx(param))
+        }
+        prototype += params.join(', ')
+      }
+
+      prototype += ')'
     }
+    if (memberDef._const?.valueOf()) {
+      prototype += ' const'
+    }
+    result += '<MemberDefinition>\n'
+    result += '<MemberDefinitionPrototype'
+    if (templateParameters.length > 0) {
+      result += ` template="template <${templateParameters.join(', ')}>"`
+    }
+    if (labels.length > 0) {
+      result += ` labels={["${labels.join('","')}"]}`
+    }
+    result += '>\n'
 
+    // .replace(/["]/g, '&quot;').replace(/[<]/g, '&lt;').replace(/[>]/g, '&gt;')
+    result += prototype
+    result += '\n'
+    result += '</MemberDefinitionPrototype>\n'
+
+    result += '<MemberDefinitionDocumentation>\n'
     const briefDescription: string = this.context.renderElementMdx(memberDef.briefDescription).trim()
     if (briefDescription.length > 0) {
-      result += '\n'
       result += briefDescription
+      result += '\n'
       result += '\n'
     }
 
     const detailedDescription: string = this.context.renderElementMdx(memberDef.detailedDescription).trim()
     if (detailedDescription.length > 0) {
-      result += '\n'
       result += detailedDescription
+      result += '\n'
       result += '\n'
     }
 
     if (memberDef.location !== undefined) {
-      result += '\n'
       result += 'Definition at line '
       result += memberDef.location.line?.toString() // TODO: add link
       result += ' of file '
       result += path.basename(memberDef.location.file) as string
       result += '.\n'
     }
-
+    result += '</MemberDefinitionDocumentation>\n'
     result += '</MemberDefinition>\n'
     result += '\n'
 
@@ -402,7 +505,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     const compoundDef = _class.compoundDef
     const label = compoundDef.compoundName.replace(/^.*::/, '')
 
-    const permalink = this.context.getPermalink(compoundDef.id)
+    const permalink = this.context.getCompoundPermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
     const iconLetters: Record<string, string> = {

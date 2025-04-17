@@ -16,12 +16,12 @@ import React from 'react';
 
 // ----------------------------------------------------------------------------
 
-export default function MemberDefinition({children}) {
+export default function MemberDefinitionPrototype({children}) {
   return (
-    <div class="doxyMemberItem">
-      {children}
-    </div>
-  );
+    <div class="doxyMemberDoc">
+    {children}
+  </div>
+);
 }
 
 // ----------------------------------------------------------------------------
