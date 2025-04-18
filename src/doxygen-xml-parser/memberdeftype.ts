@@ -106,13 +106,34 @@ import { AbstractParsedObjectBase } from './types.js'
 //   <xsd:attribute name="maybeambiguous" type="DoxBool" use="optional"/>
 // </xsd:complexType>
 
+// <xsd:simpleType name="DoxMemberKind">
+//   <xsd:restriction base="xsd:string">
+//     <xsd:enumeration value="define" />
+//     <xsd:enumeration value="property" />
+//     <xsd:enumeration value="event" />
+//     <xsd:enumeration value="variable" />
+//     <xsd:enumeration value="typedef" />
+//     <xsd:enumeration value="enum" />
+//     <xsd:enumeration value="function" />
+//     <xsd:enumeration value="signal" />
+//     <xsd:enumeration value="prototype" />
+//     <xsd:enumeration value="friend" />
+//     <xsd:enumeration value="dcop" />
+//     <xsd:enumeration value="slot" />
+//     <xsd:enumeration value="interface" />
+//     <xsd:enumeration value="service" />
+//   </xsd:restriction>
+// </xsd:simpleType>
+
+export type DoxMemberKind = 'define' | 'property' | 'event' | 'variable' | 'typedef' | 'enum' | 'function' | 'signal' | 'prototype' | 'friend' | 'dcop' | 'slot' | 'interface' | 'service'
+
 export abstract class AbstractMemberDefType extends AbstractParsedObjectBase {
   // Mandatory elements.
   name: string = ''
   location: Location | undefined
 
   // Mandatory attributes.
-  kind: string = ''
+  kind: DoxMemberKind | '' = ''
   id: string = ''
   prot: string = ''
   _static: Boolean | undefined
@@ -193,7 +214,7 @@ export abstract class AbstractMemberDefType extends AbstractParsedObjectBase {
     for (const attributeName of attributesNames) {
       // console.log(attributeName)
       if (attributeName === '@_kind') {
-        this.kind = xml.getAttributeStringValue(element, '@_kind')
+        this.kind = xml.getAttributeStringValue(element, '@_kind') as DoxMemberKind
       } else if (attributeName === '@_id') {
         this.id = xml.getAttributeStringValue(element, '@_id')
       } else if (attributeName === '@_prot') {

@@ -29,13 +29,13 @@ export class IncType extends ElementGeneratorBase {
     const permalink = this.context.getCompoundPermalink(element.refId)
     assert(permalink !== undefined && permalink.length > 1)
 
-    result += '<code>#include '
+    result += '<p class="doxyInclude"><code>#include '
     result += element.local ? '"' : '&lt;'
     result += `<Link to="${permalink}">`
     result += element.text
     result += '</Link>'
     result += element.local ? '"' : '&gt;'
-    result += '</code>'
+    result += '</code></p>'
 
     return result
   }

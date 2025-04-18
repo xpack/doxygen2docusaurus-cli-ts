@@ -43,6 +43,8 @@ import { DocListType } from './elements-generators/doclisttype.js'
 import { ParamType } from './elements-generators/paramtype.js'
 import { LinkedTextType } from './elements-generators/linkedtexttype.js'
 import { RefTextType } from './elements-generators/reftexttype.js'
+import { RefText } from '../doxygen-xml-parser/reftexttype.js'
+import { DefVal } from '../doxygen-xml-parser/linkedtexttype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -427,8 +429,12 @@ export class DocusaurusGenerator {
     bodyText: string
     frontMatter: FrontMatter
   }): Promise<void> {
-    bodyText += '\n'
-    bodyText += `<GeneratedByDoxygen version="${this.doxygenData.doxygenindex.version}" />\n`
+    let text = ''
+    text += `<DoxygenPage version="${this.doxygenData.doxygenindex.version}">\n`
+    text += '\n'
+    text += bodyText
+    text += '\n'
+    text += '</DoxygenPage>\n'
 
     // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
     let frontMatterText = ''
@@ -455,19 +461,21 @@ export class DocusaurusGenerator {
     frontMatterText += '---\n'
     frontMatterText += '\n'
 
-    if (bodyText.includes('<Link')) {
+    if (text.includes('<Link')) {
       frontMatterText += 'import Link from \'@docusaurus/Link\'\n'
     }
 
     // Theme components.
-    if (bodyText.includes('<CodeBlock')) {
+    if (text.includes('<CodeBlock')) {
       frontMatterText += 'import CodeBlock from \'@theme/CodeBlock\'\n'
     }
-    if (bodyText.includes('<Admonition')) {
+    if (text.includes('<Admonition')) {
       frontMatterText += 'import Admonition from \'@theme/Admonition\'\n'
     }
 
+    // Plugin defined components.
     const components = [
+      'DoxygenPage',
       'GeneratedByDoxygen',
       'MembersList',
       'MembersListItem',
@@ -479,7 +487,7 @@ export class DocusaurusGenerator {
     ]
 
     for (const component of components) {
-      if (bodyText.includes(`<${component}`)) {
+      if (text.includes(`<${component}`)) {
         frontMatterText += `import ${component} from '@xpack/docusaurus-plugin-doxygen/components/${component}'\n`
       }
     }
@@ -491,7 +499,8 @@ export class DocusaurusGenerator {
     const fileHandle = await fs.open(filePath, 'ax')
 
     await fileHandle.write(frontMatterText)
-    await fileHandle.write(bodyText)
+
+    await fileHandle.write(text)
 
     await fileHandle.close()
   }
@@ -517,11 +526,11 @@ export class DocusaurusGenerator {
     if (kindref === 'compound') {
       permalink = this.getCompoundPermalink(refid)
     } else if (kindref === 'member') {
-      const compoundId = refid.replace(/_1[0-9a-f]*$/, '')
+      const compoundId = this.stripPermalinkAnchor(refid)
       if (compoundId === this.currentCompoundDef?.id) {
-        permalink = `#${refid.replace(/^.*_1/, '')}`
+        permalink = `#${this.getPermalinkAnchor(refid)}`
       } else {
-        permalink = `${this.getCompoundPermalink(refid)}#${refid.replace(/^.*_1/, '')}`
+        permalink = `${this.getCompoundPermalink(refid)}#${this.getPermalinkAnchor(refid)}`
       }
     } else {
       console.error('Unsupported kindref', kindref, 'for', refid, 'in', this.constructor.name)
@@ -529,6 +538,14 @@ export class DocusaurusGenerator {
 
     assert(permalink !== undefined && permalink.length > 1)
     return permalink
+  }
+
+  stripPermalinkAnchor (refid: string): string {
+    return refid.replace(/_1[0-9a-f]*$/, '')
+  }
+
+  getPermalinkAnchor (refid: string): string {
+    return refid.replace(/^.*_1/, '')
   }
 
   getElementRenderer (element: Object): ElementGeneratorBase | undefined {
@@ -552,7 +569,7 @@ export class DocusaurusGenerator {
     }
 
     if (typeof element === 'string') {
-      return element
+      return this.escapeHtml(element)
     }
 
     if (Array.isArray(element)) {
@@ -582,6 +599,128 @@ export class DocusaurusGenerator {
       result += this.renderElementMdx(element)
     }
 
+    return result
+  }
+
+  escapeHtml (text: string): string {
+    return text
+      .replaceAll(/[&]/g, '&amp;')
+      .replaceAll(/[<]/g, '&lt;')
+      .replaceAll(/[>]/g, '&gt;')
+      .replaceAll(/["]/g, '&quot;')
+      .replaceAll(/[']/g, '&#39;')
+  }
+
+  /**
+   * Return an array of types, like `class T`, or `class U = T`, or `N T::* MP`
+   * @param compoundDef
+   * @returns
+   */
+  collectTemplateParameters ({
+    compoundDef,
+    withDefaults = false
+  }: {
+    compoundDef: CompoundDef
+    withDefaults?: boolean
+  }): string[] {
+    if (compoundDef.templateParamList?.params === undefined) {
+      return []
+    }
+
+    const templateParameters: string[] = []
+
+    for (const param of compoundDef.templateParamList.params) {
+      // console.log(util.inspect(param), { compact: false, depth: 999 })
+      assert(param.type !== undefined)
+      assert(param.type.children.length === 1)
+      assert(typeof param.type.children[0] === 'string')
+
+      let paramString = ''
+
+      if (typeof param.type.children[0] === 'string') {
+        paramString += param.type.children[0]
+      } else if (param.type.children[0] as object instanceof RefText) {
+        paramString += (param.type.children[0] as RefText).text
+      }
+      if (param.declname !== undefined) {
+        paramString += ` ${param.declname}`
+      }
+
+      if (withDefaults) {
+        if (param.defval !== undefined) {
+          const defval: DefVal = param.defval
+          assert(defval.children.length === 1)
+          if (typeof defval.children[0] === 'string') {
+            paramString += ` = ${defval.children[0]}`
+          } else if (defval.children[0] as object instanceof RefText) {
+            paramString += ` = ${(defval.children[0] as RefText).text}`
+          }
+        }
+      }
+
+      templateParameters.push(paramString)
+    }
+
+    return templateParameters
+  }
+
+  collectTemplateParameterNames (compoundDef: CompoundDef): string[] {
+    if (compoundDef.templateParamList?.params === undefined) {
+      return []
+    }
+
+    const templateParameterNames: string[] = []
+
+    for (const param of compoundDef.templateParamList.params) {
+      // console.log(util.inspect(param), { compact: false, depth: 999 })
+      assert(param.type !== undefined)
+      assert(param.type.children.length === 1)
+      assert(typeof param.type.children[0] === 'string')
+      let paramName = ''
+      let paramString = ''
+
+      // declname or defname?
+      if (param.declname !== undefined) {
+        paramString = param.declname
+      } else if (typeof param.type.children[0] === 'string') {
+        // Extract the parameter name, passed as `class T`.
+        paramString = param.type.children[0]
+      } else if (param.type.children[0] as object instanceof RefText) {
+        paramString = (param.type.children[0] as RefText).text
+      }
+      paramName = paramString.replace(/class /, '')
+      templateParameterNames.push(paramName)
+    }
+    return templateParameterNames
+  }
+
+  renderTemplateParametersMdx ({
+    compoundDef,
+    withDefaults = false
+  }: {
+    compoundDef: CompoundDef
+    withDefaults?: boolean
+  }): string {
+    let result = ''
+
+    if (compoundDef.templateParamList?.params !== undefined) {
+      const templateParameters: string[] = this.collectTemplateParameters({ compoundDef, withDefaults })
+      if (templateParameters.length > 0) {
+        result += `&lt; ${templateParameters.join(', ')} &gt;`
+      }
+    }
+    return result
+  }
+
+  renderTemplateParameterNamesMdx (compoundDef: CompoundDef): string {
+    let result = ''
+
+    if (compoundDef.templateParamList?.params !== undefined) {
+      const templateParameterNames: string[] = this.collectTemplateParameterNames(compoundDef)
+      if (templateParameterNames.length > 0) {
+        result += `&lt; ${templateParameterNames.join(', ')} &gt;`
+      }
+    }
     return result
   }
 }

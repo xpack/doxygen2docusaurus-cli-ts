@@ -5,7 +5,7 @@
   "type": "module",
   "exports": {
     ".": "./dist/index.js",
-    "./components/GeneratedByDoxygen": "./src/components/GeneratedByDoxygen/index.js",
+    "./components/DoxygenPage": "./src/components/DoxygenPage/index.js",
     "./components/MembersList": "./src/components/MembersList/index.js",
     "./components/MembersListItem": "./src/components/MembersListItem/index.js",
     "./components/TreeTable": "./src/components/TreeTable/index.js",

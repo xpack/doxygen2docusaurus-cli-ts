@@ -72,29 +72,13 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
         const permalink = this.context.getCompoundPermalink(compoundDefClass.id)
 
-        let label = ''
-        label += compoundDefClass.compoundName
-
+        let className = ''
+        className += compoundDefClass.compoundName
         if (compoundDefClass.templateParamList?.params !== undefined) {
-          const paramNames: string[] = []
-          for (const param of compoundDefClass.templateParamList.params) {
-            assert(param.type !== undefined)
-            assert(param.type.children.length === 1)
-            assert(typeof param.type.children[0] === 'string')
-            if (param.declname !== undefined) {
-              paramNames.push(param.declname)
-            } else {
-              // Extract the parameter name, passed as `class T`.
-              paramNames.push(param.type.children[0].replace('class ', ''))
-            }
-            // console.log(param, { compact: false, depth: 999 })
-          }
-          if (paramNames.length > 0) {
-            label += `&lt;${paramNames.join(', ')}&gt;`
-          }
+          className += this.context.renderTemplateParameterNamesMdx(compoundDefClass)
         }
 
-        const itemRight = `<Link to="${permalink}">${label}</Link>`
+        const itemRight = `<Link to="${permalink}">${className}</Link>`
         result += `<MembersListItem itemLeft="class" itemRight={${itemRight}}>\n`
 
         const innerBriefDescription: string = this.context.renderElementMdx(compoundDefClass.briefDescription)

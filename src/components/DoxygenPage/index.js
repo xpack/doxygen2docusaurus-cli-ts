@@ -16,13 +16,16 @@ import React from 'react';
 
 // ----------------------------------------------------------------------------
 
-export default function GeneratedByDoxygen({version = 'undefined'}) {
+export default function DoxygenPage({children, version = 'undefined'}) {
   // console.log("Version:", version);
 
   return (
-    <p class="doxyGeneratedBy">
-      Generated via <a href="https://github.com/xpack/docusaurus-plugin-doxygen">docusaurus-plugin-doxygen</a> by <a href="https://www.doxygen.nl">Doxygen</a> {version}
-    </p>
+    <div class="doxyPage">
+      {children}
+      <p class="doxyGeneratedBy">
+        Generated via <a href="https://github.com/xpack/docusaurus-plugin-doxygen">docusaurus-plugin-doxygen</a> by <a href="https://www.doxygen.nl">Doxygen</a> {version}
+      </p>
+    </div>
   );
 }
 

@@ -13,6 +13,7 @@ td:global(.doxyMemberItemLeft) {
   font-size: var(--ifm-code-font-size);
   border-right: 0;
   background-color: var(--ifm-table-stripe-background);
+  white-space: nowrap;
 }
 
 td:global(.doxyMemberItemRight) {

@@ -1,0 +1,28 @@
+/* --- Begin DoxygenPage/styles.module.css --- */
+/* --- Part of docusaurus-plugin-doxygen --- */
+
+div:global(.doxyPage) h2 {
+  --ifm-h2-font-size: 2rem;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+div:global(.doxyPage) h3 {
+  --ifm-h3-font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+p:global(.doxyQualifiedName) {
+  margin-bottom: 20px;
+}
+
+p:global(.doxyInclude) {
+  margin-bottom: 20px;
+}
+
+p:global(.doxyGeneratedBy) {
+  font-size: smaller;
+  text-align: center;
+}
+
+/* --- End DoxygenPage/styles.module.css --- */

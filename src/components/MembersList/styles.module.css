@@ -3,6 +3,7 @@
 
 table:global(.doxyMembers) {
   width: 100%;
+  margin-bottom: 3px;
 }
 
 table:global(.doxyMembers) tr {
