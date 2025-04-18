@@ -121,6 +121,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
       }
     }
 
+    result += '<hr/>\n'
+
     return result
   }
 
@@ -176,8 +178,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
       result += this.renderMethodDefSummaryMdx({ memberDef, sectionDef, compoundDef })
     }
 
-    result += '</MembersList>\n'
     result += '\n'
+    result += '</MembersList>\n'
 
     return result
   }
@@ -227,8 +229,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
       default:
         console.error('member kind', memberDef.kind, 'not implemented yet in', this.constructor.name)
     }
-    result += `<MembersListItem itemLeft={<>${itemLeft}</>} itemRight={<>${itemRight}</>}>\n`
     result += '\n'
+    result += `<MembersListItem itemLeft={<>${itemLeft}</>} itemRight={<>${itemRight}</>}>\n`
 
     const briefDescription: string = this.context.renderElementMdx(memberDef.briefDescription)
     result += briefDescription

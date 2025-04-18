@@ -64,7 +64,6 @@ export class NamespaceGenerator extends PageGeneratorBase {
       result += '## Classes\n'
       result += '\n'
       result += '<MembersList>\n'
-      result += '\n'
       for (const innerClass of compoundDef.innerClasses) {
         // console.log(util.inspect(innerClass), { compact: false, depth: 999 })
         const compoundDefClass = this.context.compoundDefsById.get(innerClass.refid)

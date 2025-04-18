@@ -79,6 +79,7 @@ export class GroupGenerator extends PageGeneratorBase {
         }
 
         const itemRight = `<Link to="${permalink}">${className}</Link>`
+        result += '\n'
         result += `<MembersListItem itemLeft="class" itemRight={${itemRight}}>\n`
 
         const innerBriefDescription: string = this.context.renderElementMdx(compoundDefClass.briefDescription)
@@ -92,6 +93,7 @@ export class GroupGenerator extends PageGeneratorBase {
 
         result += '</MembersListItem>\n'
       }
+      result += '\n'
       result += '</MembersList>\n'
       result += '\n'
     }
@@ -105,6 +107,10 @@ export class GroupGenerator extends PageGeneratorBase {
     if (detailedDescription.length > 0 && detailedDescription !== '<hr/>') {
       result += detailedDescription
       result += '\n'
+      if (!detailedDescription.endsWith('<hr/>')) {
+        result += '\n'
+        result += '<hr/>\n'
+      }
     } else {
       result += `TODO: add <code>@details</code> to <code>@defgroup ${compoundDef.compoundName}</code>`
       result += '\n'
