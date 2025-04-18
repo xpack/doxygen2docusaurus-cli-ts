@@ -64,6 +64,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
       result += '## Classes\n'
       result += '\n'
       result += '<MembersList>\n'
+      result += '\n'
       for (const innerClass of compoundDef.innerClasses) {
         // console.log(util.inspect(innerClass), { compact: false, depth: 999 })
         const compoundDefClass = this.context.compoundDefsById.get(innerClass.refid)
@@ -79,6 +80,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
         }
 
         const itemRight = `<Link to="${permalink}">${className}</Link>`
+        result += '\n'
         result += `<MembersListItem itemLeft="class" itemRight={${itemRight}}>\n`
 
         const innerBriefDescription: string = this.context.renderElementMdx(compoundDefClass.briefDescription)
@@ -92,6 +94,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
         result += '</MembersListItem>\n'
       }
+      result += '\n'
       result += '</MembersList>\n'
       result += '\n'
     }
@@ -106,6 +109,10 @@ export class NamespaceGenerator extends PageGeneratorBase {
     if (detailedDescription.length > 0 && detailedDescription !== '<hr/>') {
       result += detailedDescription
       result += '\n'
+      if (!detailedDescription.endsWith('<hr/>')) {
+        result += '\n'
+        result += '<hr/>\n'
+      }
     } else {
       result += `TODO: add <code>@details</code> to <code>@namespace ${compoundDef.compoundName}</code>`
       result += '\n'
