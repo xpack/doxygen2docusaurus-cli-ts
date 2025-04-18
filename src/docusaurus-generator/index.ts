@@ -264,7 +264,7 @@ export class DocusaurusGenerator {
       const frontMatter: FrontMatter = {
         title: `${compoundDef.compoundName}`,
         slug: `${outputFolderPath.replace(/^docs/, '')}${permalink}`,
-        description: '...',
+        // description: '...', // TODO
         custom_edit_url: null,
         keywords: ['doxygen', 'reference', `${compoundDef.kind}`]
       }
@@ -301,7 +301,7 @@ export class DocusaurusGenerator {
         const frontMatter: FrontMatter = {
           title: `${compoundDef.compoundName}`,
           slug: `${outputFolderPath.replace(/^docs/, '')}${permalink}`,
-          description: '...',
+          // description: '...', // TODO
           custom_edit_url: null,
           keywords: ['doxygen', 'reference', `${compoundDef.kind}`, 'source']
         }
@@ -339,7 +339,7 @@ export class DocusaurusGenerator {
       const frontMatter: FrontMatter = {
         title: `${projectBrief} API Reference`,
         slug: `${outputFolderPath.replace(/^docs/, '')}/${permalink}`,
-        description: '...',
+        // description: '...', // TODO
         custom_edit_url: null,
         keywords: ['doxygen', 'reference']
       }
@@ -362,7 +362,7 @@ export class DocusaurusGenerator {
       const frontMatter: FrontMatter = {
         title: 'The Namespaces Reference',
         slug: `${outputFolderPath.replace(/^docs/, '')}/${permalink}`,
-        description: '...',
+        // description: '...', // TODO
         custom_edit_url: null,
         keywords: ['doxygen', 'namespaces', 'reference']
       }
@@ -385,7 +385,7 @@ export class DocusaurusGenerator {
       const frontMatter: FrontMatter = {
         title: 'The Classes Reference',
         slug: `${outputFolderPath.replace(/^docs/, '')}/${permalink}`,
-        description: '...',
+        // description: '...', // TODO
         custom_edit_url: null,
         keywords: ['doxygen', 'classes', 'reference']
       }
@@ -405,7 +405,7 @@ export class DocusaurusGenerator {
       const frontMatter: FrontMatter = {
         title: 'The Folders & Files Reference',
         slug: '/api/folders',
-        description: '...',
+        // description: '...', // TODO
         custom_edit_url: null,
         keywords: ['doxygen', 'folders']
       }
