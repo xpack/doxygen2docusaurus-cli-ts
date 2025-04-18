@@ -107,10 +107,6 @@ export class GroupGenerator extends PageGeneratorBase {
     if (detailedDescription.length > 0 && detailedDescription !== '<hr/>') {
       result += detailedDescription
       result += '\n'
-      if (!detailedDescription.endsWith('<hr/>')) {
-        result += '\n'
-        result += '<hr/>\n'
-      }
     } else {
       result += `TODO: add <code>@details</code> to <code>@defgroup ${compoundDef.compoundName}</code>`
       result += '\n'

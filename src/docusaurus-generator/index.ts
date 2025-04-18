@@ -430,7 +430,13 @@ export class DocusaurusGenerator {
     let text = ''
     text += `<DoxygenPage version="${this.doxygenData.doxygenindex.version}">\n`
     text += '\n'
-    text += bodyText
+    const trimmedBodyText = bodyText.trim()
+    text += trimmedBodyText
+    text += '\n'
+    if (!trimmedBodyText.endsWith('<hr/>')) {
+      text += '\n'
+      text += '<hr/>\n'
+    }
     text += '\n'
     text += '</DoxygenPage>\n'
 

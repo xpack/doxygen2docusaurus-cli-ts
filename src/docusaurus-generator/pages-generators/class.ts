@@ -121,8 +121,6 @@ export class ClassPageGenerator extends PageGeneratorBase {
       }
     }
 
-    result += '<hr/>\n'
-
     return result
   }
 
