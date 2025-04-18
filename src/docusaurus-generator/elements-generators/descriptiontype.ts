@@ -186,7 +186,7 @@ export class ListingType extends ElementGeneratorBase {
             // console.log(util.inspect(highlight), { compact: false, depth: 999 })
             for (const child of highlight.children) {
               if (typeof child === 'string') {
-                result += child
+                result += this.context.escapeHtml(child)
               } else if (child instanceof Sp) {
                 const sp = child
                 if (sp.value !== undefined && sp.value.valueOf() > 1) {
@@ -199,7 +199,7 @@ export class ListingType extends ElementGeneratorBase {
                 }
               } else if (child instanceof RefText) {
                 const ref = child
-                result += ref.text
+                result += this.context.escapeHtml(ref.text)
               } else {
                 console.error(util.inspect(child, { compact: false, depth: 999 }))
                 console.error(element.constructor.name, 'ref child not yet rendered in', this.constructor.name)
@@ -277,13 +277,13 @@ export class DocParamListType extends ElementGeneratorBase {
                         if (child.direction !== undefined) {
                           names.push(`[${child.direction}] ${subChild}`)
                         } else {
-                          names.push(subChild)
+                          names.push(this.context.escapeHtml(subChild))
                         }
                       } else if (child instanceof ParameterType) {
                         console.error(util.inspect(parameterName.children), { compact: false, depth: 999 })
                         console.error(element.constructor.name, 'ParameterType not yet rendered in', this.constructor.name)
                       } else {
-                        names.push(subChild)
+                        names.push(this.context.escapeHtml(subChild))
                       }
                     } else {
                       console.error(util.inspect(subChild), { compact: false, depth: 999 })
