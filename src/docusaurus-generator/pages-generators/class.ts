@@ -208,8 +208,6 @@ export class ClassPageGenerator extends PageGeneratorBase {
         itemLeft = 'using'
         if (memberDef.type !== undefined) {
           itemRight += ' = '
-          console.log(util.inspect(memberDef.type), { compact: false, depth: 999 })
-          console.log(this.context.renderElementMdx(memberDef.type))
           itemRight += this.context.renderElementMdx(memberDef.type)
         }
         break
