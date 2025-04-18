@@ -14,7 +14,7 @@ td:global(.doxyTreeItemRight) {
 }
 
 td:global(.doxyTreeItemRight) p {
-  margin: 0
+  margin: 0px;
 }
 
 td:global(.doxyTreeIndent1) {

@@ -38,8 +38,8 @@ div:global(.doxyMemberTemplate) {
 }
 
 table:global(.doxyMemberLabels) {
-  border: 0;
-  margin: 0;
+  border: none;
+  margin: 0px;
 }
 
 table:global(.doxyMemberLabels), table:global(.doxyMemberLabels) > tbody {
@@ -53,11 +53,11 @@ table:global(.doxyMemberLabels) > tbody > tr:first-child {
 }
 
 tr:global(.doxyMemberLabels) {
-  border: 0;
+  border: none;
 }
 
 td:global(.doxyMemberLabelsLeft) {
-  padding: 0;
+  padding: 0px;
 }
 
 span:global(.doxyMemberLabel) {
@@ -83,25 +83,25 @@ td:global(.doxyMemberLabelsLeft) {
 }
 
 td:global(.doxyMemberLabelsRight) {
-  border: 0;
-  padding: 0;
+  border: none;
+  padding: 0px;
 }
 
 table:global(.doxyMemberName) {
-  margin: 0;
+  margin: 0px;
 }
 
 table:global(.doxyMemberName) tr {
-  border: 0;
+  border: none;
 }
 
 td:global(.doxyMemberName) {
-  padding: 0;
-  border: 0;
+  padding: 0px;
+  border: none;
 }
 
 td:global(.doxyMemberName) p {
-  margin: 0;
+  margin: 0px;
 }
 
 div:global(.doxyMemberDoc) {
