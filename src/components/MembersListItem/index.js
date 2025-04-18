@@ -25,8 +25,8 @@ export default function MembersListItem({
   return (
     <>
       <tr class="doxyMemberItem">
-        <td class="doxyMemberItemLeft" align="right" valign="top">{itemLeft}</td>
-        <td class="doxyMemberItemRight" align="left" valign="top">{itemRight}</td>
+        <td class="doxyMemberItemLeft" align="right" valign="top"><div>{itemLeft}</div></td>
+        <td class="doxyMemberItemRight" align="left" valign="top"><div>{itemRight}</div></td>
       </tr>
       <tr class="doxyMemberDescription">
         <td class="doxyMemberDescriptionLeft"></td>

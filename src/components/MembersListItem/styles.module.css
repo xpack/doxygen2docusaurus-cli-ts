@@ -11,21 +11,31 @@ table:global(.doxyMembers) td {
   overflow: hidden;
 }
 
-table:global(.doxyMembers) td:global(.doxyMemberItemLeft) {
+table:global(.doxyMembers) td:global(.doxyMemberItemLeft) div {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 12px;
+  padding-right: 12px;
   border-top: 1px solid var(--ifm-table-border-color);
   border-left: 1px solid var(--ifm-table-border-color);
   border-bottom: 1px solid var(--ifm-table-border-color);
-  /* border-top-left-radius: var(--ifm-global-radius);
-  border-bottom-left-radius: var(--ifm-global-radius); */
+  border-top-left-radius: var(--ifm-global-radius);
+  border-bottom-left-radius: var(--ifm-global-radius);
+  background-color: var(--ifm-table-stripe-background);
   overflow: hidden;
 }
 
-table:global(.doxyMembers) td:global(.doxyMemberItemRight) {
+table:global(.doxyMembers) td:global(.doxyMemberItemRight) div {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 12px;
+  padding-right: 12px;
   border-top: 1px solid var(--ifm-table-border-color);
   border-right: 1px solid var(--ifm-table-border-color);
   border-bottom: 1px solid var(--ifm-table-border-color);
-  /* border-top-right-radius: var(--ifm-global-radius);
-  border-bottom-right-radius: var(--ifm-global-radius); */
+  border-top-right-radius: var(--ifm-global-radius);
+  border-bottom-right-radius: var(--ifm-global-radius);
+  background-color: var(--ifm-table-stripe-background);
   overflow: hidden;
 }
 
@@ -35,21 +45,17 @@ tr:global(.doxyMemberSeparator) {
 }
 
 td:global(.doxyMemberItemLeft) {
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding: 0px;
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--ifm-code-font-size);
-  background-color: var(--ifm-table-stripe-background);
   white-space: nowrap;
 }
 
 td:global(.doxyMemberItemRight) {
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding: 0px;
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--ifm-code-font-size);
   width: 100%;
-  background-color: var(--ifm-table-stripe-background);
 }
 
 td:global(.doxyMemberDescriptionLeft) {
