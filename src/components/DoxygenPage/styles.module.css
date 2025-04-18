@@ -1,6 +1,10 @@
 /* --- Begin DoxygenPage/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
+div:global(.doxyPage) {
+  --ifm-global-shadow-doxy: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
 div:global(.doxyPage) h2 {
   --ifm-h2-font-size: 2rem;
   margin-top: 30px;

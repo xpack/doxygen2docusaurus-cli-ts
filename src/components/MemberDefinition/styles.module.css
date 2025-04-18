@@ -8,16 +8,16 @@ div:global(.doxySectionDef) h3 {
 }
 
 div:global(.doxySectionDef) h3::before {
-  content: "◆"; /* The character to append before */
-  color: var(--ifm-link-color); /* Optional: set the color of the character */
-  margin-right: 0.5em; /* Add space between the character and the text */
+  content: "◆";
+  color: var(--ifm-link-color);
+  margin-right: 0.5em;
 }
 
 div:global(.doxyMemberItem) {
   margin-bottom: 32px;
   border: 0.1rem solid var(--ifm-table-border-color);
   border-radius: var(--ifm-card-border-radius);
-  box-shadow: var(--ifm-global-shadow-md);
+  box-shadow: var(--ifm-global-shadow-doxy);
 }
 
 div:global(.doxyMemberProto) {
