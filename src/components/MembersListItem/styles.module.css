@@ -1,9 +1,37 @@
 /* --- Begin MembersListItem/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
+table:global(.doxyMembers) tr {
+  border: none;
+  overflow: hidden;
+}
+
+table:global(.doxyMembers) td {
+  border: none;
+  overflow: hidden;
+}
+
+table:global(.doxyMembers) td:global(.doxyMemberItemLeft) {
+  border-top: 1px solid var(--ifm-table-border-color);
+  border-left: 1px solid var(--ifm-table-border-color);
+  border-bottom: 1px solid var(--ifm-table-border-color);
+  /* border-top-left-radius: var(--ifm-global-radius);
+  border-bottom-left-radius: var(--ifm-global-radius); */
+  overflow: hidden;
+}
+
+table:global(.doxyMembers) td:global(.doxyMemberItemRight) {
+  border-top: 1px solid var(--ifm-table-border-color);
+  border-right: 1px solid var(--ifm-table-border-color);
+  border-bottom: 1px solid var(--ifm-table-border-color);
+  /* border-top-right-radius: var(--ifm-global-radius);
+  border-bottom-right-radius: var(--ifm-global-radius); */
+  overflow: hidden;
+}
+
 tr:global(.doxyMemberSeparator) {
   height: 12px;
-  border: 0;
+  border: none;
 }
 
 td:global(.doxyMemberItemLeft) {
@@ -11,7 +39,6 @@ td:global(.doxyMemberItemLeft) {
   padding-bottom: 6px;
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--ifm-code-font-size);
-  border-right: 0;
   background-color: var(--ifm-table-stripe-background);
   white-space: nowrap;
 }
@@ -21,7 +48,6 @@ td:global(.doxyMemberItemRight) {
   padding-bottom: 6px;
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--ifm-code-font-size);
-  border-left: 0;
   width: 100%;
   background-color: var(--ifm-table-stripe-background);
 }
@@ -29,24 +55,24 @@ td:global(.doxyMemberItemRight) {
 td:global(.doxyMemberDescriptionLeft) {
   padding-top: 6px;
   padding-bottom: 6px;
-  border: 0;
+  border: none;
   background-color: var(--ifm-background-color);
 }
 
 td:global(.doxyMemberDescriptionRight) {
   padding-top: 6px;
   padding-bottom: 6px;
-  border: 0;
+  border: none;
   background-color: var(--ifm-background-color);
 }
 
 td:global(.doxyMemberDescriptionRight) p {
-  margin: 0px
+  margin: 0px;
 }
 
 td:global(.doxyMemSeparatorLeft) {
   padding: 0px;
-  border: 0
+  border: none;
 }
 
 /* --- End MembersListItem/styles.module.css --- */

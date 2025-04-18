@@ -4,6 +4,9 @@
 table:global(.doxyMembers) {
   width: 100%;
   margin-bottom: 3px;
+  border-collapse: collapse;
+  border: none;
+  overflow: hidden;
 }
 
 table:global(.doxyMembers) tr {
