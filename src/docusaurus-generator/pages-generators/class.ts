@@ -492,7 +492,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     const compoundDef = _class.compoundDef
     const label = compoundDef.compoundName.replace(/^.*::/, '')
 
-    const permalink = this.context.getCompoundPermalink(compoundDef.id)
+    const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
     const iconLetters: Record<string, string> = {

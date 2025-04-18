@@ -26,7 +26,7 @@ export class IncType extends ElementGeneratorBase {
     let result = ''
 
     assert(element.refId !== undefined)
-    const permalink = this.context.getCompoundPermalink(element.refId)
+    const permalink = this.context.getPagePermalink(element.refId)
     assert(permalink !== undefined && permalink.length > 1)
 
     result += '<p class="doxyInclude"><code>#include '

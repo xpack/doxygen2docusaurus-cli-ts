@@ -57,7 +57,7 @@ export class DocusaurusGenerator {
   // A map of compound definitions, indexed by their id.
   compoundDefsById: Map<string, AbstractCompoundDefType> = new Map()
   // Permalinks are relative to the Docusaurus baseUrl folder.
-  compoundPermalinksById: Map<string, string> = new Map()
+  pagePermalinksById: Map<string, string> = new Map()
   docusaurusIdsById: Map<string, string> = new Map()
 
   groups: Groups
@@ -190,7 +190,7 @@ export class DocusaurusGenerator {
       // const permalink = `/${outputFolderPath}/${prefix}/${name}`
       const permalink = `/${prefix}/${name}`
       // console.log('permalink:', permalink)
-      this.compoundPermalinksById.set(compoundDef.id, permalink)
+      this.pagePermalinksById.set(compoundDef.id, permalink)
 
       const docusaurusId = `/${prefix}/${name.replaceAll('/', '-') as string}`
       this.docusaurusIdsById.set(compoundDef.id, docusaurusId)
@@ -250,7 +250,7 @@ export class DocusaurusGenerator {
 
       this.currentCompoundDef = compoundDef
 
-      const permalink = this.compoundPermalinksById.get(compoundDef.id)
+      const permalink = this.pagePermalinksById.get(compoundDef.id)
       assert(permalink !== undefined)
       console.log(`${compoundDef.kind}: ${compoundDef.compoundName}`, '->', `${outputFolderPath}${permalink}...`)
 
@@ -287,7 +287,7 @@ export class DocusaurusGenerator {
       })
 
       if (compoundDef.kind === 'file') {
-        const permalink = this.compoundPermalinksById.get(compoundDef.id) + '/source'
+        const permalink = this.pagePermalinksById.get(compoundDef.id) + '/source'
         assert(permalink !== undefined)
         console.log(`${compoundDef.kind}: ${compoundDef.compoundName}`, '->', `${outputFolderPath}${permalink}`)
 
@@ -503,14 +503,14 @@ export class DocusaurusGenerator {
     await fileHandle.close()
   }
 
-  getCompoundPermalink (refid: string): string {
-    const compoundPermalink = this.compoundPermalinksById.get(refid)
-    if (compoundPermalink === undefined) {
+  getPagePermalink (refid: string): string {
+    const pagePermalink = this.pagePermalinksById.get(refid)
+    if (pagePermalink === undefined) {
       console.error('refid', refid, 'has no permalink')
     }
 
-    assert(compoundPermalink !== undefined)
-    return `/${this.pluginOptions.outputFolderPath}${compoundPermalink}`
+    assert(pagePermalink !== undefined)
+    return `/${this.pluginOptions.outputFolderPath}${pagePermalink}`
   }
 
   getPermalink ({
@@ -522,13 +522,13 @@ export class DocusaurusGenerator {
   }): string {
     let permalink: string | undefined
     if (kindref === 'compound') {
-      permalink = this.getCompoundPermalink(refid)
+      permalink = this.getPagePermalink(refid)
     } else if (kindref === 'member') {
       const compoundId = this.stripPermalinkAnchor(refid)
       if (compoundId === this.currentCompoundDef?.id) {
         permalink = `#${this.getPermalinkAnchor(refid)}`
       } else {
-        permalink = `${this.getCompoundPermalink(refid)}#${this.getPermalinkAnchor(refid)}`
+        permalink = `${this.getPagePermalink(refid)}#${this.getPermalinkAnchor(refid)}`
       }
     } else {
       console.error('Unsupported kindref', kindref, 'for', refid, 'in', this.constructor.name)

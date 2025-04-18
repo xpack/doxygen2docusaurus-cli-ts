@@ -43,7 +43,7 @@ export class GroupGenerator extends PageGeneratorBase {
 
       result += '<MembersList>\n'
       for (const innerGroup of compoundDef.innerGroups) {
-        const permalink = this.context.getCompoundPermalink(innerGroup.refid)
+        const permalink = this.context.getPagePermalink(innerGroup.refid)
 
         const itemRight = `<Link to="${permalink}">${innerGroup.text}</Link>`
         result += `<MembersListItem itemLeft="" itemRight={${itemRight}}>\n`
@@ -70,7 +70,7 @@ export class GroupGenerator extends PageGeneratorBase {
         assert(compoundDefClass !== undefined)
         // console.log(util.inspect(compoundDefClass), { compact: false, depth: 999 })
 
-        const permalink = this.context.getCompoundPermalink(compoundDefClass.id)
+        const permalink = this.context.getPagePermalink(compoundDefClass.id)
 
         let className = ''
         className += compoundDefClass.compoundName
@@ -85,7 +85,7 @@ export class GroupGenerator extends PageGeneratorBase {
         const innerBriefDescription: string = this.context.renderElementMdx(compoundDefClass.briefDescription)
         result += innerBriefDescription
 
-        const innerPermalink = this.context.getCompoundPermalink(innerClass.refid)
+        const innerPermalink = this.context.getPagePermalink(innerClass.refid)
         assert(innerPermalink !== undefined && innerPermalink.length > 1)
         result += ` <Link to="${innerPermalink}#details">`
         result += 'More...'
@@ -161,7 +161,7 @@ export class GroupGenerator extends PageGeneratorBase {
 
     const compoundDef = group.compoundDef
     const label = compoundDef.title?.trim()
-    const permalink = this.context.getCompoundPermalink(compoundDef.id)
+    const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
     result += `<TreeTableRow itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
