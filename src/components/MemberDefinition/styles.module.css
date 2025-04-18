@@ -24,7 +24,7 @@ div:global(.doxyMemberProto) {
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--ifm-code-font-size);
   background-color: var(--ifm-code-background);
-  padding: 10px;
+  padding: 16px;
   border-collapse: collapse;
   border-bottom: 0.1rem solid var(--ifm-table-border-color);
   border-top-left-radius: var(--ifm-card-border-radius);
@@ -105,7 +105,7 @@ td:global(.doxyMemberName) p {
 }
 
 div:global(.doxyMemberDoc) {
-  padding: 10px;
+  padding: 16px;
 }
 
 div:global(.doxyMemberDoc) p:last-child {
