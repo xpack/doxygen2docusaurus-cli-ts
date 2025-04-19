@@ -25,11 +25,13 @@ export class IncType extends ElementGeneratorBase {
 
     let result = ''
 
-    assert(element.refId !== undefined)
-    const permalink = this.context.getPagePermalink(element.refId)
-    assert(permalink !== undefined && permalink.length > 1)
+    let permalink: string = ''
+    if (element.refId !== undefined) {
+      permalink = this.context.getPagePermalink(element.refId)
+      assert(permalink !== undefined && permalink.length > 1)
+    }
 
-    result += `<IncludesListItem filePath="${element.text}" permalink="${permalink}" isLocal="${element.local}" />\n`
+    result += `<IncludesListItem filePath="${element.text}" permalink="${permalink}" isLocal="${element.local.toString()}" />\n`
 
     return result
   }

@@ -24,9 +24,10 @@ export default function IncludesListItem({
   children
 }) {
   return (
-    <p class="doxyInclude">
-      <code>#include {isLocal === 'true' ? '"' : '<'}<Link to={permalink}>{filePath}</Link>{isLocal === 'true'  ? '"' : '>'}</code>
-    </p>
+    <>
+      <code>#include {isLocal === 'true' ? '"' : '<'}{permalink.length > 0 ? (<Link to={permalink}>{filePath}</Link>) : filePath }{isLocal === 'true'  ? '"' : '>'}</code>
+      <br />
+    </>
   );
 }
 
