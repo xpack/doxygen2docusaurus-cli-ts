@@ -97,6 +97,8 @@ export class DocusaurusGenerator {
 
   currentCompoundDef: CompoundDef | undefined
 
+  componentNames: string[]
+
   // --------------------------------------------------------------------------
 
   constructor ({
@@ -145,6 +147,21 @@ export class DocusaurusGenerator {
     this.elementGenerators.set('AbstractDocListType', new DocListType(this))
     this.elementGenerators.set('AbstractParamType', new ParamType(this))
     this.elementGenerators.set('AbstractLinkedTextType', new LinkedTextType(this))
+
+    // Plugin defined components.
+    this.componentNames = [
+      'DoxygenPage',
+      'GeneratedByDoxygen',
+      'MembersList',
+      'MembersListItem',
+      'TreeTable',
+      'TreeTableRow',
+      'ParametersList',
+      'ParametersListItem',
+      'MemberDefinition',
+      'IncludesList',
+      'IncludesListItem'
+    ]
   }
 
   async generate (): Promise<void> {
@@ -491,33 +508,19 @@ export class DocusaurusGenerator {
       frontMatterText += 'import Admonition from \'@theme/Admonition\'\n'
     }
 
-    // Plugin defined components.
-    const components = [
-      'DoxygenPage',
-      'GeneratedByDoxygen',
-      'MembersList',
-      'MembersListItem',
-      'TreeTable',
-      'TreeTableRow',
-      'ParametersList',
-      'ParametersListItem',
-      'MemberDefinition'
-    ]
-
-    for (const component of components) {
-      if (text.includes(`<${component}`)) {
-        frontMatterText += `import ${component} from '@xpack/docusaurus-plugin-doxygen/components/${component}'\n`
+    // Add includes for the plugin components.
+    for (const componentName of this.componentNames) {
+      if (text.includes(`<${componentName}`)) {
+        frontMatterText += `import ${componentName} from '@xpack/docusaurus-plugin-doxygen/components/${componentName}'\n`
       }
     }
 
     frontMatterText += '\n'
 
     await fs.mkdir(path.dirname(filePath), { recursive: true })
-
     const fileHandle = await fs.open(filePath, 'ax')
 
     await fileHandle.write(frontMatterText)
-
     await fileHandle.write(text)
 
     await fileHandle.close()
