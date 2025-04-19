@@ -45,6 +45,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
     result += `<CodeBlock>${compoundDef.compoundName}${this.context.renderTemplateParameterNamesMdx(compoundDef)}</CodeBlock>\n`
     result += '\n'
 
+    result += this.context.renderIncludesIndexMdx(compoundDef)
+
     const classs = this.context.classes.membersById.get(compoundDef.id)
     assert(classs !== undefined)
 
@@ -131,8 +133,6 @@ export class ClassPageGenerator extends PageGeneratorBase {
       result += '\n'
       result += '</MembersList>\n'
     }
-
-    result += this.context.renderIncludesIndexMdx(compoundDef)
 
     if (compoundDef.sectionDefs !== undefined) {
       for (const sectionDef of compoundDef.sectionDefs) {
@@ -544,7 +544,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
-    result += 'The classes, structs, union and interfaces with brief descriptions are:\n'
+    result += 'The classes, structs, union and interfaces used by this project, with brief descriptions are:\n'
     result += '\n'
 
     result += '<TreeTable>\n'
