@@ -31,6 +31,8 @@ export class FileGenerator extends PageGeneratorBase {
 
     result += this.context.renderBriefDescription(compoundDef)
 
+    result += this.context.renderIncludesIndex(compoundDef)
+
     result += this.context.renderNamespacesIndex(compoundDef)
 
     const file = this.context.files.membersById.get(compoundDef.id)

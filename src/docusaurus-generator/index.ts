@@ -810,6 +810,23 @@ export class DocusaurusGenerator {
     }
     return result
   }
+
+  renderIncludesIndex (compoundDef: CompoundDef): string {
+    let result: string = ''
+
+    if (compoundDef.includes !== undefined) {
+      result += '## Included Headers\n'
+      result += '\n'
+      result += '<IncludesList>\n'
+      for (const include of compoundDef.includes) {
+        result += this.renderElementMdx(include)
+      }
+      result += '</IncludesList>\n'
+      result += '\n'
+    }
+
+    return result
+  }
 }
 
 // ----------------------------------------------------------------------------

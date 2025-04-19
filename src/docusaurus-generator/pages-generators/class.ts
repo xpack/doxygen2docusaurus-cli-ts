@@ -45,16 +45,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     result += `<p class="doxyQualifiedName"><code>${compoundDef.compoundName}${this.context.renderTemplateParameterNamesMdx(compoundDef)}</code></p>\n`
     result += '\n'
 
-    if (compoundDef.includes !== undefined) {
-      result += '## Included Headers\n'
-      result += '\n'
-      result += '<IncludesList>\n'
-      for (const include of compoundDef.includes) {
-        result += this.context.renderElementMdx(include)
-      }
-      result += '</IncludesList>\n'
-      result += '\n'
-    }
+    result += this.context.renderIncludesIndex(compoundDef)
 
     if (compoundDef.sectionDefs !== undefined) {
       for (const sectionDef of compoundDef.sectionDefs) {
