@@ -188,15 +188,12 @@ export class ClassPageGenerator extends PageGeneratorBase {
   }): string {
     let result = ''
 
-    const morePermalink = memberDef.id.replace(/.*_1/, '')
+    const morePermalink = this.context.getPermalinkAnchor(memberDef.id)
     assert(morePermalink !== undefined && morePermalink.length > 1)
-    // result += ` <Link to="${morePermalink}#details">`
-    // result += 'More...'
-    // result += '</Link>\n'
 
     const name = this.context.escapeHtml(memberDef.name)
     let itemLeft = ''
-    let itemRight = `<Link to="${morePermalink}">${name}</Link>`
+    let itemRight = `<Link to="#${morePermalink}">${name}</Link>`
 
     switch (memberDef.kind) {
       case 'typedef':
@@ -231,7 +228,9 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     const briefDescription: string = this.context.renderElementMdx(memberDef.briefDescription)
     result += briefDescription
-    result += '\n'
+    result += ` <Link to="#${morePermalink}">`
+    result += 'More...'
+    result += '</Link>\n'
 
     result += '</MembersListItem>\n'
 
