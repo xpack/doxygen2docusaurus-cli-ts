@@ -46,6 +46,7 @@ import { RefText } from '../doxygen-xml-parser/reftexttype.js'
 import { DefVal } from '../doxygen-xml-parser/linkedtexttype.js'
 import { FileGenerator } from './pages-generators/file.js'
 import { FolderGenerator } from './pages-generators/folder.js'
+import { AbstractCompoundRefType } from '../doxygen-xml-parser/compoundreftype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -824,6 +825,27 @@ export class DocusaurusGenerator {
       result += '</IncludesList>\n'
       result += '\n'
     }
+
+    return result
+  }
+
+  renderClassSummary (compoundDef: CompoundDef): string {
+    let result: string = ''
+
+    const permalink = this.getPermalink({ refid: compoundDef.id, kindref: 'compound' })
+
+    const className = `${compoundDef.compoundName}${this.renderTemplateParameterNamesMdx(compoundDef)}`
+    const itemRight = `<Link to="${permalink}">${className}</Link>`
+
+    result += `<MembersListItem itemLeft="class" itemRight={<>${itemRight}</>}>\n`
+
+    const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription)
+    result += briefDescription
+    result += ` <Link to="${permalink}#details">`
+    result += 'More...'
+    result += '</Link>\n'
+
+    result += '</MembersListItem>\n'
 
     return result
   }

@@ -43,20 +43,7 @@ export class FileGenerator extends PageGeneratorBase {
         const compoundDef = this.context.compoundDefsById.get(innerClass.refid)
         assert(compoundDef !== undefined)
 
-        const permalink = this.context.getPermalink({ refid: innerClass.refid, kindref: 'compound' })
-
-        const className = `${innerClass.text}${this.context.renderTemplateParameterNamesMdx(compoundDef)}`
-        const itemRight = `<Link to="#${permalink}">${className}</Link>`
-
-        result += `<MembersListItem itemLeft="class" itemRight={<>${itemRight}</>}>\n`
-
-        const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
-        result += briefDescription
-        result += ` <Link to="${permalink}#details">`
-        result += 'More...'
-        result += '</Link>\n'
-
-        result += '</MembersListItem>\n'
+        result += this.context.renderClassSummary(compoundDef)
       }
 
       result += '\n'
