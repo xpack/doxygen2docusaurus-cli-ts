@@ -38,12 +38,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
-    const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
-    if (briefDescription.length > 0) {
-      result += briefDescription
-      result += ' <a href="#details">More...</a>\n'
-      result += '\n'
-    }
+    result += this.context.renderBriefDescription(compoundDef)
 
     if (compoundDef.includes !== undefined) {
       for (const include of compoundDef.includes) {

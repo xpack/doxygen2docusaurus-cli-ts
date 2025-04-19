@@ -30,12 +30,7 @@ export class GroupGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
-    const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
-    if (briefDescription.length > 0) {
-      result += briefDescription
-      result += ' <a href="#details">More...</a>\n'
-      result += '\n'
-    }
+    result += this.context.renderBriefDescription(compoundDef)
 
     if (compoundDef.innerGroups !== undefined && compoundDef.innerGroups.length > 0) {
       result += '## Topics\n'
@@ -98,19 +93,10 @@ export class GroupGenerator extends PageGeneratorBase {
       result += '\n'
     }
 
-    result += '## Description {#details}\n'
-    result += '\n'
-
-    // Deviate from Doxygen and do not repeat the brief in the detailed section.
-
-    const detailedDescription: string = this.context.renderElementMdx(compoundDef.detailedDescription)
-    if (detailedDescription.length > 0 && detailedDescription !== '<hr/>') {
-      result += detailedDescription
-      result += '\n'
-    } else {
-      result += `TODO: add <code>@details</code> to <code>@defgroup ${compoundDef.compoundName}</code>`
-      result += '\n'
-    }
+    result += this.context.renderDetailedDescription({
+      compoundDef,
+      todo: `@defgroup ${compoundDef.compoundName}`
+    })
 
     return result
   }

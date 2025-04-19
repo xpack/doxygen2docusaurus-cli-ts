@@ -727,6 +727,44 @@ export class DocusaurusGenerator {
     }
     return result
   }
+
+  renderBriefDescription (compoundDef: CompoundDef): string {
+    let result: string = ''
+    const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription)
+    if (briefDescription.length > 0) {
+      result += briefDescription
+      result += ' <a href="#details">More...</a>\n'
+      result += '\n'
+    }
+    return result
+  }
+
+  renderDetailedDescription ({
+    compoundDef,
+    todo
+  }: {
+    compoundDef: CompoundDef
+    todo: string
+  }): string {
+    let result: string = ''
+
+    result += '## Description {#details}\n'
+    result += '\n'
+
+    // Deviate from Doxygen and do not repeat the brief in the detailed section.
+
+    // console.log(util.inspect(compoundDef.detailedDescription), { compact: false, depth: 999 })
+    const detailedDescription: string = this.renderElementMdx(compoundDef.detailedDescription)
+    if (detailedDescription.length > 0 && detailedDescription !== '<hr/>') {
+      result += detailedDescription
+      result += '\n'
+    } else {
+      result += `TODO: add <code>@details</code> to <code>${todo}</code>`
+      result += '\n'
+    }
+    return result
+  }
+
 }
 
 // ----------------------------------------------------------------------------

@@ -29,36 +29,9 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
-    const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
-    if (briefDescription.length > 0) {
-      result += briefDescription
-      result += ' <a href="#details">More...</a>\n'
-      result += '\n'
-    }
+    result += this.context.renderBriefDescription(compoundDef)
 
-    if (compoundDef.innerNamespaces !== undefined && compoundDef.innerNamespaces.length > 0) {
-      result += '## Namespaces\n'
-      result += '\n'
-
-      result += '<MembersList>\n'
-      for (const innerNamespace of compoundDef.innerNamespaces) {
-        const namespace = this.context.namespaces.membersById.get(innerNamespace.refid)
-        const permalink = this.context.getPagePermalink(innerNamespace.refid)
-
-        const itemRight = `<Link to="${permalink}">${namespace?.unparentedName}</Link>`
-        result += `<MembersListItem itemLeft="namespace" itemRight={${itemRight}}>\n`
-
-        const compoundDef = this.context.compoundDefsById.get(innerNamespace.refid)
-        assert(compoundDef !== undefined)
-        const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
-        result += briefDescription
-        result += '\n'
-
-        result += '</MembersListItem>\n'
-      }
-      result += '</MembersList>\n'
-      result += '\n'
-    }
+    result += this.context.renderNamespacesIndex(compoundDef)
 
     if (compoundDef.innerClasses !== undefined && compoundDef.innerClasses.length > 0) {
       result += '## Classes\n'
@@ -98,20 +71,10 @@ export class NamespaceGenerator extends PageGeneratorBase {
       result += '\n'
     }
 
-    result += '## Description {#details}\n'
-    result += '\n'
-
-    // Deviate from Doxygen and do not repeat the brief in the detailed section.
-
-    // console.log(util.inspect(compoundDef.detailedDescription), { compact: false, depth: 999 })
-    const detailedDescription: string = this.context.renderElementMdx(compoundDef.detailedDescription)
-    if (detailedDescription.length > 0 && detailedDescription !== '<hr/>') {
-      result += detailedDescription
-      result += '\n'
-    } else {
-      result += `TODO: add <code>@details</code> to <code>@namespace ${compoundDef.compoundName}</code>`
-      result += '\n'
-    }
+    result += this.context.renderDetailedDescription({
+      compoundDef,
+      todo: `@namespace ${compoundDef.compoundName}`
+    })
 
     return result
   }
