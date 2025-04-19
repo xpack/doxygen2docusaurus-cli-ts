@@ -97,7 +97,7 @@ export class FolderGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
-    result += 'The folders & files with brief descriptions are:\n'
+    result += 'The folders & files that contributed content to this site, with brief descriptions are:\n'
     result += '\n'
 
     result += '<TreeTable>\n'

@@ -84,7 +84,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
-    result += 'The namespaces with brief descriptions are:\n'
+    result += 'The namespaces used by this project, with brief descriptions are:\n'
     result += '\n'
 
     result += '<TreeTable>\n'
