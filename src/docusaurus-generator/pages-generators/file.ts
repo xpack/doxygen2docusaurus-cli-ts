@@ -33,6 +33,36 @@ export class FileGenerator extends PageGeneratorBase {
 
     result += this.context.renderIncludesIndex(compoundDef)
 
+    if (compoundDef.innerClasses !== undefined) {
+      result += '## Classes\n'
+      result += '\n'
+      result += '<MembersList>\n'
+
+      for (const innerClass of compoundDef.innerClasses) {
+        console.log(util.inspect(innerClass), { compact: false, depth: 999 })
+        const compoundDef = this.context.compoundDefsById.get(innerClass.refid)
+        assert(compoundDef !== undefined)
+
+        const permalink = this.context.getPermalink({ refid: innerClass.refid, kindref: 'compound' })
+
+        const className = `${innerClass.text}${this.context.renderTemplateParameterNamesMdx(compoundDef)}`
+        const itemRight = `<Link to="#${permalink}">${className}</Link>`
+
+        result += `<MembersListItem itemLeft="class" itemRight={<>${itemRight}</>}>\n`
+
+        const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
+        result += briefDescription
+        result += ` <Link to="${permalink}#details">`
+        result += 'More...'
+        result += '</Link>\n'
+
+        result += '</MembersListItem>\n'
+      }
+
+      result += '\n'
+      result += '</MembersList>\n'
+    }
+
     result += this.context.renderNamespacesIndex(compoundDef)
 
     const file = this.context.files.membersById.get(compoundDef.id)
