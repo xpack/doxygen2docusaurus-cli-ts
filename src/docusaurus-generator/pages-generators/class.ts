@@ -45,6 +45,93 @@ export class ClassPageGenerator extends PageGeneratorBase {
     result += `<CodeBlock>${compoundDef.compoundName}${this.context.renderTemplateParameterNamesMdx(compoundDef)}</CodeBlock>\n`
     result += '\n'
 
+    const classs = this.context.classes.membersById.get(compoundDef.id)
+    assert(classs !== undefined)
+
+    if (compoundDef.baseCompoundRefs !== undefined) {
+      if (compoundDef.baseCompoundRefs.length > 1) {
+        result += '## Base classes\n'
+      } else {
+        result += '## Base class\n'
+      }
+      result += '\n'
+      result += '<MembersList>\n'
+
+      for (const baseCompoundRef of compoundDef.baseCompoundRefs) {
+        console.log(util.inspect(baseCompoundRef), { compact: false, depth: 999 })
+
+        if (baseCompoundRef.refid !== undefined) {
+          const compoundDef = this.context.compoundDefsById.get(baseCompoundRef.refid)
+          assert(compoundDef !== undefined)
+
+          result += this.context.renderClassSummary(compoundDef)
+        } else {
+          result += `<MembersListItem itemLeft="class" itemRight={<>${baseCompoundRef.text}</>}>\n`
+          result += '</MembersListItem>\n'
+        }
+      }
+
+      result += '\n'
+      result += '</MembersList>\n'
+    } else if ((classs.baseClassIds ?? []).length > 0) {
+      if (classs.baseClassIds.length > 1) {
+        result += '## Base classes\n'
+      } else {
+        result += '## Base class\n'
+      }
+      result += '\n'
+      result += '<MembersList>\n'
+
+      for (const baseClassId of classs.baseClassIds) {
+        const baseCompoundDef = this.context.compoundDefsById.get(baseClassId)
+        assert(baseCompoundDef !== undefined)
+        // console.log(util.inspect(derivedCompoundDef), { compact: false, depth: 999 })
+
+        result += this.context.renderClassSummary(baseCompoundDef)
+      }
+
+      result += '\n'
+      result += '</MembersList>\n'
+    }
+
+    if (compoundDef.derivedCompoundRefs !== undefined) {
+      result += '## Derived Classes\n'
+      result += '\n'
+      result += '<MembersList>\n'
+
+      for (const derivedCompoundRef of compoundDef.derivedCompoundRefs) {
+        console.log(util.inspect(derivedCompoundRef), { compact: false, depth: 999 })
+
+        if (derivedCompoundRef.refid !== undefined) {
+          const compoundDef = this.context.compoundDefsById.get(derivedCompoundRef.refid)
+          assert(compoundDef !== undefined)
+
+          result += this.context.renderClassSummary(compoundDef)
+        } else {
+          result += `<MembersListItem itemLeft="class" itemRight={<>${derivedCompoundRef.text}</>}>\n`
+          result += '</MembersListItem>\n'
+        }
+      }
+
+      result += '\n'
+      result += '</MembersList>\n'
+    } else if ((classs.derivedClassIds ?? []).length > 0) {
+      result += '## Derived Classes\n'
+      result += '\n'
+      result += '<MembersList>\n'
+
+      for (const derivedClassId of classs.derivedClassIds) {
+        const derivedCompoundDef = this.context.compoundDefsById.get(derivedClassId)
+        assert(derivedCompoundDef !== undefined)
+        // console.log(util.inspect(derivedCompoundDef), { compact: false, depth: 999 })
+
+        result += this.context.renderClassSummary(derivedCompoundDef)
+      }
+
+      result += '\n'
+      result += '</MembersList>\n'
+    }
+
     result += this.context.renderIncludesIndex(compoundDef)
 
     if (compoundDef.sectionDefs !== undefined) {
@@ -503,8 +590,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     result += '</TreeTableRow>\n'
 
-    if (_class.childrenClassIds.length > 0) {
-      for (const childClassId of _class.childrenClassIds) {
+    if (_class.derivedClassIds.length > 0) {
+      for (const childClassId of _class.derivedClassIds) {
         result += this.renderIndexClassRecursively(childClassId, depth + 1)
       }
     }
