@@ -233,7 +233,7 @@ export class Sidebar {
     const compoundDef = _class.compoundDef
     const label = compoundDef.compoundName.replace(/^.*::/, '')
     const curedName: string = compoundDef.compoundName.replaceAll('::', '-').replaceAll(/[^a-zA-Z0-9-]/g, '-')
-    if (_class.childrenClassIds.length === 0) {
+    if (_class.derivedClassIds.length === 0) {
       const docItem: SidebarDocItem = {
         type: 'doc',
         label,
@@ -251,7 +251,7 @@ export class Sidebar {
         collapsed: true,
         items: []
       }
-      for (const childId of _class.childrenClassIds) {
+      for (const childId of _class.derivedClassIds) {
         categoryItem.items.push(this.createClassItemRecursively(childId))
       }
       return categoryItem

@@ -37,7 +37,7 @@ export class Classes {
         const baseClass = this.membersById.get(baseClassId)
         assert(baseClass !== undefined)
         // console.log('baseClassId', baseClassId, 'has child', id)
-        baseClass.childrenClassIds.push(classId)
+        baseClass.derivedClassIds.push(classId)
       }
     }
 
@@ -51,7 +51,7 @@ export class Classes {
 
 export class Class {
   compoundDef: CompoundDef
-  childrenClassIds: string[] = []
+  derivedClassIds: string[] = []
   baseClassIds: string[] = []
 
   constructor (compoundDef: CompoundDef) {
