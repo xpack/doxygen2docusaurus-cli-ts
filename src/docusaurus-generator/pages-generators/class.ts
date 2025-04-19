@@ -42,7 +42,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     result += '## Fully Qualified Name\n'
     result += '\n'
-    result += `<p class="doxyQualifiedName"><code>${compoundDef.compoundName}${this.context.renderTemplateParameterNamesMdx(compoundDef)}</code></p>\n`
+    result += `<CodeBlock>${compoundDef.compoundName}${this.context.renderTemplateParameterNamesMdx(compoundDef)}</CodeBlock>\n`
     result += '\n'
 
     result += this.context.renderIncludesIndex(compoundDef)
