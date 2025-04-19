@@ -746,7 +746,7 @@ export class DocusaurusGenerator {
     return result
   }
 
-  renderBriefDescription (compoundDef: CompoundDef): string {
+  renderBriefDescriptionMdx (compoundDef: CompoundDef): string {
     let result: string = ''
     const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription)
     if (briefDescription.length > 0) {
@@ -757,7 +757,7 @@ export class DocusaurusGenerator {
     return result
   }
 
-  renderDetailedDescription ({
+  renderDetailedDescriptionMdx ({
     compoundDef,
     todo
   }: {
@@ -783,7 +783,7 @@ export class DocusaurusGenerator {
     return result
   }
 
-  renderNamespacesIndex (compoundDef: CompoundDef): string {
+  renderNamespacesIndexMdx (compoundDef: CompoundDef): string {
     let result: string = ''
 
     if (compoundDef.innerNamespaces !== undefined && compoundDef.innerNamespaces.length > 0) {
@@ -812,7 +812,7 @@ export class DocusaurusGenerator {
     return result
   }
 
-  renderIncludesIndex (compoundDef: CompoundDef): string {
+  renderIncludesIndexMdx (compoundDef: CompoundDef): string {
     let result: string = ''
 
     if (compoundDef.includes !== undefined) {
@@ -829,7 +829,7 @@ export class DocusaurusGenerator {
     return result
   }
 
-  renderClassSummary (compoundDef: CompoundDef): string {
+  renderClassSummaryMdx (compoundDef: CompoundDef): string {
     let result: string = ''
 
     const permalink = this.getPermalink({ refid: compoundDef.id, kindref: 'compound' })

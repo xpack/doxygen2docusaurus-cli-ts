@@ -32,7 +32,7 @@ export class FolderGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
-    result += this.context.renderBriefDescription(compoundDef)
+    result += this.context.renderBriefDescriptionMdx(compoundDef)
 
     if (compoundDef.innerDirs !== undefined && compoundDef.innerDirs.length > 0) {
       result += '## Folders\n'
@@ -84,7 +84,7 @@ export class FolderGenerator extends PageGeneratorBase {
 
     const fullFolderPath = this.context.folders.getPathRecursive(compoundDef.id)
 
-    result += this.context.renderDetailedDescription({
+    result += this.context.renderDetailedDescriptionMdx({
       compoundDef,
       todo: `@dir ${fullFolderPath}`
     })

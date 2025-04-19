@@ -29,9 +29,9 @@ export class FileGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
-    result += this.context.renderBriefDescription(compoundDef)
+    result += this.context.renderBriefDescriptionMdx(compoundDef)
 
-    result += this.context.renderIncludesIndex(compoundDef)
+    result += this.context.renderIncludesIndexMdx(compoundDef)
 
     if (compoundDef.innerClasses !== undefined) {
       result += '## Classes\n'
@@ -43,20 +43,20 @@ export class FileGenerator extends PageGeneratorBase {
         const compoundDef = this.context.compoundDefsById.get(innerClass.refid)
         assert(compoundDef !== undefined)
 
-        result += this.context.renderClassSummary(compoundDef)
+        result += this.context.renderClassSummaryMdx(compoundDef)
       }
 
       result += '\n'
       result += '</MembersList>\n'
     }
 
-    result += this.context.renderNamespacesIndex(compoundDef)
+    result += this.context.renderNamespacesIndexMdx(compoundDef)
 
     const file = this.context.files.membersById.get(compoundDef.id)
     assert(file?.parentFolderId !== undefined)
     const fileFolderPath = `${this.context.folders.getPathRecursive(file?.parentFolderId)}/${compoundDef.compoundName}`
 
-    result += this.context.renderDetailedDescription({
+    result += this.context.renderDetailedDescriptionMdx({
       compoundDef,
       todo: `@file ${fileFolderPath}`
     })

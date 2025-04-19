@@ -29,9 +29,9 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
-    result += this.context.renderBriefDescription(compoundDef)
+    result += this.context.renderBriefDescriptionMdx(compoundDef)
 
-    result += this.context.renderNamespacesIndex(compoundDef)
+    result += this.context.renderNamespacesIndexMdx(compoundDef)
 
     if (compoundDef.innerClasses !== undefined && compoundDef.innerClasses.length > 0) {
       result += '## Classes\n'
@@ -71,7 +71,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
       result += '\n'
     }
 
-    result += this.context.renderDetailedDescription({
+    result += this.context.renderDetailedDescriptionMdx({
       compoundDef,
       todo: `@namespace ${compoundDef.compoundName}`
     })

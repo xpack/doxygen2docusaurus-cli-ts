@@ -38,7 +38,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
-    result += this.context.renderBriefDescription(compoundDef)
+    result += this.context.renderBriefDescriptionMdx(compoundDef)
 
     result += '## Fully Qualified Name\n'
     result += '\n'
@@ -64,7 +64,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
           const compoundDef = this.context.compoundDefsById.get(baseCompoundRef.refid)
           assert(compoundDef !== undefined)
 
-          result += this.context.renderClassSummary(compoundDef)
+          result += this.context.renderClassSummaryMdx(compoundDef)
         } else {
           result += `<MembersListItem itemLeft="class" itemRight={<>${baseCompoundRef.text}</>}>\n`
           result += '</MembersListItem>\n'
@@ -87,7 +87,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
         assert(baseCompoundDef !== undefined)
         // console.log(util.inspect(derivedCompoundDef), { compact: false, depth: 999 })
 
-        result += this.context.renderClassSummary(baseCompoundDef)
+        result += this.context.renderClassSummaryMdx(baseCompoundDef)
       }
 
       result += '\n'
@@ -106,7 +106,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
           const compoundDef = this.context.compoundDefsById.get(derivedCompoundRef.refid)
           assert(compoundDef !== undefined)
 
-          result += this.context.renderClassSummary(compoundDef)
+          result += this.context.renderClassSummaryMdx(compoundDef)
         } else {
           result += `<MembersListItem itemLeft="class" itemRight={<>${derivedCompoundRef.text}</>}>\n`
           result += '</MembersListItem>\n'
@@ -125,14 +125,14 @@ export class ClassPageGenerator extends PageGeneratorBase {
         assert(derivedCompoundDef !== undefined)
         // console.log(util.inspect(derivedCompoundDef), { compact: false, depth: 999 })
 
-        result += this.context.renderClassSummary(derivedCompoundDef)
+        result += this.context.renderClassSummaryMdx(derivedCompoundDef)
       }
 
       result += '\n'
       result += '</MembersList>\n'
     }
 
-    result += this.context.renderIncludesIndex(compoundDef)
+    result += this.context.renderIncludesIndexMdx(compoundDef)
 
     if (compoundDef.sectionDefs !== undefined) {
       for (const sectionDef of compoundDef.sectionDefs) {

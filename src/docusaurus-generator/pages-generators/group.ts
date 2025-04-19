@@ -30,7 +30,7 @@ export class GroupGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
-    result += this.context.renderBriefDescription(compoundDef)
+    result += this.context.renderBriefDescriptionMdx(compoundDef)
 
     if (compoundDef.innerGroups !== undefined && compoundDef.innerGroups.length > 0) {
       result += '## Topics\n'
@@ -93,7 +93,7 @@ export class GroupGenerator extends PageGeneratorBase {
       result += '\n'
     }
 
-    result += this.context.renderDetailedDescription({
+    result += this.context.renderDetailedDescriptionMdx({
       compoundDef,
       todo: `@defgroup ${compoundDef.compoundName}`
     })
