@@ -29,13 +29,7 @@ export class IncType extends ElementGeneratorBase {
     const permalink = this.context.getPagePermalink(element.refId)
     assert(permalink !== undefined && permalink.length > 1)
 
-    result += '<p class="doxyInclude"><code>#include '
-    result += element.local ? '"' : '&lt;'
-    result += `<Link to="${permalink}">`
-    result += element.text
-    result += '</Link>'
-    result += element.local ? '"' : '&gt;'
-    result += '</code></p>'
+    result += `<IncludesListItem filePath="${element.text}" permalink="${permalink}" isLocal="${element.local}" />\n`
 
     return result
   }
