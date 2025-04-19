@@ -765,6 +765,34 @@ export class DocusaurusGenerator {
     return result
   }
 
+  renderNamespacesIndex (compoundDef: CompoundDef): string {
+    let result: string = ''
+
+    if (compoundDef.innerNamespaces !== undefined && compoundDef.innerNamespaces.length > 0) {
+      result += '## Namespaces\n'
+      result += '\n'
+
+      result += '<MembersList>\n'
+      for (const innerNamespace of compoundDef.innerNamespaces) {
+        const namespace = this.namespaces.membersById.get(innerNamespace.refid)
+        const permalink = this.getPagePermalink(innerNamespace.refid)
+
+        const itemRight = `<Link to="${permalink}">${namespace?.unparentedName}</Link>`
+        result += `<MembersListItem itemLeft="namespace" itemRight={${itemRight}}>\n`
+
+        const compoundDef = this.compoundDefsById.get(innerNamespace.refid)
+        assert(compoundDef !== undefined)
+        const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription)
+        result += briefDescription
+        result += '\n'
+
+        result += '</MembersListItem>\n'
+      }
+      result += '</MembersList>\n'
+      result += '\n'
+    }
+    return result
+  }
 }
 
 // ----------------------------------------------------------------------------

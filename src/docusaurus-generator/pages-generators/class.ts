@@ -469,7 +469,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     result += '<TreeTable>\n'
 
     for (const classId of this.context.classes.topLevelClassIds) {
-      result += this.renderClassRecursively(classId, 1)
+      result += this.renderIndexClassRecursively(classId, 1)
     }
 
     result += '</TreeTable>\n'
@@ -477,7 +477,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     return result
   }
 
-  renderClassRecursively (classId: string, depth: number): string {
+  private renderIndexClassRecursively (classId: string, depth: number): string {
     const _class: Class | undefined = this.context.classes.membersById.get(classId)
     assert(_class !== undefined)
 
@@ -511,7 +511,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     if (_class.childrenClassIds.length > 0) {
       for (const childClassId of _class.childrenClassIds) {
-        result += this.renderClassRecursively(childClassId, depth + 1)
+        result += this.renderIndexClassRecursively(childClassId, depth + 1)
       }
     }
 

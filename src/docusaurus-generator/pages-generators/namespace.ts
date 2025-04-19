@@ -90,7 +90,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
     result += '<TreeTable>\n'
 
     for (const groupId of this.context.namespaces.topLevelNamespaceIds) {
-      result += this.renderNamespaceRecursively(groupId, 1)
+      result += this.renderIndexNamespaceRecursively(groupId, 1)
     }
 
     result += '</TreeTable>\n'
@@ -98,7 +98,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
     return result
   }
 
-  renderNamespaceRecursively (namespaceId: string, depth: number): string {
+  private renderIndexNamespaceRecursively (namespaceId: string, depth: number): string {
     const namespace: Namespace | undefined = this.context.namespaces.membersById.get(namespaceId)
     assert(namespace !== undefined)
 
@@ -121,7 +121,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
     if (namespace.childrenNamespaceIds.length > 0) {
       for (const childNamespaceId of namespace.childrenNamespaceIds) {
-        result += this.renderNamespaceRecursively(childNamespaceId, depth + 1)
+        result += this.renderIndexNamespaceRecursively(childNamespaceId, depth + 1)
       }
     }
 

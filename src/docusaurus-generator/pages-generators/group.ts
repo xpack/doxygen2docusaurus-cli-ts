@@ -114,7 +114,7 @@ export class GroupGenerator extends PageGeneratorBase {
     result += '<TreeTable>\n'
 
     for (const groupId of this.context.groups.topLevelGroupIds) {
-      result += this.renderGroupRecursively(groupId, 1)
+      result += this.renderIndexGroupRecursively(groupId, 1)
     }
 
     result += '</TreeTable>\n'
@@ -134,7 +134,7 @@ export class GroupGenerator extends PageGeneratorBase {
     return result
   }
 
-  renderGroupRecursively (groupId: string, depth: number): string {
+  private renderIndexGroupRecursively (groupId: string, depth: number): string {
     const group: Group | undefined = this.context.groups.membersById.get(groupId)
     assert(group !== undefined)
     assert(depth <= 6)
@@ -156,7 +156,7 @@ export class GroupGenerator extends PageGeneratorBase {
 
     if (group.childrenGroupsIds.length > 0) {
       for (const childGroupId of group.childrenGroupsIds) {
-        result += this.renderGroupRecursively(childGroupId, depth + 1)
+        result += this.renderIndexGroupRecursively(childGroupId, depth + 1)
       }
     }
 
