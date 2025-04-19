@@ -10,7 +10,7 @@ div:global(.doxySectionDef) h3 {
 div:global(.doxySectionDef) h3::before {
   content: "◆";
   color: var(--ifm-link-color);
-  margin-right: 0.5em;
+  margin-right: 0.3em;
 }
 
 div:global(.doxyMemberItem) {
