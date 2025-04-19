@@ -41,7 +41,7 @@ export class GroupGenerator extends PageGeneratorBase {
         const permalink = this.context.getPagePermalink(innerGroup.refid)
 
         const itemRight = `<Link to="${permalink}">${innerGroup.text}</Link>`
-        result += `<MembersListItem itemLeft="" itemRight={${itemRight}}>\n`
+        result += `<MembersListItem itemLeft="&nbsp;" itemRight={${itemRight}}>\n`
 
         const compoundDef = this.context.compoundDefsById.get(innerGroup.refid)
         assert(compoundDef !== undefined)

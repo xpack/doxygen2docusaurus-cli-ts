@@ -223,7 +223,11 @@ export class ClassPageGenerator extends PageGeneratorBase {
         console.error('member kind', memberDef.kind, 'not implemented yet in', this.constructor.name)
     }
     result += '\n'
-    result += `<MembersListItem itemLeft={<>${itemLeft}</>} itemRight={<>${itemRight}</>}>\n`
+    if (itemLeft.length > 0) {
+      result += `<MembersListItem itemLeft={<>${itemLeft}</>} itemRight={<>${itemRight}</>}>\n`
+    } else {
+      result += `<MembersListItem itemLeft="&nbsp;" itemRight={<>${itemRight}</>}>\n`
+    }
 
     const briefDescription: string = this.context.renderElementMdx(memberDef.briefDescription)
     result += briefDescription
