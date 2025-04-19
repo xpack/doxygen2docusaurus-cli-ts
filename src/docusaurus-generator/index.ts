@@ -44,6 +44,8 @@ import { LinkedTextType } from './elements-generators/linkedtexttype.js'
 import { RefTextType } from './elements-generators/reftexttype.js'
 import { RefText } from '../doxygen-xml-parser/reftexttype.js'
 import { DefVal } from '../doxygen-xml-parser/linkedtexttype.js'
+import { FileGenerator } from './pages-generators/file.js'
+import { FolderGenerator } from './pages-generators/folder.js'
 
 // ----------------------------------------------------------------------------
 
@@ -120,6 +122,11 @@ export class DocusaurusGenerator {
     this.pageGenerators.set('group', new GroupGenerator(this))
     this.pageGenerators.set('namespace', new NamespaceGenerator(this))
     this.pageGenerators.set('class', new ClassPageGenerator(this))
+    const fileGenerator = new FileGenerator(this)
+    this.pageGenerators.set('file', fileGenerator)
+    const folderGenerator = new FolderGenerator(this)
+    folderGenerator.fileGenerator = fileGenerator
+    this.pageGenerators.set('dir', folderGenerator)
 
     // Add generators for the parsed xml elements.
     this.elementGenerators.set('AbstractDescriptionType', new DescriptionTypeGenerator(this))
@@ -402,18 +409,25 @@ export class DocusaurusGenerator {
     }
 
     {
+      const filePath = `${outputFolderPath}/folders/index.mdx`
+      const permalink = 'folders'
+
       const frontMatter: FrontMatter = {
         title: 'The Folders & Files Reference',
-        slug: '/api/folders',
+        slug: `${outputFolderPath.replace(/^docs/, '')}/${permalink}`,
         // description: '...', // TODO
         custom_edit_url: null,
-        keywords: ['doxygen', 'folders']
+        keywords: ['doxygen', 'folders', 'reference']
       }
 
+      const docusaurusGenerator = this.pageGenerators.get('dir')
+      assert(docusaurusGenerator !== undefined)
+      const bodyText = await docusaurusGenerator.renderIndexMdx()
+
       await this.writeFile({
-        filePath: 'docs/api/folders/index.mdx',
+        filePath,
         frontMatter,
-        bodyText: 'TODO Folders\n'
+        bodyText
       })
     }
   }
