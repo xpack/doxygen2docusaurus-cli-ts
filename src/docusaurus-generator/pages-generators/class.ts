@@ -200,12 +200,12 @@ export class ClassPageGenerator extends PageGeneratorBase {
         itemLeft = 'using'
         if (memberDef.type !== undefined) {
           itemRight += ' = '
-          itemRight += this.context.renderElementMdx(memberDef.type)
+          itemRight += this.context.renderElementMdx(memberDef.type).trim()
         }
         break
 
       case 'function':
-        itemLeft = this.context.renderElementMdx(memberDef.type)
+        itemLeft = this.context.renderElementMdx(memberDef.type).trim()
         if (memberDef.argsstring !== undefined) {
           itemRight += ' '
           itemRight += memberDef.argsstring
@@ -213,7 +213,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
         break
 
       case 'variable':
-        itemLeft = this.context.renderElementMdx(memberDef.type)
+        itemLeft = this.context.renderElementMdx(memberDef.type).trim()
         break
 
       default:
