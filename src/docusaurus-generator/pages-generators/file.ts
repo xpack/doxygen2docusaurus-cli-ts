@@ -39,7 +39,7 @@ export class FileGenerator extends PageGeneratorBase {
       result += '<MembersList>\n'
 
       for (const innerClass of compoundDef.innerClasses) {
-        console.log(util.inspect(innerClass), { compact: false, depth: 999 })
+        // console.log(util.inspect(innerClass), { compact: false, depth: 999 })
         const compoundDef = this.context.compoundDefsById.get(innerClass.refid)
         assert(compoundDef !== undefined)
 
