@@ -130,21 +130,15 @@ export class DocSimpleSectType extends ElementGeneratorBase {
 
     if (element.kind === 'par') {
       assert(element.title !== undefined)
-      result += '<dl class="doxySectionUser">\n'
-      result += `<dt><b>${element.title}</b></dt>\n`
-      result += '<dd>\n'
+      result += `<SectionUser title="${element.title}">\n`
       result += this.context.renderElementsMdx(element.children).trim()
       result += '\n'
-      result += '</dd>\n'
-      result += '</dl>\n'
+      result += '</SectionUser>\n'
     } else if (element.kind === 'return') {
-      result += '<dl class="doxySectionUser">\n'
-      result += '<dt><b>Returns</b></dt>\n'
-      result += '<dd>\n'
+      result += '<SectionUser title="Returns">\n'
       result += this.context.renderElementsMdx(element.children).trim()
       result += '\n'
-      result += '</dd>\n'
-      result += '</dl>\n'
+      result += '</SectionUser>\n'
     } else if (element.kind === 'note') {
       // https://docusaurus.io/docs/markdown-features/admonitions
       result += ':::info\n'
@@ -262,7 +256,7 @@ export class DocParamListType extends ElementGeneratorBase {
 
       switch (element.constructor.name) {
         case 'ParameterList':
-          result += `<ParametersList title="${title}">`
+          result += `<ParametersList title="${title}">\n`
           for (const parameterItem of element.parameterItems) {
             // console.log(util.inspect(parameterItem), { compact: false, depth: 999 })
 
@@ -296,9 +290,9 @@ export class DocParamListType extends ElementGeneratorBase {
 
             result += `<ParametersListItem name="${names.join(', ')}">`
             result += this.context.renderElementMdx(parameterItem.parameterDescription)
-            result += '</ParametersListItem>'
+            result += '</ParametersListItem>\n'
           }
-          result += '</ParametersList>'
+          result += '</ParametersList>\n'
           break
         default:
           console.error(util.inspect(element, { compact: false, depth: 999 }))

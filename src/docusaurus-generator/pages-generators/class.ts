@@ -306,7 +306,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     }
     result += '\n'
     if (itemLeft.length > 0) {
-      if (itemLeft.includes('<')) {
+      if (itemLeft.includes('<') || itemLeft.includes('&')) {
         result += `<MembersListItem itemLeft={<>${itemLeft}</>} itemRight={<>${itemRight}</>}>\n`
       } else {
         result += `<MembersListItem itemLeft="${itemLeft}" itemRight={<>${itemRight}</>}>\n`
@@ -389,7 +389,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
       return ''
     }
 
-    result += '<div class="doxySectionDef">\n'
+    result += '<SectionDefinition>\n'
     result += '\n'
 
     const sectionLabels: string[] = []
@@ -438,7 +438,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
       result += this.renderMethodDefMdx({ memberDef, compoundDef, sectionLabels, isFunction })
     }
 
-    result += '</div>\n'
+    result += '</SectionDefinition>\n'
 
     return result
   }
@@ -508,14 +508,14 @@ export class ClassPageGenerator extends PageGeneratorBase {
     if (memberDef._const?.valueOf()) {
       prototype += ' const'
     }
-    result += '<MemberDefinition\n'
+    result += '<MemberDefinition'
     if (templateParameters.length > 0) {
       const template = `template &lt;${templateParameters.join(', ')}&gt;`
-      result += `  template={<>${template}</>}\n`
+      result += `\n  template={<>${template}</>}`
     }
-    result += `  prototype={<>${prototype}</>}\n`
+    result += `\n  prototype={<>${prototype}</>}`
     if (labels.length > 0) {
-      result += ` labels = {["${labels.join('", "')}"]}\n`
+      result += `\n labels = {["${labels.join('", "')}"]}`
     }
     result += '>\n'
     const briefDescription: string = this.context.renderElementMdx(memberDef.briefDescription).trim()
