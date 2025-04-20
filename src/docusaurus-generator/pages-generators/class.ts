@@ -58,7 +58,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
       }
       result += '\n'
       result += '<MembersList>\n'
-
+      result += '\n'
       for (const baseCompoundRef of compoundDef.baseCompoundRefs) {
         console.log(util.inspect(baseCompoundRef), { compact: false, depth: 999 })
 
@@ -75,6 +75,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
       result += '\n'
       result += '</MembersList>\n'
+      result += '\n'
     } else if ((classs.baseClassIds ?? []).length > 0) {
       if (classs.baseClassIds.length > 1) {
         result += '## Base classes\n'
@@ -83,7 +84,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
       }
       result += '\n'
       result += '<MembersList>\n'
-
+      result += '\n'
       for (const baseClassId of classs.baseClassIds) {
         const baseCompoundDef = this.context.compoundDefsById.get(baseClassId)
         assert(baseCompoundDef !== undefined)
@@ -94,13 +95,14 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
       result += '\n'
       result += '</MembersList>\n'
+      result += '\n'
     }
 
     if (compoundDef.derivedCompoundRefs !== undefined) {
       result += '## Derived Classes\n'
       result += '\n'
       result += '<MembersList>\n'
-
+      result += '\n'
       for (const derivedCompoundRef of compoundDef.derivedCompoundRefs) {
         console.log(util.inspect(derivedCompoundRef), { compact: false, depth: 999 })
 
@@ -117,11 +119,12 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
       result += '\n'
       result += '</MembersList>\n'
+      result += '\n'
     } else if ((classs.derivedClassIds ?? []).length > 0) {
       result += '## Derived Classes\n'
       result += '\n'
       result += '<MembersList>\n'
-
+      result += '\n'
       for (const derivedClassId of classs.derivedClassIds) {
         const derivedCompoundDef = this.context.compoundDefsById.get(derivedClassId)
         assert(derivedCompoundDef !== undefined)
@@ -132,6 +135,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
       result += '\n'
       result += '</MembersList>\n'
+      result += '\n'
     }
 
     if (compoundDef.sectionDefs !== undefined) {
@@ -302,7 +306,11 @@ export class ClassPageGenerator extends PageGeneratorBase {
     }
     result += '\n'
     if (itemLeft.length > 0) {
-      result += `<MembersListItem itemLeft={<>${itemLeft}</>} itemRight={<>${itemRight}</>}>\n`
+      if (itemLeft.includes('<')) {
+        result += `<MembersListItem itemLeft={<>${itemLeft}</>} itemRight={<>${itemRight}</>}>\n`
+      } else {
+        result += `<MembersListItem itemLeft="${itemLeft}" itemRight={<>${itemRight}</>}>\n`
+      }
     } else {
       result += `<MembersListItem itemLeft="&nbsp;" itemRight={<>${itemRight}</>}>\n`
     }
