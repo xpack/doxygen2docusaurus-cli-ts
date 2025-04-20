@@ -46,7 +46,6 @@ import { RefText } from '../doxygen-xml-parser/reftexttype.js'
 import { DefVal } from '../doxygen-xml-parser/linkedtexttype.js'
 import { FileGenerator } from './pages-generators/file.js'
 import { FolderGenerator } from './pages-generators/folder.js'
-import { AbstractCompoundRefType } from '../doxygen-xml-parser/compoundreftype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -161,7 +160,9 @@ export class DocusaurusGenerator {
       'ParametersListItem',
       'MemberDefinition',
       'IncludesList',
-      'IncludesListItem'
+      'IncludesListItem',
+      'SectionUser',
+      'SectionDefinition'
     ]
   }
 
