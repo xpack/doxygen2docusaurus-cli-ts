@@ -29,4 +29,8 @@ p:global(.doxyGeneratedBy) {
   text-align: center;
 }
 
+div:global(.doxyPage) pre code {
+  border: 0.1rem solid var(--ifm-table-border-color);
+}
+
 /* --- End DoxygenPage/styles.module.css --- */
