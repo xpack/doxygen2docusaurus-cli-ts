@@ -21,6 +21,7 @@ import { Class } from '../data-model/classes.js'
 import path from 'node:path'
 import { SectionDef } from '../../doxygen-xml-parser/sectiondeftype.js'
 import { MemberDef } from '../../doxygen-xml-parser/memberdeftype.js'
+import { Location } from '../../doxygen-xml-parser/locationtype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -60,7 +61,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
       result += '<MembersList>\n'
       result += '\n'
       for (const baseCompoundRef of compoundDef.baseCompoundRefs) {
-        console.log(util.inspect(baseCompoundRef), { compact: false, depth: 999 })
+        // console.log(util.inspect(baseCompoundRef), { compact: false, depth: 999 })
 
         if (baseCompoundRef.refid !== undefined) {
           const compoundDef = this.context.compoundDefsById.get(baseCompoundRef.refid)
@@ -104,7 +105,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
       result += '<MembersList>\n'
       result += '\n'
       for (const derivedCompoundRef of compoundDef.derivedCompoundRefs) {
-        console.log(util.inspect(derivedCompoundRef), { compact: false, depth: 999 })
+        // console.log(util.inspect(derivedCompoundRef), { compact: false, depth: 999 })
 
         if (derivedCompoundRef.refid !== undefined) {
           const compoundDef = this.context.compoundDefsById.get(derivedCompoundRef.refid)
@@ -179,14 +180,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     //   }
     // }
 
-    if (compoundDef.location !== undefined) {
-      result += 'Definition at line '
-      result += compoundDef.location.line?.toString() // TODO: add link
-      result += ' of file '
-      result += path.basename(compoundDef.location.file) as string
-      result += '.\n'
-      result += '\n'
-    }
+    result += this.renderLocationMdx(compoundDef.location)
 
     const className = compoundDef.compoundName.replace(/.*::/, '')
 
@@ -199,6 +193,26 @@ export class ClassPageGenerator extends PageGeneratorBase {
         })
         result += '\n'
       }
+    }
+
+    return result
+  }
+
+  // --------------------------------------------------------------------------
+
+  private renderLocationMdx (location: Location | undefined): string {
+    let result: string = ''
+
+    if (location !== undefined) {
+      const file = this.context.files.membersByPath.get(location.file)
+      assert(file !== undefined)
+      const permalink = this.context.getPagePermalink(file.compoundDef.id)
+      result += 'Definition at line '
+      result += location.line?.toString() // TODO: add link
+      result += ' of file '
+      result += `<Link to="${permalink}">${path.basename(location.file) as string}</Link>`
+      result += '.\n'
+      result += '\n'
     }
 
     return result
@@ -532,13 +546,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
       result += '\n'
     }
 
-    if (memberDef.location !== undefined) {
-      result += 'Definition at line '
-      result += memberDef.location.line?.toString() // TODO: add link
-      result += ' of file '
-      result += path.basename(memberDef.location.file) as string
-      result += '.\n'
-    }
+    result += this.renderLocationMdx(memberDef.location)
+
     result += '</MemberDefinition>\n'
     result += '\n'
 

@@ -57,7 +57,7 @@ export class Folders {
       parentPath = this.getPathRecursive(folder.parentFolderId) + '/'
     }
     const name: string = folder.compoundDef.compoundName
-    return parentPath + name
+    return `${parentPath}${name}`
   }
 }
 

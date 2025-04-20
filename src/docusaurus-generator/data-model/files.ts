@@ -21,10 +21,15 @@ import { Folders } from './folders.js'
 
 export class Files {
   membersById: Map<string, File>
+  membersByPath: Map<String, File>
   topLevelFileIds: string[] = []
+  folders: Folders
 
   constructor (compoundDefs: CompoundDef[], folders: Folders) {
     this.membersById = new Map()
+    this.membersByPath = new Map()
+
+    this.folders = folders
 
     for (const compoundDef of compoundDefs) {
       if (compoundDef.kind === 'file') {
@@ -48,6 +53,23 @@ export class Files {
         this.topLevelFileIds.push(fileId)
       }
     }
+
+    for (const [fileId, file] of this.membersById.entries()) {
+      const path = this.getPathRecursive(fileId)
+      this.membersByPath.set(path, file)
+      // console.log(path, file)
+    }
+  }
+
+  getPathRecursive (fileId: string): string {
+    const file = this.membersById.get(fileId)
+    assert(file !== undefined)
+    let parentPath = ''
+    if (file.parentFolderId.length > 0) {
+      parentPath = this.folders.getPathRecursive(file.parentFolderId) + '/'
+    }
+    const name: string = file.compoundDef.compoundName
+    return `${parentPath}${name}`
   }
 }
 
