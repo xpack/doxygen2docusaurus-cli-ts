@@ -5,10 +5,6 @@
   background-color: var(--ifm-menu-color-background-hover);
 }
 
-:global(table.doxyTreeTable a) {
-  text-decoration: var(--ifm-link-decoration);
-}
-
 :global(td.doxyTreeItemLeft) {
   white-space: nowrap;
   padding-top: 6px;
