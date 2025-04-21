@@ -1,6 +1,12 @@
 /* --- Begin TreeTableRow/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
+tr:global(.doxyTreeItem):hover {
+  background-color: var(--ifm-menu-color-background-hover);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
 td:global(.doxyTreeItemLeft) {
   white-space: nowrap;
   padding-top: 6px;
@@ -76,4 +82,3 @@ span:global(.doxyTreeIcon) {
   background: url("img/folder-svgrepo-com.svg") no-repeat;
 }
 
-/* --- End TreeTableRow/styles.module.css --- */

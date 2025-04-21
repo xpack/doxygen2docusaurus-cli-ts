@@ -30,7 +30,7 @@ export default function TreeTableRow({
     <tr class="doxyTreeItem">
       <td class={doxyClass} align="left" valign="top">
         {itemIconLetter && <><span class="doxyTreeIconBox"><span class="doxyTreeIcon">{itemIconLetter}</span></span></>}
-        {itemIconClass ? <span class={itemIconClass}><Link to={itemLink}>{itemLabel}</Link></span> : <Link to={itemLink}></Link>}
+        {itemIconClass ? <Link to={itemLink}><span class={itemIconClass}>{itemLabel}</span></Link> : <Link to={itemLink}>{itemLabel}</Link>}
       </td>
       <td class="doxyTreeItemRight" align="left" valign="top">{children}</td>
     </tr>
