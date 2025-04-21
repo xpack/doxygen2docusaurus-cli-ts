@@ -3,8 +3,10 @@
 
 :global(tr.doxyTreeItem:hover) {
   background-color: var(--ifm-menu-color-background-hover);
-  -webkit-text-decoration: none;
-  text-decoration: none;
+}
+
+:global(table.doxyTreeTable a) {
+  text-decoration: var(--ifm-link-decoration);
 }
 
 :global(td.doxyTreeItemLeft) {
