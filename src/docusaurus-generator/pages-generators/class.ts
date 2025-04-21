@@ -599,7 +599,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
       iconLetter = '?'
     }
 
-    result += `<TreeTableRow itemIcon = "${iconLetter}" itemLabel = "${label}" itemLink = "${permalink}" depth = "${depth}" >\n`
+    result += `<TreeTableRow itemIconLetter = "${iconLetter}" itemLabel = "${label}" itemLink = "${permalink}" depth = "${depth}" >\n`
 
     const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
     result += briefDescription.replace(/[.]$/, '')

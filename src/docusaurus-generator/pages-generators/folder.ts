@@ -129,7 +129,7 @@ export class FolderGenerator extends PageGeneratorBase {
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    result += `<TreeTableRow itemIcon="X" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
+    result += `<TreeTableRow itemIconClass="doxyIconFolder" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
 
     const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
     result += briefDescription.replace(/[.]$/, '')

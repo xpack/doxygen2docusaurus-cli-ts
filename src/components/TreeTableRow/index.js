@@ -18,7 +18,8 @@ import Link from '@docusaurus/Link'
 // ----------------------------------------------------------------------------
 
 export default function TreeTableRow({
-  itemIcon,
+  itemIconLetter,
+  itemIconClass,
   itemLabel,
   itemLink,
   depth,
@@ -28,8 +29,8 @@ export default function TreeTableRow({
   return (
     <tr class="doxyTreeItem">
       <td class={doxyClass} align="left" valign="top">
-        {itemIcon && <><span class="doxyTreeIconBox"><span class="doxyTreeIcon">{itemIcon}</span></span></>}
-        <Link to={itemLink}>{itemLabel}</Link>
+        {itemIconLetter && <><span class="doxyTreeIconBox"><span class="doxyTreeIcon">{itemIconLetter}</span></span></>}
+        {itemIconClass ? <span class={itemIconClass}><Link to={itemLink}>{itemLabel}</Link></span> : <Link to={itemLink}></Link>}
       </td>
       <td class="doxyTreeItemRight" align="left" valign="top">{children}</td>
     </tr>

@@ -81,7 +81,7 @@ export class FileGenerator extends PageGeneratorBase {
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    result += `<TreeTableRow itemIcon="Y" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
+    result += `<TreeTableRow itemIconClass="doxyIconFile" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
 
     const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
     result += briefDescription.replace(/[.]$/, '')
