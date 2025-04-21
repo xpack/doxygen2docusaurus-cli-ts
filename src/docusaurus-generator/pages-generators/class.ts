@@ -561,7 +561,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
-    result += 'The classes, structs, union and interfaces used by this project, with brief descriptions are:\n'
+    result += 'The classes, structs, union and interfaces used by this project are:\n'
     result += '\n'
 
     result += '<TreeTable>\n'
