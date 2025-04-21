@@ -1,35 +1,35 @@
 /* --- Begin DoxygenPage/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
-div:global(.doxyPage) {
+:global(div.doxyPage) {
   --ifm-global-shadow-doxy: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
-div:global(.doxyPage) h2 {
+:global(div.doxyPage h2) {
   --ifm-h2-font-size: 2rem;
   margin-top: 30px;
   margin-bottom: 20px;
 }
 
-div:global(.doxyPage) h3 {
+:global(div.doxyPage h3) {
   --ifm-h3-font-size: 1.5rem;
   margin-bottom: 8px;
 }
 
-p:global(.doxyQualifiedName) {
+:global(p.doxyQualifiedName) {
   margin-bottom: 20px;
 }
 
-p:global(.doxyInclude) {
+:global(p.doxyInclude) {
   margin-bottom: 20px;
 }
 
-p:global(.doxyGeneratedBy) {
+:global(p.doxyGeneratedBy) {
   font-size: smaller;
   text-align: center;
 }
 
-div:global(.doxyPage) pre code {
+:global(div.doxyPage pre code) {
   border: 0.1rem solid var(--ifm-table-border-color);
 }
 

@@ -1,17 +1,17 @@
 /* --- Begin MembersListItem/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
-table:global(.doxyMembers) tr {
+:global(table.doxyMembers tr) {
   border: none;
   overflow: hidden;
 }
 
-table:global(.doxyMembers) td {
+:global(table.doxyMembers td) {
   border: none;
   overflow: hidden;
 }
 
-table:global(.doxyMembers) td:global(.doxyMemberItemLeft) div {
+:global(table.doxyMembers td.doxyMemberItemLeft div) {
   padding-top: 6px;
   padding-bottom: 6px;
   padding-left: 12px;
@@ -25,7 +25,7 @@ table:global(.doxyMembers) td:global(.doxyMemberItemLeft) div {
   overflow: hidden;
 }
 
-table:global(.doxyMembers) td:global(.doxyMemberItemRight) div {
+:global(table.doxyMembers td.doxyMemberItemRight div) {
   padding-top: 6px;
   padding-bottom: 6px;
   padding-left: 12px;
@@ -39,44 +39,44 @@ table:global(.doxyMembers) td:global(.doxyMemberItemRight) div {
   overflow: hidden;
 }
 
-tr:global(.doxyMemberSeparator) {
+:global(tr.doxyMemberSeparator) {
   height: 12px;
   border: none;
 }
 
-td:global(.doxyMemberItemLeft) {
+:global(td.doxyMemberItemLeft) {
   padding: 0px;
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--ifm-code-font-size);
   white-space: nowrap;
 }
 
-td:global(.doxyMemberItemRight) {
+:global(td.doxyMemberItemRight) {
   padding: 0px;
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--ifm-code-font-size);
   width: 100%;
 }
 
-td:global(.doxyMemberDescriptionLeft) {
+:global(td.doxyMemberDescriptionLeft) {
   padding-top: 6px;
   padding-bottom: 6px;
   border: none;
   background-color: var(--ifm-background-color);
 }
 
-td:global(.doxyMemberDescriptionRight) {
+:global(td.doxyMemberDescriptionRight) {
   padding-top: 6px;
   padding-bottom: 6px;
   border: none;
   background-color: var(--ifm-background-color);
 }
 
-td:global(.doxyMemberDescriptionRight) p {
+:global(td.doxyMemberDescriptionRight p) {
   margin: 0px;
 }
 
-td:global(.doxyMemSeparatorLeft) {
+:global(td.doxyMemSeparatorLeft) {
   padding: 0px;
   border: none;
 }

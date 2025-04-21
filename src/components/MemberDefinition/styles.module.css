@@ -1,14 +1,14 @@
 /* --- Begin MemberDefinition/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
-div:global(.doxyMemberItem) {
+:global(div.doxyMemberItem) {
   margin-bottom: 32px;
   border: 0.1rem solid var(--ifm-table-border-color);
   border-radius: var(--ifm-card-border-radius);
   box-shadow: var(--ifm-global-shadow-doxy);
 }
 
-div:global(.doxyMemberProto) {
+:global(div.doxyMemberProto) {
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--ifm-code-font-size);
   background-color: var(--ifm-code-background);
@@ -20,35 +20,35 @@ div:global(.doxyMemberProto) {
   margin-bottom: 1em;
 }
 
-div:global(.doxyMemberTemplate) {
+:global(div.doxyMemberTemplate) {
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--ifm-code-font-size);
 }
 
-table:global(.doxyMemberLabels) {
+:global(table.doxyMemberLabels) {
   border: none;
   margin: 0px;
 }
 
-table:global(.doxyMemberLabels), table:global(.doxyMemberLabels) > tbody {
+:global(table.doxyMemberLabels, table.doxyMemberLabels > tbody) {
   display: block;
 }
 
-table:global(.doxyMemberLabels) > tbody > tr:first-child {
+:global(table.doxyMemberLabels > tbody > tr:first-child) {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
 
-tr:global(.doxyMemberLabels) {
+:global(tr.doxyMemberLabels) {
   border: none;
 }
 
-td:global(.doxyMemberLabelsLeft) {
+:global(td.doxyMemberLabelsLeft) {
   padding: 0px;
 }
 
-span:global(.doxyMemberLabel) {
+:global(span.doxyMemberLabel) {
   background: var(--ifm-color-primary);
   color: var(--ifm-color-content-inverse);
   border: none;
@@ -62,41 +62,41 @@ span:global(.doxyMemberLabel) {
   margin-left: 10px;
 }
 
-span:global(.doxyMemberLabel):last-of-type {
+:global(span.doxyMemberLabel:last-of-type) {
   margin-right: 2px;
 }
 
-td:global(.doxyMemberLabelsLeft) {
+:global(td.doxyMemberLabelsLeft) {
   border: 0;
 }
 
-td:global(.doxyMemberLabelsRight) {
+:global(td.doxyMemberLabelsRight) {
   border: none;
   padding: 0px;
 }
 
-table:global(.doxyMemberName) {
+:global(table.doxyMemberName) {
   margin: 0px;
 }
 
-table:global(.doxyMemberName) tr {
+:global(table.doxyMemberName tr) {
   border: none;
 }
 
-td:global(.doxyMemberName) {
+:global(td.doxyMemberName) {
   padding: 0px;
   border: none;
 }
 
-td:global(.doxyMemberName) p {
+:global(td.doxyMemberName p) {
   margin: 0px;
 }
 
-div:global(.doxyMemberDoc) {
+:global(div.doxyMemberDoc) {
   padding: 16px;
 }
 
-div:global(.doxyMemberDoc) p:last-child {
+:global(div.doxyMemberDoc p:last-child) {
   margin-bottom: 4px;
 }
 

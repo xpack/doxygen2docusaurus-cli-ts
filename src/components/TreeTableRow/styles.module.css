@@ -1,57 +1,57 @@
 /* --- Begin TreeTableRow/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
-tr:global(.doxyTreeItem):hover {
+:global(tr.doxyTreeItem:hover) {
   background-color: var(--ifm-menu-color-background-hover);
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-td:global(.doxyTreeItemLeft) {
+:global(td.doxyTreeItemLeft) {
   white-space: nowrap;
   padding-top: 6px;
   padding-bottom: 6px;
 }
 
-td:global(.doxyTreeItemRight) {
+:global(td.doxyTreeItemRight) {
   padding-top: 6px;
   padding-bottom: 6px;
   width: 100%;
 }
 
-td:global(.doxyTreeItemRight) p {
+:global(td.doxyTreeItemRight p) {
   margin: 0px;
 }
 
-td:global(.doxyTreeIndent1) {
+:global(td.doxyTreeIndent1) {
   padding-left: 12px;
 }
 
-td:global(.doxyTreeIndent2) {
+:global(td.doxyTreeIndent2) {
   padding-left: 24px;
 }
 
-td:global(.doxyTreeIndent3) {
+:global(td.doxyTreeIndent3) {
   padding-left: 36px;
 }
 
-td:global(.doxyTreeIndent4) {
+:global(td.doxyTreeIndent4) {
   padding-left: 48px;
 }
 
-td:global(.doxyTreeIndent5) {
+:global(td.doxyTreeIndent5) {
   padding-left: 60px;
 }
 
-td:global(.doxyTreeIndent6) {
+:global(td.doxyTreeIndent6) {
   margin-left: 72px;
 }
 
-span:global(.doxyTreeIconBox) {
+:global(span.doxyTreeIconBox) {
   margin-right: 6px;
 }
 
-span:global(.doxyTreeIcon) {
+:global(span.doxyTreeIcon) {
   background: var(--ifm-color-primary);
   color: var(--ifm-color-content-inverse);
   border-radius: 4px;
@@ -62,7 +62,7 @@ span:global(.doxyTreeIcon) {
   margin-right: 2px;
 }
 
-:global(.doxyIconFile)::before {
+:global(.doxyIconFile::before) {
   content: '';
   width: 24px;
   height: 24px;
@@ -72,7 +72,7 @@ span:global(.doxyTreeIcon) {
   background: url("img/document-svgrepo-com.svg") no-repeat;
 }
 
-:global(.doxyIconFolder)::before {
+:global(.doxyIconFolder::before) {
   content: '';
   width: 24px;
   height: 24px;
@@ -82,3 +82,4 @@ span:global(.doxyTreeIcon) {
   background: url("img/folder-svgrepo-com.svg") no-repeat;
 }
 
+/* --- End TreeTableRow/styles.module.css --- */

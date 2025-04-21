@@ -1,17 +1,17 @@
 /* --- Begin ParametersListItem/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
-tr:global(.doxyParamItem) {
+:global(tr.doxyParamItem) {
   border: none;
 }
 
-td:global(.doxyParamItemDescription) {
+:global(td.doxyParamItemDescription) {
   border: none;
   padding-top: 0px;
   padding-bottom: 0px;
 }
 
-td:global(.doxyParamItemName) {
+:global(td.doxyParamItemName) {
   font-weight: bold;
   border: none;
   padding-top: 0px;
