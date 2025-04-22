@@ -60,6 +60,16 @@ export class FileGenerator extends PageGeneratorBase {
       compoundDef,
       todo: `@file ${fileFolderPath}`
     })
+    result += '\n'
+
+    if (compoundDef.programListing !== undefined) {
+      result += '## Program Listing\n'
+      result += '\n'
+      result += 'The file content with the documentation metadata removed is:\n'
+      result += '\n'
+
+      result += this.context.renderElementMdx(compoundDef.programListing)
+    }
 
     return result
   }

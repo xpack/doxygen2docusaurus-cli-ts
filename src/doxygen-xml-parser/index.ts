@@ -259,7 +259,7 @@ export class DoxygenXmlParser {
     if (innerElements !== undefined) {
       return innerElements
     }
-    throw new Error(`Element ${util.inspect(element)} does not have the ${name} child element`)
+    throw new Error(`Element ${util.inspect(element, { compact: false, depth: 999 })} does not have the ${name} child element`)
   }
 
   getInnerElementText (element: Object, name: string): string {

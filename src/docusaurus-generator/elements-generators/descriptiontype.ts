@@ -15,7 +15,7 @@ import assert from 'assert'
 import util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
-import { AbstractDescriptionType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractListingType, Para, ParameterName, ParameterType, Sp } from '../../doxygen-xml-parser/descriptiontype.js'
+import { AbstractCodeLineType, AbstractDescriptionType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractHighlightType, AbstractListingType, AbstractSpType, CodeLine, Highlight, Para, ParameterName, ParameterType, Sp } from '../../doxygen-xml-parser/descriptiontype.js'
 import { RefText } from '../../doxygen-xml-parser/reftexttype.js'
 
 // ----------------------------------------------------------------------------
@@ -159,52 +159,121 @@ export class DocSimpleSectType extends ElementGeneratorBase {
 
 // ----------------------------------------------------------------------------
 
+export class SpType extends ElementGeneratorBase {
+  renderMdx (element: AbstractSpType): string {
+    // console.log(util.inspect(element), { compact: false, depth: 999 })
+
+    let result: string = ''
+    let spaces: number = 1
+
+    if (element.value !== undefined && element.value.valueOf() > 1) {
+      spaces = element.value.valueOf()
+    }
+
+    for (let i = 0; i < spaces; i++) {
+      result += ' '
+    }
+
+    return result
+  }
+}
+
+// ----------------------------------------------------------------------------
+
 export class ListingType extends ElementGeneratorBase {
   renderMdx (element: AbstractListingType): string {
     // console.log(util.inspect(element), { compact: false, depth: 999 })
 
     let result = ''
 
-    if (element.filename !== undefined) {
-      const filename = element.filename.replace('.', '')
-      result += `<CodeBlock language="${filename}">{\n`
-    } else {
-      result += '<CodeBlock>{\n'
+    result += '<ProgramListing'
+    if (element.filename !== undefined && element.filename.length > 0) {
+      const extension = element.filename.replace('.', '')
+      result += ` extension="${extension}"`
     }
-    if (element.codelines !== undefined) {
-      for (const codeline of element.codelines) {
-        // console.log(util.inspect(codeline), { compact: false, depth: 999 })
-        result += '\''
-        if (codeline.highlights !== undefined) {
-          for (const highlight of codeline.highlights) {
-            // console.log(util.inspect(highlight), { compact: false, depth: 999 })
-            for (const child of highlight.children) {
-              if (typeof child === 'string') {
-                result += this.context.escapeHtml(child)
-              } else if (child instanceof Sp) {
-                const sp = child
-                if (sp.value !== undefined && sp.value.valueOf() > 1) {
-                  const n = sp.value.valueOf()
-                  for (let i = 0; i < n; i++) {
-                    result += ' '
-                  }
-                } else {
-                  result += ' '
-                }
-              } else if (child instanceof RefText) {
-                const ref = child
-                result += this.context.escapeHtml(ref.text)
-              } else {
-                console.error(util.inspect(child, { compact: false, depth: 999 }))
-                console.error(element.constructor.name, 'ref child not yet rendered in', this.constructor.name)
-              }
-            }
-          }
-          result += '\\n\'+\n'
-        }
-      }
+    result += '>\n'
+    result += '\n'
+
+    result += this.context.renderElementsMdx(element.codelines)
+
+    result += '</ProgramListing>\n'
+    result += '\n'
+
+    return result
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+export class CodeLineType extends ElementGeneratorBase {
+  renderMdx (element: AbstractCodeLineType): string {
+    // console.log(util.inspect(element), { compact: false, depth: 999 })
+
+    assert(element instanceof CodeLine)
+
+    if (element.external !== undefined) {
+      console.log('external ignored in', element.constructor.name)
     }
-    result += '\'\'}</CodeBlock>\n'
+
+    let permalink: string | undefined
+    if (element.refid !== undefined && element.refkind !== undefined) {
+      permalink = this.context.getPermalink({
+        refid: element.refid,
+        kindref: element.refkind
+      })
+    }
+
+    let result = ''
+
+    result += '<CodeLine'
+    if (element.lineno !== undefined) {
+      result += ` lineNumber="${element.lineno.toString()}"`
+    }
+    if (permalink !== undefined) {
+      result += ` lineLink="${permalink}"`
+    }
+    result += '>'
+
+    result += this.context.renderElementsMdx(element.highlights)
+
+    result += '</CodeLine>\n'
+
+    return result
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+export class HighlightType extends ElementGeneratorBase {
+  knownClasses = [
+    'normal',
+    'comment',
+    'preprocessor',
+    'keyword',
+    'keywordtype',
+    'keywordflow',
+    'token',
+    'stringliteral'
+  ]
+
+  renderMdx (element: AbstractHighlightType): string {
+    // console.log(util.inspect(element), { compact: false, depth: 999 })
+
+    assert(element instanceof Highlight)
+
+    let kind = element._class
+    if (!this.knownClasses.includes(element._class)) {
+      console.error(util.inspect(element), { compact: false, depth: 999 })
+      console.error(element._class, 'not implemented yet in', this.constructor.name)
+      kind = 'normal'
+    }
+
+    let result = ''
+
+    result += `<Highlight kind="${kind}">`
+    result += this.context.renderElementsMdx(element.children)
+    result += '</Highlight>'
+
     return result
   }
 }

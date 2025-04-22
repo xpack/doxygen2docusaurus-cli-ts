@@ -87,7 +87,7 @@ export abstract class AbstractDescriptionType extends AbstractParsedObjectBase {
 
 export abstract class AbstractListingType extends AbstractParsedObjectBase {
   // Optional elements.
-  codelines?: Codeline[] | undefined
+  codelines?: CodeLine[] | undefined
 
   // Optional attributes.
   filename?: string | undefined
@@ -110,7 +110,7 @@ export abstract class AbstractListingType extends AbstractParsedObjectBase {
         if (this.codelines === undefined) {
           this.codelines = []
         }
-        this.codelines.push(new Codeline(xml, innerElement))
+        this.codelines.push(new CodeLine(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
@@ -157,15 +157,15 @@ export class ProgramListing extends AbstractListingType {
 // <xsd:attribute name="external" type="DoxBool" />
 // </xsd:complexType>
 
-export abstract class AbstractCodelineType extends AbstractParsedObjectBase {
+export abstract class AbstractCodeLineType extends AbstractParsedObjectBase {
   // Optional elements.
   highlights?: Highlight[] | undefined
 
   // Optional attributes.
-  lineno: Number | undefined
-  refid: string | undefined
-  kindref: string | undefined
-  external: Boolean | undefined
+  lineno?: Number | undefined
+  refid?: string | undefined
+  refkind?: string | undefined
+  external?: Boolean | undefined
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -202,8 +202,8 @@ export abstract class AbstractCodelineType extends AbstractParsedObjectBase {
           this.lineno = Number(xml.getAttributeNumberValue(element, '@_lineno'))
         } else if (attributeName === '@_refid') {
           this.refid = xml.getAttributeStringValue(element, '@_refid')
-        } else if (attributeName === '@_kindref') {
-          this.kindref = xml.getAttributeStringValue(element, '@_kindref')
+        } else if (attributeName === '@_refkind') {
+          this.refkind = xml.getAttributeStringValue(element, '@_refkind')
         } else if (attributeName === '@_external') {
           this.external = Boolean(xml.getAttributeBooleanValue(element, '@_external'))
         } else {
@@ -221,7 +221,7 @@ export abstract class AbstractCodelineType extends AbstractParsedObjectBase {
 
 // <xsd:element name="codeline" type="codelineType" minOccurs="0" maxOccurs="unbounded" />
 
-export class Codeline extends AbstractCodelineType {
+export class CodeLine extends AbstractCodeLineType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     super(xml, element, 'codeline')
   }
@@ -234,6 +234,26 @@ export class Codeline extends AbstractCodelineType {
 // </xsd:choice>
 // <xsd:attribute name="class" type="DoxHighlightClass" />
 // </xsd:complexType>
+
+// <xsd:simpleType name="DoxHighlightClass">
+//   <xsd:restriction base="xsd:string">
+//     <xsd:enumeration value="comment" />
+//     <xsd:enumeration value="normal" />
+//     <xsd:enumeration value="preprocessor" />
+//     <xsd:enumeration value="keyword" />
+//     <xsd:enumeration value="keywordtype" />
+//     <xsd:enumeration value="keywordflow" />
+//     <xsd:enumeration value="stringliteral" />
+//     <xsd:enumeration value="xmlcdata" />
+//     <xsd:enumeration value="charliteral" />
+//     <xsd:enumeration value="vhdlkeyword" />
+//     <xsd:enumeration value="vhdllogic" />
+//     <xsd:enumeration value="vhdlchar" />
+//     <xsd:enumeration value="vhdldigit" />
+//   </xsd:restriction>
+// </xsd:simpleType>
+
+export type DoxHighlightClass = 'comment' | 'normal' | 'preprocessor' | 'keyword' | 'keywordtype' | 'keywordflow' | 'stringliteral' | 'xmlcdata' | 'charliteral' | 'vhdlkeyword' | 'vhdllogic' | 'vhdlchar' | 'vhdldigit'
 
 export abstract class AbstractHighlightType extends AbstractParsedObjectBase {
   // Any sequence of them.

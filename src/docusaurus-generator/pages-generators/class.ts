@@ -208,7 +208,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
       assert(file !== undefined)
       const permalink = this.context.getPagePermalink(file.compoundDef.id)
       result += 'Definition at line '
-      result += location.line?.toString() // TODO: add link
+      const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
+      result += `<Link to="${permalink}#${lineAttribute}">${location.line?.toString()}</Link>`
       result += ' of file '
       result += `<Link to="${permalink}">${path.basename(location.file) as string}</Link>`
       result += '.\n'

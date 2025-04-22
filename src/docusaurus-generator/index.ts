@@ -26,7 +26,7 @@ import { Folders } from './data-model/folders.js'
 import { Groups } from './data-model/groups.js'
 import { Namespaces } from './data-model/namespaces.js'
 import { DoxygenFileOptions } from './data-model/options.js'
-import { DescriptionTypeGenerator, DocEmptyType, DocMarkupType, DocParamListType, DocParaType, DocRefTextType, DocSimpleSectType, DocURLLink, ListingType } from './elements-generators/descriptiontype.js'
+import { CodeLineType, DescriptionTypeGenerator, DocEmptyType, DocMarkupType, DocParamListType, DocParaType, DocRefTextType, DocSimpleSectType, DocURLLink, HighlightType, ListingType, SpType } from './elements-generators/descriptiontype.js'
 import { ElementGeneratorBase } from './elements-generators/element-generator-base.js'
 import { PageGeneratorBase as GeneratorBase } from './pages-generators/base.js'
 import { GroupGenerator } from './pages-generators/group.js'
@@ -147,6 +147,10 @@ export class DocusaurusGenerator {
     this.elementGenerators.set('AbstractDocListType', new DocListType(this))
     this.elementGenerators.set('AbstractParamType', new ParamType(this))
     this.elementGenerators.set('AbstractLinkedTextType', new LinkedTextType(this))
+    this.elementGenerators.set('AbstractProgramListingType', new ListingType(this))
+    this.elementGenerators.set('AbstractCodeLineType', new CodeLineType(this))
+    this.elementGenerators.set('AbstractHighlightType', new HighlightType(this))
+    this.elementGenerators.set('AbstractSpType', new SpType(this))
 
     // Plugin defined components.
     this.componentNames = [
@@ -314,44 +318,6 @@ export class DocusaurusGenerator {
         frontMatter,
         bodyText
       })
-
-      if (compoundDef.kind === 'file') {
-        const permalink = this.pagePermalinksById.get(compoundDef.id) + '/source'
-        assert(permalink !== undefined)
-        console.log(`${compoundDef.kind}: ${compoundDef.compoundName}`, '->', `${outputFolderPath}${permalink}`)
-
-        const docusaurusId = this.docusaurusIdsById.get(compoundDef.id)
-        assert(docusaurusId !== undefined)
-
-        const fileName = `${docusaurusId}-source.mdx`
-        // console.log('fileName:', fileName)
-        const filePath = `${outputFolderPath}${fileName}`
-
-        const frontMatter: FrontMatter = {
-          title: `${compoundDef.compoundName}`,
-          slug: `${outputFolderPath.replace(/^docs/, '')}${permalink}`,
-          // description: '...', // TODO
-          custom_edit_url: null,
-          keywords: ['doxygen', 'reference', `${compoundDef.kind}`, 'source']
-        }
-
-        let bodyText = `TODO ${compoundDef.compoundName}\n`
-        const docusaurusGenerator = this.pageGenerators.get(compoundDef.kind)
-        if (docusaurusGenerator !== undefined) {
-          bodyText = await docusaurusGenerator.renderMdx(compoundDef, frontMatter)
-        } else {
-          // console.error(util.inspect(compoundDef), { compact: false, depth: 999 })
-          console.error('page generator for', compoundDef.kind, 'not implemented yet in', this.constructor.name)
-          // TODO: enable it after implementing folders & files
-          // continue
-        }
-
-        await this.writeFile({
-          filePath,
-          frontMatter,
-          bodyText
-        })
-      }
 
       this.currentCompoundDef = undefined
     }
@@ -548,15 +514,18 @@ export class DocusaurusGenerator {
     refid: string
     kindref: string
   }): string {
+    // console.log(refid, kindref)
+
     let permalink: string | undefined
     if (kindref === 'compound') {
       permalink = this.getPagePermalink(refid)
     } else if (kindref === 'member') {
       const compoundId = this.stripPermalinkAnchor(refid)
+      // console.log('compoundId:', compoundId)
       if (compoundId === this.currentCompoundDef?.id) {
         permalink = `#${this.getPermalinkAnchor(refid)}`
       } else {
-        permalink = `${this.getPagePermalink(refid)}#${this.getPermalinkAnchor(refid)}`
+        permalink = `${this.getPagePermalink(compoundId)}#${this.getPermalinkAnchor(refid)}`
       }
     } else {
       console.error('Unsupported kindref', kindref, 'for', refid, 'in', this.constructor.name)
@@ -635,6 +604,10 @@ export class DocusaurusGenerator {
       .replaceAll(/[>]/g, '&gt;')
       .replaceAll(/["]/g, '&quot;')
       .replaceAll(/[']/g, '&#39;')
+      .replaceAll(/[{]/g, '&#123;')
+      .replaceAll(/[}]/g, '&#125;')
+      .replaceAll(/[\*]/g, '&#42;')
+      .replaceAll(/[_]/g, '&#95;')
   }
 
   /**

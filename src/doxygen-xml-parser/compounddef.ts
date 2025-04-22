@@ -20,7 +20,7 @@ import { BaseCompoundRef, DerivedCompoundRef } from './compoundreftype.js'
 import { TemplateParamList } from './templateparamlisttype.js'
 import { SectionDef } from './sectiondeftype.js'
 import { ListOfAllMembers } from './listofallmemberstype.js'
-import { BriefDescription, DetailedDescription } from './descriptiontype.js'
+import { BriefDescription, DetailedDescription, ProgramListing } from './descriptiontype.js'
 import { InnerClass, InnerDir, InnerFile, InnerGroup, InnerNamespace } from './reftype.js'
 import { Location } from './locationtype.js'
 import { AbstractParsedObjectBase } from './types.js'
@@ -115,6 +115,7 @@ export abstract class AbstractCompoundDefType extends AbstractParsedObjectBase {
   innerNamespaces: InnerNamespace[] | undefined
   // innerPages
   innerGroups: InnerGroup[] | undefined
+  programListing: ProgramListing | undefined
   location: Location | undefined
   listOfAllMembers: ListOfAllMembers | undefined
 
@@ -221,7 +222,8 @@ export abstract class AbstractCompoundDefType extends AbstractParsedObjectBase {
       } else if (xml.hasInnerElement(innerElement, 'collaborationgraph')) {
         // TODO: Ignored, not used for now.
       } else if (xml.hasInnerElement(innerElement, 'programlisting')) {
-        // TODO: Ignored, not used for now.
+        assert(this.programListing === undefined)
+        this.programListing = new ProgramListing(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'location')) {
         this.location = new Location(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'listofallmembers')) {
