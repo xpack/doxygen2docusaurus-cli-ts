@@ -36,7 +36,7 @@ export class RefType extends ElementGeneratorBase {
     assert(permalink !== undefined && permalink.length > 1)
 
     result += `<Link to="${permalink}">`
-    result += element.text
+    result += this.context.escapeHtml(element.text)
     result += '</Link>'
 
     return result
