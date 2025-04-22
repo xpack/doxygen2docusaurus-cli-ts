@@ -1,9 +1,7 @@
 /* --- Begin Highlight/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
-:global(html) {
---doxy-highlight-background: #F8F9FA;
---doxy-highlight-foreground: #37474F;
+:global(:root) {
 --doxy-highlight-keyword: #bb6bb2;
 --doxy-highlight-keywordtype: #8258b3;
 --doxy-highlight-keywordflow: #d67c3b;
@@ -11,7 +9,7 @@
 --doxy-highlight-comment: #969696;
 --doxy-highlight-link: #5383d6;
 --doxy-highlight-preprocessor: #46aaa5;
---doxy-highlight-link: rgb(83, 131, 214);
+--doxy-highlight-link: #5383D6;
 }
 
 :global(span.doxyHighlight) {

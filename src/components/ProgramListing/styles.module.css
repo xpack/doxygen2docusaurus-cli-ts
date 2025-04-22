@@ -1,9 +1,14 @@
 /* --- Begin ProgramListing/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
-:global(html) {
+:global(:root) {
   --ifm-doxy-listing-background: rgb(250, 251, 252);
   --ifm-doxy-listing-line-background: rgb(246, 247, 248);
+}
+
+:global([data-theme="dark"]) {
+  --ifm-doxy-listing-background: rgb(36, 35, 34);
+  --ifm-doxy-listing-line-background: rgba(255, 255, 255, 0.05);;
 }
 
 :global(div.doxyProgramListing) {
