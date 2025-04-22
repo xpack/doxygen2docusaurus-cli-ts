@@ -136,7 +136,7 @@ export abstract class AbstractMemberDefType extends AbstractParsedObjectBase {
   kind: DoxMemberKind | '' = ''
   id: string = ''
   prot: string = ''
-  _static: Boolean | undefined
+  staticc: Boolean | undefined
 
   // Optional elements.
   briefDescription: BriefDescription | undefined
@@ -220,7 +220,7 @@ export abstract class AbstractMemberDefType extends AbstractParsedObjectBase {
       } else if (attributeName === '@_prot') {
         this.prot = xml.getAttributeStringValue(element, '@_prot')
       } else if (attributeName === '@_static') {
-        this._static = xml.getAttributeBooleanValue(element, '@_static')
+        this.staticc = xml.getAttributeBooleanValue(element, '@_static')
       } else if (attributeName === '@_const') {
         this._const = Boolean(xml.getAttributeBooleanValue(element, '@_const'))
       } else if (attributeName === '@_explicit') {

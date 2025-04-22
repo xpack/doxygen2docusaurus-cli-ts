@@ -487,7 +487,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     // WARNING: could not find how to generate 'inherited'.
 
     // Validation checks.
-    if (memberDef._static?.valueOf()) {
+    if (memberDef.staticc?.valueOf()) {
       console.error(memberDef.constructor.name, 'static not yet rendered in', this.constructor.name)
     }
     // const passed via the prototype.
