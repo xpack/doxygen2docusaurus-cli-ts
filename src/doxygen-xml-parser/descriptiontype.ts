@@ -260,7 +260,7 @@ export abstract class AbstractHighlightType extends AbstractParsedObjectBase {
   children: Array<string | Sp | RefText> = []
 
   // Mandatory attributes.
-  _class: string = ''
+  classs: string = ''
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -294,14 +294,14 @@ export abstract class AbstractHighlightType extends AbstractParsedObjectBase {
     const attributesNames = xml.getAttributesNames(element)
     for (const attributeName of attributesNames) {
       if (attributeName === '@_class') {
-        this._class = xml.getAttributeStringValue(element, '@_class')
+        this.classs = xml.getAttributeStringValue(element, '@_class')
       } else {
         console.error(util.inspect(element, { compact: false, depth: 999 }))
         console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
       }
     }
 
-    assert(this._class.length > 0)
+    assert(this.classs.length > 0)
 
     // ------------------------------------------------------------------------
 

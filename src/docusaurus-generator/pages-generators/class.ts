@@ -577,14 +577,14 @@ export class ClassPageGenerator extends PageGeneratorBase {
   }
 
   private renderIndexClassRecursively (classId: string, depth: number): string {
-    const _class: Class | undefined = this.context.classes.membersById.get(classId)
-    assert(_class !== undefined)
+    const classs: Class | undefined = this.context.classes.membersById.get(classId)
+    assert(classs !== undefined)
 
-    // console.log(util.inspect(_class), { compact: false, depth: 999 })
+    // console.log(util.inspect(classs), { compact: false, depth: 999 })
 
     let result: string = ''
 
-    const compoundDef = _class.compoundDef
+    const compoundDef = classs.compoundDef
     const label = compoundDef.compoundName.replace(/^.*::/, '')
 
     const permalink = this.context.getPagePermalink(compoundDef.id)
@@ -608,8 +608,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     result += '</TreeTableRow>\n'
 
-    if (_class.derivedClassIds.length > 0) {
-      for (const childClassId of _class.derivedClassIds) {
+    if (classs.derivedClassIds.length > 0) {
+      for (const childClassId of classs.derivedClassIds) {
         result += this.renderIndexClassRecursively(childClassId, depth + 1)
       }
     }

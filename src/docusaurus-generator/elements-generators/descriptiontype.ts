@@ -261,10 +261,10 @@ export class HighlightType extends ElementGeneratorBase {
 
     assert(element instanceof Highlight)
 
-    let kind = element._class
-    if (!this.knownClasses.includes(element._class)) {
+    let kind = element.classs
+    if (!this.knownClasses.includes(element.classs)) {
       console.error(util.inspect(element), { compact: false, depth: 999 })
-      console.error(element._class, 'not implemented yet in', this.constructor.name)
+      console.error(element.classs, 'not implemented yet in', this.constructor.name)
       kind = 'normal'
     }
 

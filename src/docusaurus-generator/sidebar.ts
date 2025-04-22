@@ -228,12 +228,12 @@ export class Sidebar {
   }
 
   createClassItemRecursively (namespaceId: string): SidebarItem {
-    const _class = this.generator.classes.membersById.get(namespaceId)
-    assert(_class !== undefined)
-    const compoundDef = _class.compoundDef
+    const classs = this.generator.classes.membersById.get(namespaceId)
+    assert(classs !== undefined)
+    const compoundDef = classs.compoundDef
     const label = compoundDef.compoundName.replace(/^.*::/, '')
     const curedName: string = compoundDef.compoundName.replaceAll('::', '-').replaceAll(/[^a-zA-Z0-9-]/g, '-')
-    if (_class.derivedClassIds.length === 0) {
+    if (classs.derivedClassIds.length === 0) {
       const docItem: SidebarDocItem = {
         type: 'doc',
         label,
@@ -251,7 +251,7 @@ export class Sidebar {
         collapsed: true,
         items: []
       }
-      for (const childId of _class.derivedClassIds) {
+      for (const childId of classs.derivedClassIds) {
         categoryItem.items.push(this.createClassItemRecursively(childId))
       }
       return categoryItem

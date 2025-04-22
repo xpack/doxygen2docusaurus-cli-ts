@@ -32,8 +32,8 @@ export class Classes {
     }
 
     // Recreate classes hierarchies.
-    for (const [classId, _class] of this.membersById) {
-      for (const baseClassId of _class.baseClassIds) {
+    for (const [classId, classs] of this.membersById) {
+      for (const baseClassId of classs.baseClassIds) {
         const baseClass = this.membersById.get(baseClassId)
         assert(baseClass !== undefined)
         // console.log('baseClassId', baseClassId, 'has child', id)
@@ -41,8 +41,8 @@ export class Classes {
       }
     }
 
-    for (const [classId, _class] of this.membersById) {
-      if (_class.baseClassIds.length === 0) {
+    for (const [classId, classs] of this.membersById) {
+      if (classs.baseClassIds.length === 0) {
         this.topLevelClassIds.push(classId)
       }
     }
