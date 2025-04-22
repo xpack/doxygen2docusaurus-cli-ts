@@ -462,8 +462,11 @@ export class DocusaurusGenerator {
       }
     }
     frontMatterText += '\n'
-    frontMatterText += `date: ${formatDate(new Date())}\n`
-    frontMatterText += '\n'
+
+    // Skip date, to avoid unnecessary git commits.
+    // frontMatterText += `date: ${formatDate(new Date())}\n`
+    // frontMatterText += '\n'
+
     frontMatterText += '---\n'
     frontMatterText += '\n'
 
