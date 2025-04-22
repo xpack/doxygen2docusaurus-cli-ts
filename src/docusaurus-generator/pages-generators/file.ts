@@ -63,7 +63,7 @@ export class FileGenerator extends PageGeneratorBase {
     result += '\n'
 
     if (compoundDef.programListing !== undefined) {
-      result += '## Program Listing\n'
+      result += '## File Listing\n'
       result += '\n'
       result += 'The file content with the documentation metadata removed is:\n'
       result += '\n'
