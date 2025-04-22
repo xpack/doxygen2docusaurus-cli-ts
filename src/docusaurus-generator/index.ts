@@ -162,7 +162,10 @@ export class DocusaurusGenerator {
       'IncludesList',
       'IncludesListItem',
       'SectionUser',
-      'SectionDefinition'
+      'SectionDefinition',
+      'ProgramListing',
+      'CodeLine',
+      'Highlight'
     ]
   }
 

@@ -16,7 +16,10 @@
     "./components/IncludesList": "./src/components/IncludesList/index.js",
     "./components/IncludesListItem": "./src/components/IncludesListItem/index.js",
     "./components/SectionUser": "./src/components/SectionUser/index.js",
-    "./components/SectionDefinition": "./src/components/SectionDefinition/index.js"
+    "./components/SectionDefinition": "./src/components/SectionDefinition/index.js",
+    "./components/ProgramListing": "./src/components/ProgramListing/index.js",
+    "./components/CodeLine": "./src/components/CodeLine/index.js",
+    "./components/Highlight": "./src/components/Highlight/index.js"
   },
   "files": [
     "dist/"

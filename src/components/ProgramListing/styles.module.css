@@ -1,0 +1,19 @@
+/* --- Begin ProgramListing/styles.module.css --- */
+/* --- Part of docusaurus-plugin-doxygen --- */
+
+:global(html) {
+  --ifm-doxy-listing-background: rgb(250, 251, 252);
+  --ifm-doxy-listing-line-background: rgb(246, 247, 248);
+}
+
+:global(div.doxyProgramListing) {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  background: var(--ifm-doxy-listing-background);
+  white-space: pre;
+  border: 1px solid var(--ifm-table-border-color);
+  border-radius: var(--ifm-global-radius);
+  margin-bottom: 20px;
+}
+
+/* --- End ProgramListing/styles.module.css --- */

@@ -1,0 +1,53 @@
+/* --- Begin CodeLine/styles.module.css --- */
+/* --- Part of docusaurus-plugin-doxygen --- */
+
+:global(span.doxyLineNumber) {
+  width: 5em;
+  text-align: right;
+  padding-right: 1em;
+  display: inline-block;
+  border-right: 1px solid var(--ifm-table-border-color);
+  /* background-color: var(--ifm-menu-color-background-hover); */
+  background-color: var(--ifm-doxy-listing-line-background);
+}
+
+:global(div.doxyCodeLine:first-child span.doxyLineNumber) {
+  padding-top: 8px;
+}
+
+:global(div.doxyCodeLine:last-child span.doxyLineNumber) {
+  padding-bottom: 8px;
+}
+
+:global(span.doxyLineContent) {
+  padding-left: 2px;
+}
+
+:global(span.doxyNoLineNumber) {
+  width: 1em;
+  text-align: right;
+  padding-right: 1em;
+  display: inline-block;
+}
+
+:global(div.doxyCodeLine:first-child span.doxyNoLineNumber) {
+  padding-top: 8px;
+}
+
+:global(div.doxyCodeLine:last-child span.doxyNoLineNumber) {
+  padding-bottom: 8px;
+}
+
+:global(span.doxyLineContent) {
+  padding-left: 4px;
+}
+
+:global(div.doxyCodeLine) {
+  overflow-wrap: normal;
+  padding-left: 2px;
+  overflow: hidden;
+  white-space: nowrap; /* Prevent wrapping */
+  text-overflow: ellipsis; /* Add "..." when clipped */
+}
+
+/* --- End CodeLine/styles.module.css --- */
