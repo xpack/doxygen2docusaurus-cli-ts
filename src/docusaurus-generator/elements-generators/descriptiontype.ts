@@ -225,6 +225,10 @@ export class CodeLineType extends ElementGeneratorBase {
 
     let result = ''
 
+    if (element.lineno !== undefined) {
+      const anchor = `l${element.lineno.toString().padStart(5, '0')}`
+      result += `<Link id="${anchor}"/>`
+    }
     result += '<CodeLine'
     if (element.lineno !== undefined) {
       result += ` lineNumber="${element.lineno.toString()}"`

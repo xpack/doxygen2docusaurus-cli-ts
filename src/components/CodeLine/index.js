@@ -19,13 +19,8 @@ import Link from '@docusaurus/Link'
 // ----------------------------------------------------------------------------
 
 export default function CodeLine({lineNumber, lineLink, children}) {
-  let lineAnchor
-  if (lineNumber) {
-    lineAnchor = `l${lineNumber.padStart(5, '0')}`
-  }
   return (
     <div class="doxyCodeLine">
-      {lineAnchor && <a id={lineAnchor} name={lineAnchor} />}
       {lineNumber && <span class="doxyLineNumber">{lineLink ? <><Link to={lineLink}>{lineNumber}</Link></> : `${lineNumber}`}</span>}
       {!lineNumber && <span class="doxyNoLineNumber">&nbsp;</span>}
       <span class="doxyLineContent">{children}</span>
