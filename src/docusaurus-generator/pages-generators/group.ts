@@ -137,10 +137,15 @@ export class GroupGenerator extends PageGeneratorBase {
 
       result += '\n'
       result += detailedDescription
-
       result += '\n'
-      result += '<hr/>\n'
     }
+
+    result += '\n'
+    result += 'For historical reasons, the original Doxygen pages are still available at '
+    result += '<Link to="pathname:///doxygen/topics.html">this</Link> link.'
+
+    result += '\n'
+    result += '<hr/>\n'
 
     return result
   }
