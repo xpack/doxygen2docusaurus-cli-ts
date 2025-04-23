@@ -11,17 +11,23 @@
 
 // ----------------------------------------------------------------------------
 
-import styles from './styles.module.css';
-import React from 'react';
+import styles from './styles.module.css'
+import React from 'react'
 
 // ----------------------------------------------------------------------------
 
-export default function IncludesList({title, children}) {
+export default function DoxygenPage({ children, version = 'undefined' }) {
+  // console.log("Version:", version)
+
   return (
-    <div class="doxyIncludesList">
+    <div class="doxyPage">
       {children}
+      <hr />
+      <p class="doxyGeneratedBy">
+        Generated via <a href="https://github.com/xpack/docusaurus-plugin-doxygen">docusaurus-plugin-doxygen</a> by <a href="https://www.doxygen.nl">Doxygen</a> {version}
+      </p>
     </div>
-  );
+  )
 }
 
 // ----------------------------------------------------------------------------

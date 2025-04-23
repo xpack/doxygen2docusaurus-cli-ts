@@ -11,8 +11,8 @@
 
 // ----------------------------------------------------------------------------
 
-import styles from './styles.module.css';
-import React from 'react';
+import styles from './styles.module.css'
+import React from 'react'
 import Link from '@docusaurus/Link'
 
 // ----------------------------------------------------------------------------
@@ -36,7 +36,7 @@ export default function MembersListItem({
         <td class="doxyMemSeparatorLeft" colspan="2"></td>
       </tr>
     </>
-  );
+  )
 }
 
 // ----------------------------------------------------------------------------

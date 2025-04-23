@@ -11,23 +11,21 @@
 
 // ----------------------------------------------------------------------------
 
-import styles from './styles.module.css';
-import React from 'react';
+import styles from './styles.module.css'
+import React from 'react'
+
+import Link from '@docusaurus/Link'
 
 // ----------------------------------------------------------------------------
 
-export default function DoxygenPage({children, version = 'undefined'}) {
-  // console.log("Version:", version);
-
+export default function CodeLine({ lineNumber, lineLink, children }) {
   return (
-    <div class="doxyPage">
-      {children}
-      <hr/>
-      <p class="doxyGeneratedBy">
-        Generated via <a href="https://github.com/xpack/docusaurus-plugin-doxygen">docusaurus-plugin-doxygen</a> by <a href="https://www.doxygen.nl">Doxygen</a> {version}
-      </p>
+    <div class="doxyCodeLine">
+      {lineNumber && <span class="doxyLineNumber">{lineLink ? <><Link to={lineLink}>{lineNumber}</Link></> : `${lineNumber}`}</span>}
+      {!lineNumber && <span class="doxyNoLineNumber">&nbsp;</span>}
+      <span class="doxyLineContent">{children}</span>
     </div>
-  );
+  )
 }
 
 // ----------------------------------------------------------------------------

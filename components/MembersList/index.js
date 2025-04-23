@@ -11,17 +11,17 @@
 
 // ----------------------------------------------------------------------------
 
-import styles from './styles.module.css';
-import React from 'react';
+import styles from './styles.module.css'
+import React from 'react'
 
 // ----------------------------------------------------------------------------
 
-export default function MembersList({children}) {
+export default function MembersList({ children }) {
   return (
     <table class="doxyMembers">
       {children}
     </table>
-  );
+  )
 }
 
 // ----------------------------------------------------------------------------

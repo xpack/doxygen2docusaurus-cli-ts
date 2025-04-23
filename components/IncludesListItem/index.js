@@ -11,17 +11,24 @@
 
 // ----------------------------------------------------------------------------
 
-import styles from './styles.module.css';
-import React from 'react';
+import styles from './styles.module.css'
+import React from 'react'
+import Link from '@docusaurus/Link'
 
 // ----------------------------------------------------------------------------
 
-export default function SectionDefinition({children}) {
+export default function IncludesListItem({
+  filePath,
+  permalink,
+  isLocal,
+  children
+}) {
   return (
-    <div class="doxySectionDef">
-      {children}
-    </div>
-  );
+    <>
+      <code>#include {isLocal === 'true' ? '"' : '<'}{permalink.length > 0 ? (<Link to={permalink}>{filePath}</Link>) : filePath}{isLocal === 'true' ? '"' : '>'}</code>
+      <br />
+    </>
+  )
 }
 
 // ----------------------------------------------------------------------------

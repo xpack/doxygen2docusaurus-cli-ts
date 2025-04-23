@@ -11,24 +11,17 @@
 
 // ----------------------------------------------------------------------------
 
-import styles from './styles.module.css';
-import React from 'react';
-import Link from '@docusaurus/Link'
+import styles from './styles.module.css'
+import React from 'react'
 
 // ----------------------------------------------------------------------------
 
-export default function IncludesListItem({
-  filePath,
-  permalink,
-  isLocal,
-  children
-}) {
+export default function TreeTable({ children }) {
   return (
-    <>
-      <code>#include {isLocal === 'true' ? '"' : '<'}{permalink.length > 0 ? (<Link to={permalink}>{filePath}</Link>) : filePath }{isLocal === 'true'  ? '"' : '>'}</code>
-      <br />
-    </>
-  );
+    <table class="doxyTreeTable">
+      {children}
+    </table>
+  )
 }
 
 // ----------------------------------------------------------------------------

@@ -11,22 +11,17 @@
 
 // ----------------------------------------------------------------------------
 
-import styles from './styles.module.css';
-import React from 'react';
+import styles from './styles.module.css'
+import React from 'react'
 
 // ----------------------------------------------------------------------------
 
-export default function ParametersList({title, children}) {
+export default function SectionDefinition({ children }) {
   return (
-    <dl class="doxyParamsList">
-      <dt class="doxyParamsTableTitle">{title}</dt>
-      <dd>
-        <table class="doxyParamsTable">
-          {children}
-        </table>
-      </dd>
-    </dl>
-  );
+    <div class="doxySectionDef">
+      {children}
+    </div>
+  )
 }
 
 // ----------------------------------------------------------------------------
