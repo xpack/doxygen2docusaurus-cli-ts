@@ -22,7 +22,8 @@
     "./components/Highlight": "./src/components/Highlight/index.js"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "src/components/"
   ],
   "keywords": [
     "docusaurus",
