@@ -40,21 +40,21 @@ export class Files {
     // Recreate files hierarchies.
     // console.log(this.folders.membersById.size)
     for (const [folderId, folder] of folders.membersById) {
-      for (const fileId of folder.childrenFileIds) {
-        const childFile = this.membersById.get(fileId)
+      for (const childFileId of folder.childrenFileIds) {
+        const childFile = this.membersById.get(childFileId)
         assert(childFile !== undefined)
-        // console.log('fileId', fileId,'has parent', id)
+        // console.log('fileId', childFileId, 'has parent', folderId)
         childFile.parentFolderId = folderId
       }
     }
 
     for (const [fileId, file] of this.membersById) {
-      if (file.parentFolderId !== undefined && file.parentFolderId.length === 0) {
+      if (file.parentFolderId === undefined || file.parentFolderId.length === 0) {
         this.topLevelFileIds.push(fileId)
       }
     }
 
-    for (const [fileId, file] of this.membersById.entries()) {
+    for (const file of this.membersById.values()) {
       const path = file.compoundDef.location?.file
       assert(path !== undefined)
       this.membersByPath.set(path, file)

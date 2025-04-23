@@ -36,7 +36,7 @@ export class Classes {
       for (const baseClassId of classs.baseClassIds) {
         const baseClass = this.membersById.get(baseClassId)
         assert(baseClass !== undefined)
-        // console.log('baseClassId', baseClassId, 'has child', id)
+        // console.log('baseClassId', baseClassId, 'has child', classId)
         baseClass.derivedClassIds.push(classId)
       }
     }

@@ -36,14 +36,14 @@ export class Namespaces {
       for (const childNamespaceId of namespace.childrenNamespaceIds) {
         const childNamespace = this.membersById.get(childNamespaceId)
         assert(childNamespace !== undefined)
-        // console.log('folderId', folderId,'has parent', id)
+        // console.log('namespaceId', childNamespaceId,'has parent', namespaceId)
         childNamespace.parentNamespaceId = namespaceId
       }
     }
 
     // Create the top level namespace list.
     for (const [namespaceId, namespace] of this.membersById) {
-      if (namespace.parentNamespaceId !== undefined && namespace.parentNamespaceId.length === 0) {
+      if (namespace.parentNamespaceId === undefined || namespace.parentNamespaceId.length === 0) {
         this.topLevelNamespaceIds.push(namespaceId)
       }
     }

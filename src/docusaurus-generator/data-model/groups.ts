@@ -36,13 +36,14 @@ export class Groups {
       for (const childGroupId of group.childrenGroupsIds) {
         const childGroup = this.membersById.get(childGroupId)
         assert(childGroup !== undefined)
-        // console.log('folderId', folderId,'has parent', id)
+        // console.log('groupId', childGroupId, 'has parent', groupId)
         childGroup.parentGroupId = groupId
       }
     }
 
     for (const [groupId, group] of this.membersById) {
-      if (group.parentGroupId !== undefined && group.parentGroupId.length === 0) {
+      if (group.parentGroupId === undefined || group.parentGroupId.length === 0) {
+        // console.log('topGroupId:', groupId)
         this.topLevelGroupIds.push(groupId)
       }
     }

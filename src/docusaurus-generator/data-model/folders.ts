@@ -37,13 +37,13 @@ export class Folders {
       for (const childFolderId of folder.childrenFolderIds) {
         const childFolder = this.membersById.get(childFolderId)
         assert(childFolder !== undefined)
-        // console.log('folderId', folderId,'has parent', id)
+        // console.log('folderId', childFolderId, 'has parent', folderId)
         childFolder.parentFolderId = folderId
       }
     }
 
     for (const [folderId, folder] of this.membersById) {
-      if (folder.parentFolderId !== undefined && folder.parentFolderId.length === 0) {
+      if (folder.parentFolderId === undefined || folder.parentFolderId.length === 0) {
         this.topLevelFolderIds.push(folderId)
       }
     }
