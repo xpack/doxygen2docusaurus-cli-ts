@@ -42,7 +42,7 @@ export class Groups {
     }
 
     for (const [groupId, group] of this.membersById) {
-      if (group.parentGroupId.length === 0) {
+      if (group.parentGroupId !== undefined && group.parentGroupId.length === 0) {
         this.topLevelGroupIds.push(groupId)
       }
     }
@@ -51,7 +51,7 @@ export class Groups {
 
 export class Group {
   compoundDef: CompoundDef
-  parentGroupId: string = ''
+  parentGroupId?: string | undefined
   childrenGroupsIds: string[] = []
 
   constructor (compoundDef: CompoundDef) {

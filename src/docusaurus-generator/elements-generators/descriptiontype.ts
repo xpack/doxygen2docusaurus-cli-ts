@@ -15,8 +15,7 @@ import assert from 'assert'
 import util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
-import { AbstractCodeLineType, AbstractDescriptionType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractHighlightType, AbstractListingType, AbstractSpType, CodeLine, Highlight, Para, ParameterName, ParameterType, Sp } from '../../doxygen-xml-parser/descriptiontype.js'
-import { RefText } from '../../doxygen-xml-parser/reftexttype.js'
+import { AbstractCodeLineType, AbstractDescriptionType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractHighlightType, AbstractListingType, AbstractSpType, CodeLine, Highlight, Para, ParameterName, ParameterType } from '../../doxygen-xml-parser/descriptiontype.js'
 
 // ----------------------------------------------------------------------------
 

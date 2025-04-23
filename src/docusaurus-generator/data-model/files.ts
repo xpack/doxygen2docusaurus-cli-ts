@@ -49,7 +49,7 @@ export class Files {
     }
 
     for (const [fileId, file] of this.membersById) {
-      if (file.parentFolderId.length === 0) {
+      if (file.parentFolderId !== undefined && file.parentFolderId.length === 0) {
         this.topLevelFileIds.push(fileId)
       }
     }
@@ -66,7 +66,7 @@ export class Files {
     const file = this.membersById.get(fileId)
     assert(file !== undefined)
     let parentPath = ''
-    if (file.parentFolderId.length > 0) {
+    if (file.parentFolderId !== undefined && file.parentFolderId.length > 0) {
       parentPath = this.folders.getRelativePathRecursively(file.parentFolderId) + '/'
     }
     const name: string = file.compoundDef.compoundName
@@ -76,7 +76,7 @@ export class Files {
 
 export class File {
   compoundDef: CompoundDef
-  parentFolderId: string = ''
+  parentFolderId?: string | undefined
 
   constructor (compoundDef: CompoundDef) {
     // console.log('File.constructor', util.inspect(compoundDef))

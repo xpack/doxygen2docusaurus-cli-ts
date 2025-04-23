@@ -147,6 +147,7 @@ export class Sidebar {
     const namespace = this.generator.namespaces.membersById.get(namespaceId)
     assert(namespace !== undefined)
     const compoundDef = namespace.compoundDef
+    assert(namespace.unparentedName)
     const label = namespace.unparentedName
     const curedName: string = compoundDef.compoundName.replaceAll('::', '-').replaceAll(/[^a-zA-Z0-9-]/g, '-')
     if (namespace.childrenNamespaceIds.length === 0) {
@@ -180,7 +181,7 @@ export class Sidebar {
     const compoundDef = folder.compoundDef
     const label = compoundDef.compoundName
     let parentPath = ''
-    if (folder.parentFolderId.length > 0) {
+    if (folder.parentFolderId !== undefined && folder.parentFolderId.length > 0) {
       parentPath = this.generator.folders.getRelativePathRecursively(folder.parentFolderId) + '/'
     }
     const curedName: string = (parentPath + compoundDef.compoundName).replaceAll(/[^a-zA-Z0-9-]/g, '-')
@@ -215,7 +216,7 @@ export class Sidebar {
     const compoundDef = file.compoundDef
     const label = compoundDef.compoundName
     let parentPath = ''
-    if (file.parentFolderId.length > 0) {
+    if (file.parentFolderId !== undefined && file.parentFolderId.length > 0) {
       parentPath = this.generator.folders.getRelativePathRecursively(file.parentFolderId) + '/'
     }
     const curedName: string = (parentPath + compoundDef.compoundName).replaceAll(/[^a-zA-Z0-9-]/g, '-')

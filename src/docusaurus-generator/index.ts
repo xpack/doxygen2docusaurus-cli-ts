@@ -32,7 +32,6 @@ import { PageGeneratorBase as GeneratorBase } from './pages-generators/base.js'
 import { GroupGenerator } from './pages-generators/group.js'
 import { Sidebar } from './sidebar.js'
 import { FrontMatter } from './types.js'
-import { formatDate } from './utils.js'
 import { RefType } from './elements-generators/reftype.js'
 import { NamespaceGenerator } from './pages-generators/namespace.js'
 import { ClassPageGenerator } from './pages-generators/class.js'
@@ -210,7 +209,7 @@ export class DocusaurusGenerator {
       } else if (kind === 'file') {
         const file = this.files.membersById.get(id)
         assert(file !== undefined)
-        if (file.parentFolderId.length > 0) {
+        if (file.parentFolderId !== undefined && file.parentFolderId.length > 0) {
           name = this.folders.getRelativePathRecursively(file.parentFolderId) + '/'
         }
         name += compoundDef.compoundName
@@ -609,7 +608,7 @@ export class DocusaurusGenerator {
       .replaceAll(/[']/g, '&#39;')
       .replaceAll(/[{]/g, '&#123;')
       .replaceAll(/[}]/g, '&#125;')
-      .replaceAll(/[\*]/g, '&#42;')
+      .replaceAll(/[*]/g, '&#42;')
       .replaceAll(/[_]/g, '&#95;')
   }
 

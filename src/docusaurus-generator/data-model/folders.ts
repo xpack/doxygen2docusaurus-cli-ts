@@ -43,7 +43,7 @@ export class Folders {
     }
 
     for (const [folderId, folder] of this.membersById) {
-      if (folder.parentFolderId.length === 0) {
+      if (folder.parentFolderId !== undefined && folder.parentFolderId.length === 0) {
         this.topLevelFolderIds.push(folderId)
       }
     }
@@ -53,7 +53,7 @@ export class Folders {
     const folder = this.membersById.get(folderId)
     assert(folder !== undefined)
     let parentPath = ''
-    if (folder.parentFolderId.length > 0) {
+    if (folder.parentFolderId !== undefined && folder.parentFolderId.length > 0) {
       parentPath = this.getRelativePathRecursively(folder.parentFolderId) + '/'
     }
     const name: string = folder.compoundDef.compoundName
@@ -63,7 +63,7 @@ export class Folders {
 
 export class Folder {
   compoundDef: CompoundDef
-  parentFolderId: string = ''
+  parentFolderId?: string | undefined
   childrenFolderIds: string[] = []
   childrenFileIds: string[] = []
 

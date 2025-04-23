@@ -43,7 +43,7 @@ export class Namespaces {
 
     // Create the top level namespace list.
     for (const [namespaceId, namespace] of this.membersById) {
-      if (namespace.parentNamespaceId.length === 0) {
+      if (namespace.parentNamespaceId !== undefined && namespace.parentNamespaceId.length === 0) {
         this.topLevelNamespaceIds.push(namespaceId)
       }
     }
@@ -57,7 +57,7 @@ export class Namespaces {
   }
 
   makeNameLocalRecursively (namespace: Namespace): void {
-    if (namespace.parentNamespaceId.length === 0) {
+    if (namespace.parentNamespaceId === undefined || namespace.parentNamespaceId.length === 0) {
       namespace.unparentedName = namespace.compoundDef.compoundName.trim()
     } else {
       // Remove the parent name from the current name
@@ -78,9 +78,9 @@ export class Namespaces {
 
 export class Namespace {
   compoundDef: CompoundDef
-  parentNamespaceId: string = ''
+  parentNamespaceId?: string | undefined
   childrenNamespaceIds: string[] = []
-  unparentedName: string = ''
+  unparentedName?: string | undefined
 
   constructor (compoundDef: CompoundDef) {
     // console.log('Namespace.constructor', util.inspect(compoundDef))
