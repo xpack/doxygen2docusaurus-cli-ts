@@ -10,7 +10,7 @@
   background-color: var(--ifm-doxy-listing-line-background);
 }
 
-:global(div.doxyCodeLine:first-child span.doxyLineNumber) {
+:global(div.doxyCodeLine:nth-child(2) span.doxyLineNumber) {
   padding-top: 8px;
 }
 
