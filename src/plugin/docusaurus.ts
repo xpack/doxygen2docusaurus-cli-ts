@@ -11,13 +11,15 @@
 
 // ----------------------------------------------------------------------------
 
+import { DoxygenData } from '../doxygen-xml-parser/index.js'
 import { generateDoxygen } from './cli/generate.js'
+import { generateDocusaurusMdx, parseDoxygen } from './main.js'
 
 export default async function pluginDocusaurus (
   context: any,
   options: any
 ): Promise<any> {
-  console.log('@xpack/docusaurus-plugin-doxygen initialising...')
+  console.log('@xpack/docusaurus-plugin-doxygen: initialising...')
   // console.log(`context: ${util.inspect(context)}`)
   // The plugin configuration options.
   // console.log(`options: ${util.inspect(options)}`)
@@ -30,9 +32,13 @@ export default async function pluginDocusaurus (
     // https://docusaurus.io/docs/api/plugin-methods/lifecycle-apis
     // Fetch from data sources. The return value is the content it needs.
     async loadContent () {
-      console.log('docusaurus-plugin-doxygen: loadContent()')
+      console.log('docusaurus-plugin-doxygen: loading content...')
+      // console.log(options)
 
-      return {}
+      const doxygenData: DoxygenData = await parseDoxygen({ options })
+      await generateDocusaurusMdx({ doxygenData, options })
+
+      return doxygenData
     },
 
     // The return value of `loadContent()` will be passed to
@@ -41,10 +47,10 @@ export default async function pluginDocusaurus (
       content,
       actions
     }: {
-      content: any
+      content: DoxygenData
       actions: any
     }) {
-      console.log('docusaurus-plugin-doxygen: contentLoaded()')
+      // console.log('docusaurus-plugin-doxygen: contentLoaded()')
     },
 
     // https://docusaurus.io/docs/api/plugin-methods/extend-infrastructure#extendCli

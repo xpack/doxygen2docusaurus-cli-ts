@@ -178,8 +178,8 @@ export class DocusaurusGenerator {
     this.createPermalinksMap()
 
     await this.prepareOutputFolder()
-    await this.writeSidebar()
     await this.generatePages()
+    await this.writeSidebar()
   }
 
   // --------------------------------------------------------------------------

@@ -11,38 +11,25 @@
 
 // ----------------------------------------------------------------------------
 
+import assert from 'node:assert'
 import * as util from 'node:util'
 
-import { defaultOptions, PluginOptions } from '../options.js'
-import { DoxygenData, DoxygenXmlParser } from '../../doxygen-xml-parser/index.js'
-import assert from 'node:assert'
-import { DocusaurusGenerator } from '../../docusaurus-generator/index.js'
+import { DoxygenData } from '../../doxygen-xml-parser/index.js'
+import { generateDocusaurusMdx, parseDoxygen } from '../main.js'
+import { PluginOptions } from '../options.js'
+
+// ----------------------------------------------------------------------------
 
 export async function generateDoxygen (context: any, options: PluginOptions): Promise<number> {
   // console.log('generateDoxygen()')
   // console.log(`context: ${util.inspect(context)}`)
   // console.log(`options: ${util.inspect(options)}`)
 
-  // Merge with the defaults.
-  const actualOptions = {
-    ...defaultOptions,
-    ...options
-  }
-  console.log('options:', util.inspect(actualOptions))
+  const doxygenData: DoxygenData = await parseDoxygen({ options })
 
-  assert(actualOptions?.doxygenXmlInputFolderPath !== undefined && actualOptions?.doxygenXmlInputFolderPath?.length > 0, 'doxygenXmlInputFolderPath is required')
+  const exitCode = await generateDocusaurusMdx({ doxygenData, options })
 
-  assert(actualOptions.outputFolderPath !== undefined && actualOptions.outputFolderPath.length > 0, 'outputFolderPath is required')
-
-  const xml = new DoxygenXmlParser()
-  const doxygenData: DoxygenData = await xml.parse({ folderPath: actualOptions.doxygenXmlInputFolderPath })
-  // console.log('doxygenData:', util.inspect(doxygenData))
-  const docs = new DocusaurusGenerator({ doxygenData, pluginOptions: actualOptions })
-  await docs.generate()
-
-  console.log(`Pages for ${actualOptions.outputFolderPath} generated.`)
-
-  return 0
+  return exitCode
 }
 
 // ----------------------------------------------------------------------------
