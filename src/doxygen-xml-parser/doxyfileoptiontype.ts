@@ -29,7 +29,7 @@ import { AbstractParsedObjectBase } from './types.js'
 // </xsd:complexType>
 
 export abstract class AbstractDoxygenFileOptionType extends AbstractParsedObjectBase {
-  // Mandatory elements.
+  // Optional elements.
   values: string[] | undefined // [0-n] valueType
 
   // Mandatory attributes.

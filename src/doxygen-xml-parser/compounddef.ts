@@ -101,23 +101,23 @@ export abstract class AbstractCompoundDefType extends AbstractParsedObjectBase {
   title?: string | undefined
   briefDescription?: BriefDescription | undefined
   detailedDescription?: DetailedDescription | undefined
-  baseCompoundRefs: BaseCompoundRef[] | undefined
-  derivedCompoundRefs: DerivedCompoundRef[] | undefined
-  includes: Includes[] | undefined
-  includedBy: IncludedBy[] | undefined
-  templateParamList: TemplateParamList | undefined
-  sectionDefs: SectionDef[] | undefined
+  baseCompoundRefs?: BaseCompoundRef[] | undefined
+  derivedCompoundRefs?: DerivedCompoundRef[] | undefined
+  includes?: Includes[] | undefined
+  includedBy?: IncludedBy[] | undefined
+  templateParamList?: TemplateParamList | undefined
+  sectionDefs?: SectionDef[] | undefined
   // innerModules
-  innerDirs: InnerDir[] | undefined
-  innerFiles: InnerFile[] | undefined
-  innerClasses: InnerClass[] | undefined
+  innerDirs?: InnerDir[] | undefined
+  innerFiles?: InnerFile[] | undefined
+  innerClasses?: InnerClass[] | undefined
   // innerConcepts
-  innerNamespaces: InnerNamespace[] | undefined
+  innerNamespaces?: InnerNamespace[] | undefined
   // innerPages
-  innerGroups: InnerGroup[] | undefined
-  programListing: ProgramListing | undefined
-  location: Location | undefined
-  listOfAllMembers: ListOfAllMembers | undefined
+  innerGroups?: InnerGroup[] | undefined
+  programListing?: ProgramListing | undefined
+  location?: Location | undefined
+  listOfAllMembers?: ListOfAllMembers | undefined
 
   // Mandatory attributes.
   id: string = ''
@@ -126,11 +126,11 @@ export abstract class AbstractCompoundDefType extends AbstractParsedObjectBase {
   // Optional attributes.
   language?: string | undefined // DoxLanguage
   // WARNING: This attribute is not marked as optional, but is not present.
-  prot: string | undefined
-  final: Boolean | undefined
-  inline: Boolean | undefined
-  sealed: Boolean | undefined
-  abstract: Boolean | undefined
+  prot?: string | undefined
+  final?: Boolean | undefined
+  inline?: Boolean | undefined
+  sealed?: Boolean | undefined
+  abstract?: Boolean | undefined
 
   // Not in xsd.
   // parentId: string = ''

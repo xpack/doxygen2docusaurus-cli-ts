@@ -34,10 +34,10 @@ export abstract class AbstractDoxygenFileType extends AbstractParsedObjectBase {
   lang: string = ''
 
   // Optional elements.
-  options: DoxygenFileOption[] | undefined
+  options?: DoxygenFileOption[] | undefined
 
   // Optional attributes.
-  noNamespaceSchemaLocation: string | undefined
+  noNamespaceSchemaLocation?: string | undefined
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)

@@ -39,6 +39,7 @@ export abstract class AbstractMemberRefType extends AbstractParsedObjectBase {
   refid: string = ''
   prot: string = ''
   virt: string = ''
+
   // WARNING: Deviation from xsd, there it is not optional.
   ambiguityscope?: string | undefined
 

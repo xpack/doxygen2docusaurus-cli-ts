@@ -37,16 +37,16 @@ export abstract class AbstractLocationType extends AbstractParsedObjectBase {
 
   // Optional elements.
   // WARNING: The xsd specifies that `line` is mandatory, but in practice it is not.
-  line: Number | undefined
+  line?: Number | undefined
 
   // Optional attributes.
-  column: Number | undefined
-  declfile: string | undefined
-  declline: Number | undefined
-  declcolumn: Number | undefined
-  bodyfile: string | undefined
-  bodystart: Number | undefined
-  bodyend: Number | undefined
+  column?: Number | undefined
+  declfile?: string | undefined
+  declline?: Number | undefined
+  declcolumn?: Number | undefined
+  bodyfile?: string | undefined
+  bodystart?: Number | undefined
+  bodyend?: Number | undefined
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)

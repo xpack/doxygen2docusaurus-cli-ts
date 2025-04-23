@@ -35,10 +35,10 @@ export abstract class AbstractIndexDoxygenType extends AbstractParsedObjectBase 
   lang: string = ''
 
   // Optional elements.
-  compounds: IndexCompound[] | undefined
+  compounds?: IndexCompound[] | undefined
 
   // Optional attributes.
-  noNamespaceSchemaLocation: string | undefined
+  noNamespaceSchemaLocation?: string | undefined
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)

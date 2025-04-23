@@ -46,8 +46,8 @@ export abstract class AbstractRefType extends AbstractParsedObjectBase {
   refid: string = ''
 
   // Optional attributes.
-  prot: string | undefined // DoxProtectionKind
-  inline: Boolean | undefined // DoxBool
+  prot?: string | undefined // DoxProtectionKind
+  inline?: Boolean | undefined // DoxBool
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)

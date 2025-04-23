@@ -139,9 +139,9 @@ export abstract class AbstractMemberDefType extends AbstractParsedObjectBase {
   staticc: Boolean | undefined
 
   // Optional elements.
-  briefDescription: BriefDescription | undefined
-  detailedDescription: DetailedDescription | undefined
-  inbodyDescription: InbodyDescription | undefined
+  briefDescription?: BriefDescription | undefined
+  detailedDescription?: DetailedDescription | undefined
+  inbodyDescription?: InbodyDescription | undefined
   qualifiedName?: string | undefined
   type?: Type | undefined
   definition?: string | undefined
@@ -150,12 +150,12 @@ export abstract class AbstractMemberDefType extends AbstractParsedObjectBase {
   // TODO: add more...
 
   // Optional attributes.
-  _const: Boolean | undefined
-  constexpr: Boolean | undefined
-  explicit: Boolean | undefined
-  inline: Boolean | undefined
-  mutable: Boolean | undefined
-  virt: string | undefined
+  _const?: Boolean | undefined
+  constexpr?: Boolean | undefined
+  explicit?: Boolean | undefined
+  inline?: Boolean | undefined
+  mutable?: Boolean | undefined
+  virt?: string | undefined
   // TODO: add more...
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
