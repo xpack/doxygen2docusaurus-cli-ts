@@ -49,12 +49,12 @@ export class Folders {
     }
   }
 
-  getPathRecursive (folderId: string): string {
+  getRelativePathRecursively (folderId: string): string {
     const folder = this.membersById.get(folderId)
     assert(folder !== undefined)
     let parentPath = ''
     if (folder.parentFolderId.length > 0) {
-      parentPath = this.getPathRecursive(folder.parentFolderId) + '/'
+      parentPath = this.getRelativePathRecursively(folder.parentFolderId) + '/'
     }
     const name: string = folder.compoundDef.compoundName
     return `${parentPath}${name}`

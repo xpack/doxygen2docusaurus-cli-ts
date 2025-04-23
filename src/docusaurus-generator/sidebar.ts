@@ -181,7 +181,7 @@ export class Sidebar {
     const label = compoundDef.compoundName
     let parentPath = ''
     if (folder.parentFolderId.length > 0) {
-      parentPath = this.generator.folders.getPathRecursive(folder.parentFolderId) + '/'
+      parentPath = this.generator.folders.getRelativePathRecursively(folder.parentFolderId) + '/'
     }
     const curedName: string = (parentPath + compoundDef.compoundName).replaceAll(/[^a-zA-Z0-9-]/g, '-')
 
@@ -216,7 +216,7 @@ export class Sidebar {
     const label = compoundDef.compoundName
     let parentPath = ''
     if (file.parentFolderId.length > 0) {
-      parentPath = this.generator.folders.getPathRecursive(file.parentFolderId) + '/'
+      parentPath = this.generator.folders.getRelativePathRecursively(file.parentFolderId) + '/'
     }
     const curedName: string = (parentPath + compoundDef.compoundName).replaceAll(/[^a-zA-Z0-9-]/g, '-')
     const docItem: SidebarDocItem = {

@@ -55,18 +55,19 @@ export class Files {
     }
 
     for (const [fileId, file] of this.membersById.entries()) {
-      const path = this.getPathRecursive(fileId)
+      const path = file.compoundDef.location?.file
+      assert(path !== undefined)
       this.membersByPath.set(path, file)
       // console.log(path, file)
     }
   }
 
-  getPathRecursive (fileId: string): string {
+  getRelativePathRecursively (fileId: string): string {
     const file = this.membersById.get(fileId)
     assert(file !== undefined)
     let parentPath = ''
     if (file.parentFolderId.length > 0) {
-      parentPath = this.folders.getPathRecursive(file.parentFolderId) + '/'
+      parentPath = this.folders.getRelativePathRecursively(file.parentFolderId) + '/'
     }
     const name: string = file.compoundDef.compoundName
     return `${parentPath}${name}`
