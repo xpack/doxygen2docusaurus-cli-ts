@@ -82,7 +82,7 @@ export class FolderGenerator extends PageGeneratorBase {
       result += '\n'
     }
 
-    const fullFolderPath = this.context.folders.getPathRecursive(compoundDef.id)
+    const fullFolderPath = this.context.folders.getRelativePathRecursively(compoundDef.id)
 
     result += this.context.renderDetailedDescriptionMdx({
       compoundDef,

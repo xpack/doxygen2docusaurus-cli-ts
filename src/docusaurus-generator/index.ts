@@ -206,12 +206,12 @@ export class DocusaurusGenerator {
 
       let name: string = ''
       if (kind === 'dir') {
-        name = this.folders.getPathRecursive(id)
+        name = this.folders.getRelativePathRecursively(id)
       } else if (kind === 'file') {
         const file = this.files.membersById.get(id)
         assert(file !== undefined)
         if (file.parentFolderId.length > 0) {
-          name = this.folders.getPathRecursive(file.parentFolderId) + '/'
+          name = this.folders.getRelativePathRecursively(file.parentFolderId) + '/'
         }
         name += compoundDef.compoundName
       } else if (kind === 'class' || kind === 'namespace') {

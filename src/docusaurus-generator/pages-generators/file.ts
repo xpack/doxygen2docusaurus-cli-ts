@@ -52,9 +52,12 @@ export class FileGenerator extends PageGeneratorBase {
 
     result += this.context.renderNamespacesIndexMdx(compoundDef)
 
-    const file = this.context.files.membersById.get(compoundDef.id)
-    assert(file?.parentFolderId !== undefined)
-    const fileFolderPath = `${this.context.folders.getPathRecursive(file?.parentFolderId)}/${compoundDef.compoundName}`
+    // const file = this.context.files.membersById.get(compoundDef.id)
+    // console.log('file:', file, 'for', compoundDef.id)
+    // console.log('files.membersById', this.context.files.membersById)
+    // assert(file?.parentFolderId !== undefined)
+    // const fileFolderPath = `${this.context.folders.getRelativePathRecursively(file?.parentFolderId)}/${compoundDef.compoundName}`
+    const fileFolderPath = `${this.context.files.getRelativePathRecursively(compoundDef.id)}`
 
     result += this.context.renderDetailedDescriptionMdx({
       compoundDef,
