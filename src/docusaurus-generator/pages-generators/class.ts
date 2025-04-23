@@ -532,7 +532,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
       prototype += ')'
     }
-    if (memberDef._const?.valueOf()) {
+    if (memberDef.constt?.valueOf()) {
       prototype += ' const'
     }
 

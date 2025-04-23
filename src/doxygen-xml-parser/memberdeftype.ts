@@ -150,7 +150,7 @@ export abstract class AbstractMemberDefType extends AbstractParsedObjectBase {
   // TODO: add more...
 
   // Optional attributes.
-  _const?: Boolean | undefined
+  constt?: Boolean | undefined
   constexpr?: Boolean | undefined
   explicit?: Boolean | undefined
   inline?: Boolean | undefined
@@ -222,7 +222,7 @@ export abstract class AbstractMemberDefType extends AbstractParsedObjectBase {
       } else if (attributeName === '@_static') {
         this.staticc = xml.getAttributeBooleanValue(element, '@_static')
       } else if (attributeName === '@_const') {
-        this._const = Boolean(xml.getAttributeBooleanValue(element, '@_const'))
+        this.constt = Boolean(xml.getAttributeBooleanValue(element, '@_const'))
       } else if (attributeName === '@_explicit') {
         this.explicit = Boolean(xml.getAttributeBooleanValue(element, '@_explicit'))
       } else if (attributeName === '@_inline') {
