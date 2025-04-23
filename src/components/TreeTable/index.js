@@ -11,17 +11,17 @@
 
 // ----------------------------------------------------------------------------
 
-import styles from './styles.module.css'
-import React from 'react'
+import styles from './styles.module.css';
+import React from 'react';
 
 // ----------------------------------------------------------------------------
 
-export default function IncludesList({ title, children }) {
+export default function TreeTable({children}) {
   return (
-    <div class="doxyIncludesList">
+    <table class="doxyTreeTable">
       {children}
-    </div>
-  )
+    </table>
+  );
 }
 
 // ----------------------------------------------------------------------------

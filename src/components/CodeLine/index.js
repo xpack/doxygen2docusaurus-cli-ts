@@ -11,20 +11,21 @@
 
 // ----------------------------------------------------------------------------
 
-import styles from './styles.module.css'
-import React from 'react'
+import styles from './styles.module.css';
+import React from 'react';
+
+import Link from '@docusaurus/Link'
 
 // ----------------------------------------------------------------------------
 
-export default function SectionUser({ title, children }) {
+export default function CodeLine({lineNumber, lineLink, children}) {
   return (
-    <dl class="doxySectionUser">
-      <dt><b>{title}</b></dt>
-      <dd>
-        {children}
-      </dd>
-    </dl>
-  )
+    <div class="doxyCodeLine">
+      {lineNumber && <span class="doxyLineNumber">{lineLink ? <><Link to={lineLink}>{lineNumber}</Link></> : `${lineNumber}`}</span>}
+      {!lineNumber && <span class="doxyNoLineNumber">&nbsp;</span>}
+      <span class="doxyLineContent">{children}</span>
+    </div>
+  );
 }
 
 // ----------------------------------------------------------------------------

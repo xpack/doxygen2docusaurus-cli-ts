@@ -5,25 +5,25 @@
   "type": "module",
   "exports": {
     ".": "./dist/index.js",
-    "./components/DoxygenPage": "./components/DoxygenPage/index.js",
-    "./components/MembersList": "./components/MembersList/index.js",
-    "./components/MembersListItem": "./components/MembersListItem/index.js",
-    "./components/TreeTable": "./components/TreeTable/index.js",
-    "./components/TreeTableRow": "./components/TreeTableRow/index.js",
-    "./components/ParametersList": "./components/ParametersList/index.js",
-    "./components/ParametersListItem": "./components/ParametersListItem/index.js",
-    "./components/MemberDefinition": "./components/MemberDefinition/index.js",
-    "./components/IncludesList": "./components/IncludesList/index.js",
-    "./components/IncludesListItem": "./components/IncludesListItem/index.js",
-    "./components/SectionUser": "./components/SectionUser/index.js",
-    "./components/SectionDefinition": "./components/SectionDefinition/index.js",
-    "./components/ProgramListing": "./components/ProgramListing/index.js",
-    "./components/CodeLine": "./components/CodeLine/index.js",
-    "./components/Highlight": "./components/Highlight/index.js"
+    "./components/DoxygenPage": "./src/components/DoxygenPage/index.js",
+    "./components/MembersList": "./src/components/MembersList/index.js",
+    "./components/MembersListItem": "./src/components/MembersListItem/index.js",
+    "./components/TreeTable": "./src/components/TreeTable/index.js",
+    "./components/TreeTableRow": "./src/components/TreeTableRow/index.js",
+    "./components/ParametersList": "./src/components/ParametersList/index.js",
+    "./components/ParametersListItem": "./src/components/ParametersListItem/index.js",
+    "./components/MemberDefinition": "./src/components/MemberDefinition/index.js",
+    "./components/IncludesList": "./src/components/IncludesList/index.js",
+    "./components/IncludesListItem": "./src/components/IncludesListItem/index.js",
+    "./components/SectionUser": "./src/components/SectionUser/index.js",
+    "./components/SectionDefinition": "./src/components/SectionDefinition/index.js",
+    "./components/ProgramListing": "./src/components/ProgramListing/index.js",
+    "./components/CodeLine": "./src/components/CodeLine/index.js",
+    "./components/Highlight": "./src/components/Highlight/index.js"
   },
   "files": [
     "dist/",
-    "components/"
+    "src/components/"
   ],
   "keywords": [
     "docusaurus",

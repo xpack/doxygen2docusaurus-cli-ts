@@ -11,22 +11,30 @@
 
 // ----------------------------------------------------------------------------
 
-import styles from './styles.module.css'
-import React from 'react'
+import styles from './styles.module.css';
+import React from 'react';
 import Link from '@docusaurus/Link'
 
 // ----------------------------------------------------------------------------
 
-export default function ParametersListItem({
-  name,
+export default function TreeTableRow({
+  itemIconLetter,
+  itemIconClass,
+  itemLabel,
+  itemLink,
+  depth,
   children
 }) {
+  const doxyClass=`doxyTreeItemLeft doxyTreeIndent${depth}`
   return (
-    <tr class="doxyParamItem">
-      <td class="doxyParamItemName">{name}</td>
-      <td class="doxyParamItemDescription">{children}</td>
+    <tr class="doxyTreeItem">
+      <td class={doxyClass} align="left" valign="top">
+        {itemIconLetter && <><span class="doxyTreeIconBox"><span class="doxyTreeIcon">{itemIconLetter}</span></span></>}
+        {itemIconClass ? <Link to={itemLink}><span class={itemIconClass}>{itemLabel}</span></Link> : <Link to={itemLink}>{itemLabel}</Link>}
+      </td>
+      <td class="doxyTreeItemRight" align="left" valign="top">{children}</td>
     </tr>
-  )
+  );
 }
 
 // ----------------------------------------------------------------------------

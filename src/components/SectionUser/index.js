@@ -11,17 +11,20 @@
 
 // ----------------------------------------------------------------------------
 
-import styles from './styles.module.css'
-import React from 'react'
+import styles from './styles.module.css';
+import React from 'react';
 
 // ----------------------------------------------------------------------------
 
-export default function ProgramListing({ children }) {
+export default function SectionUser({title, children}) {
   return (
-    <div class="doxyProgramListing">
-      {children}
-    </div>
-  )
+    <dl class="doxySectionUser">
+      <dt><b>{title}</b></dt>
+      <dd>
+        {children}
+      </dd>
+    </dl>
+  );
 }
 
 // ----------------------------------------------------------------------------

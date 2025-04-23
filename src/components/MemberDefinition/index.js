@@ -11,12 +11,12 @@
 
 // ----------------------------------------------------------------------------
 
-import styles from './styles.module.css'
-import React from 'react'
+import styles from './styles.module.css';
+import React from 'react';
 
 // ----------------------------------------------------------------------------
 
-export default function MemberDefinition({ template, prototype, labels, children }) {
+export default function MemberDefinition({template, prototype, labels, children}) {
   return (
     <>
       <div class="doxyMemberItem">
@@ -24,29 +24,29 @@ export default function MemberDefinition({ template, prototype, labels, children
           {template && <div class="doxyMemberTemplate">{template}</div>}
           <table class="doxyMemberLabels">
             <tbody>
-              <tr class="doxyMemberLabels">
-                <td class="doxyMemberLabelsLeft">
-                  <table class="doxyMemberName">
-                    <tbody>
-                      <tr>
-                        <td class="doxyMemberName">{prototype}</td>
-                      </tr>
+            <tr class="doxyMemberLabels">
+              <td class="doxyMemberLabelsLeft">
+                <table class="doxyMemberName">
+                  <tbody>
+                    <tr>
+                    <td class="doxyMemberName">{prototype}</td>
+                    </tr>
                     </tbody>
-                  </table>
+                </table>
+              </td>
+              {
+                labels && labels.length > 0 && <td class="doxyMemberLabelsRight">
+                  <span class="doxyMemberLabels">
+                    {
+                      labels.map((label) => (
+                        <span class={`doxyMemberLabel ${label}`}>{label}</span>
+                      ))
+                    }
+                  </span>
                 </td>
-                {
-                  labels && labels.length > 0 && <td class="doxyMemberLabelsRight">
-                    <span class="doxyMemberLabels">
-                      {
-                        labels.map((label) => (
-                          <span class={`doxyMemberLabel ${label}`}>{label}</span>
-                        ))
-                      }
-                    </span>
-                  </td>
-                }
-              </tr>
-            </tbody>
+              }
+            </tr>
+          </tbody>
           </table>
         </div>
         <div class="doxyMemberDoc">
@@ -54,7 +54,7 @@ export default function MemberDefinition({ template, prototype, labels, children
         </div>
       </div>
     </>
-  )
+  );
 }
 
 // ----------------------------------------------------------------------------
