@@ -1,8 +1,8 @@
 /* --- Begin DoxygenPage/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
-:global(div.doxyPage) {
-  --ifm-global-shadow-doxy: 0 4px 16px rgba(0, 0, 0, 0.2);
+:global(:root) {
+  --ifm-global-shadow-doxy: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 :global(div.doxyPage a) {
