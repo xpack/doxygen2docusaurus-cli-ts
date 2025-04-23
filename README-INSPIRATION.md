@@ -22,7 +22,7 @@ Other links:
 
 From typedoc-plugin-markdown
 
-```
+```js
 module.exports = {
   // Add option types
   plugins: [
