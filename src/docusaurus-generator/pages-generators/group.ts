@@ -141,8 +141,8 @@ export class GroupGenerator extends PageGeneratorBase {
     }
 
     result += '\n'
-    result += 'For historical reasons, the original Doxygen pages are still available at '
-    result += '<Link to="pathname:///doxygen/topics.html">this</Link> link.'
+    result += 'For comparison, Doxygen pages, styled with the [doxygen-awesome-css](https://jothepro.github.io/doxygen-awesome-css/) plugin, continue to be available via the '
+    result += '<Link to="pathname:///doxygen/topics.html">/doxygen/*</Link> URLs.'
 
     return result
   }
