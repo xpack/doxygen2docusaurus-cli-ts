@@ -23,7 +23,7 @@ or, during development:
 
 Add the plugin to docusaurus.config.js
 
-```
+```js
 module.exports = {
   // Add option types
   plugins: [
@@ -40,5 +40,3 @@ module.exports = {
   ],
 };
 ```
-
-
