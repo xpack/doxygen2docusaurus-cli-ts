@@ -34,7 +34,9 @@ export class FileGenerator extends PageGeneratorBase {
     result += this.context.renderIncludesIndexMdx(compoundDef)
 
     if (compoundDef.innerClasses !== undefined) {
+      result += '\n'
       result += '## Classes\n'
+
       result += '\n'
       result += '<MembersList>\n'
 
@@ -63,13 +65,13 @@ export class FileGenerator extends PageGeneratorBase {
       compoundDef,
       todo: `@file ${fileFolderPath}`
     })
-    result += '\n'
 
     if (compoundDef.programListing !== undefined) {
+      result += '\n'
       result += '## File Listing\n'
+
       result += '\n'
       result += 'The file content with the documentation metadata removed is:\n'
-      result += '\n'
 
       result += this.context.renderElementMdx(compoundDef.programListing)
     }
@@ -94,12 +96,13 @@ export class FileGenerator extends PageGeneratorBase {
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
+    result += '\n'
     result += `<TreeTableRow itemIconClass="doxyIconFile" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
 
     const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
     result += briefDescription.replace(/[.]$/, '')
-    result += '\n'
 
+    result += '\n'
     result += '</TreeTableRow>\n'
 
     return result

@@ -730,9 +730,9 @@ export class DocusaurusGenerator {
     let result: string = ''
     const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription)
     if (briefDescription.length > 0) {
+      result += '\n'
       result += briefDescription
       result += ' <a href="#details">More...</a>\n'
-      result += '\n'
     }
     return result
   }
@@ -746,12 +746,13 @@ export class DocusaurusGenerator {
   }): string {
     let result: string = ''
 
-    result += '## Description {#details}\n'
     result += '\n'
+    result += '## Description {#details}\n'
 
     // Deviate from Doxygen and do not repeat the brief in the detailed section.
 
     // console.log(util.inspect(compoundDef.detailedDescription), { compact: false, depth: 999 })
+    result += '\n'
     const detailedDescription: string = this.renderElementMdx(compoundDef.detailedDescription)
     if (detailedDescription.length > 0 && detailedDescription !== '<hr/>') {
       result += detailedDescription
@@ -767,27 +768,31 @@ export class DocusaurusGenerator {
     let result: string = ''
 
     if (compoundDef.innerNamespaces !== undefined && compoundDef.innerNamespaces.length > 0) {
-      result += '## Namespaces\n'
       result += '\n'
+      result += '## Namespaces\n'
 
+      result += '\n'
       result += '<MembersList>\n'
+
       for (const innerNamespace of compoundDef.innerNamespaces) {
         const namespace = this.namespaces.membersById.get(innerNamespace.refid)
         const permalink = this.getPagePermalink(innerNamespace.refid)
 
         const itemRight = `<Link to="${permalink}">${namespace?.unparentedName}</Link>`
+
+        result += '\n'
         result += `<MembersListItem itemLeft="namespace" itemRight={${itemRight}}>\n`
 
         const compoundDef = this.compoundDefsById.get(innerNamespace.refid)
         assert(compoundDef !== undefined)
         const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription)
         result += briefDescription
-        result += '\n'
 
+        result += '\n'
         result += '</MembersListItem>\n'
       }
-      result += '</MembersList>\n'
       result += '\n'
+      result += '</MembersList>\n'
     }
     return result
   }
@@ -796,14 +801,15 @@ export class DocusaurusGenerator {
     let result: string = ''
 
     if (compoundDef.includes !== undefined) {
+      result += '\n'
       result += '## Included Headers\n'
+
       result += '\n'
       result += '<IncludesList>\n'
       for (const include of compoundDef.includes) {
         result += this.renderElementMdx(include)
       }
       result += '</IncludesList>\n'
-      result += '\n'
     }
 
     return result
@@ -817,13 +823,16 @@ export class DocusaurusGenerator {
     const className = `${compoundDef.compoundName}${this.renderTemplateParameterNamesMdx(compoundDef)}`
     const itemRight = `<Link to="${permalink}">${className}</Link>`
 
+    result += '\n'
     result += `<MembersListItem itemLeft="class" itemRight={<>${itemRight}</>}>\n`
 
     const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription)
-    result += briefDescription
-    result += ` <Link to="${permalink}#details">`
-    result += 'More...'
-    result += '</Link>\n'
+    if (briefDescription.length > 0) {
+      result += briefDescription
+      result += ` <Link to="${permalink}#details">`
+      result += 'More...'
+      result += '</Link>\n'
+    }
 
     result += '</MembersListItem>\n'
 

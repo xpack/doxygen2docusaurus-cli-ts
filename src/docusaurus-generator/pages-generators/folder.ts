@@ -35,51 +35,59 @@ export class FolderGenerator extends PageGeneratorBase {
     result += this.context.renderBriefDescriptionMdx(compoundDef)
 
     if (compoundDef.innerDirs !== undefined && compoundDef.innerDirs.length > 0) {
-      result += '## Folders\n'
       result += '\n'
+      result += '## Folders\n'
 
+      result += '\n'
       result += '<MembersList>\n'
+
       for (const innerDir of compoundDef.innerDirs) {
         const folder = this.context.folders.membersById.get(innerDir.refid)
         const permalink = this.context.getPagePermalink(innerDir.refid)
 
         const itemRight = `<Link to="${permalink}">${folder?.compoundDef.compoundName}</Link>`
+
+        result += '\n'
         result += `<MembersListItem itemLeft="folder" itemRight={${itemRight}}>\n`
 
         const compoundDef = this.context.compoundDefsById.get(innerDir.refid)
         assert(compoundDef !== undefined)
         const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
         result += briefDescription
-        result += '\n'
 
+        result += '\n'
         result += '</MembersListItem>\n'
       }
-      result += '</MembersList>\n'
       result += '\n'
+      result += '</MembersList>\n'
     }
 
     if (compoundDef.innerFiles !== undefined && compoundDef.innerFiles.length > 0) {
-      result += '## Files\n'
       result += '\n'
+      result += '## Files\n'
 
+      result += '\n'
       result += '<MembersList>\n'
+
       for (const innerFile of compoundDef.innerFiles) {
         const file = this.context.files.membersById.get(innerFile.refid)
         const permalink = this.context.getPagePermalink(innerFile.refid)
 
         const itemRight = `<Link to="${permalink}">${file?.compoundDef.compoundName}</Link>`
+
+        result += '\n'
         result += `<MembersListItem itemLeft="file" itemRight={${itemRight}}>\n`
 
         const compoundDef = this.context.compoundDefsById.get(innerFile.refid)
         assert(compoundDef !== undefined)
         const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
         result += briefDescription
-        result += '\n'
 
+        result += '\n'
         result += '</MembersListItem>\n'
       }
-      result += '</MembersList>\n'
       result += '\n'
+      result += '</MembersList>\n'
     }
 
     const fullFolderPath = this.context.folders.getRelativePathRecursively(compoundDef.id)
@@ -98,8 +106,8 @@ export class FolderGenerator extends PageGeneratorBase {
     let result: string = ''
 
     result += 'The folders & files that contributed content to this site are:\n'
-    result += '\n'
 
+    result += '\n'
     result += '<TreeTable>\n'
 
     for (const folderId of this.context.folders.topLevelFolderIds) {
@@ -111,6 +119,7 @@ export class FolderGenerator extends PageGeneratorBase {
       result += this.fileGenerator.renderIndexFile(fileId, 1)
     }
 
+    result += '\n'
     result += '</TreeTable>\n'
 
     return result
@@ -129,12 +138,13 @@ export class FolderGenerator extends PageGeneratorBase {
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
+    result += '\n'
     result += `<TreeTableRow itemIconClass="doxyIconFolder" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
 
     const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
     result += briefDescription.replace(/[.]$/, '')
-    result += '\n'
 
+    result += '\n'
     result += '</TreeTableRow>\n'
 
     if (folder.childrenFolderIds.length > 0) {

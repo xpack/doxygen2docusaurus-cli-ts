@@ -34,9 +34,12 @@ export class NamespaceGenerator extends PageGeneratorBase {
     result += this.context.renderNamespacesIndexMdx(compoundDef)
 
     if (compoundDef.innerClasses !== undefined && compoundDef.innerClasses.length > 0) {
+      result += '\n'
       result += '## Classes\n'
+
       result += '\n'
       result += '<MembersList>\n'
+
       for (const innerClass of compoundDef.innerClasses) {
         // console.log(util.inspect(innerClass), { compact: false, depth: 999 })
         const compoundDefClass = this.context.compoundDefsById.get(innerClass.refid)
@@ -52,23 +55,25 @@ export class NamespaceGenerator extends PageGeneratorBase {
         }
 
         const itemRight = `<Link to="${permalink}">${className}</Link>`
+
         result += '\n'
         result += `<MembersListItem itemLeft="class" itemRight={${itemRight}}>\n`
 
         const innerBriefDescription: string = this.context.renderElementMdx(compoundDefClass.briefDescription)
-        result += innerBriefDescription
+        if (innerBriefDescription.length > 0) {
+          result += innerBriefDescription
 
-        const innerPermalink = this.context.getPagePermalink(innerClass.refid)
-        assert(innerPermalink !== undefined && innerPermalink.length > 1)
-        result += ` <Link to="${innerPermalink}#details">`
-        result += 'More...'
-        result += '</Link>\n'
+          const innerPermalink = this.context.getPagePermalink(innerClass.refid)
+          assert(innerPermalink !== undefined && innerPermalink.length > 1)
+          result += ` <Link to="${innerPermalink}#details">`
+          result += 'More...'
+          result += '</Link>\n'
+        }
 
         result += '</MembersListItem>\n'
       }
       result += '\n'
       result += '</MembersList>\n'
-      result += '\n'
     }
 
     result += this.context.renderDetailedDescriptionMdx({
@@ -85,14 +90,15 @@ export class NamespaceGenerator extends PageGeneratorBase {
     let result: string = ''
 
     result += 'The namespaces used by this project are:\n'
-    result += '\n'
 
+    result += '\n'
     result += '<TreeTable>\n'
 
     for (const groupId of this.context.namespaces.topLevelNamespaceIds) {
       result += this.renderIndexNamespaceRecursively(groupId, 1)
     }
 
+    result += '\n'
     result += '</TreeTable>\n'
 
     return result
@@ -111,12 +117,13 @@ export class NamespaceGenerator extends PageGeneratorBase {
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
+    result += '\n'
     result += `<TreeTableRow itemIconLetter="N" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">\n`
 
     const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
     result += briefDescription.replace(/[.]$/, '')
-    result += '\n'
 
+    result += '\n'
     result += '</TreeTableRow>\n'
 
     if (namespace.childrenNamespaceIds.length > 0) {

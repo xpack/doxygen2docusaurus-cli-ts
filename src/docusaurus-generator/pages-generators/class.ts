@@ -41,10 +41,11 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     result += this.context.renderBriefDescriptionMdx(compoundDef)
 
+    result += '\n'
     result += '## Fully Qualified Name\n'
+
     result += '\n'
     result += `<CodeBlock>${compoundDef.compoundName}${this.context.renderTemplateParameterNamesMdx(compoundDef)}</CodeBlock>\n`
-    result += '\n'
 
     result += this.context.renderIncludesIndexMdx(compoundDef)
 
@@ -52,6 +53,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     assert(classs !== undefined)
 
     if (compoundDef.baseCompoundRefs !== undefined) {
+      result += '\n'
       if (compoundDef.baseCompoundRefs.length > 1) {
         result += '## Base classes\n'
       } else {
@@ -59,7 +61,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
       }
       result += '\n'
       result += '<MembersList>\n'
-      result += '\n'
+
       for (const baseCompoundRef of compoundDef.baseCompoundRefs) {
         // console.log(util.inspect(baseCompoundRef), { compact: false, depth: 999 })
 
@@ -69,6 +71,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
           result += this.context.renderClassSummaryMdx(compoundDef)
         } else {
+          result += '\n'
           result += `<MembersListItem itemLeft="class" itemRight={<>${baseCompoundRef.text}</>}>\n`
           result += '</MembersListItem>\n'
         }
@@ -76,16 +79,16 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
       result += '\n'
       result += '</MembersList>\n'
-      result += '\n'
     } else if ((classs.baseClassIds ?? []).length > 0) {
+      result += '\n'
       if (classs.baseClassIds.length > 1) {
         result += '## Base classes\n'
       } else {
         result += '## Base class\n'
       }
+
       result += '\n'
       result += '<MembersList>\n'
-      result += '\n'
       for (const baseClassId of classs.baseClassIds) {
         const baseCompoundDef = this.context.compoundDefsById.get(baseClassId)
         assert(baseCompoundDef !== undefined)
@@ -96,14 +99,15 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
       result += '\n'
       result += '</MembersList>\n'
-      result += '\n'
     }
 
     if (compoundDef.derivedCompoundRefs !== undefined) {
+      result += '\n'
       result += '## Derived Classes\n'
+
       result += '\n'
       result += '<MembersList>\n'
-      result += '\n'
+
       for (const derivedCompoundRef of compoundDef.derivedCompoundRefs) {
         // console.log(util.inspect(derivedCompoundRef), { compact: false, depth: 999 })
 
@@ -113,6 +117,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
           result += this.context.renderClassSummaryMdx(compoundDef)
         } else {
+          result += '\n'
           result += `<MembersListItem itemLeft="class" itemRight={<>${derivedCompoundRef.text}</>}>\n`
           result += '</MembersListItem>\n'
         }
@@ -120,12 +125,12 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
       result += '\n'
       result += '</MembersList>\n'
-      result += '\n'
     } else if ((classs.derivedClassIds ?? []).length > 0) {
+      result += '\n'
       result += '## Derived Classes\n'
+
       result += '\n'
       result += '<MembersList>\n'
-      result += '\n'
       for (const derivedClassId of classs.derivedClassIds) {
         const derivedCompoundDef = this.context.compoundDefsById.get(derivedClassId)
         assert(derivedCompoundDef !== undefined)
@@ -136,7 +141,6 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
       result += '\n'
       result += '</MembersList>\n'
-      result += '\n'
     }
 
     if (compoundDef.sectionDefs !== undefined) {
@@ -145,26 +149,26 @@ export class ClassPageGenerator extends PageGeneratorBase {
           sectionDef,
           compoundDef
         })
-        result += '\n'
       }
     }
 
-    result += '## Description {#details}\n'
     result += '\n'
+    result += '## Description {#details}\n'
 
     if (compoundDef.templateParamList?.params !== undefined) {
-      result += 'The class template declaration is:\n'
       result += '\n'
+      result += 'The class template declaration is:\n'
 
+      result += '\n'
       result += `<CodeBlock>template ${this.context.renderTemplateParametersMdx({ compoundDef, withDefaults: true })}\n`
       result += `class ${compoundDef.compoundName}${this.context.renderTemplateParameterNamesMdx(compoundDef)};</CodeBlock>\n`
-      result += '\n'
     }
 
     const detailedDescription: string = this.context.renderElementMdx(compoundDef.detailedDescription)
+
     if (detailedDescription.length > 0 && detailedDescription !== '<hr/>') {
-      result += detailedDescription
       result += '\n'
+      result += detailedDescription
       result += '\n'
     }
 
@@ -191,7 +195,6 @@ export class ClassPageGenerator extends PageGeneratorBase {
           className,
           compoundDef
         })
-        result += '\n'
       }
     }
 
@@ -204,16 +207,18 @@ export class ClassPageGenerator extends PageGeneratorBase {
     let result: string = ''
 
     if (location !== undefined) {
+      // console.log(location.file)
       const file = this.context.files.membersByPath.get(location.file)
       assert(file !== undefined)
       const permalink = this.context.getPagePermalink(file.compoundDef.id)
+
+      result += '\n'
       result += 'Definition at line '
       const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
-      result += `<Link to="${permalink}#${lineAttribute}">${location.line?.toString()}</Link>`
+      result += `<Link to="${permalink}/#${lineAttribute}">${location.line?.toString()}</Link>`
       result += ' of file '
       result += `<Link to="${permalink}">${path.basename(location.file) as string}</Link>`
       result += '.\n'
-      result += '\n'
     }
 
     return result
@@ -260,9 +265,10 @@ export class ClassPageGenerator extends PageGeneratorBase {
       return ''
     }
 
-    result += `<h2>${header}</h2>\n`
     result += '\n'
+    result += `<h2>${header}</h2>\n`
 
+    result += '\n'
     result += '<MembersList>\n'
 
     const memberDefs = sectionDef.memberDefs
@@ -319,6 +325,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
       default:
         console.error('member kind', memberDef.kind, 'not implemented yet in', this.constructor.name)
     }
+
     result += '\n'
     if (itemLeft.length > 0) {
       if (itemLeft.includes('<') || itemLeft.includes('&')) {
@@ -331,10 +338,12 @@ export class ClassPageGenerator extends PageGeneratorBase {
     }
 
     const briefDescription: string = this.context.renderElementMdx(memberDef.briefDescription)
-    result += briefDescription
-    result += ` <Link to="#${morePermalink}">`
-    result += 'More...'
-    result += '</Link>\n'
+    if (briefDescription.length > 0) {
+      result += briefDescription
+      result += ` <Link to="#${morePermalink}">`
+      result += 'More...'
+      result += '</Link>\n'
+    }
 
     result += '</MembersListItem>\n'
 
@@ -404,8 +413,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
       return ''
     }
 
-    result += '<SectionDefinition>\n'
     result += '\n'
+    result += '<SectionDefinition>\n'
 
     const sectionLabels: string[] = []
 
@@ -427,8 +436,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
       }
 
       if (constructors.length > 0) {
-        result += '## Constructors\n'
         result += '\n'
+        result += '## Constructors\n'
 
         for (const constructor of constructors) {
           result += this.renderMethodDefMdx({ memberDef: constructor, compoundDef, sectionLabels, isFunction: true })
@@ -436,16 +445,17 @@ export class ClassPageGenerator extends PageGeneratorBase {
       }
 
       if (destructor !== undefined) {
-        result += '## Destructor\n'
         result += '\n'
+        result += '## Destructor\n'
+
         result += this.renderMethodDefMdx({ memberDef: destructor, compoundDef, sectionLabels, isFunction: true })
       }
 
       memberDefs = methods
     }
 
-    result += `## ${header}\n`
     result += '\n'
+    result += `## ${header}\n`
 
     const isFunction: boolean = sectionDef.kind === 'public-func'
 
@@ -453,6 +463,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
       result += this.renderMethodDefMdx({ memberDef, compoundDef, sectionLabels, isFunction })
     }
 
+    result += '\n'
     result += '</SectionDefinition>\n'
 
     return result
@@ -501,8 +512,9 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     const id = memberDef.id.replace(/.*_1/, '')
     const name = memberDef.name + (isFunction ? '()' : '')
-    result += `### ${name} {#${id}}\n`
+
     result += '\n'
+    result += `### ${name} {#${id}}\n`
 
     const templateParameters = this.context.collectTemplateParameters({ compoundDef })
     assert(memberDef.definition !== undefined)
@@ -523,6 +535,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
     if (memberDef._const?.valueOf()) {
       prototype += ' const'
     }
+
+    result += '\n'
     result += '<MemberDefinition'
     if (templateParameters.length > 0) {
       const template = `template &lt;${templateParameters.join(', ')}&gt;`
@@ -537,20 +551,18 @@ export class ClassPageGenerator extends PageGeneratorBase {
     if (briefDescription.length > 0) {
       result += briefDescription
       result += '\n'
-      result += '\n'
     }
 
     const detailedDescription: string = this.context.renderElementMdx(memberDef.detailedDescription).trim()
     if (detailedDescription.length > 0) {
-      result += detailedDescription
       result += '\n'
+      result += detailedDescription
       result += '\n'
     }
 
     result += this.renderLocationMdx(memberDef.location)
 
     result += '</MemberDefinition>\n'
-    result += '\n'
 
     return result
   }
@@ -563,14 +575,15 @@ export class ClassPageGenerator extends PageGeneratorBase {
     let result: string = ''
 
     result += 'The classes, structs, union and interfaces used by this project are:\n'
-    result += '\n'
 
+    result += '\n'
     result += '<TreeTable>\n'
 
     for (const classId of this.context.classes.topLevelClassIds) {
       result += this.renderIndexClassRecursively(classId, 1)
     }
 
+    result += '\n'
     result += '</TreeTable>\n'
 
     return result
@@ -600,12 +613,13 @@ export class ClassPageGenerator extends PageGeneratorBase {
       iconLetter = '?'
     }
 
+    result += '\n'
     result += `<TreeTableRow itemIconLetter = "${iconLetter}" itemLabel = "${label}" itemLink = "${permalink}" depth = "${depth}" >\n`
 
     const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
     result += briefDescription.replace(/[.]$/, '')
-    result += '\n'
 
+    result += '\n'
     result += '</TreeTableRow>\n'
 
     if (classs.derivedClassIds.length > 0) {

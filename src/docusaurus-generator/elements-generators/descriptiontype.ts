@@ -186,6 +186,7 @@ export class ListingType extends ElementGeneratorBase {
 
     let result = ''
 
+    result += '\n'
     result += '<ProgramListing'
     if (element.filename !== undefined && element.filename.length > 0) {
       const extension = element.filename.replace('.', '')
@@ -196,8 +197,8 @@ export class ListingType extends ElementGeneratorBase {
 
     result += this.context.renderElementsMdx(element.codelines)
 
-    result += '</ProgramListing>\n'
     result += '\n'
+    result += '</ProgramListing>\n'
 
     return result
   }
