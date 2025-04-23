@@ -166,7 +166,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     const detailedDescription: string = this.context.renderElementMdx(compoundDef.detailedDescription)
 
-    if (detailedDescription.length > 0 && detailedDescription !== '<hr/>') {
+    if (detailedDescription.length > 0) {
       result += '\n'
       result += detailedDescription
       result += '\n'

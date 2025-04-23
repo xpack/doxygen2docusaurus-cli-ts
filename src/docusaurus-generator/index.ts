@@ -434,10 +434,7 @@ export class DocusaurusGenerator {
     const trimmedBodyText = bodyText.trim()
     text += trimmedBodyText
     text += '\n'
-    if (!trimmedBodyText.endsWith('<hr/>')) {
-      text += '\n'
-      text += '<hr/>\n'
-    }
+
     text += '\n'
     text += '</DoxygenPage>\n'
 
@@ -753,7 +750,7 @@ export class DocusaurusGenerator {
     // console.log(util.inspect(compoundDef.detailedDescription), { compact: false, depth: 999 })
     result += '\n'
     const detailedDescription: string = this.renderElementMdx(compoundDef.detailedDescription)
-    if (detailedDescription.length > 0 && detailedDescription !== '<hr/>') {
+    if (detailedDescription.length > 0) {
       result += detailedDescription
       result += '\n'
     } else {

@@ -22,6 +22,7 @@ export default function DoxygenPage({children, version = 'undefined'}) {
   return (
     <div class="doxyPage">
       {children}
+      <hr/>
       <p class="doxyGeneratedBy">
         Generated via <a href="https://github.com/xpack/docusaurus-plugin-doxygen">docusaurus-plugin-doxygen</a> by <a href="https://www.doxygen.nl">Doxygen</a> {version}
       </p>
