@@ -129,46 +129,46 @@ export class DocusaurusGenerator {
     folderGenerator.fileGenerator = fileGenerator
     this.pageGenerators.set('dir', folderGenerator)
 
-    // Add generators for the parsed xml elements.
+    // Add generators for the parsed xml elements (in alphabetical order).
+    this.elementGenerators.set('AbstractCodeLineType', new CodeLineType(this))
     this.elementGenerators.set('AbstractDescriptionType', new DescriptionTypeGenerator(this))
     this.elementGenerators.set('AbstractDescriptionType', new DescriptionTypeGenerator(this))
-    this.elementGenerators.set('AbstractDocParaType', new DocParaType(this))
-    this.elementGenerators.set('AbstractDocURLLink', new DocURLLink(this))
-    this.elementGenerators.set('AbstractRefType', new RefType(this))
-    this.elementGenerators.set('AbstractRefTextType', new RefTextType(this))
+    this.elementGenerators.set('AbstractDocEmptyType', new DocEmptyType(this))
+    this.elementGenerators.set('AbstractDocListType', new DocListType(this))
     this.elementGenerators.set('AbstractDocMarkupType', new DocMarkupType(this))
+    this.elementGenerators.set('AbstractDocParamListType', new DocParamListType(this))
+    this.elementGenerators.set('AbstractDocParaType', new DocParaType(this))
     this.elementGenerators.set('AbstractDocRefTextType', new DocRefTextType(this))
     this.elementGenerators.set('AbstractDocSimpleSectType', new DocSimpleSectType(this))
-    this.elementGenerators.set('AbstractListingType', new ListingType(this))
-    this.elementGenerators.set('AbstractDocEmptyType', new DocEmptyType(this))
-    this.elementGenerators.set('AbstractIncType', new IncType(this))
-    this.elementGenerators.set('AbstractDocParamListType', new DocParamListType(this))
-    this.elementGenerators.set('AbstractDocListType', new DocListType(this))
-    this.elementGenerators.set('AbstractParamType', new ParamType(this))
-    this.elementGenerators.set('AbstractLinkedTextType', new LinkedTextType(this))
-    this.elementGenerators.set('AbstractProgramListingType', new ListingType(this))
-    this.elementGenerators.set('AbstractCodeLineType', new CodeLineType(this))
+    this.elementGenerators.set('AbstractDocURLLink', new DocURLLink(this))
     this.elementGenerators.set('AbstractHighlightType', new HighlightType(this))
+    this.elementGenerators.set('AbstractIncType', new IncType(this))
+    this.elementGenerators.set('AbstractLinkedTextType', new LinkedTextType(this))
+    this.elementGenerators.set('AbstractListingType', new ListingType(this))
+    this.elementGenerators.set('AbstractParamType', new ParamType(this))
+    this.elementGenerators.set('AbstractProgramListingType', new ListingType(this))
+    this.elementGenerators.set('AbstractRefTextType', new RefTextType(this))
+    this.elementGenerators.set('AbstractRefType', new RefType(this))
     this.elementGenerators.set('AbstractSpType', new SpType(this))
 
-    // Plugin defined components.
+    // Plugin defined components (in alphabetical order).
     this.componentNames = [
+      'CodeLine',
       'DoxygenPage',
       'GeneratedByDoxygen',
-      'MembersList',
-      'MembersListItem',
-      'TreeTable',
-      'TreeTableRow',
-      'ParametersList',
-      'ParametersListItem',
-      'MemberDefinition',
+      'Highlight',
       'IncludesList',
       'IncludesListItem',
-      'SectionUser',
-      'SectionDefinition',
+      'MemberDefinition',
+      'MembersList',
+      'MembersListItem',
+      'ParametersList',
+      'ParametersListItem',
       'ProgramListing',
-      'CodeLine',
-      'Highlight'
+      'SectionDefinition',
+      'SectionUser',
+      'TreeTable',
+      'TreeTableRow'
     ]
   }
 
