@@ -20,7 +20,7 @@ export interface SidebarDocItem {
 export interface SidebarCategoryItem {
   type: 'category'
   label: string
-  link: {
+  link?: {
     type: 'doc'
     id: string
   }
