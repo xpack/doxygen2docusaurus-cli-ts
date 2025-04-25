@@ -78,6 +78,13 @@ export abstract class AbstractLinkedTextType extends AbstractParsedObjectBase {
 // <xsd:element name="defval" type="linkedTextType" minOccurs="0" />
 // <xsd:element name="typeconstraint" type="linkedTextType" minOccurs="0" />
 
+export class Initializer extends AbstractLinkedTextType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+    super(xml, element, 'initializer')
+  }
+}
+
 export class Type extends AbstractLinkedTextType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

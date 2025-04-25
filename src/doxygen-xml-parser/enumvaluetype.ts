@@ -13,26 +13,38 @@
 
 import assert from 'assert'
 import * as util from 'node:util'
+
 import { DoxygenXmlParser } from './index.js'
 import { AbstractParsedObjectBase } from './types.js'
+import { DoxProtectionKind } from './compoundreftype.js'
+import { BriefDescription, DetailedDescription } from './descriptiontype.js'
+import { Initializer } from './linkedtexttype.js'
 
 // ----------------------------------------------------------------------------
 
-// <xsd:complexType name="MemberType">
+// <xsd:complexType name="enumvalueType">
 //   <xsd:sequence>
-//     <xsd:element name="name" type="xsd:string"/>
+//     <xsd:element name="name" type="xsd:string" />
+//     <xsd:element name="initializer" type="linkedTextType" minOccurs="0" />
+//     <xsd:element name="briefdescription" type="descriptionType" minOccurs="0" />
+//     <xsd:element name="detaileddescription" type="descriptionType" minOccurs="0" />
 //   </xsd:sequence>
-//   <xsd:attribute name="refid" type="xsd:string" use="required"/>
-//   <xsd:attribute name="kind" type="MemberKind" use="required"/>
+//   <xsd:attribute name="id" type="xsd:string" />
+//   <xsd:attribute name="prot" type="DoxProtectionKind" />
 // </xsd:complexType>
 
-export abstract class AbstractMemberType extends AbstractParsedObjectBase {
+export abstract class AbstractEnumValueType extends AbstractParsedObjectBase {
   // Mandatory elements.
   name: string = ''
 
+  // Optional elements.
+  initializer?: Initializer | undefined
+  briefDescription?: BriefDescription | undefined
+  detailedDescription?: DetailedDescription | undefined
+
   // Mandatory attributes.
-  refid: string = ''
-  kind: string = '' // MemberKind
+  id: string = ''
+  prot: string = '' // DoxProtectionKind
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -50,6 +62,12 @@ export abstract class AbstractMemberType extends AbstractParsedObjectBase {
         // Ignore texts.
       } else if (xml.isInnerElementText(innerElement, 'name')) {
         this.name = xml.getInnerElementText(innerElement, 'name')
+      } else if (xml.hasInnerElement(innerElement, 'initializer')) {
+        this.initializer = new Initializer(xml, innerElement)
+      } else if (xml.hasInnerElement(innerElement, 'briefdescription')) {
+        this.briefDescription = new BriefDescription(xml, innerElement)
+      } else if (xml.hasInnerElement(innerElement, 'detaileddescription')) {
+        this.detailedDescription = new DetailedDescription(xml, innerElement)
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
@@ -65,18 +83,18 @@ export abstract class AbstractMemberType extends AbstractParsedObjectBase {
 
     const attributesNames = xml.getAttributesNames(element)
     for (const attributeName of attributesNames) {
-      if (attributeName === '@_refid') {
-        this.refid = xml.getAttributeStringValue(element, '@_refid')
-      } else if (attributeName === '@_kind') {
-        this.kind = xml.getAttributeStringValue(element, '@_kind')
+      if (attributeName === '@_id') {
+        this.id = xml.getAttributeStringValue(element, '@_id')
+      } else if (attributeName === '@_prot') {
+        this.prot = xml.getAttributeStringValue(element, '@_prot')
       } else {
         console.error(util.inspect(element, { compact: false, depth: 999 }))
         console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
       }
     }
 
-    assert(this.refid.length > 0)
-    assert(this.kind.length > 0)
+    assert(this.id.length > 0)
+    assert(this.prot.length > 0)
 
     // ------------------------------------------------------------------------
 
@@ -86,34 +104,12 @@ export abstract class AbstractMemberType extends AbstractParsedObjectBase {
 
 // ----------------------------------------------------------------------------
 
-// <xsd:simpleType name="MemberKind">
-//   <xsd:restriction base="xsd:string">
-//     <xsd:enumeration value="define"/>
-//     <xsd:enumeration value="property"/>
-//     <xsd:enumeration value="event"/>
-//     <xsd:enumeration value="variable"/>
-//     <xsd:enumeration value="typedef"/>
-//     <xsd:enumeration value="enum"/>
-//     <xsd:enumeration value="enumvalue"/>
-//     <xsd:enumeration value="function"/>
-//     <xsd:enumeration value="signal"/>
-//     <xsd:enumeration value="prototype"/>
-//     <xsd:enumeration value="friend"/>
-//     <xsd:enumeration value="dcop"/>
-//     <xsd:enumeration value="slot"/>
-//   </xsd:restriction>
-// </xsd:simpleType>
+//     <xsd:element name="enumvalue" type="enumvalueType" minOccurs="0" maxOccurs="unbounded" />
 
-export type MemberKind = 'define' | 'property' | 'event' | 'variable' | 'typedef' | 'enum' | 'function' | 'signal' | 'prototype' | 'friend' | 'dcop' | 'slot'
-
-// ----------------------------------------------------------------------------
-
-// <xsd:element name="member" type="MemberType" minOccurs="0" maxOccurs="unbounded" />
-
-export class Member extends AbstractMemberType {
+export class EnumValue extends AbstractEnumValueType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
-    super(xml, element, 'member')
+    super(xml, element, 'enumvalue')
   }
 }
 

@@ -17,6 +17,7 @@ import * as util from 'node:util'
 import { DoxygenXmlParser } from './index.js'
 import { AbstractParsedObjectBase } from './types.js'
 import { RefText } from './reftexttype.js'
+import { VariableList } from './docvarlistentrytype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -175,8 +176,8 @@ export abstract class AbstractCodeLineType extends AbstractParsedObjectBase {
     // ------------------------------------------------------------------------
     // Process elements.
 
+    // May be empty, like `<codeline></codeline>`
     const innerElements = xml.getInnerElements(element, elementName)
-    assert(innerElements.length > 0)
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -385,6 +386,9 @@ export abstract class AbstractDocSect1Type extends AbstractParsedObjectBase {
   // Any sequence of them.
   children: Array<string | Para | InternalS1 | Sect2> = []
 
+  // Optional attribute.
+  id: string | undefined
+
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
@@ -417,7 +421,17 @@ export abstract class AbstractDocSect1Type extends AbstractParsedObjectBase {
     // ------------------------------------------------------------------------
     // Process attributes.
 
-    assert(!xml.hasAttributes(element))
+    if (xml.hasAttributes(element)) {
+      const attributesNames = xml.getAttributesNames(element)
+      for (const attributeName of attributesNames) {
+        if (attributeName === '@_id') {
+          this.id = xml.getAttributeStringValue(element, '@_id')
+        } else {
+          console.error(util.inspect(element, { compact: false, depth: 999 }))
+          console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
+        }
+      }
+    }
 
     // ------------------------------------------------------------------------
 
@@ -444,6 +458,9 @@ export abstract class AbstractDocSect2Type extends AbstractParsedObjectBase {
 
   // Any sequence of them.
   children: Array<string | Para | InternalS2 | Sect3> = []
+
+  // Optional attribute.
+  id: string | undefined
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -477,7 +494,17 @@ export abstract class AbstractDocSect2Type extends AbstractParsedObjectBase {
     // ------------------------------------------------------------------------
     // Process attributes.
 
-    assert(!xml.hasAttributes(element))
+    if (xml.hasAttributes(element)) {
+      const attributesNames = xml.getAttributesNames(element)
+      for (const attributeName of attributesNames) {
+        if (attributeName === '@_id') {
+          this.id = xml.getAttributeStringValue(element, '@_id')
+        } else {
+          console.error(util.inspect(element, { compact: false, depth: 999 }))
+          console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
+        }
+      }
+    }
 
     // ------------------------------------------------------------------------
 
@@ -504,6 +531,9 @@ export abstract class AbstractDocSect3Type extends AbstractParsedObjectBase {
 
   // Any sequence of them.
   children: Array<string | Para | InternalS3 | Sect4> = []
+
+  // Optional attribute.
+  id: string | undefined
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -537,7 +567,17 @@ export abstract class AbstractDocSect3Type extends AbstractParsedObjectBase {
     // ------------------------------------------------------------------------
     // Process attributes.
 
-    assert(!xml.hasAttributes(element))
+    if (xml.hasAttributes(element)) {
+      const attributesNames = xml.getAttributesNames(element)
+      for (const attributeName of attributesNames) {
+        if (attributeName === '@_id') {
+          this.id = xml.getAttributeStringValue(element, '@_id')
+        } else {
+          console.error(util.inspect(element, { compact: false, depth: 999 }))
+          console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
+        }
+      }
+    }
 
     // ------------------------------------------------------------------------
 
@@ -564,6 +604,9 @@ export abstract class AbstractDocSect4Type extends AbstractParsedObjectBase {
 
   // Any sequence of them.
   children: Array<string | Para | InternalS4 | Sect5> = []
+
+  // Optional attribute.
+  id: string | undefined
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -597,7 +640,17 @@ export abstract class AbstractDocSect4Type extends AbstractParsedObjectBase {
     // ------------------------------------------------------------------------
     // Process attributes.
 
-    assert(!xml.hasAttributes(element))
+    if (xml.hasAttributes(element)) {
+      const attributesNames = xml.getAttributesNames(element)
+      for (const attributeName of attributesNames) {
+        if (attributeName === '@_id') {
+          this.id = xml.getAttributeStringValue(element, '@_id')
+        } else {
+          console.error(util.inspect(element, { compact: false, depth: 999 }))
+          console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
+        }
+      }
+    }
 
     // ------------------------------------------------------------------------
 
@@ -624,6 +677,9 @@ export abstract class AbstractDocSect5Type extends AbstractParsedObjectBase {
 
   // Any sequence of them.
   children: Array<string | Para | InternalS5 | Sect6> = []
+
+  // Optional attribute.
+  id: string | undefined
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -657,7 +713,17 @@ export abstract class AbstractDocSect5Type extends AbstractParsedObjectBase {
     // ------------------------------------------------------------------------
     // Process attributes.
 
-    assert(!xml.hasAttributes(element))
+    if (xml.hasAttributes(element)) {
+      const attributesNames = xml.getAttributesNames(element)
+      for (const attributeName of attributesNames) {
+        if (attributeName === '@_id') {
+          this.id = xml.getAttributeStringValue(element, '@_id')
+        } else {
+          console.error(util.inspect(element, { compact: false, depth: 999 }))
+          console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
+        }
+      }
+    }
 
     // ------------------------------------------------------------------------
 
@@ -683,6 +749,9 @@ export abstract class AbstractDocSect6Type extends AbstractParsedObjectBase {
 
   // Any sequence of them.
   children: Array<string | Para | InternalS6> = []
+
+  // Optional attribute.
+  id: string | undefined
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -714,7 +783,17 @@ export abstract class AbstractDocSect6Type extends AbstractParsedObjectBase {
     // ------------------------------------------------------------------------
     // Process attributes.
 
-    assert(!xml.hasAttributes(element))
+    if (xml.hasAttributes(element)) {
+      const attributesNames = xml.getAttributesNames(element)
+      for (const attributeName of attributesNames) {
+        if (attributeName === '@_id') {
+          this.id = xml.getAttributeStringValue(element, '@_id')
+        } else {
+          console.error(util.inspect(element, { compact: false, depth: 999 }))
+          console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
+        }
+      }
+    }
 
     // ------------------------------------------------------------------------
 
@@ -1342,7 +1421,7 @@ export abstract class AbstractDocInternalS6Type extends AbstractParsedObjectBase
 //   </xsd:choice>
 // </xsd:group>
 
-export type DocTitleCmdGroup = (Bold | Emphasis | ComputerOutput | Ref | LineBreak | Ulink)
+export type DocTitleCmdGroup = (Bold | Emphasis | ComputerOutput | Ref | LineBreak | Ulink | Anchor)
 
 function parseDocTitleCmdGroup (
   xml: DoxygenXmlParser,
@@ -1365,6 +1444,8 @@ function parseDocTitleCmdGroup (
     children.push(new LineBreak(xml, element))
   } else if (xml.hasInnerElement(element, 'ulink')) {
     children.push(new Ulink(xml, element))
+  } else if (xml.hasInnerElement(element, 'anchor')) {
+    children.push(new Anchor(xml, element))
   } else {
     console.error(util.inspect(element, { compact: false, depth: 999 }))
     console.error(`${elementName} element:`, Object.keys(element), 'not implemented yet by parseDocTitleCmdGroup()')
@@ -1733,7 +1814,7 @@ export class AbstractDocTitleType extends AbstractParsedObjectBase {
 //   </xsd:choice>
 // </xsd:group>
 
-export type DocCmdGroup = (Bold | SimpleSect | Emphasis | ParameterList | ComputerOutput | Ref | ItemizedList | LineBreak | Ulink)
+export type DocCmdGroup = (Bold | SimpleSect | Emphasis | ParameterList | ComputerOutput | Ref | ItemizedList | LineBreak | Ulink | Anchor | XrefSect | VariableList)
 
 function parseDocCmdGroup (
   xml: DoxygenXmlParser,
@@ -1744,28 +1825,35 @@ function parseDocCmdGroup (
 
   // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
 
-  if (xml.hasInnerElement(element, 'bold')) {
+  if (xml.hasInnerElement(element, 'ulink')) {
+    children.push(new Ulink(xml, element))
+  } else if (xml.hasInnerElement(element, 'bold')) {
     children.push(new Bold(xml, element))
-  } else if (xml.hasInnerElement(element, 'simplesect')) {
-    children.push(new SimpleSect(xml, element))
   } else if (xml.hasInnerElement(element, 'emphasis')) {
     children.push(new Emphasis(xml, element))
-  } else if (xml.hasInnerElement(element, 'parameterlist')) {
-    children.push(new ParameterList(xml, element))
   } else if (xml.hasInnerElement(element, 'computeroutput')) {
     children.push(new ComputerOutput(xml, element))
+  } else if (xml.hasInnerElement(element, 'anchor')) {
+    children.push(new Anchor(xml, element))
   } else if (xml.hasInnerElement(element, 'ref')) {
     children.push(new Ref(xml, element))
-  } else if (xml.hasInnerElement(element, 'itemizedlist')) {
-    children.push(new ItemizedList(xml, element))
   } else if (xml.hasInnerElement(element, 'linebreak')) {
     children.push(new LineBreak(xml, element))
-  } else if (xml.hasInnerElement(element, 'programlisting')) {
-    children.push(new ProgramListing(xml, element))
-  } else if (xml.hasInnerElement(element, 'ulink')) {
-    children.push(new Ulink(xml, element))
+    // ----
   } else if (xml.hasInnerElement(element, 'hruler')) {
     children.push(new Hruler(xml, element))
+  } else if (xml.hasInnerElement(element, 'programlisting')) {
+    children.push(new ProgramListing(xml, element))
+  } else if (xml.hasInnerElement(element, 'itemizedlist')) {
+    children.push(new ItemizedList(xml, element))
+  } else if (xml.hasInnerElement(element, 'simplesect')) {
+    children.push(new SimpleSect(xml, element))
+  } else if (xml.hasInnerElement(element, 'variablelist')) {
+    children.push(new VariableList(xml, element))
+  } else if (xml.hasInnerElement(element, 'parameterlist')) {
+    children.push(new ParameterList(xml, element))
+  } else if (xml.hasInnerElement(element, 'xrefsect')) {
+    children.push(new XrefSect(xml, element))
   } else {
     console.error(util.inspect(element, { compact: false, depth: 999 }))
     console.error(`${elementName} element:`, Object.keys(element), 'not implemented yet by parseDocCmdGroup()')
@@ -1921,6 +2009,69 @@ export class Ulink extends AbstractDocURLLink {
 // <xsd:complexType name="docAnchorType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
+
+export class AbstractDocAnchorType extends AbstractParsedObjectBase {
+  children: string[] = []
+
+  // Mandatory attributes.
+  id: string = ''
+
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+
+    // ------------------------------------------------------------------------
+    // Process elements.
+
+    // Usually empty `<anchor id="deprecated_1_deprecated000014"/>`
+    const innerElements = xml.getInnerElements(element, elementName)
+
+    for (const innerElement of innerElements) {
+      if (xml.hasInnerText(innerElement)) {
+        this.children.push(xml.getInnerText(innerElement))
+      } else {
+        console.error(util.inspect(innerElement))
+        console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
+      }
+    }
+
+    if (this.children.length > 0) {
+      console.error('Unexpected <anchor> text content in', this.constructor.name)
+    }
+
+    // ------------------------------------------------------------------------
+    // Process attributes.
+
+    assert(xml.hasAttributes(element))
+
+    const attributesNames = xml.getAttributesNames(element)
+    for (const attributeName of attributesNames) {
+      if (attributeName === '@_id') {
+        this.id = xml.getAttributeStringValue(element, '@_id')
+      } else {
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
+      }
+    }
+
+    assert(this.id.length > 0)
+
+    // ------------------------------------------------------------------------
+
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
+  }
+}
+
+// <xsd:element name="anchor" type="docAnchorType" />
+
+export class Anchor extends AbstractDocAnchorType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    super(xml, element, 'anchor')
+  }
+}
+
+// ----------------------------------------------------------------------------
 
 // <xsd:complexType name="docFormulaType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:attribute name="id" type="xsd:string" />
@@ -2645,6 +2796,8 @@ export class ParameterName extends AbstractDocParamName {
   }
 }
 
+// ----------------------------------------------------------------------------
+
 // <xsd:complexType name="docXRefSectType">
 //   <xsd:sequence>
 //     <xsd:element name="xreftitle" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
@@ -2652,6 +2805,72 @@ export class ParameterName extends AbstractDocParamName {
 //   </xsd:sequence>
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
+
+export abstract class AbstractDocXRefSectType extends AbstractParsedObjectBase {
+  // Mandatory elements.
+  xreftitle: string | undefined
+  xrefdescription: XrefDescription | undefined
+
+  // Mandatory attributes.
+  id: string = ''
+
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))ect(element))
+
+    // ------------------------------------------------------------------------
+    // Process elements.
+
+    const innerElements = xml.getInnerElements(element, elementName)
+
+    for (const innerElement of innerElements) {
+      if (xml.hasInnerText(innerElement)) {
+        // Ignore texts.
+      } else if (xml.isInnerElementText(innerElement, 'xreftitle')) {
+        this.xreftitle = xml.getInnerElementText(innerElement, 'xreftitle')
+      } else if (xml.hasInnerElement(innerElement, 'xrefdescription')) {
+        this.xrefdescription = new XrefDescription(xml, innerElement)
+      } else {
+        console.error(util.inspect(innerElement))
+        console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
+      }
+    }
+
+    assert(this.xrefdescription !== undefined)
+
+    // ------------------------------------------------------------------------
+    // Process attributes.
+
+    assert(xml.hasAttributes(element))
+
+    const attributesNames = xml.getAttributesNames(element)
+    for (const attributeName of attributesNames) {
+      if (attributeName === '@_id') {
+        this.id = xml.getAttributeStringValue(element, '@_id')
+      } else {
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
+      }
+    }
+
+    assert(this.id.length > 0)
+
+    // ------------------------------------------------------------------------
+
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
+  }
+}
+
+//     <xsd:element name="xrefsect" type="docXRefSectType" />
+
+export class XrefSect extends AbstractDocXRefSectType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    super(xml, element, 'xrefsect')
+  }
+}
+
+// ----------------------------------------------------------------------------
 
 // <xsd:complexType name="docCopyType">
 //   <xsd:sequence>
@@ -2737,6 +2956,12 @@ export class Description extends AbstractDescriptionType {
   }
 }
 
+export class XrefDescription extends AbstractDescriptionType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    super(xml, element, 'xrefdescription')
+  }
+}
+
 export class ParameterDescription extends AbstractDescriptionType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     super(xml, element, 'parameterdescription')
@@ -2759,6 +2984,7 @@ export class ParameterDescription extends AbstractDescriptionType {
 // <xsd:element name="sect5" type="docSect5Type" minOccurs="0" maxOccurs="unbounded" />
 // <xsd:element name="sect6" type="docSect6Type" minOccurs="0" maxOccurs="unbounded" />
 // <xsd:element name="title" type="docTitleType" minOccurs="0" />
+// <xsd:element name="term" type="docTitleType" />
 
 export class Internal extends AbstractDocInternalType {
   constructor (xml: DoxygenXmlParser, element: Object) {
@@ -2841,6 +3067,12 @@ export class Sect6 extends AbstractDocSect6Type {
 export class Title extends AbstractDocTitleType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     super(xml, element, 'title')
+  }
+}
+
+export class Term extends AbstractDocTitleType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    super(xml, element, 'term')
   }
 }
 

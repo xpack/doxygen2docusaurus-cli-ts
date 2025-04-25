@@ -16,10 +16,13 @@ import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
 import { BriefDescription, DetailedDescription, InbodyDescription } from './descriptiontype.js'
-import { Type } from './linkedtexttype.js'
+import { Initializer, Type } from './linkedtexttype.js'
 import { Location } from './locationtype.js'
 import { Param } from './paramtype.js'
 import { AbstractParsedObjectBase } from './types.js'
+import { TemplateParamList } from './templateparamlisttype.js'
+import { EnumValue } from './enumvaluetype.js'
+import { Reimplement, ReimplementedBy } from './reimplementtype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -49,10 +52,12 @@ import { AbstractParsedObjectBase } from './types.js'
 //     <xsd:element name="references" type="referenceType" minOccurs="0" maxOccurs="unbounded" />
 //     <xsd:element name="referencedby" type="referenceType" minOccurs="0" maxOccurs="unbounded" />
 //   </xsd:sequence>
+
 //   <xsd:attribute name="kind" type="DoxMemberKind" />
 //   <xsd:attribute name="id" type="xsd:string" />
 //   <xsd:attribute name="prot" type="DoxProtectionKind" />
 //   <xsd:attribute name="static" type="DoxBool" />
+
 //   <xsd:attribute name="extern" type="DoxBool" use="optional" />
 //   <xsd:attribute name="strong" type="DoxBool" use="optional"/>
 //   <xsd:attribute name="const" type="DoxBool" use="optional"/>
@@ -139,23 +144,44 @@ export abstract class AbstractMemberDefType extends AbstractParsedObjectBase {
   staticc: Boolean | undefined
 
   // Optional elements.
-  briefDescription?: BriefDescription | undefined
-  detailedDescription?: DetailedDescription | undefined
-  inbodyDescription?: InbodyDescription | undefined
-  qualifiedName?: string | undefined
+  templateparamlist?: TemplateParamList | undefined
   type?: Type | undefined
   definition?: string | undefined
   argsstring?: string | undefined
+  qualifiedName?: string | undefined
+  // read?: string | undefined
+  // write?: string | undefined
+  // bitfield?: string | undefined
+  reimplements?: Reimplement[] | undefined
+  reimplementedBys?: Reimplement[] | undefined
+  // qualifier?: string[] | undefined
   params?: Param[] | undefined
-  // TODO: add more...
+  enumvalues?: EnumValue[] | undefined
+  // requiresclause?: LinkedTextType | undefined
+  initializer?: Initializer | undefined
+  // exceptions?: LinkedTextType | undefined
+  briefDescription?: BriefDescription | undefined
+  detailedDescription?: DetailedDescription | undefined
+  inbodyDescription?: InbodyDescription | undefined
+  // references?: ReferenceType[] | undefined
+  // referencedby?: ReferenceType[] | undefined
 
   // Optional attributes.
+  extern?: Boolean | undefined
+  strong?: Boolean | undefined
   constt?: Boolean | undefined
-  constexpr?: Boolean | undefined
   explicit?: Boolean | undefined
   inline?: Boolean | undefined
-  mutable?: Boolean | undefined
+  refqual?: Boolean | undefined
   virt?: string | undefined
+  volatile?: Boolean | undefined
+  mutable?: Boolean | undefined
+  noexcept?: Boolean | undefined
+  noexceptexpression?: Boolean | undefined
+  nodiscard?: Boolean | undefined
+  constexpr?: Boolean | undefined
+  consteval?: Boolean | undefined
+  constinit?: Boolean | undefined
   // TODO: add more...
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
@@ -176,25 +202,44 @@ export abstract class AbstractMemberDefType extends AbstractParsedObjectBase {
         this.name = xml.getInnerElementText(innerElement, 'name')
       } else if (xml.hasInnerElement(innerElement, 'location')) {
         this.location = new Location(xml, innerElement)
-      } else if (xml.hasInnerElement(innerElement, 'briefdescription')) {
-        this.briefDescription = new BriefDescription(xml, innerElement)
-      } else if (xml.hasInnerElement(innerElement, 'detaileddescription')) {
-        this.detailedDescription = new DetailedDescription(xml, innerElement)
-      } else if (xml.hasInnerElement(innerElement, 'inbodydescription')) {
-        this.inbodyDescription = new InbodyDescription(xml, innerElement)
-      } else if (xml.isInnerElementText(innerElement, 'qualifiedname')) {
-        this.qualifiedName = xml.getInnerElementText(innerElement, 'qualifiedname')
+      } else if (xml.hasInnerElement(innerElement, 'templateparamlist')) {
+        this.templateparamlist = new TemplateParamList(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'type')) {
         this.type = new Type(xml, innerElement)
       } else if (xml.isInnerElementText(innerElement, 'definition')) {
         this.definition = xml.getInnerElementText(innerElement, 'definition')
       } else if (xml.isInnerElementText(innerElement, 'argsstring')) {
         this.argsstring = xml.getInnerElementText(innerElement, 'argsstring')
+      } else if (xml.isInnerElementText(innerElement, 'qualifiedname')) {
+        this.qualifiedName = xml.getInnerElementText(innerElement, 'qualifiedname')
+      } else if (xml.hasInnerElement(innerElement, 'reimplements')) {
+        if (this.reimplements === undefined) {
+          this.reimplements = []
+        }
+        this.reimplements.push(new Reimplement(xml, innerElement))
+      } else if (xml.hasInnerElement(innerElement, 'reimplementedby')) {
+        if (this.reimplementedBys === undefined) {
+          this.reimplementedBys = []
+        }
+        this.reimplementedBys.push(new ReimplementedBy(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'param')) {
         if (this.params === undefined) {
           this.params = []
         }
         this.params.push(new Param(xml, innerElement))
+      } else if (xml.hasInnerElement(innerElement, 'enumvalue')) {
+        if (this.enumvalues === undefined) {
+          this.enumvalues = []
+        }
+        this.enumvalues.push(new EnumValue(xml, innerElement))
+      } else if (xml.hasInnerElement(innerElement, 'initializer')) {
+        this.initializer = new Initializer(xml, innerElement)
+      } else if (xml.hasInnerElement(innerElement, 'briefdescription')) {
+        this.briefDescription = new BriefDescription(xml, innerElement)
+      } else if (xml.hasInnerElement(innerElement, 'detaileddescription')) {
+        this.detailedDescription = new DetailedDescription(xml, innerElement)
+      } else if (xml.hasInnerElement(innerElement, 'inbodydescription')) {
+        this.inbodyDescription = new InbodyDescription(xml, innerElement)
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
@@ -221,18 +266,36 @@ export abstract class AbstractMemberDefType extends AbstractParsedObjectBase {
         this.prot = xml.getAttributeStringValue(element, '@_prot')
       } else if (attributeName === '@_static') {
         this.staticc = xml.getAttributeBooleanValue(element, '@_static')
+      } else if (attributeName === '@_extern') {
+        this.extern = Boolean(xml.getAttributeBooleanValue(element, '@_extern'))
+      } else if (attributeName === '@_strong') {
+        this.strong = Boolean(xml.getAttributeBooleanValue(element, '@_strong'))
       } else if (attributeName === '@_const') {
         this.constt = Boolean(xml.getAttributeBooleanValue(element, '@_const'))
       } else if (attributeName === '@_explicit') {
         this.explicit = Boolean(xml.getAttributeBooleanValue(element, '@_explicit'))
       } else if (attributeName === '@_inline') {
         this.inline = Boolean(xml.getAttributeBooleanValue(element, '@_inline'))
+      } else if (attributeName === '@_refqual') {
+        this.refqual = Boolean(xml.getAttributeBooleanValue(element, '@_refqual'))
       } else if (attributeName === '@_virt') {
         this.virt = xml.getAttributeStringValue(element, '@_virt')
+      } else if (attributeName === '@_volatile') {
+        this.volatile = xml.getAttributeBooleanValue(element, '@_volatile')
       } else if (attributeName === '@_mutable') {
         this.mutable = Boolean(xml.getAttributeBooleanValue(element, '@_mutable'))
+      } else if (attributeName === '@_noexcept') {
+        this.noexcept = Boolean(xml.getAttributeBooleanValue(element, '@_noexcept'))
+      } else if (attributeName === '@_noexceptexpression') {
+        this.noexceptexpression = Boolean(xml.getAttributeBooleanValue(element, '@_noexceptexpression'))
+      } else if (attributeName === '@_nodiscard') {
+        this.nodiscard = Boolean(xml.getAttributeBooleanValue(element, '@_nodiscard'))
       } else if (attributeName === '@_constexpr') {
         this.constexpr = Boolean(xml.getAttributeBooleanValue(element, '@_constexpr'))
+      } else if (attributeName === '@_consteval') {
+        this.consteval = Boolean(xml.getAttributeBooleanValue(element, '@_consteval'))
+      } else if (attributeName === '@_constinit') {
+        this.constinit = Boolean(xml.getAttributeBooleanValue(element, '@_constinit'))
       } else {
         console.error(util.inspect(element, { compact: false, depth: 999 }))
         console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
