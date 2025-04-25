@@ -19,7 +19,7 @@ import { AbstractRefTextType } from '../../doxygen-xml-parser/reftexttype.js'
 
 // ----------------------------------------------------------------------------
 
-export class RefTextType extends ElementGeneratorBase {
+export class RefTextTypeGenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractRefTextType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

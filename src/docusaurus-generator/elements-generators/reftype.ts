@@ -19,7 +19,7 @@ import { ElementGeneratorBase } from './element-generator-base.js'
 
 // ----------------------------------------------------------------------------
 
-export class RefType extends ElementGeneratorBase {
+export class RefTypeGenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractRefType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

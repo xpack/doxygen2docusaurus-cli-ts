@@ -25,7 +25,7 @@ import { AbstractLinkedTextType } from '../../doxygen-xml-parser/linkedtexttype.
 //   </xsd:sequence>
 // </xsd:complexType>
 
-export class LinkedTextType extends ElementGeneratorBase {
+export class LinkedTextTypeGenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractLinkedTextType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

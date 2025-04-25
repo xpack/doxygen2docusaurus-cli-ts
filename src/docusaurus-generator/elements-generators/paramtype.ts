@@ -32,7 +32,7 @@ import { AbstractParamType } from '../../doxygen-xml-parser/paramtype.js'
 //   </xsd:sequence>
 // </xsd:complexType>
 
-export class ParamType extends ElementGeneratorBase {
+export class ParamTypeGenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractParamType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

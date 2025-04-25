@@ -37,7 +37,7 @@ export class DescriptionTypeGenerator extends ElementGeneratorBase {
 
 // ----------------------------------------------------------------------------
 
-export class DocParaType extends ElementGeneratorBase {
+export class DocParaTypeGenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractDocParaType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -52,7 +52,7 @@ export class DocParaType extends ElementGeneratorBase {
 
 // ----------------------------------------------------------------------------
 
-export class DocURLLink extends ElementGeneratorBase {
+export class DocURLLinkGenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractDocURLLink): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -72,7 +72,7 @@ const htmlElements: { [key: string]: string } = {
   Emphasis: 'em'
 }
 
-export class DocMarkupType extends ElementGeneratorBase {
+export class DocMarkupTypeGenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractDocMarkupType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -94,7 +94,7 @@ export class DocMarkupType extends ElementGeneratorBase {
 
 // ----------------------------------------------------------------------------
 
-export class DocRefTextType extends ElementGeneratorBase {
+export class DocRefTextTypeGenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractDocRefTextType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -121,7 +121,7 @@ export class DocRefTextType extends ElementGeneratorBase {
 
 // ----------------------------------------------------------------------------
 
-export class DocSimpleSectType extends ElementGeneratorBase {
+export class DocSimpleSectTypeGenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractDocSimpleSectType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -158,7 +158,7 @@ export class DocSimpleSectType extends ElementGeneratorBase {
 
 // ----------------------------------------------------------------------------
 
-export class SpType extends ElementGeneratorBase {
+export class SpTypeGenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractSpType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -179,7 +179,7 @@ export class SpType extends ElementGeneratorBase {
 
 // ----------------------------------------------------------------------------
 
-export class ListingType extends ElementGeneratorBase {
+export class ListingTypeGenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractListingType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -205,7 +205,7 @@ export class ListingType extends ElementGeneratorBase {
 
 // ----------------------------------------------------------------------------
 
-export class CodeLineType extends ElementGeneratorBase {
+export class CodeLineTypeGenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractCodeLineType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -248,7 +248,7 @@ export class CodeLineType extends ElementGeneratorBase {
 
 // ----------------------------------------------------------------------------
 
-export class HighlightType extends ElementGeneratorBase {
+export class HighlightTypeGenerator extends ElementGeneratorBase {
   knownClasses = [
     'normal',
     'comment',
@@ -284,7 +284,7 @@ export class HighlightType extends ElementGeneratorBase {
 
 // ----------------------------------------------------------------------------
 
-export class DocEmptyType extends ElementGeneratorBase {
+export class DocEmptyTypeGenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractDocEmptyType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -308,7 +308,7 @@ export class DocEmptyType extends ElementGeneratorBase {
 
 // ----------------------------------------------------------------------------
 
-export class DocParamListType extends ElementGeneratorBase {
+export class DocParamListTypegenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractDocParamListType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

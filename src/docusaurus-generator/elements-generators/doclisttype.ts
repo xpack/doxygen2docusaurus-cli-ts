@@ -19,7 +19,7 @@ import { AbstractDocListType } from '../../doxygen-xml-parser/descriptiontype.js
 
 // ----------------------------------------------------------------------------
 
-export class DocListType extends ElementGeneratorBase {
+export class DocListTypeGenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractDocListType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

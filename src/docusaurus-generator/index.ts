@@ -26,25 +26,31 @@ import { Folders } from './data-model/folders.js'
 import { Groups } from './data-model/groups.js'
 import { Namespaces } from './data-model/namespaces.js'
 import { DoxygenFileOptions } from './data-model/options.js'
-import { CodeLineType, DescriptionTypeGenerator, DocEmptyType, DocMarkupType, DocParamListType, DocParaType, DocRefTextType, DocSimpleSectType, DocURLLink, HighlightType, ListingType, SpType } from './elements-generators/descriptiontype.js'
+import { CodeLineTypeGenerator, DescriptionTypeGenerator, DocAnchorTypeGenerator, DocEmptyTypeGenerator, DocMarkupTypeGenerator, DocParamListTypegenerator, DocParaTypeGenerator, DocRefTextTypeGenerator, DocSimpleSectTypeGenerator, DocURLLinkGenerator, HighlightTypeGenerator, ListingTypeGenerator, SpTypeGenerator } from './elements-generators/descriptiontype.js'
 import { ElementGeneratorBase } from './elements-generators/element-generator-base.js'
 import { PageGeneratorBase as GeneratorBase } from './pages-generators/base.js'
 import { GroupGenerator } from './pages-generators/group.js'
 import { Sidebar } from './sidebar.js'
 import { FrontMatter } from './types.js'
-import { RefType } from './elements-generators/reftype.js'
+import { RefTypeGenerator } from './elements-generators/reftype.js'
 import { NamespaceGenerator } from './pages-generators/namespace.js'
 import { ClassPageGenerator } from './pages-generators/class.js'
 import { Pages } from './data-model/pages.js'
-import { IncType } from './elements-generators/inctype.js'
-import { DocListType } from './elements-generators/doclisttype.js'
-import { ParamType } from './elements-generators/paramtype.js'
-import { LinkedTextType } from './elements-generators/linkedtexttype.js'
-import { RefTextType } from './elements-generators/reftexttype.js'
+import { IncTypeGenerator } from './elements-generators/inctype.js'
+import { DocListTypeGenerator } from './elements-generators/doclisttype.js'
+import { ParamTypeGenerator } from './elements-generators/paramtype.js'
+import { LinkedTextTypeGenerator } from './elements-generators/linkedtexttype.js'
+import { RefTextTypeGenerator } from './elements-generators/reftexttype.js'
 import { RefText } from '../doxygen-xml-parser/reftexttype.js'
 import { DefVal } from '../doxygen-xml-parser/linkedtexttype.js'
 import { FileGenerator } from './pages-generators/file.js'
 import { FolderGenerator } from './pages-generators/folder.js'
+import { DocS1TypeGenerator, DocS2TypeGenerator, DocS3TypeGenerator, DocS4TypeGenerator, DocS5TypeGenerator, DocS6TypeGenerator } from './elements-generators/docinternalstype.js'
+import { DocTitleTypeGenerator } from './elements-generators/doctitletype.js'
+import { Structs } from './data-model/structs.js'
+import { DocXRefSectType } from './elements-generators/docxrefsecttype.js'
+import { PageGenerator } from './pages-generators/page.js'
+import { DocVariableListTypeGenerator, VariableListPairGenerator } from './elements-generators/docvariablelisttype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -130,26 +136,36 @@ export class DocusaurusGenerator {
     this.pageGenerators.set('dir', folderGenerator)
 
     // Add generators for the parsed xml elements (in alphabetical order).
-    this.elementGenerators.set('AbstractCodeLineType', new CodeLineType(this))
+    this.elementGenerators.set('AbstractCodeLineType', new CodeLineTypeGenerator(this))
     this.elementGenerators.set('AbstractDescriptionType', new DescriptionTypeGenerator(this))
-    this.elementGenerators.set('AbstractDescriptionType', new DescriptionTypeGenerator(this))
-    this.elementGenerators.set('AbstractDocEmptyType', new DocEmptyType(this))
-    this.elementGenerators.set('AbstractDocListType', new DocListType(this))
-    this.elementGenerators.set('AbstractDocMarkupType', new DocMarkupType(this))
-    this.elementGenerators.set('AbstractDocParamListType', new DocParamListType(this))
-    this.elementGenerators.set('AbstractDocParaType', new DocParaType(this))
-    this.elementGenerators.set('AbstractDocRefTextType', new DocRefTextType(this))
-    this.elementGenerators.set('AbstractDocSimpleSectType', new DocSimpleSectType(this))
-    this.elementGenerators.set('AbstractDocURLLink', new DocURLLink(this))
-    this.elementGenerators.set('AbstractHighlightType', new HighlightType(this))
-    this.elementGenerators.set('AbstractIncType', new IncType(this))
-    this.elementGenerators.set('AbstractLinkedTextType', new LinkedTextType(this))
-    this.elementGenerators.set('AbstractListingType', new ListingType(this))
-    this.elementGenerators.set('AbstractParamType', new ParamType(this))
-    this.elementGenerators.set('AbstractProgramListingType', new ListingType(this))
-    this.elementGenerators.set('AbstractRefTextType', new RefTextType(this))
-    this.elementGenerators.set('AbstractRefType', new RefType(this))
-    this.elementGenerators.set('AbstractSpType', new SpType(this))
+    this.elementGenerators.set('AbstractDocAnchorType', new DocAnchorTypeGenerator(this))
+    this.elementGenerators.set('AbstractDocEmptyType', new DocEmptyTypeGenerator(this))
+    this.elementGenerators.set('AbstractDocListType', new DocListTypeGenerator(this))
+    this.elementGenerators.set('AbstractDocMarkupType', new DocMarkupTypeGenerator(this))
+    this.elementGenerators.set('AbstractDocParamListType', new DocParamListTypegenerator(this))
+    this.elementGenerators.set('AbstractDocParaType', new DocParaTypeGenerator(this))
+    this.elementGenerators.set('AbstractDocRefTextType', new DocRefTextTypeGenerator(this))
+    this.elementGenerators.set('AbstractDocSect1Type', new DocS1TypeGenerator(this))
+    this.elementGenerators.set('AbstractDocSect2Type', new DocS2TypeGenerator(this))
+    this.elementGenerators.set('AbstractDocSect3Type', new DocS3TypeGenerator(this))
+    this.elementGenerators.set('AbstractDocSect4Type', new DocS4TypeGenerator(this))
+    this.elementGenerators.set('AbstractDocSect5Type', new DocS5TypeGenerator(this))
+    this.elementGenerators.set('AbstractDocSect6Type', new DocS6TypeGenerator(this))
+    this.elementGenerators.set('AbstractDocSimpleSectType', new DocSimpleSectTypeGenerator(this))
+    this.elementGenerators.set('AbstractDocTitleType', new DocTitleTypeGenerator(this))
+    this.elementGenerators.set('AbstractDocVariableListType', new DocVariableListTypeGenerator(this))
+    this.elementGenerators.set('AbstractDocURLLink', new DocURLLinkGenerator(this))
+    this.elementGenerators.set('AbstractDocXRefSectType', new DocXRefSectType(this))
+    this.elementGenerators.set('AbstractHighlightType', new HighlightTypeGenerator(this))
+    this.elementGenerators.set('AbstractIncType', new IncTypeGenerator(this))
+    this.elementGenerators.set('AbstractLinkedTextType', new LinkedTextTypeGenerator(this))
+    this.elementGenerators.set('AbstractListingType', new ListingTypeGenerator(this))
+    this.elementGenerators.set('AbstractParamType', new ParamTypeGenerator(this))
+    this.elementGenerators.set('AbstractProgramListingType', new ListingTypeGenerator(this))
+    this.elementGenerators.set('AbstractRefTextType', new RefTextTypeGenerator(this))
+    this.elementGenerators.set('AbstractRefType', new RefTypeGenerator(this))
+    this.elementGenerators.set('AbstractSpType', new SpTypeGenerator(this))
+    this.elementGenerators.set('VariableListPair', new VariableListPairGenerator(this))
 
     // Plugin defined components (in alphabetical order).
     this.componentNames = [
