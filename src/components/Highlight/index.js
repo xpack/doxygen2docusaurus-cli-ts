@@ -49,6 +49,10 @@ export default function Highlight({ kind, children }) {
     return (
       <span class="doxyHighlightStringLiteral">{children}</span>
     );
+  } else if (kind === 'charliteral') {
+    return (
+      <span class="doxyHighlightCharLiteral">{children}</span>
+    );
   } else {
     return (
       <span class="doxyHighlight">{children}</span>
