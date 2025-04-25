@@ -15,7 +15,7 @@ import assert from 'assert'
 import util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
-import { AbstractCodeLineType, AbstractDescriptionType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractHighlightType, AbstractListingType, AbstractSpType, CodeLine, Highlight, Para, ParameterName, ParameterType } from '../../doxygen-xml-parser/descriptiontype.js'
+import { AbstractCodeLineType, AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractHighlightType, AbstractListingType, AbstractSpType, CodeLine, Highlight, Para, ParameterName, ParameterType } from '../../doxygen-xml-parser/descriptiontype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ export class DescriptionTypeGenerator extends ElementGeneratorBase {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     if (element.title !== undefined && element.title.length > 0) {
-      console.log('title ignored in', element.constructor.name)
+      console.error('title ignored in', element.constructor.name)
     }
 
     let result = ''
@@ -99,7 +99,7 @@ export class DocRefTextTypeGenerator extends ElementGeneratorBase {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     if (element.external !== undefined && element.external.length > 0) {
-      console.log('external ignored in', element.constructor.name)
+      console.error('external ignored in', element.constructor.name)
     }
 
     let result = ''
@@ -135,6 +135,11 @@ export class DocSimpleSectTypeGenerator extends ElementGeneratorBase {
       result += '</SectionUser>\n'
     } else if (element.kind === 'return') {
       result += '<SectionUser title="Returns">\n'
+      result += this.context.renderElementsMdx(element.children).trim()
+      result += '\n'
+      result += '</SectionUser>\n'
+    } else if (element.kind === 'since') {
+      result += '<SectionUser title="Since">\n'
       result += this.context.renderElementsMdx(element.children).trim()
       result += '\n'
       result += '</SectionUser>\n'
@@ -212,7 +217,7 @@ export class CodeLineTypeGenerator extends ElementGeneratorBase {
     assert(element instanceof CodeLine)
 
     if (element.external !== undefined) {
-      console.log('external ignored in', element.constructor.name)
+      console.error('external ignored in', element.constructor.name)
     }
 
     let permalink: string | undefined
@@ -257,7 +262,8 @@ export class HighlightTypeGenerator extends ElementGeneratorBase {
     'keywordtype',
     'keywordflow',
     'token',
-    'stringliteral'
+    'stringliteral',
+    'charliteral'
   ]
 
   renderMdx (element: AbstractHighlightType): string {
@@ -372,6 +378,21 @@ export class DocParamListTypegenerator extends ElementGeneratorBase {
           console.error(element.constructor.name, 'not yet rendered in', this.constructor.name)
       }
     }
+
+    return result
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+export class DocAnchorTypeGenerator extends ElementGeneratorBase {
+  renderMdx (element: AbstractDocAnchorType): string {
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
+
+    let result = ''
+
+    const permalink = this.context.getXrefPermalink(element.id)
+    result = `<Link to="${permalink}" />`
 
     return result
   }

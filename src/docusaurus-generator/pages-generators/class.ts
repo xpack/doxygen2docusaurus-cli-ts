@@ -29,9 +29,11 @@ export class ClassPageGenerator extends PageGeneratorBase {
   renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
     // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
 
+    const kind = compoundDef.kind
+    const kindCapitalised = kind.charAt(0).toUpperCase() + kind.slice(1).toLowerCase()
 
     frontMatter.title = `The ${compoundDef.compoundName.replace(/.*::/, '')}`
-    frontMatter.title += ' Class'
+    frontMatter.title += ` ${kindCapitalised}`
     if (compoundDef.templateParamList !== undefined) {
       frontMatter.title += ' Template'
     }
@@ -50,106 +52,110 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     result += this.context.renderIncludesIndexMdx(compoundDef)
 
-    const classs = this.context.classes.membersById.get(compoundDef.id)
-    assert(classs !== undefined)
+    const object = (kind === 'class' ? this.context.classes : this.context.structs).membersById.get(compoundDef.id)
+    assert(object !== undefined)
 
-    if (compoundDef.baseCompoundRefs !== undefined) {
-      result += '\n'
-      if (compoundDef.baseCompoundRefs.length > 1) {
-        result += '## Base classes\n'
-      } else {
-        result += '## Base class\n'
-      }
-      result += '\n'
-      result += '<MembersList>\n'
-
-      for (const baseCompoundRef of compoundDef.baseCompoundRefs) {
-        // console.log(util.inspect(baseCompoundRef), { compact: false, depth: 999 })
-
-        if (baseCompoundRef.refid !== undefined) {
-          const compoundDef = this.context.compoundDefsById.get(baseCompoundRef.refid)
-          assert(compoundDef !== undefined)
-
-          result += this.context.renderClassSummaryMdx(compoundDef)
+    if (kind === 'class') {
+      if (compoundDef.baseCompoundRefs !== undefined) {
+        result += '\n'
+        if (compoundDef.baseCompoundRefs.length > 1) {
+          result += '## Base classes\n'
         } else {
-          result += '\n'
-          result += `<MembersListItem itemLeft="class" itemRight={<>${baseCompoundRef.text}</>}>\n`
-          result += '</MembersListItem>\n'
+          result += '## Base class\n'
         }
-      }
+        result += '\n'
+        result += '<MembersList>\n'
 
-      result += '\n'
-      result += '</MembersList>\n'
-    } else if ((classs.baseClassIds ?? []).length > 0) {
-      result += '\n'
-      if (classs.baseClassIds.length > 1) {
-        result += '## Base classes\n'
-      } else {
-        result += '## Base class\n'
-      }
+        for (const baseCompoundRef of compoundDef.baseCompoundRefs) {
+          // console.log(util.inspect(baseCompoundRef, { compact: false, depth: 999 }))
 
-      result += '\n'
-      result += '<MembersList>\n'
-      for (const baseClassId of classs.baseClassIds) {
-        const baseCompoundDef = this.context.compoundDefsById.get(baseClassId)
-        assert(baseCompoundDef !== undefined)
-        // console.log(util.inspect(derivedCompoundDef), { compact: false, depth: 999 })
+          if (baseCompoundRef.refid !== undefined) {
+            const compoundDef = this.context.compoundDefsById.get(baseCompoundRef.refid)
+            assert(compoundDef !== undefined)
 
-        result += this.context.renderClassSummaryMdx(baseCompoundDef)
-      }
+            result += this.context.renderClassSummaryMdx(compoundDef)
+          } else {
+            const itemRight = this.context.escapeHtml(baseCompoundRef.text)
+            result += '\n'
+            result += `<MembersListItem itemLeft="${kind}" itemRight={<>${itemRight}</>}>\n`
+            result += '</MembersListItem>\n'
+          }
+        }
 
-      result += '\n'
-      result += '</MembersList>\n'
-    }
-
-    if (compoundDef.derivedCompoundRefs !== undefined) {
-      result += '\n'
-      result += '## Derived Classes\n'
-
-      result += '\n'
-      result += '<MembersList>\n'
-
-      for (const derivedCompoundRef of compoundDef.derivedCompoundRefs) {
-        // console.log(util.inspect(derivedCompoundRef), { compact: false, depth: 999 })
-
-        if (derivedCompoundRef.refid !== undefined) {
-          const compoundDef = this.context.compoundDefsById.get(derivedCompoundRef.refid)
-          assert(compoundDef !== undefined)
-
-          result += this.context.renderClassSummaryMdx(compoundDef)
+        result += '\n'
+        result += '</MembersList>\n'
+      } else if ('baseClassIds' in object && object.baseClassIds.length > 0) {
+        result += '\n'
+        if (object.baseClassIds.length > 1) {
+          result += '## Base classes\n'
         } else {
-          result += '\n'
-          result += `<MembersListItem itemLeft="class" itemRight={<>${derivedCompoundRef.text}</>}>\n`
-          result += '</MembersListItem>\n'
+          result += '## Base class\n'
         }
+
+        result += '\n'
+        result += '<MembersList>\n'
+        for (const baseClassId of object.baseClassIds) {
+          const baseCompoundDef = this.context.compoundDefsById.get(baseClassId)
+          assert(baseCompoundDef !== undefined)
+          // console.log(util.inspect(derivedCompoundDef, { compact: false, depth: 999 }))
+
+          result += this.context.renderClassSummaryMdx(baseCompoundDef)
+        }
+
+        result += '\n'
+        result += '</MembersList>\n'
       }
 
-      result += '\n'
-      result += '</MembersList>\n'
-    } else if ((classs.derivedClassIds ?? []).length > 0) {
-      result += '\n'
-      result += '## Derived Classes\n'
+      if (compoundDef.derivedCompoundRefs !== undefined) {
+        result += '\n'
+        result += '## Derived Classes\n'
 
-      result += '\n'
-      result += '<MembersList>\n'
-      for (const derivedClassId of classs.derivedClassIds) {
-        const derivedCompoundDef = this.context.compoundDefsById.get(derivedClassId)
-        assert(derivedCompoundDef !== undefined)
-        // console.log(util.inspect(derivedCompoundDef), { compact: false, depth: 999 })
+        result += '\n'
+        result += '<MembersList>\n'
 
-        result += this.context.renderClassSummaryMdx(derivedCompoundDef)
+        for (const derivedCompoundRef of compoundDef.derivedCompoundRefs) {
+          // console.log(util.inspect(derivedCompoundRef, { compact: false, depth: 999 }))
+
+          if (derivedCompoundRef.refid !== undefined) {
+            const compoundDef = this.context.compoundDefsById.get(derivedCompoundRef.refid)
+            assert(compoundDef !== undefined)
+
+            result += this.context.renderClassSummaryMdx(compoundDef)
+          } else {
+            const itemRight = this.context.escapeHtml(derivedCompoundRef.text)
+            result += '\n'
+            result += `<MembersListItem itemLeft="class" itemRight={<>${itemRight}</>}>\n`
+            result += '</MembersListItem>\n'
+          }
+        }
+
+        result += '\n'
+        result += '</MembersList>\n'
+      } else if ('derivedClassIds' in object && object.derivedClassIds.length > 0) {
+        result += '\n'
+        result += '## Derived Classes\n'
+
+        result += '\n'
+        result += '<MembersList>\n'
+        for (const derivedClassId of object.derivedClassIds) {
+          const derivedCompoundDef = this.context.compoundDefsById.get(derivedClassId)
+          assert(derivedCompoundDef !== undefined)
+          // console.log(util.inspect(derivedCompoundDef, { compact: false, depth: 999 }))
+
+          result += this.context.renderClassSummaryMdx(derivedCompoundDef)
+        }
+
+        result += '\n'
+        result += '</MembersList>\n'
       }
 
-      result += '\n'
-      result += '</MembersList>\n'
-    }
-
-    if (compoundDef.sectionDefs !== undefined) {
-      for (const sectionDef of compoundDef.sectionDefs) {
-        result += this.renderSectionDefSummaryMdx({
-          sectionDef,
-          compoundDef
-        })
+      if (compoundDef.sectionDefs !== undefined) {
+        for (const sectionDef of compoundDef.sectionDefs) {
+          result += this.renderSectionDefSummaryMdx({
+            sectionDef,
+            compoundDef
+          })
+        }
       }
     }
 
@@ -158,11 +164,11 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     if (compoundDef.templateParamList?.params !== undefined) {
       result += '\n'
-      result += 'The class template declaration is:\n'
+      result += `The ${kind} template declaration is:\n`
 
       result += '\n'
       result += `<CodeBlock>template ${this.context.renderTemplateParametersMdx({ compoundDef, withDefaults: true })}\n`
-      result += `class ${compoundDef.compoundName}${this.context.renderTemplateParameterNamesMdx(compoundDef)};</CodeBlock>\n`
+      result += `${kind} ${compoundDef.compoundName}${this.context.renderTemplateParameterNamesMdx(compoundDef)};</CodeBlock>\n`
     }
 
     const detailedDescription: string = this.context.renderElementMdx(compoundDef.detailedDescription)
@@ -227,13 +233,91 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
   // --------------------------------------------------------------------------
 
+  // <xsd:simpleType name="DoxSectionKind">
+  //   <xsd:restriction base="xsd:string">
+  //     <xsd:enumeration value="user-defined" />
+  //     <xsd:enumeration value="public-type" />
+  //     <xsd:enumeration value="public-func" />
+  //     <xsd:enumeration value="public-attrib" />
+  //     <xsd:enumeration value="public-slot" />
+  //     <xsd:enumeration value="signal" />
+  //     <xsd:enumeration value="dcop-func" />
+  //     <xsd:enumeration value="property" />
+  //     <xsd:enumeration value="event" />
+  //     <xsd:enumeration value="public-static-func" />
+  //     <xsd:enumeration value="public-static-attrib" />
+  //     <xsd:enumeration value="protected-type" />
+  //     <xsd:enumeration value="protected-func" />
+  //     <xsd:enumeration value="protected-attrib" />
+  //     <xsd:enumeration value="protected-slot" />
+  //     <xsd:enumeration value="protected-static-func" />
+  //     <xsd:enumeration value="protected-static-attrib" />
+  //     <xsd:enumeration value="package-type" />
+  //     <xsd:enumeration value="package-func" />
+  //     <xsd:enumeration value="package-attrib" />
+  //     <xsd:enumeration value="package-static-func" />
+  //     <xsd:enumeration value="package-static-attrib" />
+  //     <xsd:enumeration value="private-type" />
+  //     <xsd:enumeration value="private-func" />
+  //     <xsd:enumeration value="private-attrib" />
+  //     <xsd:enumeration value="private-slot" />
+  //     <xsd:enumeration value="private-static-func" />
+  //     <xsd:enumeration value="private-static-attrib" />
+  //     <xsd:enumeration value="friend" />
+  //     <xsd:enumeration value="related" />
+  //     <xsd:enumeration value="define" />
+  //     <xsd:enumeration value="prototype" />
+  //     <xsd:enumeration value="typedef" />
+  //     <xsd:enumeration value="enum" />
+  //     <xsd:enumeration value="func" />
+  //     <xsd:enumeration value="var" />
+  //   </xsd:restriction>
+  // </xsd:simpleType>
+
   private getHeaderByKind (sectionDef: SectionDef): string {
     const headersByKind: Record<string, string> = {
+      // 'user-defined': '?',
       'public-type': 'Member Typedefs',
-      'public-attrib': 'Member Attributes',
-      'protected-attrib': 'Protected Member Attributes',
       'public-func': 'Member Functions',
-      'protected-func': 'Protected Member Functions'
+      'public-attrib': 'Member Attributes',
+      // 'public-slot': 'Member ?',
+      'public-static-func': 'Static Functions',
+      'public-static-attrib': 'Static Attributes',
+
+      // 'signal': '',
+      // 'dcop-func': '',
+      // 'property': '',
+      // 'event': '',
+
+      'package-type': 'Package Member Typedefs',
+      'package-func': 'Package Member Functions',
+      'package-attrib': 'Package Member Attributes',
+      'package-static-func': 'Package Static Functions',
+      'package-static-attrib': 'Package Static Attributes',
+
+      'protected-type': 'Protected Member Typedefs',
+      'protected-func': 'Protected Member Functions',
+      'protected-attrib': 'Protected Member Attributes',
+      // 'protected-slot': 'Protected ?',
+      'protected-static-func': 'Protected Static Functions',
+      'protected-static-attrib': 'Protected Static Attributes',
+
+      'private-type': 'Private Member Typedefs',
+      'private-func': 'Private Member Functions',
+      'private-attrib': 'Private Member Attributes',
+      // 'private-slot': 'Private ?',
+      'private-static-func': 'Private Static Functions',
+      'private-static-attrib': 'Private Static Attributes'
+
+      // 'friend': '',
+      // 'related': '',
+      // 'define': '',
+      // 'prototype': '',
+      // 'typedef': '',
+      // 'enum': '',
+      // 'func': '',
+      // 'var': ''
+
     }
 
     const header = headersByKind[sectionDef.kind]
@@ -243,7 +327,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
       return ''
     }
 
-    return header
+    return header.trim()
   }
 
   // --------------------------------------------------------------------------
@@ -267,7 +351,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     }
 
     result += '\n'
-    result += `<h2>${header}</h2>\n`
+    result += `<h2>${this.context.escapeHtml(header)}</h2>\n`
 
     result += '\n'
     result += '<MembersList>\n'
@@ -315,7 +399,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
         itemLeft = this.context.renderElementMdx(memberDef.type).trim()
         if (memberDef.argsstring !== undefined) {
           itemRight += ' '
-          itemRight += memberDef.argsstring
+          itemRight += this.context.escapeHtml(memberDef.argsstring)
         }
         break
 
@@ -363,47 +447,6 @@ export class ClassPageGenerator extends PageGeneratorBase {
     className: string
   }): string {
     let result = ''
-
-    // <xsd:simpleType name="DoxSectionKind">
-    //   <xsd:restriction base="xsd:string">
-    //     <xsd:enumeration value="user-defined" />
-    //     <xsd:enumeration value="public-type" />
-    //     <xsd:enumeration value="public-func" />
-    //     <xsd:enumeration value="public-attrib" />
-    //     <xsd:enumeration value="public-slot" />
-    //     <xsd:enumeration value="signal" />
-    //     <xsd:enumeration value="dcop-func" />
-    //     <xsd:enumeration value="property" />
-    //     <xsd:enumeration value="event" />
-    //     <xsd:enumeration value="public-static-func" />
-    //     <xsd:enumeration value="public-static-attrib" />
-    //     <xsd:enumeration value="protected-type" />
-    //     <xsd:enumeration value="protected-func" />
-    //     <xsd:enumeration value="protected-attrib" />
-    //     <xsd:enumeration value="protected-slot" />
-    //     <xsd:enumeration value="protected-static-func" />
-    //     <xsd:enumeration value="protected-static-attrib" />
-    //     <xsd:enumeration value="package-type" />
-    //     <xsd:enumeration value="package-func" />
-    //     <xsd:enumeration value="package-attrib" />
-    //     <xsd:enumeration value="package-static-func" />
-    //     <xsd:enumeration value="package-static-attrib" />
-    //     <xsd:enumeration value="private-type" />
-    //     <xsd:enumeration value="private-func" />
-    //     <xsd:enumeration value="private-attrib" />
-    //     <xsd:enumeration value="private-slot" />
-    //     <xsd:enumeration value="private-static-func" />
-    //     <xsd:enumeration value="private-static-attrib" />
-    //     <xsd:enumeration value="friend" />
-    //     <xsd:enumeration value="related" />
-    //     <xsd:enumeration value="define" />
-    //     <xsd:enumeration value="prototype" />
-    //     <xsd:enumeration value="typedef" />
-    //     <xsd:enumeration value="enum" />
-    //     <xsd:enumeration value="func" />
-    //     <xsd:enumeration value="var" />
-    //   </xsd:restriction>
-    // </xsd:simpleType>
 
     const header = this.getHeaderByKind(sectionDef)
     if (header.length === 0) {
@@ -456,7 +499,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     }
 
     result += '\n'
-    result += `## ${header}\n`
+    result += `## ${this.context.escapeHtml(header)}\n`
 
     const isFunction: boolean = sectionDef.kind === 'public-func'
 
@@ -496,6 +539,17 @@ export class ClassPageGenerator extends PageGeneratorBase {
     if (memberDef.prot === 'protected') {
       labels.push('protected')
     }
+    if (memberDef.staticc?.valueOf()) {
+      labels.push('static')
+    }
+    if (memberDef.virt !== undefined && memberDef.virt === 'virtual') {
+      labels.push('virtual')
+    }
+    // WARNING: there is no explicit attribute for 'delete'.
+    if (memberDef.argsstring?.endsWith('=delete')) {
+      labels.push('delete')
+    }
+
     // WARNING: could not find how to generate 'inherited'.
 
     // Validation checks.
@@ -505,19 +559,15 @@ export class ClassPageGenerator extends PageGeneratorBase {
       console.error(memberDef.constructor.name, 'mutable not yet rendered in', this.constructor.name)
     }
 
-    if (memberDef.virt !== undefined && memberDef.virt !== 'non-virtual') {
-      console.error(memberDef.constructor.name, 'virt not yet rendered in', this.constructor.name)
-    }
-
     const id = memberDef.id.replace(/.*_1/, '')
     const name = memberDef.name + (isFunction ? '()' : '')
 
     result += '\n'
-    result += `### ${name} {#${id}}\n`
+    result += `### ${this.context.escapeHtml(name)} {#${id}}\n`
 
     const templateParameters = this.context.collectTemplateParameters({ compoundDef })
     assert(memberDef.definition !== undefined)
-    let prototype = memberDef.definition.replace(/[<]/g, '&lt;').replace(/[>]/g, '&gt;')
+    let prototype = this.context.escapeHtml(memberDef.definition)
     if (memberDef.kind === 'function') {
       prototype += ' ('
 

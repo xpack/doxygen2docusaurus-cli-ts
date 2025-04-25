@@ -58,6 +58,12 @@ export class ParamTypeGenerator extends ElementGeneratorBase {
     result += this.context.renderElementMdx(element.type)
     if (element.declname !== undefined) {
       result += ` ${element.declname}`
+      if (element.array !== undefined) {
+        result += `=${element.array}`
+      }
+      if (element.defval !== undefined) {
+        result += `=${this.context.renderElementMdx(element.defval)}`
+      }
     }
 
     return result

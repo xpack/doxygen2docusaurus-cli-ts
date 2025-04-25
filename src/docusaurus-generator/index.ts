@@ -65,6 +65,7 @@ export class DocusaurusGenerator {
   compoundDefsById: Map<string, AbstractCompoundDefType> = new Map()
   // Permalinks are relative to the Docusaurus baseUrl folder.
   pagePermalinksById: Map<string, string> = new Map()
+  pagePermalinksSet: Set<string> = new Set()
   docusaurusIdsById: Map<string, string> = new Map()
 
   groups: Groups
@@ -72,6 +73,7 @@ export class DocusaurusGenerator {
   folders: Folders
   files: Files
   classes: Classes
+  structs: Structs
   pages: Pages
 
   // kind: DoxCompoundKind
@@ -116,11 +118,14 @@ export class DocusaurusGenerator {
     this.doxygenData = doxygenData
     this.pluginOptions = pluginOptions
 
+    // Create the data-model objects.
     this.groups = new Groups(this.doxygenData.compoundDefs)
     this.namespaces = new Namespaces(this.doxygenData.compoundDefs)
     this.folders = new Folders(this.doxygenData.compoundDefs)
     this.files = new Files(this.doxygenData.compoundDefs, this.folders)
     this.classes = new Classes(this.doxygenData.compoundDefs)
+    this.classes = new Classes(this.doxygenData.compoundDefs)
+    this.structs = new Structs(this.doxygenData.compoundDefs)
     this.pages = new Pages(this.doxygenData.compoundDefs)
 
     this.doxygenOptions = new DoxygenFileOptions(this.doxygenData.doxyfile.options)
@@ -129,11 +134,13 @@ export class DocusaurusGenerator {
     this.pageGenerators.set('group', new GroupGenerator(this))
     this.pageGenerators.set('namespace', new NamespaceGenerator(this))
     this.pageGenerators.set('class', new ClassPageGenerator(this))
+    this.pageGenerators.set('struct', new ClassPageGenerator(this))
     const fileGenerator = new FileGenerator(this)
     this.pageGenerators.set('file', fileGenerator)
     const folderGenerator = new FolderGenerator(this)
     folderGenerator.fileGenerator = fileGenerator
     this.pageGenerators.set('dir', folderGenerator)
+    this.pageGenerators.set('page', new PageGenerator(this))
 
     // Add generators for the parsed xml elements (in alphabetical order).
     this.elementGenerators.set('AbstractCodeLineType', new CodeLineTypeGenerator(this))
@@ -184,7 +191,8 @@ export class DocusaurusGenerator {
       'SectionDefinition',
       'SectionUser',
       'TreeTable',
-      'TreeTableRow'
+      'TreeTableRow',
+      'XrefSect'
     ]
   }
 
@@ -199,6 +207,10 @@ export class DocusaurusGenerator {
   }
 
   // --------------------------------------------------------------------------
+
+  /**
+   * @brief Create a map of all compoundDefs, by id.
+   */
   createCompoundDefsMap (): void {
     // console.log('DocusaurusGenerator.createCompoundDefsMap()')
     for (const compoundDef of this.doxygenData.compoundDefs) {
@@ -207,6 +219,9 @@ export class DocusaurusGenerator {
     }
   }
 
+  /**
+   * @brief Create a map of permalinks for all compoundDefs.
+   */
   createPermalinksMap (): void {
     // console.log('DocusaurusGenerator.createPermalinksMap()')
     assert(this.pluginOptions.outputFolderPath)
@@ -229,18 +244,29 @@ export class DocusaurusGenerator {
           name = this.folders.getRelativePathRecursively(file.parentFolderId) + '/'
         }
         name += compoundDef.compoundName
-      } else if (kind === 'class' || kind === 'namespace') {
-        name = compoundDef.compoundName.replaceAll('::', '/')
+      } else if (kind === 'class' || kind === 'struct' || kind === 'namespace') {
+        name = compoundDef.compoundName.replace(/<.*>/, '').replaceAll('::', '/')
+        const index = compoundDef.compoundName.indexOf('<')
+        if (index >= 0) {
+          name += compoundDef.compoundName.substring(index).replaceAll(/[ ]*/g, '')
+        }
       } else {
         name = compoundDef.compoundName
       }
-      name = name.replaceAll(/[^a-zA-Z0-9/-]/g, '-')
+      name = this.encodeUrl(name.toLowerCase()).replaceAll(/ /g, '').replaceAll(/[^a-zA-Z0-9.%/()*-]/g, '-')
       // const permalink = `/${outputFolderPath}/${prefix}/${name}`
       const permalink = `/${prefix}/${name}`
-      // console.log('permalink:', permalink)
+      console.log('permalink:', permalink)
+      if (this.pagePermalinksById.has(compoundDef.id)) {
+        console.error('Permalink clash for id', compoundDef.id)
+      }
+      if (this.pagePermalinksSet.has(permalink)) {
+        console.error('Permalink clash for permalink', permalink, 'id:', compoundDef.id)
+      }
       this.pagePermalinksById.set(compoundDef.id, permalink)
+      this.pagePermalinksSet.add(permalink)
 
-      const docusaurusId = `/${prefix}/${name.replaceAll('/', '-') as string}`
+      const docusaurusId = `/${prefix}/${name.replaceAll('/', '-').replaceAll('.', '-') as string}`
       this.docusaurusIdsById.set(compoundDef.id, docusaurusId)
     }
   }
@@ -516,6 +542,7 @@ export class DocusaurusGenerator {
     const pagePermalink = this.pagePermalinksById.get(refid)
     if (pagePermalink === undefined) {
       console.error('refid', refid, 'has no permalink')
+      console.error('pagePermalinksById', this.pagePermalinksById)
     }
 
     assert(pagePermalink !== undefined)
@@ -551,11 +578,16 @@ export class DocusaurusGenerator {
   }
 
   stripPermalinkAnchor (refid: string): string {
-    return refid.replace(/_1[0-9a-f]*$/, '')
+    // No idea why g is also used.
+    return refid.replace(/_1[0-9a-fg]*$/, '')
   }
 
   getPermalinkAnchor (refid: string): string {
     return refid.replace(/^.*_1/, '')
+  }
+
+  getXrefPermalink (id: string): string {
+    return `/pages/${id.replace(/_1.*/, '')}/#${id.replace(/.*_1/, '')}`
   }
 
   getElementRenderer (element: Object): ElementGeneratorBase | undefined {
@@ -622,7 +654,18 @@ export class DocusaurusGenerator {
       .replaceAll(/[{]/g, '&#123;')
       .replaceAll(/[}]/g, '&#125;')
       .replaceAll(/[*]/g, '&#42;')
+      .replaceAll(/[\\]/g, '\\\\')
       .replaceAll(/[_]/g, '&#95;')
+  }
+
+  encodeUrl (text: string): string {
+    return text
+      .replaceAll(/[<]/g, '%3C')
+      .replaceAll(/[>]/g, '%3E')
+      .replaceAll(/[(]/g, '%28')
+      .replaceAll(/[)]/g, '%29')
+      .replaceAll(/[&]/g, '%26')
+      .replaceAll(/[*]/g, '%2A')
   }
 
   /**
@@ -751,15 +794,19 @@ export class DocusaurusGenerator {
 
   renderDetailedDescriptionMdx ({
     compoundDef,
-    todo
+    todo,
+    showHeader = true
   }: {
     compoundDef: CompoundDef
     todo: string
+    showHeader?: boolean
   }): string {
     let result: string = ''
 
-    result += '\n'
-    result += '## Description {#details}\n'
+    if (showHeader) {
+      result += '\n'
+      result += '## Description {#details}\n'
+    }
 
     // Deviate from Doxygen and do not repeat the brief in the detailed section.
 
@@ -833,7 +880,13 @@ export class DocusaurusGenerator {
 
     const permalink = this.getPermalink({ refid: compoundDef.id, kindref: 'compound' })
 
-    const className = `${compoundDef.compoundName}${this.renderTemplateParameterNamesMdx(compoundDef)}`
+    let className = this.escapeHtml(compoundDef.compoundName)
+    // In some cases the name already includes the template parameters.
+    if (!compoundDef.compoundName.includes('<')) {
+      const templateParameterNames = this.renderTemplateParameterNamesMdx(compoundDef)
+      // console.log('templateParameterNames:', templateParameterNames)
+      className += templateParameterNames
+    }
     const itemRight = `<Link to="${permalink}">${className}</Link>`
 
     result += '\n'

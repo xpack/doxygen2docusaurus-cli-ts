@@ -48,10 +48,12 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
         const permalink = this.context.getPagePermalink(compoundDefClass.id)
 
-        let className = ''
-        className += compoundDefClass.compoundName
-        if (compoundDefClass.templateParamList?.params !== undefined) {
-          className += this.context.renderTemplateParameterNamesMdx(compoundDefClass)
+        let className = this.context.escapeHtml(compoundDefClass.compoundName)
+        // In some cases the name already includes the template parameters.
+        if (!compoundDef.compoundName.includes('<')) {
+          const templateParameterNames = this.context.renderTemplateParameterNamesMdx(compoundDef)
+          // console.log('templateParameterNames:', templateParameterNames)
+          className += templateParameterNames
         }
 
         const itemRight = `<Link to="${permalink}">${className}</Link>`
