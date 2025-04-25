@@ -21,7 +21,7 @@ import { AbstractCodeLineType, AbstractDescriptionType, AbstractDocEmptyType, Ab
 
 export class DescriptionTypeGenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractDescriptionType): string {
-    // console.log(util.inspect(element), { compact: false, depth: 999 })
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     if (element.title !== undefined && element.title.length > 0) {
       console.log('title ignored in', element.constructor.name)
@@ -39,7 +39,7 @@ export class DescriptionTypeGenerator extends ElementGeneratorBase {
 
 export class DocParaType extends ElementGeneratorBase {
   renderMdx (element: AbstractDocParaType): string {
-    // console.log(util.inspect(element), { compact: false, depth: 999 })
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let result = ''
     result += this.context.renderElementsMdx(element.children)
@@ -54,7 +54,7 @@ export class DocParaType extends ElementGeneratorBase {
 
 export class DocURLLink extends ElementGeneratorBase {
   renderMdx (element: AbstractDocURLLink): string {
-    // console.log(util.inspect(element), { compact: false, depth: 999 })
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let result = ''
     result += `<a href="${element.url}">`
@@ -74,7 +74,7 @@ const htmlElements: { [key: string]: string } = {
 
 export class DocMarkupType extends ElementGeneratorBase {
   renderMdx (element: AbstractDocMarkupType): string {
-    // console.log(util.inspect(element), { compact: false, depth: 999 })
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const htmlElement: string | undefined = htmlElements[element.constructor.name]
     if (htmlElement === undefined) {
@@ -96,7 +96,7 @@ export class DocMarkupType extends ElementGeneratorBase {
 
 export class DocRefTextType extends ElementGeneratorBase {
   renderMdx (element: AbstractDocRefTextType): string {
-    // console.log(util.inspect(element), { compact: false, depth: 999 })
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     if (element.external !== undefined && element.external.length > 0) {
       console.log('external ignored in', element.constructor.name)
@@ -123,7 +123,7 @@ export class DocRefTextType extends ElementGeneratorBase {
 
 export class DocSimpleSectType extends ElementGeneratorBase {
   renderMdx (element: AbstractDocSimpleSectType): string {
-    // console.log(util.inspect(element), { compact: false, depth: 999 })
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let result = ''
 
@@ -160,7 +160,7 @@ export class DocSimpleSectType extends ElementGeneratorBase {
 
 export class SpType extends ElementGeneratorBase {
   renderMdx (element: AbstractSpType): string {
-    // console.log(util.inspect(element), { compact: false, depth: 999 })
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let result: string = ''
     let spaces: number = 1
@@ -181,7 +181,7 @@ export class SpType extends ElementGeneratorBase {
 
 export class ListingType extends ElementGeneratorBase {
   renderMdx (element: AbstractListingType): string {
-    // console.log(util.inspect(element), { compact: false, depth: 999 })
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let result = ''
 
@@ -207,7 +207,7 @@ export class ListingType extends ElementGeneratorBase {
 
 export class CodeLineType extends ElementGeneratorBase {
   renderMdx (element: AbstractCodeLineType): string {
-    // console.log(util.inspect(element), { compact: false, depth: 999 })
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     assert(element instanceof CodeLine)
 
@@ -261,13 +261,13 @@ export class HighlightType extends ElementGeneratorBase {
   ]
 
   renderMdx (element: AbstractHighlightType): string {
-    // console.log(util.inspect(element), { compact: false, depth: 999 })
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     assert(element instanceof Highlight)
 
     let kind = element.classs
     if (!this.knownClasses.includes(element.classs)) {
-      console.error(util.inspect(element), { compact: false, depth: 999 })
+      console.error(util.inspect(element, { compact: false, depth: 999 }))
       console.error(element.classs, 'not implemented yet in', this.constructor.name)
       kind = 'normal'
     }
@@ -286,7 +286,7 @@ export class HighlightType extends ElementGeneratorBase {
 
 export class DocEmptyType extends ElementGeneratorBase {
   renderMdx (element: AbstractDocEmptyType): string {
-    // console.log(util.inspect(element), { compact: false, depth: 999 })
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let result = ''
 
@@ -310,7 +310,7 @@ export class DocEmptyType extends ElementGeneratorBase {
 
 export class DocParamListType extends ElementGeneratorBase {
   renderMdx (element: AbstractDocParamListType): string {
-    // console.log(util.inspect(element), { compact: false, depth: 999 })
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let result = ''
 
@@ -331,12 +331,12 @@ export class DocParamListType extends ElementGeneratorBase {
         case 'ParameterList':
           result += `<ParametersList title="${title}">\n`
           for (const parameterItem of element.parameterItems) {
-            // console.log(util.inspect(parameterItem), { compact: false, depth: 999 })
+            // console.log(util.inspect(parameterItem, { compact: false, depth: 999 }))
 
             const names: string[] = []
             if (parameterItem.parameterNameList !== undefined) {
               for (const parameterName of parameterItem.parameterNameList) {
-                // console.log(util.inspect(parameterName.children), { compact: false, depth: 999 })
+                // console.log(util.inspect(parameterName.children, { compact: false, depth: 999 }))
                 for (const child of parameterName.children) {
                   for (const subChild of child.children) {
                     if (typeof subChild === 'string') {
@@ -347,13 +347,13 @@ export class DocParamListType extends ElementGeneratorBase {
                           names.push(this.context.escapeHtml(subChild))
                         }
                       } else if (child instanceof ParameterType) {
-                        console.error(util.inspect(parameterName.children), { compact: false, depth: 999 })
+                        console.error(util.inspect(parameterName.children, { compact: false, depth: 999 }))
                         console.error(element.constructor.name, 'ParameterType not yet rendered in', this.constructor.name)
                       } else {
                         names.push(this.context.escapeHtml(subChild))
                       }
                     } else {
-                      console.error(util.inspect(subChild), { compact: false, depth: 999 })
+                      console.error(util.inspect(subChild, { compact: false, depth: 999 }))
                       console.error(element.constructor.name, 'sub child not yet rendered in', this.constructor.name)
                     }
                   }

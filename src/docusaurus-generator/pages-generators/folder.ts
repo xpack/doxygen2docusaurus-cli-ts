@@ -26,7 +26,7 @@ export class FolderGenerator extends PageGeneratorBase {
   fileGenerator: FileGenerator | undefined
 
   renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
-    // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
+    // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
 
     frontMatter.title = `The ${compoundDef.compoundName} Folder Reference`
 
@@ -101,7 +101,7 @@ export class FolderGenerator extends PageGeneratorBase {
   }
 
   renderIndexMdx (): string {
-    // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
+    // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
 
     let result: string = ''
 
@@ -129,7 +129,7 @@ export class FolderGenerator extends PageGeneratorBase {
     const folder: Folder | undefined = this.context.folders.membersById.get(folderId)
     assert(folder !== undefined)
 
-    // console.log(util.inspect(namespace), { compact: false, depth: 999 })
+    // console.log(util.inspect(namespace, { compact: false, depth: 999 }))
 
     let result: string = ''
 

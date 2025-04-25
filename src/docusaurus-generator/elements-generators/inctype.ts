@@ -21,7 +21,7 @@ import { AbstractIncType } from '../../doxygen-xml-parser/inctype.js'
 
 export class IncType extends ElementGeneratorBase {
   renderMdx (element: AbstractIncType): string {
-    // console.log(util.inspect(element), { compact: false, depth: 999 })
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let result = ''
 

@@ -21,7 +21,7 @@ import { AbstractRefTextType } from '../../doxygen-xml-parser/reftexttype.js'
 
 export class RefTextType extends ElementGeneratorBase {
   renderMdx (element: AbstractRefTextType): string {
-    // console.log(util.inspect(element), { compact: false, depth: 999 })
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     if (element.external !== undefined) {
       console.error(element.elementName, 'attribute external not yet rendered in', this.constructor.name)

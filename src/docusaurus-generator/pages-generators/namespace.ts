@@ -23,7 +23,7 @@ import { Namespace } from '../data-model/namespaces.js'
 
 export class NamespaceGenerator extends PageGeneratorBase {
   renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
-    // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
+    // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
 
     frontMatter.title = `The ${compoundDef.compoundName} Namespace Reference`
 
@@ -41,10 +41,10 @@ export class NamespaceGenerator extends PageGeneratorBase {
       result += '<MembersList>\n'
 
       for (const innerClass of compoundDef.innerClasses) {
-        // console.log(util.inspect(innerClass), { compact: false, depth: 999 })
+        // console.log(util.inspect(innerClass, { compact: false, depth: 999 }))
         const compoundDefClass = this.context.compoundDefsById.get(innerClass.refid)
         assert(compoundDefClass !== undefined)
-        // console.log(util.inspect(compoundDefClass), { compact: false, depth: 999 })
+        // console.log(util.inspect(compoundDefClass, { compact: false, depth: 999 }))
 
         const permalink = this.context.getPagePermalink(compoundDefClass.id)
 
@@ -85,7 +85,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
   }
 
   renderIndexMdx (): string {
-    // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
+    // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
 
     let result: string = ''
 
@@ -108,7 +108,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
     const namespace: Namespace | undefined = this.context.namespaces.membersById.get(namespaceId)
     assert(namespace !== undefined)
 
-    // console.log(util.inspect(namespace), { compact: false, depth: 999 })
+    // console.log(util.inspect(namespace, { compact: false, depth: 999 }))
 
     let result: string = ''
 

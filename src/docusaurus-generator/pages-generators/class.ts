@@ -27,7 +27,8 @@ import { Location } from '../../doxygen-xml-parser/locationtype.js'
 
 export class ClassPageGenerator extends PageGeneratorBase {
   renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
-    // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
+    // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
+
 
     frontMatter.title = `The ${compoundDef.compoundName.replace(/.*::/, '')}`
     frontMatter.title += ' Class'
@@ -424,7 +425,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
       let destructor: MemberDef | undefined
       const methods = []
       for (const memberDef of sectionDef.memberDefs) {
-        // console.log(memberDef, { compact: false, depth: 999 })
+        // console.log(util.inspect(memberDef, { compact: false, depth: 999 }))
         if (memberDef.name === className) {
           constructors.push(memberDef)
         } else if (memberDef.name.replace('~', '') === className) {
@@ -498,11 +499,9 @@ export class ClassPageGenerator extends PageGeneratorBase {
     // WARNING: could not find how to generate 'inherited'.
 
     // Validation checks.
-    if (memberDef.staticc?.valueOf()) {
-      console.error(memberDef.constructor.name, 'static not yet rendered in', this.constructor.name)
-    }
     // const passed via the prototype.
     if (memberDef.mutable?.valueOf()) {
+      console.error(util.inspect(memberDef, { compact: false, depth: 999 }))
       console.error(memberDef.constructor.name, 'mutable not yet rendered in', this.constructor.name)
     }
 
@@ -570,7 +569,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
   // --------------------------------------------------------------------------
 
   renderIndexMdx (): string {
-    // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
+    // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
 
     let result: string = ''
 
@@ -593,7 +592,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     const classs: Class | undefined = this.context.classes.membersById.get(classId)
     assert(classs !== undefined)
 
-    // console.log(util.inspect(classs), { compact: false, depth: 999 })
+    // console.log(util.inspect(classs, { compact: false, depth: 999 }))
 
     let result: string = ''
 

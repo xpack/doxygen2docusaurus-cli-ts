@@ -34,24 +34,22 @@ import { AbstractParamType } from '../../doxygen-xml-parser/paramtype.js'
 
 export class ParamType extends ElementGeneratorBase {
   renderMdx (element: AbstractParamType): string {
-    // console.log(util.inspect(element), { compact: false, depth: 999 })
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     if (element.attributes !== undefined) {
+      console.error(util.inspect(element, { compact: false, depth: 999 }))
       console.error(element.elementName, 'property attributes not yet rendered in', this.constructor.name)
     }
     if (element.defname !== undefined) {
+      console.error(util.inspect(element, { compact: false, depth: 999 }))
       console.error(element.elementName, 'property defname not yet rendered in', this.constructor.name)
     }
-    if (element.array !== undefined) {
-      console.error(element.elementName, 'property array not yet rendered in', this.constructor.name)
-    }
-    if (element.defval !== undefined) {
-      console.error(element.elementName, 'property defval not yet rendered in', this.constructor.name)
-    }
     if (element.typeconstraint !== undefined) {
+      console.error(util.inspect(element, { compact: false, depth: 999 }))
       console.error(element.elementName, 'property typeconstraint not yet rendered in', this.constructor.name)
     }
     if (element.briefdescription !== undefined) {
+      console.error(util.inspect(element, { compact: false, depth: 999 }))
       console.error(element.elementName, 'property briefdescription not yet rendered in', this.constructor.name)
     }
 

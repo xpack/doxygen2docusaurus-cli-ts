@@ -306,7 +306,7 @@ export class DocusaurusGenerator {
       if (docusaurusGenerator !== undefined) {
         bodyText = await docusaurusGenerator.renderMdx(compoundDef, frontMatter)
       } else {
-        // console.error(util.inspect(compoundDef), { compact: false, depth: 999 })
+        // console.error(util.inspect(compoundDef, { compact: false, depth: 999 }))
         console.error('page generator for', compoundDef.kind, 'not implemented yet in', this.constructor.name)
         // TODO: enable it after implementing folders & files
         // continue
@@ -552,7 +552,7 @@ export class DocusaurusGenerator {
       elementClass = Object.getPrototypeOf(elementClass)
     }
 
-    console.error(util.inspect(element), { compact: false, depth: 999 })
+    console.error(util.inspect(element, { compact: false, depth: 999 }))
     console.error('no element generator for', element.constructor.name, 'in', this.constructor.name)
     return undefined
   }
@@ -628,7 +628,7 @@ export class DocusaurusGenerator {
     const templateParameters: string[] = []
 
     for (const param of compoundDef.templateParamList.params) {
-      // console.log(util.inspect(param), { compact: false, depth: 999 })
+      // console.log(util.inspect(param, { compact: false, depth: 999 }))
       assert(param.type !== undefined)
       assert(param.type.children.length === 1)
       assert(typeof param.type.children[0] === 'string')
@@ -670,7 +670,7 @@ export class DocusaurusGenerator {
     const templateParameterNames: string[] = []
 
     for (const param of compoundDef.templateParamList.params) {
-      // console.log(util.inspect(param), { compact: false, depth: 999 })
+      // console.log(util.inspect(param, { compact: false, depth: 999 }))
       assert(param.type !== undefined)
       assert(param.type.children.length === 1)
       assert(typeof param.type.children[0] === 'string')
@@ -747,7 +747,7 @@ export class DocusaurusGenerator {
 
     // Deviate from Doxygen and do not repeat the brief in the detailed section.
 
-    // console.log(util.inspect(compoundDef.detailedDescription), { compact: false, depth: 999 })
+    // console.log(util.inspect(compoundDef.detailedDescription, { compact: false, depth: 999 }))
     result += '\n'
     const detailedDescription: string = this.renderElementMdx(compoundDef.detailedDescription)
     if (detailedDescription.length > 0) {
@@ -812,6 +812,7 @@ export class DocusaurusGenerator {
   }
 
   renderClassSummaryMdx (compoundDef: CompoundDef): string {
+    // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
     let result: string = ''
 
     const permalink = this.getPermalink({ refid: compoundDef.id, kindref: 'compound' })

@@ -23,7 +23,7 @@ import { File } from '../data-model/files.js'
 
 export class FileGenerator extends PageGeneratorBase {
   renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
-    // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
+    // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
 
     frontMatter.title = `The ${compoundDef.compoundName} File Reference`
 
@@ -41,7 +41,7 @@ export class FileGenerator extends PageGeneratorBase {
       result += '<MembersList>\n'
 
       for (const innerClass of compoundDef.innerClasses) {
-        // console.log(util.inspect(innerClass), { compact: false, depth: 999 })
+        // console.log(util.inspect(innerClass, { compact: false, depth: 999 }))
         const compoundDef = this.context.compoundDefsById.get(innerClass.refid)
         assert(compoundDef !== undefined)
 
@@ -87,7 +87,7 @@ export class FileGenerator extends PageGeneratorBase {
     const file: File | undefined = this.context.files.membersById.get(fileId)
     assert(file !== undefined)
 
-    // console.log(util.inspect(namespace), { compact: false, depth: 999 })
+    // console.log(util.inspect(namespace, { compact: false, depth: 999 }))
 
     let result: string = ''
 

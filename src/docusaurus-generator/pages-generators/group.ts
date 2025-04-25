@@ -23,7 +23,7 @@ import { Group } from '../data-model/groups.js'
 
 export class GroupGenerator extends PageGeneratorBase {
   renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
-    // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
+    // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
 
     assert(compoundDef.title !== undefined)
     frontMatter.title = `The ${compoundDef.title} Reference`
@@ -67,10 +67,10 @@ export class GroupGenerator extends PageGeneratorBase {
       result += '<MembersList>\n'
 
       for (const innerClass of compoundDef.innerClasses) {
-        // console.log(util.inspect(innerClass), { compact: false, depth: 999 })
+        // console.log(util.inspect(innerClass, { compact: false, depth: 999 }))
         const compoundDefClass = this.context.compoundDefsById.get(innerClass.refid)
         assert(compoundDefClass !== undefined)
-        // console.log(util.inspect(compoundDefClass), { compact: false, depth: 999 })
+        // console.log(util.inspect(compoundDefClass, { compact: false, depth: 999 }))
 
         const permalink = this.context.getPagePermalink(compoundDefClass.id)
 
@@ -111,7 +111,7 @@ export class GroupGenerator extends PageGeneratorBase {
   }
 
   renderIndexMdx (): string {
-    // console.log(util.inspect(compoundDef), { compact: false, depth: 999 })
+    // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
 
     let result: string = ''
 
