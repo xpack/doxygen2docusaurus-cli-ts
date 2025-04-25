@@ -19,7 +19,8 @@
     "./components/SectionDefinition": "./src/components/SectionDefinition/index.js",
     "./components/ProgramListing": "./src/components/ProgramListing/index.js",
     "./components/CodeLine": "./src/components/CodeLine/index.js",
-    "./components/Highlight": "./src/components/Highlight/index.js"
+    "./components/Highlight": "./src/components/Highlight/index.js",
+    "./components/XrefSect": "./src/components/XrefSect/index.js"
   },
   "files": [
     "dist/",
