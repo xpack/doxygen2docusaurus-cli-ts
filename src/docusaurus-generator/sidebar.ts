@@ -40,72 +40,97 @@ export class Sidebar {
       }
     }
 
-    // Add namespaces to the sidebar.
-    // Top level namespaces are added below a Namespaces category.
-    const namespacesCategory: SidebarCategoryItem = {
-      type: 'category',
-      label: 'Namespaces',
-      link: {
-        type: 'doc',
-        id: 'api/namespaces/index'
-      },
-      collapsed: true,
-      items: []
-    }
-
     if (generator.namespaces.topLevelNamespaceIds.length > 0) {
+      // Add namespaces to the sidebar.
+      // Top level namespaces are added below a Namespaces category.
+      const namespacesCategory: SidebarCategoryItem = {
+        type: 'category',
+        label: 'Namespaces',
+        link: {
+          type: 'doc',
+          id: 'api/namespaces/index'
+        },
+        collapsed: true,
+        items: []
+      }
+
       for (const id of generator.namespaces.topLevelNamespaceIds) {
         namespacesCategory.items.push(this.createNamespaceItemRecursively(id))
       }
+
+      sidebarItems.push(namespacesCategory)
     }
 
-    sidebarItems.push(namespacesCategory)
-
-    // Add classes to the sidebar.
-    // Top level classes are added below a Class category
-    const classesCategory: SidebarCategoryItem = {
-      type: 'category',
-      label: 'Classes',
-      link: {
-        type: 'doc',
-        id: 'api/classes/index'
-      },
-      collapsed: true,
-      items: []
-    }
     if (generator.classes.topLevelClassIds.length > 0) {
+      // Add classes to the sidebar.
+      // Top level classes are added below a Class category
+      const classesCategory: SidebarCategoryItem = {
+        type: 'category',
+        label: 'Classes',
+        link: {
+          type: 'doc',
+          id: 'api/classes/index'
+        },
+        collapsed: true,
+        items: []
+      }
       for (const id of generator.classes.topLevelClassIds) {
         classesCategory.items.push(this.createClassItemRecursively(id))
       }
+
+      sidebarItems.push(classesCategory)
     }
 
-    sidebarItems.push(classesCategory)
-
-    // Add folders & files to the sidebar.
-    // Top level folders & files are added below a Files category
-    const filesCategory: SidebarCategoryItem = {
-      type: 'category',
-      label: 'Files',
-      link: {
-        type: 'doc',
-        id: 'api/folders/index'
-      },
-      collapsed: true,
-      items: []
-    }
-
-    if (generator.folders.topLevelFolderIds.length > 0) {
-      for (const id of generator.folders.topLevelFolderIds) {
-        filesCategory.items.push(this.createFolderItemRecursively(id))
+    if (generator.folders.topLevelFolderIds.length > 0 || generator.files.topLevelFileIds.length > 0) {
+      // Add folders & files to the sidebar.
+      // Top level folders & files are added below a Files category
+      const filesCategory: SidebarCategoryItem = {
+        type: 'category',
+        label: 'Files',
+        link: {
+          type: 'doc',
+          id: 'api/folders/index'
+        },
+        collapsed: true,
+        items: []
       }
-    }
-    if (generator.files.topLevelFileIds.length > 0) {
-      for (const id of generator.files.topLevelFileIds) {
-        filesCategory.items.push(this.createFileItem(id))
+
+      if (generator.folders.topLevelFolderIds.length > 0) {
+        for (const id of generator.folders.topLevelFolderIds) {
+          filesCategory.items.push(this.createFolderItemRecursively(id))
+        }
       }
+      if (generator.files.topLevelFileIds.length > 0) {
+        for (const id of generator.files.topLevelFileIds) {
+          filesCategory.items.push(this.createFileItem(id))
+        }
+      }
+
+      sidebarItems.push(filesCategory)
     }
 
-    sidebarItems.push(filesCategory)
+    if (generator.pages.membersById.size > 0) {
+      const pagesCategory: SidebarCategoryItem = {
+        type: 'category',
+        label: 'Pages',
+        collapsed: true,
+        items: []
+      }
+
+      for (const [key, page] of generator.pages.membersById.entries()) {
+        const label: string = page.compoundDef.title ?? key
+        const id: string = `${this.idPrefix}pages/${key}`
+        const docItem: SidebarDocItem = {
+          type: 'doc',
+          label,
+          id
+        }
+
+        pagesCategory.items.push(docItem)
+      }
+
+      sidebarItems.push(pagesCategory)
+    }
 
     return sidebarItems
   }
