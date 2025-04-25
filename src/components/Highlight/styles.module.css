@@ -2,13 +2,13 @@
 /* --- Part of docusaurus-plugin-doxygen --- */
 
 :global(:root) {
---doxy-highlight-keyword: #bb6bb2;
---doxy-highlight-keywordtype: #8258b3;
---doxy-highlight-keywordflow: #d67c3b;
+--doxy-highlight-keyword: #bb6bb2; /* #008000 */
+--doxy-highlight-keywordtype: #8258b3; /* #604020 */
+--doxy-highlight-keywordflow: #d67c3b; /* #E08000 */
 --doxy-highlight-token: #438a59;
---doxy-highlight-comment: #969696;
+--doxy-highlight-comment: #969696; /* #800000 */
 --doxy-highlight-link: #5383d6;
---doxy-highlight-preprocessor: #46aaa5;
+--doxy-highlight-preprocessor: #46aaa5; /* #806020 */
 --doxy-highlight-link: #5383D6;
 }
 
@@ -47,7 +47,12 @@
 }
 
 :global(span.doxyHighlightStringLiteral) {
-  color: var(--doxy-highlight-token);
+  color: var(--doxy-highlight-token); /* #002080 */
+  white-space: pre;
+}
+
+:global(span.doxyHighlightCharLiteral) {
+  color: #002080;
   white-space: pre;
 }
 
