@@ -14,7 +14,7 @@
 import * as util from 'node:util'
 import assert from 'node:assert'
 
-import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
+import { CompoundDef } from '../../doxygen-xml-parsers/compounddef-parser.js'
 
 // ----------------------------------------------------------------------------
 

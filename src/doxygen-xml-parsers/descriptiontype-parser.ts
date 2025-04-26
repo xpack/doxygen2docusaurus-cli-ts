@@ -16,8 +16,8 @@ import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
 import { AbstractParsedObjectBase } from './types.js'
-import { RefText } from './reftexttype.js'
-import { VariableList } from './docvarlistentrytype.js'
+import { RefText } from './reftexttype-parser.js'
+import { VariableList } from './docvarlistentrytype-parser.js'
 
 // ----------------------------------------------------------------------------
 

@@ -13,37 +13,37 @@
 
 import assert from 'assert'
 import * as util from 'node:util'
+
 import { DoxygenXmlParser } from './index.js'
-import { Description } from './descriptiontype.js'
-import { MemberDef } from './memberdeftype.js'
-import { Member } from './membertype.js'
 import { AbstractParsedObjectBase } from './types.js'
+import { BriefDescription, DetailedDescription } from './descriptiontype-parser.js'
+import { Initializer } from './linkedtexttype-parser.js'
 
 // ----------------------------------------------------------------------------
 
-// <xsd:complexType name="sectiondefType">
+// <xsd:complexType name="enumvalueType">
 //   <xsd:sequence>
-//     <xsd:element name="header" type="xsd:string" minOccurs="0" />
-//     <xsd:element name="description" type="descriptionType" minOccurs="0" />
-//     <xsd:choice maxOccurs="unbounded">
-//       <xsd:element name="memberdef" type="memberdefType" minOccurs="0" maxOccurs="unbounded" />
-//       <xsd:element name="member" type="MemberType" minOccurs="0" maxOccurs="unbounded" />
-//     </xsd:choice>
+//     <xsd:element name="name" type="xsd:string" />
+//     <xsd:element name="initializer" type="linkedTextType" minOccurs="0" />
+//     <xsd:element name="briefdescription" type="descriptionType" minOccurs="0" />
+//     <xsd:element name="detaileddescription" type="descriptionType" minOccurs="0" />
 //   </xsd:sequence>
-//   <xsd:attribute name="kind" type="DoxSectionKind" />
+//   <xsd:attribute name="id" type="xsd:string" />
+//   <xsd:attribute name="prot" type="DoxProtectionKind" />
 // </xsd:complexType>
 
-export abstract class AbstractSectionDefType extends AbstractParsedObjectBase {
-  // Mandatory attributes.
-  kind: string = ''
+export abstract class AbstractEnumValueType extends AbstractParsedObjectBase {
+  // Mandatory elements.
+  name: string = ''
 
   // Optional elements.
-  header?: string | undefined
-  description?: Description | undefined
+  initializer?: Initializer | undefined
+  briefDescription?: BriefDescription | undefined
+  detailedDescription?: DetailedDescription | undefined
 
-  // Actually only one is defined at a time.
-  memberDefs?: MemberDef[] | undefined
-  members?: Member[] | undefined
+  // Mandatory attributes.
+  id: string = ''
+  prot: string = '' // DoxProtectionKind
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -59,27 +59,21 @@ export abstract class AbstractSectionDefType extends AbstractParsedObjectBase {
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts.
-      } else if (xml.isInnerElementText(innerElement, 'header')) {
-        assert(this.header === undefined)
-        this.header = xml.getInnerElementText(innerElement, 'header')
-      } else if (xml.hasInnerElement(innerElement, 'description')) {
-        assert(this.description === undefined)
-        this.description = new Description(xml, innerElement)
-      } else if (xml.hasInnerElement(innerElement, 'memberdef')) {
-        if (this.memberDefs === undefined) {
-          this.memberDefs = []
-        }
-        this.memberDefs.push(new MemberDef(xml, innerElement))
-      } else if (xml.hasInnerElement(innerElement, 'member')) {
-        if (this.members === undefined) {
-          this.members = []
-        }
-        this.members.push(new Member(xml, innerElement))
+      } else if (xml.isInnerElementText(innerElement, 'name')) {
+        this.name = xml.getInnerElementText(innerElement, 'name')
+      } else if (xml.hasInnerElement(innerElement, 'initializer')) {
+        this.initializer = new Initializer(xml, innerElement)
+      } else if (xml.hasInnerElement(innerElement, 'briefdescription')) {
+        this.briefDescription = new BriefDescription(xml, innerElement)
+      } else if (xml.hasInnerElement(innerElement, 'detaileddescription')) {
+        this.detailedDescription = new DetailedDescription(xml, innerElement)
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
       }
     }
+
+    assert(this.name.length > 0)
 
     // ------------------------------------------------------------------------
     // Process attributes.
@@ -88,16 +82,18 @@ export abstract class AbstractSectionDefType extends AbstractParsedObjectBase {
 
     const attributesNames = xml.getAttributesNames(element)
     for (const attributeName of attributesNames) {
-      if (attributeName === '@_kind') {
-        assert(this.kind.length === 0)
-        this.kind = xml.getAttributeStringValue(element, '@_kind')
+      if (attributeName === '@_id') {
+        this.id = xml.getAttributeStringValue(element, '@_id')
+      } else if (attributeName === '@_prot') {
+        this.prot = xml.getAttributeStringValue(element, '@_prot')
       } else {
         console.error(util.inspect(element, { compact: false, depth: 999 }))
         console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
       }
     }
 
-    assert(this.kind.length > 0)
+    assert(this.id.length > 0)
+    assert(this.prot.length > 0)
 
     // ------------------------------------------------------------------------
 
@@ -107,12 +103,12 @@ export abstract class AbstractSectionDefType extends AbstractParsedObjectBase {
 
 // ----------------------------------------------------------------------------
 
-// <xsd:element name="sectiondef" type="sectiondefType" minOccurs="0" maxOccurs="unbounded" />
+//     <xsd:element name="enumvalue" type="enumvalueType" minOccurs="0" maxOccurs="unbounded" />
 
-export class SectionDef extends AbstractSectionDefType {
+export class EnumValue extends AbstractEnumValueType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
-    super(xml, element, 'sectiondef')
+    super(xml, element, 'enumvalue')
   }
 }
 

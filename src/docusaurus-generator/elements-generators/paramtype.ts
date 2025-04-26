@@ -15,7 +15,7 @@ import assert from 'assert'
 import * as util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
-import { AbstractParamType } from '../../doxygen-xml-parser/paramtype.js'
+import { AbstractParamType } from '../../doxygen-xml-parsers/paramtype-parser.js'
 
 // ----------------------------------------------------------------------------
 

@@ -11,7 +11,7 @@
 
 // ----------------------------------------------------------------------------
 
-import { DoxygenData } from '../doxygen-xml-parser/index.js'
+import { DoxygenData } from '../doxygen-xml-parsers/index.js'
 import { generateDoxygen } from './cli/generate.js'
 import { generateDocusaurusMdx, parseDoxygen } from './main.js'
 

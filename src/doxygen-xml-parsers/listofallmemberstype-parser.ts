@@ -15,20 +15,20 @@ import assert from 'node:assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { Param } from './paramtype.js'
+import { MemberRef } from './memberreftype-parser.js'
 import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
-// <xsd:complexType name="templateparamlistType">
+// <xsd:complexType name="listofallmembersType">
 //   <xsd:sequence>
-//     <xsd:element name="param" type="paramType" minOccurs="0" maxOccurs="unbounded" />
+//     <xsd:element name="member" type="memberRefType" minOccurs="0" maxOccurs="unbounded" />
 //   </xsd:sequence>
 // </xsd:complexType>
 
-export abstract class AbstractTemplateParamListType extends AbstractParsedObjectBase {
+export abstract class AbstractListOfAllMembersType extends AbstractParsedObjectBase {
   // Optional elements.
-  params?: Param[] | undefined
+  memberRefs?: MemberRef[] | undefined
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -45,11 +45,11 @@ export abstract class AbstractTemplateParamListType extends AbstractParsedObject
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts
-      } else if (xml.hasInnerElement(innerElement, 'param')) {
-        if (this.params === undefined) {
-          this.params = []
+      } else if (xml.hasInnerElement(innerElement, 'member')) {
+        if (this.memberRefs === undefined) {
+          this.memberRefs = []
         }
-        this.params.push(new Param(xml, innerElement))
+        this.memberRefs.push(new MemberRef(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
@@ -69,12 +69,12 @@ export abstract class AbstractTemplateParamListType extends AbstractParsedObject
 
 // ----------------------------------------------------------------------------
 
-// <xsd:element name="templateparamlist" type="templateparamlistType" minOccurs="0" />
+// <xsd:element name="listofallmembers" type="listofallmembersType" minOccurs="0" />
 
-export class TemplateParamList extends AbstractTemplateParamListType {
+export class ListOfAllMembers extends AbstractListOfAllMembersType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
-    super(xml, element, 'templateparamlist')
+    super(xml, element, 'listofallmembers')
   }
 }
 

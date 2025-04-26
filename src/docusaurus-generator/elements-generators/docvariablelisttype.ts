@@ -15,7 +15,7 @@ import assert from 'assert'
 import * as util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
-import { AbstractDocVariableListType, VariableListPair } from '../../doxygen-xml-parser/docvarlistentrytype.js'
+import { AbstractDocVariableListType, VariableListPair } from '../../doxygen-xml-parsers/docvarlistentrytype-parser.js'
 
 // ----------------------------------------------------------------------------
 

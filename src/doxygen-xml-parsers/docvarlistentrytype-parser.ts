@@ -16,7 +16,7 @@ import util from 'util'
 
 import { DoxygenXmlParser } from './index.js'
 import { AbstractParsedObjectBase } from './types.js'
-import { ListItem, Term } from './descriptiontype.js'
+import { ListItem, Term } from './descriptiontype-parser.js'
 
 // ----------------------------------------------------------------------------
 

@@ -15,14 +15,14 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { BriefDescription, DetailedDescription, InbodyDescription } from './descriptiontype.js'
-import { Initializer, Type } from './linkedtexttype.js'
-import { Location } from './locationtype.js'
-import { Param } from './paramtype.js'
+import { BriefDescription, DetailedDescription, InbodyDescription } from './descriptiontype-parser.js'
+import { Initializer, Type } from './linkedtexttype-parser.js'
+import { Location } from './locationtype-parser.js'
+import { Param } from './paramtype-parser.js'
 import { AbstractParsedObjectBase } from './types.js'
-import { TemplateParamList } from './templateparamlisttype.js'
-import { EnumValue } from './enumvaluetype.js'
-import { Reimplement, ReimplementedBy } from './reimplementtype.js'
+import { TemplateParamList } from './templateparamlisttype-parser.js'
+import { EnumValue } from './enumvaluetype-parser.js'
+import { Reimplement, ReimplementedBy } from './reimplementtype-parser.js'
 
 // ----------------------------------------------------------------------------
 

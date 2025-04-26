@@ -14,7 +14,7 @@
 import assert from 'node:assert'
 import * as util from 'node:util'
 
-import { DoxygenData } from '../../doxygen-xml-parser/index.js'
+import { DoxygenData } from '../../doxygen-xml-parsers/index.js'
 import { generateDocusaurusMdx, parseDoxygen } from '../main.js'
 import { PluginOptions } from '../options.js'
 

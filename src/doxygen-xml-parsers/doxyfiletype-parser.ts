@@ -15,7 +15,7 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { DoxygenFileOption } from './doxyfileoptiontype.js'
+import { DoxygenFileOption } from './doxyfileoptiontype-parser.js'
 import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------

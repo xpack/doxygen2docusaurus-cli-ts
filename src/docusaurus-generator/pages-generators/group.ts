@@ -16,7 +16,7 @@ import * as util from 'node:util'
 
 import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
-import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
+import { CompoundDef } from '../../doxygen-xml-parsers/compounddef-parser.js'
 import { Group } from '../data-model/groups-dm.js'
 
 // ----------------------------------------------------------------------------

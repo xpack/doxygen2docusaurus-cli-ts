@@ -14,15 +14,15 @@
 import * as util from 'node:util'
 import assert from 'node:assert'
 
-import { IncludedBy, Includes } from './inctype.js'
+import { IncludedBy, Includes } from './inctype-parser.js'
 import { DoxygenXmlParser } from './index.js'
-import { BaseCompoundRef, DerivedCompoundRef } from './compoundreftype.js'
-import { TemplateParamList } from './templateparamlisttype.js'
-import { SectionDef } from './sectiondeftype.js'
-import { ListOfAllMembers } from './listofallmemberstype.js'
-import { BriefDescription, DetailedDescription, ProgramListing } from './descriptiontype.js'
-import { InnerClass, InnerDir, InnerFile, InnerGroup, InnerNamespace } from './reftype.js'
-import { Location } from './locationtype.js'
+import { BaseCompoundRef, DerivedCompoundRef } from './compoundreftype-parser.js'
+import { TemplateParamList } from './templateparamlisttype-parser.js'
+import { SectionDef } from './sectiondeftype-parser.js'
+import { ListOfAllMembers } from './listofallmemberstype-parser.js'
+import { BriefDescription, DetailedDescription, ProgramListing } from './descriptiontype-parser.js'
+import { InnerClass, InnerDir, InnerFile, InnerGroup, InnerNamespace } from './reftype-parser.js'
+import { Location } from './locationtype-parser.js'
 import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------

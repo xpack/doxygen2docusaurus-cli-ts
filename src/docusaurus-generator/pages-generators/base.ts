@@ -11,7 +11,7 @@
 
 // ----------------------------------------------------------------------------
 
-import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
+import { CompoundDef } from '../../doxygen-xml-parsers/compounddef-parser.js'
 import { DocusaurusGenerator } from '../index.js'
 import { FrontMatter } from '../types.js'
 

@@ -14,7 +14,7 @@
 import * as util from 'node:util'
 import assert from 'node:assert'
 
-import { DoxygenFileOption } from '../../doxygen-xml-parser/doxyfileoptiontype.js'
+import { DoxygenFileOption } from '../../doxygen-xml-parsers/doxyfileoptiontype-parser.js'
 
 // ----------------------------------------------------------------------------
 

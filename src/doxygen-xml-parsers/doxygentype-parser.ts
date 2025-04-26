@@ -15,27 +15,26 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { IndexCompound } from './indexcompoundtype.js'
+import { CompoundDef } from './compounddef-parser.js'
 import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
-// WARNING: it clashes with the definition in compound.xsd.
 // <xsd:complexType name="DoxygenType">
-//   <xsd:sequence>
-//     <xsd:element name="compound" type="CompoundType" minOccurs="0" maxOccurs="unbounded"/>
+//   <xsd:sequence maxOccurs="unbounded">
+//     <xsd:element name="compounddef" type="compounddefType" minOccurs="0" />
 //   </xsd:sequence>
-//   <xsd:attribute name="version" type="xsd:string" use="required"/>
+//   <xsd:attribute name="version" type="DoxVersionNumber" use="required" />
 //   <xsd:attribute ref="xml:lang" use="required"/>
 // </xsd:complexType>
 
-export abstract class AbstractIndexDoxygenType extends AbstractParsedObjectBase {
+export abstract class AbstractDoxygenType extends AbstractParsedObjectBase {
   // Mandatory attributes.
   version: string = ''
   lang: string = ''
 
   // Optional elements.
-  compounds?: IndexCompound[] | undefined
+  compoundDefs?: CompoundDef[] | undefined
 
   // Optional attributes.
   noNamespaceSchemaLocation?: string | undefined
@@ -43,7 +42,7 @@ export abstract class AbstractIndexDoxygenType extends AbstractParsedObjectBase 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
-    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))ect(element))
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
@@ -51,14 +50,14 @@ export abstract class AbstractIndexDoxygenType extends AbstractParsedObjectBase 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts.
-      } else if (xml.hasInnerElement(innerElement, 'compound')) {
-        if (this.compounds === undefined) {
-          this.compounds = []
+      } else if (xml.hasInnerElement(innerElement, 'compounddef')) {
+        if (this.compoundDefs === undefined) {
+          this.compoundDefs = []
         }
-        this.compounds.push(new IndexCompound(xml, innerElement))
+        this.compoundDefs.push(new CompoundDef(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
-        console.error(`index ${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
+        console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
       }
     }
 
@@ -79,7 +78,7 @@ export abstract class AbstractIndexDoxygenType extends AbstractParsedObjectBase 
         this.noNamespaceSchemaLocation = xml.getAttributeStringValue(element, '@_noNamespaceSchemaLocation')
       } else {
         console.error(util.inspect(element, { compact: false, depth: 999 }))
-        console.error(`index ${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
+        console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
       }
     }
     assert(this.version.length > 0)
@@ -93,12 +92,12 @@ export abstract class AbstractIndexDoxygenType extends AbstractParsedObjectBase 
 
 // ----------------------------------------------------------------------------
 
-// <xsd:element name="doxygenindex" type="DoxygenType"/>
+// <xsd:element name="doxygen" type="DoxygenType"/>
 
-export class DoxygenIndex extends AbstractIndexDoxygenType {
+export class Doxygen extends AbstractDoxygenType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
-    super(xml, element, 'doxygenindex')
+    super(xml, element, 'doxygen')
   }
 }
 

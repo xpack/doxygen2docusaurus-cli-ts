@@ -15,8 +15,8 @@ import assert from 'assert'
 import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
-import { BriefDescription } from './descriptiontype.js'
-import { DefVal, Type, TypeConstraint } from './linkedtexttype.js'
+import { BriefDescription } from './descriptiontype-parser.js'
+import { DefVal, Type, TypeConstraint } from './linkedtexttype-parser.js'
 import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------

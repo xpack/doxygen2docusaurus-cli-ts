@@ -18,10 +18,10 @@ import * as util from 'node:util'
 
 import { XMLParser } from 'fast-xml-parser'
 import { XmlElement } from './types.js'
-import { DoxygenIndex } from './indexdoxygentype.js'
-import { CompoundDef } from './compounddef.js'
-import { DoxygenFile } from './doxyfiletype.js'
-import { Doxygen } from './doxygentype.js'
+import { DoxygenIndex } from './indexdoxygentype-parser.js'
+import { CompoundDef } from './compounddef-parser.js'
+import { DoxygenFile } from './doxyfiletype-parser.js'
+import { Doxygen } from './doxygentype-parser.js'
 
 // ----------------------------------------------------------------------------
 // Top structure to hold the parsed Doxygen xml data as JS objects.

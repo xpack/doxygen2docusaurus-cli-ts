@@ -13,36 +13,45 @@
 
 import assert from 'assert'
 import * as util from 'node:util'
-
 import { DoxygenXmlParser } from './index.js'
-import { CompoundDef } from './compounddef.js'
+import { Description } from './descriptiontype-parser.js'
+import { MemberDef } from './memberdeftype-parser.js'
+import { Member } from './membertype-parser.js'
 import { AbstractParsedObjectBase } from './types.js'
 
 // ----------------------------------------------------------------------------
 
-// <xsd:complexType name="DoxygenType">
-//   <xsd:sequence maxOccurs="unbounded">
-//     <xsd:element name="compounddef" type="compounddefType" minOccurs="0" />
+// <xsd:complexType name="sectiondefType">
+//   <xsd:sequence>
+//     <xsd:element name="header" type="xsd:string" minOccurs="0" />
+//     <xsd:element name="description" type="descriptionType" minOccurs="0" />
+//     <xsd:choice maxOccurs="unbounded">
+//       <xsd:element name="memberdef" type="memberdefType" minOccurs="0" maxOccurs="unbounded" />
+//       <xsd:element name="member" type="MemberType" minOccurs="0" maxOccurs="unbounded" />
+//     </xsd:choice>
 //   </xsd:sequence>
-//   <xsd:attribute name="version" type="DoxVersionNumber" use="required" />
-//   <xsd:attribute ref="xml:lang" use="required"/>
+//   <xsd:attribute name="kind" type="DoxSectionKind" />
 // </xsd:complexType>
 
-export abstract class AbstractDoxygenType extends AbstractParsedObjectBase {
+export abstract class AbstractSectionDefType extends AbstractParsedObjectBase {
   // Mandatory attributes.
-  version: string = ''
-  lang: string = ''
+  kind: string = ''
 
   // Optional elements.
-  compoundDefs?: CompoundDef[] | undefined
+  header?: string | undefined
+  description?: Description | undefined
 
-  // Optional attributes.
-  noNamespaceSchemaLocation?: string | undefined
+  // Actually only one is defined at a time.
+  memberDefs?: MemberDef[] | undefined
+  members?: Member[] | undefined
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
-    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))ect(element))
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+
+    // ------------------------------------------------------------------------
+    // Process elements.
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
@@ -50,11 +59,22 @@ export abstract class AbstractDoxygenType extends AbstractParsedObjectBase {
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts.
-      } else if (xml.hasInnerElement(innerElement, 'compounddef')) {
-        if (this.compoundDefs === undefined) {
-          this.compoundDefs = []
+      } else if (xml.isInnerElementText(innerElement, 'header')) {
+        assert(this.header === undefined)
+        this.header = xml.getInnerElementText(innerElement, 'header')
+      } else if (xml.hasInnerElement(innerElement, 'description')) {
+        assert(this.description === undefined)
+        this.description = new Description(xml, innerElement)
+      } else if (xml.hasInnerElement(innerElement, 'memberdef')) {
+        if (this.memberDefs === undefined) {
+          this.memberDefs = []
         }
-        this.compoundDefs.push(new CompoundDef(xml, innerElement))
+        this.memberDefs.push(new MemberDef(xml, innerElement))
+      } else if (xml.hasInnerElement(innerElement, 'member')) {
+        if (this.members === undefined) {
+          this.members = []
+        }
+        this.members.push(new Member(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
@@ -67,22 +87,17 @@ export abstract class AbstractDoxygenType extends AbstractParsedObjectBase {
     assert(xml.hasAttributes(element))
 
     const attributesNames = xml.getAttributesNames(element)
-    // console.log(attributesNames)
     for (const attributeName of attributesNames) {
-      // console.log(attributeName)
-      if (attributeName === '@_version') {
-        this.version = xml.getAttributeStringValue(element, '@_version')
-      } else if (attributeName === '@_lang') {
-        this.lang = xml.getAttributeStringValue(element, '@_lang')
-      } else if (attributeName === '@_noNamespaceSchemaLocation') {
-        this.noNamespaceSchemaLocation = xml.getAttributeStringValue(element, '@_noNamespaceSchemaLocation')
+      if (attributeName === '@_kind') {
+        assert(this.kind.length === 0)
+        this.kind = xml.getAttributeStringValue(element, '@_kind')
       } else {
         console.error(util.inspect(element, { compact: false, depth: 999 }))
         console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
       }
     }
-    assert(this.version.length > 0)
-    assert(this.lang.length > 0)
+
+    assert(this.kind.length > 0)
 
     // ------------------------------------------------------------------------
 
@@ -92,12 +107,12 @@ export abstract class AbstractDoxygenType extends AbstractParsedObjectBase {
 
 // ----------------------------------------------------------------------------
 
-// <xsd:element name="doxygen" type="DoxygenType"/>
+// <xsd:element name="sectiondef" type="sectiondefType" minOccurs="0" maxOccurs="unbounded" />
 
-export class Doxygen extends AbstractDoxygenType {
+export class SectionDef extends AbstractSectionDefType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
-    super(xml, element, 'doxygen')
+    super(xml, element, 'sectiondef')
   }
 }
 
