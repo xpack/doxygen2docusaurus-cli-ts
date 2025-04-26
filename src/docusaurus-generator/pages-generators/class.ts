@@ -52,7 +52,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     result += this.context.renderIncludesIndexMdx(compoundDef)
 
-    const object = (kind === 'class' ? this.context.classes : this.context.structs).membersById.get(compoundDef.id)
+    const object = this.context.classes.membersById.get(compoundDef.id)
     assert(object !== undefined)
 
     if (kind === 'class') {
@@ -653,12 +653,13 @@ export class ClassPageGenerator extends PageGeneratorBase {
     assert(permalink !== undefined && permalink.length > 1)
 
     const iconLetters: Record<string, string> = {
-      class: 'C'
+      class: 'C',
+      struct: 'S'
     }
 
     let iconLetter: string | undefined = iconLetters[compoundDef.kind]
     if (iconLetter === undefined) {
-      console.error('Icon kind', compoundDef.kind, 'not supported yet in', this.constructor.name)
+      console.error('Icon kind', compoundDef.kind, 'not supported yet in', this.constructor.name, '(using ?)')
       iconLetter = '?'
     }
 

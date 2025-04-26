@@ -47,7 +47,6 @@ import { FileGenerator } from './pages-generators/file.js'
 import { FolderGenerator } from './pages-generators/folder.js'
 import { DocS1TypeGenerator, DocS2TypeGenerator, DocS3TypeGenerator, DocS4TypeGenerator, DocS5TypeGenerator, DocS6TypeGenerator } from './elements-generators/docinternalstype.js'
 import { DocTitleTypeGenerator } from './elements-generators/doctitletype.js'
-import { Structs } from './data-model/structs.js'
 import { DocXRefSectType } from './elements-generators/docxrefsecttype.js'
 import { PageGenerator } from './pages-generators/page.js'
 import { DocVariableListTypeGenerator, VariableListPairGenerator } from './elements-generators/docvariablelisttype.js'
@@ -73,7 +72,6 @@ export class DocusaurusGenerator {
   folders: Folders
   files: Files
   classes: Classes
-  structs: Structs
   pages: Pages
 
   // kind: DoxCompoundKind
@@ -125,7 +123,6 @@ export class DocusaurusGenerator {
     this.files = new Files(this.doxygenData.compoundDefs, this.folders)
     this.classes = new Classes(this.doxygenData.compoundDefs)
     this.classes = new Classes(this.doxygenData.compoundDefs)
-    this.structs = new Structs(this.doxygenData.compoundDefs)
     this.pages = new Pages(this.doxygenData.compoundDefs)
 
     this.doxygenOptions = new DoxygenFileOptions(this.doxygenData.doxyfile.options)

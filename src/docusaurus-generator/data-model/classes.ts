@@ -26,7 +26,7 @@ export class Classes {
     this.membersById = new Map()
 
     for (const compoundDef of compoundDefs) {
-      if (compoundDef.kind === 'class') {
+      if (compoundDef.kind === 'class' || compoundDef.kind === 'struct') {
         this.membersById.set(compoundDef.id, new Class(compoundDef))
       }
     }
