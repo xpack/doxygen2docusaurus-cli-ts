@@ -13,42 +13,43 @@
 
 import assert from 'assert'
 import * as fs from 'fs/promises'
-import path from 'path'
 import * as util from 'node:util'
+import path from 'path'
 
 import { AbstractCompoundDefType, CompoundDef } from '../doxygen-xml-parser/compounddef.js'
 import { DoxygenData } from '../doxygen-xml-parser/index.js'
+import { DefVal } from '../doxygen-xml-parser/linkedtexttype.js'
+import { RefText } from '../doxygen-xml-parser/reftexttype.js'
 import { PluginOptions } from '../plugin/options.js'
 import { SidebarItem } from '../plugin/types.js'
-import { Classes } from './data-model/classes.js'
-import { Files } from './data-model/files.js'
-import { Folders } from './data-model/folders.js'
-import { Groups } from './data-model/groups.js'
-import { Namespaces } from './data-model/namespaces.js'
+import { Classes } from './data-model/classes-dm.js'
+import { Files } from './data-model/files-dm.js'
+import { Folders } from './data-model/folders-dm.js'
+import { Groups } from './data-model/groups-dm.js'
+import { Namespaces } from './data-model/namespaces-dm.js'
 import { DoxygenFileOptions } from './data-model/options.js'
+import { Pages } from './data-model/pages-dm.js'
 import { CodeLineTypeGenerator, DescriptionTypeGenerator, DocAnchorTypeGenerator, DocEmptyTypeGenerator, DocMarkupTypeGenerator, DocParamListTypegenerator, DocParaTypeGenerator, DocRefTextTypeGenerator, DocSimpleSectTypeGenerator, DocURLLinkGenerator, HighlightTypeGenerator, ListingTypeGenerator, SpTypeGenerator } from './elements-generators/descriptiontype.js'
-import { ElementGeneratorBase } from './elements-generators/element-generator-base.js'
-import { PageGeneratorBase as GeneratorBase } from './pages-generators/base.js'
-import { GroupGenerator } from './pages-generators/group.js'
-import { Sidebar } from './sidebar.js'
-import { FrontMatter } from './types.js'
-import { RefTypeGenerator } from './elements-generators/reftype.js'
-import { NamespaceGenerator } from './pages-generators/namespace.js'
-import { ClassPageGenerator } from './pages-generators/class.js'
-import { Pages } from './data-model/pages.js'
-import { IncTypeGenerator } from './elements-generators/inctype.js'
+import { DocS1TypeGenerator, DocS2TypeGenerator, DocS3TypeGenerator, DocS4TypeGenerator, DocS5TypeGenerator, DocS6TypeGenerator } from './elements-generators/docinternalstype.js'
 import { DocListTypeGenerator } from './elements-generators/doclisttype.js'
-import { ParamTypeGenerator } from './elements-generators/paramtype.js'
+import { DocTitleTypeGenerator } from './elements-generators/doctitletype.js'
+import { DocVariableListTypeGenerator, VariableListPairGenerator } from './elements-generators/docvariablelisttype.js'
+import { DocXRefSectType } from './elements-generators/docxrefsecttype.js'
+import { ElementGeneratorBase } from './elements-generators/element-generator-base.js'
+import { IncTypeGenerator } from './elements-generators/inctype.js'
 import { LinkedTextTypeGenerator } from './elements-generators/linkedtexttype.js'
+import { ParamTypeGenerator } from './elements-generators/paramtype.js'
 import { RefTextTypeGenerator } from './elements-generators/reftexttype.js'
-import { RefText } from '../doxygen-xml-parser/reftexttype.js'
-import { DefVal } from '../doxygen-xml-parser/linkedtexttype.js'
+import { RefTypeGenerator } from './elements-generators/reftype.js'
+import { PageGeneratorBase as GeneratorBase } from './pages-generators/base.js'
+import { ClassPageGenerator } from './pages-generators/class.js'
 import { FileGenerator } from './pages-generators/file.js'
 import { FolderGenerator } from './pages-generators/folder.js'
-import { DocS1TypeGenerator, DocS2TypeGenerator, DocS3TypeGenerator, DocS4TypeGenerator, DocS5TypeGenerator, DocS6TypeGenerator } from './elements-generators/docinternalstype.js'
-import { DocTitleTypeGenerator } from './elements-generators/doctitletype.js'
-import { DocXRefSectType } from './elements-generators/docxrefsecttype.js'
+import { GroupGenerator } from './pages-generators/group.js'
+import { NamespaceGenerator } from './pages-generators/namespace.js'
 import { PageGenerator } from './pages-generators/page.js'
+import { Sidebar } from './sidebar.js'
+import { FrontMatter } from './types.js'
 import { escapeHtml } from './utils.js'
 import { DataModelBase } from './data-model/base-dm.js'
 
@@ -251,6 +252,7 @@ export class DocusaurusGenerator {
       const permalink = dataObject.relativePermalink
       assert(permalink !== undefined)
       console.log('permalink:', permalink)
+
       if (this.pagePermalinksById.has(compoundDef.id)) {
         console.error('Permalink clash for id', compoundDef.id)
       }
@@ -495,7 +497,6 @@ export class DocusaurusGenerator {
     // Skip date, to avoid unnecessary git commits.
     // frontMatterText += `date: ${formatDate(new Date())}\n`
     // frontMatterText += '\n'
-
     frontMatterText += '---\n'
     frontMatterText += '\n'
 
@@ -548,7 +549,6 @@ export class DocusaurusGenerator {
     kindref: string
   }): string {
     // console.log(refid, kindref)
-
     let permalink: string | undefined
     if (kindref === 'compound') {
       permalink = this.getPagePermalink(refid)
@@ -776,7 +776,6 @@ export class DocusaurusGenerator {
     }
 
     // Deviate from Doxygen and do not repeat the brief in the detailed section.
-
     // console.log(util.inspect(compoundDef.detailedDescription, { compact: false, depth: 999 }))
     result += '\n'
     const detailedDescription: string = this.renderElementMdx(compoundDef.detailedDescription)
