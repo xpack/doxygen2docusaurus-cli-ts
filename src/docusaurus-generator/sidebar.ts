@@ -119,7 +119,7 @@ export class Sidebar {
 
       for (const [key, page] of generator.pages.membersById.entries()) {
         const label: string = page.compoundDef.title ?? key
-        const id: string = `${this.idPrefix}pages/${key}`
+        const id: string = `${this.idPrefix}pages/${key as string}`
         const docItem: SidebarDocItem = {
           type: 'doc',
           label,
@@ -138,30 +138,26 @@ export class Sidebar {
   createGroupItemRecursively (groupId: string): SidebarItem {
     const group = this.generator.groups.membersById.get(groupId)
     assert(group !== undefined)
-    const compoundDef = group.compoundDef
-    assert(compoundDef.title !== undefined)
-    const label = compoundDef.title
-    const curedName: string = compoundDef.compoundName.replaceAll(/[^a-zA-Z0-9-]/g, '-')
-    assert(compoundDef.title !== undefined && compoundDef.title)
-    if (group.childrenGroupsIds.length === 0) {
+
+    if (group.childrenIds.length === 0) {
       const docItem: SidebarDocItem = {
         type: 'doc',
-        label,
-        id: `${this.idPrefix}groups/${curedName}`
+        label: group.sidebarLabel,
+        id: `${this.idPrefix}${group.docusaurusId}`
       }
       return docItem
     } else {
       const categoryItem: SidebarCategoryItem = {
         type: 'category',
-        label,
+        label: group.sidebarLabel,
         link: {
           type: 'doc',
-          id: `${this.idPrefix}groups/${curedName}`
+          id: `${this.idPrefix}${group.docusaurusId}`
         },
         collapsed: true,
         items: []
       }
-      for (const childId of group.childrenGroupsIds) {
+      for (const childId of group.childrenIds) {
         categoryItem.items.push(this.createGroupItemRecursively(childId))
       }
       return categoryItem
@@ -171,29 +167,26 @@ export class Sidebar {
   createNamespaceItemRecursively (namespaceId: string): SidebarItem {
     const namespace = this.generator.namespaces.membersById.get(namespaceId)
     assert(namespace !== undefined)
-    const compoundDef = namespace.compoundDef
-    assert(namespace.unparentedName)
-    const label = namespace.unparentedName
-    const curedName: string = compoundDef.compoundName.replaceAll('::', '-').replaceAll(/[^a-zA-Z0-9-]/g, '-')
-    if (namespace.childrenNamespaceIds.length === 0) {
+
+    if (namespace.childrenIds.length === 0) {
       const docItem: SidebarDocItem = {
         type: 'doc',
-        label,
-        id: `${this.idPrefix}namespaces/${curedName}`
+        label: namespace.sidebarLabel,
+        id: `${this.idPrefix}${namespace.docusaurusId}`
       }
       return docItem
     } else {
       const categoryItem: SidebarCategoryItem = {
         type: 'category',
-        label,
+        label: namespace.sidebarLabel,
         link: {
           type: 'doc',
-          id: `${this.idPrefix}namespaces/${curedName}`
+          id: `${this.idPrefix}${namespace.docusaurusId}`
         },
         collapsed: true,
         items: []
       }
-      for (const childId of namespace.childrenNamespaceIds) {
+      for (const childId of namespace.childrenIds) {
         categoryItem.items.push(this.createNamespaceItemRecursively(childId))
       }
       return categoryItem
@@ -203,27 +196,20 @@ export class Sidebar {
   createFolderItemRecursively (folderId: string): SidebarItem {
     const folder = this.generator.folders.membersById.get(folderId)
     assert(folder !== undefined)
-    const compoundDef = folder.compoundDef
-    const label = compoundDef.compoundName
-    let parentPath = ''
-    if (folder.parentFolderId !== undefined && folder.parentFolderId.length > 0) {
-      parentPath = this.generator.folders.getRelativePathRecursively(folder.parentFolderId) + '/'
-    }
-    const curedName: string = (parentPath + compoundDef.compoundName).replaceAll(/[^a-zA-Z0-9-]/g, '-')
 
     const categoryItem: SidebarCategoryItem = {
       type: 'category',
-      label,
+      label: folder.sidebarLabel,
       link: {
         type: 'doc',
-        id: `${this.idPrefix}folders/${curedName}`
+        id: `${this.idPrefix}${folder.docusaurusId}`
       },
       collapsed: true,
       items: []
     }
 
     // Add the folders first.
-    for (const childId of folder.childrenFolderIds) {
+    for (const childId of folder.childrenIds) {
       categoryItem.items.push(this.createFolderItemRecursively(childId))
     }
 
@@ -238,17 +224,11 @@ export class Sidebar {
   createFileItem (fileId: string): SidebarDocItem {
     const file = this.generator.files.membersById.get(fileId)
     assert(file !== undefined)
-    const compoundDef = file.compoundDef
-    const label = compoundDef.compoundName
-    let parentPath = ''
-    if (file.parentFolderId !== undefined && file.parentFolderId.length > 0) {
-      parentPath = this.generator.folders.getRelativePathRecursively(file.parentFolderId) + '/'
-    }
-    const curedName: string = (parentPath + compoundDef.compoundName).replaceAll(/[^a-zA-Z0-9-]/g, '-')
+
     const docItem: SidebarDocItem = {
       type: 'doc',
-      label,
-      id: `${this.idPrefix}files/${curedName}`
+      label: file.sidebarLabel,
+      id: `${this.idPrefix}${file.docusaurusId}`
     }
     return docItem
   }
@@ -256,28 +236,26 @@ export class Sidebar {
   createClassItemRecursively (namespaceId: string): SidebarItem {
     const classs = this.generator.classes.membersById.get(namespaceId)
     assert(classs !== undefined)
-    const compoundDef = classs.compoundDef
-    const label = compoundDef.compoundName.replace(/^.*::/, '')
-    const curedName: string = compoundDef.compoundName.replaceAll('::', '-').replaceAll(/[^a-zA-Z0-9-]/g, '-')
-    if (classs.derivedClassIds.length === 0) {
+
+    if (classs.childrenIds.length === 0) {
       const docItem: SidebarDocItem = {
         type: 'doc',
-        label,
-        id: `${this.idPrefix}classes/${curedName}`
+        label: classs.sidebarLabel,
+        id: `${this.idPrefix}${classs.docusaurusId}`
       }
       return docItem
     } else {
       const categoryItem: SidebarCategoryItem = {
         type: 'category',
-        label,
+        label: classs.sidebarLabel,
         link: {
           type: 'doc',
-          id: `${this.idPrefix}classes/${curedName}`
+          id: `${this.idPrefix}${classs.docusaurusId}`
         },
         collapsed: true,
         items: []
       }
-      for (const childId of classs.derivedClassIds) {
+      for (const childId of classs.childrenIds) {
         categoryItem.items.push(this.createClassItemRecursively(childId))
       }
       return categoryItem

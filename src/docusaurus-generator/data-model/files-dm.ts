@@ -15,7 +15,8 @@ import * as util from 'node:util'
 import assert from 'node:assert'
 
 import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
-import { Folders } from './folders.js'
+import { Folders } from './folders-dm.js'
+import { DataModelBase } from './base-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -44,12 +45,12 @@ export class Files {
         const childFile = this.membersById.get(childFileId)
         assert(childFile !== undefined)
         // console.log('fileId', childFileId, 'has parent', folderId)
-        childFile.parentFolderId = folderId
+        childFile.parentId = folderId
       }
     }
 
     for (const [fileId, file] of this.membersById) {
-      if (file.parentFolderId === undefined || file.parentFolderId.length === 0) {
+      if (file.parentId === undefined || file.parentId.length === 0) {
         this.topLevelFileIds.push(fileId)
       }
     }
@@ -60,27 +61,50 @@ export class Files {
       this.membersByPath.set(path, file)
       // console.log(path, file)
     }
+
+    // Cannot be done in each object, since it needs the hierarchy.
+    for (const [, file] of this.membersById) {
+      let parentPath = ''
+      if (file.parentId !== undefined && file.parentId.length > 0) {
+        parentPath = this.folders.getRelativePathRecursively(file.parentId) + '/'
+      }
+
+      const filePath: string = `${parentPath}${file.compoundDef.compoundName as string}`.replaceAll(/[^a-zA-Z0-9/-]/g, '-')
+      file.relativePermalink = `files/${filePath}`
+
+      file.docusaurusId = `files/${filePath.replaceAll('/', '-') as string}`
+
+      // console.log('1', file.compoundDef.compoundName)
+      // console.log('2', file.relativePermalink)
+      // console.log('3', file.docusaurusId)
+      // console.log('4', file.sidebarLabel)
+      // console.log('5', file.summaryName)
+      // console.log()
+    }
   }
 
   getRelativePathRecursively (fileId: string): string {
     const file = this.membersById.get(fileId)
     assert(file !== undefined)
     let parentPath = ''
-    if (file.parentFolderId !== undefined && file.parentFolderId.length > 0) {
-      parentPath = this.folders.getRelativePathRecursively(file.parentFolderId) + '/'
+    if (file.parentId !== undefined && file.parentId.length > 0) {
+      parentPath = this.folders.getRelativePathRecursively(file.parentId) + '/'
     }
     const name: string = file.compoundDef.compoundName
     return `${parentPath}${name}`
   }
 }
 
-export class File {
-  compoundDef: CompoundDef
-  parentFolderId?: string | undefined
-
+export class File extends DataModelBase {
   constructor (compoundDef: CompoundDef) {
+    super(compoundDef)
+
+    // The compoundName is the actual file name.
+    this.sidebarLabel = this.compoundDef.compoundName ?? '?'
+
+    this.summaryName = this.sidebarLabel
+
     // console.log('File.constructor', util.inspect(compoundDef))
-    this.compoundDef = compoundDef
   }
 }
 

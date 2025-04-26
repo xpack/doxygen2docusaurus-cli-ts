@@ -17,7 +17,7 @@ import * as util from 'node:util'
 import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
 import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
-import { Group } from '../data-model/groups.js'
+import { Group } from '../data-model/groups-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -168,8 +168,8 @@ export class GroupGenerator extends PageGeneratorBase {
     result += '\n'
     result += '</TreeTableRow>\n'
 
-    if (group.childrenGroupsIds.length > 0) {
-      for (const childGroupId of group.childrenGroupsIds) {
+    if (group.childrenIds.length > 0) {
+      for (const childGroupId of group.childrenIds) {
         result += this.renderIndexGroupRecursively(childGroupId, depth + 1)
       }
     }

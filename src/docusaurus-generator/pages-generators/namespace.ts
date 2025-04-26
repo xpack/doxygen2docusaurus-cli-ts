@@ -17,7 +17,7 @@ import * as util from 'node:util'
 import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
 import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
-import { Namespace } from '../data-model/namespaces.js'
+import { Namespace } from '../data-model/namespaces-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -115,7 +115,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
     let result: string = ''
 
     const compoundDef = namespace.compoundDef
-    const label = namespace.unparentedName
+    const label = namespace.summaryName
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
@@ -128,8 +128,8 @@ export class NamespaceGenerator extends PageGeneratorBase {
     result += '\n'
     result += '</TreeTableRow>\n'
 
-    if (namespace.childrenNamespaceIds.length > 0) {
-      for (const childNamespaceId of namespace.childrenNamespaceIds) {
+    if (namespace.childrenIds.length > 0) {
+      for (const childNamespaceId of namespace.childrenIds) {
         result += this.renderIndexNamespaceRecursively(childNamespaceId, depth + 1)
       }
     }

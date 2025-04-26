@@ -49,7 +49,7 @@ import { DocS1TypeGenerator, DocS2TypeGenerator, DocS3TypeGenerator, DocS4TypeGe
 import { DocTitleTypeGenerator } from './elements-generators/doctitletype.js'
 import { DocXRefSectType } from './elements-generators/docxrefsecttype.js'
 import { PageGenerator } from './pages-generators/page.js'
-import { DocVariableListTypeGenerator, VariableListPairGenerator } from './elements-generators/docvariablelisttype.js'
+import { DataModelBase } from './data-model/base-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -65,7 +65,9 @@ export class DocusaurusGenerator {
   // Permalinks are relative to the Docusaurus baseUrl folder.
   pagePermalinksById: Map<string, string> = new Map()
   pagePermalinksSet: Set<string> = new Set()
-  docusaurusIdsById: Map<string, string> = new Map()
+  // docusaurusIdsById: Map<string, string> = new Map()
+
+  dataObjectsById: Map<string, DataModelBase> = new Map()
 
   groups: Groups
   namespaces: Namespaces
@@ -121,7 +123,6 @@ export class DocusaurusGenerator {
     this.namespaces = new Namespaces(this.doxygenData.compoundDefs)
     this.folders = new Folders(this.doxygenData.compoundDefs)
     this.files = new Files(this.doxygenData.compoundDefs, this.folders)
-    this.classes = new Classes(this.doxygenData.compoundDefs)
     this.classes = new Classes(this.doxygenData.compoundDefs)
     this.pages = new Pages(this.doxygenData.compoundDefs)
 
@@ -195,7 +196,7 @@ export class DocusaurusGenerator {
 
   async generate (): Promise<void> {
     this.createCompoundDefsMap()
-
+    this.createDataObjectsMaps()
     this.createPermalinksMap()
 
     await this.prepareOutputFolder()
@@ -216,6 +217,20 @@ export class DocusaurusGenerator {
     }
   }
 
+  createDataObjectsMaps (): void {
+    for (const name of ['groups', 'namespaces', 'folders', 'files', 'classes', 'pages']) {
+      for (const [id, object] of (this as any)[name].membersById) {
+        this.dataObjectsById.set(id, object)
+      }
+    }
+    for (const compoundDef of this.doxygenData.compoundDefs) {
+      // console.log(compoundDef.id)
+      if (!this.dataObjectsById.has(compoundDef.id)) {
+        console.error('compoundDef', compoundDef.id, 'not yet processed in', this.constructor.name)
+      }
+    }
+  }
+
   /**
    * @brief Create a map of permalinks for all compoundDefs.
    */
@@ -225,34 +240,15 @@ export class DocusaurusGenerator {
     // const outputFolderPath = this.options.outputFolderPath
     for (const compoundDef of this.doxygenData.compoundDefs) {
       // console.log(compoundDef.kind, compoundDef.compoundName)
-      const kind = compoundDef.kind
-      const prefix = this.permalinkPrefixesByKind[kind]
-      assert(prefix !== undefined)
 
-      const id = compoundDef.id
-
-      let name: string = ''
-      if (kind === 'dir') {
-        name = this.folders.getRelativePathRecursively(id)
-      } else if (kind === 'file') {
-        const file = this.files.membersById.get(id)
-        assert(file !== undefined)
-        if (file.parentFolderId !== undefined && file.parentFolderId.length > 0) {
-          name = this.folders.getRelativePathRecursively(file.parentFolderId) + '/'
-        }
-        name += compoundDef.compoundName
-      } else if (kind === 'class' || kind === 'struct' || kind === 'namespace') {
-        name = compoundDef.compoundName.replace(/<.*>/, '').replaceAll('::', '/')
-        const index = compoundDef.compoundName.indexOf('<')
-        if (index >= 0) {
-          name += compoundDef.compoundName.substring(index).replaceAll(/[ ]*/g, '')
-        }
-      } else {
-        name = compoundDef.compoundName
+      const dataObject = this.dataObjectsById.get(compoundDef.id)
+      if (dataObject === undefined) {
+        console.error('compoundDef', compoundDef.id, 'not yet processed in', this.constructor.name)
+        continue
       }
-      name = this.encodeUrl(name.toLowerCase()).replaceAll(/ /g, '').replaceAll(/[^a-zA-Z0-9.%/()*-]/g, '-')
-      // const permalink = `/${outputFolderPath}/${prefix}/${name}`
-      const permalink = `/${prefix}/${name}`
+
+      const permalink = dataObject.relativePermalink
+      assert(permalink !== undefined)
       console.log('permalink:', permalink)
       if (this.pagePermalinksById.has(compoundDef.id)) {
         console.error('Permalink clash for id', compoundDef.id)
@@ -262,9 +258,6 @@ export class DocusaurusGenerator {
       }
       this.pagePermalinksById.set(compoundDef.id, permalink)
       this.pagePermalinksSet.add(permalink)
-
-      const docusaurusId = `/${prefix}/${name.replaceAll('/', '-').replaceAll('.', '-') as string}`
-      this.docusaurusIdsById.set(compoundDef.id, docusaurusId)
     }
   }
 
@@ -323,18 +316,18 @@ export class DocusaurusGenerator {
 
       const permalink = this.pagePermalinksById.get(compoundDef.id)
       assert(permalink !== undefined)
-      console.log(`${compoundDef.kind}: ${compoundDef.compoundName}`, '->', `${outputFolderPath}${permalink}...`)
+      console.log(`${compoundDef.kind}: ${compoundDef.compoundName}`, '->', `${outputFolderPath}/${permalink}...`)
 
-      const docusaurusId = this.docusaurusIdsById.get(compoundDef.id)
+      const docusaurusId = this.dataObjectsById.get(compoundDef.id)?.docusaurusId
       assert(docusaurusId !== undefined)
 
       const fileName = `${docusaurusId}.mdx`
       // console.log('fileName:', fileName)
-      const filePath = `${outputFolderPath}${fileName}`
+      const filePath = `${outputFolderPath}/${fileName}`
 
       const frontMatter: FrontMatter = {
         title: `${compoundDef.compoundName}`,
-        slug: `${outputFolderPath.replace(/^docs/, '')}${permalink}`,
+        slug: `${outputFolderPath.replace(/^docs/, '')}/${permalink}`,
         // description: '...', // TODO
         custom_edit_url: null,
         keywords: ['doxygen', 'reference', `${compoundDef.kind}`]
@@ -543,7 +536,7 @@ export class DocusaurusGenerator {
     }
 
     assert(pagePermalink !== undefined)
-    return `/${this.pluginOptions.outputFolderPath}${pagePermalink}`
+    return `/${this.pluginOptions.outputFolderPath}/${pagePermalink}`
   }
 
   getPermalink ({
@@ -834,7 +827,7 @@ export class DocusaurusGenerator {
         const namespace = this.namespaces.membersById.get(innerNamespace.refid)
         const permalink = this.getPagePermalink(innerNamespace.refid)
 
-        const itemRight = `<Link to="${permalink}">${namespace?.unparentedName}</Link>`
+        const itemRight = `<Link to="${permalink}">${namespace?.summaryName}</Link>`
 
         result += '\n'
         result += `<MembersListItem itemLeft="namespace" itemRight={${itemRight}}>\n`

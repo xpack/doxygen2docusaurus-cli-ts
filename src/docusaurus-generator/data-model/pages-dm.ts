@@ -15,6 +15,7 @@ import * as util from 'node:util'
 // import assert from 'node:assert'
 
 import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
+import { DataModelBase } from './base-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -38,12 +39,24 @@ export class Pages {
   }
 }
 
-export class Page {
-  compoundDef: CompoundDef
-
+export class Page extends DataModelBase {
   constructor (compoundDef: CompoundDef) {
-    // console.log('Page.constructor', util.inspect(compoundDef))
-    this.compoundDef = compoundDef
+    super(compoundDef)
+
+    this.sidebarLabel = this.compoundDef.compoundName ?? '?'
+
+    this.summaryName = this.sidebarLabel
+
+    this.relativePermalink = `pages/${this.compoundDef.compoundName}`
+
+    this.docusaurusId = `pages/${this.compoundDef.compoundName.replaceAll('/', '-') as string}`
+
+    // console.log('1', this.compoundDef.compoundName)
+    // console.log('2', this.relativePermalink)
+    // console.log('3', this.docusaurusId)
+    // console.log('4', this.sidebarLabel)
+    // console.log('5', this.summaryName)
+    // console.log()
   }
 }
 

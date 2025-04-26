@@ -17,7 +17,7 @@ import * as util from 'node:util'
 import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
 import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
-import { Folder } from '../data-model/folders.js'
+import { Folder } from '../data-model/folders-dm.js'
 import { FileGenerator } from './file.js'
 
 // ----------------------------------------------------------------------------
@@ -147,8 +147,8 @@ export class FolderGenerator extends PageGeneratorBase {
     result += '\n'
     result += '</TreeTableRow>\n'
 
-    if (folder.childrenFolderIds.length > 0) {
-      for (const childFolderId of folder.childrenFolderIds) {
+    if (folder.childrenIds.length > 0) {
+      for (const childFolderId of folder.childrenIds) {
         result += this.renderIndexFolderRecursively(childFolderId, depth + 1)
       }
     }

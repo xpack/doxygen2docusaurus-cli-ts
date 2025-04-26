@@ -17,7 +17,7 @@ import * as util from 'node:util'
 import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
 import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
-import { Class } from '../data-model/classes.js'
+import { Class } from '../data-model/classes-dm.js'
 import path from 'node:path'
 import { SectionDef } from '../../doxygen-xml-parser/sectiondeftype.js'
 import { MemberDef } from '../../doxygen-xml-parser/memberdeftype.js'
@@ -131,13 +131,13 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
         result += '\n'
         result += '</MembersList>\n'
-      } else if ('derivedClassIds' in object && object.derivedClassIds.length > 0) {
+      } else if ('derivedClassIds' in object && object.childrenIds.length > 0) {
         result += '\n'
         result += '## Derived Classes\n'
 
         result += '\n'
         result += '<MembersList>\n'
-        for (const derivedClassId of object.derivedClassIds) {
+        for (const derivedClassId of object.childrenIds) {
           const derivedCompoundDef = this.context.compoundDefsById.get(derivedClassId)
           assert(derivedCompoundDef !== undefined)
           // console.log(util.inspect(derivedCompoundDef, { compact: false, depth: 999 }))
@@ -650,7 +650,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     let result: string = ''
 
     const compoundDef = classs.compoundDef
-    const label = compoundDef.compoundName.replace(/^.*::/, '')
+    const label = classs.unqualifiedName
 
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
@@ -675,8 +675,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
     result += '\n'
     result += '</TreeTableRow>\n'
 
-    if (classs.derivedClassIds.length > 0) {
-      for (const childClassId of classs.derivedClassIds) {
+    if (classs.childrenIds.length > 0) {
+      for (const childClassId of classs.childrenIds) {
         result += this.renderIndexClassRecursively(childClassId, depth + 1)
       }
     }

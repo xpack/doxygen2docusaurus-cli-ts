@@ -15,6 +15,7 @@ import * as util from 'node:util'
 import assert from 'node:assert'
 
 import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
+import { DataModelBase } from './base-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -34,18 +35,38 @@ export class Folders {
     // Recreate folders hierarchies.
     // console.log(this.folders.membersById.size)
     for (const [folderId, folder] of this.membersById) {
-      for (const childFolderId of folder.childrenFolderIds) {
+      for (const childFolderId of folder.childrenIds) {
         const childFolder = this.membersById.get(childFolderId)
         assert(childFolder !== undefined)
         // console.log('folderId', childFolderId, 'has parent', folderId)
-        childFolder.parentFolderId = folderId
+        childFolder.parentId = folderId
       }
     }
 
     for (const [folderId, folder] of this.membersById) {
-      if (folder.parentFolderId === undefined || folder.parentFolderId.length === 0) {
+      if (folder.parentId === undefined || folder.parentId.length === 0) {
         this.topLevelFolderIds.push(folderId)
       }
+    }
+
+    // Cannot be done in each object, since it needs the hierarchy.
+    for (const [, folder] of this.membersById) {
+      let parentPath = ''
+      if (folder.parentId !== undefined && folder.parentId.length > 0) {
+        parentPath = `${this.getRelativePathRecursively(folder.parentId)}/`
+      }
+
+      const folderPath: string = `${parentPath}${folder.compoundDef.compoundName as string}`.replaceAll(/[^a-zA-Z0-9/-]/g, '-')
+      folder.relativePermalink = `folders/${folderPath}`
+
+      folder.docusaurusId = `folders/${folderPath.replaceAll('/', '-') as string}`
+
+      // console.log('1', folder.compoundDef.compoundName)
+      // console.log('2', folder.relativePermalink)
+      // console.log('3', folder.docusaurusId)
+      // console.log('4', folder.sidebarLabel)
+      // console.log('5', folder.summaryName)
+      // console.log()
     }
   }
 
@@ -53,29 +74,26 @@ export class Folders {
     const folder = this.membersById.get(folderId)
     assert(folder !== undefined)
     let parentPath = ''
-    if (folder.parentFolderId !== undefined && folder.parentFolderId.length > 0) {
-      parentPath = this.getRelativePathRecursively(folder.parentFolderId) + '/'
+    if (folder.parentId !== undefined && folder.parentId.length > 0) {
+      parentPath = this.getRelativePathRecursively(folder.parentId) + '/'
     }
     const name: string = folder.compoundDef.compoundName
     return `${parentPath}${name}`
   }
 }
 
-export class Folder {
-  compoundDef: CompoundDef
-  parentFolderId?: string | undefined
-  childrenFolderIds: string[] = []
+export class Folder extends DataModelBase {
   childrenFileIds: string[] = []
 
   constructor (compoundDef: CompoundDef) {
-    // console.log('Folder.constructor', util.inspect(compoundDef))
+    super(compoundDef)
 
-    this.compoundDef = compoundDef
+    // console.log('Folder.constructor', util.inspect(compoundDef))
 
     if (Array.isArray(compoundDef.innerDirs)) {
       for (const ref of compoundDef.innerDirs) {
         // console.log('component', compoundDef.id, 'has child', ref.refid)
-        this.childrenFolderIds.push(ref.refid)
+        this.childrenIds.push(ref.refid)
       }
     }
 
@@ -85,6 +103,10 @@ export class Folder {
         this.childrenFileIds.push(ref.refid)
       }
     }
+
+    this.sidebarLabel = this.compoundDef.compoundName ?? '?'
+
+    this.summaryName = this.sidebarLabel
   }
 }
 

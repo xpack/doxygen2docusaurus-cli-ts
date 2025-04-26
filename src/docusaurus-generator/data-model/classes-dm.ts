@@ -15,6 +15,8 @@ import * as util from 'node:util'
 import assert from 'node:assert'
 
 import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
+import { DataModelBase } from './base-dm.js'
+import { encodeUrl } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -37,7 +39,7 @@ export class Classes {
         const baseClass = this.membersById.get(baseClassId)
         assert(baseClass !== undefined)
         // console.log('baseClassId', baseClassId, 'has child', classId)
-        baseClass.derivedClassIds.push(classId)
+        baseClass.childrenIds.push(classId)
       }
     }
 
@@ -49,14 +51,16 @@ export class Classes {
   }
 }
 
-export class Class {
-  compoundDef: CompoundDef
-  derivedClassIds: string[] = []
+export class Class extends DataModelBase {
   baseClassIds: string[] = []
+  fullyQualifiedName: string = '?'
+  unqualifiedName: string = '?'
+  templateParameters: string = ''
 
   constructor (compoundDef: CompoundDef) {
+    super(compoundDef)
+
     // console.log('Class.constructor', util.inspect(compoundDef))
-    this.compoundDef = compoundDef
 
     if (Array.isArray(compoundDef.baseCompoundRefs)) {
       for (const ref of compoundDef.baseCompoundRefs) {
@@ -66,6 +70,40 @@ export class Class {
         }
       }
     }
+
+    // Remove the template parameters.
+    this.fullyQualifiedName = compoundDef.compoundName.replace(/<.*>/, '')
+    // Remove the namespaces(s).
+    this.unqualifiedName = this.fullyQualifiedName.replace(/.*::/, '')
+
+    const index = compoundDef.compoundName.indexOf('<')
+    if (index >= 0) {
+      this.templateParameters = compoundDef.compoundName.substring(index)
+    }
+
+    this.sidebarLabel = this.unqualifiedName
+
+    const pluralKind = compoundDef.kind === 'class' ? 'classes' : 'structs'
+
+    // Turn the namespace into a hierarchical path. Keep the dot.
+    let curedName: string = this.fullyQualifiedName.toLowerCase().replaceAll(/::/g, '/').replaceAll(/[^a-zA-Z0-9./-]/g, '-')
+    if (this.templateParameters?.length > 0) {
+      curedName += encodeUrl(this.templateParameters.toLowerCase().replaceAll(/[ ]*/g, '').replaceAll(/[^a-zA-Z0-9.()<>&*-]/g, '-'))
+    }
+    this.relativePermalink = `${pluralKind}/${curedName}`
+
+    // Replace slash with dash.
+    this.docusaurusId = `${pluralKind}/${curedName.replaceAll('/', '-') as string}`
+
+    this.summaryName = this.unqualifiedName + (this.templateParameters ?? '')
+
+    // console.log('1', compoundDef.compoundName)
+    // console.log('2', this.relativePermalink)
+    // console.log('3', this.docusaurusId)
+    // console.log('4', this.sidebarLabel)
+    // console.log('5', this.summaryName)
+    // console.log('6', this.templateParameters)
+    // console.log()
   }
 }
 

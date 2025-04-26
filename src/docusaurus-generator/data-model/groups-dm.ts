@@ -15,6 +15,7 @@ import * as util from 'node:util'
 import assert from 'node:assert'
 
 import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
+import { DataModelBase } from './base-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -33,16 +34,16 @@ export class Groups {
 
     // Recreate groups hierarchies.
     for (const [groupId, group] of this.membersById) {
-      for (const childGroupId of group.childrenGroupsIds) {
+      for (const childGroupId of group.childrenIds) {
         const childGroup = this.membersById.get(childGroupId)
         assert(childGroup !== undefined)
         // console.log('groupId', childGroupId, 'has parent', groupId)
-        childGroup.parentGroupId = groupId
+        childGroup.parentId = groupId
       }
     }
 
     for (const [groupId, group] of this.membersById) {
-      if (group.parentGroupId === undefined || group.parentGroupId.length === 0) {
+      if (group.parentId === undefined || group.parentId.length === 0) {
         // console.log('topGroupId:', groupId)
         this.topLevelGroupIds.push(groupId)
       }
@@ -50,21 +51,35 @@ export class Groups {
   }
 }
 
-export class Group {
-  compoundDef: CompoundDef
-  parentGroupId?: string | undefined
-  childrenGroupsIds: string[] = []
-
+export class Group extends DataModelBase {
   constructor (compoundDef: CompoundDef) {
+    super(compoundDef)
+
     // console.log('Group.constructor', util.inspect(compoundDef))
-    this.compoundDef = compoundDef
 
     if (Array.isArray(compoundDef.innerGroups)) {
       for (const ref of compoundDef.innerGroups) {
         // console.log('component', compoundDef.id, 'has child', ref.refid)
-        this.childrenGroupsIds.push(ref.refid)
+        this.childrenIds.push(ref.refid)
       }
     }
+
+    // The group title must be short.
+    this.sidebarLabel = this.compoundDef.title ?? '?'
+
+    const curedName = this.compoundDef.compoundName.replaceAll(/[^a-zA-Z0-9-]/g, '-') as string
+    this.relativePermalink = `groups/${curedName}`
+
+    this.docusaurusId = `groups/${curedName.replaceAll('/', '-') as string}`
+
+    this.summaryName = this.sidebarLabel
+
+    // console.log('1', this.compoundDef.compoundName, this.compoundDef.title)
+    // console.log('2', this.relativePermalink)
+    // console.log('3', this.docusaurusId)
+    // console.log('4', this.sidebarLabel)
+    // console.log('4', this.summaryName)
+    // console.log()
   }
 }
 
