@@ -18,6 +18,7 @@ import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
 import { CompoundDef } from '../../doxygen-xml-parser/compounddef.js'
 import { Namespace } from '../data-model/namespaces-dm.js'
+import { escapeHtml } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -48,7 +49,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
         const permalink = this.context.getPagePermalink(compoundDefClass.id)
 
-        let className = this.context.escapeHtml(compoundDefClass.compoundName)
+        let className = escapeHtml(compoundDefClass.compoundName)
         // In some cases the name already includes the template parameters.
         if (!compoundDef.compoundName.includes('<')) {
           const templateParameterNames = this.context.renderTemplateParameterNamesMdx(compoundDef)

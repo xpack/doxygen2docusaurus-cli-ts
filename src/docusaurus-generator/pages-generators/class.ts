@@ -22,6 +22,7 @@ import path from 'node:path'
 import { SectionDef } from '../../doxygen-xml-parser/sectiondeftype.js'
 import { MemberDef } from '../../doxygen-xml-parser/memberdeftype.js'
 import { Location } from '../../doxygen-xml-parser/locationtype.js'
+import { escapeHtml } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -75,7 +76,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
             result += this.context.renderClassSummaryMdx(compoundDef)
           } else {
-            const itemRight = this.context.escapeHtml(baseCompoundRef.text)
+            const itemRight = escapeHtml(baseCompoundRef.text)
             result += '\n'
             result += `<MembersListItem itemLeft="${kind}" itemRight={<>${itemRight}</>}>\n`
             result += '</MembersListItem>\n'
@@ -122,7 +123,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
             result += this.context.renderClassSummaryMdx(compoundDef)
           } else {
-            const itemRight = this.context.escapeHtml(derivedCompoundRef.text)
+            const itemRight = escapeHtml(derivedCompoundRef.text)
             result += '\n'
             result += `<MembersListItem itemLeft="class" itemRight={<>${itemRight}</>}>\n`
             result += '</MembersListItem>\n'
@@ -351,7 +352,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     }
 
     result += '\n'
-    result += `<h2>${this.context.escapeHtml(header)}</h2>\n`
+    result += `<h2>${escapeHtml(header)}</h2>\n`
 
     result += '\n'
     result += '<MembersList>\n'
@@ -382,7 +383,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     const morePermalink = this.context.getPermalinkAnchor(memberDef.id)
     assert(morePermalink !== undefined && morePermalink.length > 1)
 
-    const name = this.context.escapeHtml(memberDef.name)
+    const name = escapeHtml(memberDef.name)
     let itemLeft = ''
     let itemRight = `<Link to="#${morePermalink}">${name}</Link>`
 
@@ -399,7 +400,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
         itemLeft = this.context.renderElementMdx(memberDef.type).trim()
         if (memberDef.argsstring !== undefined) {
           itemRight += ' '
-          itemRight += this.context.escapeHtml(memberDef.argsstring)
+          itemRight += escapeHtml(memberDef.argsstring)
         }
         break
 
@@ -499,7 +500,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     }
 
     result += '\n'
-    result += `## ${this.context.escapeHtml(header)}\n`
+    result += `## ${escapeHtml(header)}\n`
 
     const isFunction: boolean = sectionDef.kind === 'public-func'
 
@@ -566,11 +567,11 @@ export class ClassPageGenerator extends PageGeneratorBase {
     const name = memberDef.name + (isFunction ? '()' : '')
 
     result += '\n'
-    result += `### ${this.context.escapeHtml(name)} {#${id}}\n`
+    result += `### ${escapeHtml(name)} {#${id}}\n`
 
     const templateParameters = this.context.collectTemplateParameters({ compoundDef })
     assert(memberDef.definition !== undefined)
-    let prototype = this.context.escapeHtml(memberDef.definition)
+    let prototype = escapeHtml(memberDef.definition)
     if (memberDef.kind === 'function') {
       prototype += ' ('
 

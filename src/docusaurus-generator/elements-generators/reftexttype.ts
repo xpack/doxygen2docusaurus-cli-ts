@@ -16,6 +16,7 @@ import * as util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
 import { AbstractRefTextType } from '../../doxygen-xml-parser/reftexttype.js'
+import { escapeHtml } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -40,7 +41,7 @@ export class RefTextTypeGenerator extends ElementGeneratorBase {
     assert(permalink !== undefined && permalink.length > 1)
 
     result += `<Link to="${permalink}">`
-    result += this.context.escapeHtml(element.text)
+    result += escapeHtml(element.text)
     result += '</Link>'
 
     return result

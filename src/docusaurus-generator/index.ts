@@ -49,6 +49,7 @@ import { DocS1TypeGenerator, DocS2TypeGenerator, DocS3TypeGenerator, DocS4TypeGe
 import { DocTitleTypeGenerator } from './elements-generators/doctitletype.js'
 import { DocXRefSectType } from './elements-generators/docxrefsecttype.js'
 import { PageGenerator } from './pages-generators/page.js'
+import { escapeHtml } from './utils.js'
 import { DataModelBase } from './data-model/base-dm.js'
 
 // ----------------------------------------------------------------------------
@@ -601,7 +602,7 @@ export class DocusaurusGenerator {
     }
 
     if (typeof element === 'string') {
-      return this.escapeHtml(element)
+      return escapeHtml(element)
     }
 
     if (Array.isArray(element)) {
@@ -632,30 +633,6 @@ export class DocusaurusGenerator {
     }
 
     return result
-  }
-
-  escapeHtml (text: string): string {
-    return text
-      .replaceAll(/[&]/g, '&amp;')
-      .replaceAll(/[<]/g, '&lt;')
-      .replaceAll(/[>]/g, '&gt;')
-      .replaceAll(/["]/g, '&quot;')
-      .replaceAll(/[']/g, '&#39;')
-      .replaceAll(/[{]/g, '&#123;')
-      .replaceAll(/[}]/g, '&#125;')
-      .replaceAll(/[*]/g, '&#42;')
-      .replaceAll(/[\\]/g, '\\\\')
-      .replaceAll(/[_]/g, '&#95;')
-  }
-
-  encodeUrl (text: string): string {
-    return text
-      .replaceAll(/[<]/g, '%3C')
-      .replaceAll(/[>]/g, '%3E')
-      .replaceAll(/[(]/g, '%28')
-      .replaceAll(/[)]/g, '%29')
-      .replaceAll(/[&]/g, '%26')
-      .replaceAll(/[*]/g, '%2A')
   }
 
   /**
@@ -870,7 +847,7 @@ export class DocusaurusGenerator {
 
     const permalink = this.getPermalink({ refid: compoundDef.id, kindref: 'compound' })
 
-    let className = this.escapeHtml(compoundDef.compoundName)
+    let className = escapeHtml(compoundDef.compoundName)
     // In some cases the name already includes the template parameters.
     if (!compoundDef.compoundName.includes('<')) {
       const templateParameterNames = this.renderTemplateParameterNamesMdx(compoundDef)

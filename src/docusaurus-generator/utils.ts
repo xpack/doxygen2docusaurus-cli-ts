@@ -24,3 +24,29 @@ export function formatDate (date: Date): string {
 }
 
 // ----------------------------------------------------------------------------
+
+export function escapeHtml (text: string): string {
+  return text
+    .replaceAll(/[&]/g, '&amp;')
+    .replaceAll(/[<]/g, '&lt;')
+    .replaceAll(/[>]/g, '&gt;')
+    .replaceAll(/["]/g, '&quot;')
+    .replaceAll(/[']/g, '&#39;')
+    .replaceAll(/[{]/g, '&#123;')
+    .replaceAll(/[}]/g, '&#125;')
+    .replaceAll(/[*]/g, '&#42;')
+    .replaceAll(/[\\]/g, '\\\\')
+    .replaceAll(/[_]/g, '&#95;')
+}
+
+export function encodeUrl (text: string): string {
+  return text
+    .replaceAll(/[<]/g, '%3C')
+    .replaceAll(/[>]/g, '%3E')
+    .replaceAll(/[(]/g, '%28')
+    .replaceAll(/[)]/g, '%29')
+    .replaceAll(/[&]/g, '%26')
+    .replaceAll(/[*]/g, '%2A')
+}
+
+// ----------------------------------------------------------------------------
