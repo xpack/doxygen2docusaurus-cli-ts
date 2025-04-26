@@ -533,6 +533,9 @@ export class ClassPageGenerator extends PageGeneratorBase {
     if (memberDef.explicit?.valueOf()) {
       labels.push('explicit')
     }
+    if (memberDef.nodiscard?.valueOf()) {
+      labels.push('nodiscard')
+    }
     if (memberDef.constexpr?.valueOf()) {
       labels.push('constexpr')
     }
