@@ -584,7 +584,7 @@ export class DocusaurusGenerator {
   }
 
   getXrefPermalink (id: string): string {
-    return `/pages/${id.replace(/_1.*/, '')}/#${id.replace(/.*_1/, '')}`
+    return `/${this.pluginOptions.outputFolderPath}/pages/${id.replace(/_1.*/, '')}/#${id.replace(/.*_1/, '')}`
   }
 
   getElementRenderer (element: Object): ElementGeneratorBase | undefined {
