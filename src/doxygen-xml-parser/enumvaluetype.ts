@@ -16,7 +16,6 @@ import * as util from 'node:util'
 
 import { DoxygenXmlParser } from './index.js'
 import { AbstractParsedObjectBase } from './types.js'
-import { DoxProtectionKind } from './compoundreftype.js'
 import { BriefDescription, DetailedDescription } from './descriptiontype.js'
 import { Initializer } from './linkedtexttype.js'
 
