@@ -65,9 +65,6 @@ export class DocusaurusGenerator {
   // A map of compound definitions, indexed by their id.
   compoundDefsById: Map<string, AbstractCompoundDefType> = new Map()
   // Permalinks are relative to the Docusaurus baseUrl folder.
-  pagePermalinksById: Map<string, string> = new Map()
-  pagePermalinksSet: Set<string> = new Set()
-  // docusaurusIdsById: Map<string, string> = new Map()
 
   dataObjectsById: Map<string, DataModelBase> = new Map()
 
@@ -199,7 +196,7 @@ export class DocusaurusGenerator {
   async generate (): Promise<void> {
     this.createCompoundDefsMap()
     this.createDataObjectsMaps()
-    this.createPermalinksMap()
+    this.validatePermalinks()
 
     await this.prepareOutputFolder()
     await this.generatePages()
@@ -234,16 +231,19 @@ export class DocusaurusGenerator {
   }
 
   /**
-   * @brief Create a map of permalinks for all compoundDefs.
+   * @brief Validate the uniqueness of permalinks.
    */
-  createPermalinksMap (): void {
-    // console.log('DocusaurusGenerator.createPermalinksMap()')
+  validatePermalinks (): void {
     assert(this.pluginOptions.outputFolderPath)
     // const outputFolderPath = this.options.outputFolderPath
+
+    const pagePermalinksById: Map<string, string> = new Map()
+    const pagePermalinksSet: Set<string> = new Set()
+
     for (const compoundDef of this.doxygenData.compoundDefs) {
       // console.log(compoundDef.kind, compoundDef.compoundName)
 
-      const dataObject = this.dataObjectsById.get(compoundDef.id)
+      const dataObject: DataModelBase | undefined = this.dataObjectsById.get(compoundDef.id)
       if (dataObject === undefined) {
         console.error('compoundDef', compoundDef.id, 'not yet processed in', this.constructor.name)
         continue
@@ -251,16 +251,16 @@ export class DocusaurusGenerator {
 
       const permalink = dataObject.relativePermalink
       assert(permalink !== undefined)
-      console.log('permalink:', permalink)
+      // console.log('permalink:', permalink)
 
-      if (this.pagePermalinksById.has(compoundDef.id)) {
+      if (pagePermalinksById.has(compoundDef.id)) {
         console.error('Permalink clash for id', compoundDef.id)
       }
-      if (this.pagePermalinksSet.has(permalink)) {
+      if (pagePermalinksSet.has(permalink)) {
         console.error('Permalink clash for permalink', permalink, 'id:', compoundDef.id)
       }
-      this.pagePermalinksById.set(compoundDef.id, permalink)
-      this.pagePermalinksSet.add(permalink)
+      pagePermalinksById.set(compoundDef.id, permalink)
+      pagePermalinksSet.add(permalink)
     }
   }
 
@@ -317,7 +317,10 @@ export class DocusaurusGenerator {
 
       this.currentCompoundDef = compoundDef
 
-      const permalink = this.pagePermalinksById.get(compoundDef.id)
+      const dataObject: DataModelBase | undefined = this.dataObjectsById.get(compoundDef.id)
+      assert(dataObject !== undefined)
+
+      const permalink = dataObject.relativePermalink
       assert(permalink !== undefined)
       console.log(`${compoundDef.kind}: ${compoundDef.compoundName}`, '->', `${outputFolderPath}/${permalink}...`)
 
@@ -531,10 +534,12 @@ export class DocusaurusGenerator {
   }
 
   getPagePermalink (refid: string): string {
-    const pagePermalink = this.pagePermalinksById.get(refid)
+    const dataObject: DataModelBase | undefined = this.dataObjectsById.get(refid)
+    assert(dataObject !== undefined)
+
+    const pagePermalink = dataObject.relativePermalink
     if (pagePermalink === undefined) {
       console.error('refid', refid, 'has no permalink')
-      console.error('pagePermalinksById', this.pagePermalinksById)
     }
 
     assert(pagePermalink !== undefined)
