@@ -19,8 +19,8 @@ export interface PluginConfigurationOptions {
 }
 
 export interface PluginOptions {
-  doxygenXmlInputFolderPath: string
-  outputFolderPath: string
+  doxygenXmlInputFolderPath: string /** like `doxygen/xml`, no initial/final slash */
+  outputFolderPath: string /** like `docs/api`, no initial/final slash */
   sidebarFileName: string
   id: string
 }
