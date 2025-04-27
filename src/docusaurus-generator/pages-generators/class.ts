@@ -39,8 +39,18 @@ export class ClassPageGenerator extends PageGeneratorBase {
     result += '\n'
     result += '## Fully Qualified Name\n'
 
+    const classs = this.context.classes.membersById.get(compoundDef.id)
+    assert(classs !== undefined)
+
+    let classFullName = classs.fullyQualifiedName
+    if (classs.templateParameters.length > 0) {
+      classFullName += classs.templateParameters
+    } else {
+      classFullName += this.context.renderTemplateParameterNamesMdx(compoundDef)
+    }
+
     result += '\n'
-    result += `<CodeBlock>${compoundDef.compoundName}${this.context.renderTemplateParameterNamesMdx(compoundDef)}</CodeBlock>\n`
+    result += `<CodeBlock>${classFullName}</CodeBlock>\n`
 
     result += this.context.renderIncludesIndexMdx(compoundDef)
 
@@ -161,10 +171,10 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
       result += '\n'
       result += `<CodeBlock>template ${this.context.renderTemplateParametersMdx({ compoundDef, withDefaults: true })}\n`
-      result += `${kind} ${compoundDef.compoundName}${this.context.renderTemplateParameterNamesMdx(compoundDef)};</CodeBlock>\n`
+      result += `${kind} ${classFullName};</CodeBlock>\n`
     }
 
-    const detailedDescription: string = this.context.renderElementMdx(compoundDef.detailedDescription)
+    const detailedDescription: string = this.context.renderElementMdx(compoundDef.detailedDescription).trim()
 
     if (detailedDescription.length > 0) {
       result += '\n'
@@ -661,7 +671,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     const label = escapeHtml(classs.unqualifiedName)
 
     result += '\n'
-    result += `<TreeTableRow itemIconLetter = "${iconLetter}" itemLabel = "${label}" itemLink = "${permalink}" depth = "${depth}" >\n`
+    result += `<TreeTableRow itemIconLetter="${iconLetter}" itemLabel="${label}" itemLink="${permalink}" depth = "${depth}" >\n`
 
     const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
     result += briefDescription.replace(/[.]$/, '')
