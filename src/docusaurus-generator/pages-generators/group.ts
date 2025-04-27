@@ -70,32 +70,9 @@ export class GroupGenerator extends PageGeneratorBase {
         assert(compoundDefClass !== undefined)
         // console.log(util.inspect(compoundDefClass, { compact: false, depth: 999 }))
 
-        const permalink = this.context.getPagePermalink(compoundDefClass.id)
-
-        let className = ''
-        className += compoundDefClass.compoundName
-        if (compoundDefClass.templateParamList?.params !== undefined) {
-          className += this.context.renderTemplateParameterNamesMdx(compoundDefClass)
-        }
-
-        const itemRight = `<Link to="${permalink}">${className}</Link>`
-
-        result += '\n'
-        result += `<MembersListItem itemLeft="class" itemRight={${itemRight}}>\n`
-
-        const innerBriefDescription: string = this.context.renderElementMdx(compoundDefClass.briefDescription)
-        if (innerBriefDescription.length > 0) {
-          result += innerBriefDescription
-
-          const innerPermalink = this.context.getPagePermalink(innerClass.refid)
-          assert(innerPermalink !== undefined && innerPermalink.length > 1)
-          result += ` <Link to="${innerPermalink}#details">`
-          result += 'More...'
-          result += '</Link>\n'
-        }
-
-        result += '</MembersListItem>\n'
+        result += this.context.renderClassSummaryMdx(compoundDefClass)
       }
+
       result += '\n'
       result += '</MembersList>\n'
     }
