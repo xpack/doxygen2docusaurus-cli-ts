@@ -38,6 +38,9 @@ export class GroupGenerator extends PageGeneratorBase {
       result += '<MembersList>\n'
 
       for (const innerGroup of compoundDef.innerGroups) {
+        const group = this.context.groups.membersById.get(innerGroup.refid)
+        assert(group !== undefined)
+
         const permalink = this.context.getPagePermalink(innerGroup.refid)
 
         const itemRight = `<Link to="${permalink}">${escapeHtml(group.summaryName)}</Link>`
@@ -45,12 +48,13 @@ export class GroupGenerator extends PageGeneratorBase {
         result += '\n'
         result += `<MembersListItem itemLeft="&nbsp;" itemRight={${itemRight}}>\n`
 
-        const compoundDef = this.context.compoundDefsById.get(innerGroup.refid)
+        const compoundDef = group.compoundDef
         assert(compoundDef !== undefined)
-        const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
-        result += briefDescription
-
-        result += '\n'
+        const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription).trim()
+        if (briefDescription.length > 0) {
+          result += briefDescription
+          result += '\n'
+        }
         result += '</MembersListItem>\n'
       }
       result += '\n'
@@ -131,6 +135,7 @@ export class GroupGenerator extends PageGeneratorBase {
 
     const compoundDef = group.compoundDef
     const label = escapeHtml(compoundDef.title?.trim() ?? '?')
+
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 

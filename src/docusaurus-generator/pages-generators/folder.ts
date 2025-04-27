@@ -83,12 +83,15 @@ export class FolderGenerator extends PageGeneratorBase {
 
         const compoundDef = this.context.compoundDefsById.get(innerFile.refid)
         assert(compoundDef !== undefined)
-        const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
-        result += briefDescription
 
-        result += '\n'
+        const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription).trim()
+        if (briefDescription.length > 0) {
+          result += briefDescription
+          result += '\n'
+        }
         result += '</MembersListItem>\n'
       }
+
       result += '\n'
       result += '</MembersList>\n'
     }
@@ -138,6 +141,7 @@ export class FolderGenerator extends PageGeneratorBase {
 
     const compoundDef = folder.compoundDef
     const label = escapeHtml(folder.compoundDef.compoundName)
+
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
