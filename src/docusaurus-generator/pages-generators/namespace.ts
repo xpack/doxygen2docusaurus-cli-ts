@@ -18,6 +18,7 @@ import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
 import { CompoundDef } from '../../doxygen-xml-parsers/compounddef-parser.js'
 import { Namespace } from '../data-model/namespaces-dm.js'
+import { escapeHtml } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -88,7 +89,8 @@ export class NamespaceGenerator extends PageGeneratorBase {
     let result: string = ''
 
     const compoundDef = namespace.compoundDef
-    const label = namespace.summaryName
+    const label = escapeHtml(namespace.summaryName)
+
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 

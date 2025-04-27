@@ -19,6 +19,7 @@ import { PageGeneratorBase } from './base.js'
 import { CompoundDef } from '../../doxygen-xml-parsers/compounddef-parser.js'
 import { Folder } from '../data-model/folders-dm.js'
 import { FileGenerator } from './file.js'
+import { escapeHtml } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -41,9 +42,11 @@ export class FolderGenerator extends PageGeneratorBase {
 
       for (const innerDir of compoundDef.innerDirs) {
         const folder = this.context.folders.membersById.get(innerDir.refid)
+        assert(folder !== undefined)
+
         const permalink = this.context.getPagePermalink(innerDir.refid)
 
-        const itemRight = `<Link to="${permalink}">${folder?.compoundDef.compoundName}</Link>`
+        const itemRight = `<Link to="${permalink}">${escapeHtml(folder.summaryName)}</Link>`
 
         result += '\n'
         result += `<MembersListItem itemLeft="folder" itemRight={${itemRight}}>\n`
@@ -69,9 +72,11 @@ export class FolderGenerator extends PageGeneratorBase {
 
       for (const innerFile of compoundDef.innerFiles) {
         const file = this.context.files.membersById.get(innerFile.refid)
+        assert(file !== undefined)
+
         const permalink = this.context.getPagePermalink(innerFile.refid)
 
-        const itemRight = `<Link to="${permalink}">${file?.compoundDef.compoundName}</Link>`
+        const itemRight = `<Link to="${permalink}">${escapeHtml(file.summaryName)}</Link>`
 
         result += '\n'
         result += `<MembersListItem itemLeft="file" itemRight={${itemRight}}>\n`
@@ -132,7 +137,7 @@ export class FolderGenerator extends PageGeneratorBase {
     let result: string = ''
 
     const compoundDef = folder.compoundDef
-    const label = folder.compoundDef.compoundName
+    const label = escapeHtml(folder.compoundDef.compoundName)
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 

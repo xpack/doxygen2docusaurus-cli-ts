@@ -16,6 +16,7 @@ import * as util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
 import { AbstractDocXRefSectType } from '../../doxygen-xml-parsers/descriptiontype-parser.js'
+import { escapeHtml } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -27,7 +28,7 @@ export class DocXRefSectType extends ElementGeneratorBase {
 
     result += '\n'
     result += '<XrefSect'
-    result += ` title="${element.xreftitle}"`
+    result += ` title="${escapeHtml(element.xreftitle ?? '?')}"`
     const permalink = this.context.getXrefPermalink(element.id)
     result += ` permalink="${permalink}"`
     result += '>\n'

@@ -18,6 +18,7 @@ import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
 import { CompoundDef } from '../../doxygen-xml-parsers/compounddef-parser.js'
 import { File } from '../data-model/files-dm.js'
+import { escapeHtml } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -90,7 +91,8 @@ export class FileGenerator extends PageGeneratorBase {
     let result: string = ''
 
     const compoundDef = file.compoundDef
-    const label = file.compoundDef.compoundName
+    const label = escapeHtml(file.compoundDef.compoundName)
+
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 

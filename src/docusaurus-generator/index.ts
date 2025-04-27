@@ -806,9 +806,11 @@ export class DocusaurusGenerator {
 
       for (const innerNamespace of compoundDef.innerNamespaces) {
         const namespace = this.namespaces.membersById.get(innerNamespace.refid)
+        assert(namespace !== undefined)
+
         const permalink = this.getPagePermalink(innerNamespace.refid)
 
-        const itemRight = `<Link to="${permalink}">${namespace?.summaryName}</Link>`
+        const itemRight = `<Link to="${permalink}">${escapeHtml(namespace.summaryName)}</Link>`
 
         result += '\n'
         result += `<MembersListItem itemLeft="namespace" itemRight={${itemRight}}>\n`
@@ -849,20 +851,20 @@ export class DocusaurusGenerator {
     // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
     let result: string = ''
 
-    const dataObject: DataModelBase | undefined = this.dataObjectsById.get(compoundDef.id)
-    assert(dataObject !== undefined)
+    const classs = this.classes.membersById.get(compoundDef.id)
+    assert(classs !== undefined)
 
     const permalink = this.getPagePermalink(compoundDef.id)
 
     const itemLeft = compoundDef.kind
-    const itemRight = `<Link to="${permalink}">${escapeHtml(dataObject.summaryName)}</Link>`
+    const itemRight = `<Link to="${permalink}">${escapeHtml(classs.summaryName)}</Link>`
 
     result += '\n'
     result += `<MembersListItem itemLeft="${itemLeft}" itemRight={${itemRight}}>\n`
 
     const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription).trim()
     if (briefDescription.length > 0) {
-      result += escapeHtml(briefDescription)
+      result += briefDescription
       result += ` <Link to="${permalink}#details">`
       result += 'More...'
       result += '</Link>\n'

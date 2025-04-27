@@ -215,9 +215,9 @@ export class ClassPageGenerator extends PageGeneratorBase {
       result += '\n'
       result += 'Definition at line '
       const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
-      result += `<Link to="${permalink}/#${lineAttribute}">${location.line?.toString()}</Link>`
+      result += `<Link to="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</Link>`
       result += ' of file '
-      result += `<Link to="${permalink}">${path.basename(location.file) as string}</Link>`
+      result += `<Link to="${permalink}">${escapeHtml(path.basename(location.file) as string)}</Link>`
       result += '.\n'
     }
 
@@ -643,7 +643,6 @@ export class ClassPageGenerator extends PageGeneratorBase {
     let result: string = ''
 
     const compoundDef = classs.compoundDef
-    const label = classs.unqualifiedName
 
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
@@ -658,6 +657,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
       console.error('Icon kind', compoundDef.kind, 'not supported yet in', this.constructor.name, '(using ?)')
       iconLetter = '?'
     }
+
+    const label = escapeHtml(classs.unqualifiedName)
 
     result += '\n'
     result += `<TreeTableRow itemIconLetter = "${iconLetter}" itemLabel = "${label}" itemLink = "${permalink}" depth = "${depth}" >\n`

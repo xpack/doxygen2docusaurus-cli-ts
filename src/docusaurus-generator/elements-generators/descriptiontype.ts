@@ -393,7 +393,7 @@ export class DocAnchorTypeGenerator extends ElementGeneratorBase {
     let result = ''
 
     const permalink = this.context.getXrefPermalink(element.id)
-    result = `<Link id="${permalink}" />`
+    result = `<Link id="${permalink}"/>`
 
     return result
   }

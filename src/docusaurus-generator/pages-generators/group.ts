@@ -18,6 +18,7 @@ import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
 import { CompoundDef } from '../../doxygen-xml-parsers/compounddef-parser.js'
 import { Group } from '../data-model/groups-dm.js'
+import { escapeHtml } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -39,7 +40,7 @@ export class GroupGenerator extends PageGeneratorBase {
       for (const innerGroup of compoundDef.innerGroups) {
         const permalink = this.context.getPagePermalink(innerGroup.refid)
 
-        const itemRight = `<Link to="${permalink}">${innerGroup.text}</Link>`
+        const itemRight = `<Link to="${permalink}">${escapeHtml(group.summaryName)}</Link>`
 
         result += '\n'
         result += `<MembersListItem itemLeft="&nbsp;" itemRight={${itemRight}}>\n`
@@ -152,7 +153,7 @@ export class GroupGenerator extends PageGeneratorBase {
     let result: string = ''
 
     const compoundDef = group.compoundDef
-    const label = compoundDef.title?.trim()
+    const label = escapeHtml(compoundDef.title?.trim() ?? '?')
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
 
