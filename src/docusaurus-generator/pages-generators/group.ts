@@ -30,56 +30,12 @@ export class GroupGenerator extends PageGeneratorBase {
 
     result += this.context.renderBriefDescriptionMdx(compoundDef)
 
-    if (compoundDef.innerGroups !== undefined && compoundDef.innerGroups.length > 0) {
-      result += '\n'
-      result += '## Topics\n'
+    result += this.context.renderInnerIndicesMdx({
+      compoundDef,
+      suffixes: ['Groups', 'Classes']
+    })
 
-      result += '\n'
-      result += '<MembersList>\n'
-
-      for (const innerGroup of compoundDef.innerGroups) {
-        const group = this.context.groups.membersById.get(innerGroup.refid)
-        assert(group !== undefined)
-
-        const permalink = this.context.getPagePermalink(innerGroup.refid)
-
-        const itemRight = `<Link to="${permalink}">${escapeHtml(group.summaryName)}</Link>`
-
-        result += '\n'
-        result += `<MembersListItem itemLeft="&nbsp;" itemRight={${itemRight}}>\n`
-
-        const compoundDef = group.compoundDef
-        assert(compoundDef !== undefined)
-        const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription).trim()
-        if (briefDescription.length > 0) {
-          result += briefDescription
-          result += '\n'
-        }
-        result += '</MembersListItem>\n'
-      }
-      result += '\n'
-      result += '</MembersList>\n'
-    }
-
-    if (compoundDef.innerClasses !== undefined && compoundDef.innerClasses.length > 0) {
-      result += '\n'
-      result += '## Classes\n'
-
-      result += '\n'
-      result += '<MembersList>\n'
-
-      for (const innerClass of compoundDef.innerClasses) {
-        // console.log(util.inspect(innerClass, { compact: false, depth: 999 }))
-        const compoundDefClass = this.context.compoundDefsById.get(innerClass.refid)
-        assert(compoundDefClass !== undefined)
-        // console.log(util.inspect(compoundDefClass, { compact: false, depth: 999 }))
-
-        result += this.context.renderClassSummaryMdx(compoundDefClass)
-      }
-
-      result += '\n'
-      result += '</MembersList>\n'
-    }
+    result += this.context.renderSectionDefIndicesMdx(compoundDef)
 
     result += this.context.renderDetailedDescriptionMdx({
       compoundDef,

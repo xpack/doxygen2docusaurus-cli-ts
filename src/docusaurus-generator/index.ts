@@ -52,6 +52,9 @@ import { Sidebar } from './sidebar.js'
 import { FrontMatter } from './types.js'
 import { escapeHtml } from './utils.js'
 import { DataModelBase } from './data-model/base-dm.js'
+import { AbstractRefType } from '../doxygen-xml-parsers/reftype-parser.js'
+import { AbstractMemberDefType, MemberDef } from '../doxygen-xml-parsers/memberdeftype-parser.js'
+import { SectionDef } from '../doxygen-xml-parsers/sectiondeftype-parser.js'
 
 // ----------------------------------------------------------------------------
 
@@ -62,9 +65,11 @@ export class DocusaurusGenerator {
   pluginOptions: PluginOptions
 
   doxygenOptions: DoxygenFileOptions
+
   // A map of compound definitions, indexed by their id.
   compoundDefsById: Map<string, AbstractCompoundDefType> = new Map()
-  // Permalinks are relative to the Docusaurus baseUrl folder.
+
+  memberDefsById: Map<string, AbstractMemberDefType> = new Map()
 
   dataObjectsById: Map<string, DataModelBase> = new Map()
 
@@ -195,6 +200,7 @@ export class DocusaurusGenerator {
 
   async generate (): Promise<void> {
     this.createCompoundDefsMap()
+    this.createMemberDefsMap()
     this.createDataObjectsMaps()
     this.validatePermalinks()
 
@@ -214,6 +220,23 @@ export class DocusaurusGenerator {
       // console.log(compoundDef.id)
       this.compoundDefsById.set(compoundDef.id, compoundDef)
     }
+    console.log(this.compoundDefsById.size, 'compound definitions')
+  }
+
+  createMemberDefsMap (): void {
+    for (const compoundDef of this.doxygenData.compoundDefs) {
+      // console.log(compoundDef.id)
+      if (compoundDef.sectionDefs !== undefined) {
+        for (const sectionDef of compoundDef.sectionDefs) {
+          if (sectionDef.memberDefs !== undefined) {
+            for (const memberDef of sectionDef.memberDefs) {
+              this.memberDefsById.set(memberDef.id, memberDef)
+            }
+          }
+        }
+      }
+      console.log(this.memberDefsById.size, 'member definitions')
+    }
   }
 
   createDataObjectsMaps (): void {
@@ -225,7 +248,7 @@ export class DocusaurusGenerator {
     for (const compoundDef of this.doxygenData.compoundDefs) {
       // console.log(compoundDef.id)
       if (!this.dataObjectsById.has(compoundDef.id)) {
-        console.error('compoundDef', compoundDef.id, 'not yet processed in', this.constructor.name)
+        console.error('compoundDef', compoundDef.id, 'not yet processed in', this.constructor.name, 'createDataObjectsMaps')
       }
     }
   }
@@ -245,7 +268,7 @@ export class DocusaurusGenerator {
 
       const dataObject: DataModelBase | undefined = this.dataObjectsById.get(compoundDef.id)
       if (dataObject === undefined) {
-        console.error('compoundDef', compoundDef.id, 'not yet processed in', this.constructor.name)
+        console.error('compoundDef', compoundDef.id, 'not yet processed in', this.constructor.name, 'validatePermalinks')
         continue
       }
 
@@ -322,7 +345,7 @@ export class DocusaurusGenerator {
 
       const permalink = dataObject.relativePermalink
       assert(permalink !== undefined)
-      console.log(`${compoundDef.kind}: ${compoundDef.compoundName}`, '->', `${outputFolderPath}/${permalink}...`)
+      console.log(`${compoundDef.kind}: ${compoundDef.compoundName.replaceAll(/[ ]*/g, '') as string}`, '->', `${outputFolderPath}/${permalink}...`)
 
       const docusaurusId = this.dataObjectsById.get(compoundDef.id)?.docusaurusId
       assert(docusaurusId !== undefined)
@@ -345,7 +368,7 @@ export class DocusaurusGenerator {
         bodyText = await docusaurusGenerator.renderMdx(compoundDef, frontMatter)
       } else {
         // console.error(util.inspect(compoundDef, { compact: false, depth: 999 }))
-        console.error('page generator for', compoundDef.kind, 'not implemented yet in', this.constructor.name)
+        console.error('page generator for', compoundDef.kind, 'not implemented yet in', this.constructor.name, 'generatePages')
         // TODO: enable it after implementing folders & files
         // continue
       }
@@ -566,7 +589,7 @@ export class DocusaurusGenerator {
         permalink = `${this.getPagePermalink(compoundId)}#${this.getPermalinkAnchor(refid)}`
       }
     } else {
-      console.error('Unsupported kindref', kindref, 'for', refid, 'in', this.constructor.name)
+      console.error('Unsupported kindref', kindref, 'for', refid, 'in', this.constructor.name, 'getPermalink')
     }
 
     assert(permalink !== undefined && permalink.length > 1)
@@ -597,7 +620,7 @@ export class DocusaurusGenerator {
     }
 
     console.error(util.inspect(element, { compact: false, depth: 999 }))
-    console.error('no element generator for', element.constructor.name, 'in', this.constructor.name)
+    console.error('no element generator for', element.constructor.name, 'in', this.constructor.name, 'getElementRenderer')
     return undefined
   }
 
@@ -794,40 +817,319 @@ export class DocusaurusGenerator {
     return result
   }
 
-  renderNamespacesIndexMdx (compoundDef: CompoundDef): string {
+  // --------------------------------------------------------------------------
+
+  renderInnerIndicesMdx ({
+    compoundDef,
+    suffixes
+  }: {
+    compoundDef: CompoundDef
+    suffixes: string[]
+  }): string {
     let result: string = ''
 
-    if (compoundDef.innerNamespaces !== undefined && compoundDef.innerNamespaces.length > 0) {
+    for (const innerKey of Object.keys(compoundDef)) {
+      if (innerKey.startsWith('inner')) {
+        const suffix = innerKey.substring(5)
+        if (!suffixes.includes(suffix)) {
+          console.warn(innerKey, 'not processed for', compoundDef.compoundName, 'in renderInnerIndicesMdx')
+          continue
+        }
+      }
+    }
+
+    for (const suffix of suffixes) {
+      const innerKey = `inner${suffix}`
+      const innerObjects = (compoundDef as any)[innerKey] as AbstractRefType[]
+
+      if (innerObjects !== undefined && innerObjects.length > 0) {
+        result += '\n'
+        result += `## ${suffix === 'Dirs' ? 'Folders' : (suffix === 'Groups' ? 'Topics' : suffix)} Index`
+
+        result += '\n'
+        result += '<MembersList>\n'
+
+        for (const innerObject of innerObjects) {
+          // console.log(util.inspect(innerObject, { compact: false, depth: 999 }))
+          const innerDataObject = this.dataObjectsById.get(innerObject.refid)
+          assert(innerDataObject !== undefined)
+
+          const innerCompoundDef = innerDataObject.compoundDef
+          assert(innerCompoundDef !== undefined)
+
+          const permalink = this.getPagePermalink(innerObject.refid)
+
+          const kind = innerCompoundDef.kind
+
+          const itemLeft = kind === 'dir' ? 'folder' : (kind === 'group' ? '&nbsp;' : kind)
+          const itemRight = `<Link to="${permalink}">${escapeHtml(innerDataObject.indexName)}</Link>`
+
+          result += '\n'
+          result += `<MembersListItem itemLeft="${itemLeft}" itemRight={${itemRight}}>\n`
+
+          const briefDescription: string = this.renderElementMdx(innerCompoundDef.briefDescription).trim()
+          if (briefDescription.length > 0) {
+            result += briefDescription
+            if (!['Namespaces', 'Dirs', 'Files'].includes(suffix)) {
+              result += ` <Link to="${permalink}#details">`
+              result += 'More...'
+              result += '</Link>'
+            }
+            result += '\n'
+          }
+          result += '</MembersListItem>\n'
+        }
+
+        result += '\n'
+        result += '</MembersList>\n'
+      }
+    }
+
+    return result
+  }
+
+  renderSectionDefIndicesMdx (compoundDef: CompoundDef): string {
+    let result: string = ''
+
+    if (compoundDef.sectionDefs !== undefined) {
+      for (const sectionDef of compoundDef.sectionDefs) {
+        result += this.renderSectionDefIndexMdx({
+          sectionDef,
+          compoundDef
+        })
+      }
+    }
+
+    return result
+  }
+
+  renderSectionDefIndexMdx ({
+    sectionDef,
+    compoundDef
+  }: {
+    sectionDef: SectionDef
+    compoundDef: CompoundDef
+  }): string {
+    let result = ''
+
+    const header = this.getHeaderByKind(sectionDef)
+    if (header.length === 0) {
+      return ''
+    }
+
+    if (sectionDef.memberDefs !== undefined) {
       result += '\n'
-      result += '## Namespaces\n'
+      result += `## ${escapeHtml(header)} Index\n`
 
       result += '\n'
       result += '<MembersList>\n'
 
-      for (const innerNamespace of compoundDef.innerNamespaces) {
-        const namespace = this.namespaces.membersById.get(innerNamespace.refid)
-        assert(namespace !== undefined)
+      const memberDefs = sectionDef.memberDefs
 
-        const permalink = this.getPagePermalink(innerNamespace.refid)
-
-        const itemRight = `<Link to="${permalink}">${escapeHtml(namespace.summaryName)}</Link>`
-
-        result += '\n'
-        result += `<MembersListItem itemLeft="namespace" itemRight={${itemRight}}>\n`
-
-        const compoundDef = this.compoundDefsById.get(innerNamespace.refid)
-        assert(compoundDef !== undefined)
-        const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription)
-        result += briefDescription
-
-        result += '\n'
-        result += '</MembersListItem>\n'
+      for (const memberDef of memberDefs) {
+        result += this.renderMemberDefIndexMdx({ memberDef, sectionDef, compoundDef })
       }
+
+      result += '\n'
+      result += '</MembersList>\n'
+
+      if (sectionDef.members !== undefined) {
+        console.warn(sectionDef.constructor.name, 'members after memberDefs? in', this.constructor.name, 'renderSectionDefIndexMdx')
+      }
+    } else if (sectionDef.members !== undefined) {
+      result += '\n'
+      result += `## ${escapeHtml(header)}\n`
+
+      result += '\n'
+      result += '<MembersList>\n'
+
+      for (const member of sectionDef.members) {
+        const memberDef = this.memberDefsById.get(member.refid)
+        assert(memberDef !== undefined)
+
+        result += this.renderMemberDefIndexMdx({ memberDef, sectionDef, compoundDef })
+      }
+
       result += '\n'
       result += '</MembersList>\n'
     }
     return result
   }
+
+  renderMemberDefIndexMdx ({
+    memberDef,
+    sectionDef,
+    compoundDef
+  }: {
+    memberDef: MemberDef
+    sectionDef: SectionDef
+    compoundDef: CompoundDef
+  }): string {
+    let result = ''
+
+    const morePermalink = this.getPermalinkAnchor(memberDef.id)
+    assert(morePermalink !== undefined && morePermalink.length > 1)
+
+    const name = escapeHtml(memberDef.name)
+    let itemLeft = ''
+    let itemRight = `<Link to="#${morePermalink}">${name}</Link>`
+
+    switch (memberDef.kind) {
+      case 'typedef':
+        itemLeft = 'using'
+        if (memberDef.type !== undefined) {
+          itemRight += ' = '
+          itemRight += this.renderElementMdx(memberDef.type).trim()
+        }
+        break
+
+      case 'function':
+        itemLeft = this.renderElementMdx(memberDef.type).trim()
+        if (memberDef.argsstring !== undefined) {
+          itemRight += ' '
+          itemRight += escapeHtml(memberDef.argsstring)
+        }
+        break
+
+      case 'variable':
+        itemLeft = this.renderElementMdx(memberDef.type).trim()
+        break
+
+      case 'enum':
+        itemLeft = this.renderElementMdx(memberDef.type).trim()
+        break
+
+      default:
+        console.error('member kind', memberDef.kind, 'not implemented yet in', this.constructor.name, 'renderMethodDefIndexMdx')
+    }
+
+    result += '\n'
+    if (itemLeft.length > 0) {
+      if (itemLeft.includes('<') || itemLeft.includes('&')) {
+        result += `<MembersListItem itemLeft={<>${itemLeft}</>} itemRight={<>${itemRight}</>}>\n`
+      } else {
+        result += `<MembersListItem itemLeft="${itemLeft}" itemRight={<>${itemRight}</>}>\n`
+      }
+    } else {
+      result += `<MembersListItem itemLeft="&nbsp;" itemRight={<>${itemRight}</>}>\n`
+    }
+
+    const briefDescription: string = this.renderElementMdx(memberDef.briefDescription)
+    if (briefDescription.length > 0) {
+      result += briefDescription
+      // Not really needed, there is no details section, displayed for consistency.
+      result += ` <Link to="#${morePermalink}">`
+      result += 'More...'
+      result += '</Link>'
+      result += '\n'
+    }
+
+    result += '</MembersListItem>\n'
+
+    return result
+  }
+
+  // --------------------------------------------------------------------------
+
+  // <xsd:simpleType name="DoxSectionKind">
+  //   <xsd:restriction base="xsd:string">
+  //     <xsd:enumeration value="user-defined" />
+  //     <xsd:enumeration value="public-type" />
+  //     <xsd:enumeration value="public-func" />
+  //     <xsd:enumeration value="public-attrib" />
+  //     <xsd:enumeration value="public-slot" />
+  //     <xsd:enumeration value="signal" />
+  //     <xsd:enumeration value="dcop-func" />
+  //     <xsd:enumeration value="property" />
+  //     <xsd:enumeration value="event" />
+  //     <xsd:enumeration value="public-static-func" />
+  //     <xsd:enumeration value="public-static-attrib" />
+  //     <xsd:enumeration value="protected-type" />
+  //     <xsd:enumeration value="protected-func" />
+  //     <xsd:enumeration value="protected-attrib" />
+  //     <xsd:enumeration value="protected-slot" />
+  //     <xsd:enumeration value="protected-static-func" />
+  //     <xsd:enumeration value="protected-static-attrib" />
+  //     <xsd:enumeration value="package-type" />
+  //     <xsd:enumeration value="package-func" />
+  //     <xsd:enumeration value="package-attrib" />
+  //     <xsd:enumeration value="package-static-func" />
+  //     <xsd:enumeration value="package-static-attrib" />
+  //     <xsd:enumeration value="private-type" />
+  //     <xsd:enumeration value="private-func" />
+  //     <xsd:enumeration value="private-attrib" />
+  //     <xsd:enumeration value="private-slot" />
+  //     <xsd:enumeration value="private-static-func" />
+  //     <xsd:enumeration value="private-static-attrib" />
+  //     <xsd:enumeration value="friend" />
+  //     <xsd:enumeration value="related" />
+  //     <xsd:enumeration value="define" />
+  //     <xsd:enumeration value="prototype" />
+  //     <xsd:enumeration value="typedef" />
+  //     <xsd:enumeration value="enum" />
+  //     <xsd:enumeration value="func" />
+  //     <xsd:enumeration value="var" />
+  //   </xsd:restriction>
+  // </xsd:simpleType>
+
+  getHeaderByKind (sectionDef: SectionDef): string {
+    const headersByKind: Record<string, string> = {
+      // 'user-defined': '?',
+      'public-type': 'Member Typedefs',
+      'public-func': 'Member Functions',
+      'public-attrib': 'Member Attributes',
+      // 'public-slot': 'Member ?',
+      'public-static-func': 'Static Functions',
+      'public-static-attrib': 'Static Attributes',
+
+      // 'signal': '',
+      // 'dcop-func': '',
+      // 'property': '',
+      // 'event': '',
+
+      'package-type': 'Package Member Typedefs',
+      'package-func': 'Package Member Functions',
+      'package-attrib': 'Package Member Attributes',
+      'package-static-func': 'Package Static Functions',
+      'package-static-attrib': 'Package Static Attributes',
+
+      'protected-type': 'Protected Member Typedefs',
+      'protected-func': 'Protected Member Functions',
+      'protected-attrib': 'Protected Member Attributes',
+      // 'protected-slot': 'Protected ?',
+      'protected-static-func': 'Protected Static Functions',
+      'protected-static-attrib': 'Protected Static Attributes',
+
+      'private-type': 'Private Member Typedefs',
+      'private-func': 'Private Member Functions',
+      'private-attrib': 'Private Member Attributes',
+      // 'private-slot': 'Private ?',
+      'private-static-func': 'Private Static Functions',
+      'private-static-attrib': 'Private Static Attributes',
+
+      // 'friend': '',
+      // 'related': '',
+      // 'define': '',
+      // 'prototype': '',
+
+      typedef: 'Typedefs',
+      enum: 'Enumerations',
+      func: 'Functions',
+      var: 'Variables'
+
+    }
+
+    const header = headersByKind[sectionDef.kind]
+    if (header === undefined) {
+      console.error(sectionDef, { compact: false, depth: 999 })
+      console.error(sectionDef.constructor.name, 'kind', sectionDef.kind, 'not yet rendered in', this.constructor.name, 'getHeaderByKind')
+      return ''
+    }
+
+    return header.trim()
+  }
+
+  // --------------------------------------------------------------------------
 
   renderIncludesIndexMdx (compoundDef: CompoundDef): string {
     let result: string = ''
@@ -847,7 +1149,7 @@ export class DocusaurusGenerator {
     return result
   }
 
-  renderClassSummaryMdx (compoundDef: CompoundDef): string {
+  renderClassIndexMdx (compoundDef: CompoundDef): string {
     // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
     let result: string = ''
 
@@ -857,7 +1159,7 @@ export class DocusaurusGenerator {
     const permalink = this.getPagePermalink(compoundDef.id)
 
     const itemLeft = compoundDef.kind
-    const itemRight = `<Link to="${permalink}">${escapeHtml(classs.summaryName)}</Link>`
+    const itemRight = `<Link to="${permalink}">${escapeHtml(classs.indexName)}</Link>`
 
     result += '\n'
     result += `<MembersListItem itemLeft="${itemLeft}" itemRight={${itemRight}}>\n`

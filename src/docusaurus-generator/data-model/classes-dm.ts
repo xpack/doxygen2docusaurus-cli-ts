@@ -83,7 +83,7 @@ export class Class extends DataModelBase {
 
     this.sidebarLabel = this.unqualifiedName
 
-    this.summaryName = this.unqualifiedName + (this.templateParameters ?? '')
+    this.indexName = this.unqualifiedName + (this.templateParameters ?? '')
 
     const kind = compoundDef.kind
     const kindCapitalised = kind.charAt(0).toUpperCase() + kind.slice(1).toLowerCase()
@@ -110,7 +110,7 @@ export class Class extends DataModelBase {
     // console.log('2', this.relativePermalink)
     // console.log('3', this.docusaurusId)
     // console.log('4', this.sidebarLabel)
-    // console.log('5', this.summaryName)
+    // console.log('5', this.indexName)
     // console.log('6', this.templateParameters)
     // console.log()
   }

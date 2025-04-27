@@ -97,7 +97,7 @@ export class Namespace extends DataModelBase {
     // Keep only the last name.
     this.sidebarLabel = this.compoundDef.compoundName.replace(/.*::/, '')
 
-    this.summaryName = this.sidebarLabel
+    this.indexName = this.sidebarLabel
 
     this.pageTitle = `The ${this.sidebarLabel} Namespace Reference`
 
@@ -110,7 +110,7 @@ export class Namespace extends DataModelBase {
     // console.log('2', this.relativePermalink)
     // console.log('3', this.docusaurusId)
     // console.log('4', this.sidebarLabel)
-    // console.log('4', this.summaryName)
+    // console.log('4', this.indexName)
     // console.log()
   }
 }

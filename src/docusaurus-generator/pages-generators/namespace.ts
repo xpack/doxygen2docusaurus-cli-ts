@@ -30,27 +30,12 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
     result += this.context.renderBriefDescriptionMdx(compoundDef)
 
-    result += this.context.renderNamespacesIndexMdx(compoundDef)
+    result += this.context.renderInnerIndicesMdx({
+      compoundDef,
+      suffixes: ['Namespaces', 'Classes']
+    })
 
-    if (compoundDef.innerClasses !== undefined && compoundDef.innerClasses.length > 0) {
-      result += '\n'
-      result += '## Classes\n'
-
-      result += '\n'
-      result += '<MembersList>\n'
-
-      for (const innerClass of compoundDef.innerClasses) {
-        // console.log(util.inspect(innerClass, { compact: false, depth: 999 }))
-
-        const compoundDef: CompoundDef | undefined = this.context.compoundDefsById.get(innerClass.refid)
-        assert(compoundDef !== undefined)
-
-        result += this.context.renderClassSummaryMdx(compoundDef)
-      }
-
-      result += '\n'
-      result += '</MembersList>\n'
-    }
+    result += this.context.renderSectionDefIndicesMdx(compoundDef)
 
     result += this.context.renderDetailedDescriptionMdx({
       compoundDef,
@@ -59,6 +44,8 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
     return result
   }
+
+  // --------------------------------------------------------------------------
 
   renderIndexMdx (): string {
     // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
@@ -89,7 +76,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
     let result: string = ''
 
     const compoundDef = namespace.compoundDef
-    const label = escapeHtml(namespace.summaryName)
+    const label = escapeHtml(namespace.indexName)
 
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)

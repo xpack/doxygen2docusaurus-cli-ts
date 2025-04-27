@@ -32,26 +32,12 @@ export class FileGenerator extends PageGeneratorBase {
 
     result += this.context.renderIncludesIndexMdx(compoundDef)
 
-    if (compoundDef.innerClasses !== undefined) {
-      result += '\n'
-      result += '## Classes\n'
+    result += this.context.renderInnerIndicesMdx({
+      compoundDef,
+      suffixes: ['Namespaces', 'Classes']
+    })
 
-      result += '\n'
-      result += '<MembersList>\n'
-
-      for (const innerClass of compoundDef.innerClasses) {
-        // console.log(util.inspect(innerClass, { compact: false, depth: 999 }))
-        const compoundDef = this.context.compoundDefsById.get(innerClass.refid)
-        assert(compoundDef !== undefined)
-
-        result += this.context.renderClassSummaryMdx(compoundDef)
-      }
-
-      result += '\n'
-      result += '</MembersList>\n'
-    }
-
-    result += this.context.renderNamespacesIndexMdx(compoundDef)
+    result += this.context.renderSectionDefIndicesMdx(compoundDef)
 
     // const file = this.context.files.membersById.get(compoundDef.id)
     // console.log('file:', file, 'for', compoundDef.id)

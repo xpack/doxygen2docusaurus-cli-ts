@@ -33,68 +33,12 @@ export class FolderGenerator extends PageGeneratorBase {
 
     result += this.context.renderBriefDescriptionMdx(compoundDef)
 
-    if (compoundDef.innerDirs !== undefined && compoundDef.innerDirs.length > 0) {
-      result += '\n'
-      result += '## Folders\n'
+    result += this.context.renderInnerIndicesMdx({
+      compoundDef,
+      suffixes: ['Dirs', 'Files']
+    })
 
-      result += '\n'
-      result += '<MembersList>\n'
-
-      for (const innerDir of compoundDef.innerDirs) {
-        const folder = this.context.folders.membersById.get(innerDir.refid)
-        assert(folder !== undefined)
-
-        const permalink = this.context.getPagePermalink(innerDir.refid)
-
-        const itemRight = `<Link to="${permalink}">${escapeHtml(folder.summaryName)}</Link>`
-
-        result += '\n'
-        result += `<MembersListItem itemLeft="folder" itemRight={${itemRight}}>\n`
-
-        const compoundDef = this.context.compoundDefsById.get(innerDir.refid)
-        assert(compoundDef !== undefined)
-        const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription)
-        result += briefDescription
-
-        result += '\n'
-        result += '</MembersListItem>\n'
-      }
-      result += '\n'
-      result += '</MembersList>\n'
-    }
-
-    if (compoundDef.innerFiles !== undefined && compoundDef.innerFiles.length > 0) {
-      result += '\n'
-      result += '## Files\n'
-
-      result += '\n'
-      result += '<MembersList>\n'
-
-      for (const innerFile of compoundDef.innerFiles) {
-        const file = this.context.files.membersById.get(innerFile.refid)
-        assert(file !== undefined)
-
-        const permalink = this.context.getPagePermalink(innerFile.refid)
-
-        const itemRight = `<Link to="${permalink}">${escapeHtml(file.summaryName)}</Link>`
-
-        result += '\n'
-        result += `<MembersListItem itemLeft="file" itemRight={${itemRight}}>\n`
-
-        const compoundDef = this.context.compoundDefsById.get(innerFile.refid)
-        assert(compoundDef !== undefined)
-
-        const briefDescription: string = this.context.renderElementMdx(compoundDef.briefDescription).trim()
-        if (briefDescription.length > 0) {
-          result += briefDescription
-          result += '\n'
-        }
-        result += '</MembersListItem>\n'
-      }
-
-      result += '\n'
-      result += '</MembersList>\n'
-    }
+    result += this.context.renderSectionDefIndicesMdx(compoundDef)
 
     const fullFolderPath = this.context.folders.getRelativePathRecursively(compoundDef.id)
 

@@ -28,6 +28,13 @@ export class PageGenerator extends PageGeneratorBase {
 
     result += this.context.renderBriefDescriptionMdx(compoundDef)
 
+    result += this.context.renderInnerIndicesMdx({
+      compoundDef,
+      suffixes: []
+    })
+
+    result += this.context.renderSectionDefIndicesMdx(compoundDef)
+
     result += this.context.renderDetailedDescriptionMdx({
       compoundDef,
       todo: `@namespace ${compoundDef.compoundName}`,

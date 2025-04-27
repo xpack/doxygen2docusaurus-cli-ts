@@ -66,7 +66,7 @@ export class Folders {
       // console.log('2', folder.relativePermalink)
       // console.log('3', folder.docusaurusId)
       // console.log('4', folder.sidebarLabel)
-      // console.log('5', folder.summaryName)
+      // console.log('5', folder.indexName)
       // console.log()
     }
   }
@@ -107,7 +107,7 @@ export class Folder extends DataModelBase {
 
     this.sidebarLabel = this.compoundDef.compoundName ?? '?'
 
-    this.summaryName = this.sidebarLabel
+    this.indexName = this.sidebarLabel
 
     this.pageTitle = `The ${this.sidebarLabel} Folder Reference`
   }

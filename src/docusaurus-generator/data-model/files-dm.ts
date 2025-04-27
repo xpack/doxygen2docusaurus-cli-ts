@@ -79,7 +79,7 @@ export class Files {
       // console.log('2', file.relativePermalink)
       // console.log('3', file.docusaurusId)
       // console.log('4', file.sidebarLabel)
-      // console.log('5', file.summaryName)
+      // console.log('5', file.indexName)
       // console.log()
     }
   }
@@ -103,7 +103,7 @@ export class File extends DataModelBase {
     // The compoundName is the actual file name.
     this.sidebarLabel = this.compoundDef.compoundName ?? '?'
 
-    this.summaryName = this.sidebarLabel
+    this.indexName = this.sidebarLabel
 
     this.pageTitle = `The ${this.sidebarLabel} File Reference`
 

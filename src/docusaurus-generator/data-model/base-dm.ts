@@ -33,8 +33,8 @@ export abstract class DataModelBase {
   /** The part below outputFolderPath, no slash. */
   relativePermalink: string | undefined
 
-  /** The name to be shown in the summary section. */
-  summaryName: string = ''
+  /** The name to be shown in the index section. */
+  indexName: string = ''
 
   /** The name shown in the page title. */
   pageTitle: string = ''

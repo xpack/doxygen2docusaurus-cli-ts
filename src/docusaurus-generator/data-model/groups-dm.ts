@@ -68,7 +68,7 @@ export class Group extends DataModelBase {
     // The group title must be short.
     this.sidebarLabel = this.compoundDef.title ?? '?'
 
-    this.summaryName = this.sidebarLabel
+    this.indexName = this.sidebarLabel
 
     this.pageTitle = `The ${this.sidebarLabel} Reference`
 
@@ -81,7 +81,7 @@ export class Group extends DataModelBase {
     // console.log('2', this.relativePermalink)
     // console.log('3', this.docusaurusId)
     // console.log('4', this.sidebarLabel)
-    // console.log('4', this.summaryName)
+    // console.log('4', this.indexName)
     // console.log()
   }
 }

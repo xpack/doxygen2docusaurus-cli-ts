@@ -46,7 +46,7 @@ export class Page extends DataModelBase {
 
     this.sidebarLabel = this.compoundDef.compoundName ?? '?'
 
-    this.summaryName = this.sidebarLabel
+    this.indexName = this.sidebarLabel
 
     this.pageTitle = `The ${this.sidebarLabel}`
 
@@ -59,7 +59,7 @@ export class Page extends DataModelBase {
     // console.log('2', this.relativePermalink)
     // console.log('3', this.docusaurusId)
     // console.log('4', this.sidebarLabel)
-    // console.log('5', this.summaryName)
+    // console.log('5', this.indexName)
     // console.log()
   }
 }
