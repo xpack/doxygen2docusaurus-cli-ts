@@ -25,9 +25,6 @@ export class GroupGenerator extends PageGeneratorBase {
   renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
     // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
 
-    assert(compoundDef.title !== undefined)
-    frontMatter.title = `The ${compoundDef.title} Reference`
-
     let result: string = ''
 
     result += this.context.renderBriefDescriptionMdx(compoundDef)

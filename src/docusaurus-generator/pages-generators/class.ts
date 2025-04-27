@@ -30,15 +30,6 @@ export class ClassPageGenerator extends PageGeneratorBase {
   renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
     // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
 
-    const kind = compoundDef.kind
-    const kindCapitalised = kind.charAt(0).toUpperCase() + kind.slice(1).toLowerCase()
-
-    frontMatter.title = `The ${compoundDef.compoundName.replace(/.*::/, '')}`
-    frontMatter.title += ` ${kindCapitalised}`
-    if (compoundDef.templateParamList !== undefined) {
-      frontMatter.title += ' Template'
-    }
-    frontMatter.title += ' Reference'
     frontMatter.toc_max_heading_level = 3
 
     let result: string = ''
@@ -56,6 +47,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
     const object = this.context.classes.membersById.get(compoundDef.id)
     assert(object !== undefined)
 
+    const kind = compoundDef.kind
     if (kind === 'class') {
       if (compoundDef.baseCompoundRefs !== undefined) {
         result += '\n'

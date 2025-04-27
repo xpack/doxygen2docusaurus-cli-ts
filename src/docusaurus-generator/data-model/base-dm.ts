@@ -36,6 +36,9 @@ export abstract class DataModelBase {
   /** The name to be shown in the summary section. */
   summaryName: string = ''
 
+  /** The name shown in the page title. */
+  pageTitle: string = ''
+
   constructor (compoundDef: CompoundDef) {
     this.compoundDef = compoundDef
   }

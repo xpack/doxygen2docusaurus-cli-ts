@@ -68,12 +68,14 @@ export class Group extends DataModelBase {
     // The group title must be short.
     this.sidebarLabel = this.compoundDef.title ?? '?'
 
+    this.summaryName = this.sidebarLabel
+
+    this.pageTitle = `The ${this.sidebarLabel} Reference`
+
     const sanitizedPath = sanitizeHierarchicalPath(this.compoundDef.compoundName)
     this.relativePermalink = `groups/${sanitizedPath}`
 
     this.docusaurusId = `groups/${flattenPath(sanitizedPath)}`
-
-    this.summaryName = this.sidebarLabel
 
     // console.log('1', this.compoundDef.compoundName, this.compoundDef.title)
     // console.log('2', this.relativePermalink)

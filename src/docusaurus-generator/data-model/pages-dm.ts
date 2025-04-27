@@ -48,6 +48,8 @@ export class Page extends DataModelBase {
 
     this.summaryName = this.sidebarLabel
 
+    this.pageTitle = `The ${this.sidebarLabel}`
+
     const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundDef.compoundName)
     this.relativePermalink = `pages/${sanitizedPath}`
 

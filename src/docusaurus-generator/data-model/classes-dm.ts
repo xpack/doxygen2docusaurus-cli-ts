@@ -83,7 +83,18 @@ export class Class extends DataModelBase {
 
     this.sidebarLabel = this.unqualifiedName
 
-    const pluralKind = compoundDef.kind === 'class' ? 'classes' : 'structs'
+    this.summaryName = this.unqualifiedName + (this.templateParameters ?? '')
+
+    const kind = compoundDef.kind
+    const kindCapitalised = kind.charAt(0).toUpperCase() + kind.slice(1).toLowerCase()
+
+    this.pageTitle = `The ${this.unqualifiedName} ${kindCapitalised}`
+    if (compoundDef.templateParamList !== undefined) {
+      this.pageTitle += ' Template'
+    }
+    this.pageTitle += ' Reference'
+
+    const pluralKind = (kind === 'class' ? 'classes' : 'structs')
 
     // Turn the namespace into a hierarchical path. Keep the dot.
     let sanitizedPath: string = sanitizeHierarchicalPath(this.fullyQualifiedName.replaceAll(/::/g, '/'))
@@ -94,8 +105,6 @@ export class Class extends DataModelBase {
 
     // Replace slash with dash.
     this.docusaurusId = `${pluralKind}/${flattenPath(sanitizedPath)}`
-
-    this.summaryName = this.unqualifiedName + (this.templateParameters ?? '')
 
     // console.log('1', compoundDef.compoundName)
     // console.log('2', this.relativePermalink)

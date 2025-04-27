@@ -26,8 +26,6 @@ export class NamespaceGenerator extends PageGeneratorBase {
   renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
     // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
 
-    frontMatter.title = `The ${compoundDef.compoundName} Namespace Reference`
-
     let result: string = ''
 
     result += this.context.renderBriefDescriptionMdx(compoundDef)

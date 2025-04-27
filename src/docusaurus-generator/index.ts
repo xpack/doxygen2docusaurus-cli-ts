@@ -332,7 +332,7 @@ export class DocusaurusGenerator {
       const filePath = `${outputFolderPath}/${fileName}`
 
       const frontMatter: FrontMatter = {
-        title: `${compoundDef.compoundName}`,
+        title: `${dataObject.pageTitle ?? compoundDef.compoundName}`,
         slug: `${outputFolderPath.replace(/^docs/, '')}/${permalink}`,
         // description: '...', // TODO
         custom_edit_url: null,

@@ -97,12 +97,14 @@ export class Namespace extends DataModelBase {
     // Keep only the last name.
     this.sidebarLabel = this.compoundDef.compoundName.replace(/.*::/, '')
 
+    this.summaryName = this.sidebarLabel
+
+    this.pageTitle = `The ${this.sidebarLabel} Namespace Reference`
+
     const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundDef.compoundName.replaceAll('::', '/'))
     this.relativePermalink = `namespaces/${sanitizedPath}`
 
     this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
-
-    this.summaryName = this.sidebarLabel
 
     // console.log('1', this.compoundDef.compoundName)
     // console.log('2', this.relativePermalink)

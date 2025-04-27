@@ -24,8 +24,6 @@ export class PageGenerator extends PageGeneratorBase {
   renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
     // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
 
-    frontMatter.title = `The ${compoundDef.title}`
-
     let result: string = ''
 
     result += this.context.renderBriefDescriptionMdx(compoundDef)

@@ -105,6 +105,8 @@ export class File extends DataModelBase {
 
     this.summaryName = this.sidebarLabel
 
+    this.pageTitle = `The ${this.sidebarLabel} File Reference`
+
     // console.log('File.constructor', util.inspect(compoundDef))
   }
 }

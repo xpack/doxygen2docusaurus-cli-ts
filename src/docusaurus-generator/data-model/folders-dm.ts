@@ -108,6 +108,8 @@ export class Folder extends DataModelBase {
     this.sidebarLabel = this.compoundDef.compoundName ?? '?'
 
     this.summaryName = this.sidebarLabel
+
+    this.pageTitle = `The ${this.sidebarLabel} Folder Reference`
   }
 }
 

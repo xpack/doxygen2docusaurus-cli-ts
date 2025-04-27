@@ -25,8 +25,6 @@ export class FileGenerator extends PageGeneratorBase {
   renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
     // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
 
-    frontMatter.title = `The ${compoundDef.compoundName} File Reference`
-
     let result: string = ''
 
     result += this.context.renderBriefDescriptionMdx(compoundDef)
