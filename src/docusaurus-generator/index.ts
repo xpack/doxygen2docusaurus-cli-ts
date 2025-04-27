@@ -849,28 +849,24 @@ export class DocusaurusGenerator {
     // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
     let result: string = ''
 
-    const permalink = this.getPermalink({ refid: compoundDef.id, kindref: 'compound' })
+    const dataObject: DataModelBase | undefined = this.dataObjectsById.get(compoundDef.id)
+    assert(dataObject !== undefined)
 
-    let className = escapeHtml(compoundDef.compoundName)
-    // In some cases the name already includes the template parameters.
-    if (!compoundDef.compoundName.includes('<')) {
-      const templateParameterNames = this.renderTemplateParameterNamesMdx(compoundDef)
-      // console.log('templateParameterNames:', templateParameterNames)
-      className += templateParameterNames
-    }
-    const itemRight = `<Link to="${permalink}">${className}</Link>`
+    const permalink = this.getPagePermalink(compoundDef.id)
+
+    const itemLeft = compoundDef.kind
+    const itemRight = `<Link to="${permalink}">${escapeHtml(dataObject.summaryName)}</Link>`
 
     result += '\n'
-    result += `<MembersListItem itemLeft="class" itemRight={<>${itemRight}</>}>\n`
+    result += `<MembersListItem itemLeft="${itemLeft}" itemRight={${itemRight}}>\n`
 
-    const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription)
+    const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription).trim()
     if (briefDescription.length > 0) {
-      result += briefDescription
+      result += escapeHtml(briefDescription)
       result += ` <Link to="${permalink}#details">`
       result += 'More...'
       result += '</Link>\n'
     }
-
     result += '</MembersListItem>\n'
 
     return result

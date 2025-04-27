@@ -18,7 +18,6 @@ import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
 import { CompoundDef } from '../../doxygen-xml-parsers/compounddef-parser.js'
 import { Namespace } from '../data-model/namespaces-dm.js'
-import { escapeHtml } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -41,39 +40,13 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
       for (const innerClass of compoundDef.innerClasses) {
         // console.log(util.inspect(innerClass, { compact: false, depth: 999 }))
-        const compoundDefClass = this.context.compoundDefsById.get(innerClass.refid)
-        assert(compoundDefClass !== undefined)
-        // console.log(util.inspect(compoundDefClass, { compact: false, depth: 999 }))
 
-        const permalink = this.context.getPagePermalink(compoundDefClass.id)
+        const compoundDef: CompoundDef | undefined = this.context.compoundDefsById.get(innerClass.refid)
+        assert(compoundDef !== undefined)
 
-        let className = escapeHtml(compoundDefClass.compoundName)
-        // In some cases the name already includes the template parameters.
-        if (!compoundDef.compoundName.includes('<')) {
-          const templateParameterNames = this.context.renderTemplateParameterNamesMdx(compoundDef)
-          // console.log('templateParameterNames:', templateParameterNames)
-          className += templateParameterNames
-        }
-
-        const itemLeft = compoundDefClass.kind
-        const itemRight = `<Link to="${permalink}">${className}</Link>`
-
-        result += '\n'
-        result += `<MembersListItem itemLeft="${itemLeft}" itemRight={${itemRight}}>\n`
-
-        const innerBriefDescription: string = this.context.renderElementMdx(compoundDefClass.briefDescription)
-        if (innerBriefDescription.length > 0) {
-          result += innerBriefDescription
-
-          const innerPermalink = this.context.getPagePermalink(innerClass.refid)
-          assert(innerPermalink !== undefined && innerPermalink.length > 1)
-          result += ` <Link to="${innerPermalink}#details">`
-          result += 'More...'
-          result += '</Link>\n'
-        }
-
-        result += '</MembersListItem>\n'
+        result += this.context.renderClassSummaryMdx(compoundDef)
       }
+
       result += '\n'
       result += '</MembersList>\n'
     }
