@@ -57,10 +57,11 @@ export class NamespaceGenerator extends PageGeneratorBase {
           className += templateParameterNames
         }
 
+        const itemLeft = compoundDefClass.kind
         const itemRight = `<Link to="${permalink}">${className}</Link>`
 
         result += '\n'
-        result += `<MembersListItem itemLeft="class" itemRight={${itemRight}}>\n`
+        result += `<MembersListItem itemLeft="${itemLeft}" itemRight={${itemRight}}>\n`
 
         const innerBriefDescription: string = this.context.renderElementMdx(compoundDefClass.briefDescription)
         if (innerBriefDescription.length > 0) {

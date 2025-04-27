@@ -125,7 +125,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
           } else {
             const itemRight = escapeHtml(derivedCompoundRef.text)
             result += '\n'
-            result += `<MembersListItem itemLeft="class" itemRight={<>${itemRight}</>}>\n`
+            result += `<MembersListItem itemLeft="${kind}" itemRight={<>${itemRight}</>}>\n`
             result += '</MembersListItem>\n'
           }
         }
