@@ -16,6 +16,7 @@ import * as util from 'node:util'
 
 import { CompoundDef } from '../../doxygen-xml-parsers/compounddef-parser.js'
 import { DataModelBase } from './base-dm.js'
+import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -47,9 +48,10 @@ export class Page extends DataModelBase {
 
     this.summaryName = this.sidebarLabel
 
-    this.relativePermalink = `pages/${this.compoundDef.compoundName}`
+    const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundDef.compoundName)
+    this.relativePermalink = `pages/${sanitizedPath}`
 
-    this.docusaurusId = `pages/${this.compoundDef.compoundName.replaceAll('/', '-') as string}`
+    this.docusaurusId = `pages/${flattenPath(sanitizedPath)}`
 
     // console.log('1', this.compoundDef.compoundName)
     // console.log('2', this.relativePermalink)

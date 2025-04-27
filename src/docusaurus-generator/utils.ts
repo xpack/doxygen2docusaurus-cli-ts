@@ -39,14 +39,26 @@ export function escapeHtml (text: string): string {
     .replaceAll(/[_]/g, '&#95;')
 }
 
-export function encodeUrl (text: string): string {
-  return text
-    .replaceAll(/[<]/g, '%3C')
-    .replaceAll(/[>]/g, '%3E')
-    .replaceAll(/[(]/g, '%28')
-    .replaceAll(/[)]/g, '%29')
-    .replaceAll(/[&]/g, '%26')
-    .replaceAll(/[*]/g, '%2A')
+// export function encodeUrl (text: string): string {
+//   return text
+//     .replaceAll(/[<]/g, '%3C')
+//     .replaceAll(/[>]/g, '%3E')
+//     .replaceAll(/[(]/g, '%28')
+//     .replaceAll(/[)]/g, '%29')
+//     .replaceAll(/[&]/g, '%26')
+//     .replaceAll(/[*]/g, '%2A')
+// }
+
+// Preserve '/' too.
+export function sanitizeHierarchicalPath (text: string): string {
+  return text.toLowerCase().replaceAll(/[ ]*/g, '').replaceAll(/[^a-zA-Z0-9/-]/g, '-')
 }
 
+export function sanitizeName (text: string): string {
+  return text.toLowerCase().replaceAll(/[ ]*/g, '').replaceAll(/[^a-zA-Z0-9-]/g, '-')
+}
+
+export function flattenPath (text: string): string {
+  return text.replaceAll('/', '-')
+}
 // ----------------------------------------------------------------------------

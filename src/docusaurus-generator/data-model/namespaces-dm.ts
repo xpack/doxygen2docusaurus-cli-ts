@@ -16,6 +16,7 @@ import assert from 'node:assert'
 
 import { CompoundDef } from '../../doxygen-xml-parsers/compounddef-parser.js'
 import { DataModelBase } from './base-dm.js'
+import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -96,10 +97,10 @@ export class Namespace extends DataModelBase {
     // Keep only the last name.
     this.sidebarLabel = this.compoundDef.compoundName.replace(/.*::/, '')
 
-    const curedName: string = this.compoundDef.compoundName.replaceAll('::', '/').replaceAll(/[^a-zA-Z0-9/-]/g, '-')
-    this.relativePermalink = `namespaces/${curedName}`
+    const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundDef.compoundName.replaceAll('::', '/'))
+    this.relativePermalink = `namespaces/${sanitizedPath}`
 
-    this.docusaurusId = `namespaces/${curedName.replaceAll('/', '-') as string}`
+    this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
 
     this.summaryName = this.sidebarLabel
 

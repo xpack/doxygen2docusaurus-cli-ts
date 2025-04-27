@@ -17,6 +17,7 @@ import assert from 'node:assert'
 import { CompoundDef } from '../../doxygen-xml-parsers/compounddef-parser.js'
 import { Folders } from './folders-dm.js'
 import { DataModelBase } from './base-dm.js'
+import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -69,10 +70,10 @@ export class Files {
         parentPath = this.folders.getRelativePathRecursively(file.parentId) + '/'
       }
 
-      const filePath: string = `${parentPath}${file.compoundDef.compoundName as string}`.replaceAll(/[^a-zA-Z0-9/-]/g, '-')
-      file.relativePermalink = `files/${filePath}`
+      const sanitizedPath: string = sanitizeHierarchicalPath(`${parentPath}${file.compoundDef.compoundName as string}`)
+      file.relativePermalink = `files/${sanitizedPath}`
 
-      file.docusaurusId = `files/${filePath.replaceAll('/', '-') as string}`
+      file.docusaurusId = `files/${flattenPath(sanitizedPath)}`
 
       // console.log('1', file.compoundDef.compoundName)
       // console.log('2', file.relativePermalink)

@@ -16,6 +16,7 @@ import assert from 'node:assert'
 
 import { CompoundDef } from '../../doxygen-xml-parsers/compounddef-parser.js'
 import { DataModelBase } from './base-dm.js'
+import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -67,10 +68,10 @@ export class Group extends DataModelBase {
     // The group title must be short.
     this.sidebarLabel = this.compoundDef.title ?? '?'
 
-    const curedName = this.compoundDef.compoundName.replaceAll(/[^a-zA-Z0-9-]/g, '-') as string
-    this.relativePermalink = `groups/${curedName}`
+    const sanitizedPath = sanitizeHierarchicalPath(this.compoundDef.compoundName)
+    this.relativePermalink = `groups/${sanitizedPath}`
 
-    this.docusaurusId = `groups/${curedName.replaceAll('/', '-') as string}`
+    this.docusaurusId = `groups/${flattenPath(sanitizedPath)}`
 
     this.summaryName = this.sidebarLabel
 

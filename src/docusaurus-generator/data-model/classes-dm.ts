@@ -16,7 +16,7 @@ import assert from 'node:assert'
 
 import { CompoundDef } from '../../doxygen-xml-parsers/compounddef-parser.js'
 import { DataModelBase } from './base-dm.js'
-import { encodeUrl } from '../utils.js'
+import { flattenPath, sanitizeHierarchicalPath, sanitizeName } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -86,14 +86,14 @@ export class Class extends DataModelBase {
     const pluralKind = compoundDef.kind === 'class' ? 'classes' : 'structs'
 
     // Turn the namespace into a hierarchical path. Keep the dot.
-    let curedName: string = this.fullyQualifiedName.toLowerCase().replaceAll(/::/g, '/').replaceAll(/[^a-zA-Z0-9./-]/g, '-')
+    let sanitizedPath: string = sanitizeHierarchicalPath(this.fullyQualifiedName.replaceAll(/::/g, '/'))
     if (this.templateParameters?.length > 0) {
-      curedName += encodeUrl(this.templateParameters.toLowerCase().replaceAll(/[ ]*/g, '').replaceAll(/[^a-zA-Z0-9.()<>&*-]/g, '-'))
+      sanitizedPath += sanitizeName(this.templateParameters)
     }
-    this.relativePermalink = `${pluralKind}/${curedName}`
+    this.relativePermalink = `${pluralKind}/${sanitizedPath}`
 
     // Replace slash with dash.
-    this.docusaurusId = `${pluralKind}/${curedName.replaceAll('/', '-') as string}`
+    this.docusaurusId = `${pluralKind}/${flattenPath(sanitizedPath)}`
 
     this.summaryName = this.unqualifiedName + (this.templateParameters ?? '')
 
