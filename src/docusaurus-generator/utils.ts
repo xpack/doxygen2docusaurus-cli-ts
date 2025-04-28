@@ -61,4 +61,14 @@ export function sanitizeName (text: string): string {
 export function flattenPath (text: string): string {
   return text.replaceAll('/', '-')
 }
+
+export function stripPermalinkAnchor (refid: string): string {
+  // No idea why g is also used.
+  return refid.replace(/_1[0-9a-fg]*$/, '')
+}
+
+export function getPermalinkAnchor (refid: string): string {
+  return refid.replace(/^.*_1/, '')
+}
+
 // ----------------------------------------------------------------------------

@@ -581,12 +581,12 @@ export class DocusaurusGenerator {
     if (kindref === 'compound') {
       permalink = this.getPagePermalink(refid)
     } else if (kindref === 'member') {
-      const compoundId = this.stripPermalinkAnchor(refid)
+      const compoundId = stripPermalinkAnchor(refid)
       // console.log('compoundId:', compoundId)
       if (compoundId === this.currentCompoundDef?.id) {
-        permalink = `#${this.getPermalinkAnchor(refid)}`
+        permalink = `#${getPermalinkAnchor(refid)}`
       } else {
-        permalink = `${this.getPagePermalink(compoundId)}#${this.getPermalinkAnchor(refid)}`
+        permalink = `${this.getPagePermalink(compoundId)}#${getPermalinkAnchor(refid)}`
       }
     } else {
       console.error('Unsupported kindref', kindref, 'for', refid, 'in', this.constructor.name, 'getPermalink')
@@ -594,15 +594,6 @@ export class DocusaurusGenerator {
 
     assert(permalink !== undefined && permalink.length > 1)
     return permalink
-  }
-
-  stripPermalinkAnchor (refid: string): string {
-    // No idea why g is also used.
-    return refid.replace(/_1[0-9a-fg]*$/, '')
-  }
-
-  getPermalinkAnchor (refid: string): string {
-    return refid.replace(/^.*_1/, '')
   }
 
   getXrefPermalink (id: string): string {
@@ -967,7 +958,7 @@ export class DocusaurusGenerator {
   }): string {
     let result = ''
 
-    const morePermalink = this.getPermalinkAnchor(memberDef.id)
+    const morePermalink = getPermalinkAnchor(memberDef.id)
     assert(morePermalink !== undefined && morePermalink.length > 1)
 
     const name = escapeHtml(memberDef.name)
