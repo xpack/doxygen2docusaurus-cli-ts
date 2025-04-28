@@ -22,7 +22,7 @@ import { DefVal } from '../doxygen-xml-parsers/linkedtexttype-parser.js'
 import { RefText } from '../doxygen-xml-parsers/reftexttype-parser.js'
 import { PluginOptions } from '../plugin/options.js'
 import { SidebarItem } from '../plugin/types.js'
-import { Classes } from './data-model/classes-dm.js'
+import { Class, Classes } from './data-model/classes-dm.js'
 import { Files } from './data-model/files-dm.js'
 import { Folders } from './data-model/folders-dm.js'
 import { Groups } from './data-model/groups-dm.js'
@@ -50,11 +50,12 @@ import { NamespaceGenerator } from './pages-generators/namespace.js'
 import { PageGenerator } from './pages-generators/page.js'
 import { Sidebar } from './sidebar.js'
 import { FrontMatter } from './types.js'
-import { escapeHtml } from './utils.js'
+import { escapeHtml, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js'
 import { DataModelBase } from './data-model/base-dm.js'
 import { AbstractRefType } from '../doxygen-xml-parsers/reftype-parser.js'
 import { AbstractMemberDefType, MemberDef } from '../doxygen-xml-parsers/memberdeftype-parser.js'
 import { SectionDef } from '../doxygen-xml-parsers/sectiondeftype-parser.js'
+import { Location } from '../doxygen-xml-parsers/locationtype-parser.js'
 
 // ----------------------------------------------------------------------------
 
@@ -218,25 +219,42 @@ export class DocusaurusGenerator {
     // console.log('DocusaurusGenerator.createCompoundDefsMap()')
     for (const compoundDef of this.doxygenData.compoundDefs) {
       // console.log(compoundDef.id)
-      this.compoundDefsById.set(compoundDef.id, compoundDef)
+      if (this.compoundDefsById.has(compoundDef.id)) {
+        console.warn('compound already in map', compoundDef.id, 'in', this.compoundDefsById.get(compoundDef.id)?.compoundName)
+      } else {
+        this.compoundDefsById.set(compoundDef.id, compoundDef)
+      }
     }
     console.log(this.compoundDefsById.size, 'compound definitions')
   }
 
   createMemberDefsMap (): void {
     for (const compoundDef of this.doxygenData.compoundDefs) {
-      // console.log(compoundDef.id)
+      // console.log(compoundDef.kind, compoundDef.compoundName, compoundDef.id)
       if (compoundDef.sectionDefs !== undefined) {
         for (const sectionDef of compoundDef.sectionDefs) {
           if (sectionDef.memberDefs !== undefined) {
+            // console.log('  ', sectionDef.kind)
             for (const memberDef of sectionDef.memberDefs) {
-              this.memberDefsById.set(memberDef.id, memberDef)
+              const compoundId = stripPermalinkAnchor(memberDef.id)
+              if (compoundId !== compoundDef.id) {
+                // Skip member definitions from different compounds.
+                // Hopefully they are defined properly there.
+                // console.log('member from another compound', compoundId, 'skipped')
+              } else {
+                // console.log('    ', memberDef.kind, memberDef.id)
+                if (this.memberDefsById.has(memberDef.id)) {
+                  console.warn('member already in map', memberDef.id, 'in', this.memberDefsById.get(memberDef.id)?.name)
+                } else {
+                  this.memberDefsById.set(memberDef.id, memberDef)
+                }
+              }
             }
           }
         }
       }
-      console.log(this.memberDefsById.size, 'member definitions')
     }
+    console.log(this.memberDefsById.size, 'member definitions')
   }
 
   createDataObjectsMaps (): void {
@@ -810,6 +828,318 @@ export class DocusaurusGenerator {
 
   // --------------------------------------------------------------------------
 
+  renderSectionDefsMdx (compoundDef: CompoundDef): string {
+    let result: string = ''
+
+    if (compoundDef.sectionDefs !== undefined) {
+      for (const sectionDef of compoundDef.sectionDefs) {
+        result += this.renderSectionDefMdx({
+          sectionDef,
+          compoundDef
+        })
+      }
+    }
+
+    return result
+  }
+
+  renderSectionDefMdx ({
+    sectionDef,
+    compoundDef
+  }: {
+    sectionDef: SectionDef
+    compoundDef: CompoundDef
+  }): string {
+    let result = ''
+
+    const header = this.getHeaderByKind(sectionDef)
+    if (header.length === 0) {
+      return ''
+    }
+
+    if (sectionDef.memberDefs === undefined) {
+      return ''
+    }
+
+    // TODO: filter out members defined in other compounds.
+    let memberDefs = sectionDef.memberDefs
+
+    result += '\n'
+    result += '<SectionDefinition>\n'
+
+    const sectionLabels: string[] = []
+
+    if ((compoundDef.kind === 'class' || compoundDef.kind === 'struct') && sectionDef.kind === 'public-func') {
+      const classs = this.dataObjectsById.get(compoundDef.id) as Class
+      const constructors: MemberDef[] = []
+      let destructor: MemberDef | undefined
+      const methods = []
+      for (const memberDef of sectionDef.memberDefs) {
+        // console.log(util.inspect(memberDef, { compact: false, depth: 999 }))
+        if (memberDef.name === classs.unqualifiedName) {
+          constructors.push(memberDef)
+        } else if (memberDef.name.replace('~', '') === classs.unqualifiedName) {
+          assert(destructor === undefined)
+          destructor = memberDef
+        } else {
+          methods.push(memberDef)
+        }
+      }
+
+      if (constructors.length > 0) {
+        result += '\n'
+        result += '## Constructors\n'
+
+        for (const constructor of constructors) {
+          result += this.renderMemberDefMdx({ memberDef: constructor, compoundDef, sectionLabels, isFunction: true })
+        }
+      }
+
+      if (destructor !== undefined) {
+        result += '\n'
+        result += '## Destructor\n'
+
+        result += this.renderMemberDefMdx({ memberDef: destructor, compoundDef, sectionLabels, isFunction: true })
+      }
+
+      memberDefs = methods
+    }
+
+    result += '\n'
+    result += `## ${escapeHtml(header)}\n`
+
+    const isFunction: boolean = sectionDef.kind === 'public-func'
+
+    for (const memberDef of memberDefs) {
+      result += this.renderMemberDefMdx({ memberDef, compoundDef, sectionLabels, isFunction })
+    }
+
+    result += '\n'
+    result += '</SectionDefinition>\n'
+
+    return result
+  }
+
+  private renderMemberDefMdx ({
+    memberDef,
+    compoundDef,
+    sectionLabels,
+    isFunction
+  }: {
+    memberDef: MemberDef
+    compoundDef: CompoundDef
+    sectionLabels: string[]
+    isFunction: boolean
+  }): string {
+    // console.log(util.inspect(memberDef, { compact: false, depth: 999 }))
+    let result = ''
+
+    const labels: string[] = [...sectionLabels]
+    if (memberDef.inline?.valueOf()) {
+      labels.push('inline')
+    }
+    if (memberDef.explicit?.valueOf()) {
+      labels.push('explicit')
+    }
+    if (memberDef.nodiscard?.valueOf()) {
+      labels.push('nodiscard')
+    }
+    if (memberDef.constexpr?.valueOf()) {
+      labels.push('constexpr')
+    }
+    if (memberDef.prot === 'protected') {
+      labels.push('protected')
+    }
+    if (memberDef.staticc?.valueOf()) {
+      labels.push('static')
+    }
+    if (memberDef.virt !== undefined && memberDef.virt === 'virtual') {
+      labels.push('virtual')
+    }
+    // WARNING: there is no explicit attribute for 'delete'.
+    if (memberDef.argsstring?.endsWith('=delete')) {
+      labels.push('delete')
+    }
+    if (memberDef.strong?.valueOf()) {
+      labels.push('strong')
+    }
+
+    // WARNING: could not find how to generate 'inherited'.
+
+    // Validation checks.
+    // const passed via the prototype.
+    if (memberDef.mutable?.valueOf()) {
+      console.error(util.inspect(memberDef, { compact: false, depth: 999 }))
+      console.error(memberDef.constructor.name, 'mutable not yet rendered in', this.constructor.name)
+    }
+
+    const id = getPermalinkAnchor(memberDef.id)
+    const name = memberDef.name + (isFunction ? '()' : '')
+
+    result += '\n'
+    result += `### ${escapeHtml(name)} {#${id}}\n`
+
+    // console.log(memberDef.kind)
+    switch (memberDef.kind) {
+      case 'function':
+      case 'typedef':
+      case 'variable':
+        {
+          assert(memberDef.definition !== undefined)
+
+          const templateParameters = this.collectTemplateParameters({ compoundDef })
+
+          let prototype = escapeHtml(memberDef.definition)
+          if (memberDef.kind === 'function') {
+            prototype += ' ('
+
+            if (memberDef.params !== undefined) {
+              const params: string[] = []
+              for (const param of memberDef.params) {
+                params.push(this.renderElementMdx(param))
+              }
+              prototype += params.join(', ')
+            }
+
+            prototype += ')'
+          }
+          if (memberDef.constt?.valueOf()) {
+            prototype += ' const'
+          }
+
+          result += '\n'
+          result += '<MemberDefinition'
+          if (templateParameters.length > 0) {
+            const template = `template &lt;${templateParameters.join(', ')}&gt;`
+            result += `\n  template={<>${template}</>}`
+          }
+          result += `\n  prototype={<>${prototype}</>}`
+          if (labels.length > 0) {
+            result += `\n labels = {["${labels.join('", "')}"]}`
+          }
+          result += '>'
+
+          const briefDescription: string = this.renderElementMdx(memberDef.briefDescription).trim()
+          if (briefDescription.length > 0) {
+            result += '\n'
+            result += briefDescription
+            result += '\n'
+          }
+
+          const detailedDescription: string = this.renderElementMdx(memberDef.detailedDescription).trim()
+          if (detailedDescription.length > 0) {
+            result += '\n'
+            result += detailedDescription
+            result += '\n'
+          }
+
+          result += this.renderLocationMdx(memberDef.location)
+
+          result += '</MemberDefinition>\n'
+        }
+
+        break
+
+      case 'enum':
+        {
+          let prototype = 'enum '
+          if (memberDef.strong?.valueOf()) {
+            prototype += 'class '
+          }
+          prototype += escapeHtml(memberDef.qualifiedName ?? '?')
+          result += '\n'
+          result += '<MemberDefinition'
+          result += `\n  prototype={<>${prototype}</>}`
+          if (labels.length > 0) {
+            result += `\n labels = {["${labels.join('", "')}"]}`
+          }
+          result += '>'
+
+          const briefDescription: string = this.renderElementMdx(memberDef.briefDescription).trim()
+          if (briefDescription.length > 0) {
+            result += '\n'
+            result += briefDescription
+            result += '\n'
+          }
+
+          result += this.renderEnumMdx(memberDef)
+
+          const detailedDescription: string = this.renderElementMdx(memberDef.detailedDescription).trim()
+          if (detailedDescription.length > 0) {
+            result += '\n'
+            result += detailedDescription
+            result += '\n'
+          }
+
+          result += this.renderLocationMdx(memberDef.location)
+
+          result += '</MemberDefinition>\n'
+        }
+
+        break
+
+      default:
+        result += '\n'
+        result += '<MemberDefinition>'
+        console.warn('memberDef', memberDef.kind, memberDef.name, 'not implemented yet in', this.constructor.name, 'renderMemberDefMdx')
+    }
+
+    return result
+  }
+
+  renderEnumMdx (memberDef: MemberDef): string {
+    let result: string = ''
+
+    // TODO: add CSS and tweak sizes and alignment.
+    result += '\n'
+    result += '<dl>\n'
+    result += '<dt class="doxyEnumerationValues"><b>Enumeration values</b></dt>\n'
+    result += '<dd>\n'
+    result += '<table class="doxyEnumerationTable">\n'
+    if (memberDef.enumvalues !== undefined) {
+      for (const enumValue of memberDef.enumvalues) {
+        const briefDescription: string = this.renderElementMdx(enumValue.briefDescription).trim().replace(/[.]$/, '')
+        const permalink = this.getPermalink({ refid: enumValue.id, kindref: 'member' })
+        let value = enumValue.name
+        if (enumValue.initializer !== undefined) {
+          value += ' '
+          value += this.renderElementMdx(enumValue.initializer)
+        }
+        result += '  <tr>\n'
+        result += `    <td class="doxyEnumerationField"><Link id="${permalink}"/>${value}</td>\n`
+        result += `    <td class="doxyEnumerationDescription">${briefDescription}</td>\n`
+        result += '  </tr>\n'
+      }
+    }
+    result += '</table>\n'
+    result += '</dd>\n'
+    result += '</dl>\n'
+    return result
+  }
+
+  renderLocationMdx (location: Location | undefined): string {
+    let result: string = ''
+
+    if (location !== undefined) {
+      // console.log(location.file)
+      const file = this.files.membersByPath.get(location.file)
+      assert(file !== undefined)
+      const permalink = this.getPagePermalink(file.compoundDef.id)
+
+      result += '\n'
+      result += 'Definition at line '
+      const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
+      result += `<Link to="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</Link>`
+      result += ' of file '
+      result += `<Link to="${permalink}">${escapeHtml(path.basename(location.file) as string)}</Link>`
+      result += '.\n'
+    }
+
+    return result
+  }
+
+  // --------------------------------------------------------------------------
+
   renderInnerIndicesMdx ({
     compoundDef,
     suffixes
@@ -835,7 +1165,7 @@ export class DocusaurusGenerator {
 
       if (innerObjects !== undefined && innerObjects.length > 0) {
         result += '\n'
-        result += `## ${suffix === 'Dirs' ? 'Folders' : (suffix === 'Groups' ? 'Topics' : suffix)} Index`
+        result += `## ${suffix === 'Dirs' ? 'Folders' : (suffix === 'Groups' ? 'Topics' : suffix)} Index\n`
 
         result += '\n'
         result += '<MembersList>\n'
@@ -908,37 +1238,26 @@ export class DocusaurusGenerator {
       return ''
     }
 
-    if (sectionDef.memberDefs !== undefined) {
+    if (sectionDef.memberDefs !== undefined || sectionDef.members !== undefined) {
       result += '\n'
       result += `## ${escapeHtml(header)} Index\n`
 
       result += '\n'
       result += '<MembersList>\n'
 
-      const memberDefs = sectionDef.memberDefs
-
-      for (const memberDef of memberDefs) {
-        result += this.renderMemberDefIndexMdx({ memberDef, sectionDef, compoundDef })
+      if (sectionDef.memberDefs !== undefined) {
+        for (const memberDef of sectionDef.memberDefs) {
+          result += this.renderMemberDefIndexMdx({ memberDef, sectionDef, compoundDef })
+        }
       }
-
-      result += '\n'
-      result += '</MembersList>\n'
 
       if (sectionDef.members !== undefined) {
-        console.warn(sectionDef.constructor.name, 'members after memberDefs? in', this.constructor.name, 'renderSectionDefIndexMdx')
-      }
-    } else if (sectionDef.members !== undefined) {
-      result += '\n'
-      result += `## ${escapeHtml(header)}\n`
+        for (const member of sectionDef.members) {
+          const memberDef = this.memberDefsById.get(member.refid)
+          assert(memberDef !== undefined)
 
-      result += '\n'
-      result += '<MembersList>\n'
-
-      for (const member of sectionDef.members) {
-        const memberDef = this.memberDefsById.get(member.refid)
-        assert(memberDef !== undefined)
-
-        result += this.renderMemberDefIndexMdx({ memberDef, sectionDef, compoundDef })
+          result += this.renderMemberDefIndexMdx({ memberDef, sectionDef, compoundDef })
+        }
       }
 
       result += '\n'
@@ -987,7 +1306,10 @@ export class DocusaurusGenerator {
         break
 
       case 'enum':
-        itemLeft = this.renderElementMdx(memberDef.type).trim()
+        itemLeft = 'enum'
+        if (memberDef.strong?.valueOf()) {
+          itemLeft += ' class'
+        }
         break
 
       default:
