@@ -14,7 +14,7 @@
 import assert from 'node:assert'
 import * as util from 'node:util'
 
-import { DoxygenData } from '../../doxygen-xml-parsers/index.js'
+import { DataModel } from '../../doxygen-xml-parser/index.js'
 import { generateDocusaurusMdx, parseDoxygen } from '../main.js'
 import { PluginOptions } from '../options.js'
 
@@ -25,9 +25,9 @@ export async function generateDoxygen (context: any, options: PluginOptions): Pr
   // console.log(`context: ${util.inspect(context)}`)
   // console.log(`options: ${util.inspect(options)}`)
 
-  const doxygenData: DoxygenData = await parseDoxygen({ options })
+  const dataModel: DataModel = await parseDoxygen({ options })
 
-  const exitCode = await generateDocusaurusMdx({ doxygenData, options })
+  const exitCode = await generateDocusaurusMdx({ dataModel, options })
 
   return exitCode
 }

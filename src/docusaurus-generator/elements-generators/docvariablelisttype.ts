@@ -15,7 +15,7 @@ import assert from 'assert'
 import * as util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
-import { AbstractDocVariableListType, VariableListPair } from '../../doxygen-xml-parsers/docvarlistentrytype-parser.js'
+import { AbstractDocVariableListType, VariableListPairDataModel } from '../../data-model/compounds/docvarlistentrytype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ export class DocVariableListTypeGenerator extends ElementGeneratorBase {
 }
 
 export class VariableListPairGenerator extends ElementGeneratorBase {
-  renderMdx (element: VariableListPair): string {
+  renderMdx (element: VariableListPairDataModel): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let result = ''

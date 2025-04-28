@@ -13,21 +13,19 @@
 
 import assert from 'assert'
 import * as util from 'node:util'
+import path from 'node:path'
 
 import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
-import { CompoundDef } from '../../doxygen-xml-parsers/compounddef-parser.js'
-import { Class } from '../data-model/classes-dm.js'
-import path from 'node:path'
-import { SectionDef } from '../../doxygen-xml-parsers/sectiondeftype-parser.js'
-import { MemberDef } from '../../doxygen-xml-parsers/memberdeftype-parser.js'
-import { Location } from '../../doxygen-xml-parsers/locationtype-parser.js'
+import { Class } from '../view-model/classes-vm.js'
+
 import { escapeHtml } from '../utils.js'
+import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 
 // ----------------------------------------------------------------------------
 
 export class ClassPageGenerator extends PageGeneratorBase {
-  renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
+  renderMdx (compoundDef: CompoundDefDataModel, frontMatter: FrontMatter): string {
     // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
 
     frontMatter.toc_max_heading_level = 3

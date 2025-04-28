@@ -15,7 +15,7 @@ import assert from 'assert'
 import * as util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
-import { AbstractLinkedTextType } from '../../doxygen-xml-parsers/linkedtexttype-parser.js'
+import { AbstractLinkedTextType } from '../../data-model/compounds/linkedtexttype-dm.js'
 
 // ----------------------------------------------------------------------------
 

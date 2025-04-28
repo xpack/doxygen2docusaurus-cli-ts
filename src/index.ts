@@ -10,6 +10,7 @@
  */
 
 // ----------------------------------------------------------------------------
+// The top entry point into the plugin, mentioned in `package.json`.
 
 export { default } from './plugin/docusaurus.js'
 

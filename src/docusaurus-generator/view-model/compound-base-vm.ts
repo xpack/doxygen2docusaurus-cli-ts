@@ -11,22 +11,36 @@
 
 // ----------------------------------------------------------------------------
 
+import * as util from 'node:util'
+import assert from 'node:assert'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
-import { DocusaurusGenerator } from '../index.js'
-import { FrontMatter } from '../types.js'
 
 // ----------------------------------------------------------------------------
 
-export abstract class PageGeneratorBase {
-  context: DocusaurusGenerator
+export abstract class CompoundBase {
+  compoundDef: CompoundDefDataModel
 
-  constructor (generator: DocusaurusGenerator) {
-    this.context = generator
+  parentId?: string | undefined
+  childrenIds: string[] = []
+
+  /** Relative path to the output folder, starts with plural kind. */
+  docusaurusId: string = ''
+
+  /** Short name, to fit the limited space. */
+  sidebarLabel: string = ''
+
+  /** The part below outputFolderPath, no slash. */
+  relativePermalink: string | undefined
+
+  /** The name to be shown in the index section. */
+  indexName: string = ''
+
+  /** The name shown in the page title. */
+  pageTitle: string = ''
+
+  constructor (compoundDef: CompoundDefDataModel) {
+    this.compoundDef = compoundDef
   }
-
-  abstract renderMdx (compoundDef: CompoundDefDataModel, frontMatter: FrontMatter): string
-
-  abstract renderIndexMdx (): string
 }
 
 // ----------------------------------------------------------------------------

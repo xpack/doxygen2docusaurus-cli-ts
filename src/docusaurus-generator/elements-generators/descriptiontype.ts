@@ -15,7 +15,7 @@ import assert from 'assert'
 import util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
-import { AbstractCodeLineType, AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractHighlightType, AbstractListingType, AbstractSpType, CodeLine, Highlight, Para, ParameterName, ParameterType } from '../../doxygen-xml-parsers/descriptiontype-parser.js'
+import { AbstractCodeLineType, AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractHighlightType, AbstractListingType, AbstractSpType, CodeLineDataModel, HighlightDataModel, ParaDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { escapeHtml } from '../utils.js'
 
 // ----------------------------------------------------------------------------
@@ -44,7 +44,7 @@ export class DocParaTypeGenerator extends ElementGeneratorBase {
 
     let result = ''
     result += this.context.renderElementsMdx(element.children)
-    if (element instanceof Para) {
+    if (element instanceof ParaDataModel) {
       result += '\n'
     }
     return result
@@ -68,9 +68,9 @@ export class DocURLLinkGenerator extends ElementGeneratorBase {
 // ----------------------------------------------------------------------------
 
 const htmlElements: { [key: string]: string } = {
-  Bold: 'b',
-  ComputerOutput: 'code',
-  Emphasis: 'em'
+  BoldDataModel: 'b',
+  ComputerOutputDataModel: 'code',
+  EmphasisDataModel: 'em'
 }
 
 export class DocMarkupTypeGenerator extends ElementGeneratorBase {
@@ -215,7 +215,7 @@ export class CodeLineTypeGenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractCodeLineType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
-    assert(element instanceof CodeLine)
+    assert(element instanceof CodeLineDataModel)
 
     if (element.external !== undefined) {
       console.error('external ignored in', element.constructor.name)
@@ -270,7 +270,7 @@ export class HighlightTypeGenerator extends ElementGeneratorBase {
   renderMdx (element: AbstractHighlightType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
-    assert(element instanceof Highlight)
+    assert(element instanceof HighlightDataModel)
 
     let kind = element.classs
     if (!this.knownClasses.includes(element.classs)) {
@@ -335,7 +335,7 @@ export class DocParamListTypegenerator extends ElementGeneratorBase {
       }
 
       switch (element.constructor.name) {
-        case 'ParameterList':
+        case 'ParameterListDataModel':
           result += `<ParametersList title="${title}">\n`
           for (const parameterItem of element.parameterItems) {
             // console.log(util.inspect(parameterItem, { compact: false, depth: 999 }))
@@ -347,13 +347,13 @@ export class DocParamListTypegenerator extends ElementGeneratorBase {
                 for (const child of parameterName.children) {
                   for (const subChild of child.children) {
                     if (typeof subChild === 'string') {
-                      if (child instanceof ParameterName) {
+                      if (child instanceof ParameterNameDataModel) {
                         if (child.direction !== undefined) {
                           names.push(`[${child.direction}] ${subChild}`)
                         } else {
                           names.push(escapeHtml(subChild))
                         }
-                      } else if (child instanceof ParameterType) {
+                      } else if (child instanceof ParameterTypeDataModel) {
                         console.error(util.inspect(parameterName.children, { compact: false, depth: 999 }))
                         console.error(element.constructor.name, 'ParameterType not yet rendered in', this.constructor.name)
                       } else {

@@ -16,19 +16,17 @@ import * as fs from 'fs/promises'
 import * as util from 'node:util'
 import path from 'path'
 
-import { AbstractCompoundDefType, CompoundDef } from '../doxygen-xml-parsers/compounddef-parser.js'
-import { DoxygenData } from '../doxygen-xml-parsers/index.js'
-import { DefVal } from '../doxygen-xml-parsers/linkedtexttype-parser.js'
-import { RefText } from '../doxygen-xml-parsers/reftexttype-parser.js'
+import { DataModel } from '../doxygen-xml-parser/index.js'
+import { DefValDataModel } from '../data-model/compounds/linkedtexttype-dm.js'
 import { PluginOptions } from '../plugin/options.js'
 import { SidebarItem } from '../plugin/types.js'
-import { Class, Classes } from './data-model/classes-dm.js'
-import { Files } from './data-model/files-dm.js'
-import { Folders } from './data-model/folders-dm.js'
-import { Groups } from './data-model/groups-dm.js'
-import { Namespaces } from './data-model/namespaces-dm.js'
-import { DoxygenFileOptions } from './data-model/options.js'
-import { Pages } from './data-model/pages-dm.js'
+import { Class, Classes } from './view-model/classes-vm.js'
+import { Files } from './view-model/files-vm.js'
+import { Folders } from './view-model/folders-vm.js'
+import { Groups } from './view-model/groups-vm.js'
+import { Namespaces } from './view-model/namespaces-vm.js'
+import { DoxygenFileOptions } from './view-model/options.js'
+import { Pages } from './view-model/pages-vm.js'
 import { CodeLineTypeGenerator, DescriptionTypeGenerator, DocAnchorTypeGenerator, DocEmptyTypeGenerator, DocMarkupTypeGenerator, DocParamListTypegenerator, DocParaTypeGenerator, DocRefTextTypeGenerator, DocSimpleSectTypeGenerator, DocURLLinkGenerator, HighlightTypeGenerator, ListingTypeGenerator, SpTypeGenerator } from './elements-generators/descriptiontype.js'
 import { DocS1TypeGenerator, DocS2TypeGenerator, DocS3TypeGenerator, DocS4TypeGenerator, DocS5TypeGenerator, DocS6TypeGenerator } from './elements-generators/docinternalstype.js'
 import { DocListTypeGenerator } from './elements-generators/doclisttype.js'
@@ -51,17 +49,19 @@ import { PageGenerator } from './pages-generators/page.js'
 import { Sidebar } from './sidebar.js'
 import { FrontMatter } from './types.js'
 import { escapeHtml, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js'
-import { DataModelBase } from './data-model/base-dm.js'
-import { AbstractRefType } from '../doxygen-xml-parsers/reftype-parser.js'
-import { AbstractMemberDefType, MemberDef } from '../doxygen-xml-parsers/memberdeftype-parser.js'
-import { SectionDef } from '../doxygen-xml-parsers/sectiondeftype-parser.js'
-import { Location } from '../doxygen-xml-parsers/locationtype-parser.js'
+import { CompoundBase } from './view-model/compound-base-vm.js'
+import { AbstractMemberDefType, MemberDefDataModel } from '../data-model/compounds/memberdeftype-dm.js'
+import { SectionDefDataModel } from '../data-model/compounds/sectiondeftype-dm.js'
+import { LocationDataModel } from '../data-model/compounds/locationtype-dm.js'
+import { AbstractCompoundDefType, CompoundDefDataModel } from '../data-model/compounds/compounddef-dm.js'
+import { RefTextDataModel } from '../data-model/compounds/reftexttype-dm.js'
+import { AbstractRefType } from '../data-model/compounds/reftype-dm.js'
 
 // ----------------------------------------------------------------------------
 
 export class DocusaurusGenerator {
   // The data parsed from the Doxygen XML files.
-  doxygenData: DoxygenData
+  dataModel: DataModel
   // From the project docusaurus.config.ts or defaults.
   pluginOptions: PluginOptions
 
@@ -72,7 +72,7 @@ export class DocusaurusGenerator {
 
   memberDefsById: Map<string, AbstractMemberDefType> = new Map()
 
-  dataObjectsById: Map<string, DataModelBase> = new Map()
+  dataObjectsById: Map<string, CompoundBase> = new Map()
 
   groups: Groups
   namespaces: Namespaces
@@ -107,31 +107,32 @@ export class DocusaurusGenerator {
 
   elementGenerators: Map<string, ElementGeneratorBase> = new Map()
 
-  currentCompoundDef: CompoundDef | undefined
+  currentCompoundDef: CompoundDefDataModel | undefined
 
   componentNames: string[]
 
   // --------------------------------------------------------------------------
 
   constructor ({
-    doxygenData, pluginOptions
+    dataModel,
+    pluginOptions
   }: {
-    doxygenData: DoxygenData
+    dataModel: DataModel
     pluginOptions: PluginOptions
   }) {
     // console.log('DocusaurusGenerator.constructor()')
-    this.doxygenData = doxygenData
+    this.dataModel = dataModel
     this.pluginOptions = pluginOptions
 
     // Create the data-model objects.
-    this.groups = new Groups(this.doxygenData.compoundDefs)
-    this.namespaces = new Namespaces(this.doxygenData.compoundDefs)
-    this.folders = new Folders(this.doxygenData.compoundDefs)
-    this.files = new Files(this.doxygenData.compoundDefs, this.folders)
-    this.classes = new Classes(this.doxygenData.compoundDefs)
-    this.pages = new Pages(this.doxygenData.compoundDefs)
+    this.groups = new Groups(this.dataModel.compoundDefs)
+    this.namespaces = new Namespaces(this.dataModel.compoundDefs)
+    this.folders = new Folders(this.dataModel.compoundDefs)
+    this.files = new Files(this.dataModel.compoundDefs, this.folders)
+    this.classes = new Classes(this.dataModel.compoundDefs)
+    this.pages = new Pages(this.dataModel.compoundDefs)
 
-    this.doxygenOptions = new DoxygenFileOptions(this.doxygenData.doxyfile.options)
+    this.doxygenOptions = new DoxygenFileOptions(this.dataModel.doxyfile.options)
 
     // Add generators for the top pages, grouped by 'kind'.
     this.pageGenerators.set('group', new GroupGenerator(this))
@@ -175,7 +176,7 @@ export class DocusaurusGenerator {
     this.elementGenerators.set('AbstractRefTextType', new RefTextTypeGenerator(this))
     this.elementGenerators.set('AbstractRefType', new RefTypeGenerator(this))
     this.elementGenerators.set('AbstractSpType', new SpTypeGenerator(this))
-    this.elementGenerators.set('VariableListPair', new VariableListPairGenerator(this))
+    this.elementGenerators.set('VariableListPairDataModel', new VariableListPairGenerator(this))
 
     // Plugin defined components (in alphabetical order).
     this.componentNames = [
@@ -217,7 +218,7 @@ export class DocusaurusGenerator {
    */
   createCompoundDefsMap (): void {
     // console.log('DocusaurusGenerator.createCompoundDefsMap()')
-    for (const compoundDef of this.doxygenData.compoundDefs) {
+    for (const compoundDef of this.dataModel.compoundDefs) {
       // console.log(compoundDef.id)
       if (this.compoundDefsById.has(compoundDef.id)) {
         console.warn('compound already in map', compoundDef.id, 'in', this.compoundDefsById.get(compoundDef.id)?.compoundName)
@@ -229,7 +230,7 @@ export class DocusaurusGenerator {
   }
 
   createMemberDefsMap (): void {
-    for (const compoundDef of this.doxygenData.compoundDefs) {
+    for (const compoundDef of this.dataModel.compoundDefs) {
       // console.log(compoundDef.kind, compoundDef.compoundName, compoundDef.id)
       if (compoundDef.sectionDefs !== undefined) {
         for (const sectionDef of compoundDef.sectionDefs) {
@@ -263,7 +264,7 @@ export class DocusaurusGenerator {
         this.dataObjectsById.set(id, object)
       }
     }
-    for (const compoundDef of this.doxygenData.compoundDefs) {
+    for (const compoundDef of this.dataModel.compoundDefs) {
       // console.log(compoundDef.id)
       if (!this.dataObjectsById.has(compoundDef.id)) {
         console.error('compoundDef', compoundDef.id, 'not yet processed in', this.constructor.name, 'createDataObjectsMaps')
@@ -281,10 +282,10 @@ export class DocusaurusGenerator {
     const pagePermalinksById: Map<string, string> = new Map()
     const pagePermalinksSet: Set<string> = new Set()
 
-    for (const compoundDef of this.doxygenData.compoundDefs) {
+    for (const compoundDef of this.dataModel.compoundDefs) {
       // console.log(compoundDef.kind, compoundDef.compoundName)
 
-      const dataObject: DataModelBase | undefined = this.dataObjectsById.get(compoundDef.id)
+      const dataObject: CompoundBase | undefined = this.dataObjectsById.get(compoundDef.id)
       if (dataObject === undefined) {
         console.error('compoundDef', compoundDef.id, 'not yet processed in', this.constructor.name, 'validatePermalinks')
         continue
@@ -347,7 +348,7 @@ export class DocusaurusGenerator {
     assert(this.pluginOptions.outputFolderPath)
     const outputFolderPath = this.pluginOptions.outputFolderPath
 
-    for (const compoundDef of this.doxygenData.compoundDefs) {
+    for (const compoundDef of this.dataModel.compoundDefs) {
       if (compoundDef.kind === 'page' && compoundDef.id === 'indexpage') {
         // This is the @mainpage. We diverge from Doxygen and generate
         // the API main page differently, with the list of topics and
@@ -358,7 +359,7 @@ export class DocusaurusGenerator {
 
       this.currentCompoundDef = compoundDef
 
-      const dataObject: DataModelBase | undefined = this.dataObjectsById.get(compoundDef.id)
+      const dataObject: CompoundBase | undefined = this.dataObjectsById.get(compoundDef.id)
       assert(dataObject !== undefined)
 
       const permalink = dataObject.relativePermalink
@@ -508,7 +509,7 @@ export class DocusaurusGenerator {
     frontMatter: FrontMatter
   }): Promise<void> {
     let text = ''
-    text += `<DoxygenPage version="${this.doxygenData.doxygenindex.version}">\n`
+    text += `<DoxygenPage version="${this.dataModel.doxygenindex.version}">\n`
     text += '\n'
     const trimmedBodyText = bodyText.trim()
     text += trimmedBodyText
@@ -575,7 +576,7 @@ export class DocusaurusGenerator {
   }
 
   getPagePermalink (refid: string): string {
-    const dataObject: DataModelBase | undefined = this.dataObjectsById.get(refid)
+    const dataObject: CompoundBase | undefined = this.dataObjectsById.get(refid)
     assert(dataObject !== undefined)
 
     const pagePermalink = dataObject.relativePermalink
@@ -604,7 +605,7 @@ export class DocusaurusGenerator {
       if (compoundId === this.currentCompoundDef?.id) {
         permalink = `#${getPermalinkAnchor(refid)}`
       } else {
-        permalink = `${this.getPagePermalink(compoundId)}#${getPermalinkAnchor(refid)}`
+        permalink = `${this.getPagePermalink(compoundId)}/#${getPermalinkAnchor(refid)}`
       }
     } else {
       console.error('Unsupported kindref', kindref, 'for', refid, 'in', this.constructor.name, 'getPermalink')
@@ -615,7 +616,15 @@ export class DocusaurusGenerator {
   }
 
   getXrefPermalink (id: string): string {
-    return `/${this.pluginOptions.outputFolderPath}/pages/${id.replace(/_1.*/, '')}/#${id.replace(/.*_1/, '')}`
+    // console.log('1', id, this.currentCompoundDef.id)
+    const pagePart = id.replace(/_1.*/, '')
+    const anchorPart = id.replace(/.*_1/, '')
+    // console.log('2', part1, part2)
+    if (this.currentCompoundDef !== undefined && pagePart === this.currentCompoundDef.id) {
+      return `#${anchorPart}`
+    } else {
+      return `/${this.pluginOptions.outputFolderPath}/pages/${pagePart}/#${anchorPart}`
+    }
   }
 
   getElementRenderer (element: Object): ElementGeneratorBase | undefined {
@@ -681,7 +690,7 @@ export class DocusaurusGenerator {
     compoundDef,
     withDefaults = false
   }: {
-    compoundDef: CompoundDef
+    compoundDef: CompoundDefDataModel
     withDefaults?: boolean
   }): string[] {
     if (compoundDef.templateParamList?.params === undefined) {
@@ -700,8 +709,8 @@ export class DocusaurusGenerator {
 
       if (typeof param.type.children[0] === 'string') {
         paramString += param.type.children[0]
-      } else if (param.type.children[0] as object instanceof RefText) {
-        paramString += (param.type.children[0] as RefText).text
+      } else if (param.type.children[0] as object instanceof RefTextDataModel) {
+        paramString += (param.type.children[0] as RefTextDataModel).text
       }
       if (param.declname !== undefined) {
         paramString += ` ${param.declname}`
@@ -709,12 +718,12 @@ export class DocusaurusGenerator {
 
       if (withDefaults) {
         if (param.defval !== undefined) {
-          const defval: DefVal = param.defval
+          const defval: DefValDataModel = param.defval
           assert(defval.children.length === 1)
           if (typeof defval.children[0] === 'string') {
             paramString += ` = ${defval.children[0]}`
-          } else if (defval.children[0] as object instanceof RefText) {
-            paramString += ` = ${(defval.children[0] as RefText).text}`
+          } else if (defval.children[0] as object instanceof RefTextDataModel) {
+            paramString += ` = ${(defval.children[0] as RefTextDataModel).text}`
           }
         }
       }
@@ -725,7 +734,7 @@ export class DocusaurusGenerator {
     return templateParameters
   }
 
-  collectTemplateParameterNames (compoundDef: CompoundDef): string[] {
+  collectTemplateParameterNames (compoundDef: CompoundDefDataModel): string[] {
     if (compoundDef.templateParamList?.params === undefined) {
       return []
     }
@@ -746,8 +755,8 @@ export class DocusaurusGenerator {
       } else if (typeof param.type.children[0] === 'string') {
         // Extract the parameter name, passed as `class T`.
         paramString = param.type.children[0]
-      } else if (param.type.children[0] as object instanceof RefText) {
-        paramString = (param.type.children[0] as RefText).text
+      } else if (param.type.children[0] as object instanceof RefTextDataModel) {
+        paramString = (param.type.children[0] as RefTextDataModel).text
       }
       paramName = paramString.replace(/class /, '')
       templateParameterNames.push(paramName)
@@ -759,7 +768,7 @@ export class DocusaurusGenerator {
     compoundDef,
     withDefaults = false
   }: {
-    compoundDef: CompoundDef
+    compoundDef: CompoundDefDataModel
     withDefaults?: boolean
   }): string {
     let result = ''
@@ -773,7 +782,7 @@ export class DocusaurusGenerator {
     return result
   }
 
-  renderTemplateParameterNamesMdx (compoundDef: CompoundDef): string {
+  renderTemplateParameterNamesMdx (compoundDef: CompoundDefDataModel): string {
     let result = ''
 
     if (compoundDef.templateParamList?.params !== undefined) {
@@ -785,7 +794,7 @@ export class DocusaurusGenerator {
     return result
   }
 
-  renderBriefDescriptionMdx (compoundDef: CompoundDef): string {
+  renderBriefDescriptionMdx (compoundDef: CompoundDefDataModel): string {
     let result: string = ''
     const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription)
     if (briefDescription.length > 0) {
@@ -801,7 +810,7 @@ export class DocusaurusGenerator {
     todo,
     showHeader = true
   }: {
-    compoundDef: CompoundDef
+    compoundDef: CompoundDefDataModel
     todo: string
     showHeader?: boolean
   }): string {
@@ -828,7 +837,7 @@ export class DocusaurusGenerator {
 
   // --------------------------------------------------------------------------
 
-  renderSectionDefsMdx (compoundDef: CompoundDef): string {
+  renderSectionDefsMdx (compoundDef: CompoundDefDataModel): string {
     let result: string = ''
 
     if (compoundDef.sectionDefs !== undefined) {
@@ -847,8 +856,8 @@ export class DocusaurusGenerator {
     sectionDef,
     compoundDef
   }: {
-    sectionDef: SectionDef
-    compoundDef: CompoundDef
+    sectionDef: SectionDefDataModel
+    compoundDef: CompoundDefDataModel
   }): string {
     let result = ''
 
@@ -871,8 +880,8 @@ export class DocusaurusGenerator {
 
     if ((compoundDef.kind === 'class' || compoundDef.kind === 'struct') && sectionDef.kind === 'public-func') {
       const classs = this.dataObjectsById.get(compoundDef.id) as Class
-      const constructors: MemberDef[] = []
-      let destructor: MemberDef | undefined
+      const constructors: MemberDefDataModel[] = []
+      let destructor: MemberDefDataModel | undefined
       const methods = []
       for (const memberDef of sectionDef.memberDefs) {
         // console.log(util.inspect(memberDef, { compact: false, depth: 999 }))
@@ -926,8 +935,8 @@ export class DocusaurusGenerator {
     sectionLabels,
     isFunction
   }: {
-    memberDef: MemberDef
-    compoundDef: CompoundDef
+    memberDef: MemberDefDataModel
+    compoundDef: CompoundDefDataModel
     sectionLabels: string[]
     isFunction: boolean
   }): string {
@@ -1087,7 +1096,7 @@ export class DocusaurusGenerator {
     return result
   }
 
-  renderEnumMdx (memberDef: MemberDef): string {
+  renderEnumMdx (memberDef: MemberDefDataModel): string {
     let result: string = ''
 
     // TODO: add CSS and tweak sizes and alignment.
@@ -1117,7 +1126,7 @@ export class DocusaurusGenerator {
     return result
   }
 
-  renderLocationMdx (location: Location | undefined): string {
+  renderLocationMdx (location: LocationDataModel | undefined): string {
     let result: string = ''
 
     if (location !== undefined) {
@@ -1144,7 +1153,7 @@ export class DocusaurusGenerator {
     compoundDef,
     suffixes
   }: {
-    compoundDef: CompoundDef
+    compoundDef: CompoundDefDataModel
     suffixes: string[]
   }): string {
     let result: string = ''
@@ -1209,7 +1218,7 @@ export class DocusaurusGenerator {
     return result
   }
 
-  renderSectionDefIndicesMdx (compoundDef: CompoundDef): string {
+  renderSectionDefIndicesMdx (compoundDef: CompoundDefDataModel): string {
     let result: string = ''
 
     if (compoundDef.sectionDefs !== undefined) {
@@ -1228,8 +1237,8 @@ export class DocusaurusGenerator {
     sectionDef,
     compoundDef
   }: {
-    sectionDef: SectionDef
-    compoundDef: CompoundDef
+    sectionDef: SectionDefDataModel
+    compoundDef: CompoundDefDataModel
   }): string {
     let result = ''
 
@@ -1271,18 +1280,18 @@ export class DocusaurusGenerator {
     sectionDef,
     compoundDef
   }: {
-    memberDef: MemberDef
-    sectionDef: SectionDef
-    compoundDef: CompoundDef
+    memberDef: MemberDefDataModel
+    sectionDef: SectionDefDataModel
+    compoundDef: CompoundDefDataModel
   }): string {
     let result = ''
 
-    const morePermalink = getPermalinkAnchor(memberDef.id)
-    assert(morePermalink !== undefined && morePermalink.length > 1)
+    const permalink = this.getPermalink({ refid: memberDef.id, kindref: 'member' })
+    assert(permalink !== undefined && permalink.length > 1)
 
     const name = escapeHtml(memberDef.name)
     let itemLeft = ''
-    let itemRight = `<Link to="#${morePermalink}">${name}</Link>`
+    let itemRight = `<Link to="${permalink}">${name}</Link>`
 
     switch (memberDef.kind) {
       case 'typedef':
@@ -1331,7 +1340,7 @@ export class DocusaurusGenerator {
     if (briefDescription.length > 0) {
       result += briefDescription
       // Not really needed, there is no details section, displayed for consistency.
-      result += ` <Link to="#${morePermalink}">`
+      result += ` <Link to="${permalink}">`
       result += 'More...'
       result += '</Link>'
       result += '\n'
@@ -1385,7 +1394,7 @@ export class DocusaurusGenerator {
   //   </xsd:restriction>
   // </xsd:simpleType>
 
-  getHeaderByKind (sectionDef: SectionDef): string {
+  getHeaderByKind (sectionDef: SectionDefDataModel): string {
     const headersByKind: Record<string, string> = {
       // 'user-defined': '?',
       'public-type': 'Member Typedefs',
@@ -1444,7 +1453,7 @@ export class DocusaurusGenerator {
 
   // --------------------------------------------------------------------------
 
-  renderIncludesIndexMdx (compoundDef: CompoundDef): string {
+  renderIncludesIndexMdx (compoundDef: CompoundDefDataModel): string {
     let result: string = ''
 
     if (compoundDef.includes !== undefined) {
@@ -1462,7 +1471,7 @@ export class DocusaurusGenerator {
     return result
   }
 
-  renderClassIndexMdx (compoundDef: CompoundDef): string {
+  renderClassIndexMdx (compoundDef: CompoundDefDataModel): string {
     // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
     let result: string = ''
 

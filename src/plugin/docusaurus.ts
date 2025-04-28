@@ -11,9 +11,12 @@
 
 // ----------------------------------------------------------------------------
 
-import { DoxygenData } from '../doxygen-xml-parsers/index.js'
+import { DataModel } from '../doxygen-xml-parser/index.js'
 import { generateDoxygen } from './cli/generate.js'
 import { generateDocusaurusMdx, parseDoxygen } from './main.js'
+
+// ----------------------------------------------------------------------------
+// The Docusaurus plugin entry point.
 
 export default async function pluginDocusaurus (
   context: any,
@@ -35,10 +38,10 @@ export default async function pluginDocusaurus (
       console.log('docusaurus-plugin-doxygen: loading content...')
       // console.log(options)
 
-      const doxygenData: DoxygenData = await parseDoxygen({ options })
-      await generateDocusaurusMdx({ doxygenData, options })
+      const dataModel: DataModel = await parseDoxygen({ options })
+      await generateDocusaurusMdx({ dataModel, options })
 
-      return doxygenData
+      return dataModel
     },
 
     // The return value of `loadContent()` will be passed to
@@ -47,7 +50,7 @@ export default async function pluginDocusaurus (
       content,
       actions
     }: {
-      content: DoxygenData
+      content: DataModel
       actions: any
     }) {
       // console.log('docusaurus-plugin-doxygen: contentLoaded()')

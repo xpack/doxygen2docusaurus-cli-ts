@@ -14,7 +14,7 @@
 import assert from 'node:assert'
 import * as util from 'node:util'
 
-import { DoxygenData, DoxygenXmlParser } from '../doxygen-xml-parsers/index.js'
+import { DataModel, DoxygenXmlParser } from '../doxygen-xml-parser/index.js'
 import { defaultOptions, PluginOptions } from './options.js'
 import { DocusaurusGenerator } from '../docusaurus-generator/index.js'
 
@@ -24,7 +24,7 @@ export async function parseDoxygen ({
   options
 }: {
   options: PluginOptions
-}): Promise<DoxygenData> {
+}): Promise<DataModel> {
   // console.log('generateDoxygen()')
   // console.log(`context: ${util.inspect(context)}`)
   // console.log(`options: ${util.inspect(options)}`)
@@ -41,17 +41,17 @@ export async function parseDoxygen ({
   assert(actualOptions.outputFolderPath !== undefined && actualOptions.outputFolderPath.length > 0, 'outputFolderPath is required')
 
   const xml = new DoxygenXmlParser()
-  const doxygenData: DoxygenData = await xml.parse({ folderPath: actualOptions.doxygenXmlInputFolderPath })
+  const dataModel: DataModel = await xml.parse({ folderPath: actualOptions.doxygenXmlInputFolderPath })
   // console.log('doxygenData:', util.inspect(doxygenData))
 
-  return doxygenData
+  return dataModel
 }
 
 export async function generateDocusaurusMdx ({
-  doxygenData,
+  dataModel,
   options
 }: {
-  doxygenData: DoxygenData
+  dataModel: DataModel
   options: PluginOptions
 }): Promise<number> {
   // Merge with the defaults.
@@ -60,7 +60,7 @@ export async function generateDocusaurusMdx ({
     ...options
   }
 
-  const docs = new DocusaurusGenerator({ doxygenData, pluginOptions: actualOptions })
+  const docs = new DocusaurusGenerator({ dataModel, pluginOptions: actualOptions })
   await docs.generate()
 
   return 0

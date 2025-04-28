@@ -15,7 +15,7 @@ import assert from 'assert'
 import * as util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
-import { AbstractIncType } from '../../doxygen-xml-parsers/inctype-parser.js'
+import { AbstractIncType } from '../../data-model/compounds/inctype-dm.js'
 
 // ----------------------------------------------------------------------------
 

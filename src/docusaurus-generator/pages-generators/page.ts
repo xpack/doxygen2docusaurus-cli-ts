@@ -16,12 +16,12 @@ import * as util from 'node:util'
 
 import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
-import { CompoundDef } from '../../doxygen-xml-parsers/compounddef-parser.js'
+import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 
 // ----------------------------------------------------------------------------
 
 export class PageGenerator extends PageGeneratorBase {
-  renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
+  renderMdx (compoundDef: CompoundDefDataModel, frontMatter: FrontMatter): string {
     // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
 
     let result: string = ''

@@ -14,9 +14,9 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { AbstractRefType } from '../../doxygen-xml-parsers/reftype-parser.js'
 import { ElementGeneratorBase } from './element-generator-base.js'
 import { escapeHtml } from '../utils.js'
+import { AbstractRefType } from '../../data-model/compounds/reftype-dm.js'
 
 // ----------------------------------------------------------------------------
 

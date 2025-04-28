@@ -16,14 +16,14 @@ import * as util from 'node:util'
 
 import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
-import { CompoundDef } from '../../doxygen-xml-parsers/compounddef-parser.js'
-import { Group } from '../data-model/groups-dm.js'
+import { Group } from '../view-model/groups-vm.js'
 import { escapeHtml } from '../utils.js'
+import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 
 // ----------------------------------------------------------------------------
 
 export class GroupGenerator extends PageGeneratorBase {
-  renderMdx (compoundDef: CompoundDef, frontMatter: FrontMatter): string {
+  renderMdx (compoundDef: CompoundDefDataModel, frontMatter: FrontMatter): string {
     // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
 
     let result: string = ''
