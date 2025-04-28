@@ -47,6 +47,8 @@ export class FolderGenerator extends PageGeneratorBase {
       todo: `@dir ${fullFolderPath}`
     })
 
+    result += this.context.renderSectionDefsMdx(compoundDef)
+
     return result
   }
 

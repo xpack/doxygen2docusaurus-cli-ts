@@ -41,6 +41,8 @@ export class PageGenerator extends PageGeneratorBase {
       showHeader: false
     })
 
+    result += this.context.renderSectionDefsMdx(compoundDef)
+
     return result
   }
 

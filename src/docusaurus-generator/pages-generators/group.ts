@@ -42,6 +42,8 @@ export class GroupGenerator extends PageGeneratorBase {
       todo: `@defgroup ${compoundDef.compoundName}`
     })
 
+    result += this.context.renderSectionDefsMdx(compoundDef)
+
     return result
   }
 

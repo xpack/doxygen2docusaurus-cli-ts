@@ -51,6 +51,8 @@ export class FileGenerator extends PageGeneratorBase {
       todo: `@file ${fileFolderPath}`
     })
 
+    result += this.context.renderSectionDefsMdx(compoundDef)
+
     if (compoundDef.programListing !== undefined) {
       result += '\n'
       result += '## File Listing\n'

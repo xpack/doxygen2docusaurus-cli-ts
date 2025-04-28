@@ -42,6 +42,8 @@ export class NamespaceGenerator extends PageGeneratorBase {
       todo: `@namespace ${compoundDef.compoundName}`
     })
 
+    result += this.context.renderSectionDefsMdx(compoundDef)
+
     return result
   }
 
