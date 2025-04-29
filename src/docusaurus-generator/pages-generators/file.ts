@@ -28,7 +28,10 @@ export class FileGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
-    result += this.context.renderBriefDescriptionMdx(compoundDef)
+    result += this.context.renderBriefDescriptionMdx({
+      briefDescription: compoundDef.briefDescription,
+      morePermalink: '#details'
+    })
 
     result += this.context.renderIncludesIndexMdx(compoundDef)
 
@@ -47,7 +50,7 @@ export class FileGenerator extends PageGeneratorBase {
     const fileFolderPath = `${this.context.files.getRelativePathRecursively(compoundDef.id)}`
 
     result += this.context.renderDetailedDescriptionMdx({
-      compoundDef,
+      detailedDescription: compoundDef.detailedDescription,
       todo: `@file ${fileFolderPath}`
     })
 

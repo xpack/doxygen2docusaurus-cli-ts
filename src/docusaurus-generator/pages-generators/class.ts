@@ -32,7 +32,10 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
-    result += this.context.renderBriefDescriptionMdx(compoundDef)
+    result += this.context.renderBriefDescriptionMdx({
+      briefDescription: compoundDef.briefDescription,
+      morePermalink: '#details'
+    })
 
     result += '\n'
     result += '## Fully Qualified Name\n'
@@ -161,22 +164,11 @@ export class ClassPageGenerator extends PageGeneratorBase {
     result += '\n'
     result += '## Description {#details}\n'
 
-    if (compoundDef.templateParamList?.params !== undefined) {
-      result += '\n'
-      result += `The ${kind} template declaration is:\n`
-
-      result += '\n'
-      result += `<CodeBlock>template ${this.context.renderTemplateParametersMdx({ compoundDef, withDefaults: true })}\n`
-      result += `${kind} ${classFullName};</CodeBlock>\n`
-    }
-
-    const detailedDescription: string = this.context.renderElementMdx(compoundDef.detailedDescription).trim()
-
-    if (detailedDescription.length > 0) {
-      result += '\n'
-      result += detailedDescription
-      result += '\n'
-    }
+    result += this.context.renderDetailedDescriptionMdx({
+      detailedDescription: compoundDef.detailedDescription,
+      todo: `@${kind} ${compoundDef.compoundName}`,
+      showHeader: false
+    })
 
     result += this.context.renderLocationMdx(compoundDef.location)
 

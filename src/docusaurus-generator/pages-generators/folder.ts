@@ -31,7 +31,10 @@ export class FolderGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
-    result += this.context.renderBriefDescriptionMdx(compoundDef)
+    result += this.context.renderBriefDescriptionMdx({
+      briefDescription: compoundDef.briefDescription,
+      morePermalink: '#details'
+    })
 
     result += this.context.renderInnerIndicesMdx({
       compoundDef,
@@ -43,7 +46,7 @@ export class FolderGenerator extends PageGeneratorBase {
     const fullFolderPath = this.context.folders.getRelativePathRecursively(compoundDef.id)
 
     result += this.context.renderDetailedDescriptionMdx({
-      compoundDef,
+      detailedDescription: compoundDef.detailedDescription,
       todo: `@dir ${fullFolderPath}`
     })
 

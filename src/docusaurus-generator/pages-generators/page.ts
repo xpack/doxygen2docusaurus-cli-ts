@@ -26,7 +26,10 @@ export class PageGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
-    result += this.context.renderBriefDescriptionMdx(compoundDef)
+    result += this.context.renderBriefDescriptionMdx({
+      briefDescription: compoundDef.briefDescription,
+      morePermalink: '#details'
+    })
 
     result += this.context.renderInnerIndicesMdx({
       compoundDef,
@@ -36,7 +39,7 @@ export class PageGenerator extends PageGeneratorBase {
     result += this.context.renderSectionDefIndicesMdx(compoundDef)
 
     result += this.context.renderDetailedDescriptionMdx({
-      compoundDef,
+      detailedDescription: compoundDef.detailedDescription,
       showHeader: false
     })
 
