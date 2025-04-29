@@ -1035,36 +1035,6 @@ export class DocusaurusGenerator {
         {
           // WARNING: the rule to decide which type is trailing is not in XMLs.
           // TODO: improve.
-          const type = this.renderElementMdx(memberDef.type).trim()
-
-          let trailingType = false
-          if ((this.isTemplate(templateParamList) &&
-            (type.includes('decltype(') ||
-              (type.includes('&lt;') && type.includes('&gt;'))
-            )
-          )) {
-            trailingType = true
-          }
-
-          if (memberDef.kind !== 'typedef') {
-            // console.log(name)
-            // console.log()
-            // console.log(memberDef.definition)
-            // console.log(type, memberDef.qualifiedName)
-            // if (trailingType) {
-            //   console.log(memberDef)
-            // }
-          } else {
-            // console.log()
-            // console.log(memberDef.definition)
-            // // console.log(`template <${templateParameters.join(', ')}>`)
-            // console.log(memberDef)
-          }
-
-          // if (memberDef.name === 'value_') {
-          //   console.log(memberDef)
-          // }
-
           assert(memberDef.definition !== undefined)
           let prototype = escapeHtml(memberDef.definition)
           if (memberDef.kind === 'function') {
@@ -1423,15 +1393,10 @@ export class DocusaurusGenerator {
     let itemRight = `<Link to="${permalink}">${name}</Link>`
 
     const templateParamList = memberDef.templateparamlist ?? compoundDef.templateParamList
-    const templateParameters = this.renderTemplateParametersMdx({ templateParamList, withDefaults: true })
+    // const templateParameters = this.renderTemplateParametersMdx({ templateParamList, withDefaults: true })
 
     switch (memberDef.kind) {
       case 'typedef':
-        // if (memberDef.name.includes('value_type')) {
-        //   console.log(memberDef)
-        //   console.log(templateParameters)
-        // }
-
         itemLeft = 'using'
         if (memberDef.type !== undefined) {
           itemRight += ' = '
@@ -1455,17 +1420,6 @@ export class DocusaurusGenerator {
             trailingType = true
           }
 
-          // if (trailingType) {
-          //   console.log()
-          //   console.log('ttt-name:', memberDef.definition)
-          //   console.log('ttt-type:', typeCured)
-          //   console.log('ttt-param:', templateParameters.join(', '))
-          //   console.log()
-          // }
-
-          // if (memberDef.staticc?.valueOf()) {
-          //   itemLeft += 'static '
-          // }
           if (memberDef.constexpr?.valueOf() && !type.includes('constexpr')) {
             itemLeft += 'constexpr '
           }
@@ -1513,10 +1467,6 @@ export class DocusaurusGenerator {
 
     result += '\n'
     result += '<MembersIndexItem'
-    // if (this.isTemplate(templateParamList)) {
-    //   const template = escapeHtml(`template ${templateParameters}`)
-    //   result += `\n  template={<>${template}</>}`
-    // }
 
     if (itemLeft.length > 0) {
       if (itemLeft.includes('<') || itemLeft.includes('&')) {
