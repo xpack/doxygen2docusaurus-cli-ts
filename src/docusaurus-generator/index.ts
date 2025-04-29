@@ -1292,10 +1292,13 @@ export class DocusaurusGenerator {
           const itemRight = `<Link to="${permalink}">${escapeHtml(innerDataObject.indexName)}</Link>`
 
           result += '\n'
-          result += `<MembersIndexItem itemLeft="${itemLeft}" itemRight={${itemRight}}>\n`
+          result += '<MembersIndexItem'
+          result += `\n  itemLeft="${itemLeft}"`
+          result += `\n  itemRight={${itemRight}}>`
 
           const briefDescription: string = this.renderElementMdx(innerCompoundDef.briefDescription).trim()
           if (briefDescription.length > 0) {
+            result += '\n'
             result += briefDescription
             if (!['Namespaces', 'Dirs', 'Files'].includes(suffix)) {
               result += ` <Link to="${permalink}#details">`
@@ -1490,7 +1493,7 @@ export class DocusaurusGenerator {
     })
 
     result += '\n'
-    result += '</MembersIndexItem>'
+    result += '</MembersIndexItem>\n'
 
     return result
   }
@@ -1627,16 +1630,19 @@ export class DocusaurusGenerator {
     const itemLeft = compoundDef.kind
     const itemRight = `<Link to="${permalink}">${escapeHtml(classs.indexName)}</Link>`
 
-    result += '\n'
-    result += `<MembersIndexItem itemLeft="${itemLeft}" itemRight={${itemRight}}>\n`
+    result += '\n<MembersIndexItem'
+    result += `\n itemLeft="${itemLeft}"`
+    result += `\n itemRight={${itemRight}}>`
 
     const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription).trim()
     if (briefDescription.length > 0) {
+      result += '\n'
       result += briefDescription
       result += ` <Link to="${permalink}#details">`
       result += 'More...'
-      result += '</Link>\n'
+      result += '</Link>'
     }
+    result += '\n'
     result += '</MembersIndexItem>\n'
 
     return result

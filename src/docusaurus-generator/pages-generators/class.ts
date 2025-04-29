@@ -93,7 +93,9 @@ export class ClassPageGenerator extends PageGeneratorBase {
           } else {
             const itemRight = escapeHtml(baseCompoundRef.text)
             result += '\n'
-            result += `<MembersIndexItem itemLeft="${kind}" itemRight={<>${itemRight}</>}>\n`
+            result += '<MembersIndexItem'
+            result += `\n  itemLeft="${kind}"`
+            result += `\n  itemRight={<>${itemRight}</>}>\n`
             result += '</MembersIndexItem>\n'
           }
         }
@@ -140,8 +142,10 @@ export class ClassPageGenerator extends PageGeneratorBase {
           } else {
             const itemRight = escapeHtml(derivedCompoundRef.text)
             result += '\n'
-            result += `<MembersIndexItem itemLeft="${kind}" itemRight={<>${itemRight}</>}>\n`
-            result += '</MembersIndexItem>\n'
+            result += '<MembersIndexItem'
+            result += `\n itemLeft="${kind}"`
+            result += `\n itemRight={<>${itemRight}</>}>`
+            result += '\n</MembersIndexItem>\n'
           }
         }
 
