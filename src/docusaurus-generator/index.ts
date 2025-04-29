@@ -56,7 +56,8 @@ import { LocationDataModel } from '../data-model/compounds/locationtype-dm.js'
 import { AbstractCompoundDefType, CompoundDefDataModel } from '../data-model/compounds/compounddef-dm.js'
 import { RefTextDataModel } from '../data-model/compounds/reftexttype-dm.js'
 import { AbstractRefType } from '../data-model/compounds/reftype-dm.js'
-import { Sect1DataModel } from '../data-model/compounds/descriptiontype-dm.js'
+import { BriefDescriptionDataModel, DetailedDescriptionDataModel, Sect1DataModel } from '../data-model/compounds/descriptiontype-dm.js'
+import { TemplateParamListDataModel } from '../data-model/compounds/templateparamlisttype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -188,8 +189,8 @@ export class DocusaurusGenerator {
       'IncludesList',
       'IncludesListItem',
       'MemberDefinition',
-      'MembersList',
-      'MembersListItem',
+      'MembersIndex',
+      'MembersIndexItem',
       'ParametersList',
       'ParametersListItem',
       'ProgramListing',
@@ -684,47 +685,46 @@ export class DocusaurusGenerator {
 
   /**
    * Return an array of types, like `class T`, or `class U = T`, or `N T::* MP`
-   * @param compoundDef
+   * @param templateParamList
    * @returns
    */
   collectTemplateParameters ({
-    compoundDef,
+    templateParamList,
     withDefaults = false
   }: {
-    compoundDef: CompoundDefDataModel
+    templateParamList: TemplateParamListDataModel | undefined
     withDefaults?: boolean
   }): string[] {
-    if (compoundDef.templateParamList?.params === undefined) {
+    if (templateParamList?.params === undefined) {
       return []
     }
 
     const templateParameters: string[] = []
 
-    for (const param of compoundDef.templateParamList.params) {
+    for (const param of templateParamList.params) {
       // console.log(util.inspect(param, { compact: false, depth: 999 }))
       assert(param.type !== undefined)
-      assert(param.type.children.length === 1)
-      assert(typeof param.type.children[0] === 'string')
 
       let paramString = ''
+      for (const child of param.type.children) {
+        if (typeof child === 'string') {
+          paramString += child
+        } else if (child as object instanceof RefTextDataModel) {
+          paramString += (child as RefTextDataModel).text
+        }
+        if (param.declname !== undefined) {
+          paramString += ` ${param.declname}`
+        }
 
-      if (typeof param.type.children[0] === 'string') {
-        paramString += param.type.children[0]
-      } else if (param.type.children[0] as object instanceof RefTextDataModel) {
-        paramString += (param.type.children[0] as RefTextDataModel).text
-      }
-      if (param.declname !== undefined) {
-        paramString += ` ${param.declname}`
-      }
-
-      if (withDefaults) {
-        if (param.defval !== undefined) {
-          const defval: DefValDataModel = param.defval
-          assert(defval.children.length === 1)
-          if (typeof defval.children[0] === 'string') {
-            paramString += ` = ${defval.children[0]}`
-          } else if (defval.children[0] as object instanceof RefTextDataModel) {
-            paramString += ` = ${(defval.children[0] as RefTextDataModel).text}`
+        if (withDefaults) {
+          if (param.defval !== undefined) {
+            const defval: DefValDataModel = param.defval
+            assert(defval.children.length === 1)
+            if (typeof defval.children[0] === 'string') {
+              paramString += ` = ${defval.children[0]}`
+            } else if (defval.children[0] as object instanceof RefTextDataModel) {
+              paramString += ` = ${(defval.children[0] as RefTextDataModel).text}`
+            }
           }
         }
       }
@@ -735,14 +735,18 @@ export class DocusaurusGenerator {
     return templateParameters
   }
 
-  collectTemplateParameterNames (compoundDef: CompoundDefDataModel): string[] {
-    if (compoundDef.templateParamList?.params === undefined) {
+  isTemplate (templateParamList: TemplateParamListDataModel | undefined): boolean {
+    return (templateParamList?.params ?? []).length > 0
+  }
+
+  collectTemplateParameterNames (templateParamList: TemplateParamListDataModel): string[] {
+    if (templateParamList?.params === undefined) {
       return []
     }
 
     const templateParameterNames: string[] = []
 
-    for (const param of compoundDef.templateParamList.params) {
+    for (const param of templateParamList.params) {
       // console.log(util.inspect(param, { compact: false, depth: 999 }))
       assert(param.type !== undefined)
       assert(param.type.children.length === 1)
@@ -766,60 +770,79 @@ export class DocusaurusGenerator {
   }
 
   renderTemplateParametersMdx ({
-    compoundDef,
+    templateParamList,
     withDefaults = false
   }: {
-    compoundDef: CompoundDefDataModel
+    templateParamList: TemplateParamListDataModel | undefined
     withDefaults?: boolean
   }): string {
     let result = ''
 
-    if (compoundDef.templateParamList?.params !== undefined) {
-      const templateParameters: string[] = this.collectTemplateParameters({ compoundDef, withDefaults })
+    if (templateParamList?.params !== undefined) {
+      const templateParameters: string[] = this.collectTemplateParameters({
+        templateParamList,
+        withDefaults
+      })
       if (templateParameters.length > 0) {
-        result += `&lt; ${templateParameters.join(', ')} &gt;`
+        result += `<${templateParameters.join(', ')}>`
       }
     }
     return result
   }
 
-  renderTemplateParameterNamesMdx (compoundDef: CompoundDefDataModel): string {
+  renderTemplateParameterNamesMdx (templateParamList: TemplateParamListDataModel | undefined): string {
     let result = ''
 
-    if (compoundDef.templateParamList?.params !== undefined) {
-      const templateParameterNames: string[] = this.collectTemplateParameterNames(compoundDef)
+    if (templateParamList?.params !== undefined) {
+      const templateParameterNames: string[] = this.collectTemplateParameterNames(templateParamList)
       if (templateParameterNames.length > 0) {
-        result += `&lt; ${templateParameterNames.join(', ')} &gt;`
+        result += `<${templateParameterNames.join(', ')}>`
       }
     }
     return result
   }
 
-  renderBriefDescriptionMdx (compoundDef: CompoundDefDataModel): string {
+  renderBriefDescriptionMdx ({
+    briefDescription,
+    morePermalink
+  }: {
+    briefDescription: BriefDescriptionDataModel | undefined
+    morePermalink?: string | undefined
+  }): string {
     let result: string = ''
-    const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription)
-    if (briefDescription.length > 0) {
-      result += '\n'
-      result += briefDescription
-      result += ' <a href="#details">More...</a>\n'
+
+    if (briefDescription === undefined) {
+      return result
     }
+
+    const description: string = this.renderElementMdx(briefDescription)
+    if (description.length > 0) {
+      result += '\n'
+      result += description
+      if (morePermalink !== undefined && morePermalink.length > 0) {
+        result += ` <Link to="${morePermalink}">`
+        result += 'More...'
+        result += '</Link>'
+      }
+    }
+
     return result
   }
 
   renderDetailedDescriptionMdx ({
-    compoundDef,
+    detailedDescription,
     todo = '',
     showHeader = true
   }: {
-    compoundDef: CompoundDefDataModel
+    detailedDescription: DetailedDescriptionDataModel | undefined
     todo?: string
     showHeader?: boolean
   }): string {
     let result: string = ''
 
     let hasSect1 = false
-    if (compoundDef.detailedDescription !== undefined) {
-      for (const child of compoundDef.detailedDescription?.children) {
+    if (detailedDescription !== undefined) {
+      for (const child of detailedDescription?.children) {
         if (child instanceof Sect1DataModel) {
           hasSect1 = true
           break
@@ -827,9 +850,9 @@ export class DocusaurusGenerator {
       }
     }
 
-    const detailedDescription: string = this.renderElementMdx(compoundDef.detailedDescription).trim()
+    const description: string = this.renderElementMdx(detailedDescription).trim()
     if (showHeader && !hasSect1) {
-      if (detailedDescription.length > 0 || todo.length > 0) {
+      if (description.length > 0 || todo.length > 0) {
         result += '\n'
         result += '## Description {#details}\n'
       }
@@ -838,8 +861,8 @@ export class DocusaurusGenerator {
     // Deviate from Doxygen and do not repeat the brief in the detailed section.
     // console.log(util.inspect(compoundDef.detailedDescription, { compact: false, depth: 999 }))
     result += '\n'
-    if (detailedDescription.length > 0) {
-      result += detailedDescription
+    if (description.length > 0) {
+      result += description
       result += '\n'
     } else if (todo.length > 0) {
       result += `TODO: add <code>@details</code> to <code>${todo}</code>`
@@ -995,6 +1018,9 @@ export class DocusaurusGenerator {
       console.error(memberDef.constructor.name, 'mutable not yet rendered in', this.constructor.name)
     }
 
+    const templateParamList = memberDef.templateparamlist ?? compoundDef.templateParamList
+    const templateParameters = this.renderTemplateParametersMdx({ templateParamList, withDefaults: true })
+
     const id = getPermalinkAnchor(memberDef.id)
     const name = memberDef.name + (isFunction ? '()' : '')
 
@@ -1007,10 +1033,39 @@ export class DocusaurusGenerator {
       case 'typedef':
       case 'variable':
         {
+          // WARNING: the rule to decide which type is trailing is not in XMLs.
+          // TODO: improve.
+          const type = this.renderElementMdx(memberDef.type).trim()
+
+          let trailingType = false
+          if ((this.isTemplate(templateParamList) &&
+            (type.includes('decltype(') ||
+              (type.includes('&lt;') && type.includes('&gt;'))
+            )
+          )) {
+            trailingType = true
+          }
+
+          if (memberDef.kind !== 'typedef') {
+            // console.log(name)
+            // console.log()
+            // console.log(memberDef.definition)
+            // console.log(type, memberDef.qualifiedName)
+            // if (trailingType) {
+            //   console.log(memberDef)
+            // }
+          } else {
+            // console.log()
+            // console.log(memberDef.definition)
+            // // console.log(`template <${templateParameters.join(', ')}>`)
+            // console.log(memberDef)
+          }
+
+          // if (memberDef.name === 'value_') {
+          //   console.log(memberDef)
+          // }
+
           assert(memberDef.definition !== undefined)
-
-          const templateParameters = this.collectTemplateParameters({ compoundDef })
-
           let prototype = escapeHtml(memberDef.definition)
           if (memberDef.kind === 'function') {
             prototype += ' ('
@@ -1025,6 +1080,11 @@ export class DocusaurusGenerator {
 
             prototype += ')'
           }
+
+          if (memberDef.initializer !== undefined) {
+            prototype += ` ${this.renderElementMdx(memberDef.initializer)}`
+          }
+
           if (memberDef.constt?.valueOf()) {
             prototype += ' const'
           }
@@ -1032,7 +1092,7 @@ export class DocusaurusGenerator {
           result += '\n'
           result += '<MemberDefinition'
           if (templateParameters.length > 0) {
-            const template = `template &lt;${templateParameters.join(', ')}&gt;`
+            const template = escapeHtml(`template ${templateParameters}`)
             result += `\n  template={<>${template}</>}`
           }
           result += `\n  prototype={<>${prototype}</>}`
@@ -1041,12 +1101,9 @@ export class DocusaurusGenerator {
           }
           result += '>'
 
-          const briefDescription: string = this.renderElementMdx(memberDef.briefDescription).trim()
-          if (briefDescription.length > 0) {
-            result += '\n'
-            result += briefDescription
-            result += '\n'
-          }
+          result += this.renderBriefDescriptionMdx({
+            briefDescription: memberDef.briefDescription
+          })
 
           const detailedDescription: string = this.renderElementMdx(memberDef.detailedDescription).trim()
           if (detailedDescription.length > 0) {
@@ -1077,12 +1134,9 @@ export class DocusaurusGenerator {
           }
           result += '>'
 
-          const briefDescription: string = this.renderElementMdx(memberDef.briefDescription).trim()
-          if (briefDescription.length > 0) {
-            result += '\n'
-            result += briefDescription
-            result += '\n'
-          }
+          result += this.renderBriefDescriptionMdx({
+            briefDescription: memberDef.briefDescription
+          })
 
           result += this.renderEnumMdx(memberDef)
 
@@ -1139,6 +1193,47 @@ export class DocusaurusGenerator {
     return result
   }
 
+  renderGeneratedFrom (compoundDef: CompoundDefDataModel): string {
+    let result: string = ''
+
+    const locationSet: Set<string> = new Set()
+
+    if (compoundDef.sectionDefs !== undefined) {
+      for (const sectionDef of compoundDef.sectionDefs) {
+        if (sectionDef.memberDefs !== undefined) {
+          for (const memberDef of sectionDef.memberDefs) {
+            if (memberDef.location !== undefined) {
+              const file = memberDef.location.file
+              locationSet.add(file)
+              if (memberDef.location.bodyfile !== undefined) {
+                locationSet.add(memberDef.location.bodyfile)
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (locationSet.size > 0) {
+      result += '\n'
+      result += '<hr/>\n'
+      result += `The documentation for this ${compoundDef.kind} was generated from the following file${locationSet.size > 1 ? 's' : ''}:\n`
+
+      result += '<ul>\n'
+
+      const sortedFiles = [...locationSet].sort()
+      for (const fileName of sortedFiles) {
+        const file = this.files.membersByPath.get(fileName)
+        assert(file !== undefined)
+        const permalink = this.getPagePermalink(file.compoundDef.id)
+        result += `<li><Link to="${permalink}">${path.basename(fileName) as string}</Link></li>\n`
+      }
+      result += '</ul>\n'
+    }
+
+    return result
+  }
+
   renderLocationMdx (location: LocationDataModel | undefined): string {
     let result: string = ''
 
@@ -1149,12 +1244,31 @@ export class DocusaurusGenerator {
       const permalink = this.getPagePermalink(file.compoundDef.id)
 
       result += '\n'
-      result += 'Definition at line '
-      const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
-      result += `<Link to="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</Link>`
-      result += ' of file '
-      result += `<Link to="${permalink}">${escapeHtml(path.basename(location.file) as string)}</Link>`
-      result += '.\n'
+      if (location.bodyfile !== undefined && location.file !== location.bodyfile) {
+        result += 'Declaration at line '
+        const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
+        result += `<Link to="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</Link>`
+        result += ' of file '
+        result += `<Link to="${permalink}">${escapeHtml(path.basename(location.file) as string)}</Link>`
+
+        const definitionFile = this.files.membersByPath.get(location.bodyfile)
+        assert(definitionFile !== undefined)
+        const definitionPermalink = this.getPagePermalink(definitionFile.compoundDef.id)
+
+        result += ', definition at line '
+        const lineStart = `l${location.bodystart?.toString().padStart(5, '0')}`
+        result += `<Link to="${definitionPermalink}/#${lineStart}">${escapeHtml(location.bodystart?.toString() ?? '?')}</Link>`
+        result += ' of file '
+        result += `<Link to="${definitionPermalink}">${escapeHtml(path.basename(location.bodyfile) as string)}</Link>`
+        result += '.\n'
+      } else {
+        result += 'Definition at line '
+        const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
+        result += `<Link to="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</Link>`
+        result += ' of file '
+        result += `<Link to="${permalink}">${escapeHtml(path.basename(location.file) as string)}</Link>`
+        result += '.\n'
+      }
     }
 
     return result
@@ -1190,7 +1304,7 @@ export class DocusaurusGenerator {
         result += `## ${suffix === 'Dirs' ? 'Folders' : (suffix === 'Groups' ? 'Topics' : suffix)} Index\n`
 
         result += '\n'
-        result += '<MembersList>\n'
+        result += '<MembersIndex>\n'
 
         for (const innerObject of innerObjects) {
           // console.log(util.inspect(innerObject, { compact: false, depth: 999 }))
@@ -1208,7 +1322,7 @@ export class DocusaurusGenerator {
           const itemRight = `<Link to="${permalink}">${escapeHtml(innerDataObject.indexName)}</Link>`
 
           result += '\n'
-          result += `<MembersListItem itemLeft="${itemLeft}" itemRight={${itemRight}}>\n`
+          result += `<MembersIndexItem itemLeft="${itemLeft}" itemRight={${itemRight}}>\n`
 
           const briefDescription: string = this.renderElementMdx(innerCompoundDef.briefDescription).trim()
           if (briefDescription.length > 0) {
@@ -1220,11 +1334,11 @@ export class DocusaurusGenerator {
             }
             result += '\n'
           }
-          result += '</MembersListItem>\n'
+          result += '</MembersIndexItem>\n'
         }
 
         result += '\n'
-        result += '</MembersList>\n'
+        result += '</MembersIndex>\n'
       }
     }
 
@@ -1265,7 +1379,7 @@ export class DocusaurusGenerator {
       result += `## ${escapeHtml(header)} Index\n`
 
       result += '\n'
-      result += '<MembersList>\n'
+      result += '<MembersIndex>\n'
 
       if (sectionDef.memberDefs !== undefined) {
         for (const memberDef of sectionDef.memberDefs) {
@@ -1283,7 +1397,7 @@ export class DocusaurusGenerator {
       }
 
       result += '\n'
-      result += '</MembersList>\n'
+      result += '</MembersIndex>\n'
     }
     return result
   }
@@ -1297,17 +1411,27 @@ export class DocusaurusGenerator {
     sectionDef: SectionDefDataModel
     compoundDef: CompoundDefDataModel
   }): string {
+    // console.log(util.inspect(memberDef, { compact: false, depth: 999 }))
     let result = ''
 
     const permalink = this.getPermalink({ refid: memberDef.id, kindref: 'member' })
     assert(permalink !== undefined && permalink.length > 1)
 
     const name = escapeHtml(memberDef.name)
+
     let itemLeft = ''
     let itemRight = `<Link to="${permalink}">${name}</Link>`
 
+    const templateParamList = memberDef.templateparamlist ?? compoundDef.templateParamList
+    const templateParameters = this.renderTemplateParametersMdx({ templateParamList, withDefaults: true })
+
     switch (memberDef.kind) {
       case 'typedef':
+        // if (memberDef.name.includes('value_type')) {
+        //   console.log(memberDef)
+        //   console.log(templateParameters)
+        // }
+
         itemLeft = 'using'
         if (memberDef.type !== undefined) {
           itemRight += ' = '
@@ -1316,15 +1440,64 @@ export class DocusaurusGenerator {
         break
 
       case 'function':
-        itemLeft = this.renderElementMdx(memberDef.type).trim()
-        if (memberDef.argsstring !== undefined) {
-          itemRight += ' '
-          itemRight += escapeHtml(memberDef.argsstring)
+
+        {
+          // WARNING: the rule to decide which type is trailing is not in XMLs.
+          // TODO: improve.
+          const type = this.renderElementMdx(memberDef.type).trim()
+
+          let trailingType = false
+          if ((this.isTemplate(templateParamList) &&
+            (type.includes('decltype(') ||
+              (type.includes('&lt;') && type.includes('&gt;'))
+            )
+          )) {
+            trailingType = true
+          }
+
+          // if (trailingType) {
+          //   console.log()
+          //   console.log('ttt-name:', memberDef.definition)
+          //   console.log('ttt-type:', typeCured)
+          //   console.log('ttt-param:', templateParameters.join(', '))
+          //   console.log()
+          // }
+
+          // if (memberDef.staticc?.valueOf()) {
+          //   itemLeft += 'static '
+          // }
+          if (memberDef.constexpr?.valueOf() && !type.includes('constexpr')) {
+            itemLeft += 'constexpr '
+          }
+
+          if (memberDef.argsstring !== undefined) {
+            itemRight += ' '
+            itemRight += escapeHtml(memberDef.argsstring)
+          }
+          if (trailingType) {
+            if (!itemLeft.includes('auto')) {
+              itemLeft += 'auto '
+            }
+            // WARNING: Doxygen shows this, but the resulting line is too long.
+            itemRight += escapeHtml(' -> ')
+            itemRight += type
+          } else {
+            itemLeft += type
+          }
+
+          if (memberDef.initializer !== undefined) {
+            itemRight += ' '
+            itemRight += this.renderElementMdx(memberDef.initializer)
+          }
         }
         break
 
       case 'variable':
-        itemLeft = this.renderElementMdx(memberDef.type).trim()
+        itemLeft += this.renderElementMdx(memberDef.type).trim()
+        if (memberDef.initializer !== undefined) {
+          itemRight += ' '
+          itemRight += this.renderElementMdx(memberDef.initializer)
+        }
         break
 
       case 'enum':
@@ -1339,27 +1512,35 @@ export class DocusaurusGenerator {
     }
 
     result += '\n'
+    result += '<MembersIndexItem'
+    // if (this.isTemplate(templateParamList)) {
+    //   const template = escapeHtml(`template ${templateParameters}`)
+    //   result += `\n  template={<>${template}</>}`
+    // }
+
     if (itemLeft.length > 0) {
       if (itemLeft.includes('<') || itemLeft.includes('&')) {
-        result += `<MembersListItem itemLeft={<>${itemLeft}</>} itemRight={<>${itemRight}</>}>\n`
+        result += `\n  itemLeft={<>${itemLeft}</>}`
       } else {
-        result += `<MembersListItem itemLeft="${itemLeft}" itemRight={<>${itemRight}</>}>\n`
+        result += `\n  itemLeft="${itemLeft}"`
       }
     } else {
-      result += `<MembersListItem itemLeft="&nbsp;" itemRight={<>${itemRight}</>}>\n`
+      result += '\n  itemLeft="&nbsp;"'
     }
-
-    const briefDescription: string = this.renderElementMdx(memberDef.briefDescription)
-    if (briefDescription.length > 0) {
-      result += briefDescription
-      // Not really needed, there is no details section, displayed for consistency.
-      result += ` <Link to="${permalink}">`
-      result += 'More...'
-      result += '</Link>'
-      result += '\n'
+    if (itemRight.includes('<') || itemRight.includes('&')) {
+      result += `\n  itemRight={<>${itemRight}</>}`
+    } else {
+      result += `\n  itemRight="${itemRight}"`
     }
+    result += '>'
 
-    result += '</MembersListItem>\n'
+    result += this.renderBriefDescriptionMdx({
+      briefDescription: memberDef.briefDescription,
+      morePermalink: permalink
+    })
+
+    result += '\n'
+    result += '</MembersIndexItem>'
 
     return result
   }
@@ -1410,12 +1591,12 @@ export class DocusaurusGenerator {
   getHeaderByKind (sectionDef: SectionDefDataModel): string {
     const headersByKind: Record<string, string> = {
       // 'user-defined': '?',
-      'public-type': 'Member Typedefs',
-      'public-func': 'Member Functions',
-      'public-attrib': 'Member Attributes',
+      'public-type': 'Public Member Typedefs',
+      'public-func': 'Public Member Functions',
+      'public-attrib': 'Public Member Attributes',
       // 'public-slot': 'Member ?',
-      'public-static-func': 'Static Functions',
-      'public-static-attrib': 'Static Attributes',
+      'public-static-func': 'Public Static Functions',
+      'public-static-attrib': 'Public Static Attributes',
 
       // 'signal': '',
       // 'dcop-func': '',
@@ -1497,7 +1678,7 @@ export class DocusaurusGenerator {
     const itemRight = `<Link to="${permalink}">${escapeHtml(classs.indexName)}</Link>`
 
     result += '\n'
-    result += `<MembersListItem itemLeft="${itemLeft}" itemRight={${itemRight}}>\n`
+    result += `<MembersIndexItem itemLeft="${itemLeft}" itemRight={${itemRight}}>\n`
 
     const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription).trim()
     if (briefDescription.length > 0) {
@@ -1506,7 +1687,7 @@ export class DocusaurusGenerator {
       result += 'More...'
       result += '</Link>\n'
     }
-    result += '</MembersListItem>\n'
+    result += '</MembersIndexItem>\n'
 
     return result
   }
