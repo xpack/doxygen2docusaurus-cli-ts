@@ -56,6 +56,7 @@ import { LocationDataModel } from '../data-model/compounds/locationtype-dm.js'
 import { AbstractCompoundDefType, CompoundDefDataModel } from '../data-model/compounds/compounddef-dm.js'
 import { RefTextDataModel } from '../data-model/compounds/reftexttype-dm.js'
 import { AbstractRefType } from '../data-model/compounds/reftype-dm.js'
+import { Sect1DataModel } from '../data-model/compounds/descriptiontype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -807,28 +808,40 @@ export class DocusaurusGenerator {
 
   renderDetailedDescriptionMdx ({
     compoundDef,
-    todo,
+    todo = '',
     showHeader = true
   }: {
     compoundDef: CompoundDefDataModel
-    todo: string
+    todo?: string
     showHeader?: boolean
   }): string {
     let result: string = ''
 
-    if (showHeader) {
-      result += '\n'
-      result += '## Description {#details}\n'
+    let hasSect1 = false
+    if (compoundDef.detailedDescription !== undefined) {
+      for (const child of compoundDef.detailedDescription?.children) {
+        if (child instanceof Sect1DataModel) {
+          hasSect1 = true
+          break
+        }
+      }
+    }
+
+    const detailedDescription: string = this.renderElementMdx(compoundDef.detailedDescription).trim()
+    if (showHeader && !hasSect1) {
+      if (detailedDescription.length > 0 || todo.length > 0) {
+        result += '\n'
+        result += '## Description {#details}\n'
+      }
     }
 
     // Deviate from Doxygen and do not repeat the brief in the detailed section.
     // console.log(util.inspect(compoundDef.detailedDescription, { compact: false, depth: 999 }))
     result += '\n'
-    const detailedDescription: string = this.renderElementMdx(compoundDef.detailedDescription)
     if (detailedDescription.length > 0) {
       result += detailedDescription
       result += '\n'
-    } else {
+    } else if (todo.length > 0) {
       result += `TODO: add <code>@details</code> to <code>${todo}</code>`
       result += '\n'
     }
