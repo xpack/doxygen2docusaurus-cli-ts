@@ -47,6 +47,8 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
     result += this.context.renderSectionDefsMdx(compoundDef)
 
+    result += this.context.renderGeneratedFrom(compoundDef)
+
     return result
   }
 

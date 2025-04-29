@@ -38,27 +38,39 @@ export class ClassPageGenerator extends PageGeneratorBase {
     })
 
     result += '\n'
-    result += '## Fully Qualified Name\n'
+    result += '## Declaration\n'
 
     const classs = this.context.classes.membersById.get(compoundDef.id)
     assert(classs !== undefined)
+
+    const kind = compoundDef.kind
 
     let classFullName = classs.fullyQualifiedName
     if (classs.templateParameters.length > 0) {
       classFullName += classs.templateParameters
     } else {
-      classFullName += this.context.renderTemplateParameterNamesMdx(compoundDef)
+      classFullName += escapeHtml(this.context.renderTemplateParameterNamesMdx(compoundDef.templateParamList))
     }
 
-    result += '\n'
-    result += `<CodeBlock>${classFullName}</CodeBlock>\n`
+    if (compoundDef.templateParamList?.params !== undefined) {
+      const template = escapeHtml(this.context.renderTemplateParametersMdx({
+        templateParamList: compoundDef.templateParamList,
+        withDefaults: true
+      }))
+
+      result += '\n'
+      result += `<CodeBlock>template ${template}\n`
+      result += `${kind} ${classFullName};</CodeBlock>\n`
+    } else {
+      result += '\n'
+      result += `<CodeBlock>${kind} ${classFullName};</CodeBlock>\n`
+    }
 
     result += this.context.renderIncludesIndexMdx(compoundDef)
 
     const object = this.context.classes.membersById.get(compoundDef.id)
     assert(object !== undefined)
 
-    const kind = compoundDef.kind
     if (kind === 'class') {
       if (compoundDef.baseCompoundRefs !== undefined) {
         result += '\n'
@@ -68,7 +80,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
           result += '## Base class\n'
         }
         result += '\n'
-        result += '<MembersList>\n'
+        result += '<MembersIndex>\n'
 
         for (const baseCompoundRef of compoundDef.baseCompoundRefs) {
           // console.log(util.inspect(baseCompoundRef, { compact: false, depth: 999 }))
@@ -81,13 +93,13 @@ export class ClassPageGenerator extends PageGeneratorBase {
           } else {
             const itemRight = escapeHtml(baseCompoundRef.text)
             result += '\n'
-            result += `<MembersListItem itemLeft="${kind}" itemRight={<>${itemRight}</>}>\n`
-            result += '</MembersListItem>\n'
+            result += `<MembersIndexItem itemLeft="${kind}" itemRight={<>${itemRight}</>}>\n`
+            result += '</MembersIndexItem>\n'
           }
         }
 
         result += '\n'
-        result += '</MembersList>\n'
+        result += '</MembersIndex>\n'
       } else if ('baseClassIds' in object && object.baseClassIds.length > 0) {
         result += '\n'
         if (object.baseClassIds.length > 1) {
@@ -97,7 +109,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
         }
 
         result += '\n'
-        result += '<MembersList>\n'
+        result += '<MembersIndex>\n'
         for (const baseClassId of object.baseClassIds) {
           const baseCompoundDef = this.context.compoundDefsById.get(baseClassId)
           assert(baseCompoundDef !== undefined)
@@ -107,7 +119,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
         }
 
         result += '\n'
-        result += '</MembersList>\n'
+        result += '</MembersIndex>\n'
       }
 
       if (compoundDef.derivedCompoundRefs !== undefined) {
@@ -115,7 +127,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
         result += '## Derived Classes\n'
 
         result += '\n'
-        result += '<MembersList>\n'
+        result += '<MembersIndex>\n'
 
         for (const derivedCompoundRef of compoundDef.derivedCompoundRefs) {
           // console.log(util.inspect(derivedCompoundRef, { compact: false, depth: 999 }))
@@ -128,19 +140,19 @@ export class ClassPageGenerator extends PageGeneratorBase {
           } else {
             const itemRight = escapeHtml(derivedCompoundRef.text)
             result += '\n'
-            result += `<MembersListItem itemLeft="${kind}" itemRight={<>${itemRight}</>}>\n`
-            result += '</MembersListItem>\n'
+            result += `<MembersIndexItem itemLeft="${kind}" itemRight={<>${itemRight}</>}>\n`
+            result += '</MembersIndexItem>\n'
           }
         }
 
         result += '\n'
-        result += '</MembersList>\n'
+        result += '</MembersIndex>\n'
       } else if ('derivedClassIds' in object && object.childrenIds.length > 0) {
         result += '\n'
         result += '## Derived Classes\n'
 
         result += '\n'
-        result += '<MembersList>\n'
+        result += '<MembersIndex>\n'
         for (const derivedClassId of object.childrenIds) {
           const derivedCompoundDef = this.context.compoundDefsById.get(derivedClassId)
           assert(derivedCompoundDef !== undefined)
@@ -150,7 +162,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
         }
 
         result += '\n'
-        result += '</MembersList>\n'
+        result += '</MembersIndex>\n'
       }
     }
 
@@ -173,6 +185,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
     result += this.context.renderLocationMdx(compoundDef.location)
 
     result += this.context.renderSectionDefsMdx(compoundDef)
+
+    result += this.context.renderGeneratedFrom(compoundDef)
 
     return result
   }
