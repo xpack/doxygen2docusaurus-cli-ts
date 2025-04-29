@@ -93,7 +93,7 @@
 }
 
 :global(div.doxyMemberDoc) {
-  padding: 16px;
+  margin: 20px 16px 16px 16px;
 }
 
 :global(div.doxyMemberDoc p:last-child) {
