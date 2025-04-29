@@ -34,9 +34,9 @@ export function escapeHtml (text: string): string {
     .replaceAll(/[']/g, '&#39;')
     .replaceAll(/[{]/g, '&#123;')
     .replaceAll(/[}]/g, '&#125;')
-    .replaceAll(/[*]/g, '&#42;')
     .replaceAll(/[\\]/g, '\\\\')
-    .replaceAll(/[_]/g, '&#95;')
+    .replaceAll(/[*]/g, '&#42;') // bold
+    .replaceAll(/[_]/g, '&#95;') // italics
 }
 
 // export function encodeUrl (text: string): string {
