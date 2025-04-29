@@ -16,9 +16,9 @@ import React from 'react';
 
 // ----------------------------------------------------------------------------
 
-export default function MembersList({children}) {
+export default function MembersIndex({children}) {
   return (
-    <table class="doxyMembers">
+    <table class="doxyMembersIndex">
       {children}
     </table>
   );

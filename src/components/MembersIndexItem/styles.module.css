@@ -1,17 +1,17 @@
-/* --- Begin MembersListItem/styles.module.css --- */
+/* --- Begin MembersIndexItem/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
-:global(table.doxyMembers tr) {
+:global(table.doxyMembersIndex tr) {
   border: none;
   overflow: hidden;
 }
 
-:global(table.doxyMembers td) {
+:global(table.doxyMembersIndex td) {
   border: none;
   overflow: hidden;
 }
 
-:global(table.doxyMembers td.doxyMemberItemLeft div) {
+:global(table.doxyMembersIndex td.doxyMemberIndexItemLeft div) {
   padding-top: 6px;
   padding-bottom: 6px;
   padding-left: 12px;
@@ -25,7 +25,7 @@
   overflow: hidden;
 }
 
-:global(table.doxyMembers td.doxyMemberItemRight div) {
+:global(table.doxyMembersIndex td.doxyMemberIndexItemRight div) {
   padding-top: 6px;
   padding-bottom: 6px;
   padding-left: 12px;
@@ -39,46 +39,46 @@
   overflow: hidden;
 }
 
-:global(tr.doxyMemberSeparator) {
+:global(tr.doxyMemberIndexSeparator) {
   height: 12px;
   border: none;
 }
 
-:global(td.doxyMemberItemLeft) {
+:global(td.doxyMemberIndexItemLeft) {
   padding: 0px;
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--ifm-code-font-size);
   white-space: nowrap;
 }
 
-:global(td.doxyMemberItemRight) {
+:global(td.doxyMemberIndexItemRight) {
   padding: 0px;
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--ifm-code-font-size);
   width: 100%;
 }
 
-:global(td.doxyMemberDescriptionLeft) {
+:global(td.doxyMemberIndexDescriptionLeft) {
   padding-top: 6px;
   padding-bottom: 6px;
   border: none;
   background-color: var(--ifm-background-color);
 }
 
-:global(td.doxyMemberDescriptionRight) {
+:global(td.doxyMemberIndexDescriptionRight) {
   padding-top: 6px;
   padding-bottom: 6px;
   border: none;
   background-color: var(--ifm-background-color);
 }
 
-:global(td.doxyMemberDescriptionRight p) {
+:global(td.doxyMemberIndexDescriptionRight p) {
   margin: 0px;
 }
 
-:global(td.doxyMemSeparatorLeft) {
+:global(td.doxyMemberIndexSeparatorLeft) {
   padding: 0px;
   border: none;
 }
 
-/* --- End MembersListItem/styles.module.css --- */
+/* --- End MembersIndexItem/styles.module.css --- */

@@ -6,8 +6,8 @@
   "exports": {
     ".": "./dist/index.js",
     "./components/DoxygenPage": "./src/components/DoxygenPage/index.js",
-    "./components/MembersList": "./src/components/MembersList/index.js",
-    "./components/MembersListItem": "./src/components/MembersListItem/index.js",
+    "./components/MembersIndex": "./src/components/MembersIndex/index.js",
+    "./components/MembersIndexItem": "./src/components/MembersIndexItem/index.js",
     "./components/TreeTable": "./src/components/TreeTable/index.js",
     "./components/TreeTableRow": "./src/components/TreeTableRow/index.js",
     "./components/ParametersList": "./src/components/ParametersList/index.js",

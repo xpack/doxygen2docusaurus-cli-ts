@@ -1,7 +1,7 @@
-/* --- Begin MembersList/styles.module.css --- */
+/* --- Begin MembersIndex/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
-:global(table.doxyMembers) {
+:global(table.doxyMembersIndex) {
   width: 100%;
   margin-bottom: 3px;
   border-collapse: collapse;
@@ -9,13 +9,13 @@
   overflow: hidden;
 }
 
-:global(table.doxyMembers tr) {
+:global(table.doxyMembersIndex tr) {
   background-color: var(--ifm-background-color);
 }
 
 /* Undo the Docusaurus configuration. */
-:global(table.doxyMembers tr:nth-child(2n)) {
+:global(table.doxyMembersIndex tr:nth-child(2n)) {
   background-color: var(--ifm-background-color);
 }
 
-/* --- End MembersList/styles.module.css --- */
+/* --- End MembersIndex/styles.module.css --- */

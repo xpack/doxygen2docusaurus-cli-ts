@@ -17,23 +17,29 @@ import Link from '@docusaurus/Link'
 
 // ----------------------------------------------------------------------------
 
-export default function MembersListItem({
+export default function MembersIndexItem({
+  template,
   itemLeft,
   itemRight,
   children
 }) {
   return (
     <>
-      <tr class="doxyMemberItem">
-        <td class="doxyMemberItemLeft" align="right" valign="top"><div>{itemLeft}</div></td>
-        <td class="doxyMemberItemRight" align="left" valign="top"><div>{itemRight}</div></td>
+      {template &&
+        <tr class="doxyMemberIndexTemplate">
+          <td class="" colspan="2"><div>{template}</div></td>
+        </tr>
+      }
+      <tr class="doxyMemberIndexItem">
+        <td class="doxyMemberIndexItemLeft" align="right" valign="top"><div>{itemLeft}</div></td>
+        <td class="doxyMemberIndexItemRight" align="left" valign="top"><div>{itemRight}</div></td>
       </tr>
-      <tr class="doxyMemberDescription">
-        <td class="doxyMemberDescriptionLeft"></td>
-        <td class="doxyMemberDescriptionRight">{children}</td>
+      <tr class="doxyMemberIndexDescription">
+        <td class="doxyMemberIndexDescriptionLeft"></td>
+        <td class="doxyMemberIndexDescriptionRight">{children}</td>
       </tr>
-      <tr class="doxyMemberSeparator">
-        <td class="doxyMemSeparatorLeft" colspan="2"></td>
+      <tr class="doxyMemberIndexSeparator">
+        <td class="doxyMemberIndexSeparatorLeft" colspan="2"></td>
       </tr>
     </>
   );
