@@ -15,7 +15,7 @@ import assert from 'assert'
 import * as util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
-import { AbstractDocTitleType } from '../../data-model/compounds/descriptiontype-dm.js'
+import { AbstractDocTitleType, TitleDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -25,9 +25,13 @@ export class DocTitleTypeGenerator extends ElementGeneratorBase {
 
     let result = ''
 
-    result += '<b>'
-    result += this.context.renderElementsMdx(element.children)
-    result += '</b>\n'
+    if (element instanceof TitleDataModel) {
+      result += this.context.renderElementsMdx(element.children)
+    } else {
+      result += '<b>'
+      result += this.context.renderElementsMdx(element.children)
+      result += '</b>\n'
+    }
 
     return result
   }
