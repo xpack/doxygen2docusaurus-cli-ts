@@ -1,4 +1,4 @@
-/* --- Begin MembersListItem/styles.module.css --- */
+/* --- Begin IncludesListItem/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
 :global(table.doxyMembers tr) {
@@ -81,4 +81,4 @@
   border: none;
 }
 
-/* --- End MembersListItem/styles.module.css --- */
+/* --- End IncludesListItem/styles.module.css --- */
