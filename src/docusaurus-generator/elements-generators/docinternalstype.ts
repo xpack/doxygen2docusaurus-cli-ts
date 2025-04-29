@@ -27,25 +27,26 @@ export class DocS1TypeGenerator extends ElementGeneratorBase {
 
     const title = this.context.renderElementMdx(element.title).trim()
     if (title.length > 0) {
-      result += '\n'
-      result += `# ${title}`
-      if (element.id !== undefined && element.id.length > 0) {
-        result += `{${title}}`
-      }
-      result += '\n'
+      // result += '\n'
+      // result += `# ${title}`
+      // if (element.id !== undefined && element.id.length > 0) {
+      //   result += `{#${element.id}}`
+      // }
+      console.warn('h1 header title ignored')
 
+      result += '\n'
       result += this.context.renderElementsMdx(element.children)
     } else {
-      result += '\n'
-      result += '<h1>\n'
+      // result += '\n'
+      // result += '<h1>\n'
 
-      if (element.id !== undefined && element.id.length > 0) {
-        result += `  <a id="${title}"/>\n`
-      }
+      // if (element.id !== undefined && element.id.length > 0) {
+      //   result += `  <a id="${element.id}"/>\n`
+      // }
+      // result += '</h1>'
+
+      result += '\n'
       result += this.context.renderElementsMdx(element.children)
-
-      result += '\n'
-      result += '</h1>\n'
     }
 
     return result
@@ -62,23 +63,22 @@ export class DocS2TypeGenerator extends ElementGeneratorBase {
     if (title.length > 0) {
       result += '\n'
       result += `## ${title}`
-      if (element.id !== undefined && element.id.length > 0) {
-        result += `{${title}}`
-      }
+      // if (element.id !== undefined && element.id.length > 0) {
+      //   result += `{#${element.id}}`
+      // }
       result += '\n'
 
       result += this.context.renderElementsMdx(element.children)
     } else {
       result += '\n'
-      result += '<h2>\n'
+      // result += '<h2>\n'
 
-      if (element.id !== undefined && element.id.length > 0) {
-        result += `  <a id="${title}"/>\n`
-      }
+      // if (element.id !== undefined && element.id.length > 0) {
+      //   result += `  <a id="${element.id}"/>\n`
+      // }
+      // result += '</h2>\n'
+
       result += this.context.renderElementsMdx(element.children)
-
-      result += '\n'
-      result += '</h2>\n'
     }
 
     return result
@@ -95,23 +95,22 @@ export class DocS3TypeGenerator extends ElementGeneratorBase {
     if (title.length > 0) {
       result += '\n'
       result += `### ${title}`
-      if (element.id !== undefined && element.id.length > 0) {
-        result += `{${title}}`
-      }
+      // if (element.id !== undefined && element.id.length > 0) {
+      //   result += `{#${element.id}}`
+      // }
       result += '\n'
 
       result += this.context.renderElementsMdx(element.children)
     } else {
       result += '\n'
-      result += '<h3>\n'
+      // result += '<h3>\n'
 
-      if (element.id !== undefined && element.id.length > 0) {
-        result += `  <a id="${title}"/>\n`
-      }
+      // if (element.id !== undefined && element.id.length > 0) {
+      //   result += `  <a id="${element.id}"/>\n`
+      // }
+      // result += '</h3>\n'
+
       result += this.context.renderElementsMdx(element.children)
-
-      result += '\n'
-      result += '</h3>\n'
     }
 
     return result
@@ -128,23 +127,22 @@ export class DocS4TypeGenerator extends ElementGeneratorBase {
     if (title.length > 0) {
       result += '\n'
       result += `#### ${title}`
-      if (element.id !== undefined && element.id.length > 0) {
-        result += `{${title}}`
-      }
+      // if (element.id !== undefined && element.id.length > 0) {
+      //   result += `{#${element.id}}`
+      // }
       result += '\n'
 
       result += this.context.renderElementsMdx(element.children)
     } else {
       result += '\n'
-      result += '<h4>\n'
+      // result += '<h4>\n'
 
-      if (element.id !== undefined && element.id.length > 0) {
-        result += `  <a id="${title}"/>\n`
-      }
+      // if (element.id !== undefined && element.id.length > 0) {
+      //   result += `  <a id="${element.id}"/>\n`
+      // }
+      // result += '</h4>\n'
+
       result += this.context.renderElementsMdx(element.children)
-
-      result += '\n'
-      result += '</h4>\n'
     }
 
     return result
@@ -161,23 +159,22 @@ export class DocS5TypeGenerator extends ElementGeneratorBase {
     if (title.length > 0) {
       result += '\n'
       result += `##### ${title}`
-      if (element.id !== undefined && element.id.length > 0) {
-        result += `{${title}}`
-      }
+      // if (element.id !== undefined && element.id.length > 0) {
+      //   result += `{#${element.id}}`
+      // }
       result += '\n'
 
       result += this.context.renderElementsMdx(element.children)
     } else {
       result += '\n'
-      result += '<h5>\n'
+      // result += '<h5>\n'
 
-      if (element.id !== undefined && element.id.length > 0) {
-        result += `  <a id="${title}"/>\n`
-      }
+      // if (element.id !== undefined && element.id.length > 0) {
+      //   result += `  <a id="${element.id}"/>\n`
+      // }
+      // result += '</h5>\n'
+
       result += this.context.renderElementsMdx(element.children)
-
-      result += '\n'
-      result += '</h5>\n'
     }
 
     return result
@@ -194,23 +191,22 @@ export class DocS6TypeGenerator extends ElementGeneratorBase {
     if (title.length > 0) {
       result += '\n'
       result += `###### ${title}`
-      if (element.id !== undefined && element.id.length > 0) {
-        result += `{${title}}`
-      }
+      // if (element.id !== undefined && element.id.length > 0) {
+      //   result += `{#${element.id}}`
+      // }
       result += '\n'
 
       result += this.context.renderElementsMdx(element.children)
     } else {
       result += '\n'
-      result += '<h6>\n'
+      // result += '<h6>\n'
 
-      if (element.id !== undefined && element.id.length > 0) {
-        result += `  <a id="${title}"/>\n`
-      }
+      // if (element.id !== undefined && element.id.length > 0) {
+      //   result += `  <a id="${element.id}"/>\n`
+      // }
+      // result += '</h6>\n'
+
       result += this.context.renderElementsMdx(element.children)
-
-      result += '\n'
-      result += '</h6>\n'
     }
 
     return result
