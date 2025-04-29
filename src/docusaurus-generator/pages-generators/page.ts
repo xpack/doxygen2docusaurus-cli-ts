@@ -37,7 +37,6 @@ export class PageGenerator extends PageGeneratorBase {
 
     result += this.context.renderDetailedDescriptionMdx({
       compoundDef,
-      todo: `@namespace ${compoundDef.compoundName}`,
       showHeader: false
     })
 
