@@ -1296,16 +1296,10 @@ export class DocusaurusGenerator {
           result += `  itemLeft="${itemLeft}"\n`
           result += `  itemRight={${itemRight}}>\n`
 
-          const briefDescription: string = this.renderElementMdx(innerCompoundDef.briefDescription).trim()
-          if (briefDescription.length > 0) {
-            result += briefDescription
-            if (!['Namespaces', 'Dirs', 'Files'].includes(suffix)) {
-              result += ` <Link to="${permalink}#details">`
-              result += 'More...'
-              result += '</Link>'
-            }
-            result += '\n'
-          }
+          result += this.renderBriefDescriptionMdx({
+            briefDescription: innerCompoundDef.briefDescription,
+            morePermalink: permalink
+          })
 
           result += '</MembersIndexItem>\n'
         }
