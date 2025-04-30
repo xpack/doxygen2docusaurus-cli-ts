@@ -19,8 +19,8 @@ import Link from '@docusaurus/Link'
 
 export default function MembersIndexItem({
   template,
-  itemLeft,
-  itemRight,
+  type,
+  name,
   children
 }) {
   return (
@@ -31,8 +31,8 @@ export default function MembersIndexItem({
         </tr>
       }
       <tr class="doxyMemberIndexItem">
-        <td class="doxyMemberIndexItemLeft" align="right" valign="top"><div>{itemLeft}</div></td>
-        <td class="doxyMemberIndexItemRight" align="left" valign="top"><div>{itemRight}</div></td>
+        <td class="doxyMemberIndexItemType" align="right" valign="top"><div>{type}</div></td>
+        <td class="doxyMemberIndexItemName" align="left" valign="top"><div>{name}</div></td>
       </tr>
       <tr class="doxyMemberIndexDescription">
         <td class="doxyMemberIndexDescriptionLeft"></td>

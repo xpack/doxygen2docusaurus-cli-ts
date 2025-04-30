@@ -11,7 +11,7 @@
   overflow: hidden;
 }
 
-:global(table.doxyMembersIndex td.doxyMemberIndexItemLeft div) {
+:global(table.doxyMembersIndex td.doxyMemberIndexItemType div) {
   padding-top: 6px;
   padding-bottom: 6px;
   padding-left: 12px;
@@ -25,7 +25,7 @@
   overflow: hidden;
 }
 
-:global(table.doxyMembersIndex td.doxyMemberIndexItemRight div) {
+:global(table.doxyMembersIndex td.doxyMemberIndexItemName div) {
   padding-top: 6px;
   padding-bottom: 6px;
   padding-left: 12px;
@@ -44,14 +44,14 @@
   border: none;
 }
 
-:global(td.doxyMemberIndexItemLeft) {
+:global(td.doxyMemberIndexItemType) {
   padding: 0px;
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--ifm-code-font-size);
   white-space: nowrap;
 }
 
-:global(td.doxyMemberIndexItemRight) {
+:global(td.doxyMemberIndexItemName) {
   padding: 0px;
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--ifm-code-font-size);

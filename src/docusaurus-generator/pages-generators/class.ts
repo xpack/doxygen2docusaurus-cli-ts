@@ -94,11 +94,11 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
             result += this.context.renderClassIndexMdx(compoundDef)
           } else {
-            const itemRight = escapeHtml(baseCompoundRef.text)
+            const itemName = escapeHtml(baseCompoundRef.text)
             result += '\n'
             result += '<MembersIndexItem\n'
-            result += `  itemLeft="${kind}"\n`
-            result += `  itemRight={<>${itemRight}</>}>\n`
+            result += `  type="${kind}"\n`
+            result += `  name={<>${itemName}</>}>\n`
             result += '</MembersIndexItem>\n'
           }
         }
@@ -146,11 +146,11 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
             result += this.context.renderClassIndexMdx(compoundDef)
           } else {
-            const itemRight = escapeHtml(derivedCompoundRef.text)
+            const itemName = escapeHtml(derivedCompoundRef.text)
             result += '\n'
             result += '<MembersIndexItem\n'
-            result += `  itemLeft="${kind}"\n`
-            result += `  itemRight={<>${itemRight}</>}>\n`
+            result += `  type="${kind}"\n`
+            result += `  name={<>${itemName}</>}>\n`
             result += '</MembersIndexItem>\n'
           }
         }
