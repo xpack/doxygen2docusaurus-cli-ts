@@ -804,9 +804,11 @@ export class DocusaurusGenerator {
 
   renderBriefDescriptionMdx ({
     briefDescription,
+    todo = '',
     morePermalink
   }: {
     briefDescription: BriefDescriptionDataModel | undefined
+    todo?: string
     morePermalink?: string | undefined
   }): string {
     let result: string = ''
@@ -815,15 +817,17 @@ export class DocusaurusGenerator {
       return result
     }
 
-    const description: string = this.renderElementMdx(briefDescription)
+    const description: string = this.renderElementMdx(briefDescription).trim()
     if (description.length > 0) {
-      result += '\n'
       result += description
       if (morePermalink !== undefined && morePermalink.length > 0) {
         result += ` <Link to="${morePermalink}">`
         result += 'More...'
         result += '</Link>'
       }
+      result += '\n'
+    } else if (todo.length > 0) {
+      result += `TODO: add <code>@brief</code> to <code>${todo}</code>\n`
     }
 
     return result
@@ -855,18 +859,17 @@ export class DocusaurusGenerator {
       if (description.length > 0 || todo.length > 0) {
         result += '\n'
         result += '## Description {#details}\n'
+        result += '\n'
       }
     }
 
     // Deviate from Doxygen and do not repeat the brief in the detailed section.
     // console.log(util.inspect(compoundDef.detailedDescription, { compact: false, depth: 999 }))
-    result += '\n'
     if (description.length > 0) {
       result += description
       result += '\n'
     } else if (todo.length > 0) {
-      result += `TODO: add <code>@details</code> to <code>${todo}</code>`
-      result += '\n'
+      result += `TODO: add <code>@details</code> to <code>${todo}</code>\n`
     }
     return result
   }
@@ -1060,27 +1063,26 @@ export class DocusaurusGenerator {
           }
 
           result += '\n'
-          result += '<MemberDefinition'
+          result += '<MemberDefinition\n'
           if (templateParameters.length > 0) {
             const template = escapeHtml(`template ${templateParameters}`)
-            result += `\n  template={<>${template}</>}`
+            result += `  template={<>${template}</>}\n`
           }
-          result += `\n  prototype={<>${prototype}</>}`
+          result += `  prototype={<>${prototype}</>}`
           if (labels.length > 0) {
-            result += `\n labels = {["${labels.join('", "')}"]}`
+            result += '\n'
+            result += `  labels = {["${labels.join('", "')}"]}`
           }
-          result += '>'
+          result += '>\n'
 
           result += this.renderBriefDescriptionMdx({
             briefDescription: memberDef.briefDescription
           })
 
-          const detailedDescription: string = this.renderElementMdx(memberDef.detailedDescription).trim()
-          if (detailedDescription.length > 0) {
-            result += '\n'
-            result += detailedDescription
-            result += '\n'
-          }
+          result += this.renderDetailedDescriptionMdx({
+            detailedDescription: memberDef.detailedDescription,
+            showHeader: false
+          })
 
           result += this.renderLocationMdx(memberDef.location)
 
@@ -1097,12 +1099,12 @@ export class DocusaurusGenerator {
           }
           prototype += escapeHtml(memberDef.qualifiedName ?? '?')
           result += '\n'
-          result += '<MemberDefinition'
-          result += `\n  prototype={<>${prototype}</>}`
+          result += '<MemberDefinition\n'
+          result += `  prototype={<>${prototype}</>}\n`
           if (labels.length > 0) {
-            result += `\n labels = {["${labels.join('", "')}"]}`
+            result += ` labels = {["${labels.join('", "')}"]}\n`
           }
-          result += '>'
+          result += '>\n'
 
           result += this.renderBriefDescriptionMdx({
             briefDescription: memberDef.briefDescription
@@ -1110,12 +1112,10 @@ export class DocusaurusGenerator {
 
           result += this.renderEnumMdx(memberDef)
 
-          const detailedDescription: string = this.renderElementMdx(memberDef.detailedDescription).trim()
-          if (detailedDescription.length > 0) {
-            result += '\n'
-            result += detailedDescription
-            result += '\n'
-          }
+          result += this.renderDetailedDescriptionMdx({
+            detailedDescription: memberDef.detailedDescription,
+            showHeader: false
+          })
 
           result += this.renderLocationMdx(memberDef.location)
 
@@ -1126,7 +1126,7 @@ export class DocusaurusGenerator {
 
       default:
         result += '\n'
-        result += '<MemberDefinition>'
+        result += '<MemberDefinition>\n'
         console.warn('memberDef', memberDef.kind, memberDef.name, 'not implemented yet in', this.constructor.name, 'renderMemberDefMdx')
     }
 
@@ -1292,13 +1292,12 @@ export class DocusaurusGenerator {
           const itemRight = `<Link to="${permalink}">${escapeHtml(innerDataObject.indexName)}</Link>`
 
           result += '\n'
-          result += '<MembersIndexItem'
-          result += `\n  itemLeft="${itemLeft}"`
-          result += `\n  itemRight={${itemRight}}>`
+          result += '<MembersIndexItem\n'
+          result += `  itemLeft="${itemLeft}"\n`
+          result += `  itemRight={${itemRight}}>\n`
 
           const briefDescription: string = this.renderElementMdx(innerCompoundDef.briefDescription).trim()
           if (briefDescription.length > 0) {
-            result += '\n'
             result += briefDescription
             if (!['Namespaces', 'Dirs', 'Files'].includes(suffix)) {
               result += ` <Link to="${permalink}#details">`
@@ -1307,6 +1306,7 @@ export class DocusaurusGenerator {
             }
             result += '\n'
           }
+
           result += '</MembersIndexItem>\n'
         }
 
@@ -1469,30 +1469,28 @@ export class DocusaurusGenerator {
     }
 
     result += '\n'
-    result += '<MembersIndexItem'
+    result += '<MembersIndexItem\n'
 
     if (itemLeft.length > 0) {
       if (itemLeft.includes('<') || itemLeft.includes('&')) {
-        result += `\n  itemLeft={<>${itemLeft}</>}`
+        result += `  itemLeft={<>${itemLeft}</>}\n`
       } else {
-        result += `\n  itemLeft="${itemLeft}"`
+        result += `  itemLeft="${itemLeft}"\n`
       }
     } else {
-      result += '\n  itemLeft="&nbsp;"'
+      result += '  itemLeft="&nbsp;"\n'
     }
     if (itemRight.includes('<') || itemRight.includes('&')) {
-      result += `\n  itemRight={<>${itemRight}</>}`
+      result += `  itemRight={<>${itemRight}</>}>\n`
     } else {
-      result += `\n  itemRight="${itemRight}"`
+      result += `  itemRight="${itemRight}">\n`
     }
-    result += '>'
 
     result += this.renderBriefDescriptionMdx({
       briefDescription: memberDef.briefDescription,
       morePermalink: permalink
     })
 
-    result += '\n'
     result += '</MembersIndexItem>\n'
 
     return result
@@ -1630,19 +1628,18 @@ export class DocusaurusGenerator {
     const itemLeft = compoundDef.kind
     const itemRight = `<Link to="${permalink}">${escapeHtml(classs.indexName)}</Link>`
 
-    result += '\n<MembersIndexItem'
-    result += `\n itemLeft="${itemLeft}"`
-    result += `\n itemRight={${itemRight}}>`
+    result += '<MembersIndexItem\n'
+    result += `  itemLeft="${itemLeft}"\n`
+    result += `  itemRight={${itemRight}}>\n`
 
     const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription).trim()
     if (briefDescription.length > 0) {
-      result += '\n'
       result += briefDescription
       result += ` <Link to="${permalink}#details">`
       result += 'More...'
       result += '</Link>'
+      result += '\n'
     }
-    result += '\n'
     result += '</MembersIndexItem>\n'
 
     return result

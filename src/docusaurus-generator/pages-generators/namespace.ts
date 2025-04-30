@@ -28,8 +28,11 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
+    const descriptionTodo = `@namespace ${compoundDef.compoundName}`
+
     result += this.context.renderBriefDescriptionMdx({
       briefDescription: compoundDef.briefDescription,
+      todo: descriptionTodo,
       morePermalink: '#details'
     })
 
@@ -42,7 +45,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
 
     result += this.context.renderDetailedDescriptionMdx({
       detailedDescription: compoundDef.detailedDescription,
-      todo: `@namespace ${compoundDef.compoundName}`
+      todo: descriptionTodo
     })
 
     result += this.context.renderSectionDefsMdx(compoundDef)

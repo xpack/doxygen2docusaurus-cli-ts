@@ -28,8 +28,17 @@ export class FileGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
+    // const file = this.context.files.membersById.get(compoundDef.id)
+    // console.log('file:', file, 'for', compoundDef.id)
+    // console.log('files.membersById', this.context.files.membersById)
+    // assert(file?.parentFolderId !== undefined)
+    // const fileFolderPath = `${this.context.folders.getRelativePathRecursively(file?.parentFolderId)}/${compoundDef.compoundName}`
+    const fileFolderPath = `${this.context.files.getRelativePathRecursively(compoundDef.id)}`
+    const descriptionTodo = `@file ${fileFolderPath}`
+
     result += this.context.renderBriefDescriptionMdx({
       briefDescription: compoundDef.briefDescription,
+      todo: descriptionTodo,
       morePermalink: '#details'
     })
 
@@ -42,16 +51,9 @@ export class FileGenerator extends PageGeneratorBase {
 
     result += this.context.renderSectionDefIndicesMdx(compoundDef)
 
-    // const file = this.context.files.membersById.get(compoundDef.id)
-    // console.log('file:', file, 'for', compoundDef.id)
-    // console.log('files.membersById', this.context.files.membersById)
-    // assert(file?.parentFolderId !== undefined)
-    // const fileFolderPath = `${this.context.folders.getRelativePathRecursively(file?.parentFolderId)}/${compoundDef.compoundName}`
-    const fileFolderPath = `${this.context.files.getRelativePathRecursively(compoundDef.id)}`
-
     result += this.context.renderDetailedDescriptionMdx({
       detailedDescription: compoundDef.detailedDescription,
-      todo: `@file ${fileFolderPath}`
+      todo: descriptionTodo
     })
 
     result += this.context.renderSectionDefsMdx(compoundDef)

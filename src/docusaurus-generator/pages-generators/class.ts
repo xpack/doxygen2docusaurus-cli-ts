@@ -32,8 +32,12 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     let result: string = ''
 
+    const kind = compoundDef.kind
+    const descriptionTodo = `@${kind} ${compoundDef.compoundName}`
+
     result += this.context.renderBriefDescriptionMdx({
       briefDescription: compoundDef.briefDescription,
+      todo: descriptionTodo,
       morePermalink: '#details'
     })
 
@@ -42,8 +46,6 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     const classs = this.context.classes.membersById.get(compoundDef.id)
     assert(classs !== undefined)
-
-    const kind = compoundDef.kind
 
     let classFullName = classs.fullyQualifiedName
     if (classs.templateParameters.length > 0) {
@@ -81,6 +83,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
         }
         result += '\n'
         result += '<MembersIndex>\n'
+        result += '\n'
 
         for (const baseCompoundRef of compoundDef.baseCompoundRefs) {
           // console.log(util.inspect(baseCompoundRef, { compact: false, depth: 999 }))
@@ -93,9 +96,9 @@ export class ClassPageGenerator extends PageGeneratorBase {
           } else {
             const itemRight = escapeHtml(baseCompoundRef.text)
             result += '\n'
-            result += '<MembersIndexItem'
-            result += `\n  itemLeft="${kind}"`
-            result += `\n  itemRight={<>${itemRight}</>}>\n`
+            result += '<MembersIndexItem\n'
+            result += `  itemLeft="${kind}"\n`
+            result += `  itemRight={<>${itemRight}</>}>\n`
             result += '</MembersIndexItem>\n'
           }
         }
@@ -112,6 +115,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
         result += '\n'
         result += '<MembersIndex>\n'
+        result += '\n'
+
         for (const baseClassId of object.baseClassIds) {
           const baseCompoundDef = this.context.compoundDefsById.get(baseClassId)
           assert(baseCompoundDef !== undefined)
@@ -130,6 +135,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
         result += '\n'
         result += '<MembersIndex>\n'
+        result += '\n'
 
         for (const derivedCompoundRef of compoundDef.derivedCompoundRefs) {
           // console.log(util.inspect(derivedCompoundRef, { compact: false, depth: 999 }))
@@ -142,10 +148,10 @@ export class ClassPageGenerator extends PageGeneratorBase {
           } else {
             const itemRight = escapeHtml(derivedCompoundRef.text)
             result += '\n'
-            result += '<MembersIndexItem'
-            result += `\n itemLeft="${kind}"`
-            result += `\n itemRight={<>${itemRight}</>}>`
-            result += '\n</MembersIndexItem>\n'
+            result += '<MembersIndexItem\n'
+            result += `  itemLeft="${kind}"\n`
+            result += `  itemRight={<>${itemRight}</>}>\n`
+            result += '</MembersIndexItem>\n'
           }
         }
 
@@ -157,6 +163,8 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
         result += '\n'
         result += '<MembersIndex>\n'
+        result += '\n'
+
         for (const derivedClassId of object.childrenIds) {
           const derivedCompoundDef = this.context.compoundDefsById.get(derivedClassId)
           assert(derivedCompoundDef !== undefined)
@@ -177,13 +185,9 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
     result += this.context.renderSectionDefIndicesMdx(compoundDef)
 
-    result += '\n'
-    result += '## Description {#details}\n'
-
     result += this.context.renderDetailedDescriptionMdx({
       detailedDescription: compoundDef.detailedDescription,
-      todo: `@${kind} ${compoundDef.compoundName}`,
-      showHeader: false
+      todo: descriptionTodo
     })
 
     result += this.context.renderLocationMdx(compoundDef.location)
