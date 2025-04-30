@@ -17,7 +17,7 @@ import * as util from 'node:util'
 import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
 import { Group } from '../view-model/groups-vm.js'
-import { escapeHtml } from '../utils.js'
+import { escapeMdx } from '../utils.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 
 // ----------------------------------------------------------------------------
@@ -98,7 +98,7 @@ export class GroupGenerator extends PageGeneratorBase {
     let result: string = ''
 
     const compoundDef = group.compoundDef
-    const label = escapeHtml(compoundDef.title?.trim() ?? '?')
+    const label = escapeMdx(compoundDef.title?.trim() ?? '?')
 
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)

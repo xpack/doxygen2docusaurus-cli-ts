@@ -16,7 +16,7 @@ import * as util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
-import { escapeHtml } from '../utils.js'
+import { escapeMdx } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ export class RefTextTypeGenerator extends ElementGeneratorBase {
     assert(permalink !== undefined && permalink.length > 1)
 
     result += `<Link to="${permalink}">`
-    result += escapeHtml(element.text)
+    result += escapeMdx(element.text)
     result += '</Link>'
 
     return result

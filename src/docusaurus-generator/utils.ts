@@ -25,7 +25,7 @@ export function formatDate (date: Date): string {
 
 // ----------------------------------------------------------------------------
 
-export function escapeHtml (text: string): string {
+export function escapeMdx (text: string): string {
   return text
     .replaceAll(/[&]/g, '&amp;')
     .replaceAll(/[<]/g, '&lt;')
@@ -35,8 +35,8 @@ export function escapeHtml (text: string): string {
     .replaceAll(/[{]/g, '&#123;')
     .replaceAll(/[}]/g, '&#125;')
     .replaceAll(/[\\]/g, '\\\\')
-    .replaceAll(/[*]/g, '&#42;') // bold
-    .replaceAll(/[_]/g, '&#95;') // italics
+    .replaceAll(/[*]/g, '&#42;') // Markdown for bold.
+    .replaceAll(/[_]/g, '&#95;') // Markdown for italics.
 }
 
 // export function encodeUrl (text: string): string {

@@ -15,7 +15,7 @@ import assert from 'assert'
 import * as util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
-import { escapeHtml } from '../utils.js'
+import { escapeMdx } from '../utils.js'
 import { AbstractRefType } from '../../data-model/compounds/reftype-dm.js'
 
 // ----------------------------------------------------------------------------
@@ -37,7 +37,7 @@ export class RefTypeGenerator extends ElementGeneratorBase {
     assert(permalink !== undefined && permalink.length > 1)
 
     result += `<Link to="${permalink}">`
-    result += escapeHtml(element.text)
+    result += escapeMdx(element.text)
     result += '</Link>'
 
     return result

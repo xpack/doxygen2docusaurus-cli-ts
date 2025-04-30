@@ -17,7 +17,7 @@ import * as util from 'node:util'
 import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
 import { Namespace } from '../view-model/namespaces-vm.js'
-import { escapeHtml } from '../utils.js'
+import { escapeMdx } from '../utils.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 
 // ----------------------------------------------------------------------------
@@ -86,7 +86,7 @@ export class NamespaceGenerator extends PageGeneratorBase {
     let result: string = ''
 
     const compoundDef = namespace.compoundDef
-    const label = escapeHtml(namespace.indexName)
+    const label = escapeMdx(namespace.indexName)
 
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)

@@ -19,7 +19,7 @@ import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
 import { Class } from '../view-model/classes-vm.js'
 
-import { escapeHtml } from '../utils.js'
+import { escapeMdx } from '../utils.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 
 // ----------------------------------------------------------------------------
@@ -51,11 +51,11 @@ export class ClassPageGenerator extends PageGeneratorBase {
     if (classs.templateParameters.length > 0) {
       classFullName += classs.templateParameters
     } else {
-      classFullName += escapeHtml(this.context.renderTemplateParameterNamesMdx(compoundDef.templateParamList))
+      classFullName += escapeMdx(this.context.renderTemplateParameterNamesMdx(compoundDef.templateParamList))
     }
 
     if (compoundDef.templateParamList?.params !== undefined) {
-      const template = escapeHtml(this.context.renderTemplateParametersMdx({
+      const template = escapeMdx(this.context.renderTemplateParametersMdx({
         templateParamList: compoundDef.templateParamList,
         withDefaults: true
       }))
@@ -94,7 +94,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
             result += this.context.renderClassIndexMdx(compoundDef)
           } else {
-            const itemName = escapeHtml(baseCompoundRef.text)
+            const itemName = escapeMdx(baseCompoundRef.text)
             result += '\n'
             result += '<MembersIndexItem\n'
             result += `  type="${kind}"\n`
@@ -146,7 +146,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
 
             result += this.context.renderClassIndexMdx(compoundDef)
           } else {
-            const itemName = escapeHtml(derivedCompoundRef.text)
+            const itemName = escapeMdx(derivedCompoundRef.text)
             result += '\n'
             result += '<MembersIndexItem\n'
             result += `  type="${kind}"\n`
@@ -245,7 +245,7 @@ export class ClassPageGenerator extends PageGeneratorBase {
       iconLetter = '?'
     }
 
-    const label = escapeHtml(classs.unqualifiedName)
+    const label = escapeMdx(classs.unqualifiedName)
 
     result += '\n'
     result += `<TreeTableRow itemIconLetter="${iconLetter}" itemLabel="${label}" itemLink="${permalink}" depth = "${depth}" >\n`

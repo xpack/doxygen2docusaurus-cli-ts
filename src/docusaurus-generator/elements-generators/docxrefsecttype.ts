@@ -16,7 +16,7 @@ import * as util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
 import { AbstractDocXRefSectType } from '../../data-model/compounds/descriptiontype-dm.js'
-import { escapeHtml } from '../utils.js'
+import { escapeMdx } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -28,7 +28,7 @@ export class DocXRefSectType extends ElementGeneratorBase {
 
     result += '\n'
     result += '<XrefSect'
-    result += ` title="${escapeHtml(element.xreftitle ?? '?')}"`
+    result += ` title="${escapeMdx(element.xreftitle ?? '?')}"`
     const permalink = this.context.getXrefPermalink(element.id)
     result += ` permalink="${permalink}"`
     result += '>\n'

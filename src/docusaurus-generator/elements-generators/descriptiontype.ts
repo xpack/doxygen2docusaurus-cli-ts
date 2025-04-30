@@ -16,7 +16,7 @@ import util from 'util'
 
 import { ElementGeneratorBase } from './element-generator-base.js'
 import { AbstractCodeLineType, AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractHighlightType, AbstractListingType, AbstractSpType, CodeLineDataModel, HighlightDataModel, ParaDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
-import { escapeHtml } from '../utils.js'
+import { escapeMdx } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -351,13 +351,13 @@ export class DocParamListTypegenerator extends ElementGeneratorBase {
                         if (child.direction !== undefined) {
                           names.push(`[${child.direction}] ${subChild}`)
                         } else {
-                          names.push(escapeHtml(subChild))
+                          names.push(escapeMdx(subChild))
                         }
                       } else if (child instanceof ParameterTypeDataModel) {
                         console.error(util.inspect(parameterName.children, { compact: false, depth: 999 }))
                         console.error(element.constructor.name, 'ParameterType not yet rendered in', this.constructor.name)
                       } else {
-                        names.push(escapeHtml(subChild))
+                        names.push(escapeMdx(subChild))
                       }
                     } else {
                       console.error(util.inspect(subChild, { compact: false, depth: 999 }))

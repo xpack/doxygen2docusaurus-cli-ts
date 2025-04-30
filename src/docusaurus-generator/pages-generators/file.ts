@@ -17,7 +17,7 @@ import * as util from 'node:util'
 import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
 import { File } from '../view-model/files-vm.js'
-import { escapeHtml } from '../utils.js'
+import { escapeMdx } from '../utils.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 
 // ----------------------------------------------------------------------------
@@ -84,7 +84,7 @@ export class FileGenerator extends PageGeneratorBase {
     let result: string = ''
 
     const compoundDef = file.compoundDef
-    const label = escapeHtml(file.compoundDef.compoundName)
+    const label = escapeMdx(file.compoundDef.compoundName)
 
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)

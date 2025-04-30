@@ -48,7 +48,7 @@ import { NamespaceGenerator } from './pages-generators/namespace.js'
 import { PageGenerator } from './pages-generators/page.js'
 import { Sidebar } from './sidebar.js'
 import { FrontMatter } from './types.js'
-import { escapeHtml, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js'
+import { escapeMdx, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js'
 import { CompoundBase } from './view-model/compound-base-vm.js'
 import { AbstractMemberDefType, MemberDefDataModel } from '../data-model/compounds/memberdeftype-dm.js'
 import { SectionDefDataModel } from '../data-model/compounds/sectiondeftype-dm.js'
@@ -659,7 +659,7 @@ export class DocusaurusGenerator {
     }
 
     if (typeof element === 'string') {
-      return escapeHtml(element)
+      return escapeMdx(element)
     }
 
     if (Array.isArray(element)) {
@@ -963,7 +963,7 @@ export class DocusaurusGenerator {
     }
 
     result += '\n'
-    result += `## ${escapeHtml(header)}\n`
+    result += `## ${escapeMdx(header)}\n`
 
     const isFunction: boolean = sectionDef.kind === 'public-func'
 
@@ -1037,7 +1037,7 @@ export class DocusaurusGenerator {
     const name = memberDef.name + (isFunction ? '()' : '')
 
     result += '\n'
-    result += `### ${escapeHtml(name)} {#${id}}\n`
+    result += `### ${escapeMdx(name)} {#${id}}\n`
 
     // console.log(memberDef.kind)
     switch (memberDef.kind) {
@@ -1048,7 +1048,7 @@ export class DocusaurusGenerator {
           // WARNING: the rule to decide which type is trailing is not in XMLs.
           // TODO: improve.
           assert(memberDef.definition !== undefined)
-          let prototype = escapeHtml(memberDef.definition)
+          let prototype = escapeMdx(memberDef.definition)
           if (memberDef.kind === 'function') {
             prototype += ' ('
 
@@ -1074,7 +1074,7 @@ export class DocusaurusGenerator {
           result += '\n'
           result += '<MemberDefinition\n'
           if (templateParameters.length > 0) {
-            const template = escapeHtml(`template ${templateParameters}`)
+            const template = escapeMdx(`template ${templateParameters}`)
             result += `  template={<>${template}</>}\n`
           }
           result += `  prototype={<>${prototype}</>}`
@@ -1106,7 +1106,7 @@ export class DocusaurusGenerator {
           if (memberDef.strong?.valueOf()) {
             prototype += 'class '
           }
-          prototype += escapeHtml(memberDef.qualifiedName ?? '?')
+          prototype += escapeMdx(memberDef.qualifiedName ?? '?')
           result += '\n'
           result += '<MemberDefinition\n'
           result += `  prototype={<>${prototype}</>}\n`
@@ -1227,9 +1227,9 @@ export class DocusaurusGenerator {
       if (location.bodyfile !== undefined && location.file !== location.bodyfile) {
         result += 'Declaration at line '
         const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
-        result += `<Link to="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</Link>`
+        result += `<Link to="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</Link>`
         result += ' of file '
-        result += `<Link to="${permalink}">${escapeHtml(path.basename(location.file) as string)}</Link>`
+        result += `<Link to="${permalink}">${escapeMdx(path.basename(location.file) as string)}</Link>`
 
         const definitionFile = this.files.membersByPath.get(location.bodyfile)
         assert(definitionFile !== undefined)
@@ -1237,16 +1237,16 @@ export class DocusaurusGenerator {
 
         result += ', definition at line '
         const lineStart = `l${location.bodystart?.toString().padStart(5, '0')}`
-        result += `<Link to="${definitionPermalink}/#${lineStart}">${escapeHtml(location.bodystart?.toString() ?? '?')}</Link>`
+        result += `<Link to="${definitionPermalink}/#${lineStart}">${escapeMdx(location.bodystart?.toString() ?? '?')}</Link>`
         result += ' of file '
-        result += `<Link to="${definitionPermalink}">${escapeHtml(path.basename(location.bodyfile) as string)}</Link>`
+        result += `<Link to="${definitionPermalink}">${escapeMdx(path.basename(location.bodyfile) as string)}</Link>`
         result += '.\n'
       } else {
         result += 'Definition at line '
         const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
-        result += `<Link to="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</Link>`
+        result += `<Link to="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</Link>`
         result += ' of file '
-        result += `<Link to="${permalink}">${escapeHtml(path.basename(location.file) as string)}</Link>`
+        result += `<Link to="${permalink}">${escapeMdx(path.basename(location.file) as string)}</Link>`
         result += '.\n'
       }
     }
@@ -1299,7 +1299,7 @@ export class DocusaurusGenerator {
           const kind = innerCompoundDef.kind
 
           const itemType = kind === 'dir' ? 'folder' : (kind === 'group' ? '&nbsp;' : kind)
-          const itemName = `<Link to="${permalink}">${escapeHtml(innerDataObject.indexName)}</Link>`
+          const itemName = `<Link to="${permalink}">${escapeMdx(innerDataObject.indexName)}</Link>`
 
           result += '\n'
           result += '<MembersIndexItem\n'
@@ -1353,7 +1353,7 @@ export class DocusaurusGenerator {
 
     if (sectionDef.memberDefs !== undefined || sectionDef.members !== undefined) {
       result += '\n'
-      result += `## ${escapeHtml(header)} Index\n`
+      result += `## ${escapeMdx(header)} Index\n`
 
       result += '\n'
       result += '<MembersIndex>\n'
@@ -1394,7 +1394,7 @@ export class DocusaurusGenerator {
     const permalink = this.getPermalink({ refid: memberDef.id, kindref: 'member' })
     assert(permalink !== undefined && permalink.length > 1)
 
-    const name = escapeHtml(memberDef.name)
+    const name = escapeMdx(memberDef.name)
 
     let itemType = ''
     let itemName = `<Link to="${permalink}">${name}</Link>`
@@ -1433,14 +1433,14 @@ export class DocusaurusGenerator {
 
           if (memberDef.argsstring !== undefined) {
             itemName += ' '
-            itemName += escapeHtml(memberDef.argsstring)
+            itemName += escapeMdx(memberDef.argsstring)
           }
           if (trailingType) {
             if (!itemType.includes('auto')) {
               itemType += 'auto '
             }
             // WARNING: Doxygen shows this, but the resulting line is too long.
-            itemName += escapeHtml(' -> ')
+            itemName += escapeMdx(' -> ')
             itemName += type
           } else {
             itemType += type
@@ -1630,7 +1630,7 @@ export class DocusaurusGenerator {
     const permalink = this.getPagePermalink(compoundDef.id)
 
     const itemType = compoundDef.kind
-    const itemName = `<Link to="${permalink}">${escapeHtml(classs.indexName)}</Link>`
+    const itemName = `<Link to="${permalink}">${escapeMdx(classs.indexName)}</Link>`
 
     result += '<MembersIndexItem\n'
     result += `  type="${itemType}"\n`

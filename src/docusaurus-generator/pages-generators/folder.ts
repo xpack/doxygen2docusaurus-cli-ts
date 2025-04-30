@@ -18,7 +18,7 @@ import { FrontMatter } from '../types.js'
 import { PageGeneratorBase } from './base.js'
 import { Folder } from '../view-model/folders-vm.js'
 import { FileGenerator } from './file.js'
-import { escapeHtml } from '../utils.js'
+import { escapeMdx } from '../utils.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 
 // ----------------------------------------------------------------------------
@@ -91,7 +91,7 @@ export class FolderGenerator extends PageGeneratorBase {
     let result: string = ''
 
     const compoundDef = folder.compoundDef
-    const label = escapeHtml(folder.compoundDef.compoundName)
+    const label = escapeMdx(folder.compoundDef.compoundName)
 
     const permalink = this.context.getPagePermalink(compoundDef.id)
     assert(permalink !== undefined && permalink.length > 1)
