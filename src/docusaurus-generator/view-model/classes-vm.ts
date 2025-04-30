@@ -88,7 +88,7 @@ export class Class extends CompoundBase {
     const kind = compoundDef.kind
     const kindCapitalised = kind.charAt(0).toUpperCase() + kind.slice(1).toLowerCase()
 
-    this.pageTitle = `The ${this.unqualifiedName} ${kindCapitalised}`
+    this.pageTitle = `The \`${this.unqualifiedName}\` ${kindCapitalised}`
     if (compoundDef.templateParamList !== undefined) {
       this.pageTitle += ' Template'
     }

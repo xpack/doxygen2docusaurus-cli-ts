@@ -109,7 +109,7 @@ export class Folder extends CompoundBase {
 
     this.indexName = this.sidebarLabel
 
-    this.pageTitle = `The ${this.sidebarLabel} Folder Reference`
+    this.pageTitle = `The \`${this.sidebarLabel}\` Folder Reference`
   }
 }
 

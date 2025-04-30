@@ -105,7 +105,7 @@ export class File extends CompoundBase {
 
     this.indexName = this.sidebarLabel
 
-    this.pageTitle = `The ${this.sidebarLabel} File Reference`
+    this.pageTitle = `The \`${this.sidebarLabel}\` File Reference`
 
     // console.log('File.constructor', util.inspect(compoundDef))
   }

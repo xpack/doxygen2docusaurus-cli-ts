@@ -376,7 +376,7 @@ export class DocusaurusGenerator {
       const filePath = `${outputFolderPath}/${fileName}`
 
       const frontMatter: FrontMatter = {
-        title: `${dataObject.pageTitle ?? compoundDef.compoundName}`,
+        // title: `${dataObject.pageTitle ?? compoundDef.compoundName}`,
         slug: `${outputFolderPath.replace(/^docs/, '')}/${permalink}`,
         // description: '...', // TODO
         custom_edit_url: null,
@@ -397,7 +397,8 @@ export class DocusaurusGenerator {
       await this.writeFile({
         filePath,
         frontMatter,
-        bodyText
+        bodyText,
+        title: dataObject.pageTitle
       })
 
       this.currentCompoundDef = undefined
@@ -504,11 +505,13 @@ export class DocusaurusGenerator {
   async writeFile ({
     filePath,
     bodyText,
-    frontMatter
+    frontMatter,
+    title
   }: {
     filePath: string
     bodyText: string
     frontMatter: FrontMatter
+    title?: string
   }): Promise<void> {
     let text = ''
     text += `<DoxygenPage version="${this.dataModel.doxygenindex.version}">\n`
@@ -559,6 +562,8 @@ export class DocusaurusGenerator {
       frontMatterText += 'import Admonition from \'@theme/Admonition\'\n'
     }
 
+    frontMatterText += '\n'
+
     // Add includes for the plugin components.
     for (const componentName of this.componentNames) {
       if (text.includes(`<${componentName}`)) {
@@ -567,6 +572,10 @@ export class DocusaurusGenerator {
     }
 
     frontMatterText += '\n'
+    if (frontMatter.title === undefined && title !== undefined) {
+      frontMatterText += `# ${title}\n`
+      frontMatterText += '\n'
+    }
 
     await fs.mkdir(path.dirname(filePath), { recursive: true })
     const fileHandle = await fs.open(filePath, 'ax')
@@ -1289,13 +1298,13 @@ export class DocusaurusGenerator {
 
           const kind = innerCompoundDef.kind
 
-          const itemLeft = kind === 'dir' ? 'folder' : (kind === 'group' ? '&nbsp;' : kind)
-          const itemRight = `<Link to="${permalink}">${escapeHtml(innerDataObject.indexName)}</Link>`
+          const itemType = kind === 'dir' ? 'folder' : (kind === 'group' ? '&nbsp;' : kind)
+          const itemName = `<Link to="${permalink}">${escapeHtml(innerDataObject.indexName)}</Link>`
 
           result += '\n'
           result += '<MembersIndexItem\n'
-          result += `  itemLeft="${itemLeft}"\n`
-          result += `  itemRight={${itemRight}}>\n`
+          result += `  type="${itemType}"\n`
+          result += `  name={${itemName}}>\n`
 
           result += this.renderBriefDescriptionMdx({
             briefDescription: innerCompoundDef.briefDescription,
@@ -1387,18 +1396,18 @@ export class DocusaurusGenerator {
 
     const name = escapeHtml(memberDef.name)
 
-    let itemLeft = ''
-    let itemRight = `<Link to="${permalink}">${name}</Link>`
+    let itemType = ''
+    let itemName = `<Link to="${permalink}">${name}</Link>`
 
     const templateParamList = memberDef.templateparamlist ?? compoundDef.templateParamList
     // const templateParameters = this.renderTemplateParametersMdx({ templateParamList, withDefaults: true })
 
     switch (memberDef.kind) {
       case 'typedef':
-        itemLeft = 'using'
+        itemType = 'using'
         if (memberDef.type !== undefined) {
-          itemRight += ' = '
-          itemRight += this.renderElementMdx(memberDef.type).trim()
+          itemName += ' = '
+          itemName += this.renderElementMdx(memberDef.type).trim()
         }
         break
 
@@ -1419,43 +1428,43 @@ export class DocusaurusGenerator {
           }
 
           if (memberDef.constexpr?.valueOf() && !type.includes('constexpr')) {
-            itemLeft += 'constexpr '
+            itemType += 'constexpr '
           }
 
           if (memberDef.argsstring !== undefined) {
-            itemRight += ' '
-            itemRight += escapeHtml(memberDef.argsstring)
+            itemName += ' '
+            itemName += escapeHtml(memberDef.argsstring)
           }
           if (trailingType) {
-            if (!itemLeft.includes('auto')) {
-              itemLeft += 'auto '
+            if (!itemType.includes('auto')) {
+              itemType += 'auto '
             }
             // WARNING: Doxygen shows this, but the resulting line is too long.
-            itemRight += escapeHtml(' -> ')
-            itemRight += type
+            itemName += escapeHtml(' -> ')
+            itemName += type
           } else {
-            itemLeft += type
+            itemType += type
           }
 
           if (memberDef.initializer !== undefined) {
-            itemRight += ' '
-            itemRight += this.renderElementMdx(memberDef.initializer)
+            itemName += ' '
+            itemName += this.renderElementMdx(memberDef.initializer)
           }
         }
         break
 
       case 'variable':
-        itemLeft += this.renderElementMdx(memberDef.type).trim()
+        itemType += this.renderElementMdx(memberDef.type).trim()
         if (memberDef.initializer !== undefined) {
-          itemRight += ' '
-          itemRight += this.renderElementMdx(memberDef.initializer)
+          itemName += ' '
+          itemName += this.renderElementMdx(memberDef.initializer)
         }
         break
 
       case 'enum':
-        itemLeft = 'enum'
+        itemType = 'enum'
         if (memberDef.strong?.valueOf()) {
-          itemLeft += ' class'
+          itemType += ' class'
         }
         break
 
@@ -1466,19 +1475,19 @@ export class DocusaurusGenerator {
     result += '\n'
     result += '<MembersIndexItem\n'
 
-    if (itemLeft.length > 0) {
-      if (itemLeft.includes('<') || itemLeft.includes('&')) {
-        result += `  itemLeft={<>${itemLeft}</>}\n`
+    if (itemType.length > 0) {
+      if (itemType.includes('<') || itemType.includes('&')) {
+        result += `  type={<>${itemType}</>}\n`
       } else {
-        result += `  itemLeft="${itemLeft}"\n`
+        result += `  type="${itemType}"\n`
       }
     } else {
-      result += '  itemLeft="&nbsp;"\n'
+      result += '  type="&nbsp;"\n'
     }
-    if (itemRight.includes('<') || itemRight.includes('&')) {
-      result += `  itemRight={<>${itemRight}</>}>\n`
+    if (itemName.includes('<') || itemName.includes('&')) {
+      result += `  name={<>${itemName}</>}>\n`
     } else {
-      result += `  itemRight="${itemRight}">\n`
+      result += `  name="${itemName}">\n`
     }
 
     result += this.renderBriefDescriptionMdx({
@@ -1620,12 +1629,12 @@ export class DocusaurusGenerator {
 
     const permalink = this.getPagePermalink(compoundDef.id)
 
-    const itemLeft = compoundDef.kind
-    const itemRight = `<Link to="${permalink}">${escapeHtml(classs.indexName)}</Link>`
+    const itemType = compoundDef.kind
+    const itemName = `<Link to="${permalink}">${escapeHtml(classs.indexName)}</Link>`
 
     result += '<MembersIndexItem\n'
-    result += `  itemLeft="${itemLeft}"\n`
-    result += `  itemRight={${itemRight}}>\n`
+    result += `  type="${itemType}"\n`
+    result += `  name={${itemName}}>\n`
 
     const briefDescription: string = this.renderElementMdx(compoundDef.briefDescription).trim()
     if (briefDescription.length > 0) {

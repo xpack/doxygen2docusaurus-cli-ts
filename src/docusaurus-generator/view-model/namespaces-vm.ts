@@ -99,7 +99,7 @@ export class Namespace extends CompoundBase {
 
     this.indexName = this.sidebarLabel
 
-    this.pageTitle = `The ${this.sidebarLabel} Namespace Reference`
+    this.pageTitle = `The \`${this.sidebarLabel}\` Namespace Reference`
 
     const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundDef.compoundName.replaceAll('::', '/'))
     this.relativePermalink = `namespaces/${sanitizedPath}`
