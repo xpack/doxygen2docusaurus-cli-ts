@@ -1126,7 +1126,6 @@ export class DocusaurusGenerator {
 
       default:
         result += '\n'
-        result += '<MemberDefinition>\n'
         console.warn('memberDef', memberDef.kind, memberDef.name, 'not implemented yet in', this.constructor.name, 'renderMemberDefMdx')
     }
 
@@ -1187,7 +1186,9 @@ export class DocusaurusGenerator {
     if (locationSet.size > 0) {
       result += '\n'
       result += '<hr/>\n'
+      result += '\n'
       result += `The documentation for this ${compoundDef.kind} was generated from the following file${locationSet.size > 1 ? 's' : ''}:\n`
+      result += '\n'
 
       result += '<ul>\n'
 
