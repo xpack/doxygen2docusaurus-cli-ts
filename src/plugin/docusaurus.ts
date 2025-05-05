@@ -14,7 +14,7 @@
 import assert from 'node:assert'
 import * as util from 'node:util'
 
-import { DataModel } from '../doxygen-xml-parser/index.js'
+import { DataModel } from '../data-model/types.js'
 import { generateDoxygen } from './cli/generate.js'
 import { generateDocusaurusMdx, parseDoxygen } from './main.js'
 

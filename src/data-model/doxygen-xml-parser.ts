@@ -17,21 +17,11 @@ import * as path from 'node:path'
 import * as util from 'node:util'
 
 import { XMLParser } from 'fast-xml-parser'
-import { XmlElement } from '../data-model/types.js'
-import { DoxygenIndexDataModel } from '../data-model/index/indexdoxygentype-dm.js'
-import { DoxygenFileDataModel } from '../data-model/doxyfile/doxyfiletype-dm.js'
-import { CompoundDefDataModel } from '../data-model/compounds/compounddef-dm.js'
-import { DoxygenDataModel } from '../data-model/compounds/doxygentype-dm.js'
-
-// ----------------------------------------------------------------------------
-// Top structure to hold the parsed Doxygen xml data as JS objects.
-// All objects are defined in the `data-model` folder.
-
-export interface DataModel {
-  doxygenindex: DoxygenIndexDataModel // from index.xml
-  compoundDefs: CompoundDefDataModel[] // from `${'@_refid'}.xml`
-  doxyfile: DoxygenFileDataModel // from Doxyfile.xml
-}
+import { XmlElement, DataModel } from './types.js'
+import { DoxygenIndexDataModel } from './index/indexdoxygentype-dm.js'
+import { DoxygenFileDataModel } from './doxyfile/doxyfiletype-dm.js'
+import { CompoundDefDataModel } from './compounds/compounddef-dm.js'
+import { DoxygenDataModel } from './compounds/doxygentype-dm.js'
 
 // ----------------------------------------------------------------------------
 

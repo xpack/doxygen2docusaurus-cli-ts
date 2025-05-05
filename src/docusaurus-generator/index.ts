@@ -14,9 +14,9 @@
 import assert from 'assert'
 import * as fs from 'fs/promises'
 import * as util from 'node:util'
-import path from 'path'
+import path from 'node:path'
 
-import { DataModel } from '../doxygen-xml-parser/index.js'
+import { DataModel } from '../data-model/types.js'
 import { DefValDataModel } from '../data-model/compounds/linkedtexttype-dm.js'
 import { PluginOptions } from '../plugin/options.js'
 import { SidebarItem } from '../plugin/types.js'

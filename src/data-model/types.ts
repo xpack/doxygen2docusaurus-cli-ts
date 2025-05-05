@@ -11,6 +11,12 @@
 
 // ----------------------------------------------------------------------------
 
+import { CompoundDefDataModel } from './compounds/compounddef-dm.js'
+import { DoxygenFileDataModel } from './doxyfile/doxyfiletype-dm.js'
+import { DoxygenIndexDataModel } from './index/indexdoxygentype-dm.js'
+
+// ----------------------------------------------------------------------------
+
 // <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 
 export interface XmlPrologue {
@@ -62,6 +68,16 @@ export abstract class AbstractDataModelBase {
   constructor (elementName: string) {
     this.elementName = elementName
   }
+}
+
+// ----------------------------------------------------------------------------
+// Top structure to hold the parsed Doxygen xml data as JS objects.
+// All objects are defined in the `data-model` folder.
+
+export interface DataModel {
+  doxygenindex: DoxygenIndexDataModel // from index.xml
+  compoundDefs: CompoundDefDataModel[] // from `${'@_refid'}.xml`
+  doxyfile: DoxygenFileDataModel // from Doxyfile.xml
 }
 
 // ----------------------------------------------------------------------------
