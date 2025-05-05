@@ -14,7 +14,7 @@
 import assert from 'assert'
 import * as util from 'node:util'
 
-import { DoxygenXmlParser } from '../../doxygen-xml-parser/index.js'
+import { DoxygenXmlParser } from '../doxygen-xml-parser.js'
 import { BriefDescriptionDataModel, DetailedDescriptionDataModel, InbodyDescriptionDataModel } from './descriptiontype-dm.js'
 import { InitializerDataModel, TypeDataModel } from './linkedtexttype-dm.js'
 import { LocationDataModel } from './locationtype-dm.js'

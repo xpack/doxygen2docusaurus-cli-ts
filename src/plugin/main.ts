@@ -14,7 +14,7 @@
 import assert from 'node:assert'
 import * as util from 'node:util'
 
-import { DataModel, DoxygenXmlParser } from '../doxygen-xml-parser/index.js'
+import { DoxygenXmlParser } from '../data-model/doxygen-xml-parser.js'
 import { defaultOptions, PluginOptions } from './options.js'
 import { DocusaurusGenerator } from '../docusaurus-generator/index.js'
 import { DocusaurusGenerator2 } from '../docusaurus-generator2/main.js'

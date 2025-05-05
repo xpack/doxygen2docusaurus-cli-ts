@@ -14,7 +14,7 @@
 import assert from 'node:assert'
 import * as util from 'node:util'
 
-import { DoxygenXmlParser } from '../../doxygen-xml-parser/index.js'
+import { DoxygenXmlParser } from '../doxygen-xml-parser.js'
 import { MemberRefDataModel } from './memberreftype-dm.js'
 import { AbstractDataModelBase } from '../types.js'
 

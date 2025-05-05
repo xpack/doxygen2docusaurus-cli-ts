@@ -23,7 +23,7 @@ import { BriefDescriptionDataModel, DetailedDescriptionDataModel, ProgramListing
 import { InnerClassDataModel, InnerDirDataModel, InnerFileDataModel, InnerGroupDataModel, InnerNamespaceDataModel } from './reftype-dm.js'
 import { LocationDataModel } from './locationtype-dm.js'
 import { AbstractDataModelBase } from '../types.js'
-import { DoxygenXmlParser } from '../../doxygen-xml-parser/index.js'
+import { DoxygenXmlParser } from '../doxygen-xml-parser.js'
 
 // ----------------------------------------------------------------------------
 
