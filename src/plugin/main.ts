@@ -17,6 +17,7 @@ import * as util from 'node:util'
 import { DataModel, DoxygenXmlParser } from '../doxygen-xml-parser/index.js'
 import { defaultOptions, PluginOptions } from './options.js'
 import { DocusaurusGenerator } from '../docusaurus-generator/index.js'
+import { DocusaurusGenerator2 } from '../docusaurus-generator2/main.js'
 
 // ----------------------------------------------------------------------------
 
@@ -27,7 +28,7 @@ export async function parseDoxygen ({
 }): Promise<DataModel> {
   // console.log('generateDoxygen()')
   // console.log(`context: ${util.inspect(context)}`)
-  // console.log(`options: ${util.inspect(options)}`)
+  // console.log('options:', util.inspect(options))
 
   // Merge with the defaults.
   const actualOptions: PluginOptions = {
@@ -59,9 +60,14 @@ export async function generateDocusaurusMdx ({
     ...defaultOptions,
     ...options
   }
-
-  const docs = new DocusaurusGenerator({ dataModel, pluginOptions: actualOptions })
-  await docs.generate()
+  // console.log('generateDocusaurusMdx()')
+  if (actualOptions.id === 'default') {
+    const docs = new DocusaurusGenerator({ dataModel, pluginOptions: actualOptions })
+    await docs.generate()
+  } else {
+    const docs2 = new DocusaurusGenerator2({ dataModel, pluginOptions: actualOptions })
+    await docs2.generate()
+  }
 
   return 0
 }

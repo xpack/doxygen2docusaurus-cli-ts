@@ -17,13 +17,36 @@ import * as util from 'node:util'
 import { DataModel } from '../../doxygen-xml-parser/index.js'
 import { generateDocusaurusMdx, parseDoxygen } from '../main.js'
 import { PluginOptions } from '../options.js'
+import { pluginName } from '../docusaurus.js'
 
 // ----------------------------------------------------------------------------
 
-export async function generateDoxygen (context: any, options: PluginOptions): Promise<number> {
+export async function generateDoxygen (context: any, pluginOptions: PluginOptions, cliOptions: any): Promise<number> {
   // console.log('generateDoxygen()')
-  // console.log(`context: ${util.inspect(context)}`)
-  // console.log(`options: ${util.inspect(options)}`)
+  // console.log('context:', util.inspect(context))
+  // console.log('pluginOptions:', util.inspect(pluginOptions))
+
+  let options = pluginOptions
+
+  if (cliOptions?.id !== undefined) {
+    let found = false
+    for (const plugin of context.siteConfig.plugins) {
+      if (Array.isArray(plugin)) {
+        if (plugin[0] === pluginName) {
+          const configPluginOptions = plugin[1]
+          if (configPluginOptions.id === cliOptions?.id) {
+            options = configPluginOptions
+            found = true
+            break
+          }
+        }
+      }
+    }
+    if (!found) {
+      console.error(`'--id ${cliOptions.id as string}' not found in docusaurus.config.ts`)
+      return -1
+    }
+  }
 
   const dataModel: DataModel = await parseDoxygen({ options })
 

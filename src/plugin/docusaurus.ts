@@ -11,6 +11,9 @@
 
 // ----------------------------------------------------------------------------
 
+import assert from 'node:assert'
+import * as util from 'node:util'
+
 import { DataModel } from '../doxygen-xml-parser/index.js'
 import { generateDoxygen } from './cli/generate.js'
 import { generateDocusaurusMdx, parseDoxygen } from './main.js'
@@ -18,24 +21,36 @@ import { generateDocusaurusMdx, parseDoxygen } from './main.js'
 // ----------------------------------------------------------------------------
 // The Docusaurus plugin entry point.
 
+export const pluginName = '@xpack/docusaurus-plugin-doxygen'
+
 export default async function pluginDocusaurus (
   context: any,
   options: any
 ): Promise<any> {
-  console.log('@xpack/docusaurus-plugin-doxygen: initialising...')
-  // console.log(`context: ${util.inspect(context)}`)
+  if (options.id !== undefined && options.id !== 'default') {
+    console.log(`${pluginName}: initialising instance '${options.id as string}'...`)
+  } else {
+    console.log(`${pluginName}: initialising...`)
+  }
+
+  // console.log('context:', util.inspect(context))
   // The plugin configuration options.
-  // console.log(`options: ${util.inspect(options)}`)
+  // console.log('options:', util.inspect(options))
 
   // await generateTypedoc(context, options);
 
   return {
-    name: '@xpack/docusaurus-plugin-doxygen',
+    name: pluginName,
 
     // https://docusaurus.io/docs/api/plugin-methods/lifecycle-apis
     // Fetch from data sources. The return value is the content it needs.
+    // It is called for each plugin instance (in parallel).
     async loadContent () {
-      console.log('docusaurus-plugin-doxygen: loading content...')
+      if (options.id !== undefined && options.id !== 'default') {
+        console.log(`${pluginName.replaceAll(/^.*[/]/g, '')}: loading instance '${options.id as string}' content...`)
+      } else {
+        console.log(`${pluginName.replaceAll(/^.*[/]/g, '')}: loading content...`)
+      }
       // console.log(options)
 
       const dataModel: DataModel = await parseDoxygen({ options })
@@ -60,11 +75,12 @@ export default async function pluginDocusaurus (
     extendCli (cli: any) {
       cli
         .command('generate-doxygen')
+        .option('--id <string>', 'Specify the plugin instance')
         .description(
           '[@xpack/docusaurus-plugin-doxygen] Generate Doxygen docs independently of the Docusaurus build process.'
         )
-        .action(async () => {
-          return await generateDoxygen(context, options)
+        .action(async (cliOptions: any) => {
+          return await generateDoxygen(context, options, cliOptions)
         })
     }
   }
