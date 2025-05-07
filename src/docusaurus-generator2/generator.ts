@@ -1,0 +1,143 @@
+/*
+ * This file is part of the xPack project (http://xpack.github.io).
+ * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
+ *
+ * Permission to use, copy, modify, and/or distribute this software
+ * for any purpose is hereby granted, under the terms of the MIT license.
+ *
+ * If a copy of the license was not distributed with this file, it can
+ * be obtained from https://opensource.org/licenses/MIT.
+ */
+
+// ----------------------------------------------------------------------------
+
+import * as util from 'node:util'
+import assert from 'node:assert'
+import path from 'node:path'
+import * as fs from 'node:fs/promises'
+
+import { Workspace } from './workspace.js'
+import { DataModel } from '../data-model/types.js'
+import { PluginOptions } from '../plugin/options.js'
+import { SidebarItem } from '../plugin/types.js'
+import { CompoundBase } from './view-model/compound-base-vm.js'
+
+export class DocusaurusGenerator2 {
+  workspace: Workspace
+
+  constructor ({
+    dataModel,
+    pluginOptions
+  }: {
+    dataModel: DataModel
+    pluginOptions: PluginOptions
+  }) {
+    // console.log('DocusaurusGenerator2.constructor()')
+    this.workspace = new Workspace({ dataModel, pluginOptions })
+  }
+
+  async generate (): Promise<void> {
+    // console.log('DocusaurusGenerator2.generate()')
+
+    this.createHierarchies()
+    this.validatePermalinks()
+
+    await this.prepareOutputFolder()
+    await this.writeSidebar()
+    await this.generateIndexDotMdxFiles()
+  }
+
+  createHierarchies (): void {
+    console.log('Creating objects hierarchies...')
+
+    for (const [collectionName, collection] of this.workspace.viewModel) {
+      // console.log('createHierarchies:', collectionName)
+      collection.createHierarchies()
+    }
+  }
+
+  /**
+   * @brief Validate the uniqueness of permalinks.
+   */
+  validatePermalinks (): void {
+    console.log('Validating permalinks...')
+
+    assert(this.workspace.pluginOptions.outputFolderPath)
+    // const outputFolderPath = this.options.outputFolderPath
+
+    const pagePermalinksById: Map<string, string> = new Map()
+    const pagePermalinksSet: Set<string> = new Set()
+
+    for (const compoundDef of this.workspace.dataModel.compoundDefs) {
+      // console.log(compoundDef.kind, compoundDef.compoundName)
+
+      const dataObject: CompoundBase | undefined = this.workspace.dataObjectsById.get(compoundDef.id)
+      if (dataObject === undefined) {
+        console.error('compoundDef', compoundDef.id, 'not yet processed in', this.constructor.name, 'validatePermalinks')
+        continue
+      }
+
+      const permalink = dataObject.relativePermalink
+      assert(permalink !== undefined)
+      // console.log('permalink:', permalink)
+
+      if (pagePermalinksById.has(compoundDef.id)) {
+        console.error('Permalink clash for id', compoundDef.id)
+      }
+      if (pagePermalinksSet.has(permalink)) {
+        console.error('Permalink clash for permalink', permalink, 'id:', compoundDef.id)
+      }
+      pagePermalinksById.set(compoundDef.id, permalink)
+      pagePermalinksSet.add(permalink)
+    }
+  }
+
+  // https://nodejs.org/en/learn/manipulating-files/working-with-folders-in-nodejs
+  async prepareOutputFolder (): Promise<void> {
+    assert(this.workspace.pluginOptions.outputFolderPath)
+    const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
+    try {
+      await fs.access(outputFolderPath)
+      // Remove the folder if it exist.
+      console.log(`Removing existing folder ${outputFolderPath}...`)
+      await fs.rm(outputFolderPath, { recursive: true, force: true })
+    } catch (err) {
+      // The folder does not exist, nothing to remove.
+    }
+    // Create the folder as empty.
+    await fs.mkdir(outputFolderPath, { recursive: true })
+  }
+
+  async writeSidebar (): Promise<void> {
+    const sidebarItems: SidebarItem[] = []
+    // This is the order of items in the sidebar.
+    for (const collectionName of ['groups', 'namespaces', 'classes', 'files', 'pages']) {
+      // console.log(collectionName)
+      const collection = this.workspace.viewModel.get(collectionName)
+      if (collection !== undefined) {
+        sidebarItems.push(...collection.createSidebarItems())
+      }
+    }
+
+    // console.log('sidebarItems:', util.inspect(sidebarItems, { compact: false, depth: 999 }))
+    const jsonString = JSON.stringify(sidebarItems, null, 2)
+
+    const pluginOptions = this.workspace.pluginOptions
+    const filePath = path.join(pluginOptions.outputFolderPath, pluginOptions.sidebarFileName)
+
+    // Superfluous if done after prepareOutputFolder()
+    await fs.mkdir(path.dirname(this.workspace.pluginOptions.outputFolderPath), { recursive: true })
+
+    console.log(`Writing sidebar file ${filePath as string}...`)
+    await fs.writeFile(filePath, jsonString, 'utf8')
+  }
+
+  async generateIndexDotMdxFiles (): Promise<void> {
+    for (const [collectionName, collection] of this.workspace.viewModel) {
+      // console.log(collectionName)
+      await collection.generateIndexDotMdxFile()
+    }
+  }
+}
+
+// ----------------------------------------------------------------------------

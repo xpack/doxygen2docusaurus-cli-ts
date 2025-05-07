@@ -18,7 +18,7 @@ import { DoxygenXmlParser } from '../data-model/doxygen-xml-parser.js'
 import { DataModel } from '../data-model/types.js'
 import { defaultOptions, PluginOptions } from './options.js'
 import { DocusaurusGenerator } from '../docusaurus-generator/index.js'
-import { DocusaurusGenerator2 } from '../docusaurus-generator2/main.js'
+import { DocusaurusGenerator2 } from '../docusaurus-generator2/generator.js'
 
 // ----------------------------------------------------------------------------
 

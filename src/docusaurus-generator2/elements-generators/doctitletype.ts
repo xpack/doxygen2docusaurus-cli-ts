@@ -1,0 +1,40 @@
+/*
+ * This file is part of the xPack project (http://xpack.github.io).
+ * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
+ *
+ * Permission to use, copy, modify, and/or distribute this software
+ * for any purpose is hereby granted, under the terms of the MIT license.
+ *
+ * If a copy of the license was not distributed with this file, it can
+ * be obtained from https://opensource.org/licenses/MIT.
+ */
+
+// ----------------------------------------------------------------------------
+
+import assert from 'assert'
+import * as util from 'util'
+
+import { ElementLinesGeneratorBase } from './element-generator-base.js'
+import { AbstractDocTitleType, TitleDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
+
+// ----------------------------------------------------------------------------
+
+export class DocTitleTypeGenerator extends ElementLinesGeneratorBase {
+  renderToMdxLines (element: AbstractDocTitleType): string[] {
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
+
+    let text = ''
+
+    if (element instanceof TitleDataModel) {
+      text += this.workspace.renderElementsToMdxText(element.children)
+    } else {
+      text += '<b>'
+      text += this.workspace.renderElementsToMdxText(element.children)
+      text += '</b>'
+    }
+
+    return [text]
+  }
+}
+
+// ----------------------------------------------------------------------------
