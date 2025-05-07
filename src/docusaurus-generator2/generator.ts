@@ -43,7 +43,7 @@ export class DocusaurusGenerator2 {
     this.validatePermalinks()
 
     await this.prepareOutputFolder()
-    await this.writeSidebar()
+    await this.generateSidebar()
     await this.generateIndexDotMdxFiles()
   }
 
@@ -108,7 +108,7 @@ export class DocusaurusGenerator2 {
     await fs.mkdir(outputFolderPath, { recursive: true })
   }
 
-  async writeSidebar (): Promise<void> {
+  async generateSidebar (): Promise<void> {
     const sidebarItems: SidebarItem[] = []
     // This is the order of items in the sidebar.
     for (const collectionName of ['groups', 'namespaces', 'classes', 'files', 'pages']) {
