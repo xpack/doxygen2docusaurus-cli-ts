@@ -20,6 +20,7 @@ import { flattenPath, sanitizeHierarchicalPath } from '../../docusaurus-generato
 import { CollectionBase } from './collection-base.js'
 import { SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { Workspace } from '../workspace.js'
+import { FrontMatter } from '../../docusaurus-generator/types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -106,6 +107,10 @@ export class Page extends CompoundBase {
     // console.log('4', this.sidebarLabel)
     // console.log('5', this.indexName)
     // console.log()
+  }
+
+  renderToMdxLines (frontMatter: FrontMatter): string[] {
+    return []
   }
 }
 

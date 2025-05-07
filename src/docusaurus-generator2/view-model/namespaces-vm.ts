@@ -217,6 +217,10 @@ export class Namespace extends CompoundBase {
     // console.log('4', this.indexName)
     // console.log()
   }
+
+  renderToMdxLines (frontMatter: FrontMatter): string[] {
+    return []
+  }
 }
 
 // ----------------------------------------------------------------------------

@@ -15,6 +15,7 @@ import * as util from 'node:util'
 import assert from 'node:assert'
 
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
+import { FrontMatter } from '../../docusaurus-generator/types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -48,6 +49,10 @@ export abstract class CompoundBase {
   constructor (compoundDef: CompoundDefDataModel) {
     this.compoundDef = compoundDef
   }
+
+  // --------------------------------------------------------------------------
+
+  abstract renderToMdxLines (frontMatter: FrontMatter): string[]
 }
 
 // ----------------------------------------------------------------------------

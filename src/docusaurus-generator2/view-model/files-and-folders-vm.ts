@@ -339,6 +339,10 @@ export class Folder extends CompoundBase {
 
     this.pageTitle = `The \`${this.sidebarLabel}\` Folder Reference`
   }
+
+  renderToMdxLines (frontMatter: FrontMatter): string[] {
+    return []
+  }
 }
 
 // ----------------------------------------------------------------------------
@@ -359,6 +363,10 @@ export class File extends CompoundBase {
     this.pageTitle = `The \`${this.sidebarLabel}\` File Reference`
 
     // console.log('File.constructor', util.inspect(compoundDef))
+  }
+
+  renderToMdxLines (frontMatter: FrontMatter): string[] {
+    return []
   }
 }
 

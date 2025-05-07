@@ -21,6 +21,8 @@ import { DataModel } from '../data-model/types.js'
 import { PluginOptions } from '../plugin/options.js'
 import { SidebarItem } from '../plugin/types.js'
 import { CompoundBase } from './view-model/compound-base-vm.js'
+import { Page } from './view-model/pages-vm.js'
+import { FrontMatter } from '../docusaurus-generator/types.js'
 
 export class DocusaurusGenerator2 {
   workspace: Workspace
@@ -44,6 +46,7 @@ export class DocusaurusGenerator2 {
 
     await this.prepareOutputFolder()
     await this.generateSidebar()
+    await this.generatePages()
     await this.generateIndexDotMdxFiles()
   }
 
@@ -136,6 +139,57 @@ export class DocusaurusGenerator2 {
     for (const [collectionName, collection] of this.workspace.viewModel) {
       // console.log(collectionName)
       await collection.generateIndexDotMdxFile()
+    }
+    // TODO: parallelize
+  }
+
+  async generatePages (): Promise<void> {
+    console.log('Generating Docusaurus pages (object -> url)...')
+
+    const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
+
+    for (const [compoundId, compound] of this.workspace.dataObjectsById) {
+      const compoundDef = compound.compoundDef
+      if (compound instanceof Page && compoundDef.id === 'indexpage') {
+        // This is the @mainpage. We diverge from Doxygen and generate
+        // the API main page differently, with the list of topics and
+        // this page detailed description. Therefore it is not generated
+        // as a regular page and must be skipped at this stage.
+        continue
+      }
+
+      this.workspace.currentCompoundDef = compoundDef
+
+      const permalink: string = compound.relativePermalink as string
+      assert(permalink !== undefined)
+
+      console.log(`${compoundDef.kind as string}: ${compoundDef.compoundName.replaceAll(/[ ]*/g, '') as string}`, '->', `${outputFolderPath}/${permalink}...`)
+
+      const docusaurusId: string = compound.docusaurusId
+      assert(docusaurusId !== undefined)
+
+      const fileName = `${docusaurusId}.mdx`
+      // console.log('fileName:', fileName)
+      const filePath = `${outputFolderPath}/${fileName}`
+
+      const frontMatter: FrontMatter = {
+        // title: `${dataObject.pageTitle ?? compoundDef.compoundName}`,
+        slug: `/${this.workspace.permalinkBaseUrl}/${permalink}`,
+        // description: '...', // TODO
+        custom_edit_url: null,
+        keywords: ['doxygen', 'reference', `${compoundDef.kind as string}`]
+      }
+
+      const bodyLines = compound.renderToMdxLines(frontMatter)
+
+      await this.workspace.writeFile({
+        filePath,
+        frontMatter,
+        bodyLines,
+        title: compound.pageTitle
+      })
+
+      this.workspace.currentCompoundDef = undefined
     }
   }
 }

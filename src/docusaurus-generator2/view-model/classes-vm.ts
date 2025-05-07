@@ -261,6 +261,10 @@ export class Class extends CompoundBase {
     // console.log('6', this.templateParameters)
     // console.log()
   }
+
+  renderToMdxLines (frontMatter: FrontMatter): string[] {
+    return []
+  }
 }
 
 // ----------------------------------------------------------------------------
