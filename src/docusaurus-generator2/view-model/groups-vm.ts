@@ -141,7 +141,7 @@ export class Groups extends CollectionBase {
 
     console.log(`Writing groups index file ${filePath}...`)
 
-    await this.writeFile({
+    await this.workspace.writeFile({
       filePath,
       frontMatter,
       bodyLines: lines

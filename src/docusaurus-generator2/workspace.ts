@@ -13,6 +13,8 @@
 
 import * as util from 'node:util'
 import assert from 'node:assert'
+import * as fs from 'node:fs/promises'
+import path from 'node:path'
 
 import { DataModel } from '../data-model/types.js'
 import { PluginOptions } from '../plugin/options.js'
@@ -39,6 +41,8 @@ import { CompoundDefDataModel } from '../data-model/compounds/compounddef-dm.js'
 import { Namespaces } from './view-model/namespaces-vm.js'
 import { FilesAndFolders } from './view-model/files-and-folders-vm.js'
 import { Pages } from './view-model/pages-vm.js'
+import { FrontMatter } from '../docusaurus-generator/types.js'
+import { pluginName } from '../plugin/docusaurus.js'
 
 // ----------------------------------------------------------------------------
 
@@ -148,6 +152,114 @@ export class Workspace {
     this.elementGenerators.set('AbstractRefType', new RefTypeGenerator(this))
     this.elementGenerators.set('AbstractSpType', new SpTypeGenerator(this))
     this.elementGenerators.set('VariableListPairDataModel', new VariableListPairGenerator(this))
+  }
+
+  // --------------------------------------------------------------------------
+
+  async writeFile ({
+    filePath,
+    bodyLines,
+    frontMatter,
+    title
+  }: {
+    filePath: string
+    bodyLines: string[]
+    frontMatter: FrontMatter
+    title?: string
+  }): Promise<void> {
+    const lines: string[] = []
+
+    lines.push('')
+    lines.push(`<DoxygenPage version="${this.dataModel.doxygenindex.version}">`)
+    lines.push('')
+    lines.push(...bodyLines)
+    lines.push('')
+    lines.push('</DoxygenPage>')
+
+    const text = lines.join('\n')
+
+    // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
+    const frontMatterLines: string[] = []
+
+    frontMatterLines.push('---')
+    frontMatterLines.push('')
+    frontMatterLines.push('# DO NOT EDIT!')
+    frontMatterLines.push('# Automatically generated via docusaurus-plugin-doxygen by Doxygen.')
+    frontMatterLines.push('')
+    for (const [key, value] of Object.entries(frontMatter)) {
+      if (Array.isArray(value)) {
+        frontMatterLines.push(`${key}:`)
+        for (const arrayValue of frontMatter[key] as string[]) {
+          frontMatterLines.push(`  - ${arrayValue}`)
+        }
+      } else if (typeof value === 'boolean') {
+        frontMatterLines.push(`${key}: ${value ? 'true' : 'false'}`)
+      } else {
+        frontMatterLines.push(`${key}: ${value}`)
+      }
+    }
+    frontMatterLines.push('')
+
+    // Skip date, to avoid unnecessary git commits.
+    // frontMatterText += `date: ${formatDate(new Date())}\n`
+    // frontMatterText += '\n'
+    frontMatterLines.push('---')
+    frontMatterLines.push('')
+
+    if (text.includes('<Link')) {
+      frontMatterLines.push('import Link from \'@docusaurus/Link\'')
+    }
+
+    // Theme components.
+    if (text.includes('<CodeBlock')) {
+      frontMatterLines.push('import CodeBlock from \'@theme/CodeBlock\'')
+    }
+    if (text.includes('<Admonition')) {
+      frontMatterLines.push('import Admonition from \'@theme/Admonition\'')
+    }
+
+    frontMatterLines.push('')
+
+    const componentNames = [
+      'CodeLine',
+      'DoxygenPage',
+      'GeneratedByDoxygen',
+      'Highlight',
+      'IncludesList',
+      'IncludesListItem',
+      'MemberDefinition',
+      'MembersIndex',
+      'MembersIndexItem',
+      'ParametersList',
+      'ParametersListItem',
+      'ProgramListing',
+      'SectionDefinition',
+      'SectionUser',
+      'TreeTable',
+      'TreeTableRow',
+      'XrefSect'
+    ]
+
+    // Add includes for the plugin components.
+    for (const componentName of componentNames) {
+      if (text.includes(`<${componentName}`)) {
+        frontMatterLines.push(`import ${componentName} from '${pluginName}/components/${componentName}'`)
+      }
+    }
+
+    frontMatterLines.push('')
+    if (frontMatter.title === undefined && title !== undefined) {
+      frontMatterLines.push(`# ${title}`)
+      frontMatterLines.push('')
+    }
+
+    await fs.mkdir(path.dirname(filePath), { recursive: true })
+    const fileHandle = await fs.open(filePath, 'ax')
+
+    await fileHandle.write(frontMatterLines.join('\n'))
+    await fileHandle.write(text)
+
+    await fileHandle.close()
   }
 
   // --------------------------------------------------------------------------

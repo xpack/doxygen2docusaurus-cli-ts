@@ -139,7 +139,7 @@ export class Classes extends CollectionBase {
     lines.push('</TreeTable>')
 
     console.log(`Writing classes index file ${filePath}...`)
-    await this.writeFile({
+    await this.workspace.writeFile({
       filePath,
       frontMatter,
       bodyLines: lines
