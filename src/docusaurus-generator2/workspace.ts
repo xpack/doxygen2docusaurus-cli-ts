@@ -61,6 +61,9 @@ export class Workspace {
   // Like `/api/` (with heading and trailing slashes)
   permalinkBaseUrl: string
 
+  // The order of collections in the sidebar.
+  sidebarCollectionNames: string[] = ['groups', 'namespaces', 'classes', 'files', 'pages']
+
   collectionNamesByKind: Record<string, string> = {
     group: 'groups',
     namespace: 'namespaces',

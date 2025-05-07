@@ -114,7 +114,7 @@ export class DocusaurusGenerator2 {
   async generateSidebar (): Promise<void> {
     const sidebarItems: SidebarItem[] = []
     // This is the order of items in the sidebar.
-    for (const collectionName of ['groups', 'namespaces', 'classes', 'files', 'pages']) {
+    for (const collectionName of this.workspace.sidebarCollectionNames) {
       // console.log(collectionName)
       const collection = this.workspace.viewModel.get(collectionName)
       if (collection !== undefined) {
