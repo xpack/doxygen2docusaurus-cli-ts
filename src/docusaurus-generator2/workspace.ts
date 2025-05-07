@@ -119,7 +119,7 @@ export class Workspace {
     }
 
     // The relevant part of the permalink, like 'api', with the trailing slash.
-    this.permalinkBaseUrl = `/${this.pluginOptions.outputFolderPath.replace(/^docs[/]/, '')}/`
+    this.permalinkBaseUrl = `${this.pluginOptions.outputFolderPath.replace(/^docs[/]/, '')}/`
 
     // Add generators for the parsed xml elements (in alphabetical order).
     this.elementGenerators.set('AbstractCodeLineType', new CodeLineTypeGenerator(this))

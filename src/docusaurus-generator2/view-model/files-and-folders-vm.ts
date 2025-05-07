@@ -203,7 +203,7 @@ export class FilesAndFolders extends CollectionBase {
 
     const frontMatter: FrontMatter = {
       title: 'The Folders & Files Reference',
-      slug: `${outputFolderPath.replace(/^docs/, '')}/${permalink}`,
+      slug: `/${this.workspace.permalinkBaseUrl}/${permalink}`,
       // description: '...', // TODO
       custom_edit_url: null,
       keywords: ['doxygen', 'folders', 'reference']

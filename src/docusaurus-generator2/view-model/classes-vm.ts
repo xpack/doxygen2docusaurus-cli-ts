@@ -118,7 +118,7 @@ export class Classes extends CollectionBase {
 
     const frontMatter: FrontMatter = {
       title: 'The Classes Reference',
-      slug: `${this.workspace.permalinkBaseUrl}${permalink}`,
+      slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
       // description: '...', // TODO
       custom_edit_url: null,
       keywords: ['doxygen', 'classes', 'reference']

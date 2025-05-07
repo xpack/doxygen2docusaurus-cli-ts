@@ -117,7 +117,7 @@ export class Namespaces extends CollectionBase {
 
     const frontMatter: FrontMatter = {
       title: 'The Namespaces Reference',
-      slug: `${this.workspace.permalinkBaseUrl}${permalink}`,
+      slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
       // description: '...', // TODO
       custom_edit_url: null,
       keywords: ['doxygen', 'namespaces', 'reference']
