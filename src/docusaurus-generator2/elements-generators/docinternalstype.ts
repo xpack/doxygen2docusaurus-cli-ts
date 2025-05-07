@@ -14,12 +14,12 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { ElementLinesGeneratorBase } from './element-generator-base.js'
+import { ElementLinesRendererBase } from './element-renderer-base.js'
 import { AbstractDocSect1Type, AbstractDocSect2Type, AbstractDocSect3Type, AbstractDocSect4Type, AbstractDocSect5Type, AbstractDocSect6Type } from '../../data-model/compounds/descriptiontype-dm.js'
 
 // ----------------------------------------------------------------------------
 
-export class DocS1TypeGenerator extends ElementLinesGeneratorBase {
+export class DocS1TypeLinesRenderer extends ElementLinesRendererBase {
   renderToMdxLines (element: AbstractDocSect1Type): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -53,7 +53,7 @@ export class DocS1TypeGenerator extends ElementLinesGeneratorBase {
   }
 }
 
-export class DocS2TypeGenerator extends ElementLinesGeneratorBase {
+export class DocS2TypeLinesRenderer extends ElementLinesRendererBase {
   renderToMdxLines (element: AbstractDocSect2Type): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -85,7 +85,7 @@ export class DocS2TypeGenerator extends ElementLinesGeneratorBase {
   }
 }
 
-export class DocS3TypeGenerator extends ElementLinesGeneratorBase {
+export class DocS3TypeLinesRenderer extends ElementLinesRendererBase {
   renderToMdxLines (element: AbstractDocSect3Type): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -117,7 +117,7 @@ export class DocS3TypeGenerator extends ElementLinesGeneratorBase {
   }
 }
 
-export class DocS4TypeGenerator extends ElementLinesGeneratorBase {
+export class DocS4TypeLinesRenderer extends ElementLinesRendererBase {
   renderToMdxLines (element: AbstractDocSect4Type): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -149,7 +149,7 @@ export class DocS4TypeGenerator extends ElementLinesGeneratorBase {
   }
 }
 
-export class DocS5TypeGenerator extends ElementLinesGeneratorBase {
+export class DocS5TypeLinesRenderer extends ElementLinesRendererBase {
   renderToMdxLines (element: AbstractDocSect5Type): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -181,7 +181,7 @@ export class DocS5TypeGenerator extends ElementLinesGeneratorBase {
   }
 }
 
-export class DocS6TypeGenerator extends ElementLinesGeneratorBase {
+export class DocS6TypeLinesRenderer extends ElementLinesRendererBase {
   renderToMdxLines (element: AbstractDocSect6Type): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

@@ -14,14 +14,14 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { ElementLinesGeneratorBase } from './element-generator-base.js'
+import { ElementTextRendererBase } from './element-renderer-base.js'
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
 import { escapeMdx } from '../../docusaurus-generator/utils.js'
 
 // ----------------------------------------------------------------------------
 
-export class RefTextTypeGenerator extends ElementLinesGeneratorBase {
-  renderToMdxLines (element: AbstractRefTextType): string[] {
+export class RefTextTypeTextRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractRefTextType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     if (element.external !== undefined) {
@@ -31,7 +31,7 @@ export class RefTextTypeGenerator extends ElementLinesGeneratorBase {
       console.error(element.elementName, 'attribute tooltip not yet rendered in', this.constructor.name)
     }
 
-    const lines: string[] = []
+    let text: string = ''
 
     const permalink: string = this.workspace.getPermalink({
       refid: element.refid,
@@ -40,9 +40,9 @@ export class RefTextTypeGenerator extends ElementLinesGeneratorBase {
 
     assert(permalink !== undefined && permalink.length > 1)
 
-    lines.push(`<Link to="${permalink}">${escapeMdx(element.text)}</Link>`) // trim?
+    text += `<Link to="${permalink}">${escapeMdx(element.text.trim())}</Link>`
 
-    return lines
+    return text
   }
 }
 

@@ -14,11 +14,11 @@
 import assert from 'assert'
 import util from 'util'
 import { AbstractCodeLineType, CodeLineDataModel, AbstractHighlightType, HighlightDataModel, AbstractListingType } from '../../data-model/compounds/descriptiontype-dm.js'
-import { ElementLinesGeneratorBase } from './element-generator-base.js'
+import { ElementLinesRendererBase } from './element-renderer-base.js'
 
 // ----------------------------------------------------------------------------
 
-export class ListingTypeGenerator extends ElementLinesGeneratorBase {
+export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
   renderToMdxLines (element: AbstractListingType): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -41,7 +41,7 @@ export class ListingTypeGenerator extends ElementLinesGeneratorBase {
   }
 }
 
-export class CodeLineTypeGenerator extends ElementLinesGeneratorBase {
+export class CodeLineTypeLinesRenderer extends ElementLinesRendererBase {
   renderToMdxLines (element: AbstractCodeLineType): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
     assert(element instanceof CodeLineDataModel)
@@ -84,7 +84,7 @@ export class CodeLineTypeGenerator extends ElementLinesGeneratorBase {
   }
 }
 
-export class HighlightTypeGenerator extends ElementLinesGeneratorBase {
+export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
   knownClasses = [
     'normal',
     'comment',

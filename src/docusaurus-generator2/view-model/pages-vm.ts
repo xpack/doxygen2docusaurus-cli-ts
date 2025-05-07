@@ -83,12 +83,8 @@ export class Pages extends CollectionBase {
 // ----------------------------------------------------------------------------
 
 export class Page extends CompoundBase {
-  collection: Pages
-
   constructor (collection: Pages, compoundDef: CompoundDefDataModel) {
-    super(compoundDef)
-
-    this.collection = collection
+    super(collection, compoundDef)
 
     this.sidebarLabel = this.compoundDef.compoundName ?? '?'
 
@@ -110,7 +106,26 @@ export class Page extends CompoundBase {
   }
 
   renderToMdxLines (frontMatter: FrontMatter): string[] {
-    return []
+    const lines: string[] = []
+
+    const compoundDef = this.compoundDef
+
+    lines.push(this.renderBriefDescriptionToMdxText({
+      morePermalink: '#details'
+    }))
+
+    lines.push(...this.renderInnerIndicesToMdxLines({}))
+
+    lines.push(...this.renderSectionDefIndicesToMdxLines())
+
+    lines.push(...this.renderDetailedDescriptionToMdxLines({
+      detailedDescription: compoundDef.detailedDescription,
+      showHeader: false
+    }))
+
+    lines.push(...this.renderSectionDefsToMdxLines())
+
+    return lines
   }
 }
 

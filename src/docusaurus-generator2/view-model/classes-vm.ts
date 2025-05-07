@@ -170,7 +170,11 @@ export class Classes extends CollectionBase {
     const label = escapeMdx(classs.unqualifiedName)
 
     lines.push('')
-    lines.push(`<TreeTableRow itemIconLetter="${iconLetter}" itemLabel="${label}" itemLink="${permalink}" depth = "${depth}" >`)
+    lines.push('<TreeTableRow')
+    lines.push(`  itemIconLetter="${iconLetter}"`)
+    lines.push(`  itemLabel="${label}"`)
+    lines.push(`  itemLink="${permalink}"`)
+    lines.push(`  depth = "${depth}" >`)
 
     const briefDescription: string = this.workspace.renderElementToMdxText(compoundDef.briefDescription)
     if (briefDescription.length > 0) {
@@ -192,8 +196,6 @@ export class Classes extends CollectionBase {
 // ----------------------------------------------------------------------------
 
 export class Class extends CompoundBase {
-  collection: Classes
-
   // Due to multiple-inheritance, there can be multiple parents.
   baseClassIds: string[] = []
   baseClasses: Class[] = []
@@ -203,9 +205,7 @@ export class Class extends CompoundBase {
   templateParameters: string = ''
 
   constructor (collection: Classes, compoundDef: CompoundDefDataModel) {
-    super(compoundDef)
-
-    this.collection = collection
+    super(collection, compoundDef)
 
     // console.log('Class.constructor', util.inspect(compoundDef))
 

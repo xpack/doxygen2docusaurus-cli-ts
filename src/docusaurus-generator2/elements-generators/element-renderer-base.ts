@@ -15,7 +15,17 @@ import { Workspace } from '../workspace.js'
 
 // ----------------------------------------------------------------------------
 
-export abstract class ElementLinesGeneratorBase {
+export abstract class ElementTextRendererBase {
+  workspace: Workspace
+
+  constructor (workspace: Workspace) {
+    this.workspace = workspace
+  }
+
+  abstract renderToMdxText (element: Object): string
+}
+
+export abstract class ElementLinesRendererBase {
   workspace: Workspace
 
   constructor (workspace: Workspace) {

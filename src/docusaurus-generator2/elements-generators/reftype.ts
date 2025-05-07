@@ -14,13 +14,13 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { ElementLinesGeneratorBase } from './element-generator-base.js'
+import { ElementLinesRendererBase } from './element-renderer-base.js'
 import { AbstractRefType } from '../../data-model/compounds/reftype-dm.js'
 import { escapeMdx } from '../../docusaurus-generator/utils.js'
 
 // ----------------------------------------------------------------------------
 
-export class RefTypeGenerator extends ElementLinesGeneratorBase {
+export class RefTypeLinesRenderer extends ElementLinesRendererBase {
   renderToMdxLines (element: AbstractRefType): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

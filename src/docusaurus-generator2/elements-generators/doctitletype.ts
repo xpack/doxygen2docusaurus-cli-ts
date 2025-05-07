@@ -14,12 +14,12 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { ElementLinesGeneratorBase } from './element-generator-base.js'
+import { ElementLinesRendererBase } from './element-renderer-base.js'
 import { AbstractDocTitleType, TitleDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 
 // ----------------------------------------------------------------------------
 
-export class DocTitleTypeGenerator extends ElementLinesGeneratorBase {
+export class DocTitleTypeLinesRenderer extends ElementLinesRendererBase {
   renderToMdxLines (element: AbstractDocTitleType): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

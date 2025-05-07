@@ -14,7 +14,7 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { ElementLinesGeneratorBase } from './element-generator-base.js'
+import { ElementTextRendererBase } from './element-renderer-base.js'
 import { AbstractLinkedTextType } from '../../data-model/compounds/linkedtexttype-dm.js'
 
 // ----------------------------------------------------------------------------
@@ -25,15 +25,15 @@ import { AbstractLinkedTextType } from '../../data-model/compounds/linkedtexttyp
 //   </xsd:sequence>
 // </xsd:complexType>
 
-export class LinkedTextTypeGenerator extends ElementLinesGeneratorBase {
-  renderToMdxLines (element: AbstractLinkedTextType): string[] {
+export class LinkedTextTypeTextRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractLinkedTextType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
-    const lines: string[] = []
+    let text: string = ''
 
-    lines.push(...this.workspace.renderElementsToMdxLines(element.children))
+    text += this.workspace.renderElementsToMdxText(element.children)
 
-    return lines
+    return text
   }
 }
 

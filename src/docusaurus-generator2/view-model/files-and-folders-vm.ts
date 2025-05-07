@@ -32,7 +32,7 @@ export class FilesAndFolders extends CollectionBase {
   topLevelFolders: Folder[] = []
   topLevelFiles: File[] = []
 
-  filesAndFoldersByPath: Map<String, File | Folder>
+  filesByPath: Map<String, File>
 
   // folders: Folders
 
@@ -43,7 +43,7 @@ export class FilesAndFolders extends CollectionBase {
     this.compoundFoldersById = new Map()
     this.compoundFilesById = new Map()
 
-    this.filesAndFoldersByPath = new Map()
+    this.filesByPath = new Map()
   }
 
   override addChild (compoundDef: CompoundDefDataModel): CompoundBase {
@@ -83,7 +83,7 @@ export class FilesAndFolders extends CollectionBase {
     }
 
     for (const [fileId, file] of this.compoundFilesById) {
-      this.workspace.dataObjectsById.set(fileId, file)
+      this.workspace.compoundsById.set(fileId, file)
     }
 
     for (const [folderId, folder] of this.compoundFoldersById) {
@@ -98,6 +98,11 @@ export class FilesAndFolders extends CollectionBase {
         // console.log('topFileId:', fileId)
         this.topLevelFiles.push(file)
       }
+
+      const path = file.compoundDef.location?.file
+      assert(path !== undefined)
+      this.filesByPath.set(path, file)
+      // console.log(path, file)
     }
 
     // Cannot be done in each object, since it needs the hierarchy.
@@ -247,7 +252,11 @@ export class FilesAndFolders extends CollectionBase {
     assert(permalink !== undefined && permalink.length > 1)
 
     lines.push('')
-    lines.push(`<TreeTableRow itemIconClass="doxyIconFolder" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">`)
+    lines.push('<TreeTableRow')
+    lines.push('  itemIconClass="doxyIconFolder"')
+    lines.push(`  itemLabel="${label}"`)
+    lines.push(`  itemLink="${permalink}"`)
+    lines.push(`  depth="${depth}">`)
 
     const briefDescription: string = this.workspace.renderElementToMdxText(compoundDef.briefDescription)
     if (briefDescription.length > 0) {
@@ -284,7 +293,11 @@ export class FilesAndFolders extends CollectionBase {
     assert(permalink !== undefined && permalink.length > 1)
 
     lines.push('')
-    lines.push(`<TreeTableRow itemIconClass="doxyIconFile" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">`)
+    lines.push('<TreeTableRow')
+    lines.push('  itemIconClass="doxyIconFile"')
+    lines.push(`  itemLabel="${label}"`)
+    lines.push(`  itemLink="${permalink}"`)
+    lines.push(`  depth="${depth}">`)
 
     const briefDescription: string = this.workspace.renderElementToMdxText(compoundDef.briefDescription)
     if (briefDescription.length > 0) {
@@ -300,8 +313,6 @@ export class FilesAndFolders extends CollectionBase {
 // ----------------------------------------------------------------------------
 
 export class Folder extends CompoundBase {
-  collection: FilesAndFolders
-
   // childrenIds & children - not used
 
   childrenFileIds: string[] = []
@@ -311,9 +322,7 @@ export class Folder extends CompoundBase {
   childrenFolders: Folder[] = []
 
   constructor (collection: FilesAndFolders, compoundDef: CompoundDefDataModel) {
-    super(compoundDef)
-
-    this.collection = collection
+    super(collection, compoundDef)
 
     // console.log('Folder.constructor', util.inspect(compoundDef))
 
@@ -348,12 +357,8 @@ export class Folder extends CompoundBase {
 // ----------------------------------------------------------------------------
 
 export class File extends CompoundBase {
-  collection: FilesAndFolders
-
   constructor (collection: FilesAndFolders, compoundDef: CompoundDefDataModel) {
-    super(compoundDef)
-
-    this.collection = collection
+    super(collection, compoundDef)
 
     // The compoundName is the actual file name.
     this.sidebarLabel = this.compoundDef.compoundName ?? '?'

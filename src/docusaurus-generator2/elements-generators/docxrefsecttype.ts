@@ -14,14 +14,14 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { ElementLinesGeneratorBase } from './element-generator-base.js'
+import { ElementTextRendererBase } from './element-renderer-base.js'
 import { AbstractDocXRefSectType } from '../../data-model/compounds/descriptiontype-dm.js'
 import { escapeMdx } from '../../docusaurus-generator/utils.js'
 
 // ----------------------------------------------------------------------------
 
-export class DocXRefSectGenerator extends ElementLinesGeneratorBase {
-  renderToMdxLines (element: AbstractDocXRefSectType): string[] {
+export class DocXRefSectTextRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractDocXRefSectType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -31,11 +31,11 @@ export class DocXRefSectGenerator extends ElementLinesGeneratorBase {
     lines.push(`  title="${escapeMdx(element.xreftitle ?? '?')}"`)
     const permalink: string = this.workspace.getXrefPermalink(element.id)
     lines.push(`  permalink="${permalink}">`)
-    lines.push(...this.workspace.renderElementToMdxLines(element.xrefdescription))
+    lines.push(this.workspace.renderElementToMdxText(element.xrefdescription))
     // lines.push('')
     lines.push('</XrefSect>')
 
-    return lines
+    return lines.join('\n')
   }
 }
 

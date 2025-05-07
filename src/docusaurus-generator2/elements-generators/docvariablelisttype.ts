@@ -14,38 +14,39 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { ElementLinesGeneratorBase } from './element-generator-base.js'
+import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js'
 import { AbstractDocVariableListType, VariableListPairDataModel } from '../../data-model/compounds/docvarlistentrytype-dm.js'
 
 // ----------------------------------------------------------------------------
 
-export class DocVariableListTypeGenerator extends ElementLinesGeneratorBase {
-  renderToMdxLines (element: AbstractDocVariableListType): string[] {
+export class DocVariableListTypeTextRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractDocVariableListType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
-    const lines: string[] = []
+    let text: string = ''
 
-    lines.push(...this.workspace.renderElementsToMdxLines(element.children))
+    text += this.workspace.renderElementsToMdxText(element.children)
 
-    return lines
+    return text
   }
 }
 
-export class VariableListPairGenerator extends ElementLinesGeneratorBase {
+export class VariableListPairLinesRenderer extends ElementLinesRendererBase {
   renderToMdxLines (element: VariableListPairDataModel): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
 
+    // console.log(element.varlistentry.term)
+    // console.log(element.listitem.paras)
+
     lines.push('')
     lines.push('<dl class="reflist">')
     lines.push('<dt>')
-    lines.push(...this.workspace.renderElementToMdxLines(element.varlistentry.term)) // trim?
-    lines.push('')
+    lines.push(this.workspace.renderElementToMdxText(element.varlistentry.term).trim())
     lines.push('</dt>')
     lines.push('<dd>')
-    lines.push(...this.workspace.renderElementsToMdxLines(element.listitem.paras)) // trim?
-    lines.push('')
+    lines.push(this.workspace.renderElementsToMdxText(element.listitem.paras).trim())
     lines.push('</dd>')
     lines.push('</dl>')
 

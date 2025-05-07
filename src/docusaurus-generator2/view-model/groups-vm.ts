@@ -158,7 +158,10 @@ export class Groups extends CollectionBase {
     assert(permalink !== undefined && permalink.length > 1)
 
     lines.push('')
-    lines.push(`<TreeTableRow itemLabel="${label}" itemLink="${permalink}" depth="${depth}">`)
+    lines.push('<TreeTableRow')
+    lines.push(`  itemLabel="${label}"`)
+    lines.push(`  itemLink="${permalink}"`)
+    lines.push(`  depth="${depth}">`)
 
     const briefDescription: string = this.workspace.renderElementToMdxText(compoundDef.briefDescription)
     if (briefDescription.length > 0) {
@@ -180,12 +183,8 @@ export class Groups extends CollectionBase {
 // ----------------------------------------------------------------------------
 
 export class Group extends CompoundBase {
-  collection: Groups
-
   constructor (collection: Groups, compoundDef: CompoundDefDataModel) {
-    super(compoundDef)
-
-    this.collection = collection
+    super(collection, compoundDef)
 
     // console.log('Group.constructor', util.inspect(compoundDef))
 

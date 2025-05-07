@@ -23,6 +23,7 @@ import { SidebarItem } from '../plugin/types.js'
 import { CompoundBase } from './view-model/compound-base-vm.js'
 import { Page } from './view-model/pages-vm.js'
 import { FrontMatter } from '../docusaurus-generator/types.js'
+import { stripPermalinkAnchor } from '../docusaurus-generator/utils.js'
 
 export class DocusaurusGenerator2 {
   workspace: Workspace
@@ -34,7 +35,7 @@ export class DocusaurusGenerator2 {
     dataModel: DataModel
     pluginOptions: PluginOptions
   }) {
-    // console.log('DocusaurusGenerator2.constructor()')
+    console.log('DocusaurusGenerator2.constructor()')
     this.workspace = new Workspace({ dataModel, pluginOptions })
   }
 
@@ -42,6 +43,7 @@ export class DocusaurusGenerator2 {
     // console.log('DocusaurusGenerator2.generate()')
 
     this.createHierarchies()
+    this.createMemberDefsMap()
     this.validatePermalinks()
 
     await this.prepareOutputFolder()
@@ -59,6 +61,35 @@ export class DocusaurusGenerator2 {
     }
   }
 
+  createMemberDefsMap (): void {
+    for (const compoundDef of this.workspace.dataModel.compoundDefs) {
+      // console.log(compoundDef.kind, compoundDef.compoundName, compoundDef.id)
+      if (compoundDef.sectionDefs !== undefined) {
+        for (const sectionDef of compoundDef.sectionDefs) {
+          if (sectionDef.memberDefs !== undefined) {
+            // console.log('  ', sectionDef.kind)
+            for (const memberDef of sectionDef.memberDefs) {
+              const compoundId = stripPermalinkAnchor(memberDef.id)
+              if (compoundId !== compoundDef.id) {
+                // Skip member definitions from different compounds.
+                // Hopefully they are defined properly there.
+                // console.log('member from another compound', compoundId, 'skipped')
+              } else {
+                // console.log('    ', memberDef.kind, memberDef.id)
+                if (this.workspace.memberDefsById.has(memberDef.id)) {
+                  console.warn('member already in map', memberDef.id, 'in', this.workspace.memberDefsById.get(memberDef.id)?.name)
+                } else {
+                  this.workspace.memberDefsById.set(memberDef.id, memberDef)
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    console.log(this.workspace.memberDefsById.size, 'member definitions')
+  }
+
   /**
    * @brief Validate the uniqueness of permalinks.
    */
@@ -74,13 +105,13 @@ export class DocusaurusGenerator2 {
     for (const compoundDef of this.workspace.dataModel.compoundDefs) {
       // console.log(compoundDef.kind, compoundDef.compoundName)
 
-      const dataObject: CompoundBase | undefined = this.workspace.dataObjectsById.get(compoundDef.id)
-      if (dataObject === undefined) {
+      const compound: CompoundBase | undefined = this.workspace.compoundsById.get(compoundDef.id)
+      if (compound === undefined) {
         console.error('compoundDef', compoundDef.id, 'not yet processed in', this.constructor.name, 'validatePermalinks')
         continue
       }
 
-      const permalink = dataObject.relativePermalink
+      const permalink = compound.relativePermalink
       assert(permalink !== undefined)
       // console.log('permalink:', permalink)
 
@@ -148,7 +179,7 @@ export class DocusaurusGenerator2 {
 
     const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
 
-    for (const [compoundId, compound] of this.workspace.dataObjectsById) {
+    for (const [compoundId, compound] of this.workspace.compoundsById) {
       const compoundDef = compound.compoundDef
       if (compound instanceof Page && compoundDef.id === 'indexpage') {
         // This is the @mainpage. We diverge from Doxygen and generate

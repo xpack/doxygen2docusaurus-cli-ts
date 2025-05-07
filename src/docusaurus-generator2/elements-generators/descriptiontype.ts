@@ -14,14 +14,14 @@
 import assert from 'assert'
 import util from 'util'
 
-import { ElementLinesGeneratorBase } from './element-generator-base.js'
+import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js'
 import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractSpType, ParaDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { escapeMdx } from '../../docusaurus-generator/utils.js'
 
 // ----------------------------------------------------------------------------
 
-export class DescriptionTypeGenerator extends ElementLinesGeneratorBase {
-  renderToMdxLines (element: AbstractDescriptionType): string[] {
+export class DescriptionTypeTextRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractDescriptionType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     if (element.title !== undefined && element.title.length > 0) {
@@ -32,30 +32,30 @@ export class DescriptionTypeGenerator extends ElementLinesGeneratorBase {
     text += this.workspace.renderElementsToMdxText(element.children).trim()
 
     // console.log(result)
-    return [text]
+    return text
   }
 }
 
 // ----------------------------------------------------------------------------
 
-export class DocParaTypeGenerator extends ElementLinesGeneratorBase {
-  renderToMdxLines (element: AbstractDocParaType): string[] {
+export class DocParaTypeTextRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractDocParaType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
-    const lines: string[] = []
-    lines.push(this.workspace.renderElementsToMdxText(element.children))
+    let text: string = ''
+    text += this.workspace.renderElementsToMdxText(element.children)
     if (element instanceof ParaDataModel) {
-      lines.push('')
+      text += '\n'
     }
 
-    return lines
+    return text
   }
 }
 
 // ----------------------------------------------------------------------------
 
-export class DocURLLinkGenerator extends ElementLinesGeneratorBase {
-  renderToMdxLines (element: AbstractDocURLLink): string[] {
+export class DocURLLinkTextRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractDocURLLink): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''
@@ -63,7 +63,7 @@ export class DocURLLinkGenerator extends ElementLinesGeneratorBase {
     text += this.workspace.renderElementsToMdxText(element.children)
     text += '</a>'
 
-    return [text]
+    return text
   }
 }
 
@@ -75,15 +75,15 @@ const htmlElements: { [key: string]: string } = {
   EmphasisDataModel: 'em'
 }
 
-export class DocMarkupTypeGenerator extends ElementLinesGeneratorBase {
-  renderToMdxLines (element: AbstractDocMarkupType): string[] {
+export class DocMarkupTypeTextRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractDocMarkupType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const htmlElement: string | undefined = htmlElements[element.constructor.name]
     if (htmlElement === undefined) {
       console.error(util.inspect(element, { compact: false, depth: 999 }))
       console.error(element.constructor.name, 'not yet rendered in', this.constructor.name)
-      return []
+      return ''
     }
 
     let text = ''
@@ -91,14 +91,14 @@ export class DocMarkupTypeGenerator extends ElementLinesGeneratorBase {
     text += this.workspace.renderElementsToMdxText(element.children)
     text += `</${htmlElement}>`
 
-    return [text]
+    return text
   }
 }
 
 // ----------------------------------------------------------------------------
 
-export class DocRefTextTypeGenerator extends ElementLinesGeneratorBase {
-  renderToMdxLines (element: AbstractDocRefTextType): string[] {
+export class DocRefTextTypeTextRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractDocRefTextType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     if (element.external !== undefined && element.external.length > 0) {
@@ -118,14 +118,14 @@ export class DocRefTextTypeGenerator extends ElementLinesGeneratorBase {
     text += this.workspace.renderElementsToMdxText(element.children)
     text += '</Link>'
 
-    return [text]
+    return text
   }
 }
 
 // ----------------------------------------------------------------------------
 
-export class DocSimpleSectTypeGenerator extends ElementLinesGeneratorBase {
-  renderToMdxLines (element: AbstractDocSimpleSectType): string[] {
+export class DocSimpleSectTypeTextRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractDocSimpleSectType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -133,38 +133,38 @@ export class DocSimpleSectTypeGenerator extends ElementLinesGeneratorBase {
     if (element.kind === 'par') {
       assert(element.title !== undefined)
       lines.push(`<SectionUser title="${element.title}">`)
-      lines.push(...this.workspace.renderElementsToMdxLines(element.children)) // trim?
+      lines.push(this.workspace.renderElementsToMdxText(element.children).trim())
       lines.push('</SectionUser>')
     } else if (element.kind === 'return') {
       lines.push('<SectionUser title="Returns">')
-      lines.push(...this.workspace.renderElementsToMdxLines(element.children)) // trim?
+      lines.push(this.workspace.renderElementsToMdxText(element.children).trim())
       lines.push('</SectionUser>')
     } else if (element.kind === 'since') {
       lines.push('<SectionUser title="Since">')
-      lines.push(...this.workspace.renderElementsToMdxLines(element.children)) // trim?
+      lines.push(this.workspace.renderElementsToMdxText(element.children).trim())
       lines.push('</SectionUser>')
     } else if (element.kind === 'note') {
       // https://docusaurus.io/docs/markdown-features/admonitions
       lines.push(':::info')
-      lines.push(...this.workspace.renderElementToMdxLines(element.children)) // trim?
+      lines.push(this.workspace.renderElementToMdxText(element.children).trim())
       lines.push(':::')
     } else if (element.kind === 'warning') {
       lines.push(':::warning')
-      lines.push(...this.workspace.renderElementToMdxLines(element.children)) // trim?
+      lines.push(this.workspace.renderElementToMdxText(element.children).trim())
       lines.push(':::')
     } else {
       console.error(util.inspect(element, { compact: false, depth: 999 }))
       console.error(element.constructor.name, 'kind', element.kind, 'not yet rendered in', this.constructor.name)
     }
 
-    return lines
+    return lines.join('\n')
   }
 }
 
 // ----------------------------------------------------------------------------
 
-export class SpTypeGenerator extends ElementLinesGeneratorBase {
-  renderToMdxLines (element: AbstractSpType): string[] {
+export class SpTypeTextRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractSpType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text: string = ''
@@ -178,14 +178,14 @@ export class SpTypeGenerator extends ElementLinesGeneratorBase {
       text += ' '
     }
 
-    return [text]
+    return text
   }
 }
 
 // ----------------------------------------------------------------------------
 
-export class DocEmptyTypeGenerator extends ElementLinesGeneratorBase {
-  renderToMdxLines (element: AbstractDocEmptyType): string[] {
+export class DocEmptyTypeLinesRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractDocEmptyType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -204,13 +204,13 @@ export class DocEmptyTypeGenerator extends ElementLinesGeneratorBase {
         console.error(element.constructor.name, 'not yet rendered in', this.constructor.name)
     }
 
-    return lines
+    return lines.join('\n')
   }
 }
 
 // ----------------------------------------------------------------------------
 
-export class DocParamListTypegenerator extends ElementLinesGeneratorBase {
+export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
   renderToMdxLines (element: AbstractDocParamListType): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -282,7 +282,7 @@ export class DocParamListTypegenerator extends ElementLinesGeneratorBase {
 
 // ----------------------------------------------------------------------------
 
-export class DocAnchorTypeGenerator extends ElementLinesGeneratorBase {
+export class DocAnchorTypeLinesRenderer extends ElementLinesRendererBase {
   renderToMdxLines (element: AbstractDocAnchorType): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

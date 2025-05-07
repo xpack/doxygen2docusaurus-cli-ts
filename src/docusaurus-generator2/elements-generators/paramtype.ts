@@ -14,7 +14,7 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { ElementLinesGeneratorBase } from './element-generator-base.js'
+import { ElementLinesRendererBase } from './element-renderer-base.js'
 import { AbstractParamType } from '../../data-model/compounds/paramtype-dm.js'
 
 // ----------------------------------------------------------------------------
@@ -32,7 +32,7 @@ import { AbstractParamType } from '../../data-model/compounds/paramtype-dm.js'
 //   </xsd:sequence>
 // </xsd:complexType>
 
-export class ParamTypeGenerator extends ElementLinesGeneratorBase {
+export class ParamTypeLinesRenderer extends ElementLinesRendererBase {
   renderToMdxLines (element: AbstractParamType): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

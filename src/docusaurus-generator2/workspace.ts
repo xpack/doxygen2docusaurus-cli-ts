@@ -22,19 +22,19 @@ import { Groups } from './view-model/groups-vm.js'
 import { CollectionBase } from './view-model/collection-base.js'
 import { Classes } from './view-model/classes-vm.js'
 import { DoxygenFileOptions } from '../docusaurus-generator/view-model/options.js'
-import { ElementLinesGeneratorBase } from './elements-generators/element-generator-base.js'
-import { DescriptionTypeGenerator, DocAnchorTypeGenerator, DocEmptyTypeGenerator, DocMarkupTypeGenerator, DocParamListTypegenerator, DocParaTypeGenerator, DocRefTextTypeGenerator, DocSimpleSectTypeGenerator, DocURLLinkGenerator, SpTypeGenerator } from './elements-generators/descriptiontype.js'
-import { ListingTypeGenerator, CodeLineTypeGenerator, HighlightTypeGenerator } from './elements-generators/listingtype.js'
-import { DocListTypeGenerator } from './elements-generators/doclisttype.js'
-import { DocS1TypeGenerator, DocS2TypeGenerator, DocS3TypeGenerator, DocS4TypeGenerator, DocS5TypeGenerator, DocS6TypeGenerator } from './elements-generators/docinternalstype.js'
-import { DocTitleTypeGenerator } from './elements-generators/doctitletype.js'
-import { DocVariableListTypeGenerator, VariableListPairGenerator } from './elements-generators/docvariablelisttype.js'
-import { DocXRefSectGenerator } from './elements-generators/docxrefsecttype.js'
-import { IncTypeGenerator } from './elements-generators/inctype.js'
-import { LinkedTextTypeGenerator } from './elements-generators/linkedtexttype.js'
-import { ParamTypeGenerator } from './elements-generators/paramtype.js'
-import { RefTextTypeGenerator } from './elements-generators/reftexttype.js'
-import { RefTypeGenerator } from './elements-generators/reftype.js'
+import { ElementLinesRendererBase, ElementTextRendererBase } from './elements-generators/element-renderer-base.js'
+import { DescriptionTypeTextRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeLinesRenderer, DocMarkupTypeTextRenderer, DocParamListTypeLinesRenderer, DocParaTypeTextRenderer, DocRefTextTypeTextRenderer, DocSimpleSectTypeTextRenderer, DocURLLinkTextRenderer, SpTypeTextRenderer } from './elements-generators/descriptiontype.js'
+import { ListingTypeLinesRenderer, CodeLineTypeLinesRenderer, HighlightTypeLinesRenderer } from './elements-generators/listingtype.js'
+import { DocListTypeLinesRenderer } from './elements-generators/doclisttype.js'
+import { DocS1TypeLinesRenderer, DocS2TypeLinesRenderer, DocS3TypeLinesRenderer, DocS4TypeLinesRenderer, DocS5TypeLinesRenderer, DocS6TypeLinesRenderer } from './elements-generators/docinternalstype.js'
+import { DocTitleTypeLinesRenderer } from './elements-generators/doctitletype.js'
+import { DocVariableListTypeTextRenderer, VariableListPairLinesRenderer } from './elements-generators/docvariablelisttype.js'
+import { DocXRefSectTextRenderer } from './elements-generators/docxrefsecttype.js'
+import { IncTypeLinesRenderer } from './elements-generators/inctype.js'
+import { LinkedTextTypeTextRenderer } from './elements-generators/linkedtexttype.js'
+import { ParamTypeLinesRenderer } from './elements-generators/paramtype.js'
+import { RefTextTypeTextRenderer } from './elements-generators/reftexttype.js'
+import { RefTypeLinesRenderer } from './elements-generators/reftype.js'
 import { escapeMdx, getPermalinkAnchor, stripPermalinkAnchor } from '../docusaurus-generator/utils.js'
 import { CompoundBase } from './view-model/compound-base-vm.js'
 import { CompoundDefDataModel } from '../data-model/compounds/compounddef-dm.js'
@@ -43,6 +43,7 @@ import { FilesAndFolders } from './view-model/files-and-folders-vm.js'
 import { Pages } from './view-model/pages-vm.js'
 import { FrontMatter } from '../docusaurus-generator/types.js'
 import { pluginName } from '../plugin/docusaurus.js'
+import { AbstractMemberDefType } from '../data-model/compounds/memberdeftype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -52,6 +53,17 @@ export class Workspace {
   // From the project docusaurus.config.ts or defaults.
   pluginOptions: PluginOptions
 
+  collectionNamesByKind: Record<string, string> = {
+    group: 'groups',
+    namespace: 'namespaces',
+    class: 'classes',
+    struct: 'classes',
+    file: 'files',
+    dir: 'files',
+    page: 'pages'
+  }
+
+  // The key is one of the above collection names.
   // groups, classes, namespaces, files, pages.
   viewModel: Map<string, CollectionBase>
 
@@ -64,19 +76,14 @@ export class Workspace {
   // The order of collections in the sidebar.
   sidebarCollectionNames: string[] = ['groups', 'namespaces', 'classes', 'files', 'pages']
 
-  collectionNamesByKind: Record<string, string> = {
-    group: 'groups',
-    namespace: 'namespaces',
-    class: 'classes',
-    struct: 'classes',
-    file: 'files',
-    dir: 'files',
-    page: 'pages'
-  }
+  // View model objects.
+  compoundsById: Map<string, CompoundBase> = new Map()
 
-  elementGenerators: Map<string, ElementLinesGeneratorBase> = new Map()
+  // TODO: change to member view model objects
+  memberDefsById: Map<string, AbstractMemberDefType> = new Map()
 
-  dataObjectsById: Map<string, CompoundBase> = new Map()
+  elementLinesRenderers: Map<string, ElementLinesRendererBase> = new Map()
+  elementTextRenderers: Map<string, ElementTextRendererBase> = new Map()
 
   currentCompoundDef: CompoundDefDataModel | undefined
 
@@ -95,6 +102,9 @@ export class Workspace {
 
     this.doxygenOptions = new DoxygenFileOptions(this.dataModel.doxyfile.options)
 
+    // The relevant part of the permalink, like 'api', with the trailing slash.
+    this.permalinkBaseUrl = `${this.pluginOptions.outputFolderPath.replace(/^docs[/]/, '')}/`
+
     // Create the view-model objects.
     this.viewModel = new Map()
 
@@ -104,14 +114,50 @@ export class Workspace {
     this.viewModel.set('files', new FilesAndFolders(this))
     this.viewModel.set('pages', new Pages(this))
 
+    // Add generators for the parsed xml elements (in alphabetical order).
+    this.elementLinesRenderers.set('AbstractCodeLineType', new CodeLineTypeLinesRenderer(this))
+    this.elementLinesRenderers.set('AbstractDocAnchorType', new DocAnchorTypeLinesRenderer(this))
+    this.elementLinesRenderers.set('AbstractDocListType', new DocListTypeLinesRenderer(this))
+    this.elementLinesRenderers.set('AbstractDocParamListType', new DocParamListTypeLinesRenderer(this))
+    this.elementLinesRenderers.set('AbstractDocSect1Type', new DocS1TypeLinesRenderer(this))
+    this.elementLinesRenderers.set('AbstractDocSect2Type', new DocS2TypeLinesRenderer(this))
+    this.elementLinesRenderers.set('AbstractDocSect3Type', new DocS3TypeLinesRenderer(this))
+    this.elementLinesRenderers.set('AbstractDocSect4Type', new DocS4TypeLinesRenderer(this))
+    this.elementLinesRenderers.set('AbstractDocSect5Type', new DocS5TypeLinesRenderer(this))
+    this.elementLinesRenderers.set('AbstractDocSect6Type', new DocS6TypeLinesRenderer(this))
+    this.elementLinesRenderers.set('AbstractDocTitleType', new DocTitleTypeLinesRenderer(this))
+    this.elementLinesRenderers.set('AbstractHighlightType', new HighlightTypeLinesRenderer(this))
+    this.elementLinesRenderers.set('AbstractIncType', new IncTypeLinesRenderer(this))
+    this.elementLinesRenderers.set('AbstractListingType', new ListingTypeLinesRenderer(this))
+    this.elementLinesRenderers.set('AbstractParamType', new ParamTypeLinesRenderer(this))
+    this.elementLinesRenderers.set('AbstractProgramListingType', new ListingTypeLinesRenderer(this))
+    this.elementLinesRenderers.set('AbstractRefType', new RefTypeLinesRenderer(this))
+    this.elementLinesRenderers.set('VariableListPairDataModel', new VariableListPairLinesRenderer(this))
+    // console.log(this.elementGenerators.size, 'element generators')
+
+    this.elementTextRenderers.set('AbstractDescriptionType', new DescriptionTypeTextRenderer(this))
+    this.elementTextRenderers.set('AbstractDocEmptyType', new DocEmptyTypeLinesRenderer(this))
+    this.elementTextRenderers.set('AbstractDocMarkupType', new DocMarkupTypeTextRenderer(this))
+    this.elementTextRenderers.set('AbstractDocParaType', new DocParaTypeTextRenderer(this))
+    this.elementTextRenderers.set('AbstractDocRefTextType', new DocRefTextTypeTextRenderer(this))
+    this.elementTextRenderers.set('AbstractDocSimpleSectType', new DocSimpleSectTypeTextRenderer(this))
+    this.elementTextRenderers.set('AbstractDocURLLink', new DocURLLinkTextRenderer(this))
+    this.elementTextRenderers.set('AbstractDocVariableListType', new DocVariableListTypeTextRenderer(this))
+    this.elementTextRenderers.set('AbstractDocXRefSectType', new DocXRefSectTextRenderer(this))
+    this.elementTextRenderers.set('AbstractLinkedTextType', new LinkedTextTypeTextRenderer(this))
+    this.elementTextRenderers.set('AbstractRefTextType', new RefTextTypeTextRenderer(this))
+    this.elementTextRenderers.set('AbstractSpType', new SpTypeTextRenderer(this))
+
     for (const compoundDef of this.dataModel.compoundDefs) {
       let added = false
       const collectionName = this.collectionNamesByKind[compoundDef.kind]
       if (collectionName !== undefined) {
         const collection = this.viewModel.get(collectionName)
         if (collection !== undefined) {
-          const item = collection.addChild(compoundDef)
-          this.dataObjectsById.set(compoundDef.id, item)
+          // Create the compound object and add it to the parent collection.
+          const compound = collection.addChild(compoundDef)
+          // Also add it to the global compounds map.
+          this.compoundsById.set(compoundDef.id, compound)
           added = true
         }
       }
@@ -120,41 +166,6 @@ export class Workspace {
         console.error('compoundDef', compoundDef.kind, 'not implemented yet in', this.constructor.name)
       }
     }
-
-    // The relevant part of the permalink, like 'api', with the trailing slash.
-    this.permalinkBaseUrl = `${this.pluginOptions.outputFolderPath.replace(/^docs[/]/, '')}/`
-
-    // Add generators for the parsed xml elements (in alphabetical order).
-    this.elementGenerators.set('AbstractCodeLineType', new CodeLineTypeGenerator(this))
-    this.elementGenerators.set('AbstractDescriptionType', new DescriptionTypeGenerator(this))
-    this.elementGenerators.set('AbstractDocAnchorType', new DocAnchorTypeGenerator(this))
-    this.elementGenerators.set('AbstractDocEmptyType', new DocEmptyTypeGenerator(this))
-    this.elementGenerators.set('AbstractDocListType', new DocListTypeGenerator(this))
-    this.elementGenerators.set('AbstractDocMarkupType', new DocMarkupTypeGenerator(this))
-    this.elementGenerators.set('AbstractDocParamListType', new DocParamListTypegenerator(this))
-    this.elementGenerators.set('AbstractDocParaType', new DocParaTypeGenerator(this))
-    this.elementGenerators.set('AbstractDocRefTextType', new DocRefTextTypeGenerator(this))
-    this.elementGenerators.set('AbstractDocSect1Type', new DocS1TypeGenerator(this))
-    this.elementGenerators.set('AbstractDocSect2Type', new DocS2TypeGenerator(this))
-    this.elementGenerators.set('AbstractDocSect3Type', new DocS3TypeGenerator(this))
-    this.elementGenerators.set('AbstractDocSect4Type', new DocS4TypeGenerator(this))
-    this.elementGenerators.set('AbstractDocSect5Type', new DocS5TypeGenerator(this))
-    this.elementGenerators.set('AbstractDocSect6Type', new DocS6TypeGenerator(this))
-    this.elementGenerators.set('AbstractDocSimpleSectType', new DocSimpleSectTypeGenerator(this))
-    this.elementGenerators.set('AbstractDocTitleType', new DocTitleTypeGenerator(this))
-    this.elementGenerators.set('AbstractDocVariableListType', new DocVariableListTypeGenerator(this))
-    this.elementGenerators.set('AbstractDocURLLink', new DocURLLinkGenerator(this))
-    this.elementGenerators.set('AbstractDocXRefSectType', new DocXRefSectGenerator(this))
-    this.elementGenerators.set('AbstractHighlightType', new HighlightTypeGenerator(this))
-    this.elementGenerators.set('AbstractIncType', new IncTypeGenerator(this))
-    this.elementGenerators.set('AbstractLinkedTextType', new LinkedTextTypeGenerator(this))
-    this.elementGenerators.set('AbstractListingType', new ListingTypeGenerator(this))
-    this.elementGenerators.set('AbstractParamType', new ParamTypeGenerator(this))
-    this.elementGenerators.set('AbstractProgramListingType', new ListingTypeGenerator(this))
-    this.elementGenerators.set('AbstractRefTextType', new RefTextTypeGenerator(this))
-    this.elementGenerators.set('AbstractRefType', new RefTypeGenerator(this))
-    this.elementGenerators.set('AbstractSpType', new SpTypeGenerator(this))
-    this.elementGenerators.set('VariableListPairDataModel', new VariableListPairGenerator(this))
   }
 
   // --------------------------------------------------------------------------
@@ -267,6 +278,36 @@ export class Workspace {
 
   // --------------------------------------------------------------------------
 
+  private getElementLinesRenderer (element: Object): ElementLinesRendererBase | undefined {
+    let elementClass = element.constructor
+    while (elementClass.name !== '') {
+      // console.log(elementClass.name)
+      // console.log(this.elementGenerators)
+      const elementGenerator = this.elementLinesRenderers.get(elementClass.name)
+      if (elementGenerator !== undefined) {
+        return elementGenerator
+      }
+      elementClass = Object.getPrototypeOf(elementClass)
+    }
+
+    return undefined
+  }
+
+  private getElementTextRenderer (element: Object): ElementTextRendererBase | undefined {
+    let elementClass = element.constructor
+    while (elementClass.name !== '') {
+      // console.log(elementClass.name)
+      // console.log(this.elementGenerators)
+      const elementGenerator = this.elementTextRenderers.get(elementClass.name)
+      if (elementGenerator !== undefined) {
+        return elementGenerator
+      }
+      elementClass = Object.getPrototypeOf(elementClass)
+    }
+
+    return undefined
+  }
+
   renderElementsToMdxLines (elements: Object[] | undefined): string[] {
     if (!Array.isArray(elements)) {
       return []
@@ -298,37 +339,64 @@ export class Workspace {
       return lines
     }
 
-    const renderer: ElementLinesGeneratorBase | undefined = this.getElementRenderer(element)
+    const renderer: ElementLinesRendererBase | undefined = this.getElementLinesRenderer(element)
     if (renderer === undefined) {
-      // The error was displayed in getElementRenderer().
-      return []
+      console.error(util.inspect(element, { compact: false, depth: 999 }))
+      console.error('no element lines renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToMdxLines')
+      assert(false)
+      // return []
     }
 
     return renderer.renderToMdxLines(element)
   }
 
   renderElementsToMdxText (elements: Object[] | undefined): string {
-    return this.renderElementsToMdxLines(elements).join('\n')
+    if (elements === undefined) {
+      return ''
+    }
+
+    let text = ''
+    for (const element of elements) {
+      text += this.renderElementToMdxText(element)
+    }
+
+    return text
   }
 
   renderElementToMdxText (element: Object | undefined): string {
-    return this.renderElementToMdxLines(element).join('\n')
-  }
+    if (element === undefined) {
+      return ''
+    }
 
-  private getElementRenderer (element: Object): ElementLinesGeneratorBase | undefined {
-    let elementClass = element.constructor
-    while (elementClass.name !== '') {
-      const elementGenerator = this.elementGenerators.get(elementClass.name)
-      if (elementGenerator !== undefined) {
-        return elementGenerator
+    if (typeof element === 'string') {
+      return escapeMdx(element)
+    }
+
+    if (Array.isArray(element)) {
+      let text = ''
+      for (const elementOfArray of element) {
+        text += this.renderElementToMdxText(elementOfArray)
       }
-      elementClass = Object.getPrototypeOf(elementClass)
+      return text
+    }
+
+    const textRenderer: ElementTextRendererBase | undefined = this.getElementTextRenderer(element)
+    if (textRenderer !== undefined) {
+      return textRenderer.renderToMdxText(element)
+    }
+
+    // console.warn('trying element lines renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToMdxText')
+    const linesRenderer: ElementLinesRendererBase | undefined = this.getElementLinesRenderer(element)
+    if (linesRenderer !== undefined) {
+      return linesRenderer.renderToMdxLines(element).join('\n')
     }
 
     console.error(util.inspect(element, { compact: false, depth: 999 }))
-    console.error('no element generator for', element.constructor.name, 'in', this.constructor.name, 'getElementRenderer')
-    return undefined
+    console.error('no element text renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToMdxText')
+    return ''
   }
+
+  // --------------------------------------------------------------------------
 
   getPermalink ({
     refid,
@@ -358,7 +426,7 @@ export class Workspace {
   }
 
   getPagePermalink (refid: string): string {
-    const dataObject: CompoundBase | undefined = this.dataObjectsById.get(refid)
+    const dataObject: CompoundBase | undefined = this.compoundsById.get(refid)
     assert(dataObject !== undefined)
 
     const pagePermalink = dataObject.relativePermalink

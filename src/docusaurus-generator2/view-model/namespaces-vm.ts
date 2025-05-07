@@ -158,7 +158,11 @@ export class Namespaces extends CollectionBase {
     assert(permalink !== undefined && permalink.length > 1)
 
     lines.push('')
-    lines.push(`<TreeTableRow itemIconLetter="N" itemLabel="${label}" itemLink="${permalink}" depth="${depth}">`)
+    lines.push('<TreeTableRow')
+    lines.push('  itemIconLetter="N"')
+    lines.push(`  itemLabel="${label}"`)
+    lines.push(`  itemLink="${permalink}"`)
+    lines.push(`  depth="${depth}">`)
 
     const briefDescription: string = this.workspace.renderElementToMdxText(compoundDef.briefDescription)
     if (briefDescription.length > 0) {
@@ -181,12 +185,9 @@ export class Namespaces extends CollectionBase {
 
 export class Namespace extends CompoundBase {
   // unparentedName?: string | undefined
-  collection: Namespaces
 
   constructor (collection: Namespaces, compoundDef: CompoundDefDataModel) {
-    super(compoundDef)
-
-    this.collection = collection
+    super(collection, compoundDef)
 
     // console.log('Namespace.constructor', util.inspect(compoundDef))
 
@@ -219,7 +220,32 @@ export class Namespace extends CompoundBase {
   }
 
   renderToMdxLines (frontMatter: FrontMatter): string[] {
-    return []
+    const lines: string[] = []
+
+    const compoundDef = this.compoundDef
+    const descriptionTodo = `@namespace ${compoundDef.compoundName}`
+
+    lines.push(this.renderBriefDescriptionToMdxText({
+      todo: descriptionTodo,
+      morePermalink: '#details'
+    }))
+
+    lines.push(...this.renderInnerIndicesToMdxLines({
+      suffixes: ['Namespaces', 'Classes']
+    }))
+
+    lines.push(...this.renderSectionDefIndicesToMdxLines())
+
+    lines.push(...this.renderDetailedDescriptionToMdxLines({
+      detailedDescription: compoundDef.detailedDescription,
+      todo: descriptionTodo
+    }))
+
+    lines.push(...this.renderSectionDefsToMdxLines())
+
+    lines.push(...this.renderGeneratedFromToMdxLines(compoundDef))
+
+    return lines
   }
 }
 
