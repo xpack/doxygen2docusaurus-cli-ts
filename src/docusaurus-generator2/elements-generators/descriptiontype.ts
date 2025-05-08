@@ -130,6 +130,7 @@ export class DocSimpleSectTypeTextRenderer extends ElementTextRendererBase {
 
     const lines: string[] = []
 
+    lines.push('')
     if (element.kind === 'par') {
       assert(element.title !== undefined)
       lines.push(`<SectionUser title="${element.title}">`)
@@ -156,6 +157,7 @@ export class DocSimpleSectTypeTextRenderer extends ElementTextRendererBase {
       console.error(util.inspect(element, { compact: false, depth: 999 }))
       console.error(element.constructor.name, 'kind', element.kind, 'not yet rendered in', this.constructor.name)
     }
+    lines.push('')
 
     return lines.join('\n')
   }
@@ -231,6 +233,7 @@ export class DocParamListTypeTextRenderer extends ElementTextRendererBase {
 
       switch (element.constructor.name) {
         case 'ParameterListDataModel':
+          lines.push('')
           lines.push(`<ParametersList title="${title}">`)
           for (const parameterItem of element.parameterItems) {
             // console.log(util.inspect(parameterItem, { compact: false, depth: 999 }))
@@ -263,9 +266,7 @@ export class DocParamListTypeTextRenderer extends ElementTextRendererBase {
               }
             }
 
-            lines.push(`<ParametersListItem name="${names.join(', ')}">`)
-            lines.push(this.workspace.renderElementToMdxText(parameterItem.parameterDescription))
-            lines.push('</ParametersListItem>')
+            lines.push(`<ParametersListItem name="${names.join(', ')}">${this.workspace.renderElementToMdxText(parameterItem.parameterDescription)}</ParametersListItem>`)
           }
           lines.push('</ParametersList>')
           break

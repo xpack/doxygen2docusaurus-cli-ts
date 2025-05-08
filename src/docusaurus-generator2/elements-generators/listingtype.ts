@@ -25,6 +25,7 @@ export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
     const lines: string[] = []
 
     let text = ''
+    text += '\n'
     text += '<ProgramListing'
     if (element.filename !== undefined && element.filename.length > 0) {
       const extension = element.filename.replace('.', '')
@@ -33,8 +34,10 @@ export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
     text += '>'
     lines.push(text)
 
+    lines.push('')
     lines.push(...this.workspace.renderElementsToMdxLines(element.codelines))
 
+    lines.push('')
     lines.push('</ProgramListing>')
 
     return lines

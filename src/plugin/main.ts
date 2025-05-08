@@ -62,13 +62,8 @@ export async function generateDocusaurusMdx ({
     ...options
   }
   // console.log('generateDocusaurusMdx()')
-  if (actualOptions.id === 'default') {
-    const docs = new DocusaurusGenerator({ dataModel, pluginOptions: actualOptions })
-    await docs.generate()
-  } else {
-    const docs2 = new DocusaurusGenerator2({ dataModel, pluginOptions: actualOptions })
-    await docs2.generate()
-  }
+  const docs = new DocusaurusGenerator2({ dataModel, pluginOptions: actualOptions })
+  await docs.generate()
 
   return 0
 }

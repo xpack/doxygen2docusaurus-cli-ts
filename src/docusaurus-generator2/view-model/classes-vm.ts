@@ -285,13 +285,10 @@ export class Class extends CompoundBase {
     const kind = compoundDef.kind
     const descriptionTodo = `@${kind} ${compoundDef.compoundName}`
 
-    const briefDescriptionMdxText: string | undefined = this.briefDescriptionMdxText
-    if ((briefDescriptionMdxText ?? '').length > 0) {
-      lines.push(this.renderBriefDescriptionToMdxText({
-        todo: descriptionTodo,
-        morePermalink: '#details'
-      }))
-    }
+    lines.push(this.renderBriefDescriptionToMdxText({
+      todo: descriptionTodo,
+      morePermalink: '#details'
+    }))
 
     lines.push('')
     lines.push('## Declaration')

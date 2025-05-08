@@ -221,7 +221,7 @@ export class DocusaurusGenerator2 {
 
       const frontMatter: FrontMatter = {
         // title: `${dataObject.pageTitle ?? compoundDef.compoundName}`,
-        slug: `/${this.workspace.permalinkBaseUrl}/${permalink}`,
+        slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
         // description: '...', // TODO
         custom_edit_url: null,
         keywords: ['doxygen', 'reference', `${compoundDef.kind as string}`]

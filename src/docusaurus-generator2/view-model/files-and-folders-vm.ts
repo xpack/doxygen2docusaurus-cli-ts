@@ -117,9 +117,9 @@ export class FilesAndFolders extends CollectionBase {
         parentPath = `${this.getRelativePathRecursively(folder.parent as Folder)}/`
       }
 
-      const sanitizedPath: string = sanitizeHierarchicalPath(`${parentPath}${folder.compoundDef.compoundName as string}`)
+      folder.relativePath = `${parentPath}${folder.compoundDef.compoundName as string}`
 
-      folder.relativePath = sanitizedPath
+      const sanitizedPath: string = sanitizeHierarchicalPath(folder.relativePath)
       folder.relativePermalink = `folders/${sanitizedPath}`
 
       folder.docusaurusId = `folders/${flattenPath(sanitizedPath)}`
@@ -139,9 +139,9 @@ export class FilesAndFolders extends CollectionBase {
         parentPath = `${this.getRelativePathRecursively(file.parent as Folder)}/`
       }
 
-      const sanitizedPath: string = sanitizeHierarchicalPath(`${parentPath}${file.compoundDef.compoundName as string}`)
+      file.relativePath = `${parentPath}${file.compoundDef.compoundName as string}`
 
-      file.relativePath = sanitizedPath
+      const sanitizedPath: string = sanitizeHierarchicalPath(file.relativePath)
       file.relativePermalink = `files/${sanitizedPath}`
 
       file.docusaurusId = `files/${flattenPath(sanitizedPath)}`
@@ -236,7 +236,7 @@ export class FilesAndFolders extends CollectionBase {
 
     const frontMatter: FrontMatter = {
       title: 'The Folders & Files Reference',
-      slug: `/${this.workspace.permalinkBaseUrl}/${permalink}`,
+      slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
       // description: '...', // TODO
       custom_edit_url: null,
       keywords: ['doxygen', 'folders', 'reference']

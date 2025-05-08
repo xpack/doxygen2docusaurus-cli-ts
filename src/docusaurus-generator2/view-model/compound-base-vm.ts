@@ -227,7 +227,7 @@ export abstract class CompoundBase {
           if (briefDescriptionMdxText.length > 0) {
             lines.push(this.renderBriefDescriptionToMdxText({
               briefDescriptionMdxText,
-              morePermalink: permalink
+              morePermalink: `${permalink}/#details`
             }))
           }
 
@@ -347,11 +347,11 @@ export abstract class CompoundBase {
     lines.push(`  type="${itemType}"`)
     lines.push(`  name={${itemName}}>`)
 
-    const briefDescriptionMdxText: string | undefined = this.briefDescriptionMdxText
+    const briefDescriptionMdxText: string | undefined = classs.briefDescriptionMdxText
     if ((briefDescriptionMdxText ?? '').length > 0) {
       lines.push(this.renderBriefDescriptionToMdxText({
         briefDescriptionMdxText,
-        morePermalink: permalink
+        morePermalink: `${permalink}/#details`
       }))
     }
 
@@ -477,7 +477,7 @@ export abstract class CompoundBase {
     if (briefDescriptionMdxText.length > 0) {
       lines.push(this.renderBriefDescriptionToMdxText({
         briefDescriptionMdxText,
-        morePermalink: permalink
+        morePermalink: `${permalink}` // No #details, it is already an anchor.
       }))
     }
 

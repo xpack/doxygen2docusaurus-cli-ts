@@ -189,6 +189,7 @@ export class Workspace {
     lines.push(...bodyLines)
     lines.push('')
     lines.push('</DoxygenPage>')
+    lines.push('')
 
     const text = lines.join('\n')
 
