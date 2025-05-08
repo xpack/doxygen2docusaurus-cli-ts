@@ -22,8 +22,8 @@ import { PluginOptions } from '../plugin/options.js'
 import { SidebarItem } from '../plugin/types.js'
 import { CompoundBase } from './view-model/compound-base-vm.js'
 import { Page } from './view-model/pages-vm.js'
-import { FrontMatter } from '../docusaurus-generator/types.js'
-import { stripPermalinkAnchor } from '../docusaurus-generator/utils.js'
+import { FrontMatter } from './types.js'
+import { stripPermalinkAnchor } from './utils.js'
 
 export class DocusaurusGenerator2 {
   workspace: Workspace

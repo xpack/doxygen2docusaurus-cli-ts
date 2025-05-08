@@ -16,7 +16,7 @@ import * as util from 'util'
 
 import { ElementTextRendererBase } from './element-renderer-base.js'
 import { AbstractDocXRefSectType } from '../../data-model/compounds/descriptiontype-dm.js'
-import { escapeMdx } from '../../docusaurus-generator/utils.js'
+import { escapeMdx } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 

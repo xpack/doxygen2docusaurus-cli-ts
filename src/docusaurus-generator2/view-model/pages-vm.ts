@@ -16,11 +16,11 @@ import * as util from 'node:util'
 
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
-import { flattenPath, sanitizeHierarchicalPath } from '../../docusaurus-generator/utils.js'
+import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { CollectionBase } from './collection-base.js'
 import { SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { Workspace } from '../workspace.js'
-import { FrontMatter } from '../../docusaurus-generator/types.js'
+import { FrontMatter } from '../types.js'
 
 // ----------------------------------------------------------------------------
 

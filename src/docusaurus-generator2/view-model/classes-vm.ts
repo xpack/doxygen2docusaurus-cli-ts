@@ -18,9 +18,9 @@ import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
 import { Workspace } from '../workspace.js'
-import { escapeMdx, flattenPath, sanitizeHierarchicalPath, sanitizeName } from '../../docusaurus-generator/utils.js'
+import { escapeMdx, flattenPath, sanitizeHierarchicalPath, sanitizeName } from '../utils.js'
 import { SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
-import { FrontMatter } from '../../docusaurus-generator/types.js'
+import { FrontMatter } from '../types.js'
 
 // ----------------------------------------------------------------------------
 
