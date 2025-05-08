@@ -1,0 +1,17 @@
+/* --- Begin EnumerationList/styles.module.css --- */
+/* --- Part of docusaurus-plugin-doxygen --- */
+
+:global(table.doxyEnumTable) {
+  border: none;
+}
+
+:global(dt.doxyEnumTableTitle) {
+  font-weight: bold;
+}
+
+/* Undo the Docusaurus configuration. */
+:global(table.doxyEnumTable tr:nth-child(2n)) {
+  background-color: var(--ifm-background-color);
+}
+
+/* --- End EnumerationList/styles.module.css --- */

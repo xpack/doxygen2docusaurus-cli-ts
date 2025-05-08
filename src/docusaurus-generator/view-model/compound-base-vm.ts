@@ -765,30 +765,28 @@ export abstract class CompoundBase {
 
     const workspace = this.collection.workspace
 
-    // TODO: add CSS and tweak sizes and alignment.
     lines.push('')
-    lines.push('<dl>')
-    lines.push('<dt class="doxyEnumerationValues"><b>Enumeration values</b></dt>')
-    lines.push('<dd>')
-    lines.push('<table class="doxyEnumerationTable">')
+    lines.push('<EnumerationList title="Enumeration values">')
+    lines.push('')
+
     if (memberDef.enumvalues !== undefined) {
       for (const enumValue of memberDef.enumvalues) {
-        const briefDescription: string = workspace.renderElementToMdxText(enumValue.briefDescription)
+        let briefDescription: string = workspace.renderElementToMdxText(enumValue.briefDescription).replace(/[.]$/, '')
         const permalink = workspace.getPermalink({ refid: enumValue.id, kindref: 'member' })
-        let value = enumValue.name
-        if (enumValue.initializer !== undefined) {
-          value += ' '
-          value += workspace.renderElementToMdxText(enumValue.initializer)
+        const value = workspace.renderElementToMdxText(enumValue.initializer)
+        if (value.length > 0) {
+          briefDescription += ` (${value})`
         }
-        lines.push('  <tr>')
-        lines.push(`    <td class="doxyEnumerationField"><Link id="${permalink}"/>${value}</td>`)
-        lines.push(`    <td class="doxyEnumerationDescription">${briefDescription.replace(/[.]$/, '')}</td>`)
-        lines.push('  </tr>')
+
+        lines.push('<EnumerationListItem')
+        lines.push(`  permalink="${permalink}"`)
+        lines.push(`  name="${enumValue.name.trim()}">`)
+        lines.push(`${briefDescription}`)
+        lines.push('</EnumerationListItem>')
       }
     }
-    lines.push('</table>')
-    lines.push('</dd>')
-    lines.push('</dl>')
+    lines.push('')
+    lines.push('</EnumerationList>')
 
     return lines
   }

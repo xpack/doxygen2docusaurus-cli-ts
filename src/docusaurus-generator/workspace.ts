@@ -238,6 +238,8 @@ export class Workspace {
     const componentNames = [
       'CodeLine',
       'DoxygenPage',
+      'EnumerationList',
+      'EnumerationListItem',
       'GeneratedByDoxygen',
       'Highlight',
       'IncludesList',
