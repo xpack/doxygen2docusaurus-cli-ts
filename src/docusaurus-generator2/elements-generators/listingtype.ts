@@ -19,7 +19,7 @@ import { ElementLinesRendererBase } from './element-renderer-base.js'
 // ----------------------------------------------------------------------------
 
 export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
-  renderToMdxLines (element: AbstractListingType): string[] {
+  override renderToMdxLines (element: AbstractListingType): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -42,7 +42,7 @@ export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
 }
 
 export class CodeLineTypeLinesRenderer extends ElementLinesRendererBase {
-  renderToMdxLines (element: AbstractCodeLineType): string[] {
+  override renderToMdxLines (element: AbstractCodeLineType): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
     assert(element instanceof CodeLineDataModel)
 
@@ -97,7 +97,7 @@ export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
     'charliteral'
   ]
 
-  renderToMdxLines (element: AbstractHighlightType): string[] {
+  override renderToMdxLines (element: AbstractHighlightType): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
     assert(element instanceof HighlightDataModel)
 

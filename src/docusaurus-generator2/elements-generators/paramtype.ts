@@ -33,7 +33,7 @@ import { AbstractParamType } from '../../data-model/compounds/paramtype-dm.js'
 // </xsd:complexType>
 
 export class ParamTypeLinesRenderer extends ElementLinesRendererBase {
-  renderToMdxLines (element: AbstractParamType): string[] {
+  override renderToMdxLines (element: AbstractParamType): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     if (element.attributes !== undefined) {

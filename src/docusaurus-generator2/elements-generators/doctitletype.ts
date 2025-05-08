@@ -20,7 +20,7 @@ import { AbstractDocTitleType, TitleDataModel } from '../../data-model/compounds
 // ----------------------------------------------------------------------------
 
 export class DocTitleTypeLinesRenderer extends ElementLinesRendererBase {
-  renderToMdxLines (element: AbstractDocTitleType): string[] {
+  override renderToMdxLines (element: AbstractDocTitleType): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''

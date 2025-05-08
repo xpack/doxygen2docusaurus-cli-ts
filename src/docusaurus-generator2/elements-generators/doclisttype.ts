@@ -20,7 +20,7 @@ import { AbstractDocListType } from '../../data-model/compounds/descriptiontype-
 // ----------------------------------------------------------------------------
 
 export class DocListTypeLinesRenderer extends ElementLinesRendererBase {
-  renderToMdxLines (element: AbstractDocListType): string[] {
+  override renderToMdxLines (element: AbstractDocListType): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []

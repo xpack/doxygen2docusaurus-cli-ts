@@ -32,7 +32,7 @@ export class DocVariableListTypeTextRenderer extends ElementTextRendererBase {
 }
 
 export class VariableListPairLinesRenderer extends ElementLinesRendererBase {
-  renderToMdxLines (element: VariableListPairDataModel): string[] {
+  override renderToMdxLines (element: VariableListPairDataModel): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []

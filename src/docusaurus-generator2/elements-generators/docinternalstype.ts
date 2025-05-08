@@ -20,7 +20,7 @@ import { AbstractDocSect1Type, AbstractDocSect2Type, AbstractDocSect3Type, Abstr
 // ----------------------------------------------------------------------------
 
 export class DocS1TypeLinesRenderer extends ElementLinesRendererBase {
-  renderToMdxLines (element: AbstractDocSect1Type): string[] {
+  override renderToMdxLines (element: AbstractDocSect1Type): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -54,7 +54,7 @@ export class DocS1TypeLinesRenderer extends ElementLinesRendererBase {
 }
 
 export class DocS2TypeLinesRenderer extends ElementLinesRendererBase {
-  renderToMdxLines (element: AbstractDocSect2Type): string[] {
+  override renderToMdxLines (element: AbstractDocSect2Type): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -86,7 +86,7 @@ export class DocS2TypeLinesRenderer extends ElementLinesRendererBase {
 }
 
 export class DocS3TypeLinesRenderer extends ElementLinesRendererBase {
-  renderToMdxLines (element: AbstractDocSect3Type): string[] {
+  override renderToMdxLines (element: AbstractDocSect3Type): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -118,7 +118,7 @@ export class DocS3TypeLinesRenderer extends ElementLinesRendererBase {
 }
 
 export class DocS4TypeLinesRenderer extends ElementLinesRendererBase {
-  renderToMdxLines (element: AbstractDocSect4Type): string[] {
+  override renderToMdxLines (element: AbstractDocSect4Type): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -150,7 +150,7 @@ export class DocS4TypeLinesRenderer extends ElementLinesRendererBase {
 }
 
 export class DocS5TypeLinesRenderer extends ElementLinesRendererBase {
-  renderToMdxLines (element: AbstractDocSect5Type): string[] {
+  override renderToMdxLines (element: AbstractDocSect5Type): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -182,7 +182,7 @@ export class DocS5TypeLinesRenderer extends ElementLinesRendererBase {
 }
 
 export class DocS6TypeLinesRenderer extends ElementLinesRendererBase {
-  renderToMdxLines (element: AbstractDocSect6Type): string[] {
+  override renderToMdxLines (element: AbstractDocSect6Type): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []

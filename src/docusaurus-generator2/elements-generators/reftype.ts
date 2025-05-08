@@ -21,7 +21,7 @@ import { escapeMdx } from '../../docusaurus-generator/utils.js'
 // ----------------------------------------------------------------------------
 
 export class RefTypeLinesRenderer extends ElementLinesRendererBase {
-  renderToMdxLines (element: AbstractRefType): string[] {
+  override renderToMdxLines (element: AbstractRefType): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     if (element.prot !== undefined) {

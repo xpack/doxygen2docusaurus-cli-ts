@@ -283,7 +283,7 @@ export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
 // ----------------------------------------------------------------------------
 
 export class DocAnchorTypeLinesRenderer extends ElementLinesRendererBase {
-  renderToMdxLines (element: AbstractDocAnchorType): string[] {
+  override renderToMdxLines (element: AbstractDocAnchorType): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
