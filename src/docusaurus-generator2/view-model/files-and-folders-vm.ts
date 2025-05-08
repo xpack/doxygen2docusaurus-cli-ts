@@ -36,6 +36,8 @@ export class FilesAndFolders extends CollectionBase {
 
   // folders: Folders
 
+  // --------------------------------------------------------------------------
+
   constructor (workspace: Workspace) {
     super(workspace)
 
@@ -45,6 +47,8 @@ export class FilesAndFolders extends CollectionBase {
 
     this.filesByPath = new Map()
   }
+
+  // --------------------------------------------------------------------------
 
   override addChild (compoundDef: CompoundDefDataModel): CompoundBase {
     if (compoundDef.kind === 'file') {
@@ -61,6 +65,8 @@ export class FilesAndFolders extends CollectionBase {
       throw new Error(`kind ${compoundDef.kind} not implemented in ${this.constructor.name}`)
     }
   }
+
+  // --------------------------------------------------------------------------
 
   override createHierarchies (): void {
     // Recreate files and folders hierarchies.
@@ -105,6 +111,27 @@ export class FilesAndFolders extends CollectionBase {
       // console.log(path, file)
     }
 
+    for (const [folderId, folder] of this.compoundFoldersById) {
+      let parentPath = ''
+      if (folder.parent !== undefined) {
+        parentPath = `${this.getRelativePathRecursively(folder.parent as Folder)}/`
+      }
+
+      const sanitizedPath: string = sanitizeHierarchicalPath(`${parentPath}${folder.compoundDef.compoundName as string}`)
+
+      folder.relativePath = sanitizedPath
+      folder.relativePermalink = `folders/${sanitizedPath}`
+
+      folder.docusaurusId = `folders/${flattenPath(sanitizedPath)}`
+
+      // console.log('1', file.compoundDef.compoundName)
+      // console.log('2', file.relativePermalink)
+      // console.log('3', file.docusaurusId)
+      // console.log('4', file.sidebarLabel)
+      // console.log('5', file.indexName)
+      // console.log()
+    }
+
     // Cannot be done in each object, since it needs the hierarchy.
     for (const [fileId, file] of this.compoundFilesById) {
       let parentPath = ''
@@ -113,6 +140,8 @@ export class FilesAndFolders extends CollectionBase {
       }
 
       const sanitizedPath: string = sanitizeHierarchicalPath(`${parentPath}${file.compoundDef.compoundName as string}`)
+
+      file.relativePath = sanitizedPath
       file.relativePermalink = `files/${sanitizedPath}`
 
       file.docusaurusId = `files/${flattenPath(sanitizedPath)}`
@@ -126,18 +155,15 @@ export class FilesAndFolders extends CollectionBase {
     }
   }
 
-  getRelativePathRecursively (folder: Folder): string {
+  private getRelativePathRecursively (folder: Folder): string {
     let parentPath = ''
     if (folder.parent !== undefined) {
       parentPath = `${this.getRelativePathRecursively(folder.parent as Folder)}/`
     }
-    const sanitizedPath: string = sanitizeHierarchicalPath(`${parentPath}${folder.compoundDef.compoundName}`)
-    folder.relativePermalink = `folders/${sanitizedPath}`
-
-    folder.docusaurusId = `folders/${flattenPath(sanitizedPath)}`
-
-    return sanitizedPath
+    return `${parentPath}${folder.compoundDef.compoundName}`
   }
+
+  // --------------------------------------------------------------------------
 
   override createSidebarItems (): SidebarItem[] {
     // Add folders & files to the sidebar.
@@ -199,6 +225,8 @@ export class FilesAndFolders extends CollectionBase {
     }
     return docItem
   }
+
+  // --------------------------------------------------------------------------
 
   override async generateIndexDotMdxFile (): Promise<void> {
     const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
@@ -321,6 +349,10 @@ export class Folder extends CompoundBase {
   childrenFolderIds: string[] = []
   childrenFolders: Folder[] = []
 
+  relativePath: string = ''
+
+  // --------------------------------------------------------------------------
+
   constructor (collection: FilesAndFolders, compoundDef: CompoundDefDataModel) {
     super(collection, compoundDef)
 
@@ -349,14 +381,41 @@ export class Folder extends CompoundBase {
     this.pageTitle = `The \`${this.sidebarLabel}\` Folder Reference`
   }
 
-  renderToMdxLines (frontMatter: FrontMatter): string[] {
-    return []
+  // --------------------------------------------------------------------------
+
+  override renderToMdxLines (frontMatter: FrontMatter): string[] {
+    const lines: string[] = []
+
+    const compoundDef = this.compoundDef
+    const descriptionTodo = `@dir ${this.relativePath}`
+
+    lines.push(this.renderBriefDescriptionToMdxText({
+      todo: descriptionTodo,
+      morePermalink: '#details'
+    }))
+
+    lines.push(...this.renderInnerIndicesToMdxLines({
+      suffixes: ['Dirs', 'Files']
+    }))
+
+    lines.push(...this.renderSectionDefIndicesToMdxLines())
+
+    lines.push(...this.renderDetailedDescriptionToMdxLines({
+      detailedDescription: compoundDef.detailedDescription,
+      todo: descriptionTodo
+    }))
+
+    lines.push(...this.renderSectionDefsToMdxLines())
+
+    return lines
   }
 }
 
 // ----------------------------------------------------------------------------
 
 export class File extends CompoundBase {
+  relativePath: string = ''
+
   constructor (collection: FilesAndFolders, compoundDef: CompoundDefDataModel) {
     super(collection, compoundDef)
 
@@ -366,12 +425,48 @@ export class File extends CompoundBase {
     this.indexName = this.sidebarLabel
 
     this.pageTitle = `The \`${this.sidebarLabel}\` File Reference`
-
-    // console.log('File.constructor', util.inspect(compoundDef))
   }
 
-  renderToMdxLines (frontMatter: FrontMatter): string[] {
-    return []
+  // --------------------------------------------------------------------------
+
+  override renderToMdxLines (frontMatter: FrontMatter): string[] {
+    const lines: string[] = []
+
+    const compoundDef = this.compoundDef
+
+    const descriptionTodo = `@file ${this.relativePath}`
+
+    lines.push(this.renderBriefDescriptionToMdxText({
+      todo: descriptionTodo,
+      morePermalink: '#details'
+    }))
+
+    lines.push(...this.renderIncludesIndexMdx())
+
+    lines.push(...this.renderInnerIndicesToMdxLines({
+      suffixes: ['Namespaces', 'Classes']
+    }))
+
+    lines.push(...this.renderSectionDefIndicesToMdxLines())
+
+    lines.push(...this.renderDetailedDescriptionToMdxLines({
+      detailedDescription: compoundDef.detailedDescription,
+      todo: descriptionTodo
+    }))
+
+    lines.push(...this.renderSectionDefsToMdxLines())
+
+    if (compoundDef.programListing !== undefined) {
+      lines.push('')
+      lines.push('## File Listing')
+
+      lines.push('')
+      lines.push('The file content with the documentation metadata removed is:')
+
+      lines.push(...this.collection.workspace.renderElementToMdxLines(compoundDef.programListing))
+    }
+
+    return lines
   }
 }
 

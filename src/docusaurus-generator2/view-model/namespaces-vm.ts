@@ -28,11 +28,15 @@ export class Namespaces extends CollectionBase {
   compoundsById: Map<string, Namespace>
   topLevelNamespaces: Namespace[] = []
 
+  // --------------------------------------------------------------------------
+
   constructor (workspace: Workspace) {
     super(workspace)
 
     this.compoundsById = new Map()
   }
+
+  // --------------------------------------------------------------------------
 
   override addChild (compoundDef: CompoundDefDataModel): CompoundBase {
     const namespace = new Namespace(this, compoundDef)
@@ -40,6 +44,8 @@ export class Namespaces extends CollectionBase {
 
     return namespace
   }
+
+  // --------------------------------------------------------------------------
 
   override createHierarchies (): void {
     // Recreate namespaces hierarchies.
@@ -60,6 +66,8 @@ export class Namespaces extends CollectionBase {
       }
     }
   }
+
+  // --------------------------------------------------------------------------
 
   override createSidebarItems (): SidebarItem[] {
     // Add namespaces to the sidebar.
@@ -109,6 +117,8 @@ export class Namespaces extends CollectionBase {
       return categoryItem
     }
   }
+
+  // --------------------------------------------------------------------------
 
   override async generateIndexDotMdxFile (): Promise<void> {
     const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
@@ -184,8 +194,6 @@ export class Namespaces extends CollectionBase {
 // ----------------------------------------------------------------------------
 
 export class Namespace extends CompoundBase {
-  // unparentedName?: string | undefined
-
   constructor (collection: Namespaces, compoundDef: CompoundDefDataModel) {
     super(collection, compoundDef)
 
@@ -219,7 +227,9 @@ export class Namespace extends CompoundBase {
     // console.log()
   }
 
-  renderToMdxLines (frontMatter: FrontMatter): string[] {
+  // --------------------------------------------------------------------------
+
+  override renderToMdxLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
     const compoundDef = this.compoundDef
@@ -243,7 +253,7 @@ export class Namespace extends CompoundBase {
 
     lines.push(...this.renderSectionDefsToMdxLines())
 
-    lines.push(...this.renderGeneratedFromToMdxLines(compoundDef))
+    lines.push(...this.renderGeneratedFromToMdxLines())
 
     return lines
   }

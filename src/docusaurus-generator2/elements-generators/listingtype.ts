@@ -58,14 +58,13 @@ export class CodeLineTypeLinesRenderer extends ElementLinesRendererBase {
       })
     }
 
-    const lines: string[] = []
+    let text = ''
 
     if (element.lineno !== undefined) {
       const anchor = `l${element.lineno.toString().padStart(5, '0')}`
-      lines.push(`<Link id="${anchor}" />`)
+      text += `<Link id="${anchor}" />`
     }
 
-    let text = ''
     text += '<CodeLine'
     if (element.lineno !== undefined) {
       text += ` lineNumber="${element.lineno.toString()}"`
@@ -74,13 +73,12 @@ export class CodeLineTypeLinesRenderer extends ElementLinesRendererBase {
       text += ` lineLink="${permalink}"`
     }
     text += '>'
-    lines.push(text)
 
-    lines.push(...this.workspace.renderElementsToMdxLines(element.highlights))
+    text += this.workspace.renderElementsToMdxText(element.highlights)
 
-    lines.push('</CodeLine>')
+    text += '</CodeLine>'
 
-    return lines
+    return [text]
   }
 }
 

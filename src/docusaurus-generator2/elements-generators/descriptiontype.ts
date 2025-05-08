@@ -210,8 +210,8 @@ export class DocEmptyTypeLinesRenderer extends ElementTextRendererBase {
 
 // ----------------------------------------------------------------------------
 
-export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
-  renderToMdxLines (element: AbstractDocParamListType): string[] {
+export class DocParamListTypeTextRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractDocParamListType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -264,7 +264,7 @@ export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
             }
 
             lines.push(`<ParametersListItem name="${names.join(', ')}">`)
-            lines.push(...this.workspace.renderElementToMdxLines(parameterItem.parameterDescription))
+            lines.push(this.workspace.renderElementToMdxText(parameterItem.parameterDescription))
             lines.push('</ParametersListItem>')
           }
           lines.push('</ParametersList>')
@@ -276,7 +276,7 @@ export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
       }
     }
 
-    return lines
+    return lines.join('\n')
   }
 }
 

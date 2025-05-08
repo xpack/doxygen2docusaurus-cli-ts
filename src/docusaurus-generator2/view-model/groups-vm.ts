@@ -28,11 +28,15 @@ export class Groups extends CollectionBase {
   compoundsById: Map<string, Group>
   topLevelGroups: Group[] = []
 
+  // --------------------------------------------------------------------------
+
   constructor (workspace: Workspace) {
     super(workspace)
 
     this.compoundsById = new Map()
   }
+
+  // --------------------------------------------------------------------------
 
   override addChild (compoundDef: CompoundDefDataModel): CompoundBase {
     const group = new Group(this, compoundDef)
@@ -40,6 +44,8 @@ export class Groups extends CollectionBase {
 
     return group
   }
+
+  // --------------------------------------------------------------------------
 
   override createHierarchies (): void {
     // Recreate groups hierarchies.
@@ -61,6 +67,8 @@ export class Groups extends CollectionBase {
       }
     }
   }
+
+  // --------------------------------------------------------------------------
 
   override createSidebarItems (): SidebarItem[] {
     const sidebarItems: SidebarItem[] = []
@@ -99,6 +107,8 @@ export class Groups extends CollectionBase {
       return categoryItem
     }
   }
+
+  // --------------------------------------------------------------------------
 
   override async generateIndexDotMdxFile (): Promise<void> {
     // Home page for the API reference.
@@ -215,8 +225,34 @@ export class Group extends CompoundBase {
     // console.log()
   }
 
-  renderToMdxLines (frontMatter: FrontMatter): string[] {
-    return []
+  // --------------------------------------------------------------------------
+
+  override renderToMdxLines (frontMatter: FrontMatter): string[] {
+    const lines: string[] = []
+
+    const compoundDef = this.compoundDef
+
+    const descriptionTodo = `@defgroup ${compoundDef.compoundName}`
+
+    lines.push(this.renderBriefDescriptionToMdxText({
+      todo: descriptionTodo,
+      morePermalink: '#details'
+    }))
+
+    lines.push(...this.renderInnerIndicesToMdxLines({
+      suffixes: ['Groups', 'Classes']
+    }))
+
+    lines.push(...this.renderSectionDefIndicesToMdxLines())
+
+    lines.push(...this.renderDetailedDescriptionToMdxLines({
+      detailedDescription: compoundDef.detailedDescription,
+      todo: descriptionTodo
+    }))
+
+    lines.push(...this.renderSectionDefsToMdxLines())
+
+    return lines
   }
 }
 

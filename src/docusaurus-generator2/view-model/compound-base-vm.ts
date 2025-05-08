@@ -13,6 +13,7 @@
 
 import * as util from 'node:util'
 import assert from 'node:assert'
+import path from 'node:path'
 
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { FrontMatter } from '../../docusaurus-generator/types.js'
@@ -28,7 +29,6 @@ import { RefTextDataModel } from '../../data-model/compounds/reftexttype-dm.js'
 import { DefValDataModel } from '../../data-model/compounds/linkedtexttype-dm.js'
 import { LocationDataModel } from '../../data-model/compounds/locationtype-dm.js'
 import { FilesAndFolders } from './files-and-folders-vm.js'
-import path from 'node:path'
 
 // ----------------------------------------------------------------------------
 
@@ -64,13 +64,17 @@ export abstract class CompoundBase {
 
   briefDescriptionMdxText: string | undefined
 
+  // --------------------------------------------------------------------------
+
   constructor (collection: CollectionBase, compoundDef: CompoundDefDataModel) {
     this.compoundDef = compoundDef
 
     this.collection = collection
 
+    const workspace = this.collection.workspace
+
     if (this.compoundDef.briefDescription !== undefined) {
-      this.briefDescriptionMdxText = this.collection.workspace.renderElementToMdxText(this.compoundDef.briefDescription)
+      this.briefDescriptionMdxText = workspace.renderElementToMdxText(this.compoundDef.briefDescription)
     }
   }
 
@@ -94,8 +98,6 @@ export abstract class CompoundBase {
     // console.log(this)
 
     if (briefDescriptionMdxText === undefined) {
-      // console.log(this.compoundDef.briefDescription)
-      // console.log(briefDescriptionMdxText)
       return ''
     }
 
@@ -108,9 +110,6 @@ export abstract class CompoundBase {
       }
     } else if (todo.length > 0) {
       text += `TODO: add <code>@brief</code> to <code>${todo}</code>`
-    } else {
-      // console.log(this.compoundDef.briefDescription)
-      // console.log(briefDescriptionMdxText)
     }
 
     return text
@@ -137,22 +136,37 @@ export abstract class CompoundBase {
       }
     }
 
-    const description: string = this.collection.workspace.renderElementToMdxText(detailedDescription).trim()
+    const workspace = this.collection.workspace
+
+    const detailedDescriptionMdxText: string = workspace.renderElementToMdxText(detailedDescription).trim()
     if (showHeader && !hasSect1) {
-      if (description.length > 0 || todo.length > 0) {
+      if (detailedDescriptionMdxText.length > 0 || todo.length > 0) {
         lines.push('')
         lines.push('## Description {#details}')
+      } else {
+        if (todo.length > 0) {
+          // Ensure an anchor is generated even if the top description is missing.
+          lines.push('')
+          lines.push('<Link id="#details" />')
+        }
+      }
+    } else {
+      if (todo.length > 0) {
         lines.push('')
+        lines.push('<Link id="#details" />')
       }
     }
 
     // Deviate from Doxygen and do not repeat the brief in the detailed section.
     // console.log(util.inspect(compoundDef.detailedDescription, { compact: false, depth: 999 }))
-    if (description.length > 0) {
-      lines.push(description)
+    if (detailedDescriptionMdxText.length > 0) {
+      lines.push('')
+      lines.push(detailedDescriptionMdxText)
     } else if (todo.length > 0) {
+      lines.push('')
       lines.push(`TODO: add <code>@details</code> to <code>${todo}</code>`)
     }
+
     return lines
   }
 
@@ -176,12 +190,11 @@ export abstract class CompoundBase {
       }
     }
 
-    // console.log(compoundDef)
+    const workspace = this.collection.workspace
+
     for (const suffix of suffixes) {
       const innerKey = `inner${suffix}`
-      // console.log('innerKey:', innerKey)
       const innerObjects = (compoundDef as any)[innerKey] as AbstractRefType[]
-      // console.log(innerObjects)
 
       if (innerObjects !== undefined && innerObjects.length > 0) {
         lines.push('')
@@ -192,13 +205,13 @@ export abstract class CompoundBase {
 
         for (const innerObject of innerObjects) {
           // console.log(util.inspect(innerObject, { compact: false, depth: 999 }))
-          const innerDataObject = this.collection.workspace.compoundsById.get(innerObject.refid)
+          const innerDataObject = workspace.compoundsById.get(innerObject.refid)
           assert(innerDataObject !== undefined)
 
           const innerCompoundDef = innerDataObject.compoundDef
           assert(innerCompoundDef !== undefined)
 
-          const permalink = this.collection.workspace.getPagePermalink(innerObject.refid)
+          const permalink = workspace.getPagePermalink(innerObject.refid)
 
           const kind = innerCompoundDef.kind
 
@@ -210,7 +223,7 @@ export abstract class CompoundBase {
           lines.push(`  type="${itemType}"`)
           lines.push(`  name={${itemName}}>`)
 
-          const briefDescriptionMdxText = this.collection.workspace.renderElementToMdxText(innerCompoundDef.briefDescription)
+          const briefDescriptionMdxText: string = workspace.renderElementToMdxText(innerCompoundDef.briefDescription)
           if (briefDescriptionMdxText.length > 0) {
             lines.push(this.renderBriefDescriptionToMdxText({
               briefDescriptionMdxText,
@@ -237,8 +250,7 @@ export abstract class CompoundBase {
       for (const sectionDef of compoundDef.sectionDefs) {
         // console.log(sectionDef)
         lines.push(...this.renderSectionDefIndexToMdxLines({
-          sectionDef,
-          compoundDef
+          sectionDef
         }))
       }
     }
@@ -247,19 +259,21 @@ export abstract class CompoundBase {
   }
 
   renderSectionDefIndexToMdxLines ({
-    sectionDef,
-    compoundDef
+    sectionDef
   }: {
     sectionDef: SectionDefDataModel
-    compoundDef: CompoundDefDataModel
   }): string[] {
     const lines: string[] = []
+
+    const compoundDef = this.compoundDef
 
     const header = this.getHeaderByKind(sectionDef)
     // console.log(header)
     if (header.length === 0) {
       return lines
     }
+
+    const workspace = this.collection.workspace
 
     // console.log(sectionDef)
     if (sectionDef.memberDefs !== undefined || sectionDef.members !== undefined) {
@@ -271,16 +285,16 @@ export abstract class CompoundBase {
 
       if (sectionDef.memberDefs !== undefined) {
         for (const memberDef of sectionDef.memberDefs) {
-          lines.push(...this.renderMemberDefIndexToMdxLines({ memberDef, sectionDef, compoundDef }))
+          lines.push(...this.renderMemberDefIndexToMdxLines({ memberDef, sectionDef }))
         }
       }
 
       if (sectionDef.members !== undefined) {
         for (const member of sectionDef.members) {
-          const memberDef = this.collection.workspace.memberDefsById.get(member.refid)
+          const memberDef = workspace.memberDefsById.get(member.refid)
           assert(memberDef !== undefined)
 
-          lines.push(...this.renderMemberDefIndexToMdxLines({ memberDef, sectionDef, compoundDef }))
+          lines.push(...this.renderMemberDefIndexToMdxLines({ memberDef, sectionDef }))
         }
       }
 
@@ -290,19 +304,77 @@ export abstract class CompoundBase {
     return lines
   }
 
+  // --------------------------------------------------------------------------
+
+  renderIncludesIndexMdx (): string[] {
+    const lines: string[] = []
+
+    const compoundDef = this.compoundDef
+
+    const workspace = this.collection.workspace
+
+    if (compoundDef.includes !== undefined) {
+      lines.push('')
+      lines.push('## Included Headers')
+
+      lines.push('')
+      lines.push('<IncludesList>')
+
+      for (const include of compoundDef.includes) {
+        lines.push(workspace.renderElementToMdxText(include))
+      }
+
+      lines.push('</IncludesList>')
+    }
+
+    return lines
+  }
+
+  renderClassIndexMdx (classs: Class): string[] {
+    // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
+    const lines: string[] = []
+
+    const compoundDef = classs.compoundDef
+
+    const workspace = this.collection.workspace
+
+    const permalink = workspace.getPagePermalink(compoundDef.id)
+
+    const itemType = compoundDef.kind
+    const itemName = `<Link to="${permalink}">${escapeMdx(classs.indexName)}</Link>`
+
+    lines.push('<MembersIndexItem')
+    lines.push(`  type="${itemType}"`)
+    lines.push(`  name={${itemName}}>`)
+
+    const briefDescriptionMdxText: string | undefined = this.briefDescriptionMdxText
+    if ((briefDescriptionMdxText ?? '').length > 0) {
+      lines.push(this.renderBriefDescriptionToMdxText({
+        briefDescriptionMdxText,
+        morePermalink: permalink
+      }))
+    }
+
+    lines.push('</MembersIndexItem>')
+
+    return lines
+  }
+
   renderMemberDefIndexToMdxLines ({
     memberDef,
-    sectionDef,
-    compoundDef
+    sectionDef
   }: {
     memberDef: MemberDefDataModel
     sectionDef: SectionDefDataModel
-    compoundDef: CompoundDefDataModel
   }): string[] {
     // console.log(util.inspect(memberDef, { compact: false, depth: 999 }))
     const lines: string[] = []
 
-    const permalink = this.collection.workspace.getPermalink({ refid: memberDef.id, kindref: 'member' })
+    const compoundDef = this.compoundDef
+
+    const workspace = this.collection.workspace
+
+    const permalink = workspace.getPermalink({ refid: memberDef.id, kindref: 'member' })
     assert(permalink !== undefined && permalink.length > 1)
 
     const name = escapeMdx(memberDef.name)
@@ -318,7 +390,7 @@ export abstract class CompoundBase {
         itemType = 'using'
         if (memberDef.type !== undefined) {
           itemName += ' = '
-          itemName += this.collection.workspace.renderElementToMdxText(memberDef.type).trim()
+          itemName += workspace.renderElementToMdxText(memberDef.type).trim()
         }
         break
 
@@ -326,7 +398,7 @@ export abstract class CompoundBase {
         {
           // WARNING: the rule to decide which type is trailing is not in XMLs.
           // TODO: improve.
-          const type = this.collection.workspace.renderElementToMdxText(memberDef.type).trim()
+          const type = workspace.renderElementToMdxText(memberDef.type).trim()
 
           let trailingType = false
           if ((this.isTemplate(templateParamList) &&
@@ -345,6 +417,7 @@ export abstract class CompoundBase {
             itemName += ' '
             itemName += escapeMdx(memberDef.argsstring)
           }
+
           if (trailingType) {
             if (!itemType.includes('auto')) {
               itemType += 'auto '
@@ -358,16 +431,16 @@ export abstract class CompoundBase {
 
           if (memberDef.initializer !== undefined) {
             itemName += ' '
-            itemName += this.collection.workspace.renderElementToMdxText(memberDef.initializer)
+            itemName += workspace.renderElementToMdxText(memberDef.initializer)
           }
         }
         break
 
       case 'variable':
-        itemType += this.collection.workspace.renderElementToMdxText(memberDef.type).trim()
+        itemType += workspace.renderElementToMdxText(memberDef.type).trim()
         if (memberDef.initializer !== undefined) {
           itemName += ' '
-          itemName += this.collection.workspace.renderElementToMdxText(memberDef.initializer)
+          itemName += workspace.renderElementToMdxText(memberDef.initializer)
         }
         break
 
@@ -400,7 +473,7 @@ export abstract class CompoundBase {
       lines.push(`  name="${itemName}">`)
     }
 
-    const briefDescriptionMdxText = this.collection.workspace.renderElementToMdxText(memberDef.briefDescription)
+    const briefDescriptionMdxText: string = workspace.renderElementToMdxText(memberDef.briefDescription)
     if (briefDescriptionMdxText.length > 0) {
       lines.push(this.renderBriefDescriptionToMdxText({
         briefDescriptionMdxText,
@@ -453,8 +526,10 @@ export abstract class CompoundBase {
 
     const sectionLabels: string[] = []
 
+    const workspace = this.collection.workspace
+
     if ((this.compoundDef.kind === 'class' || this.compoundDef.kind === 'struct') && sectionDef.kind === 'public-func') {
-      const classs = this.collection.workspace.compoundsById.get(this.compoundDef.id) as Class
+      const classs = workspace.compoundsById.get(this.compoundDef.id) as Class
       const constructors: MemberDefDataModel[] = []
       let destructor: MemberDefDataModel | undefined
       const methods = []
@@ -572,6 +647,8 @@ export abstract class CompoundBase {
       console.error(memberDef.constructor.name, 'mutable not yet rendered in', this.constructor.name)
     }
 
+    const workspace = this.collection.workspace
+
     const templateParamList = memberDef.templateparamlist ?? compoundDef.templateParamList
     const templateParameters = this.renderTemplateParametersToMdxText({ templateParamList, withDefaults: true })
 
@@ -597,7 +674,7 @@ export abstract class CompoundBase {
             if (memberDef.params !== undefined) {
               const params: string[] = []
               for (const param of memberDef.params) {
-                params.push(this.collection.workspace.renderElementToMdxText(param))
+                params.push(workspace.renderElementToMdxText(param))
               }
               prototype += params.join(', ')
             }
@@ -606,7 +683,7 @@ export abstract class CompoundBase {
           }
 
           if (memberDef.initializer !== undefined) {
-            prototype += ` ${this.collection.workspace.renderElementToMdxText(memberDef.initializer)}`
+            prototype += ` ${workspace.renderElementToMdxText(memberDef.initializer)}`
           }
 
           if (memberDef.constt?.valueOf()) {
@@ -624,7 +701,10 @@ export abstract class CompoundBase {
             lines.push(`  labels = {["${labels.join('", "')}"]}>`)
           }
 
-          lines.push(this.collection.workspace.renderElementToMdxText(memberDef.briefDescription))
+          const memberBriefDefinition = workspace.renderElementToMdxText(memberDef.briefDescription)
+          if (memberBriefDefinition.length > 0) {
+            lines.push(memberBriefDefinition)
+          }
 
           lines.push(...this.renderDetailedDescriptionToMdxLines({
             detailedDescription: memberDef.detailedDescription,
@@ -653,7 +733,10 @@ export abstract class CompoundBase {
             lines.push(` labels = {["${labels.join('", "')}"]}>`)
           }
 
-          lines.push(this.collection.workspace.renderElementToMdxText(memberDef.briefDescription))
+          const memberBriefDefinition = workspace.renderElementToMdxText(memberDef.briefDescription)
+          if (memberBriefDefinition.length > 0) {
+            lines.push(memberBriefDefinition)
+          }
 
           lines.push(...this.renderEnumToMdxLines(memberDef))
 
@@ -680,6 +763,8 @@ export abstract class CompoundBase {
   renderEnumToMdxLines (memberDef: MemberDefDataModel): string[] {
     const lines: string[] = []
 
+    const workspace = this.collection.workspace
+
     // TODO: add CSS and tweak sizes and alignment.
     lines.push('')
     lines.push('<dl>')
@@ -688,16 +773,16 @@ export abstract class CompoundBase {
     lines.push('<table class="doxyEnumerationTable">')
     if (memberDef.enumvalues !== undefined) {
       for (const enumValue of memberDef.enumvalues) {
-        const briefDescription: string = this.collection.workspace.renderElementToMdxText(enumValue.briefDescription).replace(/[.]$/, '')
-        const permalink = this.collection.workspace.getPermalink({ refid: enumValue.id, kindref: 'member' })
+        const briefDescription: string = workspace.renderElementToMdxText(enumValue.briefDescription)
+        const permalink = workspace.getPermalink({ refid: enumValue.id, kindref: 'member' })
         let value = enumValue.name
         if (enumValue.initializer !== undefined) {
           value += ' '
-          value += this.collection.workspace.renderElementToMdxText(enumValue.initializer)
+          value += workspace.renderElementToMdxText(enumValue.initializer)
         }
         lines.push('  <tr>')
         lines.push(`    <td class="doxyEnumerationField"><Link id="${permalink}"/>${value}</td>`)
-        lines.push(`    <td class="doxyEnumerationDescription">${briefDescription}</td>`)
+        lines.push(`    <td class="doxyEnumerationDescription">${briefDescription.replace(/[.]$/, '')}</td>`)
         lines.push('  </tr>')
       }
     }
@@ -711,13 +796,15 @@ export abstract class CompoundBase {
   renderLocationToMdxText (location: LocationDataModel | undefined): string {
     let text: string = ''
 
+    const workspace = this.collection.workspace
+
     if (location !== undefined) {
       // console.log(location.file)
-      const files: FilesAndFolders = this.collection.workspace.viewModel.get('files') as FilesAndFolders
+      const files: FilesAndFolders = workspace.viewModel.get('files') as FilesAndFolders
       assert(files !== undefined)
       const file = files.filesByPath.get(location.file)
       assert(file !== undefined)
-      const permalink = this.collection.workspace.getPagePermalink(file.compoundDef.id)
+      const permalink = workspace.getPagePermalink(file.compoundDef.id)
 
       text += '\n'
       if (location.bodyfile !== undefined && location.file !== location.bodyfile) {
@@ -729,7 +816,7 @@ export abstract class CompoundBase {
 
         const definitionFile = files.filesByPath.get(location.bodyfile)
         assert(definitionFile !== undefined)
-        const definitionPermalink = this.collection.workspace.getPagePermalink(definitionFile.compoundDef.id)
+        const definitionPermalink = workspace.getPagePermalink(definitionFile.compoundDef.id)
 
         text += ', definition at line '
         const lineStart = `l${location.bodystart?.toString().padStart(5, '0')}`
@@ -750,10 +837,13 @@ export abstract class CompoundBase {
     return text
   }
 
-  renderGeneratedFromToMdxLines (compoundDef: CompoundDefDataModel): string[] {
+  renderGeneratedFromToMdxLines (): string[] {
     const lines: string[] = []
 
+    const compoundDef: CompoundDefDataModel = this.compoundDef
     const locationSet: Set<string> = new Set()
+
+    const workspace = this.collection.workspace
 
     if (compoundDef.sectionDefs !== undefined) {
       for (const sectionDef of compoundDef.sectionDefs) {
@@ -780,13 +870,13 @@ export abstract class CompoundBase {
 
       lines.push('<ul>')
 
-      const files: FilesAndFolders = this.collection.workspace.viewModel.get('files') as FilesAndFolders
+      const files: FilesAndFolders = workspace.viewModel.get('files') as FilesAndFolders
 
       const sortedFiles = [...locationSet].sort()
       for (const fileName of sortedFiles) {
         const file = files.filesByPath.get(fileName)
         assert(file !== undefined)
-        const permalink = this.collection.workspace.getPagePermalink(file.compoundDef.id)
+        const permalink = workspace.getPagePermalink(file.compoundDef.id)
         lines.push(`<li><Link to="${permalink}">${path.basename(fileName) as string}</Link></li>`)
       }
       lines.push('</ul>')

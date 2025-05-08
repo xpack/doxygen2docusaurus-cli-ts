@@ -28,11 +28,15 @@ export class Pages extends CollectionBase {
   compoundsById: Map<string, Page>
   mainPage: Page | undefined
 
+  // --------------------------------------------------------------------------
+
   constructor (workspace: Workspace) {
     super(workspace)
 
     this.compoundsById = new Map()
   }
+
+  // --------------------------------------------------------------------------
 
   override addChild (compoundDef: CompoundDefDataModel): CompoundBase {
     const page = new Page(this, compoundDef)
@@ -45,9 +49,13 @@ export class Pages extends CollectionBase {
     return page
   }
 
+  // --------------------------------------------------------------------------
+
   override createHierarchies (): void {
     // There are no pages hierarchies.
   }
+
+  // --------------------------------------------------------------------------
 
   override createSidebarItems (): SidebarItem[] {
     // Add pages to the sidebar.
@@ -74,6 +82,8 @@ export class Pages extends CollectionBase {
 
     return [pagesCategory]
   }
+
+  // --------------------------------------------------------------------------
 
   override async generateIndexDotMdxFile (): Promise<void> {
     // There is no pages index.
@@ -105,7 +115,9 @@ export class Page extends CompoundBase {
     // console.log()
   }
 
-  renderToMdxLines (frontMatter: FrontMatter): string[] {
+  // --------------------------------------------------------------------------
+
+  override renderToMdxLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
     const compoundDef = this.compoundDef

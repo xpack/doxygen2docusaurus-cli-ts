@@ -28,6 +28,8 @@ import { stripPermalinkAnchor } from '../docusaurus-generator/utils.js'
 export class DocusaurusGenerator2 {
   workspace: Workspace
 
+  // --------------------------------------------------------------------------
+
   constructor ({
     dataModel,
     pluginOptions
@@ -38,6 +40,8 @@ export class DocusaurusGenerator2 {
     console.log('DocusaurusGenerator2.constructor()')
     this.workspace = new Workspace({ dataModel, pluginOptions })
   }
+
+  // --------------------------------------------------------------------------
 
   async generate (): Promise<void> {
     // console.log('DocusaurusGenerator2.generate()')
@@ -52,6 +56,8 @@ export class DocusaurusGenerator2 {
     await this.generateIndexDotMdxFiles()
   }
 
+  // --------------------------------------------------------------------------
+
   createHierarchies (): void {
     console.log('Creating objects hierarchies...')
 
@@ -60,6 +66,8 @@ export class DocusaurusGenerator2 {
       collection.createHierarchies()
     }
   }
+
+  // --------------------------------------------------------------------------
 
   createMemberDefsMap (): void {
     for (const compoundDef of this.workspace.dataModel.compoundDefs) {
@@ -89,6 +97,8 @@ export class DocusaurusGenerator2 {
     }
     console.log(this.workspace.memberDefsById.size, 'member definitions')
   }
+
+  // --------------------------------------------------------------------------
 
   /**
    * @brief Validate the uniqueness of permalinks.
@@ -125,6 +135,8 @@ export class DocusaurusGenerator2 {
       pagePermalinksSet.add(permalink)
     }
   }
+
+  // --------------------------------------------------------------------------
 
   // https://nodejs.org/en/learn/manipulating-files/working-with-folders-in-nodejs
   async prepareOutputFolder (): Promise<void> {
@@ -166,6 +178,8 @@ export class DocusaurusGenerator2 {
     await fs.writeFile(filePath, jsonString, 'utf8')
   }
 
+  // --------------------------------------------------------------------------
+
   async generateIndexDotMdxFiles (): Promise<void> {
     for (const [collectionName, collection] of this.workspace.viewModel) {
       // console.log(collectionName)
@@ -173,6 +187,8 @@ export class DocusaurusGenerator2 {
     }
     // TODO: parallelize
   }
+
+  // --------------------------------------------------------------------------
 
   async generatePages (): Promise<void> {
     console.log('Generating Docusaurus pages (object -> url)...')

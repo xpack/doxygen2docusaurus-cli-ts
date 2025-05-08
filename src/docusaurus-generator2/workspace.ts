@@ -23,7 +23,7 @@ import { CollectionBase } from './view-model/collection-base.js'
 import { Classes } from './view-model/classes-vm.js'
 import { DoxygenFileOptions } from '../docusaurus-generator/view-model/options.js'
 import { ElementLinesRendererBase, ElementTextRendererBase } from './elements-generators/element-renderer-base.js'
-import { DescriptionTypeTextRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeLinesRenderer, DocMarkupTypeTextRenderer, DocParamListTypeLinesRenderer, DocParaTypeTextRenderer, DocRefTextTypeTextRenderer, DocSimpleSectTypeTextRenderer, DocURLLinkTextRenderer, SpTypeTextRenderer } from './elements-generators/descriptiontype.js'
+import { DescriptionTypeTextRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeLinesRenderer, DocMarkupTypeTextRenderer, DocParamListTypeTextRenderer, DocParaTypeTextRenderer, DocRefTextTypeTextRenderer, DocSimpleSectTypeTextRenderer, DocURLLinkTextRenderer, SpTypeTextRenderer } from './elements-generators/descriptiontype.js'
 import { ListingTypeLinesRenderer, CodeLineTypeLinesRenderer, HighlightTypeLinesRenderer } from './elements-generators/listingtype.js'
 import { DocListTypeLinesRenderer } from './elements-generators/doclisttype.js'
 import { DocS1TypeLinesRenderer, DocS2TypeLinesRenderer, DocS3TypeLinesRenderer, DocS4TypeLinesRenderer, DocS5TypeLinesRenderer, DocS6TypeLinesRenderer } from './elements-generators/docinternalstype.js'
@@ -118,7 +118,6 @@ export class Workspace {
     this.elementLinesRenderers.set('AbstractCodeLineType', new CodeLineTypeLinesRenderer(this))
     this.elementLinesRenderers.set('AbstractDocAnchorType', new DocAnchorTypeLinesRenderer(this))
     this.elementLinesRenderers.set('AbstractDocListType', new DocListTypeLinesRenderer(this))
-    this.elementLinesRenderers.set('AbstractDocParamListType', new DocParamListTypeLinesRenderer(this))
     this.elementLinesRenderers.set('AbstractDocSect1Type', new DocS1TypeLinesRenderer(this))
     this.elementLinesRenderers.set('AbstractDocSect2Type', new DocS2TypeLinesRenderer(this))
     this.elementLinesRenderers.set('AbstractDocSect3Type', new DocS3TypeLinesRenderer(this))
@@ -139,6 +138,7 @@ export class Workspace {
     this.elementTextRenderers.set('AbstractDocEmptyType', new DocEmptyTypeLinesRenderer(this))
     this.elementTextRenderers.set('AbstractDocMarkupType', new DocMarkupTypeTextRenderer(this))
     this.elementTextRenderers.set('AbstractDocParaType', new DocParaTypeTextRenderer(this))
+    this.elementTextRenderers.set('AbstractDocParamListType', new DocParamListTypeTextRenderer(this))
     this.elementTextRenderers.set('AbstractDocRefTextType', new DocRefTextTypeTextRenderer(this))
     this.elementTextRenderers.set('AbstractDocSimpleSectType', new DocSimpleSectTypeTextRenderer(this))
     this.elementTextRenderers.set('AbstractDocURLLink', new DocURLLinkTextRenderer(this))
@@ -339,15 +339,19 @@ export class Workspace {
       return lines
     }
 
-    const renderer: ElementLinesRendererBase | undefined = this.getElementLinesRenderer(element)
-    if (renderer === undefined) {
-      console.error(util.inspect(element, { compact: false, depth: 999 }))
-      console.error('no element lines renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToMdxLines')
-      assert(false)
-      // return []
+    const linesRenderer: ElementLinesRendererBase | undefined = this.getElementLinesRenderer(element)
+    if (linesRenderer !== undefined) {
+      return linesRenderer.renderToMdxLines(element)
     }
 
-    return renderer.renderToMdxLines(element)
+    const textRenderer: ElementTextRendererBase | undefined = this.getElementTextRenderer(element)
+    if (textRenderer !== undefined) {
+      return [textRenderer.renderToMdxText(element)]
+    }
+
+    console.error(util.inspect(element, { compact: false, depth: 999 }))
+    console.error('no element lines renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToMdxLines')
+    assert(false)
   }
 
   renderElementsToMdxText (elements: Object[] | undefined): string {
