@@ -60,6 +60,7 @@ export class DocusaurusGenerator {
     await this.generateSidebar()
     await this.generatePages()
     await this.generateIndexDotMdxFiles()
+    await this.generateRedirects()
   }
 
   // --------------------------------------------------------------------------
@@ -244,6 +245,109 @@ export class DocusaurusGenerator {
 
       this.workspace.currentCompoundDef = undefined
     }
+  }
+
+  async generateRedirects (): Promise<void> {
+    const redirectsOutputFolderPath = this.workspace.pluginOptions.redirectsOutputFolderPath
+    if (redirectsOutputFolderPath === undefined) {
+      return
+    }
+
+    console.log(`Removing existing folder static/${redirectsOutputFolderPath}...`)
+    await fs.rm(`static/${redirectsOutputFolderPath}`, { recursive: true, force: true })
+
+    const baseUrl: string = this.workspace.siteConfig.baseUrl
+
+    console.log('Writing redirect files...')
+    const compoundIds: string[] = Array.from(this.workspace.compoundsById.keys()).sort()
+    for (const compoundId of compoundIds) {
+      const compound = this.workspace.compoundsById.get(compoundId)
+      assert(compound !== undefined)
+
+      const filePath = `static/${redirectsOutputFolderPath}/${compoundId}.html`
+      // TODO: What if not below `docs`?
+      const permalink = `${baseUrl}${this.workspace.pluginOptions.outputFolderPath.replace(/[/].*/, '')}/${compound.relativePermalink}/`
+
+      await this.generateRedirectFile({
+        filePath,
+        permalink
+      })
+
+      if (compound.compoundDef.kind === 'file') {
+        const filePath = `static/${redirectsOutputFolderPath}/${compoundId}_source.html`
+        await this.generateRedirectFile({
+          filePath,
+          permalink
+        })
+      } else if (compound.compoundDef.kind === 'class' || compound.compoundDef.kind === 'struct') {
+        const filePath = `static/${redirectsOutputFolderPath}/${compoundId}-members.html`
+        await this.generateRedirectFile({
+          filePath,
+          permalink
+        })
+      }
+    }
+
+    const indexFilesMap: Map<string, string> = new Map()
+    indexFilesMap.set('classes.html', 'classes')
+    indexFilesMap.set('files.html', 'files')
+    indexFilesMap.set('index.html', '')
+    indexFilesMap.set('namespaces.html', 'namespaces')
+    indexFilesMap.set('pages.html', 'pages')
+    indexFilesMap.set('topics.html', 'groups')
+
+    // Not redirectd:
+    // annotated
+    // doxygen_crawl
+    // functions, _[a-z~], _func, _type, _vars
+    // hierarchy
+    // namespacemembers, _enum, _func, type, _vars
+
+    for (const [from, to] of indexFilesMap) {
+      const baseUrl: string = this.workspace.siteConfig.baseUrl
+
+      const filePath = `static/${redirectsOutputFolderPath}/${from}`
+      const permalink = `${baseUrl}${this.workspace.pluginOptions.outputFolderPath}/${to}/`
+
+      await this.generateRedirectFile({
+        filePath,
+        permalink
+      })
+    }
+  }
+
+  // If `trailingSlash` is true, Docusaurus redirects do not generate .html files,
+  // therefore we have to do it manually.
+  async generateRedirectFile ({
+    filePath,
+    permalink
+  }: {
+    filePath: string
+    permalink: string
+  }): Promise<void> {
+    // console.log(filePath)
+
+    const lines: string[] = []
+
+    lines.push('<!DOCTYPE html>')
+    lines.push('<html>')
+    lines.push('  <head>')
+    lines.push('    <meta charset="UTF-8">')
+    lines.push(`    <meta http-equiv="refresh" content="0; url=${permalink}">`)
+    lines.push(`    <link rel="canonical" href="${permalink}" />`)
+    lines.push('  </head>')
+    lines.push('  <script>')
+    lines.push(`    window.location.href = '${permalink}' + window.location.search + window.location.hash;`)
+    lines.push('  </script>')
+    lines.push('</html>')
+    lines.push('')
+
+    await fs.mkdir(path.dirname(filePath), { recursive: true })
+    const fileHandle = await fs.open(filePath, 'ax')
+
+    await fileHandle.write(lines.join('\n'))
+
+    await fileHandle.close()
   }
 }
 
