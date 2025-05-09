@@ -50,7 +50,11 @@ export async function generateDoxygen (context: any, pluginOptions: PluginOption
 
   const dataModel: DataModel = await parseDoxygen({ options })
 
-  const exitCode = await generateDocusaurusMdx({ dataModel, options })
+  const exitCode = await generateDocusaurusMdx({
+    dataModel,
+    options,
+    siteConfig: context.siteConfig
+  })
 
   return exitCode
 }

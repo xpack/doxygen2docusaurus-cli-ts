@@ -53,6 +53,9 @@ export class Workspace {
   // From the project docusaurus.config.ts or defaults.
   pluginOptions: PluginOptions
 
+  // Docusaurus site configuration
+  siteConfig: any
+
   collectionNamesByKind: Record<string, string> = {
     group: 'groups',
     namespace: 'namespaces',
@@ -91,14 +94,17 @@ export class Workspace {
 
   constructor ({
     dataModel,
-    pluginOptions
+    pluginOptions,
+    siteConfig
   }: {
     dataModel: DataModel
     pluginOptions: PluginOptions
+    siteConfig: any
   }) {
     // console.log('DocusaurusGenerator.constructor()')
     this.dataModel = dataModel
     this.pluginOptions = pluginOptions
+    this.siteConfig = siteConfig
 
     this.doxygenOptions = new DoxygenFileOptions(this.dataModel.doxyfile.options)
 

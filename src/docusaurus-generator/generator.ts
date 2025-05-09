@@ -32,13 +32,19 @@ export class DocusaurusGenerator2 {
 
   constructor ({
     dataModel,
-    pluginOptions
+    pluginOptions,
+    siteConfig
   }: {
     dataModel: DataModel
     pluginOptions: PluginOptions
+    siteConfig: any
   }) {
     console.log('DocusaurusGenerator2.constructor()')
-    this.workspace = new Workspace({ dataModel, pluginOptions })
+    this.workspace = new Workspace({
+      dataModel,
+      pluginOptions,
+      siteConfig
+    })
   }
 
   // --------------------------------------------------------------------------

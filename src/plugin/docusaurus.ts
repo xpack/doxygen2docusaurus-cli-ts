@@ -54,7 +54,11 @@ export default async function pluginDocusaurus (
       // console.log(options)
 
       const dataModel: DataModel = await parseDoxygen({ options })
-      await generateDocusaurusMdx({ dataModel, options })
+      await generateDocusaurusMdx({
+        dataModel,
+        options,
+        siteConfig: context.siteConfig
+      })
 
       return dataModel
     },

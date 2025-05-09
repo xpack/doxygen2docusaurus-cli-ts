@@ -50,10 +50,12 @@ export async function parseDoxygen ({
 
 export async function generateDocusaurusMdx ({
   dataModel,
-  options
+  options,
+  siteConfig
 }: {
   dataModel: DataModel
   options: PluginOptions
+  siteConfig: any
 }): Promise<number> {
   // Merge with the defaults.
   const actualOptions: PluginOptions = {
@@ -61,7 +63,11 @@ export async function generateDocusaurusMdx ({
     ...options
   }
   // console.log('generateDocusaurusMdx()')
-  const docs = new DocusaurusGenerator2({ dataModel, pluginOptions: actualOptions })
+  const docs = new DocusaurusGenerator2({
+    dataModel,
+    pluginOptions: actualOptions,
+    siteConfig
+  })
   await docs.generate()
 
   return 0
