@@ -21,11 +21,9 @@ import Link from '@docusaurus/Link'
 export default function XrefSect({title, permalink, children}) {
   return (
     <div class="doxyXrefSect">
-      <dl>
-        <dt>
-          <b><Link to={permalink}>{title}</Link></b>
-        </dt>
-        <dd>
+      <dl class="doxyXrefSectList">
+        <dt class="doxyXrefSectTitle"><Link to={permalink}>{title}</Link></dt>
+        <dd class="doxyXrefSectDescription">
           {children}
         </dd>
       </dl>
