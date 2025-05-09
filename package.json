@@ -18,6 +18,7 @@
     "./components/ParametersList": "./src/components/ParametersList/index.js",
     "./components/ParametersListItem": "./src/components/ParametersListItem/index.js",
     "./components/ProgramListing": "./src/components/ProgramListing/index.js",
+    "./components/Reference": "./src/components/Reference/index.js",
     "./components/TreeTable": "./src/components/TreeTable/index.js",
     "./components/TreeTableRow": "./src/components/TreeTableRow/index.js",
     "./components/SectionDefinition": "./src/components/SectionDefinition/index.js",

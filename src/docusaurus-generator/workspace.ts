@@ -250,6 +250,7 @@ export class Workspace {
       'ParametersList',
       'ParametersListItem',
       'ProgramListing',
+      'Reference',
       'SectionDefinition',
       'SectionUser',
       'TreeTable',

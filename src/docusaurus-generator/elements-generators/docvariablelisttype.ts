@@ -40,15 +40,13 @@ export class VariableListPairLinesRenderer extends ElementLinesRendererBase {
     // console.log(element.varlistentry.term)
     // console.log(element.listitem.paras)
 
+    const title = this.workspace.renderElementToMdxText(element.varlistentry.term).trim()
+
     lines.push('')
-    lines.push('<dl class="reflist">')
-    lines.push('<dt>')
-    lines.push(this.workspace.renderElementToMdxText(element.varlistentry.term).trim())
-    lines.push('</dt>')
-    lines.push('<dd>')
+    lines.push(`<Reference title={<>${title}</>}>`)
     lines.push(this.workspace.renderElementsToMdxText(element.listitem.paras).trim())
-    lines.push('</dd>')
-    lines.push('</dl>')
+    lines.push('</Reference>')
+    lines.push('')
 
     return lines
   }
