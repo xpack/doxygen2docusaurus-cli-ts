@@ -14,6 +14,7 @@
 export interface PluginConfigurationOptions {
   doxygenXmlInputFolderPath?: string
   outputFolderPath?: string
+  redirectsOutputFolderPath?: string
   sidebarFileName?: string
   id?: string
 }
@@ -21,6 +22,7 @@ export interface PluginConfigurationOptions {
 export interface PluginOptions {
   doxygenXmlInputFolderPath: string /** like `doxygen/xml`, no initial/final slash */
   outputFolderPath: string /** like `docs/api`, no initial/final slash */
+  redirectsOutputFolderPath?: string | undefined
   sidebarFileName: string
   id: string
 }
