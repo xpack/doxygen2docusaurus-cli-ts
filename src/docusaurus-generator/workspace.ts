@@ -109,7 +109,8 @@ export class Workspace {
     this.doxygenOptions = new DoxygenFileOptions(this.dataModel.doxyfile.options)
 
     // The relevant part of the permalink, like 'api', with the trailing slash.
-    this.permalinkBaseUrl = `${this.pluginOptions.outputFolderPath.replace(/^docs[/]/, '')}/`
+    // TODO: what if not below `docs`?
+    this.permalinkBaseUrl = `${this.pluginOptions.outputFolderPath.replace(/^[^/]*[/]/, '')}/`
 
     // Create the view-model objects.
     this.viewModel = new Map()
