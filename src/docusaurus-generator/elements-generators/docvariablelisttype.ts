@@ -40,6 +40,7 @@ export class VariableListPairLinesRenderer extends ElementLinesRendererBase {
     // console.log(element.varlistentry.term)
     // console.log(element.listitem.paras)
 
+    // WARNING: the title includes <b></b>
     const title = this.workspace.renderElementToMdxText(element.varlistentry.term).trim()
 
     lines.push('')
