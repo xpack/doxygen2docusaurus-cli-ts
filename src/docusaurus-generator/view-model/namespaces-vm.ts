@@ -240,6 +240,12 @@ export class Namespace extends CompoundBase {
       morePermalink: '#details'
     }))
 
+    lines.push('')
+    lines.push('## Fully Qualified Name')
+    lines.push('')
+    // Intentionally on two lines.
+    lines.push(`<CodeBlock>${this.compoundDef.compoundName}</CodeBlock>`)
+
     lines.push(...this.renderInnerIndicesToMdxLines({
       suffixes: ['Namespaces', 'Classes']
     }))
