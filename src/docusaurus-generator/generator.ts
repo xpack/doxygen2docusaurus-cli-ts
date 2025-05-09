@@ -266,7 +266,7 @@ export class DocusaurusGenerator {
 
       const filePath = `static/${redirectsOutputFolderPath}/${compoundId}.html`
       // TODO: What if not below `docs`?
-      const permalink = `${baseUrl}${this.workspace.pluginOptions.outputFolderPath.replace(/[/].*/, '')}/${compound.relativePermalink}/`
+      const permalink = `${baseUrl}${this.workspace.pluginOptions.outputFolderPath}/${compound.relativePermalink}/`
 
       await this.generateRedirectFile({
         filePath,
