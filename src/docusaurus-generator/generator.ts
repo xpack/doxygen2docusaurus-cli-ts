@@ -25,7 +25,7 @@ import { Page } from './view-model/pages-vm.js'
 import { FrontMatter } from './types.js'
 import { stripPermalinkAnchor } from './utils.js'
 
-export class DocusaurusGenerator2 {
+export class DocusaurusGenerator {
   workspace: Workspace
 
   // --------------------------------------------------------------------------
@@ -39,7 +39,7 @@ export class DocusaurusGenerator2 {
     pluginOptions: PluginOptions
     siteConfig: any
   }) {
-    console.log('DocusaurusGenerator2.constructor()')
+    console.log('DocusaurusGenerator.constructor()')
     this.workspace = new Workspace({
       dataModel,
       pluginOptions,

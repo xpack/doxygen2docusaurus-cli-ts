@@ -17,7 +17,7 @@ import * as util from 'node:util'
 import { DoxygenXmlParser } from '../data-model/doxygen-xml-parser.js'
 import { DataModel } from '../data-model/types.js'
 import { defaultOptions, PluginOptions } from './options.js'
-import { DocusaurusGenerator2 } from '../docusaurus-generator/generator.js'
+import { DocusaurusGenerator } from '../docusaurus-generator/generator.js'
 
 // ----------------------------------------------------------------------------
 
@@ -63,7 +63,7 @@ export async function generateDocusaurusMdx ({
     ...options
   }
   // console.log('generateDocusaurusMdx()')
-  const docs = new DocusaurusGenerator2({
+  const docs = new DocusaurusGenerator({
     dataModel,
     pluginOptions: actualOptions,
     siteConfig
