@@ -25,10 +25,10 @@ export default function XrefSect({title, permalink, children}) {
         <dt>
           <b><Link to={permalink}>{title}</Link></b>
         </dt>
+        <dd>
+          {children}
+        </dd>
       </dl>
-      <dd>
-        {children}
-      </dd>
     </div>
   );
 }

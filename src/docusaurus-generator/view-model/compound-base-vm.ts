@@ -767,7 +767,6 @@ export abstract class CompoundBase {
 
     lines.push('')
     lines.push('<EnumerationList title="Enumeration values">')
-    lines.push('')
 
     if (memberDef.enumvalues !== undefined) {
       for (const enumValue of memberDef.enumvalues) {
@@ -778,9 +777,9 @@ export abstract class CompoundBase {
           briefDescription += ` (${value})`
         }
 
-        lines.push('<EnumerationListItem')
-        lines.push(`  permalink="${permalink}"`)
-        lines.push(`  name="${enumValue.name.trim()}">`)
+        lines.push('')
+        lines.push(`<Link id="${permalink}" />`)
+        lines.push(`<EnumerationListItem name="${enumValue.name.trim()}">`)
         lines.push(`${briefDescription}`)
         lines.push('</EnumerationListItem>')
       }

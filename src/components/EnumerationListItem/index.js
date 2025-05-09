@@ -18,13 +18,12 @@ import Link from '@docusaurus/Link'
 // ----------------------------------------------------------------------------
 
 export default function EnumerationListItem({
-  permalink,
   name,
   children
 }) {
   return (
     <tr class="doxyEnumItem">
-      <td class="doxyEnumItemName"><Link id="${permalink}" />{name}</td>
+      <td class="doxyEnumItemName">{name}</td>
       <td class="doxyEnumItemDescription">{children}</td>
     </tr>
   );
