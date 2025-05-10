@@ -634,6 +634,10 @@ export abstract class CompoundBase {
     if (memberDef.argsstring?.endsWith('=delete')) {
       labels.push('delete')
     }
+    // WARNING: there is no explicit attribute for 'default'.
+    if (memberDef.argsstring?.endsWith('=default')) {
+      labels.push('default')
+    }
     if (memberDef.strong?.valueOf()) {
       labels.push('strong')
     }
