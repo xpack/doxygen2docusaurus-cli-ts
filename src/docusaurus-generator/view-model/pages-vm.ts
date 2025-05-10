@@ -69,8 +69,8 @@ export class Pages extends CollectionBase {
     }
 
     for (const [pageId, page] of this.compoundsById) {
-      const label: string = page.compoundDef.title ?? pageId
-      const id: string = `${this.workspace.permalinkBaseUrl}pages/${pageId as string}`
+      const label: string = page.sidebarLabel
+      const id: string = `${this.workspace.permalinkBaseUrl}${page.docusaurusId as string}`
       const docItem: SidebarDocItem = {
         type: 'doc',
         label,
@@ -96,7 +96,8 @@ export class Page extends CompoundBase {
   constructor (collection: Pages, compoundDef: CompoundDefDataModel) {
     super(collection, compoundDef)
 
-    this.sidebarLabel = this.compoundDef.compoundName ?? '?'
+    this.sidebarLabel = this.compoundDef.title ?? '?'
+    console.log(this.sidebarLabel)
 
     this.indexName = this.sidebarLabel
 
