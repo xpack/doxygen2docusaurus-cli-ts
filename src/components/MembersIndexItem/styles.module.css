@@ -86,7 +86,7 @@
 }
 
 :global(td.doxyMemberIndexSeparatorLeft) {
-  padding: 0px;
+  padding: 6px;
   border: none;
 }
 
