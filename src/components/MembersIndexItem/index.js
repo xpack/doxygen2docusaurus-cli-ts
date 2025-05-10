@@ -31,8 +31,8 @@ export default function MembersIndexItem({
         </tr>
       }
       <tr class="doxyMemberIndexItem">
-        <td class="doxyMemberIndexItemType" align="right" valign="top"><div>{type}</div></td>
-        <td class="doxyMemberIndexItemName" align="left" valign="top"><div>{name}</div></td>
+        <td class="doxyMemberIndexItemType" align="right" valign="top">{type}</td>
+        <td class="doxyMemberIndexItemName" align="left" valign="top">{name}</td>
       </tr>
       <tr class="doxyMemberIndexDescription">
         <td class="doxyMemberIndexDescriptionLeft"></td>

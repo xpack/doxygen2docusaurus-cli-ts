@@ -1,17 +1,26 @@
 /* --- Begin MembersIndexItem/styles.module.css --- */
 /* --- Part of docusaurus-plugin-doxygen --- */
 
+:global(table.doxyMembersIndex) {
+  height: 100%;
+  border-collapse: separate;
+  border-spacing: 0px;
+}
+
 :global(table.doxyMembersIndex tr) {
   border: none;
   overflow: hidden;
 }
 
 :global(table.doxyMembersIndex td) {
+  height: 100%;
   border: none;
   overflow: hidden;
+  vertical-align: top;
 }
 
-:global(table.doxyMembersIndex td.doxyMemberIndexItemType div) {
+:global(table.doxyMembersIndex td.doxyMemberIndexItemType) {
+  height: 100%;
   padding-top: 6px;
   padding-bottom: 6px;
   padding-left: 12px;
@@ -25,7 +34,7 @@
   overflow: hidden;
 }
 
-:global(table.doxyMembersIndex td.doxyMemberIndexItemName div) {
+:global(table.doxyMembersIndex td.doxyMemberIndexItemName) {
   padding-top: 6px;
   padding-bottom: 6px;
   padding-left: 12px;
