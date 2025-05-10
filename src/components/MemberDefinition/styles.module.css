@@ -30,7 +30,11 @@
   margin: 0px;
 }
 
-:global(table.doxyMemberLabels, table.doxyMemberLabels > tbody) {
+:global(table.doxyMemberLabels > tbody) {
+  display: block;
+}
+
+:global(table.doxyMemberLabels) {
   display: block;
 }
 
@@ -68,6 +72,7 @@
 
 :global(td.doxyMemberLabelsLeft) {
   border: 0;
+  width: auto;
 }
 
 :global(td.doxyMemberLabelsRight) {
