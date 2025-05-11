@@ -19,7 +19,7 @@ import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.
 import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { CollectionBase } from './collection-base.js'
 import { Workspace } from '../workspace.js'
-import { SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
+import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { FrontMatter } from '../types.js'
 
 // ----------------------------------------------------------------------------
@@ -106,6 +106,21 @@ export class Groups extends CollectionBase {
 
       return categoryItem
     }
+  }
+
+  // --------------------------------------------------------------------------
+
+  override createMenuItems (): MenuItem[] {
+    const menuItems: MenuItem[] = []
+    for (const topLevelGroup of this.topLevelGroups) {
+      const menuItem: MenuItem = {
+        label: `${topLevelGroup.sidebarLabel}`,
+        to: `/${this.workspace.pluginOptions.outputFolderPath}/${topLevelGroup.relativePermalink}/`
+      }
+      menuItems.push(menuItem)
+    }
+
+    return menuItems
   }
 
   // --------------------------------------------------------------------------

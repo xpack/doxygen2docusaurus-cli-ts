@@ -76,7 +76,7 @@ export class Workspace {
   // Like `/api/` (with heading and trailing slashes)
   permalinkBaseUrl: string
 
-  // The order of collections in the sidebar.
+  // The order of entries in the sidebar and in the top menu dropdown.
   sidebarCollectionNames: string[] = ['groups', 'namespaces', 'classes', 'files', 'pages']
 
   // View model objects.

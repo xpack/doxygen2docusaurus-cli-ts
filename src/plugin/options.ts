@@ -16,6 +16,7 @@ export interface PluginConfigurationOptions {
   outputFolderPath?: string
   redirectsOutputFolderPath?: string
   sidebarFileName?: string
+  menuDropdownFileName?: string
   id?: string
 }
 
@@ -24,13 +25,15 @@ export interface PluginOptions {
   outputFolderPath: string /** like `docs/api`, no initial/final slash */
   redirectsOutputFolderPath?: string | undefined
   sidebarFileName: string
+  menuDropdownFileName?: string
   id: string
 }
 
 export const defaultOptions: PluginConfigurationOptions = {
   doxygenXmlInputFolderPath: 'doxygen/xml',
   outputFolderPath: 'docs/api',
-  sidebarFileName: 'sidebar-doxygen.json'
+  sidebarFileName: 'sidebar-doxygen.json',
+  menuDropdownFileName: 'docusaurus-config-api-menu-dropdown.json'
 }
 
 // ----------------------------------------------------------------------------

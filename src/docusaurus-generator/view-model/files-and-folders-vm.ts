@@ -17,7 +17,7 @@ import assert from 'node:assert'
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
-import { SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
+import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { Workspace } from '../workspace.js'
 import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { FrontMatter } from '../types.js'
@@ -224,6 +224,16 @@ export class FilesAndFolders extends CollectionBase {
       id: `${this.workspace.permalinkBaseUrl}${file.docusaurusId}`
     }
     return docItem
+  }
+
+  // --------------------------------------------------------------------------
+
+  override createMenuItems (): MenuItem[] {
+    const menuItem: MenuItem = {
+      label: 'Files',
+      to: `/${this.workspace.pluginOptions.outputFolderPath}/files/`
+    }
+    return [menuItem]
   }
 
   // --------------------------------------------------------------------------

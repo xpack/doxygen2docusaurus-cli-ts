@@ -19,7 +19,7 @@ import * as fs from 'node:fs/promises'
 import { Workspace } from './workspace.js'
 import { DataModel } from '../data-model/types.js'
 import { PluginOptions } from '../plugin/options.js'
-import { SidebarItem } from '../plugin/types.js'
+import { MenuDropdown, SidebarItem } from '../plugin/types.js'
 import { CompoundBase } from './view-model/compound-base-vm.js'
 import { Page } from './view-model/pages-vm.js'
 import { FrontMatter } from './types.js'
@@ -58,6 +58,7 @@ export class DocusaurusGenerator {
 
     await this.prepareOutputFolder()
     await this.generateSidebar()
+    await this.generateMenuDropdown()
     await this.generatePages()
     await this.generateIndexDotMdxFiles()
     await this.generateRedirects()
@@ -182,6 +183,42 @@ export class DocusaurusGenerator {
     await fs.mkdir(path.dirname(this.workspace.pluginOptions.outputFolderPath), { recursive: true })
 
     console.log(`Writing sidebar file ${filePath as string}...`)
+    await fs.writeFile(filePath, jsonString, 'utf8')
+  }
+
+  async generateMenuDropdown (): Promise<void> {
+    const pluginOptions = this.workspace.pluginOptions
+    if (pluginOptions.menuDropdownFileName?.trim().length === 0) {
+      return
+    }
+
+    const menuDropdown: MenuDropdown = {
+      type: 'dropdown',
+      label: 'API',
+      to: `/${this.workspace.pluginOptions.outputFolderPath}/`,
+      position: 'left',
+      items: []
+    }
+
+    // This is the order of items in the sidebar.
+    for (const collectionName of this.workspace.sidebarCollectionNames) {
+      // console.log(collectionName)
+      const collection = this.workspace.viewModel.get(collectionName)
+      if (collection !== undefined) {
+        menuDropdown.items.push(...collection.createMenuItems())
+      }
+    }
+
+    // console.log('sidebarItems:', util.inspect(sidebarItems, { compact: false, depth: 999 }))
+    const jsonString = JSON.stringify(menuDropdown, null, 2)
+
+    assert(pluginOptions.menuDropdownFileName)
+    const filePath = path.join(pluginOptions.outputFolderPath, pluginOptions.menuDropdownFileName)
+
+    // Superfluous if done after prepareOutputFolder()
+    await fs.mkdir(path.dirname(this.workspace.pluginOptions.outputFolderPath), { recursive: true })
+
+    console.log(`Writing menu dropdown file ${filePath as string}...`)
     await fs.writeFile(filePath, jsonString, 'utf8')
   }
 

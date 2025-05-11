@@ -19,7 +19,7 @@ import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.
 import { CollectionBase } from './collection-base.js'
 import { Workspace } from '../workspace.js'
 import { escapeMdx, flattenPath, sanitizeHierarchicalPath, sanitizeName } from '../utils.js'
-import { SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
+import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { FrontMatter } from '../types.js'
 
 // ----------------------------------------------------------------------------
@@ -117,6 +117,16 @@ export class Classes extends CollectionBase {
 
       return categoryItem
     }
+  }
+
+  // --------------------------------------------------------------------------
+
+  override createMenuItems (): MenuItem[] {
+    const menuItem: MenuItem = {
+      label: 'Classes',
+      to: `/${this.workspace.pluginOptions.outputFolderPath}/classes/`
+    }
+    return [menuItem]
   }
 
   // --------------------------------------------------------------------------
