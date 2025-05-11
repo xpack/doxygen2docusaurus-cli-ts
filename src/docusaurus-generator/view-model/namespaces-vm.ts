@@ -21,6 +21,7 @@ import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../.
 import { Workspace } from '../workspace.js'
 import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { FrontMatter } from '../types.js'
+import { Section } from './members-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -228,6 +229,15 @@ export class Namespace extends CompoundBase {
     this.relativePermalink = `namespaces/${sanitizedPath}`
 
     this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
+
+    if (compoundDef.sectionDefs !== undefined) {
+      console.log('Namespace', compoundDef.compoundName)
+      for (const sectionDef of compoundDef.sectionDefs) {
+        if (sectionDef.hasMembers()) {
+          this.sections.push(new Section(this, sectionDef))
+        }
+      }
+    }
 
     // console.log('1', this.compoundDef.compoundName)
     // console.log('2', this.relativePermalink)

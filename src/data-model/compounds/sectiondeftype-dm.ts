@@ -33,7 +33,7 @@ import { AbstractDataModelBase } from '../types.js'
 //   <xsd:attribute name="kind" type="DoxSectionKind" />
 // </xsd:complexType>
 
-export abstract class AbstractSectionDefType extends AbstractDataModelBase {
+export abstract class AbstractSectionDefTypeBase extends AbstractDataModelBase {
   // Mandatory attributes.
   kind: string = ''
 
@@ -45,8 +45,22 @@ export abstract class AbstractSectionDefType extends AbstractDataModelBase {
   memberDefs?: MemberDefDataModel[] | undefined
   members?: MemberDataModel[] | undefined
 
-  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+  // TODO: update SectionDefCloneDataModel when more members are added
+
+  constructor (elementName: string, kind: string) {
     super(elementName)
+
+    this.kind = kind
+  }
+
+  hasMembers (): boolean {
+    return this.memberDefs !== undefined || this.members !== undefined
+  }
+}
+
+export abstract class AbstractSectionDefType extends AbstractSectionDefTypeBase {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName, '')
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
 
@@ -113,6 +127,24 @@ export class SectionDefDataModel extends AbstractSectionDefType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'sectiondef')
+
+    console.log(this.kind, this.memberDefs?.length ?? 0, this.members?.length ?? 0)
+  }
+}
+
+export class SectionDefCloneDataModel extends AbstractSectionDefTypeBase {
+  constructor (base: AbstractSectionDefTypeBase) {
+    super(base.elementName, base.kind)
+
+    this.header = base.header
+    this.description = base.description
+    this.memberDefs = base.memberDefs
+    this.members = base.members
+  }
+
+  adjustKind (suffix: string): void {
+    // Turn `public-func` into `public-constructor` or `public-destructor`.
+    this.kind = `${this.kind.replace(/-.*/, '-')}${suffix}`
   }
 }
 

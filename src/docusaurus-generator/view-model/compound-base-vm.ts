@@ -24,6 +24,7 @@ import { escapeMdx, getPermalinkAnchor } from '../utils.js'
 import { SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-dm.js'
 import { MemberDefDataModel } from '../../data-model/compounds/memberdeftype-dm.js'
 import { Class } from './classes-vm.js'
+import { Section } from './members-vm.js'
 import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js'
 import { RefTextDataModel } from '../../data-model/compounds/reftexttype-dm.js'
 import { DefValDataModel } from '../../data-model/compounds/linkedtexttype-dm.js'
@@ -63,6 +64,8 @@ export abstract class CompoundBase {
   pageTitle: string = ''
 
   briefDescriptionMdxText: string | undefined
+
+  sections: Section[] = []
 
   // --------------------------------------------------------------------------
 
@@ -972,8 +975,15 @@ export abstract class CompoundBase {
       typedef: 'Typedefs',
       enum: 'Enumerations',
       func: 'Functions',
-      var: 'Variables'
+      var: 'Variables',
 
+      // Extra, not present in Doxygen.
+      'public-constructor': 'Public Constructors',
+      'public-destructor': 'Public Destructor',
+      'protected-constructor': 'Protected Constructors',
+      'protected-destructor': 'Protected Destructor',
+      'private-constructor': 'Private Constructors',
+      'private-destructor': 'Private Destructor'
     }
 
     const header = headersByKind[sectionDef.kind]

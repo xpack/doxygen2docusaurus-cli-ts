@@ -21,6 +21,7 @@ import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../.
 import { Workspace } from '../workspace.js'
 import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { FrontMatter } from '../types.js'
+import { Section } from './members-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -389,6 +390,15 @@ export class Folder extends CompoundBase {
     this.indexName = this.sidebarLabel
 
     this.pageTitle = `The \`${this.sidebarLabel}\` Folder Reference`
+
+    if (compoundDef.sectionDefs !== undefined) {
+      console.log('Folder', compoundDef.compoundName)
+      for (const sectionDef of compoundDef.sectionDefs) {
+        if (sectionDef.hasMembers()) {
+          this.sections.push(new Section(this, sectionDef))
+        }
+      }
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -435,6 +445,15 @@ export class File extends CompoundBase {
     this.indexName = this.sidebarLabel
 
     this.pageTitle = `The \`${this.sidebarLabel}\` File Reference`
+
+    if (compoundDef.sectionDefs !== undefined) {
+      console.log('File', compoundDef.compoundName)
+      for (const sectionDef of compoundDef.sectionDefs) {
+        if (sectionDef.hasMembers()) {
+          this.sections.push(new Section(this, sectionDef))
+        }
+      }
+    }
   }
 
   // --------------------------------------------------------------------------

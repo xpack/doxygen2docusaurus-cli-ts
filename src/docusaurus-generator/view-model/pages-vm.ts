@@ -12,7 +12,7 @@
 // ----------------------------------------------------------------------------
 
 import * as util from 'node:util'
-// import assert from 'node:assert'
+import assert from 'node:assert'
 
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
@@ -117,6 +117,9 @@ export class Page extends CompoundBase {
     this.relativePermalink = `pages/${sanitizedPath}`
 
     this.docusaurusId = `pages/${flattenPath(sanitizedPath)}`
+
+    // SectionDefs for pages?
+    assert(compoundDef.sectionDefs === undefined)
 
     // console.log('1', this.compoundDef.compoundName)
     // console.log('2', this.relativePermalink)

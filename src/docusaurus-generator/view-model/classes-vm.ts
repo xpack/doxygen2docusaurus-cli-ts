@@ -21,6 +21,8 @@ import { Workspace } from '../workspace.js'
 import { escapeMdx, flattenPath, sanitizeHierarchicalPath, sanitizeName } from '../utils.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { FrontMatter } from '../types.js'
+import { SectionDefCloneDataModel, SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-dm.js'
+import { Section } from './members-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -275,6 +277,20 @@ export class Class extends CompoundBase {
     // Replace slash with dash.
     this.docusaurusId = `${pluralKind}/${flattenPath(sanitizedPath)}`
 
+    if (compoundDef.sectionDefs !== undefined) {
+      console.log('Class', compoundDef.compoundName)
+      for (const sectionDef of compoundDef.sectionDefs) {
+        if ((compoundDef.kind === 'class' || compoundDef.kind === 'struct') &&
+            (sectionDef.kind === 'public-func' || sectionDef.kind === 'protected-func' || sectionDef.kind === 'private-func')) {
+          this.sections.push(...this.splitSections(this, sectionDef))
+        } else {
+          if (sectionDef.hasMembers()) {
+            this.sections.push(new Section(this, sectionDef))
+          }
+        }
+      }
+    }
+
     // console.log('1', compoundDef.compoundName)
     // console.log('2', this.relativePermalink)
     // console.log('3', this.docusaurusId)
@@ -282,6 +298,80 @@ export class Class extends CompoundBase {
     // console.log('5', this.indexName)
     // console.log('6', this.templateParameters)
     // console.log()
+  }
+
+  private splitSections (classs: Class, sectionDef: SectionDefDataModel): Section[] {
+    const sections: Section[] = []
+
+    const constructorSectionsDef: SectionDefCloneDataModel = new SectionDefCloneDataModel(sectionDef)
+    constructorSectionsDef.adjustKind('constructor')
+
+    const destructorSectionsDef: SectionDefCloneDataModel = new SectionDefCloneDataModel(sectionDef)
+    destructorSectionsDef.adjustKind('destructor')
+
+    const functionsSectionsDef: SectionDefCloneDataModel = new SectionDefCloneDataModel(sectionDef)
+
+    if (sectionDef.memberDefs !== undefined) {
+      constructorSectionsDef.memberDefs = undefined
+      destructorSectionsDef.memberDefs = undefined
+      functionsSectionsDef.memberDefs = undefined
+
+      for (const memberDef of sectionDef.memberDefs) {
+        // console.log(util.inspect(memberDef, { compact: false, depth: 999 }))
+        if (memberDef.name === classs.unqualifiedName) {
+          if (constructorSectionsDef.memberDefs === undefined) {
+            constructorSectionsDef.memberDefs = []
+          }
+          constructorSectionsDef.memberDefs.push(memberDef)
+        } else if (memberDef.name.replace('~', '') === classs.unqualifiedName) {
+          assert(destructorSectionsDef.memberDefs === undefined)
+          destructorSectionsDef.memberDefs = [memberDef]
+        } else {
+          if (functionsSectionsDef.memberDefs === undefined) {
+            functionsSectionsDef.memberDefs = []
+          }
+          functionsSectionsDef.memberDefs.push(memberDef)
+        }
+      }
+    }
+
+    // if (sectionDef.members !== undefined) {
+    //   constructorSectionsDef.members = undefined
+    //   destructorSectionsDef.members = undefined
+    //   functionsSectionsDef.members = undefined
+
+    //   for (const member of sectionDef.members) {
+    //     // console.log(util.inspect(memberDef, { compact: false, depth: 999 }))
+    //     if (member.name === classs.unqualifiedName) {
+    //       if (constructorSectionsDef.members === undefined) {
+    //         constructorSectionsDef.members = []
+    //       }
+    //       constructorSectionsDef.members.push(member)
+    //     } else if (member.name.replace('~', '') === classs.unqualifiedName) {
+    //       assert(destructorSectionsDef.members === undefined)
+    //       destructorSectionsDef.members = [member]
+    //     } else {
+    //       if (functionsSectionsDef.members === undefined) {
+    //         functionsSectionsDef.members = []
+    //       }
+    //       functionsSectionsDef.members.push(member)
+    //     }
+    //   }
+    // }
+
+    if (constructorSectionsDef.hasMembers()) {
+      sections.push(new Section(this, constructorSectionsDef))
+    }
+
+    if (destructorSectionsDef.hasMembers()) {
+      sections.push(new Section(this, destructorSectionsDef))
+    }
+
+    if (functionsSectionsDef.hasMembers()) {
+      sections.push(new Section(this, functionsSectionsDef))
+    }
+
+    return sections
   }
 
   // --------------------------------------------------------------------------
