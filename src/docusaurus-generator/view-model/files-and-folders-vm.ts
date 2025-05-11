@@ -451,7 +451,7 @@ export class File extends CompoundBase {
       morePermalink: '#details'
     }))
 
-    lines.push(...this.renderIncludesIndexMdx())
+    lines.push(...this.renderIncludesIndexToMdxLines())
 
     lines.push(...this.renderInnerIndicesToMdxLines({
       suffixes: ['Namespaces', 'Classes']

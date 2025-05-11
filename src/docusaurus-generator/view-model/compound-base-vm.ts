@@ -267,9 +267,9 @@ export abstract class CompoundBase {
 
     const compoundDef = this.compoundDef
 
-    const header = this.getHeaderByKind(sectionDef)
+    const headerName = this.getHeaderNameByKind(sectionDef)
     // console.log(header)
-    if (header.length === 0) {
+    if (headerName.length === 0) {
       return lines
     }
 
@@ -278,7 +278,7 @@ export abstract class CompoundBase {
     // console.log(sectionDef)
     if (sectionDef.memberDefs !== undefined || sectionDef.members !== undefined) {
       lines.push('')
-      lines.push(`## ${escapeMdx(header)} Index`)
+      lines.push(`## ${escapeMdx(headerName)} Index`)
 
       lines.push('')
       lines.push('<MembersIndex>')
@@ -306,7 +306,7 @@ export abstract class CompoundBase {
 
   // --------------------------------------------------------------------------
 
-  renderIncludesIndexMdx (): string[] {
+  renderIncludesIndexToMdxLines (): string[] {
     const lines: string[] = []
 
     const compoundDef = this.compoundDef
@@ -330,7 +330,7 @@ export abstract class CompoundBase {
     return lines
   }
 
-  renderClassIndexMdx (classs: Class): string[] {
+  renderClassIndexToMdxLines (classs: Class): string[] {
     // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
     const lines: string[] = []
 
@@ -493,7 +493,7 @@ export abstract class CompoundBase {
 
     if (this.compoundDef.sectionDefs !== undefined) {
       for (const sectionDef of this.compoundDef.sectionDefs) {
-        lines.push(...this.renderSectionDefMdx({
+        lines.push(...this.renderSectionDefToMdxLines({
           sectionDef
         }))
       }
@@ -502,14 +502,14 @@ export abstract class CompoundBase {
     return lines
   }
 
-  renderSectionDefMdx ({
+  renderSectionDefToMdxLines ({
     sectionDef
   }: {
     sectionDef: SectionDefDataModel
   }): string[] {
     const lines: string[] = []
 
-    const header = this.getHeaderByKind(sectionDef)
+    const header = this.getHeaderNameByKind(sectionDef)
     if (header.length === 0) {
       return lines
     }
@@ -550,7 +550,7 @@ export abstract class CompoundBase {
         lines.push('## Constructors')
 
         for (const constructor of constructors) {
-          lines.push(...this.renderMemberDefMdx({
+          lines.push(...this.renderMemberDefToMdxLines({
             memberDef: constructor,
             compoundDef: this.compoundDef,
             sectionLabels,
@@ -563,7 +563,7 @@ export abstract class CompoundBase {
         lines.push('')
         lines.push('## Destructor')
 
-        lines.push(...this.renderMemberDefMdx({
+        lines.push(...this.renderMemberDefToMdxLines({
           memberDef: destructor,
           compoundDef: this.compoundDef,
           sectionLabels,
@@ -580,7 +580,7 @@ export abstract class CompoundBase {
     const isFunction: boolean = sectionDef.kind === 'public-func'
 
     for (const memberDef of memberDefs) {
-      lines.push(...this.renderMemberDefMdx({
+      lines.push(...this.renderMemberDefToMdxLines({
         memberDef,
         compoundDef: this.compoundDef,
         sectionLabels,
@@ -594,7 +594,7 @@ export abstract class CompoundBase {
     return lines
   }
 
-  private renderMemberDefMdx ({
+  private renderMemberDefToMdxLines ({
     memberDef,
     compoundDef,
     sectionLabels,
@@ -929,7 +929,7 @@ export abstract class CompoundBase {
   //   </xsd:restriction>
   // </xsd:simpleType>
 
-  getHeaderByKind (sectionDef: SectionDefDataModel): string {
+  getHeaderNameByKind (sectionDef: SectionDefDataModel): string {
     const headersByKind: Record<string, string> = {
       // 'user-defined': '?',
       'public-type': 'Public Member Typedefs',

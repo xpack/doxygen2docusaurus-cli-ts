@@ -328,7 +328,7 @@ export class Class extends CompoundBase {
       lines.push(`<CodeBlock>${kind} ${classFullName};</CodeBlock>`)
     }
 
-    lines.push(...this.renderIncludesIndexMdx())
+    lines.push(...this.renderIncludesIndexToMdxLines())
 
     if (kind === 'class') {
       if (compoundDef.baseCompoundRefs !== undefined) {
@@ -349,7 +349,7 @@ export class Class extends CompoundBase {
             const baseCompound = (this.collection as Classes).compoundsById.get(baseCompoundRef.refid)
             assert(baseCompound !== undefined)
 
-            lines.push(...this.renderClassIndexMdx(baseCompound))
+            lines.push(...this.renderClassIndexToMdxLines(baseCompound))
           } else {
             const itemName = escapeMdx(baseCompoundRef.text)
             lines.push('')
@@ -379,7 +379,7 @@ export class Class extends CompoundBase {
           assert(baseCompound !== undefined)
           // console.log(util.inspect(derivedCompoundDef, { compact: false, depth: 999 }))
 
-          lines.push(...this.renderClassIndexMdx(baseCompound))
+          lines.push(...this.renderClassIndexToMdxLines(baseCompound))
         }
 
         lines.push('')
@@ -401,7 +401,7 @@ export class Class extends CompoundBase {
             const derivedCompound = (this.collection as Classes).compoundsById.get(derivedCompoundRef.refid)
             assert(derivedCompound !== undefined)
 
-            lines.push(...this.renderClassIndexMdx(derivedCompound))
+            lines.push(...this.renderClassIndexToMdxLines(derivedCompound))
           } else {
             const itemName = escapeMdx(derivedCompoundRef.text.trim())
             lines.push('')
@@ -427,7 +427,7 @@ export class Class extends CompoundBase {
           assert(derivedClass !== undefined)
           // console.log(util.inspect(derivedCompoundDef, { compact: false, depth: 999 }))
 
-          lines.push(...this.renderClassIndexMdx(derivedClass))
+          lines.push(...this.renderClassIndexToMdxLines(derivedClass))
         }
 
         lines.push('')
