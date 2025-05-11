@@ -103,7 +103,6 @@ export class Page extends CompoundBase {
     super(collection, compoundDef)
 
     this.sidebarLabel = this.compoundDef.title ?? '?'
-    console.log(this.sidebarLabel)
 
     this.indexName = this.sidebarLabel
 
@@ -138,7 +137,7 @@ export class Page extends CompoundBase {
 
     lines.push(...this.renderInnerIndicesToMdxLines({}))
 
-    lines.push(...this.renderSectionDefIndicesToMdxLines())
+    lines.push(...this.renderSectionIndicesToMdxLines())
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({
       detailedDescription: compoundDef.detailedDescription,

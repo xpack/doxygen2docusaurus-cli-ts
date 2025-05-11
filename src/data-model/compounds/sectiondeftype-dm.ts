@@ -127,8 +127,6 @@ export class SectionDefDataModel extends AbstractSectionDefType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'sectiondef')
-
-    console.log(this.kind, this.memberDefs?.length ?? 0, this.members?.length ?? 0)
   }
 }
 

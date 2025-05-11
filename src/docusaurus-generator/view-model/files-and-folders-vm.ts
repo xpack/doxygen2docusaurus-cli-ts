@@ -392,7 +392,6 @@ export class Folder extends CompoundBase {
     this.pageTitle = `The \`${this.sidebarLabel}\` Folder Reference`
 
     if (compoundDef.sectionDefs !== undefined) {
-      console.log('Folder', compoundDef.compoundName)
       for (const sectionDef of compoundDef.sectionDefs) {
         if (sectionDef.hasMembers()) {
           this.sections.push(new Section(this, sectionDef))
@@ -418,7 +417,7 @@ export class Folder extends CompoundBase {
       suffixes: ['Dirs', 'Files']
     }))
 
-    lines.push(...this.renderSectionDefIndicesToMdxLines())
+    lines.push(...this.renderSectionIndicesToMdxLines())
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({
       detailedDescription: compoundDef.detailedDescription,
@@ -447,7 +446,6 @@ export class File extends CompoundBase {
     this.pageTitle = `The \`${this.sidebarLabel}\` File Reference`
 
     if (compoundDef.sectionDefs !== undefined) {
-      console.log('File', compoundDef.compoundName)
       for (const sectionDef of compoundDef.sectionDefs) {
         if (sectionDef.hasMembers()) {
           this.sections.push(new Section(this, sectionDef))
@@ -476,7 +474,7 @@ export class File extends CompoundBase {
       suffixes: ['Namespaces', 'Classes']
     }))
 
-    lines.push(...this.renderSectionDefIndicesToMdxLines())
+    lines.push(...this.renderSectionIndicesToMdxLines())
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({
       detailedDescription: compoundDef.detailedDescription,

@@ -44,6 +44,7 @@ import { Pages } from './view-model/pages-vm.js'
 import { FrontMatter } from './types.js'
 import { pluginName } from '../plugin/docusaurus.js'
 import { AbstractMemberDefType } from '../data-model/compounds/memberdeftype-dm.js'
+import { Member } from './view-model/members-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -84,6 +85,7 @@ export class Workspace {
 
   // TODO: change to member view model objects
   memberDefsById: Map<string, AbstractMemberDefType> = new Map()
+  membersById: Map<String, Member> = new Map()
 
   elementLinesRenderers: Map<string, ElementLinesRendererBase> = new Map()
   elementTextRenderers: Map<string, ElementTextRendererBase> = new Map()

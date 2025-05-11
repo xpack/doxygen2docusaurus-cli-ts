@@ -278,7 +278,6 @@ export class Class extends CompoundBase {
     this.docusaurusId = `${pluralKind}/${flattenPath(sanitizedPath)}`
 
     if (compoundDef.sectionDefs !== undefined) {
-      console.log('Class', compoundDef.compoundName)
       for (const sectionDef of compoundDef.sectionDefs) {
         if ((compoundDef.kind === 'class' || compoundDef.kind === 'struct') &&
             (sectionDef.kind === 'public-func' || sectionDef.kind === 'protected-func' || sectionDef.kind === 'private-func')) {
@@ -529,7 +528,7 @@ export class Class extends CompoundBase {
       suffixes: []
     }))
 
-    lines.push(...this.renderSectionDefIndicesToMdxLines())
+    lines.push(...this.renderSectionIndicesToMdxLines())
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({
       detailedDescription: compoundDef.detailedDescription,

@@ -21,6 +21,7 @@ import { CollectionBase } from './collection-base.js'
 import { Workspace } from '../workspace.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { FrontMatter } from '../types.js'
+import { Section } from './members-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -232,6 +233,14 @@ export class Group extends CompoundBase {
 
     this.docusaurusId = `groups/${flattenPath(sanitizedPath)}`
 
+    if (compoundDef.sectionDefs !== undefined) {
+      for (const sectionDef of compoundDef.sectionDefs) {
+        if (sectionDef.hasMembers()) {
+          this.sections.push(new Section(this, sectionDef))
+        }
+      }
+    }
+
     // console.log('1', this.compoundDef.compoundName, this.compoundDef.title)
     // console.log('2', this.relativePermalink)
     // console.log('3', this.docusaurusId)
@@ -258,7 +267,7 @@ export class Group extends CompoundBase {
       suffixes: ['Groups', 'Classes']
     }))
 
-    lines.push(...this.renderSectionDefIndicesToMdxLines())
+    lines.push(...this.renderSectionIndicesToMdxLines())
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({
       detailedDescription: compoundDef.detailedDescription,

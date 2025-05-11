@@ -24,6 +24,7 @@ import { CompoundBase } from './view-model/compound-base-vm.js'
 import { Page } from './view-model/pages-vm.js'
 import { FrontMatter } from './types.js'
 import { stripPermalinkAnchor } from './utils.js'
+import { Member } from './view-model/members-vm.js'
 
 export class DocusaurusGenerator {
   workspace: Workspace
@@ -54,6 +55,7 @@ export class DocusaurusGenerator {
 
     this.createHierarchies()
     this.createMemberDefsMap()
+    this.createMembersMap()
     this.validatePermalinks()
 
     await this.prepareOutputFolder()
@@ -103,7 +105,38 @@ export class DocusaurusGenerator {
         }
       }
     }
-    console.log(this.workspace.memberDefsById.size, 'member definitions')
+    // console.log(this.workspace.memberDefsById.size, 'member definitions')
+  }
+
+  createMembersMap (): void {
+    for (const [, compound] of this.workspace.compoundsById) {
+      // console.log(compoundDef.kind, compoundDef.compoundName, compoundDef.id)
+      if (compound.sections !== undefined) {
+        for (const section of compound.sections) {
+          if (section.members !== undefined) {
+            // console.log('  ', sectionDef.kind)
+            for (const member of section.members) {
+              if (member instanceof Member) {
+                const memberCompoundId = stripPermalinkAnchor(member.memberDef.id)
+                if (memberCompoundId !== compound.compoundDef.id) {
+                  // Skip member definitions from different compounds.
+                  // Hopefully they are defined properly there.
+                  // console.log('member from another compound', compoundId, 'skipped')
+                } else {
+                  // console.log('    ', memberDef.kind, memberDef.id)
+                  if (this.workspace.membersById.has(member.memberDef.id)) {
+                    console.warn('member already in map', member.memberDef.id, 'in', this.workspace.membersById.get(member.memberDef.id)?.name)
+                  } else {
+                    this.workspace.membersById.set(member.memberDef.id, member)
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    console.log(this.workspace.membersById.size, 'member definitions')
   }
 
   // --------------------------------------------------------------------------

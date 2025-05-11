@@ -245,65 +245,14 @@ export abstract class CompoundBase {
     return lines
   }
 
-  renderSectionDefIndicesToMdxLines (): string[] {
+  renderSectionIndicesToMdxLines (): string[] {
     const lines: string[] = []
 
-    const compoundDef = this.compoundDef
-    if (compoundDef.sectionDefs !== undefined) {
-      for (const sectionDef of compoundDef.sectionDefs) {
-        // console.log(sectionDef)
-        lines.push(...this.renderSectionDefIndexToMdxLines({
-          sectionDef
-        }))
-      }
+    for (const section of this.sections) {
+      // console.log(sectionDef)
+      lines.push(...section.renderIndexToMdxLines())
     }
 
-    return lines
-  }
-
-  renderSectionDefIndexToMdxLines ({
-    sectionDef
-  }: {
-    sectionDef: SectionDefDataModel
-  }): string[] {
-    const lines: string[] = []
-
-    const compoundDef = this.compoundDef
-
-    const headerName = this.getHeaderNameByKind(sectionDef)
-    // console.log(header)
-    if (headerName.length === 0) {
-      return lines
-    }
-
-    const workspace = this.collection.workspace
-
-    // console.log(sectionDef)
-    if (sectionDef.memberDefs !== undefined || sectionDef.members !== undefined) {
-      lines.push('')
-      lines.push(`## ${escapeMdx(headerName)} Index`)
-
-      lines.push('')
-      lines.push('<MembersIndex>')
-
-      if (sectionDef.memberDefs !== undefined) {
-        for (const memberDef of sectionDef.memberDefs) {
-          lines.push(...this.renderMemberDefIndexToMdxLines({ memberDef, sectionDef }))
-        }
-      }
-
-      if (sectionDef.members !== undefined) {
-        for (const member of sectionDef.members) {
-          const memberDef = workspace.memberDefsById.get(member.refid)
-          assert(memberDef !== undefined)
-
-          lines.push(...this.renderMemberDefIndexToMdxLines({ memberDef, sectionDef }))
-        }
-      }
-
-      lines.push('')
-      lines.push('</MembersIndex>')
-    }
     return lines
   }
 
@@ -355,132 +304,6 @@ export abstract class CompoundBase {
       lines.push(this.renderBriefDescriptionToMdxText({
         briefDescriptionMdxText,
         morePermalink: `${permalink}/#details`
-      }))
-    }
-
-    lines.push('</MembersIndexItem>')
-
-    return lines
-  }
-
-  renderMemberDefIndexToMdxLines ({
-    memberDef,
-    sectionDef
-  }: {
-    memberDef: MemberDefDataModel
-    sectionDef: SectionDefDataModel
-  }): string[] {
-    // console.log(util.inspect(memberDef, { compact: false, depth: 999 }))
-    const lines: string[] = []
-
-    const compoundDef = this.compoundDef
-
-    const workspace = this.collection.workspace
-
-    const permalink = workspace.getPermalink({ refid: memberDef.id, kindref: 'member' })
-    assert(permalink !== undefined && permalink.length > 1)
-
-    const name = escapeMdx(memberDef.name)
-
-    let itemType = ''
-    let itemName = `<Link to="${permalink}">${name}</Link>`
-
-    const templateParamList = memberDef.templateparamlist ?? compoundDef.templateParamList
-    // const templateParameters = this.renderTemplateParametersMdx({ templateParamList, withDefaults: true })
-
-    switch (memberDef.kind) {
-      case 'typedef':
-        itemType = 'using'
-        if (memberDef.type !== undefined) {
-          itemName += ' = '
-          itemName += workspace.renderElementToMdxText(memberDef.type).trim()
-        }
-        break
-
-      case 'function':
-        {
-          // WARNING: the rule to decide which type is trailing is not in XMLs.
-          // TODO: improve.
-          const type = workspace.renderElementToMdxText(memberDef.type).trim()
-
-          let trailingType = false
-          if ((this.isTemplate(templateParamList) &&
-            (type.includes('decltype(') ||
-              (type.includes('&lt;') && type.includes('&gt;'))
-            )
-          )) {
-            trailingType = true
-          }
-
-          if (memberDef.constexpr?.valueOf() && !type.includes('constexpr')) {
-            itemType += 'constexpr '
-          }
-
-          if (memberDef.argsstring !== undefined) {
-            itemName += ' '
-            itemName += escapeMdx(memberDef.argsstring)
-          }
-
-          if (trailingType) {
-            if (!itemType.includes('auto')) {
-              itemType += 'auto '
-            }
-            // WARNING: Doxygen shows this, but the resulting line is too long.
-            itemName += escapeMdx(' -> ')
-            itemName += type
-          } else {
-            itemType += type
-          }
-
-          if (memberDef.initializer !== undefined) {
-            itemName += ' '
-            itemName += workspace.renderElementToMdxText(memberDef.initializer)
-          }
-        }
-        break
-
-      case 'variable':
-        itemType += workspace.renderElementToMdxText(memberDef.type).trim()
-        if (memberDef.initializer !== undefined) {
-          itemName += ' '
-          itemName += workspace.renderElementToMdxText(memberDef.initializer)
-        }
-        break
-
-      case 'enum':
-        itemType = 'enum'
-        if (memberDef.strong?.valueOf()) {
-          itemType += ' class'
-        }
-        break
-
-      default:
-        console.error('member kind', memberDef.kind, 'not implemented yet in', this.constructor.name, 'renderMethodDefIndexMdx')
-    }
-
-    lines.push('')
-    lines.push('<MembersIndexItem')
-
-    if (itemType.length > 0) {
-      if (itemType.includes('<') || itemType.includes('&')) {
-        lines.push(`  type={<>${itemType}</>}`)
-      } else {
-        lines.push(`  type="${itemType}"`)
-      }
-    } else {
-      lines.push('  type="&nbsp;"')
-    }
-    if (itemName.includes('<') || itemName.includes('&')) {
-      lines.push(`  name={<>${itemName}</>}>`)
-    } else {
-      lines.push(`  name="${itemName}">`)
-    }
-
-    const briefDescriptionMdxText: string = workspace.renderElementToMdxText(memberDef.briefDescription)
-    if (briefDescriptionMdxText.length > 0) {
-      lines.push(this.renderBriefDescriptionToMdxText({
-        briefDescriptionMdxText,
-        morePermalink: `${permalink}` // No #details, it is already an anchor.
       }))
     }
 
