@@ -173,7 +173,7 @@ export class FilesAndFolders extends CollectionBase {
       label: 'Files',
       link: {
         type: 'doc',
-        id: `${this.workspace.permalinkBaseUrl}folders/index`
+        id: `${this.workspace.permalinkBaseUrl}files/index`
       },
       collapsed: true,
       items: []
@@ -231,20 +231,20 @@ export class FilesAndFolders extends CollectionBase {
   override async generateIndexDotMdxFile (): Promise<void> {
     const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
 
-    const filePath = `${outputFolderPath}/folders/index.mdx`
-    const permalink = 'folders'
+    const filePath = `${outputFolderPath}/files/index.mdx`
+    const permalink = 'files'
 
     const frontMatter: FrontMatter = {
-      title: 'The Folders & Files Reference',
+      title: 'The Files & Folders Reference',
       slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
       // description: '...', // TODO
       custom_edit_url: null,
-      keywords: ['doxygen', 'folders', 'reference']
+      keywords: ['doxygen', 'files', 'folders', 'reference']
     }
 
     const lines: string[] = []
 
-    lines.push('The folders & files that contributed content to this site are:')
+    lines.push('The files & folders that contributed content to this site are:')
 
     lines.push('')
     lines.push('<TreeTable>')
@@ -260,7 +260,7 @@ export class FilesAndFolders extends CollectionBase {
     lines.push('')
     lines.push('</TreeTable>')
 
-    console.log(`Writing folders index file ${filePath}...`)
+    console.log(`Writing files index file ${filePath}...`)
     await this.workspace.writeFile({
       filePath,
       frontMatter,
