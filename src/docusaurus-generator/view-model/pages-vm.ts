@@ -86,11 +86,7 @@ export class Pages extends CollectionBase {
   // --------------------------------------------------------------------------
 
   override createMenuItems (): MenuItem[] {
-    const menuItem: MenuItem = {
-      label: 'Pages',
-      to: `/${this.workspace.pluginOptions.outputFolderPath}/pages/`
-    }
-    return [menuItem]
+    return []
   }
 
   // --------------------------------------------------------------------------
