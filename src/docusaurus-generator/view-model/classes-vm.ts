@@ -248,13 +248,18 @@ export class Class extends CompoundBase {
     this.unqualifiedName = this.fullyQualifiedName.replace(/.*::/, '')
 
     const index = compoundDef.compoundName.indexOf('<')
+    let indexNameTemplateParameters = ''
     if (index >= 0) {
-      this.templateParameters = compoundDef.compoundName.substring(index)
+      indexNameTemplateParameters = compoundDef.compoundName.substring(index).replace(/^< /, '<').replace(/ >$/, '>')
+      this.templateParameters = indexNameTemplateParameters
+      console.log('baburiba', compoundDef.compoundName, indexNameTemplateParameters)
+    } else if (compoundDef.templateParamList !== undefined) {
+      indexNameTemplateParameters = this.renderTemplateParameterNamesToMdxText(compoundDef.templateParamList)
     }
 
     this.sidebarLabel = this.unqualifiedName
 
-    this.indexName = this.unqualifiedName + (this.templateParameters ?? '')
+    this.indexName = `${this.unqualifiedName}${indexNameTemplateParameters}`
 
     const kind = compoundDef.kind
     const kindCapitalised = kind.charAt(0).toUpperCase() + kind.slice(1).toLowerCase()
