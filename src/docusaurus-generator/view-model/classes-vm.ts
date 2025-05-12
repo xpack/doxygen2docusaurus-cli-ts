@@ -154,7 +154,7 @@ export class Classes extends CollectionBase {
     lines.push('<TreeTable>')
 
     for (const classs of this.topLevelClasses) {
-      lines.push(...this.generateIndexMdxRecursively(classs, 1))
+      lines.push(...this.generateIndexMdxFileRecursively(classs, 1))
     }
 
     lines.push('')
@@ -168,7 +168,7 @@ export class Classes extends CollectionBase {
     })
   }
 
-  private generateIndexMdxRecursively (classs: Class, depth: number): string[] {
+  private generateIndexMdxFileRecursively (classs: Class, depth: number): string[] {
     // console.log(util.inspect(classs, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -207,7 +207,7 @@ export class Classes extends CollectionBase {
 
     if (classs.children.length > 0) {
       for (const childClass of classs.children) {
-        lines.push(...this.generateIndexMdxRecursively(childClass as Class, depth + 1))
+        lines.push(...this.generateIndexMdxFileRecursively(childClass as Class, depth + 1))
       }
     }
 

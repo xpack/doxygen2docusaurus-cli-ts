@@ -156,7 +156,7 @@ export class Groups extends CollectionBase {
     lines.push('<TreeTable>')
 
     for (const group of this.topLevelGroups) {
-      lines.push(...this.generateIndexMdxRecursively(group, 1))
+      lines.push(...this.generateIndexMdxFileRecursively(group, 1))
     }
 
     lines.push('')
@@ -174,7 +174,7 @@ export class Groups extends CollectionBase {
     })
   }
 
-  private generateIndexMdxRecursively (group: Group, depth: number): string[] {
+  private generateIndexMdxFileRecursively (group: Group, depth: number): string[] {
     const lines: string[] = []
 
     const compoundDef = group.compoundDef
@@ -198,7 +198,7 @@ export class Groups extends CollectionBase {
 
     if (group.children.length > 0) {
       for (const childGroup of group.children) {
-        lines.push(...this.generateIndexMdxRecursively(childGroup as Group, depth + 1))
+        lines.push(...this.generateIndexMdxFileRecursively(childGroup as Group, depth + 1))
       }
     }
 

@@ -261,7 +261,7 @@ export class FilesAndFolders extends CollectionBase {
     lines.push('<TreeTable>')
 
     for (const folder of this.topLevelFolders) {
-      lines.push(...this.generateFolderIndexMdxRecursively(folder, 1))
+      lines.push(...this.generateIndexMdxFileRecursively(folder, 1))
     }
 
     for (const file of this.topLevelFiles) {
@@ -279,7 +279,7 @@ export class FilesAndFolders extends CollectionBase {
     })
   }
 
-  private generateFolderIndexMdxRecursively (folder: Folder, depth: number): string[] {
+  private generateIndexMdxFileRecursively (folder: Folder, depth: number): string[] {
     // console.log(util.inspect(folder, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -307,7 +307,7 @@ export class FilesAndFolders extends CollectionBase {
     if (folder.children.length > 0) {
       for (const childFileOrFolder of folder.children) {
         if (childFileOrFolder instanceof Folder) {
-          lines.push(...this.generateFolderIndexMdxRecursively(childFileOrFolder, depth + 1))
+          lines.push(...this.generateIndexMdxFileRecursively(childFileOrFolder, depth + 1))
         }
       }
 

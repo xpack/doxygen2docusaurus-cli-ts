@@ -86,6 +86,7 @@ export class Pages extends CollectionBase {
   // --------------------------------------------------------------------------
 
   override createMenuItems (): MenuItem[] {
+    // Pages do not show on the menu.
     return []
   }
 

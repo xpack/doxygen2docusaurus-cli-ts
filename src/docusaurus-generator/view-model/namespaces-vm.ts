@@ -152,7 +152,7 @@ export class Namespaces extends CollectionBase {
     lines.push('<TreeTable>')
 
     for (const namespace of this.topLevelNamespaces) {
-      lines.push(...this.generateIndexMdxRecursively(namespace, 1))
+      lines.push(...this.generateIndexMdxFileRecursively(namespace, 1))
     }
 
     lines.push('')
@@ -166,7 +166,7 @@ export class Namespaces extends CollectionBase {
     })
   }
 
-  private generateIndexMdxRecursively (namespace: Namespace, depth: number): string[] {
+  private generateIndexMdxFileRecursively (namespace: Namespace, depth: number): string[] {
     // console.log(util.inspect(namespace, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -194,7 +194,7 @@ export class Namespaces extends CollectionBase {
 
     if (namespace.children.length > 0) {
       for (const childNamespace of namespace.children) {
-        lines.push(...this.generateIndexMdxRecursively(childNamespace as Namespace, depth + 1))
+        lines.push(...this.generateIndexMdxFileRecursively(childNamespace as Namespace, depth + 1))
       }
     }
 
