@@ -245,143 +245,67 @@ class MemberBase {
 export class Member extends MemberBase {
   memberDef: MemberDefDataModel
 
+  id: string
+  kind: string
+
+  briefDescriptionMdxText: string | undefined
+  detailedDescriptionMdxLines: string[] | undefined
+  argsstring: string | undefined
+  qualifiedName: string | undefined
+  definition: string | undefined
+
+  typeMdxText: string | undefined
+  initializerMdxText: string | undefined
+  locationMdxText: string | undefined
+  templateParametersMdxText: string | undefined
+  enumMdxLines: string[] | undefined
+  parameters: string | undefined
+
+  labels: string[] = []
+  isTrailingType = false
+  isConstexpr = false
+  isStrong = false
+  isConst = false
+
   constructor (section: Section, memberDef: MemberDefDataModel) {
     super(section, memberDef.name)
     this.memberDef = memberDef
+
+    this.id = memberDef.id
+    this.kind = memberDef.kind
   }
 
-  // --------------------------------------------------------------------------
-
-  renderIndexToMdxLines (): string[] {
-    // console.log(util.inspect(memberDef, { compact: false, depth: 999 }))
-    const lines: string[] = []
-
-    const compoundDef = this.section.compound.compoundDef
-
-    const workspace = this.section.compound.collection.workspace
-
-    const permalink = workspace.getPermalink({ refid: this.memberDef.id, kindref: 'member' })
-    assert(permalink !== undefined && permalink.length > 1)
-
-    const name = escapeMdx(this.memberDef.name)
-
-    let itemType = ''
-    let itemName = `<Link to="${permalink}">${name}</Link>`
-
-    const templateParamList = this.memberDef.templateparamlist ?? compoundDef.templateParamList
-    // const templateParameters = this.renderTemplateParametersMdx({ templateParamList, withDefaults: true })
-
-    switch (this.memberDef.kind) {
-      case 'typedef':
-        itemType = 'using'
-        if (this.memberDef.type !== undefined) {
-          itemName += ' = '
-          itemName += workspace.renderElementToMdxText(this.memberDef.type).trim()
-        }
-        break
-
-      case 'function':
-        {
-          // WARNING: the rule to decide which type is trailing is not in the XMLs.
-          // https://github.com/doxygen/doxygen/discussions/11568
-          // TODO: improve.
-
-          const type = workspace.renderElementToMdxText(this.memberDef.type).trim()
-
-          let trailingType = false
-          if ((this.section.compound.isTemplate(templateParamList) &&
-            (type.includes('decltype(') ||
-              (type.includes('&lt;') && type.includes('&gt;'))
-            )
-          )) {
-            trailingType = true
-          }
-
-          if (this.memberDef.constexpr?.valueOf() && !type.includes('constexpr')) {
-            itemType += 'constexpr '
-          }
-
-          if (this.memberDef.argsstring !== undefined) {
-            itemName += ' '
-            itemName += escapeMdx(this.memberDef.argsstring)
-          }
-
-          if (trailingType) {
-            if (!itemType.includes('auto')) {
-              itemType += 'auto '
-            }
-            // WARNING: Doxygen shows this, but the resulting line is too long.
-            itemName += escapeMdx(' -> ')
-            itemName += type
-          } else {
-            itemType += type
-          }
-
-          if (this.memberDef.initializer !== undefined) {
-            itemName += ' '
-            itemName += workspace.renderElementToMdxText(this.memberDef.initializer)
-          }
-        }
-        break
-
-      case 'variable':
-        itemType += workspace.renderElementToMdxText(this.memberDef.type).trim()
-        if (this.memberDef.initializer !== undefined) {
-          itemName += ' '
-          itemName += workspace.renderElementToMdxText(this.memberDef.initializer)
-        }
-        break
-
-      case 'enum':
-        itemType = 'enum'
-        if (this.memberDef.strong?.valueOf()) {
-          itemType += ' class'
-        }
-        break
-
-      default:
-        console.error('member kind', this.memberDef.kind, 'not implemented yet in', this.constructor.name, 'renderMethodDefIndexMdx')
-    }
-
-    lines.push('')
-    lines.push('<MembersIndexItem')
-
-    if (itemType.length > 0) {
-      if (itemType.includes('<') || itemType.includes('&')) {
-        lines.push(`  type={<>${itemType}</>}`)
-      } else {
-        lines.push(`  type="${itemType}"`)
-      }
-    } else {
-      lines.push('  type="&nbsp;"')
-    }
-    if (itemName.includes('<') || itemName.includes('&')) {
-      lines.push(`  name={<>${itemName}</>}>`)
-    } else {
-      lines.push(`  name="${itemName}">`)
-    }
-
-    const briefDescriptionMdxText: string = workspace.renderElementToMdxText(this.memberDef.briefDescription)
-    if (briefDescriptionMdxText.length > 0) {
-      lines.push(this.section.compound.renderBriefDescriptionToMdxText({
-        briefDescriptionMdxText,
-        morePermalink: `${permalink}` // No #details, it is already an anchor.
-      }))
-    }
-
-    lines.push('</MembersIndexItem>')
-
-    return lines
-  }
-
-  // --------------------------------------------------------------------------
-
-  renderToMdxLines (): string[] {
-    const lines: string[] = []
-
-    const isFunction: boolean = this.section.kind.endsWith('func') || this.section.kind.endsWith('constructor') || this.section.kind.endsWith('destructor')
+  override initializeLate (): void {
+    super.initializeLate()
 
     const memberDef = this.memberDef
+    const workspace = this.section.compound.collection.workspace
+
+    if (memberDef.briefDescription !== undefined) {
+      this.briefDescriptionMdxText = workspace.renderElementToMdxText(memberDef.briefDescription)
+    }
+
+    if (memberDef.detailedDescription !== undefined) {
+      this.detailedDescriptionMdxLines = this.section.compound.renderDetailedDescriptionToMdxLines({
+        detailedDescription: memberDef.detailedDescription,
+        showHeader: false
+      })
+    }
+
+    this.argsstring = memberDef.argsstring
+
+    if (memberDef.type !== undefined) {
+      console.log(util.inspect(memberDef.type, { compact: false, depth: 999 }))
+      this.typeMdxText = workspace.renderElementToMdxText(memberDef.type).trim()
+    }
+
+    if (memberDef.initializer !== undefined) {
+      this.initializerMdxText = workspace.renderElementToMdxText(memberDef.initializer)
+    }
+
+    if (memberDef.location !== undefined) {
+      this.locationMdxText = this.section.compound.renderLocationToMdxText(memberDef.location)
+    }
 
     const labels: string[] = []
     if (memberDef.inline?.valueOf()) {
@@ -428,72 +352,225 @@ export class Member extends MemberBase {
       console.error(util.inspect(memberDef, { compact: false, depth: 999 }))
       console.error(memberDef.constructor.name, 'mutable not yet rendered in', this.constructor.name)
     }
+    this.labels = labels
+
+    const compoundDef = this.section.compound.compoundDef
+    const type = this.typeMdxText ?? ''
+    const templateParamList = memberDef.templateparamlist ?? compoundDef.templateParamList
+
+    if ((this.section.compound.isTemplate(templateParamList) &&
+      (type.includes('decltype(') ||
+        (type.includes('&lt;') && type.includes('&gt;'))
+      )
+    )) {
+      this.isTrailingType = true
+    }
+
+    this.templateParametersMdxText = this.section.compound.renderTemplateParametersToMdxText({ templateParamList, withDefaults: true })
+
+    if (memberDef.params !== undefined) {
+      const parameters: string[] = []
+      for (const param of memberDef.params) {
+        parameters.push(workspace.renderElementToMdxText(param))
+      }
+      this.parameters = parameters.join(', ')
+    }
+
+    if (this.kind === 'enum') {
+      this.enumMdxLines = this.renderEnumToMdxLines(memberDef)
+    }
+
+    if (memberDef.qualifiedName !== undefined) {
+      this.qualifiedName = memberDef.qualifiedName
+    }
+
+    if (memberDef.definition !== undefined) {
+      this.definition = memberDef.definition
+    }
+
+    if (memberDef.constexpr?.valueOf() && !type.includes('constexpr')) {
+      this.isConstexpr = true
+    }
+
+    this.isStrong = memberDef.strong?.valueOf() ?? false
+    this.isConst = memberDef.constt?.valueOf() ?? false
+  }
+
+  // --------------------------------------------------------------------------
+
+  renderIndexToMdxLines (): string[] {
+    // console.log(util.inspect(memberDef, { compact: false, depth: 999 }))
+    const lines: string[] = []
 
     const workspace = this.section.compound.collection.workspace
 
-    const templateParamList = memberDef.templateparamlist ?? this.section.compound.compoundDef.templateParamList
-    const templateParameters = this.section.compound.renderTemplateParametersToMdxText({ templateParamList, withDefaults: true })
+    const permalink = workspace.getPermalink({ refid: this.id, kindref: 'member' })
+    assert(permalink !== undefined && permalink.length > 1)
 
-    const id = getPermalinkAnchor(memberDef.id)
-    const name = memberDef.name + (isFunction ? '()' : '')
+    const name = escapeMdx(this.name)
+
+    let itemType = ''
+    let itemName = `<Link to="${permalink}">${name}</Link>`
+
+    switch (this.kind) {
+      case 'typedef':
+        itemType = 'using'
+        if (this.typeMdxText !== undefined) {
+          itemName += ' = '
+          itemName += this.typeMdxText
+        }
+        break
+
+      case 'function':
+        {
+          // WARNING: the rule to decide which type is trailing is not in the XMLs.
+          // https://github.com/doxygen/doxygen/discussions/11568
+          // TODO: improve.
+
+          const type = this.typeMdxText ?? ''
+
+          if (this.isConstexpr) {
+            itemType += 'constexpr '
+          }
+
+          if (this.argsstring !== undefined) {
+            itemName += ' '
+            itemName += escapeMdx(this.argsstring)
+          }
+
+          if (this.isTrailingType) {
+            if (!itemType.includes('auto')) {
+              itemType += 'auto '
+            }
+            // WARNING: Doxygen shows this, but the resulting line is too long.
+            itemName += escapeMdx(' -> ')
+            itemName += type
+          } else {
+            itemType += type
+          }
+
+          if (this.initializerMdxText !== undefined) {
+            itemName += ' '
+            itemName += this.initializerMdxText
+          }
+        }
+        break
+
+      case 'variable':
+        itemType += this.typeMdxText
+        if (this.initializerMdxText !== undefined) {
+          itemName += ' '
+          itemName += this.initializerMdxText
+        }
+        break
+
+      case 'enum':
+        itemType = 'enum'
+        if (this.isStrong) {
+          itemType += ' class'
+        }
+        break
+
+      default:
+        console.error('member kind', this.kind, 'not implemented yet in', this.constructor.name, 'renderMethodDefIndexMdx')
+    }
+
+    lines.push('')
+    lines.push('<MembersIndexItem')
+
+    if (itemType.length > 0) {
+      if (itemType.includes('<') || itemType.includes('&')) {
+        lines.push(`  type={<>${itemType}</>}`)
+      } else {
+        lines.push(`  type="${itemType}"`)
+      }
+    } else {
+      lines.push('  type="&nbsp;"')
+    }
+    if (itemName.includes('<') || itemName.includes('&')) {
+      lines.push(`  name={<>${itemName}</>}>`)
+    } else {
+      lines.push(`  name="${itemName}">`)
+    }
+
+    const briefDescriptionMdxText = this.briefDescriptionMdxText
+    if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
+      lines.push(this.section.compound.renderBriefDescriptionToMdxText({
+        briefDescriptionMdxText,
+        morePermalink: `${permalink}` // No #details, it is already an anchor.
+      }))
+    }
+
+    lines.push('</MembersIndexItem>')
+
+    return lines
+  }
+
+  // --------------------------------------------------------------------------
+
+  renderToMdxLines (): string[] {
+    const lines: string[] = []
+
+    const isFunction: boolean = this.section.kind.endsWith('func') || this.section.kind.endsWith('constructor') || this.section.kind.endsWith('destructor')
+
+    const id = getPermalinkAnchor(this.id)
+    const name = this.name + (isFunction ? '()' : '')
 
     lines.push('')
     lines.push(`### ${escapeMdx(name)} {#${id}}`)
 
     // console.log(memberDef.kind)
-    switch (memberDef.kind) {
+    switch (this.kind) {
       case 'function':
       case 'typedef':
       case 'variable':
         {
           // WARNING: the rule to decide which type is trailing is not in XMLs.
           // TODO: improve.
-          assert(memberDef.definition !== undefined)
-          let prototype = escapeMdx(memberDef.definition)
-          if (memberDef.kind === 'function') {
+          assert(this.definition !== undefined)
+          let prototype = escapeMdx(this.definition)
+          if (this.kind === 'function') {
             prototype += ' ('
 
-            if (memberDef.params !== undefined) {
-              const params: string[] = []
-              for (const param of memberDef.params) {
-                params.push(workspace.renderElementToMdxText(param))
-              }
-              prototype += params.join(', ')
+            if (this.parameters !== undefined) {
+              prototype += this.parameters
             }
 
             prototype += ')'
           }
 
-          if (memberDef.initializer !== undefined) {
-            prototype += ` ${workspace.renderElementToMdxText(memberDef.initializer)}`
+          if (this.initializerMdxText !== undefined) {
+            prototype += ` ${this.initializerMdxText}`
           }
 
-          if (memberDef.constt?.valueOf()) {
+          if (this.isConst) {
             prototype += ' const'
           }
 
           lines.push('')
           lines.push('<MemberDefinition')
-          if (templateParameters.length > 0) {
-            const template = escapeMdx(`template ${templateParameters}`)
+          if (this.templateParametersMdxText !== undefined && this.templateParametersMdxText.length > 0) {
+            const template = escapeMdx(`template ${this.templateParametersMdxText}`)
             lines.push(`  template={<>${template}</>}`)
           }
-          lines.push(`  prototype={<>${prototype}</>}${labels.length === 0 ? '>' : ''}`)
-          if (labels.length > 0) {
-            lines.push(`  labels = {["${labels.join('", "')}"]}>`)
+          lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`)
+          if (this.labels.length > 0) {
+            lines.push(`  labels = {["${this.labels.join('", "')}"]}>`)
           }
 
-          const memberBriefDefinition = workspace.renderElementToMdxText(memberDef.briefDescription)
-          if (memberBriefDefinition.length > 0) {
-            lines.push(memberBriefDefinition)
+          if (this.briefDescriptionMdxText !== undefined && this.briefDescriptionMdxText.length > 0) {
+            lines.push(this.section.compound.renderBriefDescriptionToMdxText({
+              briefDescriptionMdxText: this.briefDescriptionMdxText
+            }))
           }
 
-          lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
-            detailedDescription: memberDef.detailedDescription,
-            showHeader: false
-          }))
+          if (this.detailedDescriptionMdxLines !== undefined) {
+            lines.push(...this.detailedDescriptionMdxLines)
+          }
 
-          lines.push(this.section.compound.renderLocationToMdxText(memberDef.location))
+          if (this.locationMdxText !== undefined) {
+            lines.push(this.locationMdxText)
+          }
 
           lines.push('</MemberDefinition>')
         }
@@ -503,31 +580,34 @@ export class Member extends MemberBase {
       case 'enum':
         {
           let prototype = 'enum '
-          if (memberDef.strong?.valueOf()) {
+          if (this.isStrong) {
             prototype += 'class '
           }
-          prototype += escapeMdx(memberDef.qualifiedName ?? '?')
+          prototype += escapeMdx(this.qualifiedName ?? '?')
 
           lines.push('')
           lines.push('<MemberDefinition')
-          lines.push(`  prototype={<>${prototype}</>}${labels.length === 0 ? '>' : ''}`)
-          if (labels.length > 0) {
-            lines.push(` labels = {["${labels.join('", "')}"]}>`)
+          lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`)
+          if (this.labels.length > 0) {
+            lines.push(` labels = {["${this.labels.join('", "')}"]}>`)
           }
 
-          const memberBriefDefinition = workspace.renderElementToMdxText(memberDef.briefDescription)
-          if (memberBriefDefinition.length > 0) {
-            lines.push(memberBriefDefinition)
+          if (this.briefDescriptionMdxText !== undefined && this.briefDescriptionMdxText.length > 0) {
+            lines.push(this.section.compound.renderBriefDescriptionToMdxText({
+              briefDescriptionMdxText: this.briefDescriptionMdxText
+            }))
           }
 
-          lines.push(...this.renderEnumToMdxLines(memberDef))
+          assert(this.enumMdxLines !== undefined)
+          lines.push(...this.enumMdxLines)
 
-          lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
-            detailedDescription: memberDef.detailedDescription,
-            showHeader: false
-          }))
+          if (this.detailedDescriptionMdxLines !== undefined) {
+            lines.push(...this.detailedDescriptionMdxLines)
+          }
 
-          lines.push(this.section.compound.renderLocationToMdxText(memberDef.location))
+          if (this.locationMdxText !== undefined) {
+            lines.push(this.locationMdxText)
+          }
 
           lines.push('</MemberDefinition>')
         }
@@ -536,7 +616,7 @@ export class Member extends MemberBase {
 
       default:
         lines.push('')
-        console.warn('memberDef', memberDef.kind, memberDef.name, 'not implemented yet in', this.constructor.name, 'renderMemberDefMdx')
+        console.warn('memberDef', this.kind, this.name, 'not implemented yet in', this.constructor.name, 'renderMemberDefMdx')
     }
 
     return lines

@@ -101,17 +101,17 @@ export class DocusaurusGenerator {
             // console.log('  ', sectionDef.kind)
             for (const member of section.members) {
               if (member instanceof Member) {
-                const memberCompoundId = stripPermalinkAnchor(member.memberDef.id)
+                const memberCompoundId = stripPermalinkAnchor(member.id)
                 if (memberCompoundId !== compound.compoundDef.id) {
                   // Skip member definitions from different compounds.
                   // Hopefully they are defined properly there.
                   // console.log('member from another compound', compoundId, 'skipped')
                 } else {
                   // console.log('    ', memberDef.kind, memberDef.id)
-                  if (this.workspace.membersById.has(member.memberDef.id)) {
-                    console.warn('member already in map', member.memberDef.id, 'in', this.workspace.membersById.get(member.memberDef.id)?.name)
+                  if (this.workspace.membersById.has(member.id)) {
+                    console.warn('member already in map', member.id, 'in', this.workspace.membersById.get(member.id)?.name)
                   } else {
-                    this.workspace.membersById.set(member.memberDef.id, member)
+                    this.workspace.membersById.set(member.id, member)
                   }
                 }
               }
