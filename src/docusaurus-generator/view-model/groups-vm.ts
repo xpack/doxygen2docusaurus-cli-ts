@@ -274,7 +274,7 @@ export class Group extends CompoundBase {
       todo: descriptionTodo
     }))
 
-    lines.push(...this.renderSectionDefsToMdxLines())
+    lines.push(...this.renderSectionsToMdxLines())
 
     return lines
   }

@@ -18,7 +18,7 @@ import { MemberDefDataModel } from '../../data-model/compounds/memberdeftype-dm.
 import { MemberDataModel } from '../../data-model/compounds/membertype-dm.js'
 import { SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-dm.js'
 import { CompoundBase } from './compound-base-vm.js'
-import { escapeMdx } from '../utils.js'
+import { escapeMdx, getPermalinkAnchor } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -27,20 +27,22 @@ export class Section {
   kind: string
   headerName: string
   members: Array<Member | MemberRef> = []
+  definitionMembers: Member[] = []
 
   constructor (compound: CompoundBase, sectionDef: SectionDefDataModel) {
     this.compound = compound
     this.kind = sectionDef.kind
 
-    this.headerName = compound.getHeaderNameByKind(sectionDef)
+    this.headerName = this.getHeaderNameByKind(sectionDef)
     assert(this.headerName.length > 0)
 
     if (sectionDef.memberDefs !== undefined) {
       for (const memberDefDataModel of sectionDef.memberDefs) {
         const member = new Member(this, memberDefDataModel)
         this.members.push(member)
+        this.definitionMembers.push(member)
         // Do not add it to the global map since additional checks are needed
-        // and the procedure is done in the global generator.
+        // therefore the procedure is done in the global generator.
       }
     }
 
@@ -50,6 +52,121 @@ export class Section {
       }
     }
   }
+
+  hasDefinitionMembers (): boolean {
+    return this.definitionMembers.length > 0
+  }
+
+  // --------------------------------------------------------------------------
+
+  // <xsd:simpleType name="DoxSectionKind">
+  //   <xsd:restriction base="xsd:string">
+  //     <xsd:enumeration value="user-defined" />
+  //     <xsd:enumeration value="public-type" />
+  //     <xsd:enumeration value="public-func" />
+  //     <xsd:enumeration value="public-attrib" />
+  //     <xsd:enumeration value="public-slot" />
+  //     <xsd:enumeration value="signal" />
+  //     <xsd:enumeration value="dcop-func" />
+  //     <xsd:enumeration value="property" />
+  //     <xsd:enumeration value="event" />
+  //     <xsd:enumeration value="public-static-func" />
+  //     <xsd:enumeration value="public-static-attrib" />
+  //     <xsd:enumeration value="protected-type" />
+  //     <xsd:enumeration value="protected-func" />
+  //     <xsd:enumeration value="protected-attrib" />
+  //     <xsd:enumeration value="protected-slot" />
+  //     <xsd:enumeration value="protected-static-func" />
+  //     <xsd:enumeration value="protected-static-attrib" />
+  //     <xsd:enumeration value="package-type" />
+  //     <xsd:enumeration value="package-func" />
+  //     <xsd:enumeration value="package-attrib" />
+  //     <xsd:enumeration value="package-static-func" />
+  //     <xsd:enumeration value="package-static-attrib" />
+  //     <xsd:enumeration value="private-type" />
+  //     <xsd:enumeration value="private-func" />
+  //     <xsd:enumeration value="private-attrib" />
+  //     <xsd:enumeration value="private-slot" />
+  //     <xsd:enumeration value="private-static-func" />
+  //     <xsd:enumeration value="private-static-attrib" />
+  //     <xsd:enumeration value="friend" />
+  //     <xsd:enumeration value="related" />
+  //     <xsd:enumeration value="define" />
+  //     <xsd:enumeration value="prototype" />
+  //     <xsd:enumeration value="typedef" />
+  //     <xsd:enumeration value="enum" />
+  //     <xsd:enumeration value="func" />
+  //     <xsd:enumeration value="var" />
+  //   </xsd:restriction>
+  // </xsd:simpleType>
+
+  getHeaderNameByKind (sectionDef: SectionDefDataModel): string {
+    const headerNamesByKind: Record<string, string> = {
+      // 'user-defined': '?',
+      'public-type': 'Public Member Typedefs',
+      'public-func': 'Public Member Functions',
+      'public-attrib': 'Public Member Attributes',
+      // 'public-slot': 'Member ?',
+      'public-static-func': 'Public Static Functions',
+      'public-static-attrib': 'Public Static Attributes',
+
+      // 'signal': '',
+      // 'dcop-func': '',
+      // 'property': '',
+      // 'event': '',
+
+      'package-type': 'Package Member Typedefs',
+      'package-func': 'Package Member Functions',
+      'package-attrib': 'Package Member Attributes',
+      'package-static-func': 'Package Static Functions',
+      'package-static-attrib': 'Package Static Attributes',
+
+      'protected-type': 'Protected Member Typedefs',
+      'protected-func': 'Protected Member Functions',
+      'protected-attrib': 'Protected Member Attributes',
+      // 'protected-slot': 'Protected ?',
+      'protected-static-func': 'Protected Static Functions',
+      'protected-static-attrib': 'Protected Static Attributes',
+
+      'private-type': 'Private Member Typedefs',
+      'private-func': 'Private Member Functions',
+      'private-attrib': 'Private Member Attributes',
+      // 'private-slot': 'Private ?',
+      'private-static-func': 'Private Static Functions',
+      'private-static-attrib': 'Private Static Attributes',
+
+      // 'friend': '',
+      // 'related': '',
+      // 'define': '',
+      // 'prototype': '',
+
+      typedef: 'Typedefs',
+      enum: 'Enumerations',
+      func: 'Functions',
+      var: 'Variables',
+
+      // Extra, not present in Doxygen.
+      'public-constructor': 'Public Constructors',
+      'public-destructor': 'Public Destructor',
+      'protected-constructor': 'Protected Constructors',
+      'protected-destructor': 'Protected Destructor',
+      'private-constructor': 'Private Constructors',
+      'private-destructor': 'Private Destructor'
+    }
+
+    // ------------------------------------------------------------------------
+
+    const header = headerNamesByKind[sectionDef.kind]
+    if (header === undefined) {
+      console.error(sectionDef, { compact: false, depth: 999 })
+      console.error(sectionDef.constructor.name, 'kind', sectionDef.kind, 'not yet rendered in', this.constructor.name, 'getHeaderByKind')
+      return ''
+    }
+
+    return header.trim()
+  }
+
+  // --------------------------------------------------------------------------
 
   renderIndexToMdxLines (): string[] {
     const lines: string[] = []
@@ -77,6 +194,33 @@ export class Section {
     }
     return lines
   }
+
+  // --------------------------------------------------------------------------
+
+  renderToMdxLines (): string[] {
+    const lines: string[] = []
+
+    if (this.definitionMembers.length === 0) {
+      return lines
+    }
+
+    // TODO: filter out members defined in other compounds.
+
+    lines.push('')
+    lines.push('<SectionDefinition>')
+
+    lines.push('')
+    lines.push(`## ${escapeMdx(this.headerName)}`)
+
+    for (const member of this.definitionMembers) {
+      lines.push(...member.renderToMdxLines())
+    }
+
+    lines.push('')
+    lines.push('</SectionDefinition>')
+
+    return lines
+  }
 }
 
 // ----------------------------------------------------------------------------
@@ -98,6 +242,8 @@ export class Member extends MemberBase {
     super(section, memberDef.name)
     this.memberDef = memberDef
   }
+
+  // --------------------------------------------------------------------------
 
   renderIndexToMdxLines (): string[] {
     // console.log(util.inspect(memberDef, { compact: false, depth: 999 }))
@@ -130,7 +276,9 @@ export class Member extends MemberBase {
       case 'function':
         {
           // WARNING: the rule to decide which type is trailing is not in XMLs.
+          // https://github.com/doxygen/doxygen/discussions/11568
           // TODO: improve.
+
           const type = workspace.renderElementToMdxText(this.memberDef.type).trim()
 
           let trailingType = false
@@ -215,6 +363,175 @@ export class Member extends MemberBase {
     }
 
     lines.push('</MembersIndexItem>')
+
+    return lines
+  }
+
+  // --------------------------------------------------------------------------
+
+  renderToMdxLines (): string[] {
+    const lines: string[] = []
+
+    const isFunction: boolean = this.section.kind.endsWith('func') || this.section.kind.endsWith('constructor') || this.section.kind.endsWith('destructor')
+    const sectionLabels: string[] = []
+
+    const memberDef = this.memberDef
+
+    const labels: string[] = [...sectionLabels]
+    if (memberDef.inline?.valueOf()) {
+      labels.push('inline')
+    }
+    if (memberDef.explicit?.valueOf()) {
+      labels.push('explicit')
+    }
+    if (memberDef.nodiscard?.valueOf()) {
+      labels.push('nodiscard')
+    }
+    if (memberDef.constexpr?.valueOf()) {
+      labels.push('constexpr')
+    }
+    if (memberDef.noexcept?.valueOf()) {
+      labels.push('noexcept')
+    }
+    if (memberDef.prot === 'protected') {
+      labels.push('protected')
+    }
+    if (memberDef.staticc?.valueOf()) {
+      labels.push('static')
+    }
+    if (memberDef.virt !== undefined && memberDef.virt === 'virtual') {
+      labels.push('virtual')
+    }
+    // WARNING: there is no explicit attribute for 'delete'.
+    if (memberDef.argsstring?.endsWith('=delete')) {
+      labels.push('delete')
+    }
+    // WARNING: there is no explicit attribute for 'default'.
+    if (memberDef.argsstring?.endsWith('=default')) {
+      labels.push('default')
+    }
+    if (memberDef.strong?.valueOf()) {
+      labels.push('strong')
+    }
+
+    // WARNING: could not find how to generate 'inherited'.
+
+    // Validation checks.
+    // const passed via the prototype.
+    if (memberDef.mutable?.valueOf()) {
+      console.error(util.inspect(memberDef, { compact: false, depth: 999 }))
+      console.error(memberDef.constructor.name, 'mutable not yet rendered in', this.constructor.name)
+    }
+
+    const workspace = this.section.compound.collection.workspace
+
+    const templateParamList = memberDef.templateparamlist ?? this.section.compound.compoundDef.templateParamList
+    const templateParameters = this.section.compound.renderTemplateParametersToMdxText({ templateParamList, withDefaults: true })
+
+    const id = getPermalinkAnchor(memberDef.id)
+    const name = memberDef.name + (isFunction ? '()' : '')
+
+    lines.push('')
+    lines.push(`### ${escapeMdx(name)} {#${id}}`)
+
+    // console.log(memberDef.kind)
+    switch (memberDef.kind) {
+      case 'function':
+      case 'typedef':
+      case 'variable':
+        {
+          // WARNING: the rule to decide which type is trailing is not in XMLs.
+          // TODO: improve.
+          assert(memberDef.definition !== undefined)
+          let prototype = escapeMdx(memberDef.definition)
+          if (memberDef.kind === 'function') {
+            prototype += ' ('
+
+            if (memberDef.params !== undefined) {
+              const params: string[] = []
+              for (const param of memberDef.params) {
+                params.push(workspace.renderElementToMdxText(param))
+              }
+              prototype += params.join(', ')
+            }
+
+            prototype += ')'
+          }
+
+          if (memberDef.initializer !== undefined) {
+            prototype += ` ${workspace.renderElementToMdxText(memberDef.initializer)}`
+          }
+
+          if (memberDef.constt?.valueOf()) {
+            prototype += ' const'
+          }
+
+          lines.push('')
+          lines.push('<MemberDefinition')
+          if (templateParameters.length > 0) {
+            const template = escapeMdx(`template ${templateParameters}`)
+            lines.push(`  template={<>${template}</>}`)
+          }
+          lines.push(`  prototype={<>${prototype}</>}${labels.length === 0 ? '>' : ''}`)
+          if (labels.length > 0) {
+            lines.push(`  labels = {["${labels.join('", "')}"]}>`)
+          }
+
+          const memberBriefDefinition = workspace.renderElementToMdxText(memberDef.briefDescription)
+          if (memberBriefDefinition.length > 0) {
+            lines.push(memberBriefDefinition)
+          }
+
+          lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+            detailedDescription: memberDef.detailedDescription,
+            showHeader: false
+          }))
+
+          lines.push(this.section.compound.renderLocationToMdxText(memberDef.location))
+
+          lines.push('</MemberDefinition>')
+        }
+
+        break
+
+      case 'enum':
+        {
+          let prototype = 'enum '
+          if (memberDef.strong?.valueOf()) {
+            prototype += 'class '
+          }
+          prototype += escapeMdx(memberDef.qualifiedName ?? '?')
+
+          lines.push('')
+          lines.push('<MemberDefinition')
+          lines.push(`  prototype={<>${prototype}</>}${labels.length === 0 ? '>' : ''}`)
+          if (labels.length > 0) {
+            lines.push(` labels = {["${labels.join('", "')}"]}>`)
+          }
+
+          const memberBriefDefinition = workspace.renderElementToMdxText(memberDef.briefDescription)
+          if (memberBriefDefinition.length > 0) {
+            lines.push(memberBriefDefinition)
+          }
+
+          lines.push(...this.section.compound.renderEnumToMdxLines(memberDef))
+
+          lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+            detailedDescription: memberDef.detailedDescription,
+            showHeader: false
+          }))
+
+          lines.push(this.section.compound.renderLocationToMdxText(memberDef.location))
+
+          lines.push('</MemberDefinition>')
+        }
+
+        break
+
+      default:
+        lines.push('')
+        console.warn('memberDef', memberDef.kind, memberDef.name, 'not implemented yet in', this.constructor.name, 'renderMemberDefMdx')
+    }
 
     return lines
   }

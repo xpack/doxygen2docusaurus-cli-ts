@@ -144,7 +144,7 @@ export class Page extends CompoundBase {
       showHeader: false
     }))
 
-    lines.push(...this.renderSectionDefsToMdxLines())
+    lines.push(...this.renderSectionsToMdxLines())
 
     return lines
   }

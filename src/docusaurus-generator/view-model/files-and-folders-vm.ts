@@ -424,7 +424,7 @@ export class Folder extends CompoundBase {
       todo: descriptionTodo
     }))
 
-    lines.push(...this.renderSectionDefsToMdxLines())
+    lines.push(...this.renderSectionsToMdxLines())
 
     return lines
   }
@@ -481,7 +481,7 @@ export class File extends CompoundBase {
       todo: descriptionTodo
     }))
 
-    lines.push(...this.renderSectionDefsToMdxLines())
+    lines.push(...this.renderSectionsToMdxLines())
 
     if (compoundDef.programListing !== undefined) {
       lines.push('')

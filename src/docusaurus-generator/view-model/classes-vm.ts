@@ -537,7 +537,7 @@ export class Class extends CompoundBase {
 
     lines.push(this.renderLocationToMdxText(compoundDef.location))
 
-    lines.push(...this.renderSectionDefsToMdxLines())
+    lines.push(...this.renderSectionsToMdxLines())
 
     lines.push(...this.renderGeneratedFromToMdxLines())
 

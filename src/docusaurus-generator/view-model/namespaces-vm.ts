@@ -276,7 +276,7 @@ export class Namespace extends CompoundBase {
       todo: descriptionTodo
     }))
 
-    lines.push(...this.renderSectionDefsToMdxLines())
+    lines.push(...this.renderSectionsToMdxLines())
 
     lines.push(...this.renderGeneratedFromToMdxLines())
 
