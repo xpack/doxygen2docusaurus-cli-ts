@@ -397,7 +397,7 @@ export class Class extends CompoundBase {
 
     let classFullName = classs.fullyQualifiedName
     if (classs.templateParameters.length > 0) {
-      classFullName += classs.templateParameters
+      classFullName += escapeMdx(classs.templateParameters)
     } else {
       classFullName += escapeMdx(this.renderTemplateParameterNamesToMdxText(compoundDef.templateParamList))
     }
