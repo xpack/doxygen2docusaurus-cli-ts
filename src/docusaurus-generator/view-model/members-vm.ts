@@ -36,10 +36,12 @@ export class Section {
     this.headerName = this.getHeaderNameByKind(sectionDef)
     assert(this.headerName.length > 0)
 
+    const members: Array<Member | MemberRef> = []
+
     if (sectionDef.memberDefs !== undefined) {
       for (const memberDefDataModel of sectionDef.memberDefs) {
         const member = new Member(this, memberDefDataModel)
-        this.members.push(member)
+        members.push(member)
         this.definitionMembers.push(member)
         // Do not add it to the global map since additional checks are needed
         // therefore the procedure is done in the global generator.
@@ -48,9 +50,11 @@ export class Section {
 
     if (sectionDef.members !== undefined) {
       for (const memberRef of sectionDef.members) {
-        this.members.push(new MemberRef(this, memberRef))
+        members.push(new MemberRef(this, memberRef))
       }
     }
+
+    this.members = members.sort((a, b) => a.name.localeCompare(b.name))
   }
 
   hasDefinitionMembers (): boolean {
