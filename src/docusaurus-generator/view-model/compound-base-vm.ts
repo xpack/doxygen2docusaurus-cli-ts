@@ -81,6 +81,14 @@ export abstract class CompoundBase {
     }
   }
 
+  initializeLate (): void {
+    const workspace = this.collection.workspace
+
+    if (this.compoundDef.briefDescription !== undefined) {
+      this.briefDescriptionMdxText = workspace.renderElementToMdxText(this.compoundDef.briefDescription)
+    }
+  }
+
   // --------------------------------------------------------------------------
 
   abstract renderToMdxLines (frontMatter: FrontMatter): string[]

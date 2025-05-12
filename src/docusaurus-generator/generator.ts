@@ -55,6 +55,7 @@ export class DocusaurusGenerator {
 
     // The compoundsById is created in the workspace as the objects are created.
     this.createCompoundsHierarchies()
+    this.initializeCompoundsLate()
     this.createMembersMap()
     this.validatePermalinks()
 
@@ -74,6 +75,17 @@ export class DocusaurusGenerator {
     for (const [collectionName, collection] of this.workspace.viewModel) {
       // console.log('createHierarchies:', collectionName)
       collection.createCompoundsHierarchies()
+    }
+  }
+
+  initializeCompoundsLate (): void {
+    console.log('Perform compound late initializations...')
+
+    for (const [collectionName, collection] of this.workspace.viewModel) {
+      // console.log('createHierarchies:', collectionName)
+      for (const [compoundId, compound] of collection.compoundsById) {
+        compound.initializeLate()
+      }
     }
   }
 
