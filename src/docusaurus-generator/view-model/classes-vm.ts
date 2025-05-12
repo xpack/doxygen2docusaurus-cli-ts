@@ -252,7 +252,6 @@ export class Class extends CompoundBase {
     if (index >= 0) {
       indexNameTemplateParameters = compoundDef.compoundName.substring(index).replace(/^< /, '<').replace(/ >$/, '>')
       this.templateParameters = indexNameTemplateParameters
-      console.log('baburiba', compoundDef.compoundName, indexNameTemplateParameters)
     } else if (compoundDef.templateParamList !== undefined) {
       indexNameTemplateParameters = this.renderTemplateParameterNamesToMdxText(compoundDef.templateParamList)
     }
