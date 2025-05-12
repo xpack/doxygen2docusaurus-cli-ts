@@ -279,7 +279,7 @@ export class Member extends MemberBase {
 
       case 'function':
         {
-          // WARNING: the rule to decide which type is trailing is not in XMLs.
+          // WARNING: the rule to decide which type is trailing is not in the XMLs.
           // https://github.com/doxygen/doxygen/discussions/11568
           // TODO: improve.
 
