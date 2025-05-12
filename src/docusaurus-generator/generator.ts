@@ -57,6 +57,7 @@ export class DocusaurusGenerator {
     this.createCompoundsHierarchies()
     this.initializeCompoundsLate()
     this.createMembersMap()
+    this.initializeMemberLate()
     this.validatePermalinks()
 
     await this.prepareOutputFolder()
@@ -120,6 +121,28 @@ export class DocusaurusGenerator {
       }
     }
     console.log(this.workspace.membersById.size, 'member definitions')
+  }
+
+  // --------------------------------------------------------------------------
+
+  initializeMemberLate (): void {
+    for (const [, compound] of this.workspace.compoundsById) {
+      // console.log(compoundDef.kind, compoundDef.compoundName, compoundDef.id)
+      this.workspace.currentCompoundDef = compound.compoundDef
+      if (compound.sections !== undefined) {
+        for (const section of compound.sections) {
+          if (section.members !== undefined) {
+            // console.log('  ', sectionDef.kind)
+            for (const member of section.members) {
+              if (member instanceof Member) {
+                member.initializeLate()
+              }
+            }
+          }
+        }
+      }
+    }
+    this.workspace.currentCompoundDef = undefined
   }
 
   // --------------------------------------------------------------------------

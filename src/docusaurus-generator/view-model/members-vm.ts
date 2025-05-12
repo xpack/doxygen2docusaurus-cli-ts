@@ -237,6 +237,9 @@ class MemberBase {
     this.section = section
     this.name = name
   }
+
+  initializeLate (): void {
+  }
 }
 
 export class Member extends MemberBase {
