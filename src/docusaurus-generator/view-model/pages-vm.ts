@@ -25,16 +25,16 @@ import { FrontMatter } from '../types.js'
 // ----------------------------------------------------------------------------
 
 export class Pages extends CollectionBase {
-  compoundsById: Map<string, Page>
+  // compoundsById: Map<string, Page>
   mainPage: Page | undefined
 
   // --------------------------------------------------------------------------
 
-  constructor (workspace: Workspace) {
-    super(workspace)
+  // constructor (workspace: Workspace) {
+  //   super(workspace)
 
-    this.compoundsById = new Map()
-  }
+  //   // this.compoundsById = new Map()
+  // }
 
   // --------------------------------------------------------------------------
 

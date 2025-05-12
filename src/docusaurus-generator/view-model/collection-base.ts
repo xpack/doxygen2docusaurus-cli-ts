@@ -21,14 +21,14 @@ import { CompoundBase } from './compound-base-vm.js'
 
 export abstract class CollectionBase {
   workspace: Workspace
-  // compoundsById: Map<string, CompoundBase>
+  compoundsById: Map<string, CompoundBase>
 
   // --------------------------------------------------------------------------
 
   constructor (workspace: Workspace) {
     this.workspace = workspace
 
-    // this.compoundsById = new Map()
+    this.compoundsById = new Map()
   }
 
   // --------------------------------------------------------------------------

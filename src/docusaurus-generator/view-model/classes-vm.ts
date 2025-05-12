@@ -27,16 +27,16 @@ import { Section } from './members-vm.js'
 // ----------------------------------------------------------------------------
 
 export class Classes extends CollectionBase {
-  compoundsById: Map<string, Class>
+  // compoundsById: Map<string, Class>
   topLevelClasses: Class[] = []
 
   // --------------------------------------------------------------------------
 
-  constructor (workspace: Workspace) {
-    super(workspace)
+  // constructor (workspace: Workspace) {
+  //   super(workspace)
 
-    this.compoundsById = new Map()
-  }
+  //   // this.compoundsById = new Map()
+  // }
 
   // --------------------------------------------------------------------------
 
@@ -51,9 +51,10 @@ export class Classes extends CollectionBase {
 
   override createCompoundsHierarchies (): void {
     // Recreate classes hierarchies.
-    for (const [classId, classs] of this.compoundsById) {
+    for (const [classId, base] of this.compoundsById) {
+      const classs = base as Class
       for (const baseClassId of classs.baseClassIds) {
-        const baseClass = this.compoundsById.get(baseClassId)
+        const baseClass = this.compoundsById.get(baseClassId) as Class
         assert(baseClass !== undefined)
         // console.log('baseClassId', baseClassId, 'has child', classId)
         baseClass.children.push(classs)
@@ -62,7 +63,8 @@ export class Classes extends CollectionBase {
       }
     }
 
-    for (const [classId, classs] of this.compoundsById) {
+    for (const [classId, base] of this.compoundsById) {
+      const classs = base as Class
       if (classs.baseClassIds.length === 0) {
         // console.log('topLevelClassId:', classId)
         this.topLevelClasses.push(classs)
@@ -303,6 +305,10 @@ export class Class extends CompoundBase {
     // console.log()
   }
 
+  // override initializeLate(): void {
+  //   super.initializeLate()
+  // }
+
   private splitSections (classs: Class, sectionDef: SectionDefDataModel): Section[] {
     const sections: Section[] = []
 
@@ -396,7 +402,7 @@ export class Class extends CompoundBase {
     lines.push('')
     lines.push('## Declaration')
 
-    const classs = (this.collection as Classes).compoundsById.get(compoundDef.id)
+    const classs = (this.collection as Classes).compoundsById.get(compoundDef.id) as Class
     assert(classs !== undefined)
 
     let classFullName = classs.fullyQualifiedName
@@ -439,7 +445,7 @@ export class Class extends CompoundBase {
           // console.log(util.inspect(baseCompoundRef, { compact: false, depth: 999 }))
 
           if (baseCompoundRef.refid !== undefined) {
-            const baseClass = (this.collection as Classes).compoundsById.get(baseCompoundRef.refid)
+            const baseClass = (this.collection as Classes).compoundsById.get(baseCompoundRef.refid) as Class
             assert(baseClass !== undefined)
 
             lines.push(...baseClass.renderIndexToMdxLines())
@@ -468,7 +474,7 @@ export class Class extends CompoundBase {
         lines.push('')
 
         for (const baseClassId of classs.baseClassIds) {
-          const baseClass = (this.collection as Classes).compoundsById.get(baseClassId)
+          const baseClass = (this.collection as Classes).compoundsById.get(baseClassId) as Class
           assert(baseClass !== undefined)
           // console.log(util.inspect(derivedCompoundDef, { compact: false, depth: 999 }))
 
@@ -491,7 +497,7 @@ export class Class extends CompoundBase {
           // console.log(util.inspect(derivedCompoundRef, { compact: false, depth: 999 }))
 
           if (derivedCompoundRef.refid !== undefined) {
-            const derivedClass = (this.collection as Classes).compoundsById.get(derivedCompoundRef.refid)
+            const derivedClass = (this.collection as Classes).compoundsById.get(derivedCompoundRef.refid) as Class
             assert(derivedClass !== undefined)
 
             lines.push(...derivedClass.renderIndexToMdxLines())
@@ -516,7 +522,7 @@ export class Class extends CompoundBase {
         lines.push('')
 
         for (const derivedClassId of classs.childrenIds) {
-          const derivedClass = (this.collection as Classes).compoundsById.get(derivedClassId)
+          const derivedClass = (this.collection as Classes).compoundsById.get(derivedClassId) as Class
           assert(derivedClass !== undefined)
           // console.log(util.inspect(derivedCompoundDef, { compact: false, depth: 999 }))
 

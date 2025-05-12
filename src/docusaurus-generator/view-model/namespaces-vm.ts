@@ -26,16 +26,16 @@ import { Section } from './members-vm.js'
 // ----------------------------------------------------------------------------
 
 export class Namespaces extends CollectionBase {
-  compoundsById: Map<string, Namespace>
+  // compoundsById: Map<string, Namespace>
   topLevelNamespaces: Namespace[] = []
 
   // --------------------------------------------------------------------------
 
-  constructor (workspace: Workspace) {
-    super(workspace)
+  // constructor (workspace: Workspace) {
+  //   super(workspace)
 
-    this.compoundsById = new Map()
-  }
+  //   // this.compoundsById = new Map()
+  // }
 
   // --------------------------------------------------------------------------
 
