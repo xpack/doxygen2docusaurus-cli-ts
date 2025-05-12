@@ -543,6 +543,36 @@ export class Class extends CompoundBase {
 
     return lines
   }
+
+  renderClassIndexToMdxLines (classs: Class): string[] {
+    // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
+    const lines: string[] = []
+
+    const compoundDef = classs.compoundDef
+
+    const workspace = this.collection.workspace
+
+    const permalink = workspace.getPagePermalink(compoundDef.id)
+
+    const itemType = compoundDef.kind
+    const itemName = `<Link to="${permalink}">${escapeMdx(classs.indexName)}</Link>`
+
+    lines.push('<MembersIndexItem')
+    lines.push(`  type="${itemType}"`)
+    lines.push(`  name={${itemName}}>`)
+
+    const briefDescriptionMdxText: string | undefined = classs.briefDescriptionMdxText
+    if ((briefDescriptionMdxText ?? '').length > 0) {
+      lines.push(this.renderBriefDescriptionToMdxText({
+        briefDescriptionMdxText,
+        morePermalink: `${permalink}/#details`
+      }))
+    }
+
+    lines.push('</MembersIndexItem>')
+
+    return lines
+  }
 }
 
 // ----------------------------------------------------------------------------

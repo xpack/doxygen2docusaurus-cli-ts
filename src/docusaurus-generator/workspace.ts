@@ -84,7 +84,6 @@ export class Workspace {
   compoundsById: Map<string, CompoundBase> = new Map()
 
   // TODO: change to member view model objects
-  memberDefsById: Map<string, AbstractMemberDefType> = new Map()
   membersById: Map<String, Member> = new Map()
 
   elementLinesRenderers: Map<string, ElementLinesRendererBase> = new Map()

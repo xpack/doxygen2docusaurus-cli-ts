@@ -54,7 +54,6 @@ export class DocusaurusGenerator {
     // console.log('DocusaurusGenerator2.generate()')
 
     this.createHierarchies()
-    this.createMemberDefsMap()
     this.createMembersMap()
     this.validatePermalinks()
 
@@ -78,35 +77,6 @@ export class DocusaurusGenerator {
   }
 
   // --------------------------------------------------------------------------
-
-  createMemberDefsMap (): void {
-    for (const compoundDef of this.workspace.dataModel.compoundDefs) {
-      // console.log(compoundDef.kind, compoundDef.compoundName, compoundDef.id)
-      if (compoundDef.sectionDefs !== undefined) {
-        for (const sectionDef of compoundDef.sectionDefs) {
-          if (sectionDef.memberDefs !== undefined) {
-            // console.log('  ', sectionDef.kind)
-            for (const memberDef of sectionDef.memberDefs) {
-              const compoundId = stripPermalinkAnchor(memberDef.id)
-              if (compoundId !== compoundDef.id) {
-                // Skip member definitions from different compounds.
-                // Hopefully they are defined properly there.
-                // console.log('member from another compound', compoundId, 'skipped')
-              } else {
-                // console.log('    ', memberDef.kind, memberDef.id)
-                if (this.workspace.memberDefsById.has(memberDef.id)) {
-                  console.warn('member already in map', memberDef.id, 'in', this.workspace.memberDefsById.get(memberDef.id)?.name)
-                } else {
-                  this.workspace.memberDefsById.set(memberDef.id, memberDef)
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    // console.log(this.workspace.memberDefsById.size, 'member definitions')
-  }
 
   createMembersMap (): void {
     for (const [, compound] of this.workspace.compoundsById) {

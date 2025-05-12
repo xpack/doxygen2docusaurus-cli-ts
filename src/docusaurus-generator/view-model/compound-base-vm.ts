@@ -282,36 +282,6 @@ export abstract class CompoundBase {
     return lines
   }
 
-  renderClassIndexToMdxLines (classs: Class): string[] {
-    // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
-    const lines: string[] = []
-
-    const compoundDef = classs.compoundDef
-
-    const workspace = this.collection.workspace
-
-    const permalink = workspace.getPagePermalink(compoundDef.id)
-
-    const itemType = compoundDef.kind
-    const itemName = `<Link to="${permalink}">${escapeMdx(classs.indexName)}</Link>`
-
-    lines.push('<MembersIndexItem')
-    lines.push(`  type="${itemType}"`)
-    lines.push(`  name={${itemName}}>`)
-
-    const briefDescriptionMdxText: string | undefined = classs.briefDescriptionMdxText
-    if ((briefDescriptionMdxText ?? '').length > 0) {
-      lines.push(this.renderBriefDescriptionToMdxText({
-        briefDescriptionMdxText,
-        morePermalink: `${permalink}/#details`
-      }))
-    }
-
-    lines.push('</MembersIndexItem>')
-
-    return lines
-  }
-
   // --------------------------------------------------------------------------
 
   renderSectionsToMdxLines (): string[] {
@@ -322,36 +292,6 @@ export abstract class CompoundBase {
         lines.push(...section.renderToMdxLines())
       }
     }
-
-    return lines
-  }
-
-  renderEnumToMdxLines (memberDef: MemberDefDataModel): string[] {
-    const lines: string[] = []
-
-    const workspace = this.collection.workspace
-
-    lines.push('')
-    lines.push('<EnumerationList title="Enumeration values">')
-
-    if (memberDef.enumvalues !== undefined) {
-      for (const enumValue of memberDef.enumvalues) {
-        let briefDescription: string = workspace.renderElementToMdxText(enumValue.briefDescription).replace(/[.]$/, '')
-        const permalink = workspace.getPermalink({ refid: enumValue.id, kindref: 'member' })
-        const value = workspace.renderElementToMdxText(enumValue.initializer)
-        if (value.length > 0) {
-          briefDescription += ` (${value})`
-        }
-
-        lines.push('')
-        lines.push(`<Link id="${permalink}" />`)
-        lines.push(`<EnumerationListItem name="${enumValue.name.trim()}">`)
-        lines.push(`${briefDescription}`)
-        lines.push('</EnumerationListItem>')
-      }
-    }
-    lines.push('')
-    lines.push('</EnumerationList>')
 
     return lines
   }
