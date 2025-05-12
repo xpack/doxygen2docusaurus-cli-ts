@@ -48,7 +48,7 @@ export class Namespaces extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createHierarchies (): void {
+  override createCompoundsHierarchies (): void {
     // Recreate namespaces hierarchies.
     for (const [namespaceId, namespace] of this.compoundsById) {
       for (const childNamespaceId of namespace.childrenIds) {

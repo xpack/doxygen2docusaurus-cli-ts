@@ -34,7 +34,7 @@ export abstract class CollectionBase {
   // --------------------------------------------------------------------------
 
   abstract addChild (compoundDef: CompoundDefDataModel): CompoundBase
-  abstract createHierarchies (): void
+  abstract createCompoundsHierarchies (): void
   // It must return an array since groups can have multiple top pages.
   abstract createSidebarItems (): SidebarItem[]
   abstract createMenuItems (): MenuItem[]

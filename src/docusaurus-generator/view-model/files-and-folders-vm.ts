@@ -69,7 +69,7 @@ export class FilesAndFolders extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createHierarchies (): void {
+  override createCompoundsHierarchies (): void {
     // Recreate files and folders hierarchies.
     // console.log(this.compoundsById.size)
     for (const [folderId, folder] of this.compoundFoldersById) {

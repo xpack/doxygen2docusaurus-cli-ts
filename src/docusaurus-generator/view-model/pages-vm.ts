@@ -51,7 +51,7 @@ export class Pages extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createHierarchies (): void {
+  override createCompoundsHierarchies (): void {
     // There are no pages hierarchies.
   }
 

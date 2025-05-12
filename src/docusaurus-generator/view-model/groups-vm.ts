@@ -48,7 +48,7 @@ export class Groups extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createHierarchies (): void {
+  override createCompoundsHierarchies (): void {
     // Recreate groups hierarchies.
     for (const [groupId, group] of this.compoundsById) {
       for (const childGroupId of group.childrenIds) {

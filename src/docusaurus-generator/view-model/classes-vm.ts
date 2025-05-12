@@ -49,7 +49,7 @@ export class Classes extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createHierarchies (): void {
+  override createCompoundsHierarchies (): void {
     // Recreate classes hierarchies.
     for (const [classId, classs] of this.compoundsById) {
       for (const baseClassId of classs.baseClassIds) {

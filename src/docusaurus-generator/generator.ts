@@ -53,7 +53,8 @@ export class DocusaurusGenerator {
   async generate (): Promise<void> {
     // console.log('DocusaurusGenerator2.generate()')
 
-    this.createHierarchies()
+    // The compoundsById is created in the workspace as the objects are created.
+    this.createCompoundsHierarchies()
     this.createMembersMap()
     this.validatePermalinks()
 
@@ -67,12 +68,12 @@ export class DocusaurusGenerator {
 
   // --------------------------------------------------------------------------
 
-  createHierarchies (): void {
+  createCompoundsHierarchies (): void {
     console.log('Creating objects hierarchies...')
 
     for (const [collectionName, collection] of this.workspace.viewModel) {
       // console.log('createHierarchies:', collectionName)
-      collection.createHierarchies()
+      collection.createCompoundsHierarchies()
     }
   }
 
