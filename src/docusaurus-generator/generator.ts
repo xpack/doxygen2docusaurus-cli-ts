@@ -85,9 +85,12 @@ export class DocusaurusGenerator {
     for (const [collectionName, collection] of this.workspace.viewModel) {
       // console.log('createHierarchies:', collectionName)
       for (const [compoundId, compound] of collection.compoundsById) {
+        this.workspace.currentCompoundDef = compound.compoundDef
+
         compound.initializeLate()
       }
     }
+    this.workspace.currentCompoundDef = undefined
   }
 
   // --------------------------------------------------------------------------
