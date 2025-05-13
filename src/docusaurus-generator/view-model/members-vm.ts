@@ -243,8 +243,6 @@ class MemberBase {
 }
 
 export class Member extends MemberBase {
-  memberDef: MemberDefDataModel
-
   id: string
   kind: string
 
@@ -267,9 +265,14 @@ export class Member extends MemberBase {
   isStrong = false
   isConst = false
 
+  _private: {
+    // Available only during the initializeLate().
+    _memberDef?: MemberDefDataModel
+  } = {}
+
   constructor (section: Section, memberDef: MemberDefDataModel) {
     super(section, memberDef.name)
-    this.memberDef = memberDef
+    this._private._memberDef = memberDef
 
     this.id = memberDef.id
     this.kind = memberDef.kind
@@ -278,7 +281,7 @@ export class Member extends MemberBase {
   override initializeLate (): void {
     super.initializeLate()
 
-    const memberDef = this.memberDef
+    const memberDef = this._private._memberDef
     const workspace = this.section.compound.collection.workspace
 
     if (memberDef.briefDescription !== undefined) {
@@ -295,7 +298,6 @@ export class Member extends MemberBase {
     this.argsstring = memberDef.argsstring
 
     if (memberDef.type !== undefined) {
-      console.log(util.inspect(memberDef.type, { compact: false, depth: 999 }))
       this.typeMdxText = workspace.renderElementToMdxText(memberDef.type).trim()
     }
 
@@ -394,6 +396,9 @@ export class Member extends MemberBase {
 
     this.isStrong = memberDef.strong?.valueOf() ?? false
     this.isConst = memberDef.constt?.valueOf() ?? false
+
+    // Clear the reference, it is no longer needed.
+    this._private._memberDef = undefined
   }
 
   // --------------------------------------------------------------------------
@@ -654,6 +659,8 @@ export class Member extends MemberBase {
     return lines
   }
 }
+
+// ----------------------------------------------------------------------------
 
 export class MemberRef extends MemberBase {
   // memberRef: MemberDataModel
