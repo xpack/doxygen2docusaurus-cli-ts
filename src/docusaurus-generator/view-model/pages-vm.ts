@@ -141,7 +141,6 @@ export class Page extends CompoundBase {
     lines.push(...this.renderSectionIndicesToMdxLines())
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({
-      detailedDescription: compoundDef.detailedDescription,
       showHeader: false
     }))
 

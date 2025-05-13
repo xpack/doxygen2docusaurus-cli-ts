@@ -270,8 +270,8 @@ export class Group extends CompoundBase {
     lines.push(...this.renderSectionIndicesToMdxLines())
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({
-      detailedDescription: compoundDef.detailedDescription,
-      todo: descriptionTodo
+      todo: descriptionTodo,
+      showHeader: !this.hasSect1InDescription
     }))
 
     lines.push(...this.renderSectionsToMdxLines())

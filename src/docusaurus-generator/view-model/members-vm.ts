@@ -247,7 +247,8 @@ export class Member extends MemberBase {
   kind: string
 
   briefDescriptionMdxText: string | undefined
-  detailedDescriptionMdxLines: string[] | undefined
+  detailedDescriptionMdxText: string | undefined
+
   argsstring: string | undefined
   qualifiedName: string | undefined
   definition: string | undefined
@@ -290,10 +291,7 @@ export class Member extends MemberBase {
     }
 
     if (memberDef.detailedDescription !== undefined) {
-      this.detailedDescriptionMdxLines = this.section.compound.renderDetailedDescriptionToMdxLines({
-        detailedDescription: memberDef.detailedDescription,
-        showHeader: false
-      })
+      this.detailedDescriptionMdxText = workspace.renderElementToMdxText(memberDef.detailedDescription)
     }
 
     this.argsstring = memberDef.argsstring
@@ -570,8 +568,15 @@ export class Member extends MemberBase {
             }))
           }
 
-          if (this.detailedDescriptionMdxLines !== undefined) {
-            lines.push(...this.detailedDescriptionMdxLines)
+          // if (this.detailedDescriptionMdxText !== undefined) {
+          //   lines.push(...this.detailedDescriptionMdxLines)
+          // }
+
+          if (this.detailedDescriptionMdxText !== undefined) {
+            lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+              detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+              showHeader: false
+            }))
           }
 
           if (this.locationMdxText !== undefined) {
@@ -607,8 +612,11 @@ export class Member extends MemberBase {
           assert(this.enumMdxLines !== undefined)
           lines.push(...this.enumMdxLines)
 
-          if (this.detailedDescriptionMdxLines !== undefined) {
-            lines.push(...this.detailedDescriptionMdxLines)
+          if (this.detailedDescriptionMdxText !== undefined) {
+            lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+              detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+              showHeader: false
+            }))
           }
 
           if (this.locationMdxText !== undefined) {

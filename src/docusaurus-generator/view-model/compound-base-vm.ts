@@ -17,13 +17,10 @@ import path from 'node:path'
 
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { FrontMatter } from '../types.js'
-import { DetailedDescriptionDataModel, Sect1DataModel } from '../../data-model/compounds/descriptiontype-dm.js'
+import { BriefDescriptionDataModel, DetailedDescriptionDataModel, Sect1DataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { CollectionBase } from './collection-base.js'
 import { AbstractRefType } from '../../data-model/compounds/reftype-dm.js'
-import { escapeMdx, getPermalinkAnchor } from '../utils.js'
-import { SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-dm.js'
-import { MemberDefDataModel } from '../../data-model/compounds/memberdeftype-dm.js'
-import { Class } from './classes-vm.js'
+import { escapeMdx } from '../utils.js'
 import { Section } from './members-vm.js'
 import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js'
 import { RefTextDataModel } from '../../data-model/compounds/reftexttype-dm.js'
@@ -64,6 +61,10 @@ export abstract class CompoundBase {
   pageTitle: string = ''
 
   briefDescriptionMdxText: string | undefined
+  detailedDescriptionMdxText: string | undefined
+  hasSect1InDescription: boolean = false
+
+  // detailedDescriptionMdxLines: string[] | undefined
 
   sections: Section[] = []
 
@@ -73,12 +74,6 @@ export abstract class CompoundBase {
     this.compoundDef = compoundDef
 
     this.collection = collection
-
-    const workspace = this.collection.workspace
-
-    if (this.compoundDef.briefDescription !== undefined) {
-      this.briefDescriptionMdxText = workspace.renderElementToMdxText(this.compoundDef.briefDescription)
-    }
   }
 
   initializeLate (): void {
@@ -86,6 +81,17 @@ export abstract class CompoundBase {
 
     if (this.compoundDef.briefDescription !== undefined) {
       this.briefDescriptionMdxText = workspace.renderElementToMdxText(this.compoundDef.briefDescription)
+    }
+
+    if (this.compoundDef.detailedDescription !== undefined) {
+      this.detailedDescriptionMdxText = workspace.renderElementToMdxText(this.compoundDef.detailedDescription)
+
+      for (const child of this.compoundDef.detailedDescription.children) {
+        if (child instanceof Sect1DataModel) {
+          this.hasSect1InDescription = true
+          break
+        }
+      }
     }
   }
 
@@ -127,31 +133,23 @@ export abstract class CompoundBase {
   }
 
   renderDetailedDescriptionToMdxLines ({
-    detailedDescription,
+    detailedDescriptionMdxText = this.detailedDescriptionMdxText,
     todo = '',
     showHeader = true
   }: {
-    detailedDescription: DetailedDescriptionDataModel | undefined
+    detailedDescriptionMdxText?: string | undefined
     todo?: string
     showHeader?: boolean
   }): string[] {
     const lines: string[] = []
 
-    let hasSect1 = false
-    if (detailedDescription !== undefined) {
-      for (const child of detailedDescription?.children) {
-        if (child instanceof Sect1DataModel) {
-          hasSect1 = true
-          break
-        }
-      }
+    // const workspace = this.collection.workspace
+    if (detailedDescriptionMdxText === undefined && todo.length === 0) {
+      return []
     }
 
-    const workspace = this.collection.workspace
-
-    const detailedDescriptionMdxText: string = workspace.renderElementToMdxText(detailedDescription).trim()
-    if (showHeader && !hasSect1) {
-      if (detailedDescriptionMdxText.length > 0 || todo.length > 0) {
+    if (showHeader) {
+      if ((detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) || todo.length > 0) {
         lines.push('')
         lines.push('## Description {#details}')
       } else {
@@ -170,7 +168,7 @@ export abstract class CompoundBase {
 
     // Deviate from Doxygen and do not repeat the brief in the detailed section.
     // console.log(util.inspect(compoundDef.detailedDescription, { compact: false, depth: 999 }))
-    if (detailedDescriptionMdxText.length > 0) {
+    if (detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) {
       lines.push('')
       lines.push(detailedDescriptionMdxText)
     } else if (todo.length > 0) {

@@ -541,7 +541,6 @@ export class Class extends CompoundBase {
     lines.push(...this.renderSectionIndicesToMdxLines())
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({
-      detailedDescription: compoundDef.detailedDescription,
       todo: descriptionTodo
     }))
 
