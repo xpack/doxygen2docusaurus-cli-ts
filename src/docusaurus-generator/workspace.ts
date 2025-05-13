@@ -22,19 +22,7 @@ import { Groups } from './view-model/groups-vm.js'
 import { CollectionBase } from './view-model/collection-base.js'
 import { Classes } from './view-model/classes-vm.js'
 import { DoxygenFileOptions } from './view-model/options.js'
-import { ElementLinesRendererBase, ElementTextRendererBase } from './elements-generators/element-renderer-base.js'
-import { DescriptionTypeTextRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeLinesRenderer, DocMarkupTypeTextRenderer, DocParamListTypeTextRenderer, DocParaTypeTextRenderer, DocRefTextTypeTextRenderer, DocSimpleSectTypeTextRenderer, DocURLLinkTextRenderer, SpTypeTextRenderer } from './elements-generators/descriptiontype.js'
-import { ListingTypeLinesRenderer, CodeLineTypeLinesRenderer, HighlightTypeLinesRenderer } from './elements-generators/listingtype.js'
-import { DocListTypeLinesRenderer } from './elements-generators/doclisttype.js'
-import { DocS1TypeLinesRenderer, DocS2TypeLinesRenderer, DocS3TypeLinesRenderer, DocS4TypeLinesRenderer, DocS5TypeLinesRenderer, DocS6TypeLinesRenderer } from './elements-generators/docinternalstype.js'
-import { DocTitleTypeLinesRenderer } from './elements-generators/doctitletype.js'
-import { DocVariableListTypeTextRenderer, VariableListPairLinesRenderer } from './elements-generators/docvariablelisttype.js'
-import { DocXRefSectTextRenderer } from './elements-generators/docxrefsecttype.js'
-import { IncTypeLinesRenderer } from './elements-generators/inctype.js'
-import { LinkedTextTypeTextRenderer } from './elements-generators/linkedtexttype.js'
-import { ParamTypeLinesRenderer } from './elements-generators/paramtype.js'
-import { RefTextTypeTextRenderer } from './elements-generators/reftexttype.js'
-import { RefTypeLinesRenderer } from './elements-generators/reftype.js'
+import { ElementLinesRendererBase, ElementTextRendererBase } from './elements-renderers/element-renderer-base.js'
 import { escapeMdx, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js'
 import { CompoundBase } from './view-model/compound-base-vm.js'
 import { CompoundDefDataModel } from '../data-model/compounds/compounddef-dm.js'
@@ -44,6 +32,7 @@ import { Pages } from './view-model/pages-vm.js'
 import { FrontMatter } from './types.js'
 import { pluginName } from '../plugin/docusaurus.js'
 import { Member } from './view-model/members-vm.js'
+import { Renderers } from './elements-renderers/renderers.js'
 
 // ----------------------------------------------------------------------------
 
@@ -85,10 +74,9 @@ export class Workspace {
   // TODO: change to member view model objects
   membersById: Map<String, Member> = new Map()
 
-  elementLinesRenderers: Map<string, ElementLinesRendererBase> = new Map()
-  elementTextRenderers: Map<string, ElementTextRendererBase> = new Map()
-
   currentCompoundDef: CompoundDefDataModel | undefined
+
+  elementRenderers: Renderers
 
   // --------------------------------------------------------------------------
 
@@ -122,39 +110,7 @@ export class Workspace {
     this.viewModel.set('files', new FilesAndFolders(this))
     this.viewModel.set('pages', new Pages(this))
 
-    // Add generators for the parsed xml elements (in alphabetical order).
-    this.elementLinesRenderers.set('AbstractCodeLineType', new CodeLineTypeLinesRenderer(this))
-    this.elementLinesRenderers.set('AbstractDocAnchorType', new DocAnchorTypeLinesRenderer(this))
-    this.elementLinesRenderers.set('AbstractDocListType', new DocListTypeLinesRenderer(this))
-    this.elementLinesRenderers.set('AbstractDocSect1Type', new DocS1TypeLinesRenderer(this))
-    this.elementLinesRenderers.set('AbstractDocSect2Type', new DocS2TypeLinesRenderer(this))
-    this.elementLinesRenderers.set('AbstractDocSect3Type', new DocS3TypeLinesRenderer(this))
-    this.elementLinesRenderers.set('AbstractDocSect4Type', new DocS4TypeLinesRenderer(this))
-    this.elementLinesRenderers.set('AbstractDocSect5Type', new DocS5TypeLinesRenderer(this))
-    this.elementLinesRenderers.set('AbstractDocSect6Type', new DocS6TypeLinesRenderer(this))
-    this.elementLinesRenderers.set('AbstractDocTitleType', new DocTitleTypeLinesRenderer(this))
-    this.elementLinesRenderers.set('AbstractHighlightType', new HighlightTypeLinesRenderer(this))
-    this.elementLinesRenderers.set('AbstractIncType', new IncTypeLinesRenderer(this))
-    this.elementLinesRenderers.set('AbstractListingType', new ListingTypeLinesRenderer(this))
-    this.elementLinesRenderers.set('AbstractParamType', new ParamTypeLinesRenderer(this))
-    this.elementLinesRenderers.set('AbstractProgramListingType', new ListingTypeLinesRenderer(this))
-    this.elementLinesRenderers.set('AbstractRefType', new RefTypeLinesRenderer(this))
-    this.elementLinesRenderers.set('VariableListPairDataModel', new VariableListPairLinesRenderer(this))
-    // console.log(this.elementGenerators.size, 'element generators')
-
-    this.elementTextRenderers.set('AbstractDescriptionType', new DescriptionTypeTextRenderer(this))
-    this.elementTextRenderers.set('AbstractDocEmptyType', new DocEmptyTypeLinesRenderer(this))
-    this.elementTextRenderers.set('AbstractDocMarkupType', new DocMarkupTypeTextRenderer(this))
-    this.elementTextRenderers.set('AbstractDocParaType', new DocParaTypeTextRenderer(this))
-    this.elementTextRenderers.set('AbstractDocParamListType', new DocParamListTypeTextRenderer(this))
-    this.elementTextRenderers.set('AbstractDocRefTextType', new DocRefTextTypeTextRenderer(this))
-    this.elementTextRenderers.set('AbstractDocSimpleSectType', new DocSimpleSectTypeTextRenderer(this))
-    this.elementTextRenderers.set('AbstractDocURLLink', new DocURLLinkTextRenderer(this))
-    this.elementTextRenderers.set('AbstractDocVariableListType', new DocVariableListTypeTextRenderer(this))
-    this.elementTextRenderers.set('AbstractDocXRefSectType', new DocXRefSectTextRenderer(this))
-    this.elementTextRenderers.set('AbstractLinkedTextType', new LinkedTextTypeTextRenderer(this))
-    this.elementTextRenderers.set('AbstractRefTextType', new RefTextTypeTextRenderer(this))
-    this.elementTextRenderers.set('AbstractSpType', new SpTypeTextRenderer(this))
+    this.elementRenderers = new Renderers(this)
 
     this.createVieModelObjects()
     this.createCompoundsHierarchies()
@@ -428,36 +384,6 @@ export class Workspace {
 
   // --------------------------------------------------------------------------
 
-  private getElementLinesRenderer (element: Object): ElementLinesRendererBase | undefined {
-    let elementClass = element.constructor
-    while (elementClass.name !== '') {
-      // console.log(elementClass.name)
-      // console.log(this.elementGenerators)
-      const elementGenerator = this.elementLinesRenderers.get(elementClass.name)
-      if (elementGenerator !== undefined) {
-        return elementGenerator
-      }
-      elementClass = Object.getPrototypeOf(elementClass)
-    }
-
-    return undefined
-  }
-
-  private getElementTextRenderer (element: Object): ElementTextRendererBase | undefined {
-    let elementClass = element.constructor
-    while (elementClass.name !== '') {
-      // console.log(elementClass.name)
-      // console.log(this.elementGenerators)
-      const elementGenerator = this.elementTextRenderers.get(elementClass.name)
-      if (elementGenerator !== undefined) {
-        return elementGenerator
-      }
-      elementClass = Object.getPrototypeOf(elementClass)
-    }
-
-    return undefined
-  }
-
   renderElementsToMdxLines (elements: Object[] | undefined): string[] {
     if (!Array.isArray(elements)) {
       return []
@@ -489,12 +415,12 @@ export class Workspace {
       return lines
     }
 
-    const linesRenderer: ElementLinesRendererBase | undefined = this.getElementLinesRenderer(element)
+    const linesRenderer: ElementLinesRendererBase | undefined = this.elementRenderers.getElementLinesRenderer(element)
     if (linesRenderer !== undefined) {
       return linesRenderer.renderToMdxLines(element)
     }
 
-    const textRenderer: ElementTextRendererBase | undefined = this.getElementTextRenderer(element)
+    const textRenderer: ElementTextRendererBase | undefined = this.elementRenderers.getElementTextRenderer(element)
     if (textRenderer !== undefined) {
       return [textRenderer.renderToMdxText(element)]
     }
@@ -534,13 +460,13 @@ export class Workspace {
       return text
     }
 
-    const textRenderer: ElementTextRendererBase | undefined = this.getElementTextRenderer(element)
+    const textRenderer: ElementTextRendererBase | undefined = this.elementRenderers.getElementTextRenderer(element)
     if (textRenderer !== undefined) {
       return textRenderer.renderToMdxText(element)
     }
 
     // console.warn('trying element lines renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToMdxText')
-    const linesRenderer: ElementLinesRendererBase | undefined = this.getElementLinesRenderer(element)
+    const linesRenderer: ElementLinesRendererBase | undefined = this.elementRenderers.getElementLinesRenderer(element)
     if (linesRenderer !== undefined) {
       return linesRenderer.renderToMdxLines(element).join('\n')
     }
