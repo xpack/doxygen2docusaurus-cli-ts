@@ -17,7 +17,7 @@ import path from 'node:path'
 
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { FrontMatter } from '../types.js'
-import { BriefDescriptionDataModel, DetailedDescriptionDataModel, Sect1DataModel } from '../../data-model/compounds/descriptiontype-dm.js'
+import { Sect1DataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { CollectionBase } from './collection-base.js'
 import { AbstractRefType } from '../../data-model/compounds/reftype-dm.js'
 import { escapeMdx } from '../utils.js'
@@ -31,11 +31,17 @@ import { FilesAndFolders } from './files-and-folders-vm.js'
 // ----------------------------------------------------------------------------
 
 export abstract class CompoundBase {
-  // Reference to the data model object.
-  compoundDef: CompoundDefDataModel
-
   // The collection this compound is part of.
   collection: CollectionBase
+
+  kind: string = ''
+  compoundName: string = ''
+  id: string = ''
+
+  titleMdxText: string | undefined
+  locationFilePath: string | undefined
+
+  // --------------------------------------------------------------------------
 
   // Not used for classes, see Class.baseClasses.
   parent?: CompoundBase
@@ -64,33 +70,66 @@ export abstract class CompoundBase {
   detailedDescriptionMdxText: string | undefined
   hasSect1InDescription: boolean = false
 
+  // labelMdxText: string | undefined
+  locationMdxText: string | undefined
+
   // detailedDescriptionMdxLines: string[] | undefined
 
   sections: Section[] = []
 
+  _private: {
+    // Reference to the data model object.
+    _compoundDef?: CompoundDefDataModel | undefined
+  } = {}
+
   // --------------------------------------------------------------------------
 
   constructor (collection: CollectionBase, compoundDef: CompoundDefDataModel) {
-    this.compoundDef = compoundDef
+    this._private._compoundDef = compoundDef
 
     this.collection = collection
+
+    this.kind = compoundDef.kind
+    this.compoundName = compoundDef.compoundName
+    this.id = compoundDef.id
+
+    if (compoundDef.title !== undefined) {
+      this.titleMdxText = escapeMdx(compoundDef.title)
+    }
+
+    if (compoundDef?.location?.file !== undefined) {
+      this.locationFilePath = compoundDef?.location?.file
+    }
   }
 
   initializeLate (): void {
     const workspace = this.collection.workspace
 
-    if (this.compoundDef.briefDescription !== undefined) {
-      this.briefDescriptionMdxText = workspace.renderElementToMdxText(this.compoundDef.briefDescription)
+    const compoundDef = this._private._compoundDef
+    assert(compoundDef !== undefined)
+
+    if (compoundDef.briefDescription !== undefined) {
+      this.briefDescriptionMdxText = workspace.renderElementToMdxText(compoundDef.briefDescription)
     }
 
-    if (this.compoundDef.detailedDescription !== undefined) {
-      this.detailedDescriptionMdxText = workspace.renderElementToMdxText(this.compoundDef.detailedDescription)
+    if (compoundDef.detailedDescription !== undefined) {
+      this.detailedDescriptionMdxText = workspace.renderElementToMdxText(compoundDef.detailedDescription)
 
-      for (const child of this.compoundDef.detailedDescription.children) {
+      for (const child of compoundDef.detailedDescription.children) {
         if (child instanceof Sect1DataModel) {
           this.hasSect1InDescription = true
           break
         }
+      }
+    }
+
+    if (this.kind === 'page') {
+      // The location for pages is not usable.
+    } else if (this.kind === 'dir') {
+      // The location for folders is not used.
+    } else {
+      if (compoundDef.location !== undefined) {
+        this.locationMdxText = this.renderLocationToMdxText(compoundDef.location)
       }
     }
   }
@@ -188,7 +227,9 @@ export abstract class CompoundBase {
   }): string[] {
     const lines: string[] = []
 
-    const compoundDef = this.compoundDef
+    const compoundDef = this._private._compoundDef
+    assert(compoundDef !== undefined)
+
     for (const innerKey of Object.keys(compoundDef)) {
       if (innerKey.startsWith('inner')) {
         const suffix = innerKey.substring(5)
@@ -217,7 +258,7 @@ export abstract class CompoundBase {
           const innerDataObject = workspace.compoundsById.get(innerObject.refid)
           assert(innerDataObject !== undefined)
 
-          const innerCompoundDef = innerDataObject.compoundDef
+          const innerCompoundDef = innerDataObject._private._compoundDef
           assert(innerCompoundDef !== undefined)
 
           const permalink = workspace.getPagePermalink(innerObject.refid)
@@ -267,7 +308,8 @@ export abstract class CompoundBase {
   renderIncludesIndexToMdxLines (): string[] {
     const lines: string[] = []
 
-    const compoundDef = this.compoundDef
+    const compoundDef = this._private._compoundDef
+    assert(compoundDef !== undefined)
 
     const workspace = this.collection.workspace
 
@@ -311,9 +353,10 @@ export abstract class CompoundBase {
       // console.log(location.file)
       const files: FilesAndFolders = workspace.viewModel.get('files') as FilesAndFolders
       assert(files !== undefined)
+      // console.log('renderLocationToMdxText', this.kind, this.compoundName)
       const file = files.filesByPath.get(location.file)
       assert(file !== undefined)
-      const permalink = workspace.getPagePermalink(file.compoundDef.id)
+      const permalink = workspace.getPagePermalink(file.id)
 
       text += '\n'
       if (location.bodyfile !== undefined && location.file !== location.bodyfile) {
@@ -325,7 +368,7 @@ export abstract class CompoundBase {
 
         const definitionFile = files.filesByPath.get(location.bodyfile)
         assert(definitionFile !== undefined)
-        const definitionPermalink = workspace.getPagePermalink(definitionFile.compoundDef.id)
+        const definitionPermalink = workspace.getPagePermalink(definitionFile.id)
 
         text += ', definition at line '
         const lineStart = `l${location.bodystart?.toString().padStart(5, '0')}`
@@ -349,7 +392,9 @@ export abstract class CompoundBase {
   renderGeneratedFromToMdxLines (): string[] {
     const lines: string[] = []
 
-    const compoundDef: CompoundDefDataModel = this.compoundDef
+    const compoundDef: CompoundDefDataModel | undefined = this._private._compoundDef
+    assert(compoundDef !== undefined)
+
     const locationSet: Set<string> = new Set()
 
     const workspace = this.collection.workspace
@@ -385,7 +430,7 @@ export abstract class CompoundBase {
       for (const fileName of sortedFiles) {
         const file = files.filesByPath.get(fileName)
         assert(file !== undefined)
-        const permalink = workspace.getPagePermalink(file.compoundDef.id)
+        const permalink = workspace.getPagePermalink(file.id)
         lines.push(`<li><Link to="${permalink}">${path.basename(fileName) as string}</Link></li>`)
       }
       lines.push('</ul>')

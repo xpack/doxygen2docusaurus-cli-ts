@@ -25,7 +25,6 @@ import { DoxygenFileOptions } from './view-model/options.js'
 import { ElementLinesRendererBase, ElementTextRendererBase } from './elements-renderers/element-renderer-base.js'
 import { escapeMdx, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js'
 import { CompoundBase } from './view-model/compound-base-vm.js'
-import { CompoundDefDataModel } from '../data-model/compounds/compounddef-dm.js'
 import { Namespaces } from './view-model/namespaces-vm.js'
 import { FilesAndFolders } from './view-model/files-and-folders-vm.js'
 import { Pages } from './view-model/pages-vm.js'
@@ -74,7 +73,7 @@ export class Workspace {
   // TODO: change to member view model objects
   membersById: Map<String, Member> = new Map()
 
-  currentCompoundDef: CompoundDefDataModel | undefined
+  currentCompound: CompoundBase | undefined
 
   elementRenderers: Renderers
 
@@ -115,32 +114,36 @@ export class Workspace {
     this.createVieModelObjects()
     this.createCompoundsHierarchies()
 
-    this.initializeCompoundsLate()
     this.createMembersMap()
+
+    this.initializeCompoundsLate()
     this.initializeMemberLate()
+
     this.validatePermalinks()
+
+    // this.cleanups()
   }
 
   // --------------------------------------------------------------------------
 
   createVieModelObjects (): void {
     console.log('Creating view model objects...')
-    for (const compoundDef of this.dataModel.compoundDefs) {
+    for (const compoundDefDataModel of this.dataModel.compoundDefs) {
       let added = false
-      const collectionName = this.collectionNamesByKind[compoundDef.kind]
+      const collectionName = this.collectionNamesByKind[compoundDefDataModel.kind]
       if (collectionName !== undefined) {
         const collection = this.viewModel.get(collectionName)
         if (collection !== undefined) {
           // Create the compound object and add it to the parent collection.
-          const compound = collection.addChild(compoundDef)
+          const compound = collection.addChild(compoundDefDataModel)
           // Also add it to the global compounds map.
-          this.compoundsById.set(compoundDef.id, compound)
+          this.compoundsById.set(compoundDefDataModel.id, compound)
           added = true
         }
       }
       if (!added) {
-        // console.error(util.inspect(compoundDef, { compact: false, depth: 999 }))
-        console.error('compoundDef', compoundDef.kind, 'not implemented yet in', this.constructor.name)
+        // console.error(util.inspect(compoundDefDataModel, { compact: false, depth: 999 }))
+        console.error('compoundDefDataModel', compoundDefDataModel.kind, 'not implemented yet in', this.constructor.name)
       }
     }
     console.log(this.compoundsById.size, 'compound definitions')
@@ -161,17 +164,17 @@ export class Workspace {
 
   // Required since references can be resolved only after all objects are in.
   initializeCompoundsLate (): void {
-    console.log('Performing compound late initializations...')
+    console.log('Performing compounds late initializations...')
 
     for (const [collectionName, collection] of this.viewModel) {
       // console.log('createHierarchies:', collectionName)
-      for (const [compoundId, compound] of collection.compoundsById) {
-        this.currentCompoundDef = compound.compoundDef
-
+      for (const [compoundId, compound] of collection.collectionCompoundsById) {
+        this.currentCompound = compound
+        // console.log(compound.compoundName)
         compound.initializeLate()
       }
     }
-    this.currentCompoundDef = undefined
+    this.currentCompound = undefined
   }
 
   // --------------------------------------------------------------------------
@@ -179,7 +182,7 @@ export class Workspace {
   createMembersMap (): void {
     console.log('Creating member definitions map...')
     for (const [, compound] of this.compoundsById) {
-      // console.log(compoundDef.kind, compoundDef.compoundName, compoundDef.id)
+      // console.log(compound.kind, compound.compoundName, compound.id)
       if (compound.sections !== undefined) {
         for (const section of compound.sections) {
           if (section.members !== undefined) {
@@ -187,7 +190,7 @@ export class Workspace {
             for (const member of section.members) {
               if (member instanceof Member) {
                 const memberCompoundId = stripPermalinkAnchor(member.id)
-                if (memberCompoundId !== compound.compoundDef.id) {
+                if (memberCompoundId !== compound.id) {
                   // Skip member definitions from different compounds.
                   // Hopefully they are defined properly there.
                   // console.log('member from another compound', compoundId, 'skipped')
@@ -214,8 +217,8 @@ export class Workspace {
   initializeMemberLate (): void {
     console.log('Performing members late initializations...')
     for (const [, compound] of this.compoundsById) {
-      // console.log(compoundDef.kind, compoundDef.compoundName, compoundDef.id)
-      this.currentCompoundDef = compound.compoundDef
+      // console.log(compound.kind, compound.compoundName, compound.id)
+      this.currentCompound = compound
       if (compound.sections !== undefined) {
         for (const section of compound.sections) {
           if (section.members !== undefined) {
@@ -229,7 +232,7 @@ export class Workspace {
         }
       }
     }
-    this.currentCompoundDef = undefined
+    this.currentCompound = undefined
   }
 
   // --------------------------------------------------------------------------
@@ -246,12 +249,12 @@ export class Workspace {
     const pagePermalinksById: Map<string, string> = new Map()
     const pagePermalinksSet: Set<string> = new Set()
 
-    for (const compoundDef of this.dataModel.compoundDefs) {
-      // console.log(compoundDef.kind, compoundDef.compoundName)
+    for (const compoundDefDataModel of this.dataModel.compoundDefs) {
+      // console.log(compoundDefDataModel.kind, compoundDefDataModel.compoundName)
 
-      const compound: CompoundBase | undefined = this.compoundsById.get(compoundDef.id)
+      const compound: CompoundBase | undefined = this.compoundsById.get(compoundDefDataModel.id)
       if (compound === undefined) {
-        console.error('compoundDef', compoundDef.id, 'not yet processed in', this.constructor.name, 'validatePermalinks')
+        console.error('compoundDefDataModel', compoundDefDataModel.id, 'not yet processed in', this.constructor.name, 'validatePermalinks')
         continue
       }
 
@@ -259,14 +262,22 @@ export class Workspace {
       assert(permalink !== undefined)
       // console.log('permalink:', permalink)
 
-      if (pagePermalinksById.has(compoundDef.id)) {
-        console.error('Permalink clash for id', compoundDef.id)
+      if (pagePermalinksById.has(compoundDefDataModel.id)) {
+        console.error('Permalink clash for id', compoundDefDataModel.id)
       }
       if (pagePermalinksSet.has(permalink)) {
-        console.error('Permalink clash for permalink', permalink, 'id:', compoundDef.id)
+        console.error('Permalink clash for permalink', permalink, 'id:', compoundDefDataModel.id)
       }
-      pagePermalinksById.set(compoundDef.id, permalink)
+      pagePermalinksById.set(compoundDefDataModel.id, permalink)
       pagePermalinksSet.add(permalink)
+    }
+  }
+
+  // --------------------------------------------------------------------------
+
+  cleanups (): void {
+    for (const [, compound] of this.compoundsById) {
+      compound._private._compoundDef = undefined
     }
   }
 
@@ -492,7 +503,7 @@ export class Workspace {
     } else if (kindref === 'member') {
       const compoundId = stripPermalinkAnchor(refid)
       // console.log('compoundId:', compoundId)
-      if (compoundId === this.currentCompoundDef?.id) {
+      if (compoundId === this.currentCompound?.id) {
         permalink = `#${getPermalinkAnchor(refid)}`
       } else {
         permalink = `${this.getPagePermalink(compoundId)}/#${getPermalinkAnchor(refid)}`
@@ -523,7 +534,7 @@ export class Workspace {
     const pagePart = id.replace(/_1.*/, '')
     const anchorPart = id.replace(/.*_1/, '')
     // console.log('2', part1, part2)
-    if (this.currentCompoundDef !== undefined && pagePart === this.currentCompoundDef.id) {
+    if (this.currentCompound !== undefined && pagePart === this.currentCompound.id) {
       return `#${anchorPart}`
     } else {
       return `/${this.pluginOptions.outputFolderPath}/pages/${pagePart}/#${anchorPart}`

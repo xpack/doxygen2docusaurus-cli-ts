@@ -159,8 +159,7 @@ export class DocusaurusGenerator {
     const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
 
     for (const [compoundId, compound] of this.workspace.compoundsById) {
-      const compoundDef = compound.compoundDef
-      if (compound instanceof Page && compoundDef.id === 'indexpage') {
+      if (compound instanceof Page && compound.id === 'indexpage') {
         // This is the @mainpage. We diverge from Doxygen and generate
         // the API main page differently, with the list of topics and
         // this page detailed description. Therefore it is not generated
@@ -168,12 +167,12 @@ export class DocusaurusGenerator {
         continue
       }
 
-      this.workspace.currentCompoundDef = compoundDef
+      this.workspace.currentCompound = compound
 
       const permalink: string = compound.relativePermalink as string
       assert(permalink !== undefined)
 
-      console.log(`${compoundDef.kind as string}: ${compoundDef.compoundName.replaceAll(/[ ]*/g, '') as string}`, '->', `${outputFolderPath}/${permalink}...`)
+      console.log(`${compound.kind as string}: ${compound.compoundName.replaceAll(/[ ]*/g, '') as string}`, '->', `${outputFolderPath}/${permalink}...`)
 
       const docusaurusId: string = compound.docusaurusId
       assert(docusaurusId !== undefined)
@@ -183,11 +182,11 @@ export class DocusaurusGenerator {
       const filePath = `${outputFolderPath}/${fileName}`
 
       const frontMatter: FrontMatter = {
-        // title: `${dataObject.pageTitle ?? compoundDef.compoundName}`,
+        // title: `${dataObject.pageTitle ?? compound.compoundName}`,
         slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
         // description: '...', // TODO
         custom_edit_url: null,
-        keywords: ['doxygen', 'reference', `${compoundDef.kind as string}`]
+        keywords: ['doxygen', 'reference', `${compound.kind as string}`]
       }
 
       const bodyLines = compound.renderToMdxLines(frontMatter)
@@ -199,7 +198,7 @@ export class DocusaurusGenerator {
         title: compound.pageTitle
       })
 
-      this.workspace.currentCompoundDef = undefined
+      this.workspace.currentCompound = undefined
     }
   }
 
@@ -231,13 +230,13 @@ export class DocusaurusGenerator {
         permalink
       })
 
-      if (compound.compoundDef.kind === 'file') {
+      if (compound.kind === 'file') {
         const filePath = `static/${redirectsOutputFolderPath}/${compoundId}_source.html`
         await this.generateRedirectFile({
           filePath,
           permalink
         })
-      } else if (compound.compoundDef.kind === 'class' || compound.compoundDef.kind === 'struct') {
+      } else if (compound.kind === 'class' || compound.kind === 'struct') {
         const filePath = `static/${redirectsOutputFolderPath}/${compoundId}-members.html`
         await this.generateRedirectFile({
           filePath,

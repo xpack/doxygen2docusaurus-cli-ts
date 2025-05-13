@@ -19,7 +19,6 @@ import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.
 import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { CollectionBase } from './collection-base.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
-import { Workspace } from '../workspace.js'
 import { FrontMatter } from '../types.js'
 
 // ----------------------------------------------------------------------------
@@ -40,9 +39,9 @@ export class Pages extends CollectionBase {
 
   override addChild (compoundDef: CompoundDefDataModel): CompoundBase {
     const page = new Page(this, compoundDef)
-    this.compoundsById.set(compoundDef.id, page)
+    this.collectionCompoundsById.set(compoundDef.id, page)
 
-    if (page.compoundDef.id === 'indexpage') {
+    if (page.id === 'indexpage') {
       this.mainPage = page
     }
 
@@ -68,7 +67,7 @@ export class Pages extends CollectionBase {
       items: []
     }
 
-    for (const [pageId, page] of this.compoundsById) {
+    for (const [pageId, page] of this.collectionCompoundsById) {
       const label: string = page.sidebarLabel
       const id: string = `${this.workspace.permalinkBaseUrl}${page.docusaurusId as string}`
       const docItem: SidebarDocItem = {
@@ -103,13 +102,13 @@ export class Page extends CompoundBase {
   constructor (collection: Pages, compoundDef: CompoundDefDataModel) {
     super(collection, compoundDef)
 
-    this.sidebarLabel = this.compoundDef.title ?? '?'
+    this.sidebarLabel = compoundDef.title ?? '?'
 
     this.indexName = this.sidebarLabel
 
     this.pageTitle = `The ${this.sidebarLabel}`
 
-    const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundDef.compoundName)
+    const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundName)
     this.relativePermalink = `pages/${sanitizedPath}`
 
     this.docusaurusId = `pages/${flattenPath(sanitizedPath)}`
@@ -117,7 +116,7 @@ export class Page extends CompoundBase {
     // SectionDefs for pages?
     assert(compoundDef.sectionDefs === undefined)
 
-    // console.log('1', this.compoundDef.compoundName)
+    // console.log('1', this.compoundName)
     // console.log('2', this.relativePermalink)
     // console.log('3', this.docusaurusId)
     // console.log('4', this.sidebarLabel)
@@ -129,8 +128,6 @@ export class Page extends CompoundBase {
 
   override renderToMdxLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
-
-    const compoundDef = this.compoundDef
 
     lines.push(this.renderBriefDescriptionToMdxText({
       morePermalink: '#details'

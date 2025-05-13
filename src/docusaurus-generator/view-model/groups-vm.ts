@@ -16,9 +16,8 @@ import assert from 'node:assert'
 
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
-import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
+import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { CollectionBase } from './collection-base.js'
-import { Workspace } from '../workspace.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { FrontMatter } from '../types.js'
 import { Section } from './members-vm.js'
@@ -41,7 +40,7 @@ export class Groups extends CollectionBase {
 
   override addChild (compoundDef: CompoundDefDataModel): CompoundBase {
     const group = new Group(this, compoundDef)
-    this.compoundsById.set(compoundDef.id, group)
+    this.collectionCompoundsById.set(compoundDef.id, group)
 
     return group
   }
@@ -50,9 +49,9 @@ export class Groups extends CollectionBase {
 
   override createCompoundsHierarchies (): void {
     // Recreate groups hierarchies.
-    for (const [groupId, group] of this.compoundsById) {
+    for (const [groupId, group] of this.collectionCompoundsById) {
       for (const childGroupId of group.childrenIds) {
-        const childGroup = this.compoundsById.get(childGroupId)
+        const childGroup = this.collectionCompoundsById.get(childGroupId)
         assert(childGroup !== undefined)
         // console.log('groupId', childGroupId, 'has parent', groupId)
         childGroup.parent = group
@@ -61,7 +60,7 @@ export class Groups extends CollectionBase {
     }
 
     // Create the top level groups list.
-    for (const [groupId, group] of this.compoundsById) {
+    for (const [groupId, group] of this.collectionCompoundsById) {
       if (group.parent === undefined) {
         // console.log('topGroupId:', groupId)
         this.topLevelGroups.push(group)
@@ -177,10 +176,9 @@ export class Groups extends CollectionBase {
   private generateIndexMdxFileRecursively (group: Group, depth: number): string[] {
     const lines: string[] = []
 
-    const compoundDef = group.compoundDef
-    const label = escapeMdx(compoundDef.title?.trim() ?? '?')
+    const label = group.titleMdxText ?? '?'
 
-    const permalink = this.workspace.getPagePermalink(compoundDef.id)
+    const permalink = this.workspace.getPagePermalink(group.id)
     assert(permalink !== undefined && permalink.length > 1)
 
     lines.push('')
@@ -189,9 +187,8 @@ export class Groups extends CollectionBase {
     lines.push(`  itemLink="${permalink}"`)
     lines.push(`  depth="${depth}">`)
 
-    const briefDescription: string = this.workspace.renderElementToMdxText(compoundDef.briefDescription)
-    if (briefDescription.length > 0) {
-      lines.push(briefDescription.replace(/[.]$/, ''))
+    if (group.briefDescriptionMdxText !== undefined && group.briefDescriptionMdxText.length > 0) {
+      lines.push(group.briefDescriptionMdxText.replace(/[.]$/, ''))
     }
 
     lines.push('</TreeTableRow>')
@@ -222,13 +219,13 @@ export class Group extends CompoundBase {
     }
 
     // The group title must be short.
-    this.sidebarLabel = this.compoundDef.title ?? '?'
+    this.sidebarLabel = compoundDef.title ?? '?'
 
     this.indexName = this.sidebarLabel
 
     this.pageTitle = `The ${this.sidebarLabel} Reference`
 
-    const sanitizedPath = sanitizeHierarchicalPath(this.compoundDef.compoundName)
+    const sanitizedPath = sanitizeHierarchicalPath(this.compoundName)
     this.relativePermalink = `groups/${sanitizedPath}`
 
     this.docusaurusId = `groups/${flattenPath(sanitizedPath)}`
@@ -241,7 +238,7 @@ export class Group extends CompoundBase {
       }
     }
 
-    // console.log('1', this.compoundDef.compoundName, this.compoundDef.title)
+    // console.log('1', this.compoundName, this.titleMdxText)
     // console.log('2', this.relativePermalink)
     // console.log('3', this.docusaurusId)
     // console.log('4', this.sidebarLabel)
@@ -254,9 +251,7 @@ export class Group extends CompoundBase {
   override renderToMdxLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    const compoundDef = this.compoundDef
-
-    const descriptionTodo = `@defgroup ${compoundDef.compoundName}`
+    const descriptionTodo = `@defgroup ${this.compoundName}`
 
     lines.push(this.renderBriefDescriptionToMdxText({
       todo: descriptionTodo,

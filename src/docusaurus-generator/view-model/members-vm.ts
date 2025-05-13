@@ -19,6 +19,7 @@ import { MemberDataModel } from '../../data-model/compounds/membertype-dm.js'
 import { SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-dm.js'
 import { CompoundBase } from './compound-base-vm.js'
 import { escapeMdx, getPermalinkAnchor } from '../utils.js'
+import { Class } from './classes-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -284,6 +285,7 @@ export class Member extends MemberBase {
 
     const memberDef = this._private._memberDef
     assert(memberDef !== undefined)
+
     const workspace = this.section.compound.collection.workspace
 
     if (memberDef.briefDescription !== undefined) {
@@ -355,9 +357,8 @@ export class Member extends MemberBase {
     }
     this.labels = labels
 
-    const compoundDef = this.section.compound.compoundDef
     const type = this.typeMdxText ?? ''
-    const templateParamList = memberDef.templateparamlist ?? compoundDef.templateParamList
+    const templateParamList = memberDef.templateparamlist ?? (this.section.compound as Class).templateParamList
 
     if ((this.section.compound.isTemplate(templateParamList) &&
       (type.includes('decltype(') ||

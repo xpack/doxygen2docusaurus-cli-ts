@@ -18,7 +18,6 @@ import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
-import { Workspace } from '../workspace.js'
 import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { FrontMatter } from '../types.js'
 import { Section } from './members-vm.js'
@@ -41,7 +40,7 @@ export class Namespaces extends CollectionBase {
 
   override addChild (compoundDef: CompoundDefDataModel): CompoundBase {
     const namespace = new Namespace(this, compoundDef)
-    this.compoundsById.set(compoundDef.id, namespace)
+    this.collectionCompoundsById.set(compoundDef.id, namespace)
 
     return namespace
   }
@@ -50,9 +49,9 @@ export class Namespaces extends CollectionBase {
 
   override createCompoundsHierarchies (): void {
     // Recreate namespaces hierarchies.
-    for (const [namespaceId, namespace] of this.compoundsById) {
+    for (const [namespaceId, namespace] of this.collectionCompoundsById) {
       for (const childNamespaceId of namespace.childrenIds) {
-        const childNamespace = this.compoundsById.get(childNamespaceId)
+        const childNamespace = this.collectionCompoundsById.get(childNamespaceId)
         assert(childNamespace !== undefined)
         // console.log('namespaceId', childNamespaceId,'has parent', namespaceId)
         childNamespace.parent = namespace
@@ -61,7 +60,7 @@ export class Namespaces extends CollectionBase {
     }
 
     // Create the top level namespace list.
-    for (const [namespaceId, namespace] of this.compoundsById) {
+    for (const [namespaceId, namespace] of this.collectionCompoundsById) {
       if (namespace.parent === undefined) {
         this.topLevelNamespaces.push(namespace)
       }
@@ -171,11 +170,9 @@ export class Namespaces extends CollectionBase {
 
     const lines: string[] = []
 
-    const compoundDef = namespace.compoundDef
-
     const label = escapeMdx(namespace.indexName)
 
-    const permalink = this.workspace.getPagePermalink(compoundDef.id)
+    const permalink = this.workspace.getPagePermalink(namespace.id)
     assert(permalink !== undefined && permalink.length > 1)
 
     lines.push('')
@@ -185,9 +182,8 @@ export class Namespaces extends CollectionBase {
     lines.push(`  itemLink="${permalink}"`)
     lines.push(`  depth="${depth}">`)
 
-    const briefDescription: string = this.workspace.renderElementToMdxText(compoundDef.briefDescription)
-    if (briefDescription.length > 0) {
-      lines.push(briefDescription.replace(/[.]$/, ''))
+    if (namespace.briefDescriptionMdxText !== undefined && namespace.briefDescriptionMdxText.length > 0) {
+      lines.push(namespace.briefDescriptionMdxText.replace(/[.]$/, ''))
     }
 
     lines.push('</TreeTableRow>')
@@ -219,13 +215,13 @@ export class Namespace extends CompoundBase {
 
     // The compoundName is the fully qualified namespace name.
     // Keep only the last name.
-    this.sidebarLabel = this.compoundDef.compoundName.replace(/.*::/, '')
+    this.sidebarLabel = compoundDef.compoundName.replace(/.*::/, '')
 
     this.indexName = this.sidebarLabel
 
     this.pageTitle = `The \`${this.sidebarLabel}\` Namespace Reference`
 
-    const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundDef.compoundName.replaceAll('::', '/'))
+    const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundName.replaceAll('::', '/'))
     this.relativePermalink = `namespaces/${sanitizedPath}`
 
     this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
@@ -238,7 +234,7 @@ export class Namespace extends CompoundBase {
       }
     }
 
-    // console.log('1', this.compoundDef.compoundName)
+    // console.log('1', this.compoundName)
     // console.log('2', this.relativePermalink)
     // console.log('3', this.docusaurusId)
     // console.log('4', this.sidebarLabel)
@@ -251,8 +247,7 @@ export class Namespace extends CompoundBase {
   override renderToMdxLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    const compoundDef = this.compoundDef
-    const descriptionTodo = `@namespace ${compoundDef.compoundName}`
+    const descriptionTodo = `@namespace ${this.compoundName}`
 
     lines.push(this.renderBriefDescriptionToMdxText({
       todo: descriptionTodo,
@@ -263,7 +258,7 @@ export class Namespace extends CompoundBase {
     lines.push('## Fully Qualified Name')
     lines.push('')
     // Intentionally on two lines.
-    lines.push(`<CodeBlock>${this.compoundDef.compoundName}</CodeBlock>`)
+    lines.push(`<CodeBlock>${this.compoundName}</CodeBlock>`)
 
     lines.push(...this.renderInnerIndicesToMdxLines({
       suffixes: ['Namespaces', 'Classes']

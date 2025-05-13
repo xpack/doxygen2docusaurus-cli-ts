@@ -17,12 +17,13 @@ import assert from 'node:assert'
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
-import { Workspace } from '../workspace.js'
 import { escapeMdx, flattenPath, sanitizeHierarchicalPath, sanitizeName } from '../utils.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { FrontMatter } from '../types.js'
 import { SectionDefCloneDataModel, SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-dm.js'
 import { Section } from './members-vm.js'
+import { BaseCompoundRefDataModel, DerivedCompoundRefDataModel } from '../../data-model/compounds/compoundreftype-dm.js'
+import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -42,7 +43,7 @@ export class Classes extends CollectionBase {
 
   override addChild (compoundDef: CompoundDefDataModel): CompoundBase {
     const classs = new Class(this, compoundDef)
-    this.compoundsById.set(compoundDef.id, classs)
+    this.collectionCompoundsById.set(compoundDef.id, classs)
 
     return classs
   }
@@ -51,10 +52,10 @@ export class Classes extends CollectionBase {
 
   override createCompoundsHierarchies (): void {
     // Recreate classes hierarchies.
-    for (const [classId, base] of this.compoundsById) {
+    for (const [classId, base] of this.collectionCompoundsById) {
       const classs = base as Class
       for (const baseClassId of classs.baseClassIds) {
-        const baseClass = this.compoundsById.get(baseClassId) as Class
+        const baseClass = this.collectionCompoundsById.get(baseClassId) as Class
         assert(baseClass !== undefined)
         // console.log('baseClassId', baseClassId, 'has child', classId)
         baseClass.children.push(classs)
@@ -63,7 +64,7 @@ export class Classes extends CollectionBase {
       }
     }
 
-    for (const [classId, base] of this.compoundsById) {
+    for (const [classId, base] of this.collectionCompoundsById) {
       const classs = base as Class
       if (classs.baseClassIds.length === 0) {
         // console.log('topLevelClassId:', classId)
@@ -175,9 +176,7 @@ export class Classes extends CollectionBase {
 
     const lines: string[] = []
 
-    const compoundDef = classs.compoundDef
-
-    const permalink = this.workspace.getPagePermalink(compoundDef.id)
+    const permalink = this.workspace.getPagePermalink(classs.id)
     assert(permalink !== undefined && permalink.length > 1)
 
     const iconLetters: Record<string, string> = {
@@ -185,9 +184,9 @@ export class Classes extends CollectionBase {
       struct: 'S'
     }
 
-    let iconLetter: string | undefined = iconLetters[compoundDef.kind]
+    let iconLetter: string | undefined = iconLetters[classs.kind]
     if (iconLetter === undefined) {
-      console.error('Icon kind', compoundDef.kind, 'not supported yet in', this.constructor.name, '(using ?)')
+      console.error('Icon kind', classs.kind, 'not supported yet in', this.constructor.name, '(using ?)')
       iconLetter = '?'
     }
 
@@ -200,9 +199,8 @@ export class Classes extends CollectionBase {
     lines.push(`  itemLink="${permalink}"`)
     lines.push(`  depth = "${depth}" >`)
 
-    const briefDescription: string = this.workspace.renderElementToMdxText(compoundDef.briefDescription)
-    if (briefDescription.length > 0) {
-      lines.push(briefDescription.replace(/[.]$/, ''))
+    if (classs.briefDescriptionMdxText !== undefined && classs.briefDescriptionMdxText.length > 0) {
+      lines.push(classs.briefDescriptionMdxText.replace(/[.]$/, ''))
     }
 
     lines.push('</TreeTableRow>')
@@ -228,6 +226,14 @@ export class Class extends CompoundBase {
   unqualifiedName: string = '?'
   templateParameters: string = ''
 
+  classFullNameMdxText: string = '?'
+  templateMdxText: string | undefined
+
+  // Shortcut, use data model objects.
+  baseCompoundRefs: BaseCompoundRefDataModel[] | undefined
+  derivedCompoundRefs: DerivedCompoundRefDataModel[] | undefined
+
+  templateParamList: TemplateParamListDataModel | undefined
   // --------------------------------------------------------------------------
 
   constructor (collection: Classes, compoundDef: CompoundDefDataModel) {
@@ -305,9 +311,31 @@ export class Class extends CompoundBase {
     // console.log()
   }
 
-  // override initializeLate(): void {
-  //   super.initializeLate()
-  // }
+  override initializeLate (): void {
+    super.initializeLate()
+
+    const compoundDef = this._private._compoundDef
+    assert(compoundDef !== undefined)
+
+    let classFullName = this.fullyQualifiedName
+    if (this.templateParameters.length > 0) {
+      classFullName += escapeMdx(this.templateParameters)
+    } else {
+      classFullName += escapeMdx(this.renderTemplateParameterNamesToMdxText(compoundDef.templateParamList))
+    }
+    this.classFullNameMdxText = classFullName
+
+    if (compoundDef.templateParamList?.params !== undefined) {
+      this.templateMdxText = escapeMdx(this.renderTemplateParametersToMdxText({
+        templateParamList: compoundDef.templateParamList,
+        withDefaults: true
+      }))
+    }
+
+    this.baseCompoundRefs = compoundDef.baseCompoundRefs
+    this.derivedCompoundRefs = compoundDef.derivedCompoundRefs
+    this.templateParamList = compoundDef.templateParamList
+  }
 
   private splitSections (classs: Class, sectionDef: SectionDefDataModel): Section[] {
     const sections: Section[] = []
@@ -344,30 +372,6 @@ export class Class extends CompoundBase {
       }
     }
 
-    // if (sectionDef.members !== undefined) {
-    //   constructorSectionsDef.members = undefined
-    //   destructorSectionsDef.members = undefined
-    //   functionsSectionsDef.members = undefined
-
-    //   for (const member of sectionDef.members) {
-    //     // console.log(util.inspect(memberDef, { compact: false, depth: 999 }))
-    //     if (member.name === classs.unqualifiedName) {
-    //       if (constructorSectionsDef.members === undefined) {
-    //         constructorSectionsDef.members = []
-    //       }
-    //       constructorSectionsDef.members.push(member)
-    //     } else if (member.name.replace('~', '') === classs.unqualifiedName) {
-    //       assert(destructorSectionsDef.members === undefined)
-    //       destructorSectionsDef.members = [member]
-    //     } else {
-    //       if (functionsSectionsDef.members === undefined) {
-    //         functionsSectionsDef.members = []
-    //       }
-    //       functionsSectionsDef.members.push(member)
-    //     }
-    //   }
-    // }
-
     if (constructorSectionsDef.hasMembers()) {
       sections.push(new Section(this, constructorSectionsDef))
     }
@@ -390,9 +394,7 @@ export class Class extends CompoundBase {
 
     frontMatter.toc_max_heading_level = 3
 
-    const compoundDef = this.compoundDef
-    const kind = compoundDef.kind
-    const descriptionTodo = `@${kind} ${compoundDef.compoundName}`
+    const descriptionTodo = `@${this.kind} ${this.compoundName}`
 
     lines.push(this.renderBriefDescriptionToMdxText({
       todo: descriptionTodo,
@@ -402,37 +404,27 @@ export class Class extends CompoundBase {
     lines.push('')
     lines.push('## Declaration')
 
-    const classs = (this.collection as Classes).compoundsById.get(compoundDef.id) as Class
+    const classs = (this.collection as Classes).collectionCompoundsById.get(this.id) as Class
     assert(classs !== undefined)
 
-    let classFullName = classs.fullyQualifiedName
-    if (classs.templateParameters.length > 0) {
-      classFullName += escapeMdx(classs.templateParameters)
-    } else {
-      classFullName += escapeMdx(this.renderTemplateParameterNamesToMdxText(compoundDef.templateParamList))
-    }
+    // const classFullName = this.classFullNameMdxText
 
-    if (compoundDef.templateParamList?.params !== undefined) {
-      const template = escapeMdx(this.renderTemplateParametersToMdxText({
-        templateParamList: compoundDef.templateParamList,
-        withDefaults: true
-      }))
-
+    if (this.templateMdxText !== undefined) {
       lines.push('')
       // Intentionally on two lines.
-      lines.push(`<CodeBlock>template ${template}`)
-      lines.push(`${kind} ${classFullName};</CodeBlock>`)
+      lines.push(`<CodeBlock>template ${this.templateMdxText}`)
+      lines.push(`${this.kind} ${this.classFullNameMdxText};</CodeBlock>`)
     } else {
       lines.push('')
-      lines.push(`<CodeBlock>${kind} ${classFullName};</CodeBlock>`)
+      lines.push(`<CodeBlock>${this.kind} ${this.classFullNameMdxText};</CodeBlock>`)
     }
 
     lines.push(...this.renderIncludesIndexToMdxLines())
 
-    if (kind === 'class') {
-      if (compoundDef.baseCompoundRefs !== undefined) {
+    if (this.kind === 'class') {
+      if (this.baseCompoundRefs !== undefined) {
         lines.push('')
-        if (compoundDef.baseCompoundRefs.length > 1) {
+        if (this.baseCompoundRefs.length > 1) {
           lines.push('## Base classes')
         } else {
           lines.push('## Base class')
@@ -441,11 +433,11 @@ export class Class extends CompoundBase {
         lines.push('<MembersIndex>')
         lines.push('')
 
-        for (const baseCompoundRef of compoundDef.baseCompoundRefs) {
+        for (const baseCompoundRef of this.baseCompoundRefs) {
           // console.log(util.inspect(baseCompoundRef, { compact: false, depth: 999 }))
 
           if (baseCompoundRef.refid !== undefined) {
-            const baseClass = (this.collection as Classes).compoundsById.get(baseCompoundRef.refid) as Class
+            const baseClass = (this.collection as Classes).collectionCompoundsById.get(baseCompoundRef.refid) as Class
             assert(baseClass !== undefined)
 
             lines.push(...baseClass.renderIndexToMdxLines())
@@ -453,7 +445,7 @@ export class Class extends CompoundBase {
             const itemName = escapeMdx(baseCompoundRef.text)
             lines.push('')
             lines.push('<MembersIndexItem')
-            lines.push(`  type="${kind}"`)
+            lines.push(`  type="${this.kind}"`)
             lines.push(`  name={<>${itemName}</>}>`)
             lines.push('</MembersIndexItem>')
           }
@@ -474,7 +466,7 @@ export class Class extends CompoundBase {
         lines.push('')
 
         for (const baseClassId of classs.baseClassIds) {
-          const baseClass = (this.collection as Classes).compoundsById.get(baseClassId) as Class
+          const baseClass = (this.collection as Classes).collectionCompoundsById.get(baseClassId) as Class
           assert(baseClass !== undefined)
           // console.log(util.inspect(derivedCompoundDef, { compact: false, depth: 999 }))
 
@@ -485,7 +477,7 @@ export class Class extends CompoundBase {
         lines.push('</MembersIndex>')
       }
 
-      if (compoundDef.derivedCompoundRefs !== undefined) {
+      if (this.derivedCompoundRefs !== undefined) {
         lines.push('')
         lines.push('## Derived Classes')
 
@@ -493,11 +485,11 @@ export class Class extends CompoundBase {
         lines.push('<MembersIndex>')
         lines.push('')
 
-        for (const derivedCompoundRef of compoundDef.derivedCompoundRefs) {
+        for (const derivedCompoundRef of this.derivedCompoundRefs) {
           // console.log(util.inspect(derivedCompoundRef, { compact: false, depth: 999 }))
 
           if (derivedCompoundRef.refid !== undefined) {
-            const derivedClass = (this.collection as Classes).compoundsById.get(derivedCompoundRef.refid) as Class
+            const derivedClass = (this.collection as Classes).collectionCompoundsById.get(derivedCompoundRef.refid) as Class
             assert(derivedClass !== undefined)
 
             lines.push(...derivedClass.renderIndexToMdxLines())
@@ -505,7 +497,7 @@ export class Class extends CompoundBase {
             const itemName = escapeMdx(derivedCompoundRef.text.trim())
             lines.push('')
             lines.push('<MembersIndexItem')
-            lines.push(`  type="${kind}"`)
+            lines.push(`  type="${this.kind}"`)
             lines.push(`  name={<>${itemName}</>}>`)
             lines.push('</MembersIndexItem>')
           }
@@ -522,7 +514,7 @@ export class Class extends CompoundBase {
         lines.push('')
 
         for (const derivedClassId of classs.childrenIds) {
-          const derivedClass = (this.collection as Classes).compoundsById.get(derivedClassId) as Class
+          const derivedClass = (this.collection as Classes).collectionCompoundsById.get(derivedClassId) as Class
           assert(derivedClass !== undefined)
           // console.log(util.inspect(derivedCompoundDef, { compact: false, depth: 999 }))
 
@@ -544,7 +536,9 @@ export class Class extends CompoundBase {
       todo: descriptionTodo
     }))
 
-    lines.push(this.renderLocationToMdxText(compoundDef.location))
+    if (this.locationMdxText !== undefined) {
+      lines.push(this.locationMdxText)
+    }
 
     lines.push(...this.renderSectionsToMdxLines())
 
@@ -554,16 +548,14 @@ export class Class extends CompoundBase {
   }
 
   renderIndexToMdxLines (): string[] {
-    // console.log(util.inspect(compoundDef, { compact: false, depth: 999 }))
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
     const lines: string[] = []
-
-    const compoundDef = this.compoundDef
 
     const workspace = this.collection.workspace
 
-    const permalink = workspace.getPagePermalink(compoundDef.id)
+    const permalink = workspace.getPagePermalink(this.id)
 
-    const itemType = compoundDef.kind
+    const itemType = this.kind
     const itemName = `<Link to="${permalink}">${escapeMdx(this.indexName)}</Link>`
 
     lines.push('<MembersIndexItem')
