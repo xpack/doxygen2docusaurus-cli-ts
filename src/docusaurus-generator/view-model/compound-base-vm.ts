@@ -108,11 +108,11 @@ export abstract class CompoundBase {
 
     // console.log(this)
 
-    if (briefDescriptionMdxText === undefined) {
+    if (briefDescriptionMdxText === undefined && todo.length === 0) {
       return ''
     }
 
-    if (briefDescriptionMdxText.length > 0) {
+    if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
       text += briefDescriptionMdxText
       if (morePermalink !== undefined && morePermalink.length > 0) {
         text += ` <Link to="${morePermalink}">`
