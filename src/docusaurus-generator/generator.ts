@@ -20,11 +20,8 @@ import { Workspace } from './workspace.js'
 import { DataModel } from '../data-model/types.js'
 import { PluginOptions } from '../plugin/options.js'
 import { MenuDropdown, SidebarItem } from '../plugin/types.js'
-import { CompoundBase } from './view-model/compound-base-vm.js'
 import { Page } from './view-model/pages-vm.js'
 import { FrontMatter } from './types.js'
-import { stripPermalinkAnchor } from './utils.js'
-import { Member } from './view-model/members-vm.js'
 
 export class DocusaurusGenerator {
   workspace: Workspace
@@ -40,7 +37,6 @@ export class DocusaurusGenerator {
     pluginOptions: PluginOptions
     siteConfig: any
   }) {
-    console.log('DocusaurusGenerator.constructor()')
     this.workspace = new Workspace({
       dataModel,
       pluginOptions,
@@ -51,139 +47,16 @@ export class DocusaurusGenerator {
   // --------------------------------------------------------------------------
 
   async generate (): Promise<void> {
-    // console.log('DocusaurusGenerator2.generate()')
-
-    // The compoundsById is created in the workspace as the objects are created.
-    this.createCompoundsHierarchies()
-    this.initializeCompoundsLate()
-    this.createMembersMap()
-    this.initializeMemberLate()
-    this.validatePermalinks()
+    console.log()
 
     await this.prepareOutputFolder()
-    await this.generateSidebar()
-    await this.generateMenuDropdown()
+    await this.generateSidebarFile()
+    await this.generateMenuDropdownFile()
+    console.log()
     await this.generatePages()
+    console.log()
     await this.generateIndexDotMdxFiles()
-    await this.generateRedirects()
-  }
-
-  // --------------------------------------------------------------------------
-
-  createCompoundsHierarchies (): void {
-    console.log('Creating objects hierarchies...')
-
-    for (const [collectionName, collection] of this.workspace.viewModel) {
-      // console.log('createHierarchies:', collectionName)
-      collection.createCompoundsHierarchies()
-    }
-  }
-
-  initializeCompoundsLate (): void {
-    console.log('Perform compound late initializations...')
-
-    for (const [collectionName, collection] of this.workspace.viewModel) {
-      // console.log('createHierarchies:', collectionName)
-      for (const [compoundId, compound] of collection.compoundsById) {
-        this.workspace.currentCompoundDef = compound.compoundDef
-
-        compound.initializeLate()
-      }
-    }
-    this.workspace.currentCompoundDef = undefined
-  }
-
-  // --------------------------------------------------------------------------
-
-  createMembersMap (): void {
-    for (const [, compound] of this.workspace.compoundsById) {
-      // console.log(compoundDef.kind, compoundDef.compoundName, compoundDef.id)
-      if (compound.sections !== undefined) {
-        for (const section of compound.sections) {
-          if (section.members !== undefined) {
-            // console.log('  ', sectionDef.kind)
-            for (const member of section.members) {
-              if (member instanceof Member) {
-                const memberCompoundId = stripPermalinkAnchor(member.id)
-                if (memberCompoundId !== compound.compoundDef.id) {
-                  // Skip member definitions from different compounds.
-                  // Hopefully they are defined properly there.
-                  // console.log('member from another compound', compoundId, 'skipped')
-                } else {
-                  // console.log('    ', memberDef.kind, memberDef.id)
-                  if (this.workspace.membersById.has(member.id)) {
-                    console.warn('member already in map', member.id, 'in', this.workspace.membersById.get(member.id)?.name)
-                  } else {
-                    this.workspace.membersById.set(member.id, member)
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    console.log(this.workspace.membersById.size, 'member definitions')
-  }
-
-  // --------------------------------------------------------------------------
-
-  initializeMemberLate (): void {
-    for (const [, compound] of this.workspace.compoundsById) {
-      // console.log(compoundDef.kind, compoundDef.compoundName, compoundDef.id)
-      this.workspace.currentCompoundDef = compound.compoundDef
-      if (compound.sections !== undefined) {
-        for (const section of compound.sections) {
-          if (section.members !== undefined) {
-            // console.log('  ', sectionDef.kind)
-            for (const member of section.members) {
-              if (member instanceof Member) {
-                member.initializeLate()
-              }
-            }
-          }
-        }
-      }
-    }
-    this.workspace.currentCompoundDef = undefined
-  }
-
-  // --------------------------------------------------------------------------
-
-  /**
-   * @brief Validate the uniqueness of permalinks.
-   */
-  validatePermalinks (): void {
-    console.log('Validating permalinks...')
-
-    assert(this.workspace.pluginOptions.outputFolderPath)
-    // const outputFolderPath = this.options.outputFolderPath
-
-    const pagePermalinksById: Map<string, string> = new Map()
-    const pagePermalinksSet: Set<string> = new Set()
-
-    for (const compoundDef of this.workspace.dataModel.compoundDefs) {
-      // console.log(compoundDef.kind, compoundDef.compoundName)
-
-      const compound: CompoundBase | undefined = this.workspace.compoundsById.get(compoundDef.id)
-      if (compound === undefined) {
-        console.error('compoundDef', compoundDef.id, 'not yet processed in', this.constructor.name, 'validatePermalinks')
-        continue
-      }
-
-      const permalink = compound.relativePermalink
-      assert(permalink !== undefined)
-      // console.log('permalink:', permalink)
-
-      if (pagePermalinksById.has(compoundDef.id)) {
-        console.error('Permalink clash for id', compoundDef.id)
-      }
-      if (pagePermalinksSet.has(permalink)) {
-        console.error('Permalink clash for permalink', permalink, 'id:', compoundDef.id)
-      }
-      pagePermalinksById.set(compoundDef.id, permalink)
-      pagePermalinksSet.add(permalink)
-    }
+    await this.generateRedirectFiles()
   }
 
   // --------------------------------------------------------------------------
@@ -204,7 +77,9 @@ export class DocusaurusGenerator {
     await fs.mkdir(outputFolderPath, { recursive: true })
   }
 
-  async generateSidebar (): Promise<void> {
+  // --------------------------------------------------------------------------
+
+  async generateSidebarFile (): Promise<void> {
     const sidebarItems: SidebarItem[] = []
     // This is the order of items in the sidebar.
     for (const collectionName of this.workspace.sidebarCollectionNames) {
@@ -228,7 +103,9 @@ export class DocusaurusGenerator {
     await fs.writeFile(filePath, jsonString, 'utf8')
   }
 
-  async generateMenuDropdown (): Promise<void> {
+  // --------------------------------------------------------------------------
+
+  async generateMenuDropdownFile (): Promise<void> {
     const pluginOptions = this.workspace.pluginOptions
     if (pluginOptions.menuDropdownFileName?.trim().length === 0) {
       return
@@ -326,7 +203,9 @@ export class DocusaurusGenerator {
     }
   }
 
-  async generateRedirects (): Promise<void> {
+  // --------------------------------------------------------------------------
+
+  async generateRedirectFiles (): Promise<void> {
     const redirectsOutputFolderPath = this.workspace.pluginOptions.redirectsOutputFolderPath
     if (redirectsOutputFolderPath === undefined) {
       return
@@ -397,7 +276,7 @@ export class DocusaurusGenerator {
 
   // If `trailingSlash` is true, Docusaurus redirects do not generate .html files,
   // therefore we have to do it manually.
-  async generateRedirectFile ({
+  private async generateRedirectFile ({
     filePath,
     permalink
   }: {

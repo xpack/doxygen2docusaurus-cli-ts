@@ -43,7 +43,6 @@ import { FilesAndFolders } from './view-model/files-and-folders-vm.js'
 import { Pages } from './view-model/pages-vm.js'
 import { FrontMatter } from './types.js'
 import { pluginName } from '../plugin/docusaurus.js'
-import { AbstractMemberDefType } from '../data-model/compounds/memberdeftype-dm.js'
 import { Member } from './view-model/members-vm.js'
 
 // ----------------------------------------------------------------------------
@@ -102,7 +101,8 @@ export class Workspace {
     pluginOptions: PluginOptions
     siteConfig: any
   }) {
-    // console.log('DocusaurusGenerator.constructor()')
+    console.log()
+
     this.dataModel = dataModel
     this.pluginOptions = pluginOptions
     this.siteConfig = siteConfig
@@ -156,6 +156,19 @@ export class Workspace {
     this.elementTextRenderers.set('AbstractRefTextType', new RefTextTypeTextRenderer(this))
     this.elementTextRenderers.set('AbstractSpType', new SpTypeTextRenderer(this))
 
+    this.createVieModelObjects()
+    this.createCompoundsHierarchies()
+
+    this.initializeCompoundsLate()
+    this.createMembersMap()
+    this.initializeMemberLate()
+    this.validatePermalinks()
+  }
+
+  // --------------------------------------------------------------------------
+
+  createVieModelObjects (): void {
+    console.log('Creating view model objects...')
     for (const compoundDef of this.dataModel.compoundDefs) {
       let added = false
       const collectionName = this.collectionNamesByKind[compoundDef.kind]
@@ -173,6 +186,131 @@ export class Workspace {
         // console.error(util.inspect(compoundDef, { compact: false, depth: 999 }))
         console.error('compoundDef', compoundDef.kind, 'not implemented yet in', this.constructor.name)
       }
+    }
+    console.log(this.compoundsById.size, 'compound definitions')
+  }
+
+  // --------------------------------------------------------------------------
+
+  createCompoundsHierarchies (): void {
+    console.log('Creating compounds hierarchies...')
+
+    for (const [collectionName, collection] of this.viewModel) {
+      // console.log('createHierarchies:', collectionName)
+      collection.createCompoundsHierarchies()
+    }
+  }
+
+  // --------------------------------------------------------------------------
+
+  // Required since references can be resolved only after all objects are in.
+  initializeCompoundsLate (): void {
+    console.log('Performing compound late initializations...')
+
+    for (const [collectionName, collection] of this.viewModel) {
+      // console.log('createHierarchies:', collectionName)
+      for (const [compoundId, compound] of collection.compoundsById) {
+        this.currentCompoundDef = compound.compoundDef
+
+        compound.initializeLate()
+      }
+    }
+    this.currentCompoundDef = undefined
+  }
+
+  // --------------------------------------------------------------------------
+
+  createMembersMap (): void {
+    console.log('Creating member definitions map...')
+    for (const [, compound] of this.compoundsById) {
+      // console.log(compoundDef.kind, compoundDef.compoundName, compoundDef.id)
+      if (compound.sections !== undefined) {
+        for (const section of compound.sections) {
+          if (section.members !== undefined) {
+            // console.log('  ', sectionDef.kind)
+            for (const member of section.members) {
+              if (member instanceof Member) {
+                const memberCompoundId = stripPermalinkAnchor(member.id)
+                if (memberCompoundId !== compound.compoundDef.id) {
+                  // Skip member definitions from different compounds.
+                  // Hopefully they are defined properly there.
+                  // console.log('member from another compound', compoundId, 'skipped')
+                } else {
+                  // console.log('    ', memberDef.kind, memberDef.id)
+                  if (this.membersById.has(member.id)) {
+                    console.warn('member already in map', member.id, 'in', this.membersById.get(member.id)?.name)
+                  } else {
+                    this.membersById.set(member.id, member)
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    console.log(this.membersById.size, 'member definitions')
+  }
+
+  // --------------------------------------------------------------------------
+
+  // Required since references can be resolved only after all objects are in.
+  initializeMemberLate (): void {
+    console.log('Performing members late initializations...')
+    for (const [, compound] of this.compoundsById) {
+      // console.log(compoundDef.kind, compoundDef.compoundName, compoundDef.id)
+      this.currentCompoundDef = compound.compoundDef
+      if (compound.sections !== undefined) {
+        for (const section of compound.sections) {
+          if (section.members !== undefined) {
+            // console.log('  ', sectionDef.kind)
+            for (const member of section.members) {
+              if (member instanceof Member) {
+                member.initializeLate()
+              }
+            }
+          }
+        }
+      }
+    }
+    this.currentCompoundDef = undefined
+  }
+
+  // --------------------------------------------------------------------------
+
+  /**
+   * @brief Validate the uniqueness of permalinks.
+   */
+  validatePermalinks (): void {
+    console.log('Validating permalinks...')
+
+    assert(this.pluginOptions.outputFolderPath)
+    // const outputFolderPath = this.options.outputFolderPath
+
+    const pagePermalinksById: Map<string, string> = new Map()
+    const pagePermalinksSet: Set<string> = new Set()
+
+    for (const compoundDef of this.dataModel.compoundDefs) {
+      // console.log(compoundDef.kind, compoundDef.compoundName)
+
+      const compound: CompoundBase | undefined = this.compoundsById.get(compoundDef.id)
+      if (compound === undefined) {
+        console.error('compoundDef', compoundDef.id, 'not yet processed in', this.constructor.name, 'validatePermalinks')
+        continue
+      }
+
+      const permalink = compound.relativePermalink
+      assert(permalink !== undefined)
+      // console.log('permalink:', permalink)
+
+      if (pagePermalinksById.has(compoundDef.id)) {
+        console.error('Permalink clash for id', compoundDef.id)
+      }
+      if (pagePermalinksSet.has(permalink)) {
+        console.error('Permalink clash for permalink', permalink, 'id:', compoundDef.id)
+      }
+      pagePermalinksById.set(compoundDef.id, permalink)
+      pagePermalinksSet.add(permalink)
     }
   }
 
