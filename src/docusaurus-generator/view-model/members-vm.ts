@@ -282,6 +282,7 @@ export class Member extends MemberBase {
     super.initializeLate()
 
     const memberDef = this._private._memberDef
+    assert(memberDef !== undefined)
     const workspace = this.section.compound.collection.workspace
 
     if (memberDef.briefDescription !== undefined) {
