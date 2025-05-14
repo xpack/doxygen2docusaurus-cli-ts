@@ -98,7 +98,9 @@ export class Workspace {
 
     // The relevant part of the permalink, like 'api', with the trailing slash.
     // TODO: what if not below `docs`?
-    this.permalinkBaseUrl = `${this.pluginOptions.outputFolderPath.replace(/^[^/]*[/]/, '')}/`
+    const outputBaseUrl = this.pluginOptions.outputBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '')
+    this.permalinkBaseUrl = `${outputBaseUrl}/`
+    // console.log('permalinkBaseUrl:', this.permalinkBaseUrl)
 
     // Create the view-model objects.
     this.viewModel = new Map()

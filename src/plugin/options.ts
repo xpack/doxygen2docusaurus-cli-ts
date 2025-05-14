@@ -14,6 +14,7 @@
 export interface PluginConfigurationOptions {
   doxygenXmlInputFolderPath?: string
   outputFolderPath?: string
+  outputBaseUrl?: string
   redirectsOutputFolderPath?: string
   sidebarFilePath?: string
   menuDropdownFilePath?: string
@@ -25,6 +26,7 @@ export interface PluginConfigurationOptions {
 export interface PluginOptions {
   doxygenXmlInputFolderPath: string /** like `doxygen/xml`, no initial/final slash */
   outputFolderPath: string /** like `docs/api`, no initial/final slash */
+  outputBaseUrl: string
   redirectsOutputFolderPath?: string | undefined
   sidebarFilePath: string
   menuDropdownFilePath?: string
@@ -35,7 +37,8 @@ export interface PluginOptions {
 
 export const defaultOptions: PluginConfigurationOptions = {
   doxygenXmlInputFolderPath: 'doxygen/xml',
-  outputFolderPath: 'docs/api',
+  outputFolderPath: 'doxygen/mdx',
+  outputBaseUrl: 'api',
   sidebarFilePath: 'sidebar-doxygen.json',
   menuDropdownFilePath: 'docusaurus-config-api-menu-dropdown.json',
   verbose: false,
