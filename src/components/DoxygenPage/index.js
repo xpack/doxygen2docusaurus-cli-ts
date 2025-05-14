@@ -16,7 +16,7 @@ import React from 'react';
 
 // ----------------------------------------------------------------------------
 
-export default function DoxygenPage({children, version = 'undefined'}) {
+export default function DoxygenPage({children, version = ''}) {
   // console.log("Version:", version);
 
   return (
