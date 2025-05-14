@@ -121,7 +121,7 @@ export class Workspace {
 
     this.validatePermalinks()
 
-    // this.cleanups()
+    this.cleanups()
   }
 
   // --------------------------------------------------------------------------
