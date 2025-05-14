@@ -27,6 +27,7 @@ import { RefTextDataModel } from '../../data-model/compounds/reftexttype-dm.js'
 import { DefValDataModel } from '../../data-model/compounds/linkedtexttype-dm.js'
 import { LocationDataModel } from '../../data-model/compounds/locationtype-dm.js'
 import { FilesAndFolders } from './files-and-folders-vm.js'
+import { IncludesDataModel } from '../../data-model/compounds/inctype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -76,6 +77,11 @@ export abstract class CompoundBase {
   // detailedDescriptionMdxLines: string[] | undefined
 
   sections: Section[] = []
+  locationSet: Set<string> = new Set()
+
+  // Shortcut
+  includes: IncludesDataModel[] | undefined
+  innerCompounds: Map<string, any> | undefined
 
   _private: {
     // Reference to the data model object.
@@ -130,6 +136,35 @@ export abstract class CompoundBase {
     } else {
       if (compoundDef.location !== undefined) {
         this.locationMdxText = this.renderLocationToMdxText(compoundDef.location)
+      }
+    }
+
+    if (compoundDef.sectionDefs !== undefined) {
+      for (const sectionDef of compoundDef.sectionDefs) {
+        if (sectionDef.memberDefs !== undefined) {
+          for (const memberDef of sectionDef.memberDefs) {
+            if (memberDef.location !== undefined) {
+              const file = memberDef.location.file
+              this.locationSet.add(file)
+              if (memberDef.location.bodyfile !== undefined) {
+                this.locationSet.add(memberDef.location.bodyfile)
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (compoundDef.includes !== undefined) {
+      this.includes = compoundDef.includes
+    }
+
+    for (const innerKey of Object.keys(compoundDef)) {
+      if (innerKey.startsWith('inner')) {
+        if (this.innerCompounds === undefined) {
+          this.innerCompounds = new Map()
+        }
+        this.innerCompounds.set(innerKey, compoundDef)
       }
     }
   }
@@ -205,7 +240,7 @@ export abstract class CompoundBase {
       }
     }
 
-    // Deviate from Doxygen and do not repeat the brief in the detailed section.
+    // Do not repeat the brief in the detailed section. (configurable for Doxygen)
     // console.log(util.inspect(compoundDef.detailedDescription, { compact: false, depth: 999 }))
     if (detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) {
       lines.push('')
@@ -227,15 +262,14 @@ export abstract class CompoundBase {
   }): string[] {
     const lines: string[] = []
 
-    const compoundDef = this._private._compoundDef
-    assert(compoundDef !== undefined)
-
-    for (const innerKey of Object.keys(compoundDef)) {
-      if (innerKey.startsWith('inner')) {
-        const suffix = innerKey.substring(5)
-        if (!suffixes.includes(suffix)) {
-          console.warn(innerKey, 'not processed for', compoundDef.compoundName, 'in renderInnerIndicesMdx')
-          continue
+    if (this.innerCompounds !== undefined) {
+      for (const innerKey of Object.keys(this.innerCompounds)) {
+        if (innerKey.startsWith('inner')) {
+          const suffix = innerKey.substring(5)
+          if (!suffixes.includes(suffix)) {
+            console.warn(innerKey, 'not processed for', this.compoundName, 'in renderInnerIndicesMdx')
+            continue
+          }
         }
       }
     }
@@ -244,7 +278,8 @@ export abstract class CompoundBase {
 
     for (const suffix of suffixes) {
       const innerKey = `inner${suffix}`
-      const innerObjects = (compoundDef as any)[innerKey] as AbstractRefType[]
+      const innerCompound = this.innerCompounds !== undefined ? (this.innerCompounds.get(innerKey)) : undefined
+      const innerObjects = innerCompound !== undefined ? innerCompound[innerKey] as AbstractRefType[] : undefined
 
       if (innerObjects !== undefined && innerObjects.length > 0) {
         lines.push('')
@@ -258,12 +293,9 @@ export abstract class CompoundBase {
           const innerDataObject = workspace.compoundsById.get(innerObject.refid)
           assert(innerDataObject !== undefined)
 
-          const innerCompoundDef = innerDataObject._private._compoundDef
-          assert(innerCompoundDef !== undefined)
-
           const permalink = workspace.getPagePermalink(innerObject.refid)
 
-          const kind = innerCompoundDef.kind
+          const kind = innerDataObject.kind
 
           const itemType = kind === 'dir' ? 'folder' : (kind === 'group' ? '&nbsp;' : kind)
           const itemName = `<Link to="${permalink}">${escapeMdx(innerDataObject.indexName)}</Link>`
@@ -273,10 +305,9 @@ export abstract class CompoundBase {
           lines.push(`  type="${itemType}"`)
           lines.push(`  name={${itemName}}>`)
 
-          const briefDescriptionMdxText: string = workspace.renderElementToMdxText(innerCompoundDef.briefDescription)
-          if (briefDescriptionMdxText.length > 0) {
+          if (innerDataObject.briefDescriptionMdxText !== undefined && innerDataObject.briefDescriptionMdxText.length > 0) {
             lines.push(this.renderBriefDescriptionToMdxText({
-              briefDescriptionMdxText,
+              briefDescriptionMdxText: innerDataObject.briefDescriptionMdxText,
               morePermalink: `${permalink}/#details`
             }))
           }
@@ -308,19 +339,16 @@ export abstract class CompoundBase {
   renderIncludesIndexToMdxLines (): string[] {
     const lines: string[] = []
 
-    const compoundDef = this._private._compoundDef
-    assert(compoundDef !== undefined)
-
     const workspace = this.collection.workspace
 
-    if (compoundDef.includes !== undefined) {
+    if (this.includes !== undefined) {
       lines.push('')
       lines.push('## Included Headers')
 
       lines.push('')
       lines.push('<IncludesList>')
 
-      for (const include of compoundDef.includes) {
+      for (const include of this.includes) {
         lines.push(workspace.renderElementToMdxText(include))
       }
 
@@ -392,41 +420,19 @@ export abstract class CompoundBase {
   renderGeneratedFromToMdxLines (): string[] {
     const lines: string[] = []
 
-    const compoundDef: CompoundDefDataModel | undefined = this._private._compoundDef
-    assert(compoundDef !== undefined)
-
-    const locationSet: Set<string> = new Set()
-
-    const workspace = this.collection.workspace
-
-    if (compoundDef.sectionDefs !== undefined) {
-      for (const sectionDef of compoundDef.sectionDefs) {
-        if (sectionDef.memberDefs !== undefined) {
-          for (const memberDef of sectionDef.memberDefs) {
-            if (memberDef.location !== undefined) {
-              const file = memberDef.location.file
-              locationSet.add(file)
-              if (memberDef.location.bodyfile !== undefined) {
-                locationSet.add(memberDef.location.bodyfile)
-              }
-            }
-          }
-        }
-      }
-    }
-
-    if (locationSet.size > 0) {
+    if (this.locationSet.size > 0) {
       lines.push('')
       lines.push('<hr/>')
       lines.push('')
-      lines.push(`The documentation for this ${compoundDef.kind} was generated from the following file${locationSet.size > 1 ? 's' : ''}:`)
+      lines.push(`The documentation for this ${this.kind} was generated from the following file${this.locationSet.size > 1 ? 's' : ''}:`)
       lines.push('')
 
       lines.push('<ul>')
 
+      const workspace = this.collection.workspace
       const files: FilesAndFolders = workspace.viewModel.get('files') as FilesAndFolders
 
-      const sortedFiles = [...locationSet].sort()
+      const sortedFiles = [...this.locationSet].sort()
       for (const fileName of sortedFiles) {
         const file = files.filesByPath.get(fileName)
         assert(file !== undefined)
