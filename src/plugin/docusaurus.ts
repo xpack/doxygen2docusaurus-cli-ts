@@ -28,16 +28,27 @@ export default async function pluginDocusaurus (
   options: any
 ): Promise<any> {
   if (options.id !== undefined && options.id !== 'default') {
-    console.log(`${pluginName}: initialising instance '${options.id as string}'...`)
+    console.log(`${pluginName}: instance '${options.id as string}' starting...`)
   } else {
-    console.log(`${pluginName}: initialising...`)
+    console.log(`${pluginName}: starting...`)
   }
+  // Normally this should run in loadContent(), but these run in
+  // parallel and the content should be available when
+  // `@docusaurus/plugin-content-docs` starts, thus the
+  // processing is don on the initialising hook.
+  const dataModel: DataModel = await parseDoxygen({ options })
+  await generateDocusaurusMdx({
+    dataModel,
+    options,
+    siteConfig: context.siteConfig
+  })
 
-  // console.log('context:', util.inspect(context))
-  // The plugin configuration options.
-  // console.log('options:', util.inspect(options))
-
-  // await generateTypedoc(context, options);
+  console.log()
+  if (options.id !== undefined && options.id !== 'default') {
+    console.log(`${pluginName}: instance '${options.id as string}' done.`)
+  } else {
+    console.log(`${pluginName}: done.`)
+  }
 
   return {
     name: pluginName,
@@ -46,19 +57,18 @@ export default async function pluginDocusaurus (
     // Fetch from data sources. The return value is the content it needs.
     // It is called for each plugin instance (in parallel).
     async loadContent () {
-      if (options.id !== undefined && options.id !== 'default') {
-        console.log(`${pluginName.replaceAll(/^.*[/]/g, '')}: loading instance '${options.id as string}' content...`)
-      } else {
-        console.log(`${pluginName.replaceAll(/^.*[/]/g, '')}: loading content...`)
-      }
-      // console.log(options)
+      // if (options.id !== undefined && options.id !== 'default') {
+      //   console.log(`${pluginName.replaceAll(/^.*[/]/g, '')}: loading instance '${options.id as string}' content...`)
+      // } else {
+      //   console.log(`${pluginName.replaceAll(/^.*[/]/g, '')}: loading content...`)
+      // }
 
-      const dataModel: DataModel = await parseDoxygen({ options })
-      await generateDocusaurusMdx({
-        dataModel,
-        options,
-        siteConfig: context.siteConfig
-      })
+      // const dataModel: DataModel = await parseDoxygen({ options })
+      // await generateDocusaurusMdx({
+      //   dataModel,
+      //   options,
+      //   siteConfig: context.siteConfig
+      // })
 
       return dataModel
     },
