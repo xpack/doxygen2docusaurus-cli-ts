@@ -45,7 +45,7 @@ export default async function pluginDocusaurus (
       console.log(`${pluginName}: starting...`)
     }
     // console.log()
-    console.log('options:', actualOptions)
+    // console.log('pluginOptions:', actualOptions)
   }
 
   return {
