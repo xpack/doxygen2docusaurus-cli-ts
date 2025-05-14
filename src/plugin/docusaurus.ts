@@ -16,38 +16,36 @@ import * as util from 'node:util'
 
 import { DataModel } from '../data-model/types.js'
 import { generateDoxygen } from './cli/generate.js'
+import { defaultOptions, PluginOptions } from './options.js'
 import { generateDocusaurusMdx, parseDoxygen } from './main.js'
 
 // ----------------------------------------------------------------------------
 // The Docusaurus plugin entry point.
 
-export const pluginName = '@xpack/docusaurus-plugin-doxygen'
+export const pluginName: string = '@xpack/docusaurus-plugin-doxygen'
 
 export default async function pluginDocusaurus (
   context: any,
-  options: any
+  options: PluginOptions // The options in docusaurus.config.ts
 ): Promise<any> {
-  if (options.id !== undefined && options.id !== 'default') {
-    console.log(`${pluginName}: instance '${options.id as string}' starting...`)
-  } else {
-    console.log(`${pluginName}: starting...`)
-  }
-  // Normally this should run in loadContent(), but these run in
-  // parallel and the content should be available when
-  // `@docusaurus/plugin-content-docs` starts, thus the
-  // processing is don on the initialising hook.
-  const dataModel: DataModel = await parseDoxygen({ options })
-  await generateDocusaurusMdx({
-    dataModel,
-    options,
-    siteConfig: context.siteConfig
-  })
+  // console.log(util.inspect(context, { compact: false, depth: 999 }))
+  // console.log('in options', options)
 
-  console.log()
-  if (options.id !== undefined && options.id !== 'default') {
-    console.log(`${pluginName}: instance '${options.id as string}' done.`)
-  } else {
-    console.log(`${pluginName}: done.`)
+  // Merge with the defaults.
+  const actualOptions: PluginOptions = {
+    ...defaultOptions,
+    ...options
+  }
+
+  if (actualOptions.verbose) {
+    console.log()
+    if (actualOptions.id !== undefined && actualOptions.id !== 'default') {
+      console.log(`${pluginName}: instance '${actualOptions.id}' starting...`)
+    } else {
+      console.log(`${pluginName}: starting...`)
+    }
+    // console.log()
+    console.log('options:', actualOptions)
   }
 
   return {
@@ -57,18 +55,36 @@ export default async function pluginDocusaurus (
     // Fetch from data sources. The return value is the content it needs.
     // It is called for each plugin instance (in parallel).
     async loadContent () {
-      // if (options.id !== undefined && options.id !== 'default') {
-      //   console.log(`${pluginName.replaceAll(/^.*[/]/g, '')}: loading instance '${options.id as string}' content...`)
-      // } else {
-      //   console.log(`${pluginName.replaceAll(/^.*[/]/g, '')}: loading content...`)
-      // }
+      if (actualOptions.verbose) {
+        console.log()
+        if (actualOptions.id !== undefined && actualOptions.id !== 'default') {
+          console.log(`${pluginName}: instance '${actualOptions.id}' loading content...`)
+        } else {
+          console.log(`${pluginName}: loading content...`)
+        }
+      }
 
-      // const dataModel: DataModel = await parseDoxygen({ options })
-      // await generateDocusaurusMdx({
-      //   dataModel,
-      //   options,
-      //   siteConfig: context.siteConfig
-      // })
+      let dataModel: DataModel = {
+        compoundDefs: []
+      }
+
+      if (actualOptions.runOnStart) {
+        dataModel = await parseDoxygen({ options: actualOptions })
+        await generateDocusaurusMdx({
+          dataModel,
+          options: actualOptions,
+          siteConfig: context.siteConfig
+        })
+
+        if (actualOptions.verbose) {
+          console.log()
+          if (actualOptions.id !== undefined && actualOptions.id !== 'default') {
+            console.log(`${pluginName}: instance '${actualOptions.id}' done.`)
+          } else {
+            console.log(`${pluginName}: done.`)
+          }
+        }
+      }
 
       return dataModel
     },
@@ -94,7 +110,12 @@ export default async function pluginDocusaurus (
           '[@xpack/docusaurus-plugin-doxygen] Generate Doxygen docs independently of the Docusaurus build process.'
         )
         .action(async (cliOptions: any) => {
-          return await generateDoxygen(context, options, cliOptions)
+          console.log()
+          console.log('Running docusaurus generate-doxygen...')
+          const exitCode = await generateDoxygen(context, actualOptions, cliOptions)
+          console.log()
+          console.log('Running docusaurus generate-doxygen done.')
+          return exitCode
         })
     }
   }

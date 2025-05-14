@@ -94,7 +94,7 @@ export class Workspace {
     this.pluginOptions = pluginOptions
     this.siteConfig = siteConfig
 
-    this.doxygenOptions = new DoxygenFileOptions(this.dataModel.doxyfile.options)
+    this.doxygenOptions = new DoxygenFileOptions(this.dataModel.doxyfile?.options)
 
     // The relevant part of the permalink, like 'api', with the trailing slash.
     // TODO: what if not below `docs`?
@@ -297,7 +297,7 @@ export class Workspace {
     const lines: string[] = []
 
     lines.push('')
-    lines.push(`<DoxygenPage version="${this.dataModel.doxygenindex.version}">`)
+    lines.push(`<DoxygenPage version="${this.dataModel.doxygenindex?.version}">`)
     lines.push('')
     lines.push(...bodyLines)
     lines.push('')

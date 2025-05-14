@@ -75,9 +75,9 @@ export abstract class AbstractDataModelBase {
 // All objects are defined in the `data-model` folder.
 
 export interface DataModel {
-  doxygenindex: DoxygenIndexDataModel // from index.xml
+  doxygenindex?: DoxygenIndexDataModel // from index.xml
   compoundDefs: CompoundDefDataModel[] // from `${'@_refid'}.xml`
-  doxyfile: DoxygenFileDataModel // from Doxyfile.xml
+  doxyfile?: DoxygenFileDataModel // from Doxyfile.xml
 }
 
 // ----------------------------------------------------------------------------

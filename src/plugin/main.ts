@@ -39,13 +39,13 @@ export async function parseDoxygen ({
   console.log()
   console.log('options:', util.inspect(actualOptions))
 
-  assert(actualOptions?.doxygenXmlInputFolderPath !== undefined && actualOptions?.doxygenXmlInputFolderPath?.length > 0, 'doxygenXmlInputFolderPath is required')
+  assert(options?.doxygenXmlInputFolderPath !== undefined && options?.doxygenXmlInputFolderPath?.length > 0, 'doxygenXmlInputFolderPath is required')
 
-  assert(actualOptions.outputFolderPath !== undefined && actualOptions.outputFolderPath.length > 0, 'outputFolderPath is required')
+  assert(options.outputFolderPath !== undefined && options.outputFolderPath.length > 0, 'outputFolderPath is required')
 
   console.log()
   const xml = new DoxygenXmlParser()
-  const dataModel: DataModel = await xml.parse({ folderPath: actualOptions.doxygenXmlInputFolderPath })
+  const dataModel: DataModel = await xml.parse({ folderPath: options.doxygenXmlInputFolderPath })
   // console.log('doxygenData:', util.inspect(doxygenData))
 
   return dataModel

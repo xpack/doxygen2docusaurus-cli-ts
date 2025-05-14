@@ -94,20 +94,21 @@ export class DocusaurusGenerator {
     const jsonString = JSON.stringify(sidebarItems, null, 2)
 
     const pluginOptions = this.workspace.pluginOptions
-    const filePath = path.join(pluginOptions.outputFolderPath, pluginOptions.sidebarFileName)
+    const relativeFilePath = pluginOptions.sidebarFilePath
+    const absoluteFilePath = path.resolve(relativeFilePath)
 
     // Superfluous if done after prepareOutputFolder()
-    await fs.mkdir(path.dirname(this.workspace.pluginOptions.outputFolderPath), { recursive: true })
+    await fs.mkdir(path.dirname(absoluteFilePath), { recursive: true })
 
-    console.log(`Writing sidebar file ${filePath as string}...`)
-    await fs.writeFile(filePath, jsonString, 'utf8')
+    console.log(`Writing sidebar file ${relativeFilePath}...`)
+    await fs.writeFile(absoluteFilePath, jsonString, 'utf8')
   }
 
   // --------------------------------------------------------------------------
 
   async generateMenuDropdownFile (): Promise<void> {
     const pluginOptions = this.workspace.pluginOptions
-    if (pluginOptions.menuDropdownFileName?.trim().length === 0) {
+    if (pluginOptions.menuDropdownFilePath?.trim().length === 0) {
       return
     }
 
@@ -131,14 +132,15 @@ export class DocusaurusGenerator {
     // console.log('sidebarItems:', util.inspect(sidebarItems, { compact: false, depth: 999 }))
     const jsonString = JSON.stringify(menuDropdown, null, 2)
 
-    assert(pluginOptions.menuDropdownFileName)
-    const filePath = path.join(pluginOptions.outputFolderPath, pluginOptions.menuDropdownFileName)
+    assert(pluginOptions.menuDropdownFilePath)
+    const relativeFilePath = pluginOptions.menuDropdownFilePath
+    const absoluteFilePath = path.resolve(relativeFilePath)
 
     // Superfluous if done after prepareOutputFolder()
-    await fs.mkdir(path.dirname(this.workspace.pluginOptions.outputFolderPath), { recursive: true })
+    await fs.mkdir(path.dirname(absoluteFilePath), { recursive: true })
 
-    console.log(`Writing menu dropdown file ${filePath as string}...`)
-    await fs.writeFile(filePath, jsonString, 'utf8')
+    console.log(`Writing menu dropdown file ${relativeFilePath}...`)
+    await fs.writeFile(absoluteFilePath, jsonString, 'utf8')
   }
 
   // --------------------------------------------------------------------------
