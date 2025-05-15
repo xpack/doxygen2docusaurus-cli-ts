@@ -114,7 +114,7 @@ export default async function pluginDocusaurus (
           console.log('Running docusaurus generate-doxygen...')
           const exitCode = await generateDoxygen(context, actualOptions, cliOptions)
           console.log()
-          console.log('Running docusaurus generate-doxygen done.')
+          console.log('Running docusaurus generate-doxygen has completed successfully.')
           return exitCode
         })
     }
