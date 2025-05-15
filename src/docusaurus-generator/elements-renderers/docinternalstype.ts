@@ -49,7 +49,11 @@ export class DocS2TypeLinesRenderer extends ElementLinesRendererBase {
     const title = this.workspace.renderElementToMdxText(element.title).trim()
     if (title.length > 0) {
       lines.push('')
-      lines.push(`## ${title}`)
+      if (title === 'Description') {
+        lines.push(`## ${title} {#details}`)
+      } else {
+        lines.push(`## ${title}`)
+      }
       // if (element.id !== undefined && element.id.length > 0) {
       //   result += `{#${element.id}}`
       // }

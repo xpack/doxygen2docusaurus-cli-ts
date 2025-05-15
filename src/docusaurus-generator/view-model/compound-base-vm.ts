@@ -226,17 +226,6 @@ export abstract class CompoundBase {
       if ((detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) || todo.length > 0) {
         lines.push('')
         lines.push('## Description {#details}')
-      } else {
-        if (todo.length > 0) {
-          // Ensure an anchor is generated even if the top description is missing.
-          lines.push('')
-          lines.push('<Link id="#details" />')
-        }
-      }
-    } else {
-      if (todo.length > 0) {
-        lines.push('')
-        lines.push('<Link id="#details" />')
       }
     }
 
