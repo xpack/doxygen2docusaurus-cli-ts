@@ -105,7 +105,7 @@ export class DocusaurusGenerator {
     const jsonString = JSON.stringify(sidebarCategory, null, 2)
 
     const pluginOptions = this.workspace.pluginOptions
-    const relativeFilePath = pluginOptions.sidebarFilePath
+    const relativeFilePath = pluginOptions.sidebarCategoryFilePath
     const absoluteFilePath = path.resolve(relativeFilePath)
 
     // Superfluous if done after prepareOutputFolder()
