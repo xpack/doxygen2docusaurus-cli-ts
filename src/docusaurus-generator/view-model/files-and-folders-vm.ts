@@ -405,9 +405,10 @@ export class Folder extends CompoundBase {
 
     const descriptionTodo = `@dir ${this.relativePath}`
 
+    const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToMdxText({
       todo: descriptionTodo,
-      morePermalink: '#details'
+      morePermalink
     }))
 
     lines.push(...this.renderInnerIndicesToMdxLines({
@@ -469,9 +470,10 @@ export class File extends CompoundBase {
 
     const descriptionTodo = `@file ${this.relativePath}`
 
+    const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToMdxText({
       todo: descriptionTodo,
-      morePermalink: '#details'
+      morePermalink
     }))
 
     lines.push(...this.renderIncludesIndexToMdxLines())

@@ -129,8 +129,9 @@ export class Page extends CompoundBase {
   override renderToMdxLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
+    const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToMdxText({
-      morePermalink: '#details'
+      morePermalink
     }))
 
     lines.push(...this.renderInnerIndicesToMdxLines({}))

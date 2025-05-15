@@ -305,10 +305,11 @@ export abstract class CompoundBase {
           lines.push(`  type="${itemType}"`)
           lines.push(`  name={${itemName}}>`)
 
+          const morePermalink = innerDataObject.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined
           if (innerDataObject.briefDescriptionMdxText !== undefined && innerDataObject.briefDescriptionMdxText.length > 0) {
             lines.push(this.renderBriefDescriptionToMdxText({
               briefDescriptionMdxText: innerDataObject.briefDescriptionMdxText,
-              morePermalink: `${permalink}/#details`
+              morePermalink
             }))
           }
 

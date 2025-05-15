@@ -253,9 +253,10 @@ export class Group extends CompoundBase {
 
     const descriptionTodo = `@defgroup ${this.compoundName}`
 
+    const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToMdxText({
       todo: descriptionTodo,
-      morePermalink: '#details'
+      morePermalink
     }))
 
     lines.push(...this.renderInnerIndicesToMdxLines({

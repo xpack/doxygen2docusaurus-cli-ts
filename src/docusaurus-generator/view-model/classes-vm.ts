@@ -396,9 +396,10 @@ export class Class extends CompoundBase {
 
     const descriptionTodo = `@${this.kind} ${this.compoundName}`
 
+    const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToMdxText({
       todo: descriptionTodo,
-      morePermalink: '#details'
+      morePermalink
     }))
 
     lines.push('')
@@ -562,11 +563,12 @@ export class Class extends CompoundBase {
     lines.push(`  type="${itemType}"`)
     lines.push(`  name={${itemName}}>`)
 
+    const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined
     const briefDescriptionMdxText: string | undefined = this.briefDescriptionMdxText
     if ((briefDescriptionMdxText ?? '').length > 0) {
       lines.push(this.renderBriefDescriptionToMdxText({
         briefDescriptionMdxText,
-        morePermalink: `${permalink}/#details`
+        morePermalink
       }))
     }
 

@@ -249,9 +249,10 @@ export class Namespace extends CompoundBase {
 
     const descriptionTodo = `@namespace ${this.compoundName}`
 
+    const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToMdxText({
       todo: descriptionTodo,
-      morePermalink: '#details'
+      morePermalink
     }))
 
     lines.push('')
