@@ -27,24 +27,11 @@ export class DocS1TypeLinesRenderer extends ElementLinesRendererBase {
 
     const title = this.workspace.renderElementToMdxText(element.title).trim()
     if (title.length > 0) {
-      // result += '\n'
-      // result += `# ${title}`
-      // if (element.id !== undefined && element.id.length > 0) {
-      //   result += `{#${element.id}}`
-      // }
-      console.warn('h1 header title ignored')
+      console.warn('h1 header title cannot be rendered in Docusaurus, ignored')
 
       lines.push('')
       lines.push(...this.workspace.renderElementsToMdxLines(element.children))
     } else {
-      // result += '\n'
-      // result += '<h1>\n'
-
-      // if (element.id !== undefined && element.id.length > 0) {
-      //   result += `  <a id="${element.id}" />\n`
-      // }
-      // result += '</h1>'
-
       lines.push('')
       lines.push(...this.workspace.renderElementsToMdxLines(element.children))
     }
