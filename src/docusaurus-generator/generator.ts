@@ -114,7 +114,7 @@ export class DocusaurusGenerator {
 
     const menuDropdown: MenuDropdown = {
       type: 'dropdown',
-      label: 'API',
+      label: pluginOptions.menuDropdownLabel,
       to: `/${this.workspace.pluginOptions.outputFolderPath}/`,
       position: 'left',
       items: []
