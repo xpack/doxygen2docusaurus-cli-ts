@@ -11,6 +11,18 @@
 
 // ----------------------------------------------------------------------------
 
+// Docusaurus sidebar.
+export interface SidebarCategory {
+  type: 'category'
+  label: string
+  link: {
+    type: 'doc'
+    id: string
+  }
+  collapsed: false
+  items: SidebarItem[]
+}
+
 export interface SidebarDocItem {
   type: 'doc'
   label: string
@@ -30,6 +42,9 @@ export interface SidebarCategoryItem {
 
 export type SidebarItem = SidebarDocItem | SidebarCategoryItem
 
+// ----------------------------------------------------------------------------
+
+// Docusaurus menu dropdown.
 export interface MenuDropdown {
   type: 'dropdown'
   label: string

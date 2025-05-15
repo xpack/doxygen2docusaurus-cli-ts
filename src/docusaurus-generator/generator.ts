@@ -19,7 +19,7 @@ import * as fs from 'node:fs/promises'
 import { Workspace } from './workspace.js'
 import { DataModel } from '../data-model/types.js'
 import { PluginOptions } from '../plugin/options.js'
-import { MenuDropdown, SidebarItem } from '../plugin/types.js'
+import { MenuDropdown, SidebarCategory } from '../plugin/types.js'
 import { Page } from './view-model/pages-vm.js'
 import { FrontMatter } from './types.js'
 
@@ -80,18 +80,29 @@ export class DocusaurusGenerator {
   // --------------------------------------------------------------------------
 
   async generateSidebarFile (): Promise<void> {
-    const sidebarItems: SidebarItem[] = []
+    const outputBaseUrl = this.workspace.pluginOptions.outputBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '')
+    const sidebarCategory: SidebarCategory = {
+      type: 'category',
+      label: this.workspace.pluginOptions.sidebarCategoryLabel,
+      link: {
+        type: 'doc',
+        id: `${outputBaseUrl}/index`
+      },
+      collapsed: false,
+      items: []
+    }
+
     // This is the order of items in the sidebar.
     for (const collectionName of this.workspace.sidebarCollectionNames) {
       // console.log(collectionName)
       const collection = this.workspace.viewModel.get(collectionName)
       if (collection !== undefined) {
-        sidebarItems.push(...collection.createSidebarItems())
+        sidebarCategory.items.push(...collection.createSidebarItems())
       }
     }
 
-    // console.log('sidebarItems:', util.inspect(sidebarItems, { compact: false, depth: 999 }))
-    const jsonString = JSON.stringify(sidebarItems, null, 2)
+    // console.log('sidebar:', util.inspect(sidebar, { compact: false, depth: 999 }))
+    const jsonString = JSON.stringify(sidebarCategory, null, 2)
 
     const pluginOptions = this.workspace.pluginOptions
     const relativeFilePath = pluginOptions.sidebarFilePath
