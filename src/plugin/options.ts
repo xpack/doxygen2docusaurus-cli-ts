@@ -42,7 +42,7 @@ export interface PluginOptions {
 export const defaultOptions: PluginConfigurationOptions = {
   doxygenXmlInputFolderPath: 'doxygen/xml',
   outputFolderPath: 'doxygen/mdx',
-  outputBaseUrl: 'api',
+  outputBaseUrl: 'reference',
   sidebarFilePath: 'sidebar-doxygen.json',
   sidebarCategoryLabel: 'API Reference (Doxygen)',
   menuDropdownFilePath: 'docusaurus-config-doxygen-menu-dropdown.json',
