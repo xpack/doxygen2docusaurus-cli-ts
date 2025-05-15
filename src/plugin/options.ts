@@ -30,6 +30,7 @@ export interface PluginOptions {
   outputBaseUrl: string
   redirectsOutputFolderPath?: string | undefined
   sidebarFilePath: string
+  menuDropdownFilePath: string
   menuDropdownLabel: string
   verbose: boolean
   runOnStart: boolean
@@ -41,6 +42,7 @@ export const defaultOptions: PluginConfigurationOptions = {
   outputFolderPath: 'doxygen/mdx',
   outputBaseUrl: 'api',
   sidebarFilePath: 'sidebar-doxygen.json',
+  menuDropdownFilePath: 'docusaurus-config-doxygen-menu-dropdown.json',
   menuDropdownLabel: 'Reference',
   verbose: false,
   runOnStart: false
