@@ -32,6 +32,7 @@ export function escapeMdx (text: string): string {
     .replaceAll(/[>]/g, '&gt;')
     .replaceAll(/["]/g, '&quot;')
     .replaceAll(/[']/g, '&#39;')
+    .replaceAll(/[`]/g, '&#96;')
     .replaceAll(/[{]/g, '&#123;')
     .replaceAll(/[}]/g, '&#125;')
     .replaceAll(/[\\]/g, '\\\\')
