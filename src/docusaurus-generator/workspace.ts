@@ -223,6 +223,7 @@ export class Workspace {
       this.currentCompound = compound
       if (compound.sections !== undefined) {
         for (const section of compound.sections) {
+          section.initializeLate()
           if (section.members !== undefined) {
             // console.log('  ', sectionDef.kind)
             for (const member of section.members) {
@@ -520,6 +521,9 @@ export class Workspace {
 
   getPagePermalink (refid: string): string {
     const dataObject: CompoundBase | undefined = this.compoundsById.get(refid)
+    if (dataObject === undefined) {
+      console.log('refid', refid)
+    }
     assert(dataObject !== undefined)
 
     const pagePermalink = dataObject.relativePermalink

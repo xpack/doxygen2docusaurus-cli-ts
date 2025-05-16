@@ -27,10 +27,18 @@ export class Section {
   compound: CompoundBase
   kind: string
   headerName: string
+  descriptionMdxText: string | undefined
   members: Array<Member | MemberRef> = []
   definitionMembers: Member[] = []
 
+  _private: {
+    // Available only during the initializeLate().
+    _sectionDef?: SectionDefDataModel
+  } = {}
+
   constructor (compound: CompoundBase, sectionDef: SectionDefDataModel) {
+    this._private._sectionDef = sectionDef
+
     this.compound = compound
     this.kind = sectionDef.kind
 
@@ -56,6 +64,15 @@ export class Section {
     }
 
     this.members = members.sort((a, b) => a.name.localeCompare(b.name))
+  }
+
+  initializeLate (): void {
+    const workspace = this.compound.collection.workspace
+    assert(this._private._sectionDef !== undefined)
+    const sectionDef = this._private._sectionDef
+    if (sectionDef.description !== undefined) {
+      this.descriptionMdxText = workspace.renderElementToMdxText(sectionDef.description)
+    }
   }
 
   hasDefinitionMembers (): boolean {
@@ -106,19 +123,29 @@ export class Section {
   // </xsd:simpleType>
 
   getHeaderNameByKind (sectionDef: SectionDefDataModel): string {
+    // User defined sections have their own header.
+    if (sectionDef.kind === 'user-defined') {
+      assert(sectionDef.header !== undefined)
+      return sectionDef.header.trim()
+    }
+
+    if (sectionDef.header !== undefined) {
+      console.warn('header', sectionDef.header, 'ignored in sectionDef of kind', sectionDef.kind)
+    }
+
     const headerNamesByKind: Record<string, string> = {
       // 'user-defined': '?',
       'public-type': 'Public Member Typedefs',
       'public-func': 'Public Member Functions',
       'public-attrib': 'Public Member Attributes',
-      // 'public-slot': 'Member ?',
+      'public-slot': 'Member Slots',
       'public-static-func': 'Public Static Functions',
       'public-static-attrib': 'Public Static Attributes',
 
-      // 'signal': '',
-      // 'dcop-func': '',
-      // 'property': '',
-      // 'event': '',
+      signal: 'Signals',
+      // 'dcop-func': 'DCOP Functions',
+      property: 'Properties',
+      event: 'Events',
 
       'package-type': 'Package Member Typedefs',
       'package-func': 'Package Member Functions',
@@ -129,21 +156,21 @@ export class Section {
       'protected-type': 'Protected Member Typedefs',
       'protected-func': 'Protected Member Functions',
       'protected-attrib': 'Protected Member Attributes',
-      // 'protected-slot': 'Protected ?',
+      'protected-slot': 'Protected Slot',
       'protected-static-func': 'Protected Static Functions',
       'protected-static-attrib': 'Protected Static Attributes',
 
       'private-type': 'Private Member Typedefs',
       'private-func': 'Private Member Functions',
       'private-attrib': 'Private Member Attributes',
-      // 'private-slot': 'Private ?',
+      'private-slot': 'Private Slot',
       'private-static-func': 'Private Static Functions',
       'private-static-attrib': 'Private Static Attributes',
 
-      // 'friend': '',
-      // 'related': '',
-      // 'define': '',
-      // 'prototype': '',
+      friend: 'Friends',
+      // 'related': 'Related',
+      define: 'Defines',
+      prototype: 'Prototypes',
 
       typedef: 'Typedefs',
       enum: 'Enumerations',
@@ -216,6 +243,14 @@ export class Section {
 
     lines.push('')
     lines.push(`## ${escapeMdx(this.headerName)}`)
+
+    if (this.descriptionMdxText !== undefined) {
+      lines.push('')
+      lines.push(...this.compound.renderDetailedDescriptionToMdxLines({
+        detailedDescriptionMdxText: this.descriptionMdxText,
+        showHeader: false
+      }))
+    }
 
     for (const member of this.definitionMembers) {
       lines.push(...member.renderToMdxLines())
