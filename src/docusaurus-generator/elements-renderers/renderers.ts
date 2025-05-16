@@ -28,6 +28,7 @@ import { ParamTypeLinesRenderer } from './paramtype.js'
 import { RefTextTypeTextRenderer } from './reftexttype.js'
 import { RefTypeLinesRenderer } from './reftype.js'
 import { Workspace } from '../workspace.js'
+import { SubstringDocMarkupTypeRenderer } from './substringtype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -70,6 +71,7 @@ export class Renderers {
     this.elementTextRenderers.set('AbstractLinkedTextType', new LinkedTextTypeTextRenderer(workspace))
     this.elementTextRenderers.set('AbstractRefTextType', new RefTextTypeTextRenderer(workspace))
     this.elementTextRenderers.set('AbstractSpType', new SpTypeTextRenderer(workspace))
+    this.elementTextRenderers.set('SubstringDocMarkupType', new SubstringDocMarkupTypeRenderer(workspace))
   }
 
   getElementLinesRenderer (element: Object): ElementLinesRendererBase | undefined {

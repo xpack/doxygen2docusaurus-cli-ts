@@ -1421,7 +1421,7 @@ export abstract class AbstractDocInternalS6Type extends AbstractDataModelBase {
 //   </xsd:choice>
 // </xsd:group>
 
-export type DocTitleCmdGroup = (BoldDataModel | EmphasisDataModel | ComputerOutputDataModel | RefDataModel | LineBreakDataModel | UlinkDataModel | AnchorDataModel)
+export type DocTitleCmdGroup = (BoldDataModel | EmphasisDataModel | ComputerOutputDataModel | RefDataModel | LineBreakDataModel | UlinkDataModel | AnchorDataModel | SubstringDocMarkupType)
 
 function parseDocTitleCmdGroup (
   xml: DoxygenXmlParser,
@@ -1446,6 +1446,11 @@ function parseDocTitleCmdGroup (
     children.push(new UlinkDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'anchor')) {
     children.push(new AnchorDataModel(xml, element))
+  // Substring elements.
+  } else if (xml.hasInnerElement(element, 'lsquo')) {
+    children.push(new LsquoDocMarkupDataModel(xml, element))
+  } else if (xml.hasInnerElement(element, 'rsquo')) {
+    children.push(new RsquoDocMarkupDataModel(xml, element))
   } else {
     console.error(util.inspect(element, { compact: false, depth: 999 }))
     console.error(`${elementName} element:`, Object.keys(element), 'not implemented yet by parseDocTitleCmdGroup()')
@@ -1814,7 +1819,7 @@ export class AbstractDocTitleType extends AbstractDataModelBase {
 //   </xsd:choice>
 // </xsd:group>
 
-export type DocCmdGroup = (BoldDataModel | SimpleSectDataModel | EmphasisDataModel | ParameterListDataModel | ComputerOutputDataModel | RefDataModel | ItemizedListDataModel | LineBreakDataModel | UlinkDataModel | AnchorDataModel | XrefSectDataModel | VariableListDataModel)
+export type DocCmdGroup = (BoldDataModel | SimpleSectDataModel | EmphasisDataModel | ParameterListDataModel | ComputerOutputDataModel | RefDataModel | ItemizedListDataModel | LineBreakDataModel | UlinkDataModel | AnchorDataModel | XrefSectDataModel | VariableListDataModel | SubstringDocMarkupType)
 
 function parseDocCmdGroup (
   xml: DoxygenXmlParser,
@@ -1854,6 +1859,11 @@ function parseDocCmdGroup (
     children.push(new ParameterListDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'xrefsect')) {
     children.push(new XrefSectDataModel(xml, element))
+  // Substring elements.
+  } else if (xml.hasInnerElement(element, 'lsquo')) {
+    children.push(new LsquoDocMarkupDataModel(xml, element))
+  } else if (xml.hasInnerElement(element, 'rsquo')) {
+    children.push(new RsquoDocMarkupDataModel(xml, element))
   } else {
     console.error(util.inspect(element, { compact: false, depth: 999 }))
     console.error(`${elementName} element:`, Object.keys(element), 'not implemented yet by parseDocCmdGroup()')
@@ -1920,7 +1930,8 @@ export class AbstractDocMarkupType extends AbstractDataModelBase {
     // Process elements.
 
     const innerElements = xml.getInnerElements(element, elementName)
-    assert(innerElements.length > 0)
+    // SubstringDocMarkupType has no inner elments
+    // assert(innerElements.length > 0)
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -1938,6 +1949,29 @@ export class AbstractDocMarkupType extends AbstractDataModelBase {
     // ------------------------------------------------------------------------
 
     // console.log(util.inspect(this, { compact: false, depth: 999 }))
+  }
+}
+
+export class SubstringDocMarkupType extends AbstractDocMarkupType {
+  substring: string
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string, substring: string) {
+    super(xml, element, elementName)
+    this.substring = substring
+  }
+}
+
+// <xsd:element name="lsquo" type="docEmptyType" />
+// <xsd:element name="rsquo" type="docEmptyType" />
+
+export class LsquoDocMarkupDataModel extends SubstringDocMarkupType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    super(xml, element, 'lsquo', '‘')
+  }
+}
+
+export class RsquoDocMarkupDataModel extends SubstringDocMarkupType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    super(xml, element, 'rsquo', '`')
   }
 }
 
