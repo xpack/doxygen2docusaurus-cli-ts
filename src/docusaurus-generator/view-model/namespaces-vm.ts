@@ -62,7 +62,7 @@ export class Namespaces extends CollectionBase {
     // Create the top level namespace list.
     for (const [namespaceId, namespace] of this.collectionCompoundsById) {
       if (namespace.parent === undefined) {
-        this.topLevelNamespaces.push(namespace)
+        this.topLevelNamespaces.push(namespace as Namespace)
       }
     }
   }
@@ -170,7 +170,7 @@ export class Namespaces extends CollectionBase {
 
     const lines: string[] = []
 
-    const label = escapeMdx(namespace.indexName)
+    const label = escapeMdx(namespace.unqualifiedName)
 
     const permalink = this.workspace.getPagePermalink(namespace.id)
     assert(permalink !== undefined && permalink.length > 1)
@@ -201,6 +201,8 @@ export class Namespaces extends CollectionBase {
 // ----------------------------------------------------------------------------
 
 export class Namespace extends CompoundBase {
+  unqualifiedName: string = '?'
+
   constructor (collection: Namespaces, compoundDef: CompoundDefDataModel) {
     super(collection, compoundDef)
 
@@ -217,7 +219,9 @@ export class Namespace extends CompoundBase {
     // Keep only the last name.
     this.sidebarLabel = compoundDef.compoundName.replace(/.*::/, '')
 
-    this.indexName = this.sidebarLabel
+    this.indexName = this.compoundName
+
+    this.unqualifiedName = this.sidebarLabel
 
     this.pageTitle = `The \`${this.sidebarLabel}\` Namespace Reference`
 
@@ -256,10 +260,10 @@ export class Namespace extends CompoundBase {
     }))
 
     lines.push('')
-    lines.push('## Fully Qualified Name')
+    lines.push('## Definition')
     lines.push('')
     // Intentionally on two lines.
-    lines.push(`<CodeBlock>${this.compoundName}</CodeBlock>`)
+    lines.push(`<CodeBlock>namespace ${this.compoundName}</CodeBlock>`)
 
     lines.push(...this.renderInnerIndicesToMdxLines({
       suffixes: ['Namespaces', 'Classes']
