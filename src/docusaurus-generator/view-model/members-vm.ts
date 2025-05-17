@@ -608,7 +608,6 @@ export class Member extends MemberBase {
               this.detailedDescriptionMdxText !== undefined && this.detailedDescriptionMdxText.length > 0) {
             lines.push('')
             lines.push('---')
-            lines.push('')
           }
 
           if (this.detailedDescriptionMdxText !== undefined) {
