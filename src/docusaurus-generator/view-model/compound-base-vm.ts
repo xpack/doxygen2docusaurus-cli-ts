@@ -244,6 +244,10 @@ export abstract class CompoundBase {
 
   // --------------------------------------------------------------------------
 
+  hasInnerIndices (): boolean {
+    return (this.innerCompounds !== undefined) && (this.innerCompounds.size > 0)
+  }
+
   renderInnerIndicesToMdxLines ({
     suffixes = []
   }: {
@@ -311,6 +315,10 @@ export abstract class CompoundBase {
     }
 
     return lines
+  }
+
+  hasSections (): boolean {
+    return (this.sections !== undefined) && (this.sections.length > 0)
   }
 
   renderSectionIndicesToMdxLines (): string[] {
