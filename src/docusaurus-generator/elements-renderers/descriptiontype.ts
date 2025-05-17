@@ -17,6 +17,7 @@ import util from 'util'
 import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js'
 import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractSpType, ParaDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { escapeMdx } from '../utils.js'
+import { AbstractDoxygenFileOptionType } from '../../data-model/doxyfile/doxyfileoptiontype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -124,24 +125,65 @@ export class DocRefTextTypeTextRenderer extends ElementTextRendererBase {
 
 // ----------------------------------------------------------------------------
 
+// <xsd:simpleType name="DoxSimpleSectKind">
+//   <xsd:restriction base="xsd:string">
+//     <xsd:enumeration value="see" />
+//     <xsd:enumeration value="return" />
+//     <xsd:enumeration value="author" />
+//     <xsd:enumeration value="authors" />
+//     <xsd:enumeration value="version" />
+//     <xsd:enumeration value="since" />
+//     <xsd:enumeration value="date" />
+//     <xsd:enumeration value="note" />
+//     <xsd:enumeration value="warning" />
+//     <xsd:enumeration value="pre" />
+//     <xsd:enumeration value="post" />
+//     <xsd:enumeration value="copyright" />
+//     <xsd:enumeration value="invariant" />
+//     <xsd:enumeration value="remark" />
+//     <xsd:enumeration value="attention" />
+//     <xsd:enumeration value="important" />
+//     <xsd:enumeration value="par" />
+//     <xsd:enumeration value="rcs" />
+//   </xsd:restriction>
+// </xsd:simpleType>
+
 export class DocSimpleSectTypeTextRenderer extends ElementTextRendererBase {
   renderToMdxText (element: AbstractDocSimpleSectType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
 
+    // doxygen.git/src/translator_en.h
+    const DoxSimpleSectKind: Record<string, string> = {
+      see: 'See Also',
+      return: 'Returns',
+      author: 'Author',
+      authors: 'Authors',
+      version: 'Version',
+      since: 'Since',
+      date: 'Date',
+      // note -> :::info (note is white in Docusaurus)
+      // warning -> :::warning
+      pre: 'Precondition',
+      post: 'Postcondition',
+      copyright: 'Copyright',
+      invariant: 'Invariant',
+      remark: 'Remarks'
+      // attention: -> :::danger
+      // important: -> :::tip
+      // par: - paragraph with custom title
+      // rcs: - apparently ignored
+    }
+
     lines.push('')
-    if (element.kind === 'par') {
+    if (DoxSimpleSectKind[element.kind] !== undefined) {
+      lines.push(`<SectionUser title="${DoxSimpleSectKind[element.kind]}">`)
+      lines.push(this.workspace.renderElementsToMdxText(element.children).trim())
+      lines.push('</SectionUser>')
+    } else if (element.kind === 'par') {
       assert(element.title !== undefined)
       lines.push(`<SectionUser title="${element.title}">`)
-      lines.push(this.workspace.renderElementsToMdxText(element.children).trim())
-      lines.push('</SectionUser>')
-    } else if (element.kind === 'return') {
-      lines.push('<SectionUser title="Returns">')
-      lines.push(this.workspace.renderElementsToMdxText(element.children).trim())
-      lines.push('</SectionUser>')
-    } else if (element.kind === 'since') {
-      lines.push('<SectionUser title="Since">')
       lines.push(this.workspace.renderElementsToMdxText(element.children).trim())
       lines.push('</SectionUser>')
     } else if (element.kind === 'note') {
@@ -151,6 +193,14 @@ export class DocSimpleSectTypeTextRenderer extends ElementTextRendererBase {
       lines.push(':::')
     } else if (element.kind === 'warning') {
       lines.push(':::warning')
+      lines.push(this.workspace.renderElementToMdxText(element.children).trim())
+      lines.push(':::')
+    } else if (element.kind === 'attention') {
+      lines.push(':::danger')
+      lines.push(this.workspace.renderElementToMdxText(element.children).trim())
+      lines.push(':::')
+    } else if (element.kind === 'important') {
+      lines.push(':::tip')
       lines.push(this.workspace.renderElementToMdxText(element.children).trim())
       lines.push(':::')
     } else {
