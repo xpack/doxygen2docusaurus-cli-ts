@@ -604,9 +604,12 @@ export class Member extends MemberBase {
             }))
           }
 
-          // if (this.detailedDescriptionMdxText !== undefined) {
-          //   lines.push(...this.detailedDescriptionMdxLines)
-          // }
+          if (this.briefDescriptionMdxText !== undefined && this.briefDescriptionMdxText.length > 0 &&
+              this.detailedDescriptionMdxText !== undefined && this.detailedDescriptionMdxText.length > 0) {
+            lines.push('')
+            lines.push('---')
+            lines.push('')
+          }
 
           if (this.detailedDescriptionMdxText !== undefined) {
             lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
