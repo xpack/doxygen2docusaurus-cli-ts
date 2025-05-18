@@ -267,6 +267,11 @@ export class Group extends CompoundBase {
 
     lines.push(...this.renderSectionIndicesToMdxLines())
 
+    // if (this.hasSect1InDescription) {
+    //   lines.push('')
+    //   lines.push('<Link id="#details" />')
+    // }
+
     lines.push(...this.renderDetailedDescriptionToMdxLines({
       todo: descriptionTodo,
       showHeader: !this.hasSect1InDescription

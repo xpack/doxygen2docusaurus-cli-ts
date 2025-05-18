@@ -25,10 +25,13 @@ export class DocS1TypeLinesRenderer extends ElementLinesRendererBase {
 
     const lines: string[] = []
 
+    // Add the anchor referred by the 'More...' link.
+    lines.push('')
+    lines.push('<Link id="#details" />')
+
     const title = this.workspace.renderElementToMdxText(element.title).trim()
     if (title.length > 0) {
       console.warn('h1 header title cannot be rendered in Docusaurus, ignored')
-
       lines.push('')
       lines.push(...this.workspace.renderElementsToMdxLines(element.children))
     } else {
@@ -49,11 +52,7 @@ export class DocS2TypeLinesRenderer extends ElementLinesRendererBase {
     const title = this.workspace.renderElementToMdxText(element.title).trim()
     if (title.length > 0) {
       lines.push('')
-      if (title === 'Description') {
-        lines.push(`## ${title} {#details}`)
-      } else {
-        lines.push(`## ${title}`)
-      }
+      lines.push(`## ${title}`)
       // if (element.id !== undefined && element.id.length > 0) {
       //   result += `{#${element.id}}`
       // }
@@ -62,6 +61,7 @@ export class DocS2TypeLinesRenderer extends ElementLinesRendererBase {
       lines.push(...this.workspace.renderElementsToMdxLines(element.children))
     } else {
       lines.push('')
+      console.warn('h2 header title not defined')
       // result += '<h2>\n'
 
       // if (element.id !== undefined && element.id.length > 0) {
