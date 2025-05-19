@@ -174,7 +174,9 @@ export class Groups extends CollectionBase {
     }
 
     lines.push('')
-    lines.push('For comparison, Doxygen pages, styled with the [doxygen-awesome-css](https://jothepro.github.io/doxygen-awesome-css/) plugin, continue to be available via the <Link to="pathname:///doxygen/topics.html">/doxygen/*</Link> URLs.')
+    lines.push(':::note')
+    lines.push('For comparison, the original Doxygen html pages, styled with the [doxygen-awesome-css](https://jothepro.github.io/doxygen-awesome-css/) plugin, continue to be available via the <Link to="pathname:///doxygen/topics.html">/doxygen/*</Link> URLs.')
+    lines.push(':::')
 
     console.log(`Writing groups index file ${filePath}...`)
 
