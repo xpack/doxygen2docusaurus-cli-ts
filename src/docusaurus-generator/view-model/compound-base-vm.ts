@@ -183,10 +183,10 @@ export abstract class CompoundBase {
     briefDescriptionMdxText?: string | undefined
     todo?: string
     morePermalink?: string | undefined
-  }): string {
+  } = {}): string {
     let text: string = ''
 
-    // console.log(this)
+    // console.log(this
 
     if (briefDescriptionMdxText === undefined && todo.length === 0) {
       return ''
@@ -209,24 +209,28 @@ export abstract class CompoundBase {
   renderDetailedDescriptionToMdxLines ({
     detailedDescriptionMdxText = this.detailedDescriptionMdxText,
     todo = '',
-    showHeader = true
+    showHeader = true,
+    showBrief = false
   }: {
     detailedDescriptionMdxText?: string | undefined
     todo?: string
     showHeader?: boolean
+    showBrief?: boolean
   }): string[] {
     const lines: string[] = []
 
     // const workspace = this.collection.workspace
-    if (detailedDescriptionMdxText === undefined && todo.length === 0) {
-      return []
-    }
-
     if (showHeader) {
-      if ((detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) || todo.length > 0) {
+      if ((detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) ||
+          todo.length > 0 ||
+          (showBrief && this.briefDescriptionMdxText !== undefined && this.briefDescriptionMdxText.length > 0)) {
         lines.push('')
         lines.push('## Description {#details}')
       }
+    }
+
+    if (showBrief) {
+      lines.push(this.renderBriefDescriptionToMdxText())
     }
 
     // Do not repeat the brief in the detailed section. (configurable for Doxygen)
