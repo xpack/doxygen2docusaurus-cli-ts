@@ -21,6 +21,7 @@ import { CollectionBase } from './collection-base.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { FrontMatter } from '../types.js'
 import { Section } from './members-vm.js'
+import { Pages } from './pages-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -135,6 +136,7 @@ export class Groups extends CollectionBase {
     const projectBrief = this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF')
     const permalink = '' // The root of the API sub-site.
 
+    // This is the top index.mdx file (@mainpage)
     const frontMatter: FrontMatter = {
       title: `${projectBrief} API Reference`,
       slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
@@ -160,6 +162,16 @@ export class Groups extends CollectionBase {
 
     lines.push('')
     lines.push('</TreeTable>')
+
+    const pages = this.workspace.viewModel.get('pages') as Pages
+    const detailedDescriptionMdxText = pages.mainPage?.detailedDescriptionMdxText
+    if (detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) {
+      lines.push('')
+      assert(pages.mainPage !== undefined)
+      lines.push(...pages.mainPage?.renderDetailedDescriptionToMdxLines({
+        showBrief: true
+      }))
+    }
 
     lines.push('')
     lines.push('For comparison, Doxygen pages, styled with the [doxygen-awesome-css](https://jothepro.github.io/doxygen-awesome-css/) plugin, continue to be available via the <Link to="pathname:///doxygen/topics.html">/doxygen/*</Link> URLs.')
