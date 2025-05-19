@@ -44,8 +44,15 @@ export class Pages extends CollectionBase {
     if (page.id === 'indexpage') {
       this.mainPage = page
     }
-
     return page
+  }
+
+  override hasCompounds (): boolean {
+    for (const compoundId of this.collectionCompoundsById.keys()) {
+      if (compoundId !== 'indexpage') {
+        return true
+      }
+    }
   }
 
   // --------------------------------------------------------------------------
