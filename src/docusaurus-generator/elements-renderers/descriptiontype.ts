@@ -243,12 +243,12 @@ export class DocEmptyTypeLinesRenderer extends ElementTextRendererBase {
     const lines: string[] = []
 
     switch (element.constructor.name) {
-      case 'Hruler':
+      case 'HrulerDataModel':
         lines.push('<hr/>')
         break
 
-      case 'LineBreak':
-        lines.push('<br/>')
+      case 'LineBreakDataModel':
+        lines.push('\n')
         break
 
       default:
