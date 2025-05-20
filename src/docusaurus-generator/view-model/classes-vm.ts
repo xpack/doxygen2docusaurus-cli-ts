@@ -535,7 +535,7 @@ export class Class extends CompoundBase {
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({
       todo: descriptionTodo,
-      showBrief: true
+      showBrief: !this.hasSect1InDescription
     }))
 
     if (this.locationMdxText !== undefined) {

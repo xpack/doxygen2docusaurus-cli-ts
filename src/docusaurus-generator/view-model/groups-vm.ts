@@ -169,7 +169,7 @@ export class Groups extends CollectionBase {
       lines.push('')
       assert(pages.mainPage !== undefined)
       lines.push(...pages.mainPage?.renderDetailedDescriptionToMdxLines({
-        showBrief: true
+        showBrief: !pages.mainPage?.hasSect1InDescription
       }))
     }
 
@@ -289,7 +289,7 @@ export class Group extends CompoundBase {
     lines.push(...this.renderDetailedDescriptionToMdxLines({
       todo: descriptionTodo,
       showHeader: !this.hasSect1InDescription,
-      showBrief: true
+      showBrief: !this.hasSect1InDescription
     }))
 
     lines.push(...this.renderSectionsToMdxLines())

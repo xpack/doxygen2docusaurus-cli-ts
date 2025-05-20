@@ -419,7 +419,7 @@ export class Folder extends CompoundBase {
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({
       todo: descriptionTodo,
-      showBrief: true
+      showBrief: !this.hasSect1InDescription
     }))
 
     lines.push(...this.renderSectionsToMdxLines())
@@ -487,7 +487,7 @@ export class File extends CompoundBase {
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({
       todo: descriptionTodo,
-      showBrief: true
+      showBrief: !this.hasSect1InDescription
     }))
 
     lines.push(...this.renderSectionsToMdxLines())
