@@ -6,6 +6,7 @@ import { FrontMatter } from '../types.js';
 export declare class Pages extends CollectionBase {
     mainPage: Page | undefined;
     addChild(compoundDef: CompoundDefDataModel): CompoundBase;
+    hasCompounds(): boolean;
     createCompoundsHierarchies(): void;
     createSidebarItems(): SidebarItem[];
     createMenuItems(): MenuItem[];

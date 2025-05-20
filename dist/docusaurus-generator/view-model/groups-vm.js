@@ -106,6 +106,7 @@ export class Groups extends CollectionBase {
         const filePath = `${outputFolderPath}/index.mdx`;
         const projectBrief = this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF');
         const permalink = ''; // The root of the API sub-site.
+        // This is the top index.mdx file (@mainpage)
         const frontMatter = {
             title: `${projectBrief} API Reference`,
             slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
@@ -125,8 +126,19 @@ export class Groups extends CollectionBase {
         }
         lines.push('');
         lines.push('</TreeTable>');
+        const pages = this.workspace.viewModel.get('pages');
+        const detailedDescriptionMdxText = pages.mainPage?.detailedDescriptionMdxText;
+        if (detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) {
+            lines.push('');
+            assert(pages.mainPage !== undefined);
+            lines.push(...pages.mainPage?.renderDetailedDescriptionToMdxLines({
+                showBrief: !pages.mainPage?.hasSect1InDescription
+            }));
+        }
         lines.push('');
-        lines.push('For comparison, Doxygen pages, styled with the [doxygen-awesome-css](https://jothepro.github.io/doxygen-awesome-css/) plugin, continue to be available via the <Link to="pathname:///doxygen/topics.html">/doxygen/*</Link> URLs.');
+        lines.push(':::note');
+        lines.push('For comparison, the original Doxygen html pages, styled with the [doxygen-awesome-css](https://jothepro.github.io/doxygen-awesome-css/) plugin, continue to be available via the <Link to="pathname:///doxygen/topics.html">/doxygen/*</Link> URLs.');
+        lines.push(':::');
         console.log(`Writing groups index file ${filePath}...`);
         await this.workspace.writeFile({
             filePath,
@@ -208,7 +220,8 @@ export class Group extends CompoundBase {
         // }
         lines.push(...this.renderDetailedDescriptionToMdxLines({
             todo: descriptionTodo,
-            showHeader: !this.hasSect1InDescription
+            showHeader: !this.hasSect1InDescription,
+            showBrief: !this.hasSect1InDescription
         }));
         lines.push(...this.renderSectionsToMdxLines());
         return lines;

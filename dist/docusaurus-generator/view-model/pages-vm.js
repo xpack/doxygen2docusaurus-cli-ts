@@ -28,6 +28,14 @@ export class Pages extends CollectionBase {
         }
         return page;
     }
+    hasCompounds() {
+        for (const compoundId of this.collectionCompoundsById.keys()) {
+            if (compoundId !== 'indexpage') {
+                return true;
+            }
+        }
+        return false;
+    }
     // --------------------------------------------------------------------------
     createCompoundsHierarchies() {
         // There are no pages hierarchies.
@@ -44,6 +52,9 @@ export class Pages extends CollectionBase {
             items: []
         };
         for (const [pageId, page] of this.collectionCompoundsById) {
+            if (pageId === 'indexpage') {
+                continue;
+            }
             const label = page.sidebarLabel;
             const id = `${this.workspace.permalinkBaseUrl}${page.docusaurusId}`;
             const docItem = {
@@ -69,7 +80,12 @@ export class Pages extends CollectionBase {
 export class Page extends CompoundBase {
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
-        this.sidebarLabel = compoundDef.title ?? '?';
+        if (compoundDef.title !== undefined) {
+            this.sidebarLabel = compoundDef.title?.trim().replace(/\.$/, '');
+        }
+        else {
+            this.sidebarLabel = '?';
+        }
         this.indexName = this.sidebarLabel;
         this.pageTitle = `The ${this.sidebarLabel}`;
         const sanitizedPath = sanitizeHierarchicalPath(this.compoundName);

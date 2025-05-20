@@ -11,4 +11,5 @@ export declare abstract class CollectionBase {
     abstract createSidebarItems(): SidebarItem[];
     abstract createMenuItems(): MenuItem[];
     abstract generateIndexDotMdxFile(): Promise<void>;
+    hasCompounds(): boolean;
 }

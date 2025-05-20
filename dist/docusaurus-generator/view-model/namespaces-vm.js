@@ -209,7 +209,8 @@ export class Namespace extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToMdxLines());
         lines.push(...this.renderDetailedDescriptionToMdxLines({
-            todo: descriptionTodo
+            todo: descriptionTodo,
+            showBrief: !this.hasSect1InDescription
         }));
         lines.push(...this.renderSectionsToMdxLines());
         lines.push(...this.renderGeneratedFromToMdxLines());

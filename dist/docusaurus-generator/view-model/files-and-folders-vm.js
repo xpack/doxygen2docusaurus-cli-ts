@@ -317,7 +317,8 @@ export class Folder extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToMdxLines());
         lines.push(...this.renderDetailedDescriptionToMdxLines({
-            todo: descriptionTodo
+            todo: descriptionTodo,
+            showBrief: !this.hasSect1InDescription
         }));
         lines.push(...this.renderSectionsToMdxLines());
         return lines;
@@ -361,7 +362,8 @@ export class File extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToMdxLines());
         lines.push(...this.renderDetailedDescriptionToMdxLines({
-            todo: descriptionTodo
+            todo: descriptionTodo,
+            showBrief: !this.hasSect1InDescription
         }));
         lines.push(...this.renderSectionsToMdxLines());
         if (this.programListing !== undefined) {

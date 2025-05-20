@@ -427,7 +427,8 @@ export class Class extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToMdxLines());
         lines.push(...this.renderDetailedDescriptionToMdxLines({
-            todo: descriptionTodo
+            todo: descriptionTodo,
+            showBrief: !this.hasSect1InDescription
         }));
         if (this.locationMdxText !== undefined) {
             lines.push(this.locationMdxText);

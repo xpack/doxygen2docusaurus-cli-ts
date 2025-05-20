@@ -68,7 +68,7 @@ export class DocusaurusGenerator {
         for (const collectionName of this.workspace.sidebarCollectionNames) {
             // console.log(collectionName)
             const collection = this.workspace.viewModel.get(collectionName);
-            if (collection !== undefined) {
+            if (collection?.hasCompounds()) {
                 sidebarCategory.items.push(...collection.createSidebarItems());
             }
         }
@@ -99,7 +99,7 @@ export class DocusaurusGenerator {
         for (const collectionName of this.workspace.sidebarCollectionNames) {
             // console.log(collectionName)
             const collection = this.workspace.viewModel.get(collectionName);
-            if (collection !== undefined) {
+            if (collection?.hasCompounds()) {
                 menuDropdown.items.push(...collection.createMenuItems());
             }
         }

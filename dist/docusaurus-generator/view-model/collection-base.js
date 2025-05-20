@@ -14,5 +14,8 @@ export class CollectionBase {
         this.workspace = workspace;
         this.collectionCompoundsById = new Map();
     }
+    hasCompounds() {
+        return this.collectionCompoundsById.size > 0;
+    }
 }
 // ----------------------------------------------------------------------------

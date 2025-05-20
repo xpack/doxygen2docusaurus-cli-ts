@@ -104,9 +104,9 @@ export class CompoundBase {
         }
     }
     // --------------------------------------------------------------------------
-    renderBriefDescriptionToMdxText({ briefDescriptionMdxText = this.briefDescriptionMdxText, todo = '', morePermalink }) {
+    renderBriefDescriptionToMdxText({ briefDescriptionMdxText = this.briefDescriptionMdxText, todo = '', morePermalink } = {}) {
         let text = '';
-        // console.log(this)
+        // console.log(this
         if (briefDescriptionMdxText === undefined && todo.length === 0) {
             return '';
         }
@@ -123,17 +123,20 @@ export class CompoundBase {
         }
         return text;
     }
-    renderDetailedDescriptionToMdxLines({ detailedDescriptionMdxText = this.detailedDescriptionMdxText, todo = '', showHeader = true }) {
+    renderDetailedDescriptionToMdxLines({ detailedDescriptionMdxText = this.detailedDescriptionMdxText, todo = '', showHeader = true, showBrief = false }) {
         const lines = [];
         // const workspace = this.collection.workspace
-        if (detailedDescriptionMdxText === undefined && todo.length === 0) {
-            return [];
-        }
         if (showHeader) {
-            if ((detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) || todo.length > 0) {
+            if ((detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) ||
+                todo.length > 0 ||
+                (showBrief && this.briefDescriptionMdxText !== undefined && this.briefDescriptionMdxText.length > 0)) {
                 lines.push('');
                 lines.push('## Description {#details}');
             }
+        }
+        if (showBrief) {
+            lines.push('');
+            lines.push(this.renderBriefDescriptionToMdxText());
         }
         // Do not repeat the brief in the detailed section. (configurable for Doxygen)
         // console.log(util.inspect(compoundDef.detailedDescription, { compact: false, depth: 999 }))

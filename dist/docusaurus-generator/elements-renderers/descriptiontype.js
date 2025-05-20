@@ -147,7 +147,8 @@ export class DocSimpleSectTypeTextRenderer extends ElementTextRendererBase {
         }
         else if (element.kind === 'par') {
             assert(element.title !== undefined);
-            lines.push(`<SectionUser title="${element.title}">`);
+            const title = element.title.replace(/\.$/, '');
+            lines.push(`<SectionUser title="${title}">`);
             lines.push(this.workspace.renderElementsToMdxText(element.children).trim());
             lines.push('</SectionUser>');
         }
@@ -201,11 +202,11 @@ export class DocEmptyTypeLinesRenderer extends ElementTextRendererBase {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
         switch (element.constructor.name) {
-            case 'Hruler':
+            case 'HrulerDataModel':
                 lines.push('<hr/>');
                 break;
-            case 'LineBreak':
-                lines.push('<br/>');
+            case 'LineBreakDataModel':
+                lines.push('\n');
                 break;
             default:
                 console.error(util.inspect(element, { compact: false, depth: 999 }));
