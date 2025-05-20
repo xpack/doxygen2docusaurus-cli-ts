@@ -183,7 +183,8 @@ export class DocSimpleSectTypeTextRenderer extends ElementTextRendererBase {
       lines.push('</SectionUser>')
     } else if (element.kind === 'par') {
       assert(element.title !== undefined)
-      lines.push(`<SectionUser title="${element.title}">`)
+      const title = element.title.replace(/\.$/, '')
+      lines.push(`<SectionUser title="${title}">`)
       lines.push(this.workspace.renderElementsToMdxText(element.children).trim())
       lines.push('</SectionUser>')
     } else if (element.kind === 'note') {
