@@ -75,6 +75,9 @@ export class Pages extends CollectionBase {
     }
 
     for (const [pageId, page] of this.collectionCompoundsById) {
+      if (pageId === 'indexpage') {
+        continue
+      }
       const label: string = page.sidebarLabel
       const id: string = `${this.workspace.permalinkBaseUrl}${page.docusaurusId as string}`
       const docItem: SidebarDocItem = {
