@@ -230,8 +230,8 @@ export abstract class CompoundBase {
     }
 
     if (showBrief) {
-        lines.push('')
-        lines.push(this.renderBriefDescriptionToMdxText())
+      lines.push('')
+      lines.push(this.renderBriefDescriptionToMdxText())
     }
 
     // Do not repeat the brief in the detailed section. (configurable for Doxygen)
