@@ -53,6 +53,7 @@ export class Pages extends CollectionBase {
         return true
       }
     }
+    return false
   }
 
   // --------------------------------------------------------------------------
@@ -112,7 +113,11 @@ export class Page extends CompoundBase {
   constructor (collection: Pages, compoundDef: CompoundDefDataModel) {
     super(collection, compoundDef)
 
-    this.sidebarLabel = compoundDef.title ?? '?'
+    if (compoundDef.title !== undefined) {
+      this.sidebarLabel = compoundDef.title?.trim().replace(/\.$/, '')
+    } else {
+      this.sidebarLabel = '?'
+    }
 
     this.indexName = this.sidebarLabel
 
