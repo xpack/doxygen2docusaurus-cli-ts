@@ -31,16 +31,19 @@ export class DocusaurusGenerator {
   constructor ({
     dataModel,
     pluginOptions,
-    siteConfig
+    siteConfig,
+    pluginActions = undefined
   }: {
     dataModel: DataModel
     pluginOptions: PluginOptions
     siteConfig: any
+    pluginActions?: any
   }) {
     this.workspace = new Workspace({
       dataModel,
       pluginOptions,
-      siteConfig
+      siteConfig,
+      pluginActions
     })
   }
 
@@ -50,12 +53,16 @@ export class DocusaurusGenerator {
     console.log()
 
     await this.prepareOutputFolder()
+
     await this.generateSidebarFile()
     await this.generateMenuDropdownFile()
+
     console.log()
     await this.generatePages()
+
     console.log()
     await this.generateIndexDotMdxFiles()
+
     await this.generateRedirectFiles()
   }
 

@@ -44,6 +44,9 @@ export class Workspace {
   // Docusaurus site configuration
   siteConfig: any
 
+  // The actions object passed from the plugin.
+  pluginActions: any
+
   collectionNamesByKind: Record<string, string> = {
     group: 'groups',
     namespace: 'namespaces',
@@ -82,17 +85,20 @@ export class Workspace {
   constructor ({
     dataModel,
     pluginOptions,
-    siteConfig
+    siteConfig,
+    pluginActions = undefined
   }: {
     dataModel: DataModel
     pluginOptions: PluginOptions
     siteConfig: any
+    pluginActions?: any
   }) {
     console.log()
 
     this.dataModel = dataModel
     this.pluginOptions = pluginOptions
     this.siteConfig = siteConfig
+    this.pluginActions = pluginActions
 
     this.doxygenOptions = new DoxygenFileOptions(this.dataModel.doxyfile?.options)
 
