@@ -5,7 +5,7 @@ must be installed in place of the Docusaurus Content Docs plugin,
 to perform the MDX generation **before** the Docs plugin starts
 parsing the files.
 
-```json
+```js
     [
       // '@docusaurus/plugin-content-docs',
       './src/plugins/DocusaurusContentDocsWithDoxygenWrapper.js',
