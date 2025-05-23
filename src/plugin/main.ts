@@ -30,8 +30,10 @@ export async function parseDoxygen ({
   // console.log(`context: ${util.inspect(context)}`)
   // console.log('options:', util.inspect(options))
 
-  console.log()
-  console.log('pluginOptions:', util.inspect(options))
+  if (options.verbose) {
+    console.log()
+    console.log('pluginOptions:', util.inspect(options))
+  }
 
   assert(options?.doxygenXmlInputFolderPath !== undefined && options?.doxygenXmlInputFolderPath?.length > 0, 'doxygenXmlInputFolderPath is required')
 

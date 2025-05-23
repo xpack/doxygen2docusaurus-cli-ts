@@ -39,23 +39,23 @@ export default async function pluginDocusaurus (
     } else {
       console.log(`${pluginName}: starting...`)
     }
+  }
 
-    if (actualOptions.runOnStart) {
-      const dataModel = await parseDoxygen({ options: actualOptions })
+  if (actualOptions.runOnStart) {
+    const dataModel: DataModel = await parseDoxygen({ options: actualOptions })
 
-      await generateDocusaurusMdx({
-        dataModel,
-        options: actualOptions,
-        siteConfig: context.siteConfig
-      })
+    await generateDocusaurusMdx({
+      dataModel,
+      options: actualOptions,
+      siteConfig: context.siteConfig
+    })
 
-      if (actualOptions.verbose) {
-        console.log()
-        if (actualOptions.id !== undefined && actualOptions.id !== 'default') {
-          console.log(`${pluginName}: instance '${actualOptions.id}' generation of docs completed.`)
-        } else {
-          console.log(`${pluginName}: generation of docs completed.`)
-        }
+    if (actualOptions.verbose) {
+      console.log()
+      if (actualOptions.id !== undefined && actualOptions.id !== 'default') {
+        console.log(`${pluginName}: instance '${actualOptions.id}' generation of docs completed.`)
+      } else {
+        console.log(`${pluginName}: generation of docs completed.`)
       }
     }
   }
