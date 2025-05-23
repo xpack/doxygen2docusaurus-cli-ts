@@ -124,7 +124,7 @@ export class DocusaurusGenerator {
     }
     // --------------------------------------------------------------------------
     async generatePages() {
-        console.log('Generating Docusaurus pages (object -> url)...');
+        console.log('Writing Docusaurus pages (object -> url)...');
         const outputFolderPath = this.workspace.pluginOptions.outputFolderPath;
         for (const [compoundId, compound] of this.workspace.compoundsById) {
             if (compound instanceof Page && compound.id === 'indexpage') {
@@ -137,7 +137,9 @@ export class DocusaurusGenerator {
             this.workspace.currentCompound = compound;
             const permalink = compound.relativePermalink;
             assert(permalink !== undefined);
-            console.log(`${compound.kind}: ${compound.compoundName.replaceAll(/[ ]*/g, '')}`, '->', `${outputFolderPath}/${permalink}...`);
+            if (this.workspace.pluginOptions.verbose) {
+                console.log(`${compound.kind}: ${compound.compoundName.replaceAll(/[ ]*/g, '')}`, '->', `${outputFolderPath}/${permalink}...`);
+            }
             const docusaurusId = compound.docusaurusId;
             assert(docusaurusId !== undefined);
             const fileName = `${docusaurusId}.mdx`;

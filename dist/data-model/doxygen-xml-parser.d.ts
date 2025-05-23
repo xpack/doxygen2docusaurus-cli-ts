@@ -1,6 +1,10 @@
 import { XMLParser } from 'fast-xml-parser';
 import { XmlElement, DataModel } from './types.js';
 export declare class DoxygenXmlParser {
+    verbose: boolean;
+    constructor({ verbose }: {
+        verbose: boolean;
+    });
     parse({ folderPath }: {
         folderPath: string;
     }): Promise<DataModel>;

@@ -12,38 +12,28 @@
 import assert from 'node:assert';
 import * as util from 'node:util';
 import { DoxygenXmlParser } from '../data-model/doxygen-xml-parser.js';
-import { defaultOptions } from './options.js';
 import { DocusaurusGenerator } from '../docusaurus-generator/generator.js';
 // ----------------------------------------------------------------------------
 export async function parseDoxygen({ options }) {
     // console.log('generateDoxygen()')
     // console.log(`context: ${util.inspect(context)}`)
     // console.log('options:', util.inspect(options))
-    // Merge with the defaults.
-    const actualOptions = {
-        ...defaultOptions,
-        ...options
-    };
     console.log();
-    console.log('pluginOptions:', util.inspect(actualOptions));
+    console.log('pluginOptions:', util.inspect(options));
     assert(options?.doxygenXmlInputFolderPath !== undefined && options?.doxygenXmlInputFolderPath?.length > 0, 'doxygenXmlInputFolderPath is required');
     assert(options.outputFolderPath !== undefined && options.outputFolderPath.length > 0, 'outputFolderPath is required');
     console.log();
-    const xml = new DoxygenXmlParser();
+    const xml = new DoxygenXmlParser({
+        verbose: options.verbose
+    });
     const dataModel = await xml.parse({ folderPath: options.doxygenXmlInputFolderPath });
     // console.log('doxygenData:', util.inspect(doxygenData))
     return dataModel;
 }
 export async function generateDocusaurusMdx({ dataModel, options, siteConfig, pluginActions = undefined }) {
-    // Merge with the defaults.
-    const actualOptions = {
-        ...defaultOptions,
-        ...options
-    };
-    // console.log('generateDocusaurusMdx()')
     const docs = new DocusaurusGenerator({
         dataModel,
-        pluginOptions: actualOptions,
+        pluginOptions: options,
         siteConfig,
         pluginActions
     });

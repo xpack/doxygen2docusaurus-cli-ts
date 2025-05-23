@@ -19,6 +19,10 @@ import { DoxygenFileDataModel } from './doxyfile/doxyfiletype-dm.js';
 import { DoxygenDataModel } from './compounds/doxygentype-dm.js';
 // ----------------------------------------------------------------------------
 export class DoxygenXmlParser {
+    constructor({ verbose = false }) {
+        this.verbose = false;
+        this.verbose = verbose;
+    }
     async parse({ folderPath }) {
         // The parser is configured to preserve the original, non-trimmed content
         // and the original elements order. The downsize
@@ -37,6 +41,9 @@ export class DoxygenXmlParser {
         // console.log(folderPath)
         // ------------------------------------------------------------------------
         // Parse the top index.xml file.
+        if (!this.verbose) {
+            console.log('Parsing doxygen generated .xml files...');
+        }
         const parsedIndexElements = await this.parseFile({ fileName: 'index.xml', folderPath, xmlParser });
         // console.log(util.inspect(parsedIndex))
         // console.log(util.inspect(parsedIndex[0]['?xml']))
@@ -120,7 +127,9 @@ export class DoxygenXmlParser {
     async parseFile({ fileName, folderPath, xmlParser }) {
         const filePath = path.join(folderPath, fileName);
         const xmlString = await fs.readFile(filePath, { encoding: 'utf8' });
-        console.log(`Parsing ${fileName}...`);
+        if (this.verbose) {
+            console.log(`Parsing ${fileName}...`);
+        }
         return xmlParser.parse(xmlString);
     }
     // --------------------------------------------------------------------------

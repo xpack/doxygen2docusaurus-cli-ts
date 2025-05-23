@@ -90,7 +90,9 @@ export class Workspace {
                 console.error('compoundDefDataModel', compoundDefDataModel.kind, 'not implemented yet in', this.constructor.name);
             }
         }
-        console.log(this.compoundsById.size, 'compound definitions');
+        if (this.pluginOptions.verbose) {
+            console.log(this.compoundsById.size, 'compound definitions');
+        }
     }
     // --------------------------------------------------------------------------
     createCompoundsHierarchies() {
@@ -146,7 +148,9 @@ export class Workspace {
                 }
             }
         }
-        console.log(this.membersById.size, 'member definitions');
+        if (this.pluginOptions.verbose) {
+            console.log(this.membersById.size, 'member definitions');
+        }
     }
     // --------------------------------------------------------------------------
     // Required since references can be resolved only after all objects are in.

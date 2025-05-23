@@ -19,14 +19,11 @@ export class DocS1TypeLinesRenderer extends ElementLinesRendererBase {
         lines.push('<Link id="#details" />');
         const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
         if (title.length > 0) {
+            console.warn(element);
             console.warn('h1 header title cannot be rendered in Docusaurus, ignored');
-            lines.push('');
-            lines.push(...this.workspace.renderElementsToMdxLines(element.children));
         }
-        else {
-            lines.push('');
-            lines.push(...this.workspace.renderElementsToMdxLines(element.children));
-        }
+        lines.push('');
+        lines.push(...this.workspace.renderElementsToMdxLines(element.children));
         return lines;
     }
 }
