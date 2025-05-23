@@ -193,10 +193,11 @@ export class DocusaurusGenerator {
       const fileName = `${docusaurusId}.mdx`
       // console.log('fileName:', fileName)
       const filePath = `${outputFolderPath}/${fileName}`
+      const slug = `/${this.workspace.permalinkBaseUrl}${permalink}`
 
       const frontMatter: FrontMatter = {
         // title: `${dataObject.pageTitle ?? compound.compoundName}`,
-        slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+        slug,
         // description: '...', // TODO
         custom_edit_url: null,
         keywords: ['doxygen', 'reference', `${compound.kind as string}`]
