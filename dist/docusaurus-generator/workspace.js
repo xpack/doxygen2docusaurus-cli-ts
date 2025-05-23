@@ -26,7 +26,7 @@ import { Renderers } from './elements-renderers/renderers.js';
 // ----------------------------------------------------------------------------
 export class Workspace {
     // --------------------------------------------------------------------------
-    constructor({ dataModel, pluginOptions, siteConfig }) {
+    constructor({ dataModel, pluginOptions, siteConfig, pluginActions = undefined }) {
         this.collectionNamesByKind = {
             group: 'groups',
             namespace: 'namespaces',
@@ -46,6 +46,7 @@ export class Workspace {
         this.dataModel = dataModel;
         this.pluginOptions = pluginOptions;
         this.siteConfig = siteConfig;
+        this.pluginActions = pluginActions;
         this.doxygenOptions = new DoxygenFileOptions(this.dataModel.doxyfile?.options);
         // The relevant part of the permalink, like 'api', with the trailing slash.
         // TODO: what if not below `docs`?

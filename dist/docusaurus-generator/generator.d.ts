@@ -3,10 +3,11 @@ import { DataModel } from '../data-model/types.js';
 import { PluginOptions } from '../plugin/options.js';
 export declare class DocusaurusGenerator {
     workspace: Workspace;
-    constructor({ dataModel, pluginOptions, siteConfig }: {
+    constructor({ dataModel, pluginOptions, siteConfig, pluginActions }: {
         dataModel: DataModel;
         pluginOptions: PluginOptions;
         siteConfig: any;
+        pluginActions?: any;
     });
     generate(): Promise<void>;
     prepareOutputFolder(): Promise<void>;

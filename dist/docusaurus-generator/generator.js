@@ -15,11 +15,12 @@ import { Workspace } from './workspace.js';
 import { Page } from './view-model/pages-vm.js';
 export class DocusaurusGenerator {
     // --------------------------------------------------------------------------
-    constructor({ dataModel, pluginOptions, siteConfig }) {
+    constructor({ dataModel, pluginOptions, siteConfig, pluginActions = undefined }) {
         this.workspace = new Workspace({
             dataModel,
             pluginOptions,
-            siteConfig
+            siteConfig,
+            pluginActions
         });
     }
     // --------------------------------------------------------------------------
@@ -142,9 +143,10 @@ export class DocusaurusGenerator {
             const fileName = `${docusaurusId}.mdx`;
             // console.log('fileName:', fileName)
             const filePath = `${outputFolderPath}/${fileName}`;
+            const slug = `/${this.workspace.permalinkBaseUrl}${permalink}`;
             const frontMatter = {
                 // title: `${dataObject.pageTitle ?? compound.compoundName}`,
-                slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+                slug,
                 // description: '...', // TODO
                 custom_edit_url: null,
                 keywords: ['doxygen', 'reference', `${compound.kind}`]

@@ -10,13 +10,14 @@
  */
 export const defaultOptions = {
     doxygenXmlInputFolderPath: 'doxygen/xml',
-    outputFolderPath: 'doxygen/mdx',
-    outputBaseUrl: 'reference',
+    outputFolderPath: 'docs/api',
+    outputBaseUrl: 'api',
     sidebarCategoryFilePath: 'sidebar-category-doxygen.json',
     sidebarCategoryLabel: 'API Reference (Doxygen)',
     menuDropdownFilePath: 'docusaurus-config-doxygen-menu-dropdown.json',
     menuDropdownLabel: 'Reference',
     verbose: false,
-    runOnStart: false
+    runOnStart: false,
+    id: 'default'
 };
 // ----------------------------------------------------------------------------

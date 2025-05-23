@@ -34,7 +34,7 @@ export async function parseDoxygen({ options }) {
     // console.log('doxygenData:', util.inspect(doxygenData))
     return dataModel;
 }
-export async function generateDocusaurusMdx({ dataModel, options, siteConfig }) {
+export async function generateDocusaurusMdx({ dataModel, options, siteConfig, pluginActions = undefined }) {
     // Merge with the defaults.
     const actualOptions = {
         ...defaultOptions,
@@ -44,7 +44,8 @@ export async function generateDocusaurusMdx({ dataModel, options, siteConfig }) 
     const docs = new DocusaurusGenerator({
         dataModel,
         pluginOptions: actualOptions,
-        siteConfig
+        siteConfig,
+        pluginActions
     });
     await docs.generate();
     return 0;

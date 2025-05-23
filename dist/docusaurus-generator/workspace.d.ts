@@ -10,6 +10,7 @@ export declare class Workspace {
     dataModel: DataModel;
     pluginOptions: PluginOptions;
     siteConfig: any;
+    pluginActions: any;
     collectionNamesByKind: Record<string, string>;
     viewModel: Map<string, CollectionBase>;
     doxygenOptions: DoxygenFileOptions;
@@ -19,10 +20,11 @@ export declare class Workspace {
     membersById: Map<String, Member>;
     currentCompound: CompoundBase | undefined;
     elementRenderers: Renderers;
-    constructor({ dataModel, pluginOptions, siteConfig }: {
+    constructor({ dataModel, pluginOptions, siteConfig, pluginActions }: {
         dataModel: DataModel;
         pluginOptions: PluginOptions;
         siteConfig: any;
+        pluginActions?: any;
     });
     createVieModelObjects(): void;
     createCompoundsHierarchies(): void;
