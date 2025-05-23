@@ -1,12 +1,14 @@
 # README
 
-`DocusaurusContentDocsWithDoxygen.js` is an experiment to wrap the ContentDocs plugin.
+`DocusaurusContentDocsWithDoxygenWrapper.js` is a wrapper that must
+must be installed in place of the Docusaurus Content Docs plugin,
+to perform the MDX generation **before** the Docs plugin starts
+parsing the files.
 
-In the end the entire processing was moved to the top plugin function and this hack was no longer needed.
-
-```
+```json
     [
-      './src/plugins/DocusaurusContentDocsWithDoxygen.js',
+      // '@docusaurus/plugin-content-docs',
+      './src/plugins/DocusaurusContentDocsWithDoxygenWrapper.js',
       {
         sidebarPath: './sidebars.ts',
         // Please change this to your repo.
@@ -14,6 +16,7 @@ In the end the entire processing was moved to the top plugin function and this h
         editUrl: 'https://github.com/micro-os-plus/micro-test-plus-xpack/edit/website/website/',
         // showLastUpdateAuthor: true,
         showLastUpdateTime: true,
+
         doxygenPluginOptions: {
           verbose: true,
           runOnStart: true
@@ -21,4 +24,3 @@ In the end the entire processing was moved to the top plugin function and this h
       },
     ],
 ```
-
