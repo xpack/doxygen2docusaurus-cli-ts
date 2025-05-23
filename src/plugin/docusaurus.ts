@@ -27,16 +27,10 @@ export const pluginName: string = '@xpack/docusaurus-plugin-doxygen'
 
 export default async function pluginDocusaurus (
   context: LoadContext,
-  options: PluginOptions // The options in docusaurus.config.ts
+  options: PluginOptions // The user options in docusaurus.config.ts
 ): Promise<any> {
-  // console.log(util.inspect(context, { compact: false, depth: 999 }))
-  // console.log('in options', options)
-
-  // Merge with the defaults.
-  const actualOptions: PluginOptions = {
-    ...defaultOptions,
-    ...options
-  }
+  // Already merged with the defaults in validateOptions.
+  const actualOptions = options
 
   if (actualOptions.verbose) {
     console.log()
@@ -45,62 +39,32 @@ export default async function pluginDocusaurus (
     } else {
       console.log(`${pluginName}: starting...`)
     }
-    // console.log()
-    // console.log('pluginOptions:', actualOptions)
+
+    if (actualOptions.runOnStart) {
+      const dataModel = await parseDoxygen({ options: actualOptions })
+
+      await generateDocusaurusMdx({
+        dataModel,
+        options: actualOptions,
+        siteConfig: context.siteConfig
+      })
+
+      if (actualOptions.verbose) {
+        console.log()
+        if (actualOptions.id !== undefined && actualOptions.id !== 'default') {
+          console.log(`${pluginName}: instance '${actualOptions.id}' generation of docs completed.`)
+        } else {
+          console.log(`${pluginName}: generation of docs completed.`)
+        }
+      }
+    }
   }
 
   return {
     name: pluginName,
 
     // https://docusaurus.io/docs/api/plugin-methods/lifecycle-apis
-    // Fetch from data sources. The return value is the content it needs.
-    // It is called for each plugin instance (in parallel).
-    async loadContent () {
-      if (actualOptions.verbose) {
-        console.log()
-        if (actualOptions.id !== undefined && actualOptions.id !== 'default') {
-          console.log(`${pluginName}: instance '${actualOptions.id}' loading content...`)
-        } else {
-          console.log(`${pluginName}: loading content...`)
-        }
-      }
-
-      let dataModel: DataModel = {
-        compoundDefs: []
-      }
-
-      if (actualOptions.runOnStart) {
-        dataModel = await parseDoxygen({ options: actualOptions })
-        await generateDocusaurusMdx({
-          dataModel,
-          options: actualOptions,
-          siteConfig: context.siteConfig
-        })
-
-        if (actualOptions.verbose) {
-          console.log()
-          if (actualOptions.id !== undefined && actualOptions.id !== 'default') {
-            console.log(`${pluginName}: instance '${actualOptions.id}' done.`)
-          } else {
-            console.log(`${pluginName}: done.`)
-          }
-        }
-      }
-
-      return dataModel
-    },
-
-    // The return value of `loadContent()` will be passed to
-    // `contentLoaded()` as `content`.
-    async contentLoaded ({
-      content,
-      actions
-    }: {
-      content: DataModel
-      actions: any
-    }) {
-      // console.log('docusaurus-plugin-doxygen: contentLoaded()')
-    },
+    // No need for loadContent() and contentLoaded().
 
     // https://docusaurus.io/docs/api/plugin-methods/extend-infrastructure#extendCli
     extendCli (cli: any) {
@@ -112,13 +76,28 @@ export default async function pluginDocusaurus (
         )
         .action(async (cliOptions: any) => {
           console.log()
-          console.log('Running docusaurus generate-doxygen...')
+          console.log('Running \'docusaurus generate-doxygen\'...')
           const exitCode = await generateDoxygen(context, actualOptions, cliOptions)
           console.log()
-          console.log('Running docusaurus generate-doxygen has completed successfully.')
+          console.log('Running \'docusaurus generate-doxygen\' has completed successfully.')
           return exitCode
         })
     }
+  }
+}
+
+export function validateOptions ({
+  validate,
+  options: userOptions
+}: {
+  validate: any
+  options: PluginOptions
+}): PluginOptions {
+  // Currently only add defaults.
+  // TODO: validate.
+  return {
+    ...defaultOptions,
+    ...userOptions
   }
 }
 
