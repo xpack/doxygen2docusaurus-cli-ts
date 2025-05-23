@@ -174,7 +174,7 @@ export class DocusaurusGenerator {
   // --------------------------------------------------------------------------
 
   async generatePages (): Promise<void> {
-    console.log('Generating Docusaurus pages (object -> url)...')
+    console.log('Writing Docusaurus pages (object -> url)...')
 
     const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
 
@@ -192,7 +192,9 @@ export class DocusaurusGenerator {
       const permalink: string = compound.relativePermalink as string
       assert(permalink !== undefined)
 
-      console.log(`${compound.kind as string}: ${compound.compoundName.replaceAll(/[ ]*/g, '') as string}`, '->', `${outputFolderPath}/${permalink}...`)
+      if (this.workspace.pluginOptions.verbose) {
+        console.log(`${compound.kind as string}: ${compound.compoundName.replaceAll(/[ ]*/g, '') as string}`, '->', `${outputFolderPath}/${permalink}...`)
+      }
 
       const docusaurusId: string = compound.docusaurusId
       assert(docusaurusId !== undefined)

@@ -26,6 +26,16 @@ import { DoxygenDataModel } from './compounds/doxygentype-dm.js'
 // ----------------------------------------------------------------------------
 
 export class DoxygenXmlParser {
+  verbose: boolean = false
+
+  constructor ({
+    verbose = false
+  }: {
+    verbose: boolean
+  }) {
+    this.verbose = verbose
+  }
+
   async parse ({
     folderPath
   }: {
@@ -51,6 +61,10 @@ export class DoxygenXmlParser {
 
     // ------------------------------------------------------------------------
     // Parse the top index.xml file.
+
+    if (!this.verbose) {
+      console.log('Parsing doxygen generated .xml files...')
+    }
 
     const parsedIndexElements: XmlElement[] = await this.parseFile({ fileName: 'index.xml', folderPath, xmlParser })
     // console.log(util.inspect(parsedIndex))
@@ -151,7 +165,9 @@ export class DoxygenXmlParser {
     const filePath: string = path.join(folderPath, fileName)
     const xmlString: string = await fs.readFile(filePath, { encoding: 'utf8' })
 
-    console.log(`Parsing ${fileName}...`)
+    if (this.verbose) {
+      console.log(`Parsing ${fileName}...`)
+    }
     return xmlParser.parse(xmlString)
   }
 

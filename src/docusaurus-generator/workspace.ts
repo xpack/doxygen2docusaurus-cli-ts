@@ -154,7 +154,9 @@ export class Workspace {
         console.error('compoundDefDataModel', compoundDefDataModel.kind, 'not implemented yet in', this.constructor.name)
       }
     }
-    console.log(this.compoundsById.size, 'compound definitions')
+    if (this.pluginOptions.verbose) {
+      console.log(this.compoundsById.size, 'compound definitions')
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -216,7 +218,9 @@ export class Workspace {
         }
       }
     }
-    console.log(this.membersById.size, 'member definitions')
+    if (this.pluginOptions.verbose) {
+      console.log(this.membersById.size, 'member definitions')
+    }
   }
 
   // --------------------------------------------------------------------------
