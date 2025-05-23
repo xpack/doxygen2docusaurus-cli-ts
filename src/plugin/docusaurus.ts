@@ -18,6 +18,7 @@ import { DataModel } from '../data-model/types.js'
 import { generateDoxygen } from './cli/generate.js'
 import { defaultOptions, PluginOptions } from './options.js'
 import { generateDocusaurusMdx, parseDoxygen } from './main.js'
+import type { LoadContext } from '@docusaurus/types'
 
 // ----------------------------------------------------------------------------
 // The Docusaurus plugin entry point.
@@ -25,7 +26,7 @@ import { generateDocusaurusMdx, parseDoxygen } from './main.js'
 export const pluginName: string = '@xpack/docusaurus-plugin-doxygen'
 
 export default async function pluginDocusaurus (
-  context: any,
+  context: LoadContext,
   options: PluginOptions // The options in docusaurus.config.ts
 ): Promise<any> {
   // console.log(util.inspect(context, { compact: false, depth: 999 }))

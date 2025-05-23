@@ -70,6 +70,7 @@
     "fast-xml-parser": "^5.0.9"
   },
   "devDependencies": {
+    "@docusaurus/types": "^3.7.0",
     "@types/node": "^22.13.13",
     "del-cli": "^6.0.0",
     "ts-node": "^10.9.2",
