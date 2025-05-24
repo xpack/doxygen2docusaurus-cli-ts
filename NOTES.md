@@ -12,6 +12,7 @@ As aspect, it'll stay close to the [Doxygen Awesome](https://jothepro.github.io/
 
 ## Discussions
 
+- https://github.com/xpack/docusaurus-plugin-doxygen/discussions/1
 - https://github.com/facebook/docusaurus/discussions/10637#discussioncomment-11139802
 - https://github.com/typedoc2md/typedoc-plugin-markdown/discussions/710#discussioncomment-11130976
 - https://github.com/jothepro/doxygen-awesome-css/discussions/165
