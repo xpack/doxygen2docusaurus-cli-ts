@@ -24,6 +24,7 @@ import { SectionDefCloneDataModel, SectionDefDataModel } from '../../data-model/
 import { Section } from './members-vm.js'
 import { BaseCompoundRefDataModel, DerivedCompoundRefDataModel } from '../../data-model/compounds/compoundreftype-dm.js'
 import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js'
+import { IndexEntry } from './indices-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -88,6 +89,43 @@ export class Classes extends CollectionBase {
       collapsed: true,
       items: []
     }
+
+    classesCategory.items.push({
+      type: 'category',
+      label: '#Index',
+      link: {
+        type: 'doc',
+        id: `${this.workspace.permalinkBaseUrl}index/classes/all`
+      },
+      collapsed: true,
+      items: [
+        {
+          type: 'doc',
+          label: 'All',
+          id: `${this.workspace.permalinkBaseUrl}index/classes/all`
+        },
+        {
+          type: 'doc',
+          label: 'Classes',
+          id: `${this.workspace.permalinkBaseUrl}index/classes/classes`
+        },
+        {
+          type: 'doc',
+          label: 'Functions',
+          id: `${this.workspace.permalinkBaseUrl}index/classes/functions`
+        },
+        {
+          type: 'doc',
+          label: 'Variables',
+          id: `${this.workspace.permalinkBaseUrl}index/classes/variables`
+        },
+        {
+          type: 'doc',
+          label: 'Typedefs',
+          id: `${this.workspace.permalinkBaseUrl}index/classes/typedefs`
+        }
+      ]
+    })
 
     for (const classs of this.topLevelClasses) {
       classesCategory.items.push(this.createSidebarItemRecursively(classs))
@@ -213,6 +251,251 @@ export class Classes extends CollectionBase {
 
     return lines
   }
+
+  override async generatePerInitialsIndexMdxFiles (): Promise<void> {
+    const allUnorderedEntriesMap: Map<string, IndexEntry> = new Map()
+    for (const [compoundId, compound] of this.collectionCompoundsById) {
+      const compoundEntry = new IndexEntry(compound as Class)
+      allUnorderedEntriesMap.set(compoundEntry.id, compoundEntry)
+      for (const section of compound.sections) {
+        for (const member of section.definitionMembers) {
+          const memberEntry = new IndexEntry(member)
+          allUnorderedEntriesMap.set(memberEntry.id, memberEntry)
+        }
+      }
+    }
+
+    const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
+
+    // ------------------------------------------------------------------------
+
+    {
+      const filePath = `${outputFolderPath}/index/classes/all.mdx`
+      const permalink = 'index/classes/all'
+
+      const frontMatter: FrontMatter = {
+        title: 'The Classes and Members Index',
+        slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+        // description: '...', // TODO
+        custom_edit_url: null,
+        keywords: ['doxygen', 'classes', 'index']
+      }
+
+      const lines: string[] = []
+
+      lines.push('The classes, structs, union interfaces and their members, variables, types used by this project are:')
+
+      const orderedEntriesMap = this.orderPerInitials(allUnorderedEntriesMap)
+
+      lines.push(...this.outputEntries(orderedEntriesMap))
+
+      console.log(`Writing index file ${filePath}...`)
+      await this.workspace.writeFile({
+        filePath,
+        frontMatter,
+        bodyLines: lines
+      })
+    }
+
+    // ------------------------------------------------------------------------
+
+    {
+      const filePath = `${outputFolderPath}/index/classes/classes.mdx`
+      const permalink = 'index/classes/classes'
+
+      const frontMatter: FrontMatter = {
+        title: 'The Classes Index',
+        slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+        // description: '...', // TODO
+        custom_edit_url: null,
+        keywords: ['doxygen', 'classes', 'index']
+      }
+
+      const lines: string[] = []
+
+      lines.push('The classes, structs, union interfaces used by this project are:')
+
+      const classesUnorderedMap: Map<string, IndexEntry> = new Map()
+      for (const [id, entry] of allUnorderedEntriesMap) {
+        if (entry.objectKind === 'compound') {
+          classesUnorderedMap.set(id, entry)
+        }
+      }
+      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
+
+      lines.push(...this.outputEntries(orderedEntries))
+
+      console.log(`Writing index file ${filePath}...`)
+      await this.workspace.writeFile({
+        filePath,
+        frontMatter,
+        bodyLines: lines
+      })
+    }
+
+    // ------------------------------------------------------------------------
+
+    {
+      const filePath = `${outputFolderPath}/index/classes/functions.mdx`
+      const permalink = 'index/classes/functions'
+
+      const frontMatter: FrontMatter = {
+        title: 'The Class Functions Index',
+        slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+        // description: '...', // TODO
+        custom_edit_url: null,
+        keywords: ['doxygen', 'classes', 'index']
+      }
+
+      const lines: string[] = []
+
+      lines.push('The class member functions used by this project are:')
+
+      const classesUnorderedMap: Map<string, IndexEntry> = new Map()
+      for (const [id, entry] of allUnorderedEntriesMap) {
+        if (entry.kind === 'function') {
+          classesUnorderedMap.set(id, entry)
+        }
+      }
+      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
+
+      lines.push(...this.outputEntries(orderedEntries))
+
+      console.log(`Writing index file ${filePath}...`)
+      await this.workspace.writeFile({
+        filePath,
+        frontMatter,
+        bodyLines: lines
+      })
+    }
+
+    // ------------------------------------------------------------------------
+
+    {
+      const filePath = `${outputFolderPath}/index/classes/variables.mdx`
+      const permalink = 'index/classes/variables'
+
+      const frontMatter: FrontMatter = {
+        title: 'The Class Variables Index',
+        slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+        // description: '...', // TODO
+        custom_edit_url: null,
+        keywords: ['doxygen', 'classes', 'index']
+      }
+
+      const lines: string[] = []
+
+      lines.push('The class member variables used by this project are:')
+
+      const classesUnorderedMap: Map<string, IndexEntry> = new Map()
+      for (const [id, entry] of allUnorderedEntriesMap) {
+        if (entry.kind === 'variable') {
+          classesUnorderedMap.set(id, entry)
+        }
+      }
+      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
+
+      lines.push(...this.outputEntries(orderedEntries))
+
+      console.log(`Writing index file ${filePath}...`)
+      await this.workspace.writeFile({
+        filePath,
+        frontMatter,
+        bodyLines: lines
+      })
+    }
+
+    // ------------------------------------------------------------------------
+
+    {
+      const filePath = `${outputFolderPath}/index/classes/typedefs.mdx`
+      const permalink = 'index/classes/typedefs'
+
+      const frontMatter: FrontMatter = {
+        title: 'The Class Type Definitions Index',
+        slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+        // description: '...', // TODO
+        custom_edit_url: null,
+        keywords: ['doxygen', 'classes', 'index']
+      }
+
+      const lines: string[] = []
+
+      lines.push('The class member type definitions used by this project are:')
+
+      const classesUnorderedMap: Map<string, IndexEntry> = new Map()
+      for (const [id, entry] of allUnorderedEntriesMap) {
+        if (entry.kind === 'typedef') {
+          classesUnorderedMap.set(id, entry)
+        }
+      }
+      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
+
+      lines.push(...this.outputEntries(orderedEntries))
+
+      console.log(`Writing index file ${filePath}...`)
+      await this.workspace.writeFile({
+        filePath,
+        frontMatter,
+        bodyLines: lines
+      })
+    }
+
+    // ------------------------------------------------------------------------
+  }
+
+  orderPerInitials (entriesMap: Map<string, IndexEntry>): Map<string, IndexEntry[]> {
+    const entriesPerInitialsMap: Map<string, IndexEntry[]> = new Map()
+
+    for (const [id, entry] of entriesMap) {
+      const initial: string = entry.name.charAt(0)
+      let mapArray = entriesPerInitialsMap.get(initial)
+      if (mapArray === undefined) {
+        mapArray = []
+        entriesPerInitialsMap.set(initial, mapArray)
+      }
+      mapArray.push(entry)
+    }
+
+    const orderedMap: Map<string, IndexEntry[]> = new Map()
+    const orderedInitials = Array.from(entriesPerInitialsMap.keys()).sort()
+    for (const initial of orderedInitials) {
+      const unorderedArray = entriesPerInitialsMap.get(initial)
+      assert(unorderedArray !== undefined)
+      const orderedArray = unorderedArray.sort((a, b) => {
+        let nameComparison = a.name.localeCompare(b.name)
+        if (nameComparison !== 0) {
+          return nameComparison
+        }
+        nameComparison = a.longName.localeCompare(b.longName)
+        return nameComparison
+      })
+      orderedMap.set(initial, orderedArray)
+    }
+
+    return orderedMap
+  }
+
+  outputEntries (entriesPerInitialsMap: Map<string, IndexEntry[]>): string[] {
+    const lines: string[] = []
+
+    for (const initial of entriesPerInitialsMap.keys()) {
+      lines.push('')
+      lines.push(`## - ${escapeMdx(initial)} -`)
+      lines.push('')
+      const mapArray = entriesPerInitialsMap.get(initial)
+      assert(mapArray !== undefined)
+      for (const entry of mapArray) {
+        let kind = ''
+        if (entry.objectKind === 'compound') {
+          kind = `${entry.kind} `
+        }
+        lines.push(`- ${escapeMdx(entry.name)}: <Link to="${entry.permalink}">${kind}${escapeMdx(entry.longName)}</Link>`)
+      }
+    }
+
+    return lines
+  }
 }
 
 // ----------------------------------------------------------------------------
@@ -292,7 +575,7 @@ export class Class extends CompoundBase {
     if (compoundDef.sectionDefs !== undefined) {
       for (const sectionDef of compoundDef.sectionDefs) {
         if ((compoundDef.kind === 'class' || compoundDef.kind === 'struct') &&
-            (sectionDef.kind === 'public-func' || sectionDef.kind === 'protected-func' || sectionDef.kind === 'private-func')) {
+          (sectionDef.kind === 'public-func' || sectionDef.kind === 'protected-func' || sectionDef.kind === 'private-func')) {
           this.sections.push(...this.splitSections(this, sectionDef))
         } else {
           if (sectionDef.hasMembers()) {

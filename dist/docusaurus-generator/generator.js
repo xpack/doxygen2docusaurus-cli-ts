@@ -33,6 +33,7 @@ export class DocusaurusGenerator {
         await this.generatePages();
         console.log();
         await this.generateIndexDotMdxFiles();
+        await this.generatePerInitialsIndexMdxFiles();
         await this.generateRedirectFiles();
     }
     // --------------------------------------------------------------------------
@@ -119,6 +120,14 @@ export class DocusaurusGenerator {
         for (const [collectionName, collection] of this.workspace.viewModel) {
             // console.log(collectionName)
             await collection.generateIndexDotMdxFile();
+        }
+        // TODO: parallelize
+    }
+    // --------------------------------------------------------------------------
+    async generatePerInitialsIndexMdxFiles() {
+        for (const [collectionName, collection] of this.workspace.viewModel) {
+            // console.log(collectionName)
+            await collection.generatePerInitialsIndexMdxFiles();
         }
         // TODO: parallelize
     }

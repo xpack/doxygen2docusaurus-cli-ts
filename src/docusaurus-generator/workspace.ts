@@ -73,7 +73,6 @@ export class Workspace {
   // View model objects.
   compoundsById: Map<string, CompoundBase> = new Map()
 
-  // TODO: change to member view model objects
   membersById: Map<String, Member> = new Map()
 
   currentCompound: CompoundBase | undefined
@@ -507,7 +506,7 @@ export class Workspace {
     kindref
   }: {
     refid: string
-    kindref: string
+    kindref: string // 'compound', 'member'
   }): string {
     // console.log(refid, kindref)
     let permalink: string | undefined

@@ -40,6 +40,10 @@ export abstract class CollectionBase {
   abstract createMenuItems (): MenuItem[]
   abstract generateIndexDotMdxFile (): Promise<void>
 
+  async generatePerInitialsIndexMdxFiles (): Promise<void> {
+    // Nothing at this level. Override it where needed.
+  }
+
   hasCompounds (): boolean {
     return this.collectionCompoundsById.size > 0
   }

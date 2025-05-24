@@ -40,7 +40,6 @@ export class Workspace {
         this.sidebarCollectionNames = ['groups', 'namespaces', 'classes', 'files', 'pages'];
         // View model objects.
         this.compoundsById = new Map();
-        // TODO: change to member view model objects
         this.membersById = new Map();
         console.log();
         this.dataModel = dataModel;
