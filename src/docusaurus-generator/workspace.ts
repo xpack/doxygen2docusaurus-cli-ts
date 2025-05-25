@@ -299,11 +299,13 @@ export class Workspace {
     filePath,
     bodyLines,
     frontMatter,
+    frontMatterCodeLines,
     title
   }: {
     filePath: string
     bodyLines: string[]
     frontMatter: FrontMatter
+    frontMatterCodeLines?: string[]
     title?: string
   }): Promise<void> {
     const lines: string[] = []
@@ -387,6 +389,13 @@ export class Workspace {
     for (const componentName of componentNames) {
       if (text.includes(`<${componentName}`)) {
         frontMatterLines.push(`import ${componentName} from '${pluginName}/components/${componentName}'`)
+      }
+    }
+
+    if (frontMatterCodeLines !== undefined && frontMatterCodeLines.length > 0) {
+      frontMatterLines.push('')
+      for (const line of frontMatterCodeLines) {
+        frontMatterLines.push(line)
       }
     }
 
