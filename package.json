@@ -6,6 +6,7 @@
   "exports": {
     ".": "./dist/index.js",
     "./components/CodeLine": "./src/components/CodeLine/index.js",
+    "./components/CollapsibleTreeTable": "./src/components/CollapsibleTreeTable/index.js",
     "./components/DoxygenPage": "./src/components/DoxygenPage/index.js",
     "./components/EnumerationList": "./src/components/EnumerationList/index.js",
     "./components/EnumerationListItem": "./src/components/EnumerationListItem/index.js",

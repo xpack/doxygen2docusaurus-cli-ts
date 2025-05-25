@@ -364,6 +364,7 @@ export class Workspace {
 
     const componentNames = [
       'CodeLine',
+      'CollapsibleTreeTable',
       'DoxygenPage',
       'EnumerationList',
       'EnumerationListItem',
