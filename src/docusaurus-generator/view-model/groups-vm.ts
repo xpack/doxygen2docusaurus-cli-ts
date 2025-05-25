@@ -13,15 +13,20 @@
 
 import * as util from 'node:util'
 import assert from 'node:assert'
+import * as fs from 'node:fs/promises'
+import path from 'node:path'
 
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { CollectionBase } from './collection-base.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
-import { FrontMatter } from '../types.js'
+import { collapsibleTableRow, FrontMatter } from '../types.js'
 import { Section } from './members-vm.js'
 import { Pages } from './pages-vm.js'
+
+// Support for collapsible tables is experimental.
+const useCollapsibleTable = false
 
 // ----------------------------------------------------------------------------
 
@@ -132,6 +137,26 @@ export class Groups extends CollectionBase {
     // the main page.
     const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
     const filePath = `${outputFolderPath}/index.mdx`
+    const jsonFileName = 'index-table.json'
+
+    if (useCollapsibleTable) {
+      const jsonFilePath = `${outputFolderPath}/${jsonFileName}`
+
+      const tableData: collapsibleTableRow[] = []
+
+      for (const group of this.topLevelGroups) {
+        tableData.push(this.generateTableRowRecursively(group))
+      }
+      const jsonString = JSON.stringify(tableData, null, 2)
+
+      console.log(`Writing groups index table file ${jsonFilePath}...`)
+
+      await fs.mkdir(path.dirname(jsonFilePath), { recursive: true })
+      const fileHandle = await fs.open(jsonFilePath, 'ax')
+
+      await fileHandle.write(jsonString)
+      await fileHandle.close()
+    }
 
     const projectBrief = this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF')
     const permalink = '' // The root of the API sub-site.
@@ -154,14 +179,18 @@ export class Groups extends CollectionBase {
     lines.push(`${projectBrief} topics with brief descriptions are:`)
 
     lines.push('')
-    lines.push('<TreeTable>')
+    if (useCollapsibleTable) {
+      lines.push('<CollapsibleTreeTable rows={tableData} />')
+    } else {
+      lines.push('<TreeTable>')
 
-    for (const group of this.topLevelGroups) {
-      lines.push(...this.generateIndexMdxFileRecursively(group, 1))
+      for (const group of this.topLevelGroups) {
+        lines.push(...this.generateIndexMdxFileRecursively(group, 1))
+      }
+
+      lines.push('')
+      lines.push('</TreeTable>')
     }
-
-    lines.push('')
-    lines.push('</TreeTable>')
 
     const pages = this.workspace.viewModel.get('pages') as Pages
     const detailedDescriptionMdxText = pages.mainPage?.detailedDescriptionMdxText
@@ -180,11 +209,47 @@ export class Groups extends CollectionBase {
 
     console.log(`Writing groups index file ${filePath}...`)
 
-    await this.workspace.writeMdxFile({
-      filePath,
-      frontMatter,
-      bodyLines: lines
-    })
+    if (useCollapsibleTable) {
+      await this.workspace.writeMdxFile({
+        filePath,
+        frontMatter,
+        frontMatterCodeLines: [
+          `import tableData from './${jsonFileName}'`
+        ],
+        bodyLines: lines
+      })
+    } else {
+      await this.workspace.writeMdxFile({
+        filePath,
+        frontMatter,
+        bodyLines: lines
+      })
+    }
+  }
+
+  private generateTableRowRecursively (group: Group): collapsibleTableRow {
+    const label = group.titleMdxText ?? '?'
+
+    const permalink = this.workspace.getPagePermalink(group.id)
+    assert(permalink !== undefined && permalink.length > 1)
+
+    const description: string = group.briefDescriptionMdxText?.replace(/[.]$/, '') ?? ''
+
+    const tableRow: collapsibleTableRow = {
+      id: group.id,
+      label,
+      link: permalink,
+      description
+    }
+
+    if (group.children.length > 0) {
+      tableRow.children = []
+      for (const childGroup of group.children) {
+        tableRow.children.push(this.generateTableRowRecursively(childGroup as Group))
+      }
+    }
+
+    return tableRow
   }
 
   private generateIndexMdxFileRecursively (group: Group, depth: number): string[] {
