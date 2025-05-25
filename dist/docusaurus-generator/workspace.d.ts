@@ -36,10 +36,11 @@ export declare class Workspace {
      */
     validatePermalinks(): void;
     cleanups(): void;
-    writeFile({ filePath, bodyLines, frontMatter, title }: {
+    writeMdxFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title }: {
         filePath: string;
         bodyLines: string[];
         frontMatter: FrontMatter;
+        frontMatterCodeLines?: string[];
         title?: string;
     }): Promise<void>;
     renderElementsToMdxLines(elements: Object[] | undefined): string[];

@@ -211,7 +211,7 @@ export class FilesAndFolders extends CollectionBase {
         lines.push('');
         lines.push('</TreeTable>');
         console.log(`Writing files index file ${filePath}...`);
-        await this.workspace.writeFile({
+        await this.workspace.writeMdxFile({
             filePath,
             frontMatter,
             bodyLines: lines

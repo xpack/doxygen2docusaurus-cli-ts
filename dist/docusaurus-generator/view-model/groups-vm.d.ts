@@ -11,6 +11,7 @@ export declare class Groups extends CollectionBase {
     private createSidebarItemRecursively;
     createMenuItems(): MenuItem[];
     generateIndexDotMdxFile(): Promise<void>;
+    private generateTableRowRecursively;
     private generateIndexMdxFileRecursively;
 }
 export declare class Group extends CompoundBase {

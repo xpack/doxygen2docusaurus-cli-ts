@@ -211,7 +211,7 @@ export class Workspace {
         }
     }
     // --------------------------------------------------------------------------
-    async writeFile({ filePath, bodyLines, frontMatter, title }) {
+    async writeMdxFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title }) {
         const lines = [];
         lines.push('');
         lines.push(`<DoxygenPage version="${this.dataModel.doxygenindex?.version}">`);
@@ -261,6 +261,7 @@ export class Workspace {
         frontMatterLines.push('');
         const componentNames = [
             'CodeLine',
+            'CollapsibleTreeTable',
             'DoxygenPage',
             'EnumerationList',
             'EnumerationListItem',
@@ -285,6 +286,12 @@ export class Workspace {
         for (const componentName of componentNames) {
             if (text.includes(`<${componentName}`)) {
                 frontMatterLines.push(`import ${componentName} from '${pluginName}/components/${componentName}'`);
+            }
+        }
+        if (frontMatterCodeLines !== undefined && frontMatterCodeLines.length > 0) {
+            frontMatterLines.push('');
+            for (const line of frontMatterCodeLines) {
+                frontMatterLines.push(line);
             }
         }
         frontMatterLines.push('');

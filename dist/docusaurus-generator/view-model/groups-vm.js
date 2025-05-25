@@ -9,10 +9,14 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 import assert from 'node:assert';
+import * as fs from 'node:fs/promises';
+import path from 'node:path';
 import { CompoundBase } from './compound-base-vm.js';
 import { flattenPath, sanitizeHierarchicalPath } from '../utils.js';
 import { CollectionBase } from './collection-base.js';
 import { Section } from './members-vm.js';
+// Support for collapsible tables is experimental.
+const useCollapsibleTable = false;
 // ----------------------------------------------------------------------------
 export class Groups extends CollectionBase {
     constructor() {
@@ -104,6 +108,20 @@ export class Groups extends CollectionBase {
         // the main page.
         const outputFolderPath = this.workspace.pluginOptions.outputFolderPath;
         const filePath = `${outputFolderPath}/index.mdx`;
+        const jsonFileName = 'index-table.json';
+        if (useCollapsibleTable) {
+            const jsonFilePath = `${outputFolderPath}/${jsonFileName}`;
+            const tableData = [];
+            for (const group of this.topLevelGroups) {
+                tableData.push(this.generateTableRowRecursively(group));
+            }
+            const jsonString = JSON.stringify(tableData, null, 2);
+            console.log(`Writing groups index table file ${jsonFilePath}...`);
+            await fs.mkdir(path.dirname(jsonFilePath), { recursive: true });
+            const fileHandle = await fs.open(jsonFilePath, 'ax');
+            await fileHandle.write(jsonString);
+            await fileHandle.close();
+        }
         const projectBrief = this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF');
         const permalink = ''; // The root of the API sub-site.
         // This is the top index.mdx file (@mainpage)
@@ -120,12 +138,17 @@ export class Groups extends CollectionBase {
         const lines = [];
         lines.push(`${projectBrief} topics with brief descriptions are:`);
         lines.push('');
-        lines.push('<TreeTable>');
-        for (const group of this.topLevelGroups) {
-            lines.push(...this.generateIndexMdxFileRecursively(group, 1));
+        if (useCollapsibleTable) {
+            lines.push('<CollapsibleTreeTable rows={tableData} />');
         }
-        lines.push('');
-        lines.push('</TreeTable>');
+        else {
+            lines.push('<TreeTable>');
+            for (const group of this.topLevelGroups) {
+                lines.push(...this.generateIndexMdxFileRecursively(group, 1));
+            }
+            lines.push('');
+            lines.push('</TreeTable>');
+        }
         const pages = this.workspace.viewModel.get('pages');
         const detailedDescriptionMdxText = pages.mainPage?.detailedDescriptionMdxText;
         if (detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) {
@@ -140,11 +163,42 @@ export class Groups extends CollectionBase {
         lines.push('For comparison, the original Doxygen html pages, styled with the [doxygen-awesome-css](https://jothepro.github.io/doxygen-awesome-css/) plugin, continue to be available via the <Link to="pathname:///doxygen/topics.html">/doxygen/*</Link> URLs.');
         lines.push(':::');
         console.log(`Writing groups index file ${filePath}...`);
-        await this.workspace.writeFile({
-            filePath,
-            frontMatter,
-            bodyLines: lines
-        });
+        if (useCollapsibleTable) {
+            await this.workspace.writeMdxFile({
+                filePath,
+                frontMatter,
+                frontMatterCodeLines: [
+                    `import tableData from './${jsonFileName}'`
+                ],
+                bodyLines: lines
+            });
+        }
+        else {
+            await this.workspace.writeMdxFile({
+                filePath,
+                frontMatter,
+                bodyLines: lines
+            });
+        }
+    }
+    generateTableRowRecursively(group) {
+        const label = group.titleMdxText ?? '?';
+        const permalink = this.workspace.getPagePermalink(group.id);
+        assert(permalink !== undefined && permalink.length > 1);
+        const description = group.briefDescriptionMdxText?.replace(/[.]$/, '') ?? '';
+        const tableRow = {
+            id: group.id,
+            label,
+            link: permalink,
+            description
+        };
+        if (group.children.length > 0) {
+            tableRow.children = [];
+            for (const childGroup of group.children) {
+                tableRow.children.push(this.generateTableRowRecursively(childGroup));
+            }
+        }
+        return tableRow;
     }
     generateIndexMdxFileRecursively(group, depth) {
         const lines = [];
