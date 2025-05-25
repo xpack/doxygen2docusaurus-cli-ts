@@ -295,7 +295,7 @@ export class Workspace {
 
   // --------------------------------------------------------------------------
 
-  async writeFile ({
+  async writeMdxFile ({
     filePath,
     bodyLines,
     frontMatter,

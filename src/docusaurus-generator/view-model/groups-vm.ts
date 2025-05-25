@@ -180,7 +180,7 @@ export class Groups extends CollectionBase {
 
     console.log(`Writing groups index file ${filePath}...`)
 
-    await this.workspace.writeFile({
+    await this.workspace.writeMdxFile({
       filePath,
       frontMatter,
       bodyLines: lines

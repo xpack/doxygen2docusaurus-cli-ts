@@ -202,7 +202,7 @@ export class Classes extends CollectionBase {
     lines.push('</TreeTable>')
 
     console.log(`Writing classes index file ${filePath}...`)
-    await this.workspace.writeFile({
+    await this.workspace.writeMdxFile({
       filePath,
       frontMatter,
       bodyLines: lines
@@ -290,7 +290,7 @@ export class Classes extends CollectionBase {
       lines.push(...this.outputEntries(orderedEntriesMap))
 
       console.log(`Writing index file ${filePath}...`)
-      await this.workspace.writeFile({
+      await this.workspace.writeMdxFile({
         filePath,
         frontMatter,
         bodyLines: lines
@@ -326,7 +326,7 @@ export class Classes extends CollectionBase {
       lines.push(...this.outputEntries(orderedEntries))
 
       console.log(`Writing index file ${filePath}...`)
-      await this.workspace.writeFile({
+      await this.workspace.writeMdxFile({
         filePath,
         frontMatter,
         bodyLines: lines
@@ -362,7 +362,7 @@ export class Classes extends CollectionBase {
       lines.push(...this.outputEntries(orderedEntries))
 
       console.log(`Writing index file ${filePath}...`)
-      await this.workspace.writeFile({
+      await this.workspace.writeMdxFile({
         filePath,
         frontMatter,
         bodyLines: lines
@@ -398,7 +398,7 @@ export class Classes extends CollectionBase {
       lines.push(...this.outputEntries(orderedEntries))
 
       console.log(`Writing index file ${filePath}...`)
-      await this.workspace.writeFile({
+      await this.workspace.writeMdxFile({
         filePath,
         frontMatter,
         bodyLines: lines
@@ -434,7 +434,7 @@ export class Classes extends CollectionBase {
       lines.push(...this.outputEntries(orderedEntries))
 
       console.log(`Writing index file ${filePath}...`)
-      await this.workspace.writeFile({
+      await this.workspace.writeMdxFile({
         filePath,
         frontMatter,
         bodyLines: lines

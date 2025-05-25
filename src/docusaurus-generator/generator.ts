@@ -225,7 +225,7 @@ export class DocusaurusGenerator {
 
       const bodyLines = compound.renderToMdxLines(frontMatter)
 
-      await this.workspace.writeFile({
+      await this.workspace.writeMdxFile({
         filePath,
         frontMatter,
         bodyLines,

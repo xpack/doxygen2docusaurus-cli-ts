@@ -158,7 +158,7 @@ export class Namespaces extends CollectionBase {
     lines.push('</TreeTable>')
 
     console.log(`Writing namespaces index file ${filePath}...`)
-    await this.workspace.writeFile({
+    await this.workspace.writeMdxFile({
       filePath,
       frontMatter,
       bodyLines: lines
