@@ -311,7 +311,7 @@ export class Workspace {
     const lines: string[] = []
 
     lines.push('')
-    lines.push('<DoxygenPage version={pluginConfig.doxygenVersion}>')
+    lines.push('<DoxygenPage pluginConfig={pluginConfig}>')
     lines.push('')
     lines.push(...bodyLines)
     lines.push('')

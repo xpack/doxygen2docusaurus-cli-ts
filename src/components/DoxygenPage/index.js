@@ -17,15 +17,16 @@ import React from 'react';
 // ----------------------------------------------------------------------------
 
 // A weird thing happens here when the name is not `version`.
-export default function DoxygenPage({children, version = ''}) {
-  // console.log("Version:", version);
+export default function DoxygenPage({children, pluginConfig}) {
+  const doxygenVersion=` ${pluginConfig.doxygenVersion ?? 'unknown'}`
+  // console.log(`DoxygenPage: doxygenVersion=${doxygenVersion}`)
 
   return (
     <div class="doxyPage">
       {children}
       <hr/>
       <p class="doxyGeneratedBy">
-        Generated via <a href="https://github.com/xpack/docusaurus-plugin-doxygen">docusaurus-plugin-doxygen</a> by <a href="https://www.doxygen.nl">Doxygen</a> {version}
+        Generated via <a href="https://github.com/xpack/docusaurus-plugin-doxygen">docusaurus-plugin-doxygen</a> by <a href="https://www.doxygen.nl">Doxygen</a>{doxygenVersion}.
       </p>
     </div>
   );

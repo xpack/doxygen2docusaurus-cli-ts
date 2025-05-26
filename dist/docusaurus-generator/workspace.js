@@ -214,7 +214,7 @@ export class Workspace {
     async writeMdxFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title }) {
         const lines = [];
         lines.push('');
-        lines.push('<DoxygenPage version={pluginConfig.doxygenVersion}>');
+        lines.push('<DoxygenPage pluginConfig={pluginConfig}>');
         lines.push('');
         lines.push(...bodyLines);
         lines.push('');
