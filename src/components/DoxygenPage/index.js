@@ -16,6 +16,7 @@ import React from 'react';
 
 // ----------------------------------------------------------------------------
 
+// A weird thing happens here when the name is not `version`.
 export default function DoxygenPage({children, version = ''}) {
   // console.log("Version:", version);
 

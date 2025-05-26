@@ -311,7 +311,7 @@ export class Workspace {
     const lines: string[] = []
 
     lines.push('')
-    lines.push(`<DoxygenPage version="${this.dataModel.doxygenindex?.version}">`)
+    lines.push('<DoxygenPage version={pluginConfig.doxygenVersion}>')
     lines.push('')
     lines.push(...bodyLines)
     lines.push('')
@@ -399,6 +399,9 @@ export class Workspace {
         frontMatterLines.push(line)
       }
     }
+
+    frontMatterLines.push('')
+    frontMatterLines.push('import pluginConfig from \'@site/docusaurus-plugin-doxygen-config.json\'')
 
     frontMatterLines.push('')
     if (frontMatter.title === undefined && title !== undefined) {

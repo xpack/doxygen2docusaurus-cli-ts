@@ -53,6 +53,7 @@ export class DocusaurusGenerator {
     console.log()
 
     await this.prepareOutputFolder()
+    await this.generateConfigurationFile()
 
     await this.generateSidebarFile()
     await this.generateMenuDropdownFile()
@@ -83,6 +84,25 @@ export class DocusaurusGenerator {
     }
     // Create the folder as empty.
     await fs.mkdir(outputFolderPath, { recursive: true })
+  }
+
+  // --------------------------------------------------------------------------
+
+  async generateConfigurationFile (): Promise<void> {
+    // const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
+    const jsonFileName = 'docusaurus-plugin-doxygen-config.json'
+    const jsonFilePath = `${jsonFileName}`
+
+    const configurationData = {
+      doxygenVersion: this.workspace.dataModel.doxygenindex?.version
+    }
+
+    const jsonString = JSON.stringify(configurationData, null, 2)
+
+    console.log(`Writing configuration file ${jsonFilePath}...`)
+
+    await fs.mkdir(path.dirname(jsonFilePath), { recursive: true })
+    await fs.writeFile(jsonFilePath, jsonString, 'utf8')
   }
 
   // --------------------------------------------------------------------------
