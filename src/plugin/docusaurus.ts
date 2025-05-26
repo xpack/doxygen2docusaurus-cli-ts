@@ -77,17 +77,17 @@ export default async function pluginDocusaurus (
 
     // https://docusaurus.io/docs/api/plugin-methods/extend-infrastructure#extendCli
     extendCli (cli: any) {
-      extendCliGenerateDoxygen(cli, context, options)
+      extendCliGenerateDoxygenMdx(cli, context, options)
     }
   }
 }
 
-export function extendCliGenerateDoxygen (cli: any, context: LoadContext, options: PluginOptions): void {
+export function extendCliGenerateDoxygenMdx (cli: any, context: LoadContext, options: PluginOptions): void {
   cli
-    .command('generate-doxygen')
+    .command('generate-doxygen-mdx')
     .option('--id <string>', 'Specify the plugin instance')
     .description(
-      '[@xpack/docusaurus-plugin-doxygen] Generate Doxygen docs independently of the Docusaurus build process.'
+      '[@xpack/docusaurus-plugin-doxygen] Generate Doxygen MDX docs.'
     )
     .action(async (cliOptions: any) => {
       console.log()
