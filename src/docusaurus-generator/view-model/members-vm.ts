@@ -598,22 +598,12 @@ export class Member extends MemberBase {
             lines.push(`  labels = {["${this.labels.join('", "')}"]}>`)
           }
 
-          if (this.briefDescriptionMdxText !== undefined && this.briefDescriptionMdxText.length > 0) {
-            lines.push(this.section.compound.renderBriefDescriptionToMdxText({
-              briefDescriptionMdxText: this.briefDescriptionMdxText
-            }))
-          }
-
-          // if (this.briefDescriptionMdxText !== undefined && this.briefDescriptionMdxText.length > 0 &&
-          //     this.detailedDescriptionMdxText !== undefined && this.detailedDescriptionMdxText.length > 0) {
-          //   lines.push('')
-          //   lines.push('---')
-          // }
-
           if (this.detailedDescriptionMdxText !== undefined) {
             lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+              briefDescriptionMdxText: this.briefDescriptionMdxText,
               detailedDescriptionMdxText: this.detailedDescriptionMdxText,
-              showHeader: false
+              showHeader: false,
+              showBrief: true
             }))
           }
 

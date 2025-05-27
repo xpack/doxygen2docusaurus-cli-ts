@@ -255,6 +255,7 @@ export class Namespace extends CompoundBase {
 
     const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToMdxText({
+      briefDescriptionMdxText: this.briefDescriptionMdxText,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -272,7 +273,10 @@ export class Namespace extends CompoundBase {
     lines.push(...this.renderSectionIndicesToMdxLines())
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({
+      briefDescriptionMdxText: this.briefDescriptionMdxText,
+      detailedDescriptionMdxText: this.detailedDescriptionMdxText,
       todo: descriptionTodo,
+      showHeader: true,
       showBrief: !this.hasSect1InDescription
     }))
 

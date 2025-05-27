@@ -176,14 +176,14 @@ export abstract class CompoundBase {
   // --------------------------------------------------------------------------
 
   renderBriefDescriptionToMdxText ({
-    briefDescriptionMdxText = this.briefDescriptionMdxText,
+    briefDescriptionMdxText,
     todo = '',
     morePermalink
   }: {
-    briefDescriptionMdxText?: string | undefined
+    briefDescriptionMdxText: string | undefined
     todo?: string
     morePermalink?: string | undefined
-  } = {}): string {
+  }): string {
     let text: string = ''
 
     // console.log(this
@@ -207,14 +207,16 @@ export abstract class CompoundBase {
   }
 
   renderDetailedDescriptionToMdxLines ({
-    detailedDescriptionMdxText = this.detailedDescriptionMdxText,
+    briefDescriptionMdxText,
+    detailedDescriptionMdxText,
     todo = '',
-    showHeader = true,
+    showHeader,
     showBrief = false
   }: {
-    detailedDescriptionMdxText?: string | undefined
+    briefDescriptionMdxText?: string | undefined
+    detailedDescriptionMdxText: string | undefined
     todo?: string
-    showHeader?: boolean
+    showHeader: boolean
     showBrief?: boolean
   }): string[] {
     const lines: string[] = []
@@ -222,19 +224,23 @@ export abstract class CompoundBase {
     // const workspace = this.collection.workspace
     if (showHeader) {
       if ((detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) ||
-          todo.length > 0 ||
-          (showBrief && this.briefDescriptionMdxText !== undefined && this.briefDescriptionMdxText.length > 0)) {
+        todo.length > 0 ||
+        (showBrief && briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0)) {
         lines.push('')
         lines.push('## Description {#details}')
       }
     }
 
     if (showBrief) {
-      lines.push('')
-      lines.push(this.renderBriefDescriptionToMdxText())
+      if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
+        lines.push('')
+        lines.push(briefDescriptionMdxText)
+      } else if (todo.length > 0) {
+        lines.push('')
+        lines.push(`TODO: add <code>@brief</code> to <code>${todo}</code>`)
+      }
     }
 
-    // Do not repeat the brief in the detailed section. (configurable for Doxygen)
     // console.log(util.inspect(compoundDef.detailedDescription, { compact: false, depth: 999 }))
     if (detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) {
       lines.push('')

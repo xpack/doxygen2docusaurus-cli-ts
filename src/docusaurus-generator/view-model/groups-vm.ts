@@ -198,6 +198,9 @@ export class Groups extends CollectionBase {
       lines.push('')
       assert(pages.mainPage !== undefined)
       lines.push(...pages.mainPage?.renderDetailedDescriptionToMdxLines({
+        briefDescriptionMdxText: pages.mainPage?.briefDescriptionMdxText,
+        detailedDescriptionMdxText: pages.mainPage?.detailedDescriptionMdxText,
+        showHeader: true,
         showBrief: !pages.mainPage?.hasSect1InDescription
       }))
     }
@@ -336,6 +339,7 @@ export class Group extends CompoundBase {
     const morePermalink = hasIndices ? '#details' : undefined
 
     lines.push(this.renderBriefDescriptionToMdxText({
+      briefDescriptionMdxText: this.briefDescriptionMdxText,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -352,6 +356,8 @@ export class Group extends CompoundBase {
     // }
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({
+      briefDescriptionMdxText: this.briefDescriptionMdxText,
+      detailedDescriptionMdxText: this.detailedDescriptionMdxText,
       todo: descriptionTodo,
       showHeader: !this.hasSect1InDescription,
       showBrief: !this.hasSect1InDescription

@@ -146,6 +146,7 @@ export class Page extends CompoundBase {
 
     const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToMdxText({
+      briefDescriptionMdxText: this.briefDescriptionMdxText,
       morePermalink
     }))
 
@@ -154,6 +155,8 @@ export class Page extends CompoundBase {
     lines.push(...this.renderSectionIndicesToMdxLines())
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({
+      briefDescriptionMdxText: this.briefDescriptionMdxText,
+      detailedDescriptionMdxText: this.detailedDescriptionMdxText,
       showHeader: false
     }))
 
