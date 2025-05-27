@@ -496,11 +496,13 @@ export abstract class CompoundBase {
         if (withDefaults) {
           if (param.defval !== undefined) {
             const defval: DefValDataModel = param.defval
-            assert(defval.children.length === 1)
-            if (typeof defval.children[0] === 'string') {
-              paramString += ` = ${defval.children[0]}`
-            } else if (defval.children[0] as object instanceof RefTextDataModel) {
-              paramString += ` = ${(defval.children[0] as RefTextDataModel).text}`
+            paramString += ' = '
+            for (const child of defval.children) {
+              if (typeof child === 'string') {
+                paramString += child
+              } else if (child as object instanceof RefTextDataModel) {
+                paramString += (child as RefTextDataModel).text
+              }
             }
           }
         }
