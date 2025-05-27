@@ -182,6 +182,7 @@ export abstract class AbstractMemberDefType extends AbstractDataModelBase {
   constexpr?: Boolean | undefined
   consteval?: Boolean | undefined
   constinit?: Boolean | undefined
+  final?: Boolean | undefined
   // TODO: add more...
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
@@ -211,6 +212,7 @@ export abstract class AbstractMemberDefType extends AbstractDataModelBase {
       } else if (xml.isInnerElementText(innerElement, 'argsstring')) {
         this.argsstring = xml.getInnerElementText(innerElement, 'argsstring')
       } else if (xml.isInnerElementText(innerElement, 'bitfield')) {
+        this.bitfield = xml.getInnerElementText(innerElement, 'bitfield')
       } else if (xml.isInnerElementText(innerElement, 'qualifiedname')) {
         this.qualifiedName = xml.getInnerElementText(innerElement, 'qualifiedname')
       } else if (xml.hasInnerElement(innerElement, 'reimplements')) {
@@ -247,7 +249,8 @@ export abstract class AbstractMemberDefType extends AbstractDataModelBase {
       }
     }
 
-    assert(this.name.length > 0)
+    // WARNING it may be empty.
+    // assert(this.name.length > 0)
     assert(this.location !== undefined)
 
     // ------------------------------------------------------------------------
@@ -297,6 +300,8 @@ export abstract class AbstractMemberDefType extends AbstractDataModelBase {
         this.consteval = Boolean(xml.getAttributeBooleanValue(element, '@_consteval'))
       } else if (attributeName === '@_constinit') {
         this.constinit = Boolean(xml.getAttributeBooleanValue(element, '@_constinit'))
+      } else if (attributeName === '@_final') {
+        this.final = Boolean(xml.getAttributeBooleanValue(element, '@_final'))
       } else {
         console.error(util.inspect(element, { compact: false, depth: 999 }))
         console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
