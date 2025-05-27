@@ -321,7 +321,15 @@ export class DocParamListTypeTextRenderer extends ElementTextRendererBase {
               }
             }
 
-            lines.push(`<ParametersListItem name="${names.join(', ')}">${this.workspace.renderElementToMdxText(parameterItem.parameterDescription)}</ParametersListItem>`)
+            const parameterLines = this.workspace.renderElementToMdxText(parameterItem.parameterDescription).split('\n')
+            const escapedName = escapeQuotes(names.join(', '))
+            if (parameterLines.length > 1) {
+              lines.push(`<ParametersListItem name="${escapedName}">`)
+              lines.push(...parameterLines)
+              lines.push('</ParametersListItem>')
+            } else {
+              lines.push(`<ParametersListItem name="${escapedName}">${parameterLines[0]}</ParametersListItem>`)
+            }
           }
           lines.push('</ParametersList>')
           break
