@@ -403,7 +403,7 @@ export class Folder extends CompoundBase {
   override renderToMdxLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    const descriptionTodo = `@dir ${this.relativePath}`
+    const descriptionTodo = `@dir ${escapeMdx(this.relativePath)}`
 
     const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToMdxText({
@@ -473,7 +473,7 @@ export class File extends CompoundBase {
   override renderToMdxLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    const descriptionTodo = `@file ${this.relativePath}`
+    const descriptionTodo = `@file ${escapeMdx(this.relativePath)}`
 
     const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToMdxText({

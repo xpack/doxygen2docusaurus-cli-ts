@@ -251,7 +251,7 @@ export class Namespace extends CompoundBase {
   override renderToMdxLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    const descriptionTodo = `@namespace ${this.compoundName}`
+    const descriptionTodo = `@namespace ${escapeMdx(this.compoundName)}`
 
     const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToMdxText({
@@ -264,7 +264,7 @@ export class Namespace extends CompoundBase {
     lines.push('## Definition')
     lines.push('')
     // Intentionally on two lines.
-    lines.push(`<CodeBlock>namespace ${this.compoundName}</CodeBlock>`)
+    lines.push(`<CodeBlock>namespace ${escapeMdx(this.compoundName)}</CodeBlock>`)
 
     lines.push(...this.renderInnerIndicesToMdxLines({
       suffixes: ['Namespaces', 'Classes']

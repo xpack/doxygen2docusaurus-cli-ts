@@ -20,7 +20,7 @@ import { FrontMatter } from '../types.js'
 import { Sect1DataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { CollectionBase } from './collection-base.js'
 import { AbstractRefType } from '../../data-model/compounds/reftype-dm.js'
-import { escapeMdx } from '../utils.js'
+import { escapeHtml, escapeMdx } from '../utils.js'
 import { Section } from './members-vm.js'
 import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js'
 import { RefTextDataModel } from '../../data-model/compounds/reftexttype-dm.js'
@@ -302,7 +302,7 @@ export abstract class CompoundBase {
           const kind = innerDataObject.kind
 
           const itemType = kind === 'dir' ? 'folder' : (kind === 'group' ? '&nbsp;' : kind)
-          const itemName = `<Link to="${permalink}">${escapeMdx(innerDataObject.indexName)}</Link>`
+          const itemName = `<Link to="${permalink}">${escapeHtml(innerDataObject.indexName)}</Link>`
 
           lines.push('')
           lines.push('<MembersIndexItem')

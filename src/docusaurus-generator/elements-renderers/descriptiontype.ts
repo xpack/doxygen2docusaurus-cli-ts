@@ -16,8 +16,8 @@ import util from 'util'
 
 import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js'
 import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractSpType, ParaDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
-import { escapeMdx } from '../utils.js'
-import { AbstractDoxygenFileOptionType } from '../../data-model/doxyfile/doxyfileoptiontype-dm.js'
+import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
+import { escapeQuotes } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -301,13 +301,13 @@ export class DocParamListTypeTextRenderer extends ElementTextRendererBase {
                         if (child.direction !== undefined) {
                           names.push(`[${child.direction}] ${subChild}`)
                         } else {
-                          names.push(escapeMdx(subChild))
+                          names.push((subChild))
                         }
                       } else if (child instanceof ParameterTypeDataModel) {
                         console.error(util.inspect(parameterName.children, { compact: false, depth: 999 }))
                         console.error(element.constructor.name, 'ParameterType not yet rendered in', this.constructor.name)
                       } else {
-                        names.push(escapeMdx(subChild))
+                        names.push((subChild))
                       }
                     } else if (subChild instanceof AbstractRefTextType) {
                       const name = this.workspace.renderElementToMdxText(subChild)

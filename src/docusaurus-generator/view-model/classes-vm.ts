@@ -554,7 +554,7 @@ export class Class extends CompoundBase {
     const kind = compoundDef.kind
     const kindCapitalised = kind.charAt(0).toUpperCase() + kind.slice(1).toLowerCase()
 
-    this.pageTitle = `The \`${this.unqualifiedName}\` ${kindCapitalised}`
+    this.pageTitle = `The \`${escapeMdx(this.unqualifiedName)}\` ${kindCapitalised}`
     if (compoundDef.templateParamList !== undefined) {
       this.pageTitle += ' Template'
     }
@@ -677,7 +677,7 @@ export class Class extends CompoundBase {
 
     frontMatter.toc_max_heading_level = 3
 
-    const descriptionTodo = `@${this.kind} ${this.compoundName}`
+    const descriptionTodo = `@${this.kind} ${escapeMdx(this.compoundName)}`
 
     const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToMdxText({
