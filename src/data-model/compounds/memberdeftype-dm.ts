@@ -151,7 +151,7 @@ export abstract class AbstractMemberDefType extends AbstractDataModelBase {
   qualifiedName?: string | undefined
   // read?: string | undefined
   // write?: string | undefined
-  // bitfield?: string | undefined
+  bitfield?: string | undefined
   reimplements?: ReimplementDataModel[] | undefined
   reimplementedBys?: ReimplementDataModel[] | undefined
   // qualifier?: string[] | undefined
@@ -210,6 +210,7 @@ export abstract class AbstractMemberDefType extends AbstractDataModelBase {
         this.definition = xml.getInnerElementText(innerElement, 'definition')
       } else if (xml.isInnerElementText(innerElement, 'argsstring')) {
         this.argsstring = xml.getInnerElementText(innerElement, 'argsstring')
+      } else if (xml.isInnerElementText(innerElement, 'bitfield')) {
       } else if (xml.isInnerElementText(innerElement, 'qualifiedname')) {
         this.qualifiedName = xml.getInnerElementText(innerElement, 'qualifiedname')
       } else if (xml.hasInnerElement(innerElement, 'reimplements')) {
