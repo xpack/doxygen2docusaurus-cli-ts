@@ -307,7 +307,11 @@ export abstract class CompoundBase {
           lines.push('')
           lines.push('<MembersIndexItem')
           lines.push(`  type="${itemType}"`)
-          lines.push(`  name={${itemName}}>`)
+          if (itemName.includes('<') || itemName.includes('&')) {
+            lines.push(`  name={<>${itemName}</>}>`)
+          } else {
+            lines.push(`  name="${itemName}">`)
+          }
 
           const morePermalink = innerDataObject.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined
           if (innerDataObject.briefDescriptionMdxText !== undefined && innerDataObject.briefDescriptionMdxText.length > 0) {

@@ -849,7 +849,11 @@ export class Class extends CompoundBase {
 
     lines.push('<MembersIndexItem')
     lines.push(`  type="${itemType}"`)
-    lines.push(`  name={${itemName}}>`)
+    if (itemName.includes('<') || itemName.includes('&')) {
+      lines.push(`  name={<>${itemName}</>}>`)
+    } else {
+      lines.push(`  name="${itemName}">`)
+    }
 
     const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined
     const briefDescriptionMdxText: string | undefined = this.briefDescriptionMdxText
