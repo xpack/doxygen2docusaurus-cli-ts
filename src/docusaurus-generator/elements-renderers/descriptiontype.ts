@@ -273,7 +273,8 @@ export class DocParamListTypeTextRenderer extends ElementTextRendererBase {
       const titlesByKind: Record<string, string> = {
         templateparam: 'Template Parameters',
         retval: 'Return Values',
-        param: 'Parameters'
+        param: 'Parameters',
+        exception: 'Exceptions'
       }
 
       const title = titlesByKind[element.kind]
@@ -308,6 +309,9 @@ export class DocParamListTypeTextRenderer extends ElementTextRendererBase {
                       } else {
                         names.push(escapeMdx(subChild))
                       }
+                    } else if (subChild instanceof AbstractRefTextType) {
+                      const name = this.workspace.renderElementToMdxText(subChild)
+                      names.push(name)
                     } else {
                       console.error(util.inspect(subChild, { compact: false, depth: 999 }))
                       console.error(element.constructor.name, 'sub child not yet rendered in', this.constructor.name)
