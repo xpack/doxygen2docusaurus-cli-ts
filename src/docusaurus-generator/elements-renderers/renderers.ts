@@ -29,6 +29,7 @@ import { RefTextTypeTextRenderer } from './reftexttype.js'
 import { RefTypeLinesRenderer } from './reftype.js'
 import { Workspace } from '../workspace.js'
 import { SubstringDocMarkupTypeRenderer } from './substringtype.js'
+import { DocEntryTypeTextRenderer, DocRowTypeLinesRenderer, DocTableTypeLinesRenderer } from './doctabletype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -42,12 +43,14 @@ export class Renderers {
     this.elementLinesRenderers.set('AbstractCodeLineType', new CodeLineTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocAnchorType', new DocAnchorTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocListType', new DocListTypeLinesRenderer(workspace))
+    this.elementLinesRenderers.set('AbstractDocRowType', new DocRowTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocSect1Type', new DocS1TypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocSect2Type', new DocS2TypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocSect3Type', new DocS3TypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocSect4Type', new DocS4TypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocSect5Type', new DocS5TypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocSect6Type', new DocS6TypeLinesRenderer(workspace))
+    this.elementLinesRenderers.set('AbstractDocTableType', new DocTableTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocTitleType', new DocTitleTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractHighlightType', new HighlightTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractIncType', new IncTypeLinesRenderer(workspace))
@@ -60,6 +63,7 @@ export class Renderers {
 
     this.elementTextRenderers.set('AbstractDescriptionType', new DescriptionTypeTextRenderer(workspace))
     this.elementTextRenderers.set('AbstractDocEmptyType', new DocEmptyTypeLinesRenderer(workspace))
+    this.elementTextRenderers.set('AbstractDocEntryType', new DocEntryTypeTextRenderer(workspace))
     this.elementTextRenderers.set('AbstractDocMarkupType', new DocMarkupTypeTextRenderer(workspace))
     this.elementTextRenderers.set('AbstractDocParaType', new DocParaTypeTextRenderer(workspace))
     this.elementTextRenderers.set('AbstractDocParamListType', new DocParamListTypeTextRenderer(workspace))

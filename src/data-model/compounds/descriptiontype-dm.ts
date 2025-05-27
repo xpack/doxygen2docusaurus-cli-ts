@@ -1819,7 +1819,7 @@ export class AbstractDocTitleType extends AbstractDataModelBase {
 //   </xsd:choice>
 // </xsd:group>
 
-export type DocCmdGroup = (BoldDataModel | SimpleSectDataModel | EmphasisDataModel | ParameterListDataModel | ComputerOutputDataModel | RefDataModel | ItemizedListDataModel | LineBreakDataModel | UlinkDataModel | AnchorDataModel | XrefSectDataModel | VariableListDataModel | SubstringDocMarkupType)
+export type DocCmdGroup = (BoldDataModel | SimpleSectDataModel | EmphasisDataModel | ParameterListDataModel | ComputerOutputDataModel | RefDataModel | ItemizedListDataModel | LineBreakDataModel | UlinkDataModel | AnchorDataModel | XrefSectDataModel | VariableListDataModel | SubstringDocMarkupType | DocTableDataModel | ParameterListDataModel)
 
 function parseDocCmdGroup (
   xml: DoxygenXmlParser,
@@ -1855,6 +1855,10 @@ function parseDocCmdGroup (
     children.push(new SimpleSectDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'variablelist')) {
     children.push(new VariableListDataModel(xml, element))
+  } else if (xml.hasInnerElement(element, 'variablelist')) {
+    children.push(new VariableListDataModel(xml, element))
+  } else if (xml.hasInnerElement(element, 'table')) {
+    children.push(new DocTableDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'parameterlist')) {
     children.push(new ParameterListDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'xrefsect')) {
@@ -2430,8 +2434,86 @@ export class RefDataModel extends AbstractDocRefTextType {
 //   </xsd:sequence>
 //   <xsd:attribute name="rows" type="xsd:integer" />
 //   <xsd:attribute name="cols" type="xsd:integer" />
-//   <xsd:attribute name="width" type="xsd:string" />
+//   <xsd:attribute name="width" type="xsd:string" /> // WARNING: optional
 // </xsd:complexType>
+
+export abstract class AbstractDocTableType extends AbstractDataModelBase {
+  caption?: DocCaptionDataModel = undefined
+  rows?: DocRowDataModel[] = undefined
+
+  // Mandatory attributes.
+  rowsCount: number = NaN
+  colsCount: number = NaN
+
+  // Optional
+  width: string | undefined
+
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+
+    // ------------------------------------------------------------------------
+    // Process elements.
+
+    const innerElements = xml.getInnerElements(element, elementName)
+    assert(innerElements.length > 0)
+
+    for (const innerElement of innerElements) {
+      if (xml.hasInnerText(innerElement)) {
+        // Ignore texts.
+      } else if (xml.hasInnerElement(innerElement, 'caption')) {
+        assert(this.caption === undefined)
+        this.caption = new DocCaptionDataModel(xml, innerElement)
+      } else if (xml.hasInnerElement(innerElement, 'row')) {
+        if (this.rows === undefined) {
+          this.rows = []
+        }
+        this.rows.push(new DocRowDataModel(xml, innerElement))
+      } else {
+        console.error(util.inspect(innerElement))
+        console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // Process attributes.
+
+    assert(xml.hasAttributes(element))
+
+    const attributesNames = xml.getAttributesNames(element)
+    for (const attributeName of attributesNames) {
+      if (attributeName === '@_rows') {
+        assert(isNaN(this.rowsCount))
+        this.rowsCount = xml.getAttributeNumberValue(element, '@_rows')
+      } else if (attributeName === '@_cols') {
+        assert(isNaN(this.colsCount))
+        this.colsCount = xml.getAttributeNumberValue(element, '@_cols')
+      } else if (attributeName === '@_width') {
+        assert(this.width === undefined)
+        this.width = xml.getAttributeStringValue(element, '@_width')
+      } else {
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
+      }
+    }
+
+    assert(this.rowsCount > 0)
+    assert(this.colsCount > 0)
+
+    // ------------------------------------------------------------------------
+
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
+  }
+}
+
+// <xsd:element name="table" type="docTableType" />
+
+export class DocTableDataModel extends AbstractDocTableType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    super(xml, element, 'table')
+  }
+}
 
 // <xsd:complexType name="docRowType">
 //   <xsd:sequence>
@@ -2439,24 +2521,214 @@ export class RefDataModel extends AbstractDocRefTextType {
 //   </xsd:sequence>
 // </xsd:complexType>
 
+export abstract class AbstractDocRowType extends AbstractDataModelBase {
+  // Optional elements.
+  entries?: DocEntryDataModel[] | undefined
+
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+
+    // ------------------------------------------------------------------------
+    // Process elements.
+
+    const innerElements = xml.getInnerElements(element, elementName)
+    assert(innerElements.length > 0)
+
+    for (const innerElement of innerElements) {
+      if (xml.hasInnerText(innerElement)) {
+        // Ignore texts.
+      } else if (xml.hasInnerElement(innerElement, 'entry')) {
+        if (this.entries === undefined) {
+          this.entries = []
+        }
+        this.entries.push(new DocEntryDataModel(xml, innerElement))
+      } else {
+        console.error(util.inspect(innerElement))
+        console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // Process attributes.
+
+    assert(!xml.hasAttributes(element))
+
+    // ------------------------------------------------------------------------
+
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
+  }
+}
+
+// <xsd:element name="row" type="docRowType" minOccurs="0" maxOccurs="unbounded" />
+
+export class DocRowDataModel extends AbstractDocRowType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    super(xml, element, 'row')
+  }
+}
+
 // <xsd:complexType name="docEntryType">
 //   <xsd:sequence>
 //     <xsd:element name="para" type="docParaType" minOccurs="0" maxOccurs="unbounded" />
 //   </xsd:sequence>
 //   <xsd:attribute name="thead" type="DoxBool" />
-//   <xsd:attribute name="colspan" type="xsd:integer" />
-//   <xsd:attribute name="rowspan" type="xsd:integer" />
-//   <xsd:attribute name="align" type="DoxAlign" />
-//   <xsd:attribute name="valign" type="DoxVerticalAlign" />
-//   <xsd:attribute name="width" type="xsd:string" />
-//   <xsd:attribute name="class" type="xsd:string" />
+//   <xsd:attribute name="colspan" type="xsd:integer" /> // WARNING: optional
+//   <xsd:attribute name="rowspan" type="xsd:integer" /> // WARNING: optional
+//   <xsd:attribute name="align" type="DoxAlign" /> // WARNING: optional
+//   <xsd:attribute name="valign" type="DoxVerticalAlign" /> // WARNING: optional
+//   <xsd:attribute name="width" type="xsd:string" /> // WARNING: optional
+//   <xsd:attribute name="class" type="xsd:string" /> // WARNING: optional
 //   <xsd:anyAttribute processContents="skip"/>
 // </xsd:complexType>
+
+export abstract class AbstractDocEntryType extends AbstractDataModelBase {
+  // Optional elements.
+  paras?: ParaDataModel[] | undefined
+
+  // Mandatory attributes.
+  thead: boolean = false
+  colspan?: Number | undefined
+  rowspan?: Number | undefined
+  align?: string | undefined
+  valign?: string | undefined
+  width?: string | undefined
+  classs?: string | undefined
+
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+
+    // ------------------------------------------------------------------------
+    // Process elements.
+
+    const innerElements = xml.getInnerElements(element, elementName)
+    assert(innerElements.length > 0)
+
+    for (const innerElement of innerElements) {
+      if (xml.hasInnerText(innerElement)) {
+        // Ignore texts.
+      } else if (xml.hasInnerElement(innerElement, 'para')) {
+        if (this.paras === undefined) {
+          this.paras = []
+        }
+        this.paras.push(new ParaDataModel(xml, innerElement))
+      } else {
+        console.error(util.inspect(innerElement))
+        console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // Process attributes.
+
+    if (xml.hasAttributes(element)) {
+      const attributesNames = xml.getAttributesNames(element)
+      for (const attributeName of attributesNames) {
+        if (attributeName === '@_thead') {
+          this.thead = xml.getAttributeBooleanValue(element, '@_thead')
+        } else if (attributeName === '@_colspan') {
+          assert(this.colspan === undefined)
+          this.colspan = Number(xml.getAttributeNumberValue(element, '@_colspan'))
+        } else if (attributeName === '@_rowspan') {
+          assert(this.rowspan === undefined)
+          this.rowspan = Number(xml.getAttributeNumberValue(element, '@_rowspan'))
+        } else if (attributeName === '@_align') {
+          assert(this.align === undefined)
+          this.align = xml.getAttributeStringValue(element, '@_align')
+        } else if (attributeName === '@_valign') {
+          assert(this.valign === undefined)
+          this.valign = xml.getAttributeStringValue(element, '@_valign')
+        } else if (attributeName === '@_width') {
+          assert(this.width === undefined)
+          this.width = xml.getAttributeStringValue(element, '@_width')
+        } else if (attributeName === '@_class') {
+          assert(this.classs === undefined)
+          this.classs = xml.getAttributeStringValue(element, '@_class')
+        } else {
+          console.error(`${elementName} attribute:`, attributeName, 'not in DTD, skipped', this.constructor.name)
+        }
+      }
+    }
+
+    // ------------------------------------------------------------------------
+
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
+  }
+}
+
+// <xsd:element name="entry" type="docEntryType" minOccurs="0" maxOccurs="unbounded" />
+
+export class DocEntryDataModel extends AbstractDocEntryType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    super(xml, element, 'entry')
+  }
+}
 
 // <xsd:complexType name="docCaptionType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:group ref="docTitleCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
+
+export abstract class AbstractDocCaptionType extends AbstractDataModelBase {
+  // Any sequence of them.
+  children: Array<string | DocTitleCmdGroup> = []
+
+  // Mandatory attributes.
+  id: string = ''
+
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+
+    // ------------------------------------------------------------------------
+    // Process elements.
+
+    const innerElements = xml.getInnerElements(element, elementName)
+    assert(innerElements.length > 0)
+
+    for (const innerElement of innerElements) {
+      if (xml.hasInnerText(innerElement)) {
+        this.children.push(xml.getInnerText(innerElement))
+      } else {
+        this.children.push(...parseDocTitleCmdGroup(xml, innerElement, elementName))
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // Process attributes.
+
+    assert(xml.hasAttributes(element))
+
+    const attributesNames = xml.getAttributesNames(element)
+    for (const attributeName of attributesNames) {
+      if (attributeName === '@_id') {
+        assert(this.id.length === 0)
+        this.id = xml.getAttributeStringValue(element, '@_id')
+      } else {
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)
+      }
+    }
+
+    assert(this.id.length > 0)
+
+    // ------------------------------------------------------------------------
+
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
+  }
+}
+
+// <xsd:element name="row" type="docRowType" minOccurs="0" maxOccurs="unbounded" />
+
+export class DocCaptionDataModel extends AbstractDocCaptionType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    super(xml, element, 'caption')
+  }
+}
 
 // <xsd:simpleType name="range_1_6">
 //   <xsd:restriction base="xsd:integer">
