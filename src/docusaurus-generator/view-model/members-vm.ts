@@ -439,7 +439,7 @@ export class Member extends MemberBase {
   // --------------------------------------------------------------------------
 
   renderIndexToMdxLines (): string[] {
-    // console.log(util.inspect(memberDef, { compact: false, depth: 999 }))
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
     const lines: string[] = []
 
     const workspace = this.section.compound.collection.workspace
@@ -511,8 +511,24 @@ export class Member extends MemberBase {
         }
         break
 
+      case 'friend':
+        // console.log(this)
+        itemType = this.typeMdxText ?? 'class'
+
+        break
+
+      case 'define':
+        // console.log(this)
+        itemType = '#define'
+        if (this.initializerMdxText !== undefined) {
+          itemName += '&nbsp;&nbsp;&nbsp;'
+          itemName += this.initializerMdxText
+        }
+
+        break
+
       default:
-        console.error('member kind', this.kind, 'not implemented yet in', this.constructor.name, 'renderMethodDefIndexMdx')
+        console.error('member kind', this.kind, 'not implemented yet in', this.constructor.name, 'renderIndexToMdxLines')
     }
 
     lines.push('')
@@ -613,7 +629,6 @@ export class Member extends MemberBase {
 
           lines.push('</MemberDefinition>')
         }
-
         break
 
       case 'enum':
@@ -653,12 +668,87 @@ export class Member extends MemberBase {
 
           lines.push('</MemberDefinition>')
         }
+        break
 
+      case 'friend':
+        {
+          // console.log(this)
+          const prototype = `friend ${this.typeMdxText} ${this.parameters}`
+          lines.push('')
+          lines.push('<MemberDefinition')
+
+          lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`)
+
+          if (this.labels.length > 0) {
+            lines.push(`  labels = {["${this.labels.join('", "')}"]}>`)
+          }
+
+          if (this.detailedDescriptionMdxText !== undefined) {
+            lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+              briefDescriptionMdxText: this.briefDescriptionMdxText,
+              detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+              showHeader: false,
+              showBrief: true
+            }))
+          }
+
+          if (this.locationMdxText !== undefined) {
+            lines.push(this.locationMdxText)
+          }
+
+          lines.push('</MemberDefinition>')
+        }
+        break
+
+      case 'define':
+        {
+          // console.log(this)
+          if ((this.briefDescriptionMdxText !== undefined && this.briefDescriptionMdxText.length > 0) || (this.detailedDescriptionMdxText !== undefined && this.detailedDescriptionMdxText.length > 0)) {
+            console.log(this.name, this.id)
+            if (this.name === 'OS_HAS_STD_THREADS') {
+              console.log(this)
+            }
+            // console.log(
+            //   Object.entries(this)
+            //     .filter(([_, v]) => typeof v === "string")
+            //     .map(([k, v]) => `${k}: "${v}"`)
+            //     .join(", ")
+            // )
+          }
+
+          let prototype = `#define ${escapeMdx(name)}`
+          if (this.initializerMdxText !== undefined) {
+            prototype += '&nbsp;&nbsp;&nbsp;'
+            prototype += this.initializerMdxText
+          }
+
+          lines.push('')
+          lines.push('<MemberDefinition')
+
+          lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`)
+
+          if (this.labels.length > 0) {
+            lines.push(`  labels = {["${this.labels.join('", "')}"]}>`)
+          }
+
+          lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
+            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+            showHeader: false,
+            showBrief: true
+          }))
+
+          if (this.locationMdxText !== undefined) {
+            lines.push(this.locationMdxText)
+          }
+
+          lines.push('</MemberDefinition>')
+        }
         break
 
       default:
         lines.push('')
-        console.warn('memberDef', this.kind, this.name, 'not implemented yet in', this.constructor.name, 'renderMemberDefMdx')
+        console.warn('memberDef', this.kind, this.name, 'not implemented yet in', this.constructor.name, 'renderToMdxLines')
     }
 
     return lines
