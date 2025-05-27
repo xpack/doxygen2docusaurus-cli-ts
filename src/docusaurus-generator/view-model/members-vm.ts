@@ -125,8 +125,27 @@ export class Section {
   getHeaderNameByKind (sectionDef: SectionDefDataModel): string {
     // User defined sections have their own header.
     if (sectionDef.kind === 'user-defined') {
-      assert(sectionDef.header !== undefined)
-      return sectionDef.header.trim()
+      if (sectionDef.header !== undefined) {
+        return sectionDef.header.trim()
+      }
+
+      // if (sectionDef.header === undefined) {
+      //   // console.warn(util.inspect(sectionDef, { compact: false, depth: 999 }))
+      //   console.warn('header missing in sectionDef of kind', sectionDef.kind)
+      //   return 'User Defined'
+      // } else {
+      //   return sectionDef.header.trim()
+      // }
+      if (sectionDef.memberDefs === undefined) {
+        // console.log(sectionDef)
+        console.warn('sectionDef of kind user-defined has no members, cannot compute title')
+        return 'User Defined'
+      }
+      console.log('---')
+      for (const m of sectionDef.memberDefs) {
+        console.log(m.kind)
+      }
+      return 'User Defined'
     }
 
     if (sectionDef.header !== undefined) {
@@ -703,19 +722,6 @@ export class Member extends MemberBase {
       case 'define':
         {
           // console.log(this)
-          if ((this.briefDescriptionMdxText !== undefined && this.briefDescriptionMdxText.length > 0) || (this.detailedDescriptionMdxText !== undefined && this.detailedDescriptionMdxText.length > 0)) {
-            console.log(this.name, this.id)
-            if (this.name === 'OS_HAS_STD_THREADS') {
-              console.log(this)
-            }
-            // console.log(
-            //   Object.entries(this)
-            //     .filter(([_, v]) => typeof v === "string")
-            //     .map(([k, v]) => `${k}: "${v}"`)
-            //     .join(", ")
-            // )
-          }
-
           let prototype = `#define ${escapeMdx(name)}`
           if (this.initializerMdxText !== undefined) {
             prototype += '&nbsp;&nbsp;&nbsp;'
