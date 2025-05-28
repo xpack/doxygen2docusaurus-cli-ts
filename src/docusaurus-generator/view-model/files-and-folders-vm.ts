@@ -436,6 +436,7 @@ export class Folder extends CompoundBase {
 
 export class File extends CompoundBase {
   relativePath: string = ''
+  listingLineNumbers: Set<Number> = new Set()
 
   // Shortcut, use data model objects.
   programListing: ProgramListingDataModel | undefined
@@ -466,6 +467,16 @@ export class File extends CompoundBase {
     assert(compoundDef !== undefined)
 
     this.programListing = compoundDef.programListing
+
+    // Keep track of line number, since not all lines referred exist and
+    // this might result in broken links.
+    if (this.programListing?.codelines !== undefined) {
+      for (const codeline of this.programListing?.codelines) {
+        if (codeline.lineno !== undefined) {
+          this.listingLineNumbers.add(codeline.lineno)
+        }
+      }
+    }
   }
 
   // --------------------------------------------------------------------------

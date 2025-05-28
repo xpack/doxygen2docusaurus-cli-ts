@@ -401,27 +401,54 @@ export abstract class CompoundBase {
 
       text += '\n'
       if (location.bodyfile !== undefined && location.file !== location.bodyfile) {
-        text += 'Declaration at line '
-        const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
-        text += `<Link to="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</Link>`
-        text += ' of file '
+        text += 'Declaration '
+        if (location.line !== undefined) {
+          text += 'at line '
+          const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
+          if (!file.listingLineNumbers.has(location.line)) {
+            text += location.line?.toString()
+          } else {
+            text += `<Link to="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</Link>`
+          }
+          text += ' of file '
+        } else {
+          text += ' in file '
+        }
         text += `<Link to="${permalink}">${escapeMdx(path.basename(location.file) as string)}</Link>`
 
         const definitionFile = files.filesByPath.get(location.bodyfile)
         assert(definitionFile !== undefined)
         const definitionPermalink = workspace.getPagePermalink(definitionFile.id)
 
-        text += ', definition at line '
-        const lineStart = `l${location.bodystart?.toString().padStart(5, '0')}`
-        text += `<Link to="${definitionPermalink}/#${lineStart}">${escapeMdx(location.bodystart?.toString() ?? '?')}</Link>`
-        text += ' of file '
+        text += ', definition '
+        if (location.bodystart !== undefined) {
+          text += 'at line '
+          const lineStart = `l${location.bodystart?.toString().padStart(5, '0')}`
+          if (!definitionFile.listingLineNumbers.has(location.bodystart)) {
+            text += location.bodystart?.toString()
+          } else {
+            text += `<Link to="${definitionPermalink}/#${lineStart}">${escapeMdx(location.bodystart?.toString() ?? '?')}</Link>`
+          }
+          text += ' of file '
+        } else {
+          text += ' in file '
+        }
         text += `<Link to="${definitionPermalink}">${escapeMdx(path.basename(location.bodyfile) as string)}</Link>`
         text += '.'
       } else {
-        text += 'Definition at line '
-        const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
-        text += `<Link to="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</Link>`
-        text += ' of file '
+        text += 'Definition '
+        if (location.line !== undefined) {
+          text += 'at line '
+          const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
+          if (!file.listingLineNumbers.has(location.line)) {
+            text += location.line?.toString()
+          } else {
+            text += `<Link to="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</Link>`
+          }
+          text += ' of file '
+        } else {
+          text += ' in file '
+        }
         text += `<Link to="${permalink}">${escapeMdx(path.basename(location.file) as string)}</Link>`
         text += '.'
       }
