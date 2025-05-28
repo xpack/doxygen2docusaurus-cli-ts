@@ -217,7 +217,7 @@ export class Namespace extends CompoundBase {
 
     // The compoundName is the fully qualified namespace name.
     // Keep only the last name.
-    this.sidebarLabel = compoundDef.compoundName.replace(/.*::/, '')
+    this.sidebarLabel = compoundDef.compoundName.replace(/.*::/, '').replace(/anonymous_namespace\{/, 'anonymous{')
 
     this.indexName = this.compoundName
 
@@ -225,7 +225,7 @@ export class Namespace extends CompoundBase {
 
     this.pageTitle = `The \`${this.sidebarLabel}\` Namespace Reference`
 
-    const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundName.replaceAll('::', '/'))
+    const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundName.replaceAll('::', '/').replace(/anonymous_namespace\{/, 'anonymous{'))
     this.relativePermalink = `namespaces/${sanitizedPath}`
 
     this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
@@ -263,8 +263,12 @@ export class Namespace extends CompoundBase {
     lines.push('')
     lines.push('## Definition')
     lines.push('')
-    // Intentionally on two lines.
-    lines.push(`<CodeBlock>namespace ${escapeMdx(this.compoundName)}</CodeBlock>`)
+
+    if (this.compoundName.startsWith('anonymous_namespace{')) {
+      lines.push('<CodeBlock>namespace \\{ ... \\}</CodeBlock>')
+    } else {
+      lines.push(`<CodeBlock>namespace ${escapeMdx(this.compoundName)} \\{ ... \\}</CodeBlock>`)
+    }
 
     lines.push(...this.renderInnerIndicesToMdxLines({
       suffixes: ['Namespaces', 'Classes']
