@@ -233,10 +233,8 @@ export abstract class CompoundBase {
 
     if (showBrief) {
       if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
-        lines.push('')
         lines.push(briefDescriptionMdxText)
       } else if (todo.length > 0) {
-        lines.push('')
         lines.push(`TODO: add <code>@brief</code> to <code>${todo}</code>`)
       }
     }
