@@ -3,6 +3,7 @@
 
 :global(table.doxyEnumTable) {
   border: none;
+  display: table-row-group
 }
 
 :global(dt.doxyEnumTableTitle) {
