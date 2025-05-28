@@ -113,11 +113,8 @@ export class Page extends CompoundBase {
   constructor (collection: Pages, compoundDef: CompoundDefDataModel) {
     super(collection, compoundDef)
 
-    if (compoundDef.title !== undefined) {
-      this.sidebarLabel = compoundDef.title?.trim().replace(/\.$/, '')
-    } else {
-      this.sidebarLabel = '?'
-    }
+    assert(compoundDef.title !== undefined)
+    this.sidebarLabel = compoundDef.title.trim().replace(/\.$/, '')
 
     this.indexName = this.sidebarLabel
 
