@@ -34,6 +34,7 @@ export declare class Folder extends CompoundBase {
 }
 export declare class File extends CompoundBase {
     relativePath: string;
+    listingLineNumbers: Set<Number>;
     programListing: ProgramListingDataModel | undefined;
     constructor(collection: FilesAndFolders, compoundDef: CompoundDefDataModel);
     initializeLate(): void;

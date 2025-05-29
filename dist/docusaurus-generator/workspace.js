@@ -384,6 +384,9 @@ export class Workspace {
     // --------------------------------------------------------------------------
     getPermalink({ refid, kindref }) {
         // console.log(refid, kindref)
+        // if (refid.endsWith('ga45942bdeee4fb61db5a7dc3747cb7193')) {
+        //   console.log(refid, kindref)
+        // }
         let permalink;
         if (kindref === 'compound') {
             permalink = this.getPagePermalink(refid);
@@ -391,17 +394,19 @@ export class Workspace {
         else if (kindref === 'member') {
             const compoundId = stripPermalinkAnchor(refid);
             // console.log('compoundId:', compoundId)
-            if (compoundId === this.currentCompound?.id) {
-                permalink = `#${getPermalinkAnchor(refid)}`;
-            }
-            else {
-                permalink = `${this.getPagePermalink(compoundId)}/#${getPermalinkAnchor(refid)}`;
-            }
+            // if (this.currentCompound !== undefined && compoundId === this.currentCompound.id) {
+            //   permalink = `#${getPermalinkAnchor(refid)}`
+            // } else {
+            permalink = `${this.getPagePermalink(compoundId)}/#${getPermalinkAnchor(refid)}`;
+            // }
         }
         else {
             console.error('Unsupported kindref', kindref, 'for', refid, 'in', this.constructor.name, 'getPermalink');
         }
         assert(permalink !== undefined && permalink.length > 1);
+        // if (refid.endsWith('ga45942bdeee4fb61db5a7dc3747cb7193')) {
+        //   console.log(permalink)
+        // }
         return permalink;
     }
     getPagePermalink(refid) {
@@ -422,12 +427,11 @@ export class Workspace {
         const pagePart = id.replace(/_1.*/, '');
         const anchorPart = id.replace(/.*_1/, '');
         // console.log('2', part1, part2)
-        if (this.currentCompound !== undefined && pagePart === this.currentCompound.id) {
-            return `#${anchorPart}`;
-        }
-        else {
-            return `/${this.pluginOptions.outputFolderPath}/pages/${pagePart}/#${anchorPart}`;
-        }
+        // if (this.currentCompound !== undefined && pagePart === this.currentCompound.id) {
+        //   return `#${anchorPart}`
+        // } else {
+        return `/${this.pluginOptions.outputFolderPath}/pages/${pagePart}/#${anchorPart}`;
+        // }
     }
 }
 // ----------------------------------------------------------------------------

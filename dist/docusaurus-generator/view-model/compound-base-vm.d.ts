@@ -39,15 +39,16 @@ export declare abstract class CompoundBase {
     constructor(collection: CollectionBase, compoundDef: CompoundDefDataModel);
     initializeLate(): void;
     abstract renderToMdxLines(frontMatter: FrontMatter): string[];
-    renderBriefDescriptionToMdxText({ briefDescriptionMdxText, todo, morePermalink }?: {
-        briefDescriptionMdxText?: string | undefined;
+    renderBriefDescriptionToMdxText({ briefDescriptionMdxText, todo, morePermalink }: {
+        briefDescriptionMdxText: string | undefined;
         todo?: string;
         morePermalink?: string | undefined;
     }): string;
-    renderDetailedDescriptionToMdxLines({ detailedDescriptionMdxText, todo, showHeader, showBrief }: {
-        detailedDescriptionMdxText?: string | undefined;
+    renderDetailedDescriptionToMdxLines({ briefDescriptionMdxText, detailedDescriptionMdxText, todo, showHeader, showBrief }: {
+        briefDescriptionMdxText?: string | undefined;
+        detailedDescriptionMdxText: string | undefined;
         todo?: string;
-        showHeader?: boolean;
+        showHeader: boolean;
         showBrief?: boolean;
     }): string[];
     hasInnerIndices(): boolean;

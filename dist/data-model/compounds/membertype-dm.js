@@ -15,7 +15,7 @@ import { AbstractDataModelBase } from '../types.js';
 // ----------------------------------------------------------------------------
 // <xsd:complexType name="MemberType">
 //   <xsd:sequence>
-//     <xsd:element name="name" type="xsd:string"/>
+//     <xsd:element name="name" type="xsd:string"/> // WARNING name may be empty
 //   </xsd:sequence>
 //   <xsd:attribute name="refid" type="xsd:string" use="required"/>
 //   <xsd:attribute name="kind" type="MemberKind" use="required"/>
@@ -45,7 +45,8 @@ export class AbstractMemberType extends AbstractDataModelBase {
                 console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name);
             }
         }
-        assert(this.name.length > 0);
+        // In practice it may be empty.
+        // assert(this.name.length > 0)
         // ------------------------------------------------------------------------
         // Process attributes.
         assert(xml.hasAttributes(element));

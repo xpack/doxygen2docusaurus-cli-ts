@@ -11,7 +11,7 @@
 // ----------------------------------------------------------------------------
 import * as util from 'node:util';
 import assert from 'node:assert';
-import { escapeMdx, getPermalinkAnchor } from '../utils.js';
+import { escapeHtml, escapeMdx, getPermalinkAnchor } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class Section {
     constructor(compound, sectionDef) {
@@ -95,8 +95,26 @@ export class Section {
     getHeaderNameByKind(sectionDef) {
         // User defined sections have their own header.
         if (sectionDef.kind === 'user-defined') {
-            assert(sectionDef.header !== undefined);
-            return sectionDef.header.trim();
+            if (sectionDef.header !== undefined) {
+                return sectionDef.header.trim();
+            }
+            // if (sectionDef.header === undefined) {
+            //   // console.warn(util.inspect(sectionDef, { compact: false, depth: 999 }))
+            //   console.warn('header missing in sectionDef of kind', sectionDef.kind)
+            //   return 'User Defined'
+            // } else {
+            //   return sectionDef.header.trim()
+            // }
+            if (sectionDef.memberDefs === undefined) {
+                // console.log(sectionDef)
+                console.warn('sectionDef of kind user-defined has no members, cannot compute title');
+                return 'User Defined';
+            }
+            console.log('---');
+            for (const m of sectionDef.memberDefs) {
+                console.log(m.kind);
+            }
+            return 'User Defined';
         }
         if (sectionDef.header !== undefined) {
             console.warn('header', sectionDef.header, 'ignored in sectionDef of kind', sectionDef.kind);
@@ -149,7 +167,7 @@ export class Section {
         // ------------------------------------------------------------------------
         const header = headerNamesByKind[sectionDef.kind];
         if (header === undefined) {
-            console.error(sectionDef, { compact: false, depth: 999 });
+            console.error(util.inspect(sectionDef, { compact: false, depth: 999 }));
             console.error(sectionDef.constructor.name, 'kind', sectionDef.kind, 'not yet rendered in', this.constructor.name, 'getHeaderByKind');
             return '';
         }
@@ -326,7 +344,7 @@ export class Member extends MemberBase {
     }
     // --------------------------------------------------------------------------
     renderIndexToMdxLines() {
-        // console.log(util.inspect(memberDef, { compact: false, depth: 999 }))
+        // console.log(util.inspect(this, { compact: false, depth: 999 }))
         const lines = [];
         const workspace = this.section.compound.collection.workspace;
         const permalink = workspace.getPermalink({ refid: this.id, kindref: 'member' });
@@ -380,13 +398,37 @@ export class Member extends MemberBase {
                 }
                 break;
             case 'enum':
-                itemType = 'enum';
+                // console.log(this)
+                itemType = '';
+                if (this.name.length === 0) {
+                    itemType += 'anonymous ';
+                }
+                itemType += 'enum';
                 if (this.isStrong) {
                     itemType += ' class';
                 }
+                itemName = '';
+                if (this.typeMdxText !== undefined) {
+                    itemName += `: ${this.typeMdxText} `;
+                }
+                itemName += escapeHtml('{ ');
+                itemName += `<Link to="${permalink}">...</Link>`;
+                itemName += escapeHtml(' }');
+                break;
+            case 'friend':
+                // console.log(this)
+                itemType = this.typeMdxText ?? 'class';
+                break;
+            case 'define':
+                // console.log(this)
+                itemType = '#define';
+                if (this.initializerMdxText !== undefined) {
+                    itemName += '&nbsp;&nbsp;&nbsp;';
+                    itemName += this.initializerMdxText;
+                }
                 break;
             default:
-                console.error('member kind', this.kind, 'not implemented yet in', this.constructor.name, 'renderMethodDefIndexMdx');
+                console.error('member kind', this.kind, 'not implemented yet in', this.constructor.name, 'renderIndexToMdxLines');
         }
         lines.push('');
         lines.push('<MembersIndexItem');
@@ -400,6 +442,10 @@ export class Member extends MemberBase {
         }
         else {
             lines.push('  type="&nbsp;"');
+        }
+        if (itemName.length === 0) {
+            console.log(this);
+            console.warn('empty name in', this.id);
         }
         if (itemName.includes('<') || itemName.includes('&')) {
             lines.push(`  name={<>${itemName}</>}>`);
@@ -424,7 +470,9 @@ export class Member extends MemberBase {
         const id = getPermalinkAnchor(this.id);
         const name = this.name + (isFunction ? '()' : '');
         lines.push('');
-        lines.push(`### ${escapeMdx(name)} {#${id}}`);
+        if (this.kind !== 'enum') {
+            lines.push(`### ${escapeMdx(name)} {#${id}}`);
+        }
         // console.log(memberDef.kind)
         switch (this.kind) {
             case 'function':
@@ -458,20 +506,12 @@ export class Member extends MemberBase {
                     if (this.labels.length > 0) {
                         lines.push(`  labels = {["${this.labels.join('", "')}"]}>`);
                     }
-                    if (this.briefDescriptionMdxText !== undefined && this.briefDescriptionMdxText.length > 0) {
-                        lines.push(this.section.compound.renderBriefDescriptionToMdxText({
-                            briefDescriptionMdxText: this.briefDescriptionMdxText
-                        }));
-                    }
-                    // if (this.briefDescriptionMdxText !== undefined && this.briefDescriptionMdxText.length > 0 &&
-                    //     this.detailedDescriptionMdxText !== undefined && this.detailedDescriptionMdxText.length > 0) {
-                    //   lines.push('')
-                    //   lines.push('---')
-                    // }
                     if (this.detailedDescriptionMdxText !== undefined) {
                         lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+                            briefDescriptionMdxText: this.briefDescriptionMdxText,
                             detailedDescriptionMdxText: this.detailedDescriptionMdxText,
-                            showHeader: false
+                            showHeader: false,
+                            showBrief: true
                         }));
                     }
                     if (this.locationMdxText !== undefined) {
@@ -482,11 +522,24 @@ export class Member extends MemberBase {
                 break;
             case 'enum':
                 {
-                    let prototype = 'enum ';
+                    let prototype = '';
+                    if (this.name.length === 0) {
+                        prototype += 'anonymous ';
+                    }
+                    prototype += 'enum ';
                     if (this.isStrong) {
                         prototype += 'class ';
                     }
-                    prototype += escapeMdx(this.qualifiedName ?? '?');
+                    lines.push(`### ${prototype} {#${id}}`);
+                    if (this.name.length > 0 && this.qualifiedName !== undefined) {
+                        prototype += `${escapeHtml(this.qualifiedName)} `;
+                    }
+                    else if (this.name.length > 0) {
+                        prototype += `${escapeHtml(this.name)} `;
+                    }
+                    if (this.typeMdxText !== undefined && this.typeMdxText.length > 0) {
+                        prototype += `: ${this.typeMdxText}`;
+                    }
                     lines.push('');
                     lines.push('<MemberDefinition');
                     lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`);
@@ -512,9 +565,59 @@ export class Member extends MemberBase {
                     lines.push('</MemberDefinition>');
                 }
                 break;
+            case 'friend':
+                {
+                    // console.log(this)
+                    const prototype = `friend ${this.typeMdxText} ${this.parameters}`;
+                    lines.push('');
+                    lines.push('<MemberDefinition');
+                    lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`);
+                    if (this.labels.length > 0) {
+                        lines.push(`  labels = {["${this.labels.join('", "')}"]}>`);
+                    }
+                    if (this.detailedDescriptionMdxText !== undefined) {
+                        lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+                            briefDescriptionMdxText: this.briefDescriptionMdxText,
+                            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+                            showHeader: false,
+                            showBrief: true
+                        }));
+                    }
+                    if (this.locationMdxText !== undefined) {
+                        lines.push(this.locationMdxText);
+                    }
+                    lines.push('</MemberDefinition>');
+                }
+                break;
+            case 'define':
+                {
+                    // console.log(this)
+                    let prototype = `#define ${escapeMdx(name)}`;
+                    if (this.initializerMdxText !== undefined) {
+                        prototype += '&nbsp;&nbsp;&nbsp;';
+                        prototype += this.initializerMdxText;
+                    }
+                    lines.push('');
+                    lines.push('<MemberDefinition');
+                    lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`);
+                    if (this.labels.length > 0) {
+                        lines.push(`  labels = {["${this.labels.join('", "')}"]}>`);
+                    }
+                    lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+                        briefDescriptionMdxText: this.briefDescriptionMdxText,
+                        detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+                        showHeader: false,
+                        showBrief: true
+                    }));
+                    if (this.locationMdxText !== undefined) {
+                        lines.push(this.locationMdxText);
+                    }
+                    lines.push('</MemberDefinition>');
+                }
+                break;
             default:
                 lines.push('');
-                console.warn('memberDef', this.kind, this.name, 'not implemented yet in', this.constructor.name, 'renderMemberDefMdx');
+                console.warn('memberDef', this.kind, this.name, 'not implemented yet in', this.constructor.name, 'renderToMdxLines');
         }
         return lines;
     }
@@ -527,13 +630,13 @@ export class Member extends MemberBase {
         if (memberDef.enumvalues !== undefined) {
             for (const enumValue of memberDef.enumvalues) {
                 let enumBriefDescription = workspace.renderElementToMdxText(enumValue.briefDescription).replace(/[.]$/, '');
-                const permalink = workspace.getPermalink({ refid: enumValue.id, kindref: 'member' });
+                const anchor = getPermalinkAnchor(enumValue.id);
                 const value = workspace.renderElementToMdxText(enumValue.initializer);
                 if (value.length > 0) {
                     enumBriefDescription += ` (${value})`;
                 }
                 lines.push('');
-                lines.push(`<Link id="${permalink}" />`);
+                lines.push(`<Link id="${anchor}" />`);
                 lines.push(`<EnumerationListItem name="${enumValue.name.trim()}">`);
                 lines.push(`${enumBriefDescription}`);
                 lines.push('</EnumerationListItem>');

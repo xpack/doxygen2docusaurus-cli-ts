@@ -13,7 +13,8 @@ import assert from 'assert';
 import util from 'util';
 import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js';
 import { ParaDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
-import { escapeMdx } from '../utils.js';
+import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js';
+import { escapeQuotes, getPermalinkAnchor } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class DescriptionTypeTextRenderer extends ElementTextRendererBase {
     renderToMdxText(element) {
@@ -224,7 +225,8 @@ export class DocParamListTypeTextRenderer extends ElementTextRendererBase {
             const titlesByKind = {
                 templateparam: 'Template Parameters',
                 retval: 'Return Values',
-                param: 'Parameters'
+                param: 'Parameters',
+                exception: 'Exceptions'
             };
             const title = titlesByKind[element.kind];
             if (title === undefined) {
@@ -249,7 +251,7 @@ export class DocParamListTypeTextRenderer extends ElementTextRendererBase {
                                                     names.push(`[${child.direction}] ${subChild}`);
                                                 }
                                                 else {
-                                                    names.push(escapeMdx(subChild));
+                                                    names.push((subChild));
                                                 }
                                             }
                                             else if (child instanceof ParameterTypeDataModel) {
@@ -257,8 +259,12 @@ export class DocParamListTypeTextRenderer extends ElementTextRendererBase {
                                                 console.error(element.constructor.name, 'ParameterType not yet rendered in', this.constructor.name);
                                             }
                                             else {
-                                                names.push(escapeMdx(subChild));
+                                                names.push((subChild));
                                             }
+                                        }
+                                        else if (subChild instanceof AbstractRefTextType) {
+                                            const name = this.workspace.renderElementToMdxText(subChild);
+                                            names.push(name);
                                         }
                                         else {
                                             console.error(util.inspect(subChild, { compact: false, depth: 999 }));
@@ -268,7 +274,16 @@ export class DocParamListTypeTextRenderer extends ElementTextRendererBase {
                                 }
                             }
                         }
-                        lines.push(`<ParametersListItem name="${names.join(', ')}">${this.workspace.renderElementToMdxText(parameterItem.parameterDescription)}</ParametersListItem>`);
+                        const parameterLines = this.workspace.renderElementToMdxText(parameterItem.parameterDescription).split('\n');
+                        const escapedName = escapeQuotes(names.join(', '));
+                        if (parameterLines.length > 1) {
+                            lines.push(`<ParametersListItem name="${escapedName}">`);
+                            lines.push(...parameterLines);
+                            lines.push('</ParametersListItem>');
+                        }
+                        else {
+                            lines.push(`<ParametersListItem name="${escapedName}">${parameterLines[0]}</ParametersListItem>`);
+                        }
                     }
                     lines.push('</ParametersList>');
                     break;
@@ -285,8 +300,8 @@ export class DocAnchorTypeLinesRenderer extends ElementLinesRendererBase {
     renderToMdxLines(element) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        const permalink = this.workspace.getXrefPermalink(element.id);
-        lines.push(`<Link id="${permalink}" />`);
+        const anchor = getPermalinkAnchor(element.id);
+        lines.push(`<Link id="${anchor}" />`);
         return lines;
     }
 }

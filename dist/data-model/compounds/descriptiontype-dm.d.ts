@@ -111,7 +111,7 @@ export declare class AbstractDocTitleType extends AbstractDataModelBase {
     children: Array<string | DocTitleCmdGroup>;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
-export type DocCmdGroup = (BoldDataModel | SimpleSectDataModel | EmphasisDataModel | ParameterListDataModel | ComputerOutputDataModel | RefDataModel | ItemizedListDataModel | LineBreakDataModel | UlinkDataModel | AnchorDataModel | XrefSectDataModel | VariableListDataModel | SubstringDocMarkupType);
+export type DocCmdGroup = (BoldDataModel | SimpleSectDataModel | EmphasisDataModel | ParameterListDataModel | ComputerOutputDataModel | RefDataModel | ItemizedListDataModel | LineBreakDataModel | UlinkDataModel | AnchorDataModel | XrefSectDataModel | VariableListDataModel | SubstringDocMarkupType | DocTableDataModel | ParameterListDataModel);
 export declare abstract class AbstractDocParaType extends AbstractDataModelBase {
     children: Array<string | DocCmdGroup>;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
@@ -175,6 +175,46 @@ export declare abstract class AbstractDocRefTextType extends AbstractDataModelBa
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
 export declare class RefDataModel extends AbstractDocRefTextType {
+    constructor(xml: DoxygenXmlParser, element: Object);
+}
+export declare abstract class AbstractDocTableType extends AbstractDataModelBase {
+    caption?: DocCaptionDataModel;
+    rows?: DocRowDataModel[];
+    rowsCount: number;
+    colsCount: number;
+    width: string | undefined;
+    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+}
+export declare class DocTableDataModel extends AbstractDocTableType {
+    constructor(xml: DoxygenXmlParser, element: Object);
+}
+export declare abstract class AbstractDocRowType extends AbstractDataModelBase {
+    entries?: DocEntryDataModel[] | undefined;
+    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+}
+export declare class DocRowDataModel extends AbstractDocRowType {
+    constructor(xml: DoxygenXmlParser, element: Object);
+}
+export declare abstract class AbstractDocEntryType extends AbstractDataModelBase {
+    paras?: ParaDataModel[] | undefined;
+    thead: boolean;
+    colspan?: Number | undefined;
+    rowspan?: Number | undefined;
+    align?: string | undefined;
+    valign?: string | undefined;
+    width?: string | undefined;
+    classs?: string | undefined;
+    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+}
+export declare class DocEntryDataModel extends AbstractDocEntryType {
+    constructor(xml: DoxygenXmlParser, element: Object);
+}
+export declare abstract class AbstractDocCaptionType extends AbstractDataModelBase {
+    children: Array<string | DocTitleCmdGroup>;
+    id: string;
+    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+}
+export declare class DocCaptionDataModel extends AbstractDocCaptionType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
 export declare abstract class AbstractDocParamListType extends AbstractDataModelBase {

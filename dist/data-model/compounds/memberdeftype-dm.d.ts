@@ -20,6 +20,7 @@ export declare abstract class AbstractMemberDefType extends AbstractDataModelBas
     definition?: string | undefined;
     argsstring?: string | undefined;
     qualifiedName?: string | undefined;
+    bitfield?: string | undefined;
     reimplements?: ReimplementDataModel[] | undefined;
     reimplementedBys?: ReimplementDataModel[] | undefined;
     params?: ParamDataModel[] | undefined;
@@ -43,6 +44,7 @@ export declare abstract class AbstractMemberDefType extends AbstractDataModelBas
     constexpr?: Boolean | undefined;
     consteval?: Boolean | undefined;
     constinit?: Boolean | undefined;
+    final?: Boolean | undefined;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
 export declare class MemberDefDataModel extends AbstractMemberDefType {

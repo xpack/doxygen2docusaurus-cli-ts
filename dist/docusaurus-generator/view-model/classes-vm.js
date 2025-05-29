@@ -437,7 +437,7 @@ export class Class extends CompoundBase {
         this.indexName = `${this.unqualifiedName}${indexNameTemplateParameters}`;
         const kind = compoundDef.kind;
         const kindCapitalised = kind.charAt(0).toUpperCase() + kind.slice(1).toLowerCase();
-        this.pageTitle = `The \`${this.unqualifiedName}\` ${kindCapitalised}`;
+        this.pageTitle = `The \`${escapeMdx(this.unqualifiedName)}\` ${kindCapitalised}`;
         if (compoundDef.templateParamList !== undefined) {
             this.pageTitle += ' Template';
         }
@@ -540,9 +540,10 @@ export class Class extends CompoundBase {
     renderToMdxLines(frontMatter) {
         const lines = [];
         frontMatter.toc_max_heading_level = 3;
-        const descriptionTodo = `@${this.kind} ${this.compoundName}`;
+        const descriptionTodo = `@${this.kind} ${escapeMdx(this.compoundName)}`;
         const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToMdxText({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -659,7 +660,10 @@ export class Class extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToMdxLines());
         lines.push(...this.renderDetailedDescriptionToMdxLines({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
+            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
             todo: descriptionTodo,
+            showHeader: true,
             showBrief: !this.hasSect1InDescription
         }));
         if (this.locationMdxText !== undefined) {
@@ -678,7 +682,12 @@ export class Class extends CompoundBase {
         const itemName = `<Link to="${permalink}">${escapeMdx(this.indexName)}</Link>`;
         lines.push('<MembersIndexItem');
         lines.push(`  type="${itemType}"`);
-        lines.push(`  name={${itemName}}>`);
+        if (itemName.includes('<') || itemName.includes('&')) {
+            lines.push(`  name={<>${itemName}</>}>`);
+        }
+        else {
+            lines.push(`  name="${itemName}">`);
+        }
         const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined;
         const briefDescriptionMdxText = this.briefDescriptionMdxText;
         if ((briefDescriptionMdxText ?? '').length > 0) {

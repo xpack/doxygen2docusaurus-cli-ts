@@ -15,12 +15,14 @@ export class DocS1TypeLinesRenderer extends ElementLinesRendererBase {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
         // Add the anchor referred by the 'More...' link.
-        lines.push('');
-        lines.push('<Link id="#details" />');
         const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
         if (title.length > 0) {
-            console.warn(element);
-            console.warn('h1 header title cannot be rendered in Docusaurus, ignored');
+            lines.push('');
+            lines.push(`## ${title}{#details}`);
+        }
+        else {
+            lines.push('');
+            lines.push('<Link id="#details" />');
         }
         lines.push('');
         lines.push(...this.workspace.renderElementsToMdxLines(element.children));
@@ -34,23 +36,10 @@ export class DocS2TypeLinesRenderer extends ElementLinesRendererBase {
         const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
-            lines.push(`## ${title}`);
-            // if (element.id !== undefined && element.id.length > 0) {
-            //   result += `{#${element.id}}`
-            // }
-            lines.push('');
-            lines.push(...this.workspace.renderElementsToMdxLines(element.children));
+            lines.push(`### ${title}`);
         }
-        else {
-            lines.push('');
-            console.warn('h2 header title not defined');
-            // result += '<h2>\n'
-            // if (element.id !== undefined && element.id.length > 0) {
-            //   result += `  <a id="${element.id}" />\n`
-            // }
-            // result += '</h2>\n'
-            lines.push(...this.workspace.renderElementsToMdxLines(element.children));
-        }
+        lines.push('');
+        lines.push(...this.workspace.renderElementsToMdxLines(element.children));
         return lines;
     }
 }
@@ -61,22 +50,10 @@ export class DocS3TypeLinesRenderer extends ElementLinesRendererBase {
         const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
-            lines.push(`### ${title}`);
-            // if (element.id !== undefined && element.id.length > 0) {
-            //   result += `{#${element.id}}`
-            // }
-            lines.push('');
-            lines.push(...this.workspace.renderElementsToMdxLines(element.children));
+            lines.push(`#### ${title}`);
         }
-        else {
-            lines.push('');
-            // result += '<h3>\n'
-            // if (element.id !== undefined && element.id.length > 0) {
-            //   result += `  <a id="${element.id}" />\n`
-            // }
-            // result += '</h3>\n'
-            lines.push(...this.workspace.renderElementsToMdxLines(element.children));
-        }
+        lines.push('');
+        lines.push(...this.workspace.renderElementsToMdxLines(element.children));
         return lines;
     }
 }
@@ -87,22 +64,10 @@ export class DocS4TypeLinesRenderer extends ElementLinesRendererBase {
         const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
-            lines.push(`#### ${title}`);
-            // if (element.id !== undefined && element.id.length > 0) {
-            //   result += `{#${element.id}}`
-            // }
-            lines.push('');
-            lines.push(...this.workspace.renderElementsToMdxLines(element.children));
+            lines.push(`##### ${title}`);
         }
-        else {
-            lines.push('');
-            // result += '<h4>\n'
-            // if (element.id !== undefined && element.id.length > 0) {
-            //   result += `  <a id="${element.id}" />\n`
-            // }
-            // result += '</h4>\n'
-            lines.push(...this.workspace.renderElementsToMdxLines(element.children));
-        }
+        lines.push('');
+        lines.push(...this.workspace.renderElementsToMdxLines(element.children));
         return lines;
     }
 }
@@ -113,22 +78,10 @@ export class DocS5TypeLinesRenderer extends ElementLinesRendererBase {
         const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
-            lines.push(`##### ${title}`);
-            // if (element.id !== undefined && element.id.length > 0) {
-            //   result += `{#${element.id}}`
-            // }
-            lines.push('');
-            lines.push(...this.workspace.renderElementsToMdxLines(element.children));
+            lines.push(`###### ${title}`);
         }
-        else {
-            lines.push('');
-            // result += '<h5>\n'
-            // if (element.id !== undefined && element.id.length > 0) {
-            //   result += `  <a id="${element.id}" />\n`
-            // }
-            // result += '</h5>\n'
-            lines.push(...this.workspace.renderElementsToMdxLines(element.children));
-        }
+        lines.push('');
+        lines.push(...this.workspace.renderElementsToMdxLines(element.children));
         return lines;
     }
 }
@@ -139,22 +92,10 @@ export class DocS6TypeLinesRenderer extends ElementLinesRendererBase {
         const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
-            lines.push(`###### ${title}`);
-            // if (element.id !== undefined && element.id.length > 0) {
-            //   result += `{#${element.id}}`
-            // }
-            lines.push('');
-            lines.push(...this.workspace.renderElementsToMdxLines(element.children));
+            lines.push(`####### ${title}`);
         }
-        else {
-            lines.push('');
-            // result += '<h6>\n'
-            // if (element.id !== undefined && element.id.length > 0) {
-            //   result += `  <a id="${element.id}" />\n`
-            // }
-            // result += '</h6>\n'
-            lines.push(...this.workspace.renderElementsToMdxLines(element.children));
-        }
+        lines.push('');
+        lines.push(...this.workspace.renderElementsToMdxLines(element.children));
         return lines;
     }
 }

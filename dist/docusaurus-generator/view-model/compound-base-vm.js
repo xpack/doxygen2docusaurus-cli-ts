@@ -11,7 +11,7 @@
 import assert from 'node:assert';
 import path from 'node:path';
 import { Sect1DataModel } from '../../data-model/compounds/descriptiontype-dm.js';
-import { escapeMdx } from '../utils.js';
+import { escapeHtml, escapeMdx } from '../utils.js';
 import { RefTextDataModel } from '../../data-model/compounds/reftexttype-dm.js';
 // ----------------------------------------------------------------------------
 export class CompoundBase {
@@ -104,7 +104,7 @@ export class CompoundBase {
         }
     }
     // --------------------------------------------------------------------------
-    renderBriefDescriptionToMdxText({ briefDescriptionMdxText = this.briefDescriptionMdxText, todo = '', morePermalink } = {}) {
+    renderBriefDescriptionToMdxText({ briefDescriptionMdxText, todo = '', morePermalink }) {
         let text = '';
         // console.log(this
         if (briefDescriptionMdxText === undefined && todo.length === 0) {
@@ -123,22 +123,28 @@ export class CompoundBase {
         }
         return text;
     }
-    renderDetailedDescriptionToMdxLines({ detailedDescriptionMdxText = this.detailedDescriptionMdxText, todo = '', showHeader = true, showBrief = false }) {
+    renderDetailedDescriptionToMdxLines({ briefDescriptionMdxText, detailedDescriptionMdxText, todo = '', showHeader, showBrief = false }) {
         const lines = [];
         // const workspace = this.collection.workspace
         if (showHeader) {
             if ((detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) ||
                 todo.length > 0 ||
-                (showBrief && this.briefDescriptionMdxText !== undefined && this.briefDescriptionMdxText.length > 0)) {
+                (showBrief && briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0)) {
                 lines.push('');
                 lines.push('## Description {#details}');
             }
         }
         if (showBrief) {
-            lines.push('');
-            lines.push(this.renderBriefDescriptionToMdxText());
+            if (showHeader) {
+                lines.push('');
+            }
+            if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
+                lines.push(briefDescriptionMdxText);
+            }
+            else if (todo.length > 0) {
+                lines.push(`TODO: add <code>@brief</code> to <code>${todo}</code>`);
+            }
         }
-        // Do not repeat the brief in the detailed section. (configurable for Doxygen)
         // console.log(util.inspect(compoundDef.detailedDescription, { compact: false, depth: 999 }))
         if (detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) {
             lines.push('');
@@ -184,11 +190,16 @@ export class CompoundBase {
                     const permalink = workspace.getPagePermalink(innerObject.refid);
                     const kind = innerDataObject.kind;
                     const itemType = kind === 'dir' ? 'folder' : (kind === 'group' ? '&nbsp;' : kind);
-                    const itemName = `<Link to="${permalink}">${escapeMdx(innerDataObject.indexName)}</Link>`;
+                    const itemName = `<Link to="${permalink}">${escapeHtml(innerDataObject.indexName)}</Link>`;
                     lines.push('');
                     lines.push('<MembersIndexItem');
                     lines.push(`  type="${itemType}"`);
-                    lines.push(`  name={${itemName}}>`);
+                    if (itemName.includes('<') || itemName.includes('&')) {
+                        lines.push(`  name={<>${itemName}</>}>`);
+                    }
+                    else {
+                        lines.push(`  name="${itemName}">`);
+                    }
                     const morePermalink = innerDataObject.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined;
                     if (innerDataObject.briefDescriptionMdxText !== undefined && innerDataObject.briefDescriptionMdxText.length > 0) {
                         lines.push(this.renderBriefDescriptionToMdxText({
@@ -254,26 +265,59 @@ export class CompoundBase {
             const permalink = workspace.getPagePermalink(file.id);
             text += '\n';
             if (location.bodyfile !== undefined && location.file !== location.bodyfile) {
-                text += 'Declaration at line ';
-                const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`;
-                text += `<Link to="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</Link>`;
-                text += ' of file ';
+                text += 'Declaration ';
+                if (location.line !== undefined) {
+                    text += 'at line ';
+                    const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`;
+                    if (!file.listingLineNumbers.has(location.line)) {
+                        text += location.line?.toString();
+                    }
+                    else {
+                        text += `<Link to="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</Link>`;
+                    }
+                    text += ' of file ';
+                }
+                else {
+                    text += ' in file ';
+                }
                 text += `<Link to="${permalink}">${escapeMdx(path.basename(location.file))}</Link>`;
                 const definitionFile = files.filesByPath.get(location.bodyfile);
                 assert(definitionFile !== undefined);
                 const definitionPermalink = workspace.getPagePermalink(definitionFile.id);
-                text += ', definition at line ';
-                const lineStart = `l${location.bodystart?.toString().padStart(5, '0')}`;
-                text += `<Link to="${definitionPermalink}/#${lineStart}">${escapeMdx(location.bodystart?.toString() ?? '?')}</Link>`;
-                text += ' of file ';
+                text += ', definition ';
+                if (location.bodystart !== undefined) {
+                    text += 'at line ';
+                    const lineStart = `l${location.bodystart?.toString().padStart(5, '0')}`;
+                    if (!definitionFile.listingLineNumbers.has(location.bodystart)) {
+                        text += location.bodystart?.toString();
+                    }
+                    else {
+                        text += `<Link to="${definitionPermalink}/#${lineStart}">${escapeMdx(location.bodystart?.toString() ?? '?')}</Link>`;
+                    }
+                    text += ' of file ';
+                }
+                else {
+                    text += ' in file ';
+                }
                 text += `<Link to="${definitionPermalink}">${escapeMdx(path.basename(location.bodyfile))}</Link>`;
                 text += '.';
             }
             else {
-                text += 'Definition at line ';
-                const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`;
-                text += `<Link to="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</Link>`;
-                text += ' of file ';
+                text += 'Definition ';
+                if (location.line !== undefined) {
+                    text += 'at line ';
+                    const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`;
+                    if (!file.listingLineNumbers.has(location.line)) {
+                        text += location.line?.toString();
+                    }
+                    else {
+                        text += `<Link to="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</Link>`;
+                    }
+                    text += ' of file ';
+                }
+                else {
+                    text += ' in file ';
+                }
                 text += `<Link to="${permalink}">${escapeMdx(path.basename(location.file))}</Link>`;
                 text += '.';
             }
@@ -330,12 +374,14 @@ export class CompoundBase {
                 if (withDefaults) {
                     if (param.defval !== undefined) {
                         const defval = param.defval;
-                        assert(defval.children.length === 1);
-                        if (typeof defval.children[0] === 'string') {
-                            paramString += ` = ${defval.children[0]}`;
-                        }
-                        else if (defval.children[0] instanceof RefTextDataModel) {
-                            paramString += ` = ${defval.children[0].text}`;
+                        paramString += ' = ';
+                        for (const child of defval.children) {
+                            if (typeof child === 'string') {
+                                paramString += child;
+                            }
+                            else if (child instanceof RefTextDataModel) {
+                                paramString += child.text;
+                            }
                         }
                     }
                 }

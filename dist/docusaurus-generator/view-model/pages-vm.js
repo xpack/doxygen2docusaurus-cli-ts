@@ -80,12 +80,8 @@ export class Pages extends CollectionBase {
 export class Page extends CompoundBase {
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
-        if (compoundDef.title !== undefined) {
-            this.sidebarLabel = compoundDef.title?.trim().replace(/\.$/, '');
-        }
-        else {
-            this.sidebarLabel = '?';
-        }
+        assert(compoundDef.title !== undefined);
+        this.sidebarLabel = compoundDef.title.trim().replace(/\.$/, '');
         this.indexName = this.sidebarLabel;
         this.pageTitle = `The ${this.sidebarLabel}`;
         const sanitizedPath = sanitizeHierarchicalPath(this.compoundName);
@@ -105,11 +101,14 @@ export class Page extends CompoundBase {
         const lines = [];
         const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToMdxText({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
             morePermalink
         }));
         lines.push(...this.renderInnerIndicesToMdxLines({}));
         lines.push(...this.renderSectionIndicesToMdxLines());
         lines.push(...this.renderDetailedDescriptionToMdxLines({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
+            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
             showHeader: false
         }));
         lines.push(...this.renderSectionsToMdxLines());

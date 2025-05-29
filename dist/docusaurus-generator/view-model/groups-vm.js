@@ -12,7 +12,7 @@ import assert from 'node:assert';
 import * as fs from 'node:fs/promises';
 import path from 'node:path';
 import { CompoundBase } from './compound-base-vm.js';
-import { flattenPath, sanitizeHierarchicalPath } from '../utils.js';
+import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
 import { CollectionBase } from './collection-base.js';
 import { Section } from './members-vm.js';
 // Support for collapsible tables is experimental.
@@ -155,6 +155,9 @@ export class Groups extends CollectionBase {
             lines.push('');
             assert(pages.mainPage !== undefined);
             lines.push(...pages.mainPage?.renderDetailedDescriptionToMdxLines({
+                briefDescriptionMdxText: pages.mainPage?.briefDescriptionMdxText,
+                detailedDescriptionMdxText: pages.mainPage?.detailedDescriptionMdxText,
+                showHeader: true,
                 showBrief: !pages.mainPage?.hasSect1InDescription
             }));
         }
@@ -257,10 +260,11 @@ export class Group extends CompoundBase {
     // --------------------------------------------------------------------------
     renderToMdxLines(frontMatter) {
         const lines = [];
-        const descriptionTodo = `@defgroup ${this.compoundName}`;
+        const descriptionTodo = `@defgroup ${escapeMdx(this.compoundName)}`;
         const hasIndices = (this.renderDetailedDescriptionToMdxLines !== undefined || this.hasSect1InDescription) && (this.hasInnerIndices() || this.hasSections());
         const morePermalink = hasIndices ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToMdxText({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -273,6 +277,8 @@ export class Group extends CompoundBase {
         //   lines.push('<Link id="#details" />')
         // }
         lines.push(...this.renderDetailedDescriptionToMdxLines({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
+            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
             todo: descriptionTodo,
             showHeader: !this.hasSect1InDescription,
             showBrief: !this.hasSect1InDescription

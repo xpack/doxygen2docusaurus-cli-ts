@@ -11,7 +11,7 @@
 import assert from 'node:assert';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
-import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
+import { escapeHtml, escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
 import { Section } from './members-vm.js';
 // ----------------------------------------------------------------------------
 export class Namespaces extends CollectionBase {
@@ -169,11 +169,11 @@ export class Namespace extends CompoundBase {
         }
         // The compoundName is the fully qualified namespace name.
         // Keep only the last name.
-        this.sidebarLabel = compoundDef.compoundName.replace(/.*::/, '');
+        this.sidebarLabel = compoundDef.compoundName.replace(/.*::/, '').replace(/anonymous_namespace\{/, 'anonymous{');
         this.indexName = this.compoundName;
         this.unqualifiedName = this.sidebarLabel;
         this.pageTitle = `The \`${this.sidebarLabel}\` Namespace Reference`;
-        const sanitizedPath = sanitizeHierarchicalPath(this.compoundName.replaceAll('::', '/'));
+        const sanitizedPath = sanitizeHierarchicalPath(this.compoundName.replaceAll('::', '/').replace(/anonymous_namespace\{/, 'anonymous{'));
         this.relativePermalink = `namespaces/${sanitizedPath}`;
         this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`;
         if (compoundDef.sectionDefs !== undefined) {
@@ -193,23 +193,32 @@ export class Namespace extends CompoundBase {
     // --------------------------------------------------------------------------
     renderToMdxLines(frontMatter) {
         const lines = [];
-        const descriptionTodo = `@namespace ${this.compoundName}`;
+        const descriptionTodo = `@namespace ${escapeMdx(this.compoundName)}`;
         const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToMdxText({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
             todo: descriptionTodo,
             morePermalink
         }));
         lines.push('');
         lines.push('## Definition');
         lines.push('');
-        // Intentionally on two lines.
-        lines.push(`<CodeBlock>namespace ${this.compoundName}</CodeBlock>`);
+        const dots = escapeHtml('{ ... }');
+        if (this.compoundName.startsWith('anonymous_namespace{')) {
+            lines.push(`<CodeBlock>namespace ${dots}</CodeBlock>`);
+        }
+        else {
+            lines.push(`<CodeBlock>namespace ${escapeMdx(this.compoundName)} ${dots}</CodeBlock>`);
+        }
         lines.push(...this.renderInnerIndicesToMdxLines({
             suffixes: ['Namespaces', 'Classes']
         }));
         lines.push(...this.renderSectionIndicesToMdxLines());
         lines.push(...this.renderDetailedDescriptionToMdxLines({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
+            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
             todo: descriptionTodo,
+            showHeader: true,
             showBrief: !this.hasSect1InDescription
         }));
         lines.push(...this.renderSectionsToMdxLines());

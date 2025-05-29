@@ -306,9 +306,10 @@ export class Folder extends CompoundBase {
     // --------------------------------------------------------------------------
     renderToMdxLines(frontMatter) {
         const lines = [];
-        const descriptionTodo = `@dir ${this.relativePath}`;
+        const descriptionTodo = `@dir ${escapeMdx(this.relativePath)}`;
         const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToMdxText({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -317,7 +318,10 @@ export class Folder extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToMdxLines());
         lines.push(...this.renderDetailedDescriptionToMdxLines({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
+            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
             todo: descriptionTodo,
+            showHeader: true,
             showBrief: !this.hasSect1InDescription
         }));
         lines.push(...this.renderSectionsToMdxLines());
@@ -329,6 +333,7 @@ export class File extends CompoundBase {
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
         this.relativePath = '';
+        this.listingLineNumbers = new Set();
         // The compoundName is the actual file name.
         this.sidebarLabel = compoundDef.compoundName ?? '?';
         this.indexName = this.sidebarLabel;
@@ -346,13 +351,23 @@ export class File extends CompoundBase {
         const compoundDef = this._private._compoundDef;
         assert(compoundDef !== undefined);
         this.programListing = compoundDef.programListing;
+        // Keep track of line number, since not all lines referred exist and
+        // this might result in broken links.
+        if (this.programListing?.codelines !== undefined) {
+            for (const codeline of this.programListing?.codelines) {
+                if (codeline.lineno !== undefined) {
+                    this.listingLineNumbers.add(codeline.lineno);
+                }
+            }
+        }
     }
     // --------------------------------------------------------------------------
     renderToMdxLines(frontMatter) {
         const lines = [];
-        const descriptionTodo = `@file ${this.relativePath}`;
+        const descriptionTodo = `@file ${escapeMdx(this.relativePath)}`;
         const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToMdxText({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -362,7 +377,10 @@ export class File extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToMdxLines());
         lines.push(...this.renderDetailedDescriptionToMdxLines({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
+            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
             todo: descriptionTodo,
+            showHeader: true,
             showBrief: !this.hasSect1InDescription
         }));
         lines.push(...this.renderSectionsToMdxLines());

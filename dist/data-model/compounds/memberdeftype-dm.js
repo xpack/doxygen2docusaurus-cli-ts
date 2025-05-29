@@ -56,6 +56,9 @@ export class AbstractMemberDefType extends AbstractDataModelBase {
             else if (xml.isInnerElementText(innerElement, 'argsstring')) {
                 this.argsstring = xml.getInnerElementText(innerElement, 'argsstring');
             }
+            else if (xml.isInnerElementText(innerElement, 'bitfield')) {
+                this.bitfield = xml.getInnerElementText(innerElement, 'bitfield');
+            }
             else if (xml.isInnerElementText(innerElement, 'qualifiedname')) {
                 this.qualifiedName = xml.getInnerElementText(innerElement, 'qualifiedname');
             }
@@ -100,7 +103,8 @@ export class AbstractMemberDefType extends AbstractDataModelBase {
                 console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name);
             }
         }
-        assert(this.name.length > 0);
+        // WARNING it may be empty.
+        // assert(this.name.length > 0)
         assert(this.location !== undefined);
         // ------------------------------------------------------------------------
         // Process attributes.
@@ -165,6 +169,9 @@ export class AbstractMemberDefType extends AbstractDataModelBase {
             }
             else if (attributeName === '@_constinit') {
                 this.constinit = Boolean(xml.getAttributeBooleanValue(element, '@_constinit'));
+            }
+            else if (attributeName === '@_final') {
+                this.final = Boolean(xml.getAttributeBooleanValue(element, '@_final'));
             }
             else {
                 console.error(util.inspect(element, { compact: false, depth: 999 }));
