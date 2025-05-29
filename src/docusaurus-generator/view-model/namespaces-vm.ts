@@ -18,7 +18,7 @@ import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
-import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
+import { escapeHtml, escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { FrontMatter } from '../types.js'
 import { Section } from './members-vm.js'
 
@@ -264,10 +264,11 @@ export class Namespace extends CompoundBase {
     lines.push('## Definition')
     lines.push('')
 
+    const dots = escapeHtml('{ ... }')
     if (this.compoundName.startsWith('anonymous_namespace{')) {
-      lines.push('<CodeBlock>namespace \\{ ... \\}</CodeBlock>')
+      lines.push(`<CodeBlock>namespace ${dots}</CodeBlock>`)
     } else {
-      lines.push(`<CodeBlock>namespace ${escapeMdx(this.compoundName)} \\{ ... \\}</CodeBlock>`)
+      lines.push(`<CodeBlock>namespace ${escapeMdx(this.compoundName)} ${dots}</CodeBlock>`)
     }
 
     lines.push(...this.renderInnerIndicesToMdxLines({
