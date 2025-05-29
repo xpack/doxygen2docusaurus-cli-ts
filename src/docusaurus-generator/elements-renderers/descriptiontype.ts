@@ -17,7 +17,7 @@ import util from 'util'
 import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js'
 import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractSpType, ParaDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
-import { escapeQuotes } from '../utils.js'
+import { escapeQuotes, getPermalinkAnchor } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -352,8 +352,8 @@ export class DocAnchorTypeLinesRenderer extends ElementLinesRendererBase {
 
     const lines: string[] = []
 
-    const permalink = this.workspace.getXrefPermalink(element.id)
-    lines.push(`<Link id="${permalink}" />`)
+    const anchor = getPermalinkAnchor(element.id)
+    lines.push(`<Link id="${anchor}" />`)
 
     return lines
   }
