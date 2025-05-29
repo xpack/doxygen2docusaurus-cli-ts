@@ -18,7 +18,7 @@ import { MemberDefDataModel } from '../../data-model/compounds/memberdeftype-dm.
 import { MemberDataModel } from '../../data-model/compounds/membertype-dm.js'
 import { SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-dm.js'
 import { CompoundBase } from './compound-base-vm.js'
-import { escapeMdx, getPermalinkAnchor } from '../utils.js'
+import { escapeHtml, escapeMdx, getPermalinkAnchor } from '../utils.js'
 import { Class } from './classes-vm.js'
 
 // ----------------------------------------------------------------------------
@@ -209,7 +209,7 @@ export class Section {
 
     const header = headerNamesByKind[sectionDef.kind]
     if (header === undefined) {
-      console.error(sectionDef, { compact: false, depth: 999 })
+      console.error(util.inspect(sectionDef, { compact: false, depth: 999 }))
       console.error(sectionDef.constructor.name, 'kind', sectionDef.kind, 'not yet rendered in', this.constructor.name, 'getHeaderByKind')
       return ''
     }
@@ -524,10 +524,24 @@ export class Member extends MemberBase {
         break
 
       case 'enum':
-        itemType = 'enum'
+        // console.log(this)
+        itemType = ''
+        if (this.name.length === 0) {
+          itemType += 'anonymous '
+        }
+        itemType += 'enum'
         if (this.isStrong) {
           itemType += ' class'
         }
+
+        itemName = ''
+        if (this.typeMdxText !== undefined) {
+          itemName += `: ${this.typeMdxText} `
+        }
+        itemName += escapeHtml('{ ')
+        itemName += `<Link to="${permalink}">...</Link>`
+        itemName += escapeHtml(' }')
+
         break
 
       case 'friend':
@@ -562,6 +576,11 @@ export class Member extends MemberBase {
     } else {
       lines.push('  type="&nbsp;"')
     }
+
+    if (itemName.length === 0) {
+      console.log(this)
+      console.warn('empty name in', this.id)
+    }
     if (itemName.includes('<') || itemName.includes('&')) {
       lines.push(`  name={<>${itemName}</>}>`)
     } else {
@@ -592,7 +611,9 @@ export class Member extends MemberBase {
     const name = this.name + (isFunction ? '()' : '')
 
     lines.push('')
-    lines.push(`### ${escapeMdx(name)} {#${id}}`)
+    if (this.kind !== 'enum') {
+      lines.push(`### ${escapeMdx(name)} {#${id}}`)
+    }
 
     // console.log(memberDef.kind)
     switch (this.kind) {
@@ -652,11 +673,24 @@ export class Member extends MemberBase {
 
       case 'enum':
         {
-          let prototype = 'enum '
+          let prototype = ''
+          if (this.name.length === 0) {
+            prototype += 'anonymous '
+          }
+          prototype += 'enum '
           if (this.isStrong) {
             prototype += 'class '
           }
-          prototype += escapeMdx(this.qualifiedName ?? '?')
+          lines.push(`### ${prototype} {#${id}}`)
+
+          if (this.name.length > 0 && this.qualifiedName !== undefined) {
+            prototype += `${escapeHtml(this.qualifiedName)} `
+          } else if (this.name.length > 0) {
+            prototype += `${escapeHtml(this.name)} `
+          }
+          if (this.typeMdxText !== undefined && this.typeMdxText.length > 0) {
+            prototype += `: ${this.typeMdxText}`
+          }
 
           lines.push('')
           lines.push('<MemberDefinition')
