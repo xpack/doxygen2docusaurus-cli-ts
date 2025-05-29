@@ -773,14 +773,14 @@ export class Member extends MemberBase {
     if (memberDef.enumvalues !== undefined) {
       for (const enumValue of memberDef.enumvalues) {
         let enumBriefDescription: string = workspace.renderElementToMdxText(enumValue.briefDescription).replace(/[.]$/, '')
-        const permalink = workspace.getPermalink({ refid: enumValue.id, kindref: 'member' })
+        const anchor = getPermalinkAnchor(enumValue.id)
         const value = workspace.renderElementToMdxText(enumValue.initializer)
         if (value.length > 0) {
           enumBriefDescription += ` (${value})`
         }
 
         lines.push('')
-        lines.push(`<Link id="${permalink}" />`)
+        lines.push(`<Link id="${anchor}" />`)
         lines.push(`<EnumerationListItem name="${enumValue.name.trim()}">`)
         lines.push(`${enumBriefDescription}`)
         lines.push('</EnumerationListItem>')
