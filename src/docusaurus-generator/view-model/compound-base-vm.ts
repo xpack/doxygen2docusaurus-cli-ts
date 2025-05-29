@@ -232,6 +232,9 @@ export abstract class CompoundBase {
     }
 
     if (showBrief) {
+      if (showHeader) {
+        lines.push('')
+      }
       if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
         lines.push(briefDescriptionMdxText)
       } else if (todo.length > 0) {
