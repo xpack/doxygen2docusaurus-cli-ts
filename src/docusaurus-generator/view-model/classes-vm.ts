@@ -17,7 +17,7 @@ import assert from 'node:assert'
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
-import { escapeMdx, flattenPath, sanitizeHierarchicalPath, sanitizeName } from '../utils.js'
+import { escapeHtml, escapeMdx, flattenPath, sanitizeHierarchicalPath, sanitizeName } from '../utils.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { FrontMatter } from '../types.js'
 import { SectionDefCloneDataModel, SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-dm.js'
@@ -554,7 +554,7 @@ export class Class extends CompoundBase {
     const kind = compoundDef.kind
     const kindCapitalised = kind.charAt(0).toUpperCase() + kind.slice(1).toLowerCase()
 
-    this.pageTitle = `The \`${escapeMdx(this.unqualifiedName)}\` ${kindCapitalised}`
+    this.pageTitle = `The \`${escapeHtml(this.unqualifiedName)}\` ${kindCapitalised}`
     if (compoundDef.templateParamList !== undefined) {
       this.pageTitle += ' Template'
     }
