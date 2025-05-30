@@ -77,14 +77,14 @@ export class FilesAndFolders extends CollectionBase {
       for (const childFolderId of folder.childrenFolderIds) {
         const childFolder = this.compoundFoldersById.get(childFolderId)
         assert(childFolder !== undefined)
-        // console.log('childFolderId', childFolderId, 'has parent', folderId)
+        // console.log('childFolderId', childFolderId, childFolder.compoundName, 'has parent', folderId, folder.compoundName)
         childFolder.parent = folder
         folder.children.push(childFolder)
       }
       for (const childFileId of folder.childrenFileIds) {
         const childFile = this.compoundFilesById.get(childFileId)
         assert(childFile !== undefined)
-        // console.log('childFileId', childFileId, 'has parent', folderId)
+        // console.log('childFileId', childFileId, childFile.compoundName, 'has parent', folderId, folder.compoundName)
         childFile.parent = folder
         folder.children.push(childFile)
       }
@@ -120,6 +120,7 @@ export class FilesAndFolders extends CollectionBase {
         parentPath = `${this.getRelativePathRecursively(folder.parent as Folder)}/`
       }
 
+      // console.log(folder.compoundName)
       folder.relativePath = `${parentPath}${folder.compoundName as string}`
 
       const sanitizedPath: string = sanitizeHierarchicalPath(folder.relativePath)
@@ -127,11 +128,11 @@ export class FilesAndFolders extends CollectionBase {
 
       folder.docusaurusId = `folders/${flattenPath(sanitizedPath)}`
 
-      // console.log('1', file.compoundName)
-      // console.log('2', file.relativePermalink)
-      // console.log('3', file.docusaurusId)
-      // console.log('4', file.sidebarLabel)
-      // console.log('5', file.indexName)
+      // console.log('1', folder.compoundName)
+      // console.log('2', folder.relativePermalink)
+      // console.log('3', folder.docusaurusId)
+      // console.log('4', folder.sidebarLabel)
+      // console.log('5', folder.indexName)
       // console.log()
     }
 
@@ -142,6 +143,7 @@ export class FilesAndFolders extends CollectionBase {
         parentPath = `${this.getRelativePathRecursively(file.parent as Folder)}/`
       }
 
+      // console.log(file.compoundName)
       file.relativePath = `${parentPath}${file.compoundName as string}`
 
       const sanitizedPath: string = sanitizeHierarchicalPath(file.relativePath)
@@ -365,7 +367,8 @@ export class Folder extends CompoundBase {
   constructor (collection: FilesAndFolders, compoundDef: CompoundDefDataModel) {
     super(collection, compoundDef)
 
-    // console.log('Folder.constructor', util.inspect(compoundDef))
+    // console.log('folder:', util.inspect(compoundDef))
+    // console.log('folder:', compoundDef.compoundName)
 
     if (Array.isArray(compoundDef.innerDirs)) {
       for (const ref of compoundDef.innerDirs) {
@@ -444,6 +447,9 @@ export class File extends CompoundBase {
   constructor (collection: FilesAndFolders, compoundDef: CompoundDefDataModel) {
     super(collection, compoundDef)
 
+    // console.log('file:', compoundDef.compoundName)
+
+    // The compoundName is the actual file name, without path.
     assert(compoundDef.compoundName !== undefined)
     this.sidebarLabel = compoundDef.compoundName
 
