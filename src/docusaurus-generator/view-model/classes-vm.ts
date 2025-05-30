@@ -702,10 +702,10 @@ export class Class extends CompoundBase {
       lines.push('')
       // Intentionally on two lines.
       lines.push(`<CodeBlock>template ${this.templateMdxText}`)
-      lines.push(`${this.kind} ${this.classFullNameMdxText};</CodeBlock>`)
+      lines.push(`${this.kind} ${this.classFullNameMdxText}</CodeBlock>`)
     } else {
       lines.push('')
-      lines.push(`<CodeBlock>${this.kind} ${this.classFullNameMdxText};</CodeBlock>`)
+      lines.push(`<CodeBlock>${this.kind} ${this.classFullNameMdxText}</CodeBlock>`)
     }
 
     lines.push(...this.renderIncludesIndexToMdxLines())
