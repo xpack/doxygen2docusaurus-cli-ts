@@ -23,6 +23,66 @@ import { Class } from './classes-vm.js'
 
 // ----------------------------------------------------------------------------
 
+export const sectionHeaders: Record<string, [string, number]> = {
+  // 'user-defined': '?',
+  typedef: ['Typedefs', 100],
+  'public-type': ['Public Member Typedefs', 110],
+  'protected-type': ['Protected Member Typedefs', 120],
+  'private-type': ['Private Member Typedefs', 130],
+  'package-type': ['Package Member Typedefs', 140],
+
+  enum: ['Enumerations', 150],
+
+  friend: ['Friends', 160],
+
+  // Extra, not present in Doxygen.
+  'public-constructor': ['Public Constructors', 200],
+  'protected-constructor': ['Protected Constructors', 210],
+  'private-constructor': ['Private Constructors', 220],
+
+  // Extra, not present in Doxygen.
+  'public-destructor': ['Public Destructor', 230],
+  'protected-destructor': ['Protected Destructor', 240],
+  'private-destructor': ['Private Destructor', 250],
+
+  func: ['Functions', 300],
+  'public-func': ['Public Member Functions', 310],
+  'protected-func': ['Protected Member Functions', 320],
+  'private-func': ['Private Member Functions', 330],
+  'package-func': ['Package Member Functions', 340],
+
+  var: ['Variables', 400],
+  'public-attrib': ['Public Member Attributes', 410],
+  'protected-attrib': ['Protected Member Attributes', 420],
+  'private-attrib': ['Private Member Attributes', 430],
+  'package-attrib': ['Package Member Attributes', 440],
+
+  'public-static-func': ['Public Static Functions', 500],
+  'protected-static-func': ['Protected Static Functions', 510],
+  'private-static-func': ['Private Static Functions', 520],
+  'package-static-func': ['Package Static Functions', 530],
+
+  'public-static-attrib': ['Public Static Attributes', 600],
+  'protected-static-attrib': ['Protected Static Attributes', 610],
+  'private-static-attrib': ['Private Static Attributes', 620],
+  'package-static-attrib': ['Package Static Attributes', 630],
+
+  'public-slot': ['Public Slots', 700],
+  'protected-slot': ['Protected Slot', 710],
+  'private-slot': ['Private Slot', 720],
+
+  related: ['Related', 800],
+  define: ['Defines', 810],
+  prototype: ['Prototypes', 820],
+
+  signal: ['Signals', 830],
+  // 'dcop-func': ['DCOP Functions', 840],
+  property: ['Properties', 850],
+  event: ['Events', 860]
+}
+
+// ----------------------------------------------------------------------------
+
 export class Section {
   compound: CompoundBase
   kind: string
@@ -152,69 +212,26 @@ export class Section {
       console.warn('header', sectionDef.header, 'ignored in sectionDef of kind', sectionDef.kind)
     }
 
-    const headerNamesByKind: Record<string, string> = {
-      // 'user-defined': '?',
-      'public-type': 'Public Member Typedefs',
-      'public-func': 'Public Member Functions',
-      'public-attrib': 'Public Member Attributes',
-      'public-slot': 'Member Slots',
-      'public-static-func': 'Public Static Functions',
-      'public-static-attrib': 'Public Static Attributes',
-
-      signal: 'Signals',
-      // 'dcop-func': 'DCOP Functions',
-      property: 'Properties',
-      event: 'Events',
-
-      'package-type': 'Package Member Typedefs',
-      'package-func': 'Package Member Functions',
-      'package-attrib': 'Package Member Attributes',
-      'package-static-func': 'Package Static Functions',
-      'package-static-attrib': 'Package Static Attributes',
-
-      'protected-type': 'Protected Member Typedefs',
-      'protected-func': 'Protected Member Functions',
-      'protected-attrib': 'Protected Member Attributes',
-      'protected-slot': 'Protected Slot',
-      'protected-static-func': 'Protected Static Functions',
-      'protected-static-attrib': 'Protected Static Attributes',
-
-      'private-type': 'Private Member Typedefs',
-      'private-func': 'Private Member Functions',
-      'private-attrib': 'Private Member Attributes',
-      'private-slot': 'Private Slot',
-      'private-static-func': 'Private Static Functions',
-      'private-static-attrib': 'Private Static Attributes',
-
-      friend: 'Friends',
-      // 'related': 'Related',
-      define: 'Defines',
-      prototype: 'Prototypes',
-
-      typedef: 'Typedefs',
-      enum: 'Enumerations',
-      func: 'Functions',
-      var: 'Variables',
-
-      // Extra, not present in Doxygen.
-      'public-constructor': 'Public Constructors',
-      'public-destructor': 'Public Destructor',
-      'protected-constructor': 'Protected Constructors',
-      'protected-destructor': 'Protected Destructor',
-      'private-constructor': 'Private Constructors',
-      'private-destructor': 'Private Destructor'
-    }
-
     // ------------------------------------------------------------------------
 
-    const header = headerNamesByKind[sectionDef.kind]
+    const header = sectionHeaders[sectionDef.kind]
     if (header === undefined) {
       console.error(util.inspect(sectionDef, { compact: false, depth: 999 }))
       console.error(sectionDef.constructor.name, 'kind', sectionDef.kind, 'not yet rendered in', this.constructor.name, 'getHeaderByKind')
       return ''
     }
 
-    return header.trim()
+    return header[0].trim()
+  }
+
+  getSectionOrderByKind (): number {
+    if (this.kind === 'user-defined') {
+      return 1000 // At the end.
+    }
+
+    const header = sectionHeaders[this.kind]
+    assert(header !== undefined)
+    return header[1]
   }
 
   // --------------------------------------------------------------------------

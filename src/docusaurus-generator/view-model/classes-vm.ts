@@ -573,16 +573,20 @@ export class Class extends CompoundBase {
     this.docusaurusId = `${pluralKind}/${flattenPath(sanitizedPath)}`
 
     if (compoundDef.sectionDefs !== undefined) {
+      const sections: Section[] = []
       for (const sectionDef of compoundDef.sectionDefs) {
         if ((compoundDef.kind === 'class' || compoundDef.kind === 'struct') &&
           (sectionDef.kind === 'public-func' || sectionDef.kind === 'protected-func' || sectionDef.kind === 'private-func')) {
-          this.sections.push(...this.splitSections(this, sectionDef))
+          sections.push(...this.splitSections(this, sectionDef))
         } else {
           if (sectionDef.hasMembers()) {
-            this.sections.push(new Section(this, sectionDef))
+            sections.push(new Section(this, sectionDef))
           }
         }
       }
+      this.sections = sections.sort((a, b) => {
+        return a.getSectionOrderByKind() - b.getSectionOrderByKind()
+      })
     }
 
     // console.log('1', compoundDef.compoundName)
