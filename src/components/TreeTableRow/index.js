@@ -25,10 +25,10 @@ export default function TreeTableRow({
   depth,
   children
 }) {
-  const doxyClass=`doxyTreeItemLeft doxyTreeIndent${depth}`
   return (
     <tr class="doxyTreeItem">
-      <td class={doxyClass} align="left" valign="top">
+      <td class="doxyTreeItemLeft" align="left" valign="top">
+        <span style={{ width: `${depth * 12}px`, display: "inline-block" }}></span>
         {itemIconLetter && <><span class="doxyTreeIconBox"><span class="doxyTreeIcon">{itemIconLetter}</span></span></>}
         {itemIconClass ? <Link to={itemLink}><span class={itemIconClass}>{itemLabel}</span></Link> : <Link to={itemLink}>{itemLabel}</Link>}
       </td>

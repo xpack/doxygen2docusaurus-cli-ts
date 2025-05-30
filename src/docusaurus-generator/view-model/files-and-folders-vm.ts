@@ -263,7 +263,7 @@ export class FilesAndFolders extends CollectionBase {
     lines.push('<TreeTable>')
 
     for (const folder of this.topLevelFolders) {
-      lines.push(...this.generateIndexMdxFileRecursively(folder, 1))
+      lines.push(...this.generateIndexMdxFileRecursively(folder, 0))
     }
 
     for (const file of this.topLevelFiles) {
@@ -444,8 +444,8 @@ export class File extends CompoundBase {
   constructor (collection: FilesAndFolders, compoundDef: CompoundDefDataModel) {
     super(collection, compoundDef)
 
-    // The compoundName is the actual file name.
-    this.sidebarLabel = compoundDef.compoundName ?? '?'
+    assert(compoundDef.compoundName !== undefined)
+    this.sidebarLabel = compoundDef.compoundName
 
     this.indexName = this.sidebarLabel
 
