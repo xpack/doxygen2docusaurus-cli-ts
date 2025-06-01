@@ -577,7 +577,7 @@ export class Class extends CompoundBase {
       for (const sectionDef of compoundDef.sectionDefs) {
         if ((compoundDef.kind === 'class' || compoundDef.kind === 'struct') &&
           (sectionDef.kind === 'public-func' || sectionDef.kind === 'protected-func' || sectionDef.kind === 'private-func')) {
-          sections.push(...this.splitSections(this, sectionDef))
+          sections.push(...this.splitConstructorSections(this, sectionDef))
         } else {
           if (sectionDef.hasMembers()) {
             sections.push(new Section(this, sectionDef))
@@ -624,7 +624,7 @@ export class Class extends CompoundBase {
     this.templateParamList = compoundDef.templateParamList
   }
 
-  private splitSections (classs: Class, sectionDef: SectionDefDataModel): Section[] {
+  private splitConstructorSections (classs: Class, sectionDef: SectionDefDataModel): Section[] {
     const sections: Section[] = []
 
     const constructorSectionsDef: SectionDefCloneDataModel = new SectionDefCloneDataModel(sectionDef)
@@ -637,8 +637,13 @@ export class Class extends CompoundBase {
 
     if (sectionDef.memberDefs !== undefined) {
       constructorSectionsDef.memberDefs = undefined
+      constructorSectionsDef.members = undefined
+
       destructorSectionsDef.memberDefs = undefined
+      destructorSectionsDef.members = undefined
+
       functionsSectionsDef.memberDefs = undefined
+      // Keep the original members
 
       for (const memberDef of sectionDef.memberDefs) {
         // console.log(util.inspect(memberDef, { compact: false, depth: 999 }))
