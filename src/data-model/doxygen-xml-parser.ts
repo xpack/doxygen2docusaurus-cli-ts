@@ -22,6 +22,7 @@ import { DoxygenIndexDataModel } from './index/indexdoxygentype-dm.js'
 import { DoxygenFileDataModel } from './doxyfile/doxyfiletype-dm.js'
 import { CompoundDefDataModel } from './compounds/compounddef-dm.js'
 import { DoxygenDataModel } from './compounds/doxygentype-dm.js'
+import { MemberDefDataModel } from './compounds/memberdeftype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -112,6 +113,28 @@ export class DoxygenXmlParser {
           } else {
             console.error(util.inspect(element, { compact: false, depth: 999 }))
             console.error(`${compound.refid}.xml element:`, Object.keys(element), 'not implemented yet in', this.constructor.name)
+          }
+        }
+      }
+
+      const memberDefsById: Map<string, MemberDefDataModel> = new Map()
+      for (const compoundDef of compoundDefs) {
+        if (compoundDef.sectionDefs !== undefined) {
+          for (const sectionDef of compoundDef.sectionDefs) {
+            if (sectionDef.memberDefs !== undefined) {
+              for (const memberDef of sectionDef.memberDefs) {
+                memberDefsById.set(memberDef.id, memberDef)
+              }
+            }
+            if (sectionDef.members !== undefined) {
+              for (const member of sectionDef.members) {
+                if (member.kind.length === 0) {
+                  const memberDef = memberDefsById.get(member.refid)
+                  assert(memberDef !== undefined)
+                  member.kind = memberDef.kind
+                }
+              }
+            }
           }
         }
       }
