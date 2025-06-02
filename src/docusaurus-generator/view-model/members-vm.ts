@@ -24,16 +24,17 @@ import { Class } from './classes-vm.js'
 // ----------------------------------------------------------------------------
 
 export const sectionHeaders: Record<string, [string, number]> = {
-  // 'user-defined': '?',
-  typedef: ['Typedefs', 100],
+  typedef: ['Typedefs', 100], // DoxMemberKind too
   'public-type': ['Public Member Typedefs', 110],
   'protected-type': ['Protected Member Typedefs', 120],
   'private-type': ['Private Member Typedefs', 130],
   'package-type': ['Package Member Typedefs', 140],
 
-  enum: ['Enumerations', 150],
+  enum: ['Enumerations', 150], // DoxMemberKind too
 
-  friend: ['Friends', 160],
+  friend: ['Friends', 160], // DoxMemberKind too
+
+  interface: ['Interfaces', 170], // DoxMemberKind only
 
   // Extra, not present in Doxygen.
   'public-constructor': ['Public Constructors', 200],
@@ -46,12 +47,16 @@ export const sectionHeaders: Record<string, [string, number]> = {
   'private-destructor': ['Private Destructor', 250],
 
   func: ['Functions', 300],
+  function: ['Functions', 300], // DoxMemberKind only
+
   'public-func': ['Public Member Functions', 310],
   'protected-func': ['Protected Member Functions', 320],
   'private-func': ['Private Member Functions', 330],
   'package-func': ['Package Member Functions', 340],
 
   var: ['Variables', 400],
+  variable: ['Variables', 400], // DoxMemberKind only
+
   'public-attrib': ['Public Member Attributes', 410],
   'protected-attrib': ['Protected Member Attributes', 420],
   'private-attrib': ['Private Member Attributes', 430],
@@ -67,18 +72,23 @@ export const sectionHeaders: Record<string, [string, number]> = {
   'private-static-attrib': ['Private Static Attributes', 620],
   'package-static-attrib': ['Package Static Attributes', 630],
 
+  slot: ['Slots', 700], // DoxMemberKind only
   'public-slot': ['Public Slots', 700],
   'protected-slot': ['Protected Slot', 710],
   'private-slot': ['Private Slot', 720],
 
   related: ['Related', 800],
-  define: ['Defines', 810],
-  prototype: ['Prototypes', 820],
+  define: ['Defines', 810], // DoxMemberKind too
+  prototype: ['Prototypes', 820], // DoxMemberKind too
 
-  signal: ['Signals', 830],
+  signal: ['Signals', 830], // DoxMemberKind too
   // 'dcop-func': ['DCOP Functions', 840],
-  property: ['Properties', 850],
-  event: ['Events', 860]
+  dcop: ['DCOP Functions', 840], // DoxMemberKind only
+  property: ['Properties', 850], // DoxMemberKind too
+  event: ['Events', 860], // DoxMemberKind too
+  service: ['Services', 870], // DoxMemberKind only
+
+  'user-defined': ['Definitions', 1000]
 }
 
 // ----------------------------------------------------------------------------
