@@ -5,6 +5,7 @@
   height: 100%;
   border-collapse: separate;
   border-spacing: 0px;
+  table-layout: fixed;
 }
 
 :global(table.doxyMembersIndex tr) {
@@ -17,6 +18,22 @@
   border: none;
   overflow: hidden;
   vertical-align: top;
+}
+
+:global(table.doxyMembersIndex td.doxyMemberIndexTemplate) {
+  height: 100%;
+  width: 100%;
+  padding-top: 6px;
+  padding-bottom: 0px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-top: 1px solid var(--ifm-table-border-color);
+  border-left: 1px solid var(--ifm-table-border-color);
+  border-right: 1px solid var(--ifm-table-border-color);
+  border-top-left-radius: var(--ifm-global-radius);
+  border-top-right-radius: var(--ifm-global-radius);
+  background-color: var(--ifm-table-stripe-background);
+  overflow: hidden;
 }
 
 :global(table.doxyMembersIndex td.doxyMemberIndexItemType) {
@@ -32,6 +49,7 @@
   border-bottom-left-radius: var(--ifm-global-radius);
   background-color: var(--ifm-table-stripe-background);
   overflow: hidden;
+  text-align: left;
 }
 
 :global(table.doxyMembersIndex td.doxyMemberIndexItemName) {
@@ -48,9 +66,68 @@
   overflow: hidden;
 }
 
+:global(table.doxyMembersIndex td.doxyMemberIndexItemTypeTemplate) {
+  height: 100%;
+  padding-bottom: 6px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-left: 1px solid var(--ifm-table-border-color);
+  border-bottom: 1px solid var(--ifm-table-border-color);
+  border-bottom-left-radius: var(--ifm-global-radius);
+  background-color: var(--ifm-table-stripe-background);
+  overflow: hidden;
+  text-align: left;
+}
+
+:global(table.doxyMembersIndex td.doxyMemberIndexItemNoTypeTemplate) {
+  height: 100%;
+  width: 100%;
+  padding-bottom: 6px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-left: 1px solid var(--ifm-table-border-color);
+  border-bottom: 1px solid var(--ifm-table-border-color);
+  border-bottom-left-radius: var(--ifm-global-radius);
+  background-color: var(--ifm-table-stripe-background);
+  overflow: hidden;
+}
+
+:global(table.doxyMembersIndex td.doxyMemberIndexItemNameTemplate) {
+  width: 100%;
+  padding-bottom: 6px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-right: 1px solid var(--ifm-table-border-color);
+  border-bottom: 1px solid var(--ifm-table-border-color);
+  border-bottom-right-radius: var(--ifm-global-radius);
+  background-color: var(--ifm-table-stripe-background);
+  overflow: hidden;
+}
+
+:global(table.doxyMembersIndex td.doxyMemberIndexItemNoTypeNameTemplate) {
+  width: 100%;
+  padding-bottom: 6px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-left: 1px solid var(--ifm-table-border-color);
+  border-right: 1px solid var(--ifm-table-border-color);
+  border-bottom: 1px solid var(--ifm-table-border-color);
+  border-bottom-left-radius: var(--ifm-global-radius);
+  border-bottom-right-radius: var(--ifm-global-radius);
+  background-color: var(--ifm-table-stripe-background);
+  overflow: hidden;
+}
+
 :global(tr.doxyMemberIndexSeparator) {
   height: 12px;
   border: none;
+}
+
+:global(td.doxyMemberIndexTemplate) {
+  padding: 0px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  white-space: nowrap;
 }
 
 :global(td.doxyMemberIndexItemType) {
@@ -61,6 +138,27 @@
 }
 
 :global(td.doxyMemberIndexItemName) {
+  padding: 0px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  width: 100%;
+}
+
+:global(td.doxyMemberIndexItemTypeTemplate) {
+  padding: 0px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  white-space: nowrap;
+}
+
+:global(td.doxyMemberIndexItemNameTemplate) {
+  padding: 0px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  width: 100%;
+}
+
+:global(td.doxyMemberIndexItemNoTypeNameTemplate) {
   padding: 0px;
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--ifm-code-font-size);
@@ -79,15 +177,17 @@
   padding-bottom: 6px;
   border: none;
   background-color: var(--ifm-background-color);
+  width: 100%;
 }
 
 :global(td.doxyMemberIndexDescriptionRight p) {
   margin: 0px;
 }
 
-:global(td.doxyMemberIndexSeparatorLeft) {
+:global(td.doxyMemberIndexSeparator) {
   padding: 6px;
   border: none;
+  width: 100%;
 }
 
 /* --- End MembersIndexItem/styles.module.css --- */

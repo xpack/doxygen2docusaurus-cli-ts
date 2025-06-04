@@ -26,20 +26,39 @@ export default function MembersIndexItem({
   return (
     <>
       {template &&
-        <tr class="doxyMemberIndexTemplate">
-          <td class="" colspan="2"><div>{template}</div></td>
-        </tr>
+        <>
+          <tr class="doxyMemberIndexTemplate">
+            <td class="doxyMemberIndexTemplate" colspan="2"><div>{template}</div></td>
+          </tr>
+          <tr class="doxyMemberIndexItem">
+            {type &&
+              <>
+                <td class="doxyMemberIndexItemTypeTemplate" align="right" valign="top">{type}</td>
+                <td class="doxyMemberIndexItemNameTemplate" align="left" valign="top">{name}</td>
+              </>
+            }
+            {!type &&
+              <>
+                <td class="doxyMemberIndexItemNoTypeNameTemplate" colspan="2" align="left" valign="top">{name}</td>
+              </>
+            }
+          </tr>
+        </>
       }
-      <tr class="doxyMemberIndexItem">
-        <td class="doxyMemberIndexItemType" align="right" valign="top">{type}</td>
-        <td class="doxyMemberIndexItemName" align="left" valign="top">{name}</td>
-      </tr>
+      {!template &&
+        <>
+          <tr class="doxyMemberIndexItem">
+            <td class="doxyMemberIndexItemType" align="right" valign="top">{type}</td>
+            <td class="doxyMemberIndexItemName" align="left" valign="top">{name}</td>
+          </tr>
+        </>
+      }
       <tr class="doxyMemberIndexDescription">
         <td class="doxyMemberIndexDescriptionLeft"></td>
         <td class="doxyMemberIndexDescriptionRight">{children}</td>
       </tr>
       <tr class="doxyMemberIndexSeparator">
-        <td class="doxyMemberIndexSeparatorLeft" colspan="2"></td>
+        <td class="doxyMemberIndexSeparator" colspan="2"></td>
       </tr>
     </>
   );
