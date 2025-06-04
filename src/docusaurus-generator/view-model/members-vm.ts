@@ -495,9 +495,17 @@ export class Member extends MemberBase {
 
     const name = escapeMdx(this.name)
 
+    let itemTemplate = ''
     let itemType = ''
     let itemName = `<Link to="${permalink}">${name}</Link>`
 
+    if (this.templateParametersMdxText !== undefined && this.templateParametersMdxText.length > 0) {
+      if (this.templateParametersMdxText.length < 64) {
+        itemTemplate = escapeMdx(`template ${this.templateParametersMdxText}`)
+      } else {
+        itemTemplate = escapeMdx('template < ... >')
+      }
+    }
     switch (this.kind) {
       case 'typedef':
         itemType = 'using'
@@ -594,14 +602,19 @@ export class Member extends MemberBase {
     lines.push('')
     lines.push('<MembersIndexItem')
 
+    if (itemTemplate.length > 0) {
+      if (itemTemplate.includes('<') || itemTemplate.includes('&')) {
+        lines.push(`  template={<>${itemTemplate}</>}`)
+      } else {
+        lines.push(`  template="${itemTemplate}"`)
+      }
+    }
     if (itemType.length > 0) {
       if (itemType.includes('<') || itemType.includes('&')) {
         lines.push(`  type={<>${itemType}</>}`)
       } else {
         lines.push(`  type="${itemType}"`)
       }
-    } else {
-      lines.push('  type="&nbsp;"')
     }
 
     if (itemName.length === 0) {
