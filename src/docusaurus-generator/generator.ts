@@ -317,8 +317,8 @@ export class DocusaurusGenerator {
     for (const [from, to] of indexFilesMap) {
       const baseUrl: string = this.workspace.siteConfig.baseUrl
 
-      const filePath = `static/${redirectsOutputFolderPath}/${from}`
-      const permalink = `${baseUrl}${this.workspace.pluginOptions.outputFolderPath}/${to}/`
+      const filePath = `static/${redirectsOutputFolderPath}/${from as string}`
+      const permalink = `${baseUrl}${this.workspace.pluginOptions.outputFolderPath}/${to as string}/`
 
       await this.generateRedirectFile({
         filePath,
