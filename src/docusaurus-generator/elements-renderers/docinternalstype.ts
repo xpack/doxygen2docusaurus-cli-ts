@@ -30,7 +30,7 @@ export class DocS1TypeLinesRenderer extends ElementLinesRendererBase {
     const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '')
     if (title.length > 0) {
       lines.push('')
-      lines.push(`## ${title}{#details}`)
+      lines.push(`## ${title} {#details}`)
     } else {
       lines.push('')
       lines.push('<Link id="#details" />')
