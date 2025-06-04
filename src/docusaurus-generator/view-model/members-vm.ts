@@ -37,22 +37,30 @@ export const sectionHeaders: Record<string, [string, number]> = {
   interface: ['Interfaces', 170], // DoxMemberKind only
 
   // Extra, not present in Doxygen.
-  'public-constructor': ['Public Constructors', 200],
-  'protected-constructor': ['Protected Constructors', 210],
-  'private-constructor': ['Private Constructors', 220],
+  constructorr: ['Constructors', 200],
+  'public-constructorr': ['Public Constructors', 200],
+  'protected-constructorr': ['Protected Constructors', 210],
+  'private-constructorr': ['Private Constructors', 220],
 
   // Extra, not present in Doxygen.
   'public-destructor': ['Public Destructor', 230],
   'protected-destructor': ['Protected Destructor', 240],
   'private-destructor': ['Private Destructor', 250],
 
-  func: ['Functions', 300],
-  function: ['Functions', 300], // DoxMemberKind only
+  // Extra, not present in Doxygen.
+  operator: ['Operators', 300],
+  'public-operator': ['Public Operators', 310],
+  'protected-operator': ['Protected Operators', 320],
+  'private-operator': ['Private Operators', 330],
+  'package-operator': ['Package Operators', 340],
 
-  'public-func': ['Public Member Functions', 310],
-  'protected-func': ['Protected Member Functions', 320],
-  'private-func': ['Private Member Functions', 330],
-  'package-func': ['Package Member Functions', 340],
+  func: ['Functions', 350],
+  function: ['Functions', 350], // DoxMemberKind only
+
+  'public-func': ['Public Member Functions', 360],
+  'protected-func': ['Protected Member Functions', 370],
+  'private-func': ['Private Member Functions', 380],
+  'package-func': ['Package Member Functions', 390],
 
   var: ['Variables', 400],
   variable: ['Variables', 400], // DoxMemberKind only
@@ -98,7 +106,11 @@ export class Section {
   kind: string
   headerName: string
   descriptionMdxText: string | undefined
-  members: Array<Member | MemberRef> = []
+
+  // Both references and definitions.
+  indexMembers: Array<MemberRef | Member> = []
+
+  // Only definitions.
   definitionMembers: Member[] = []
 
   _private: {
@@ -107,6 +119,7 @@ export class Section {
   } = {}
 
   constructor (compound: CompoundBase, sectionDef: SectionDefDataModel) {
+    // console.log(compound.kind, compound.compoundName, sectionDef.kind)
     this._private._sectionDef = sectionDef
 
     this.compound = compound
@@ -121,7 +134,6 @@ export class Section {
       for (const memberDefDataModel of sectionDef.memberDefs) {
         const member = new Member(this, memberDefDataModel)
         members.push(member)
-        this.definitionMembers.push(member)
         // Do not add it to the global map since additional checks are needed
         // therefore the procedure is done in the global generator.
       }
@@ -133,7 +145,14 @@ export class Section {
       }
     }
 
-    this.members = members.sort((a, b) => a.name.localeCompare(b.name))
+    this.indexMembers = members.sort((a, b) => a.name.localeCompare(b.name))
+
+    // The array is already sorted.
+    for (const member of this.indexMembers) {
+      if (member instanceof Member) {
+        this.definitionMembers.push(member)
+      }
+    }
   }
 
   initializeLate (): void {
@@ -142,6 +161,7 @@ export class Section {
     const sectionDef = this._private._sectionDef
     if (sectionDef.description !== undefined) {
       this.descriptionMdxText = workspace.renderElementToMdxText(sectionDef.description)
+      // console.log(this.indexMembers, this.descriptionMdxText)
     }
   }
 
@@ -199,22 +219,8 @@ export class Section {
         return sectionDef.header.trim()
       }
 
-      // if (sectionDef.header === undefined) {
-      //   // console.warn(util.inspect(sectionDef, { compact: false, depth: 999 }))
-      //   console.warn('header missing in sectionDef of kind', sectionDef.kind)
-      //   return 'User Defined'
-      // } else {
-      //   return sectionDef.header.trim()
-      // }
-      if (sectionDef.memberDefs === undefined) {
-        // console.log(sectionDef)
-        console.warn('sectionDef of kind user-defined has no members, cannot compute title')
-        return 'User Defined'
-      }
-      console.log('---')
-      for (const m of sectionDef.memberDefs) {
-        console.log(m.kind)
-      }
+      console.warn('sectionDef of kind user-defined')
+
       return 'User Defined'
     }
 
@@ -227,7 +233,7 @@ export class Section {
     const header = sectionHeaders[sectionDef.kind]
     if (header === undefined) {
       console.error(util.inspect(sectionDef, { compact: false, depth: 999 }))
-      console.error(sectionDef.constructor.name, 'kind', sectionDef.kind, 'not yet rendered in', this.constructor.name, 'getHeaderByKind')
+      console.error(sectionDef.constructor.name, 'kind', sectionDef.kind, 'not yet rendered in', this.constructor.name, 'getHeaderNameByKind')
       return ''
     }
 
@@ -250,14 +256,14 @@ export class Section {
     const lines: string[] = []
 
     // console.log(sectionDef)
-    if (this.members.length > 0) {
+    if (this.indexMembers.length > 0) {
       lines.push('')
       lines.push(`## ${escapeMdx(this.headerName)} Index`)
 
       lines.push('')
       lines.push('<MembersIndex>')
 
-      for (const member of this.members) {
+      for (const member of this.indexMembers) {
         if (member instanceof Member) {
           lines.push(...member.renderIndexToMdxLines())
         } else if (member instanceof MemberRef) {
@@ -278,7 +284,7 @@ export class Section {
   renderToMdxLines (): string[] {
     const lines: string[] = []
 
-    if (this.definitionMembers.length === 0) {
+    if (!this.hasDefinitionMembers()) {
       return lines
     }
 
@@ -645,7 +651,7 @@ export class Member extends MemberBase {
   renderToMdxLines (): string[] {
     const lines: string[] = []
 
-    const isFunction: boolean = this.section.kind.endsWith('func') || this.section.kind.endsWith('constructor') || this.section.kind.endsWith('destructor')
+    const isFunction: boolean = this.section.kind.startsWith('func') || this.section.kind.endsWith('func') || this.section.kind.endsWith('constructorr') || this.section.kind.endsWith('destructor') || this.section.kind.endsWith('operator')
 
     const id = getPermalinkAnchor(this.id)
     const name = this.name + (isFunction ? '()' : '')

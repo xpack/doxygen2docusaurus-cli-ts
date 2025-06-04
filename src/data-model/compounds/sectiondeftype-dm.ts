@@ -45,8 +45,6 @@ export abstract class AbstractSectionDefTypeBase extends AbstractDataModelBase {
   memberDefs?: MemberDefDataModel[] | undefined
   members?: MemberDataModel[] | undefined
 
-  // TODO: update SectionDefCloneDataModel when more members are added
-
   constructor (elementName: string, kind: string) {
     super(elementName)
 
@@ -55,6 +53,22 @@ export abstract class AbstractSectionDefTypeBase extends AbstractDataModelBase {
 
   hasMembers (): boolean {
     return this.memberDefs !== undefined || this.members !== undefined
+  }
+
+  computeAdjustedKind (sectionSuffix: string, memberSuffix: string = sectionSuffix): string {
+    // Turn `public-func` into
+    // - `public-constructor`
+    // - `public-destructor`.
+    // - `public-operator` etc.
+    if (this.kind === 'user-defined') {
+      return memberSuffix
+    }
+    if (this.kind.includes('-')) {
+      // Replace only the last word with the new suffix.
+      return `${this.kind.replace(/[-][a-z][a-z]*$/, '-')}${sectionSuffix}`
+    } else {
+      return memberSuffix
+    }
   }
 }
 
@@ -130,19 +144,9 @@ export class SectionDefDataModel extends AbstractSectionDefType {
   }
 }
 
-export class SectionDefCloneDataModel extends AbstractSectionDefTypeBase {
-  constructor (base: AbstractSectionDefTypeBase) {
-    super(base.elementName, base.kind)
-
-    this.header = base.header
-    this.description = base.description
-    this.memberDefs = base.memberDefs
-    this.members = base.members
-  }
-
-  adjustKind (suffix: string): void {
-    // Turn `public-func` into `public-constructor` or `public-destructor`.
-    this.kind = `${this.kind.replace(/-.*/, '-')}${suffix}`
+export class SectionDefByKindDataModel extends AbstractSectionDefTypeBase {
+  constructor (kind: string) {
+    super('sectiondef', kind)
   }
 }
 

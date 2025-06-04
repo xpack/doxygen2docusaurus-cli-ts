@@ -392,13 +392,7 @@ export class Folder extends CompoundBase {
 
     this.pageTitle = `The \`${this.sidebarLabel}\` Folder Reference`
 
-    if (compoundDef.sectionDefs !== undefined) {
-      for (const sectionDef of compoundDef.sectionDefs) {
-        if (sectionDef.hasMembers()) {
-          this.sections.push(new Section(this, sectionDef))
-        }
-      }
-    }
+    this.createSections()
   }
 
   // --------------------------------------------------------------------------
@@ -457,13 +451,7 @@ export class File extends CompoundBase {
 
     this.pageTitle = `The \`${this.sidebarLabel}\` File Reference`
 
-    if (compoundDef.sectionDefs !== undefined) {
-      for (const sectionDef of compoundDef.sectionDefs) {
-        if (sectionDef.hasMembers()) {
-          this.sections.push(new Section(this, sectionDef))
-        }
-      }
-    }
+    this.createSections()
   }
 
   override initializeLate (): void {

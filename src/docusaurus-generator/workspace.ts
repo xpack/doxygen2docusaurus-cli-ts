@@ -194,9 +194,9 @@ export class Workspace {
       // console.log(compound.kind, compound.compoundName, compound.id)
       if (compound.sections !== undefined) {
         for (const section of compound.sections) {
-          if (section.members !== undefined) {
+          if (section.indexMembers !== undefined) {
             // console.log('  ', sectionDef.kind)
-            for (const member of section.members) {
+            for (const member of section.indexMembers) {
               if (member instanceof Member) {
                 const memberCompoundId = stripPermalinkAnchor(member.id)
                 if (memberCompoundId !== compound.id) {
@@ -233,9 +233,9 @@ export class Workspace {
       if (compound.sections !== undefined) {
         for (const section of compound.sections) {
           section.initializeLate()
-          if (section.members !== undefined) {
+          if (section.indexMembers !== undefined) {
             // console.log('  ', sectionDef.kind)
-            for (const member of section.members) {
+            for (const member of section.indexMembers) {
               if (member instanceof Member) {
                 member.initializeLate()
               }

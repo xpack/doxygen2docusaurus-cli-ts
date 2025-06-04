@@ -20,8 +20,6 @@ import { CollectionBase } from './collection-base.js'
 import { escapeHtml, escapeMdx, flattenPath, sanitizeHierarchicalPath, sanitizeName } from '../utils.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { FrontMatter } from '../types.js'
-import { SectionDefCloneDataModel, SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-dm.js'
-import { Section } from './members-vm.js'
 import { BaseCompoundRefDataModel, DerivedCompoundRefDataModel } from '../../data-model/compounds/compoundreftype-dm.js'
 import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js'
 import { IndexEntry } from './indices-vm.js'
@@ -572,22 +570,7 @@ export class Class extends CompoundBase {
     // Replace slash with dash.
     this.docusaurusId = `${pluralKind}/${flattenPath(sanitizedPath)}`
 
-    if (compoundDef.sectionDefs !== undefined) {
-      const sections: Section[] = []
-      for (const sectionDef of compoundDef.sectionDefs) {
-        if ((compoundDef.kind === 'class' || compoundDef.kind === 'struct') &&
-          (sectionDef.kind === 'public-func' || sectionDef.kind === 'protected-func' || sectionDef.kind === 'private-func')) {
-          sections.push(...this.splitConstructorSections(this, sectionDef))
-        } else {
-          if (sectionDef.hasMembers()) {
-            sections.push(new Section(this, sectionDef))
-          }
-        }
-      }
-      this.sections = sections.sort((a, b) => {
-        return a.getSectionOrderByKind() - b.getSectionOrderByKind()
-      })
-    }
+    this.createSections(this.unqualifiedName)
 
     // console.log('1', compoundDef.compoundName)
     // console.log('2', this.relativePermalink)
@@ -622,61 +605,6 @@ export class Class extends CompoundBase {
     this.baseCompoundRefs = compoundDef.baseCompoundRefs
     this.derivedCompoundRefs = compoundDef.derivedCompoundRefs
     this.templateParamList = compoundDef.templateParamList
-  }
-
-  private splitConstructorSections (classs: Class, sectionDef: SectionDefDataModel): Section[] {
-    const sections: Section[] = []
-
-    const constructorSectionsDef: SectionDefCloneDataModel = new SectionDefCloneDataModel(sectionDef)
-    constructorSectionsDef.adjustKind('constructor')
-
-    const destructorSectionsDef: SectionDefCloneDataModel = new SectionDefCloneDataModel(sectionDef)
-    destructorSectionsDef.adjustKind('destructor')
-
-    const functionsSectionsDef: SectionDefCloneDataModel = new SectionDefCloneDataModel(sectionDef)
-
-    if (sectionDef.memberDefs !== undefined) {
-      constructorSectionsDef.memberDefs = undefined
-      constructorSectionsDef.members = undefined
-
-      destructorSectionsDef.memberDefs = undefined
-      destructorSectionsDef.members = undefined
-
-      functionsSectionsDef.memberDefs = undefined
-      // Keep the original members
-
-      for (const memberDef of sectionDef.memberDefs) {
-        // console.log(util.inspect(memberDef, { compact: false, depth: 999 }))
-        if (memberDef.name === classs.unqualifiedName) {
-          if (constructorSectionsDef.memberDefs === undefined) {
-            constructorSectionsDef.memberDefs = []
-          }
-          constructorSectionsDef.memberDefs.push(memberDef)
-        } else if (memberDef.name.replace('~', '') === classs.unqualifiedName) {
-          assert(destructorSectionsDef.memberDefs === undefined)
-          destructorSectionsDef.memberDefs = [memberDef]
-        } else {
-          if (functionsSectionsDef.memberDefs === undefined) {
-            functionsSectionsDef.memberDefs = []
-          }
-          functionsSectionsDef.memberDefs.push(memberDef)
-        }
-      }
-    }
-
-    if (constructorSectionsDef.hasMembers()) {
-      sections.push(new Section(this, constructorSectionsDef))
-    }
-
-    if (destructorSectionsDef.hasMembers()) {
-      sections.push(new Section(this, destructorSectionsDef))
-    }
-
-    if (functionsSectionsDef.hasMembers()) {
-      sections.push(new Section(this, functionsSectionsDef))
-    }
-
-    return sections
   }
 
   // --------------------------------------------------------------------------

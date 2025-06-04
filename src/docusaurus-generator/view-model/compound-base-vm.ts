@@ -28,6 +28,8 @@ import { DefValDataModel } from '../../data-model/compounds/linkedtexttype-dm.js
 import { LocationDataModel } from '../../data-model/compounds/locationtype-dm.js'
 import { FilesAndFolders } from './files-and-folders-vm.js'
 import { IncludesDataModel } from '../../data-model/compounds/inctype-dm.js'
+import { SectionDefByKindDataModel, SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-dm.js'
+import { AbstractMemberBaseType } from '../../data-model/compounds/memberdeftype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -108,6 +110,145 @@ export abstract class CompoundBase {
     }
   }
 
+  createSections (classUnqualifiedName?: string | undefined): void {
+    const reorderedSectionDefs = this.reorderSectionDefs(classUnqualifiedName)
+
+    if (reorderedSectionDefs !== undefined) {
+      const sections: Section[] = []
+      for (const sectionDef of reorderedSectionDefs) {
+        sections.push(new Section(this, sectionDef))
+      }
+      this.sections = sections.sort((a, b) => {
+        return a.getSectionOrderByKind() - b.getSectionOrderByKind()
+      })
+    }
+  }
+
+  private reorderSectionDefs (classUnqualifiedName?: string | undefined): SectionDefDataModel[] | undefined {
+    const sectionDefs = this._private._compoundDef?.sectionDefs
+    if (sectionDefs === undefined) {
+      return undefined
+    }
+
+    const resultSectionDefs: SectionDefDataModel[] = []
+    const sectionDefsByKind: Map<string, SectionDefDataModel> = new Map()
+
+    for (const sectionDef of sectionDefs) {
+      if (sectionDef.kind === 'user-defined' && sectionDef.header !== undefined) {
+        resultSectionDefs.push(sectionDef)
+        continue
+      }
+
+      if (sectionDef.memberDefs !== undefined) {
+        for (const memberDef of sectionDef.memberDefs) {
+          const adjustedSectionKind: string = this.adjustSectionKind(sectionDef, memberDef, classUnqualifiedName)
+
+          let mapSectionDef = sectionDefsByKind.get(adjustedSectionKind)
+          if (mapSectionDef === undefined) {
+            mapSectionDef = new SectionDefByKindDataModel(adjustedSectionKind)
+            sectionDefsByKind.set(adjustedSectionKind, mapSectionDef)
+          }
+          if (mapSectionDef.memberDefs === undefined) {
+            mapSectionDef.memberDefs = []
+          }
+          mapSectionDef.memberDefs.push(memberDef)
+        }
+      }
+
+      if (sectionDef.members !== undefined) {
+        for (const member of sectionDef.members) {
+          const adjustedSectionKind: string = this.adjustSectionKind(sectionDef, member, classUnqualifiedName)
+
+          let mapSectionDef = sectionDefsByKind.get(adjustedSectionKind)
+          if (mapSectionDef === undefined) {
+            mapSectionDef = new SectionDefByKindDataModel(adjustedSectionKind)
+            sectionDefsByKind.set(adjustedSectionKind, mapSectionDef)
+          }
+          if (mapSectionDef.members === undefined) {
+            mapSectionDef.members = []
+          }
+          mapSectionDef.members.push(member)
+        }
+      }
+    }
+
+    resultSectionDefs.push(...sectionDefsByKind.values())
+    return resultSectionDefs
+  }
+
+  // <xsd:simpleType name="DoxMemberKind">
+  //   <xsd:restriction base="xsd:string">
+  //     <xsd:enumeration value="define" />
+  //     <xsd:enumeration value="property" />
+  //     <xsd:enumeration value="event" />
+  //     <xsd:enumeration value="variable" />
+  //     <xsd:enumeration value="typedef" />
+  //     <xsd:enumeration value="enum" />
+  //     <xsd:enumeration value="function" />
+  //     <xsd:enumeration value="signal" />
+  //     <xsd:enumeration value="prototype" />
+  //     <xsd:enumeration value="friend" />
+  //     <xsd:enumeration value="dcop" />
+  //     <xsd:enumeration value="slot" />
+  //     <xsd:enumeration value="interface" />
+  //     <xsd:enumeration value="service" />
+  //   </xsd:restriction>
+  // </xsd:simpleType>
+
+  private adjustSectionKind (sectionDef: SectionDefDataModel, memberBase: AbstractMemberBaseType, classUnqualifiedName: string | undefined): string {
+    // In general, adjust to member kind.
+    let adjustedSectionKind: string = memberBase.kind
+
+    switch (memberBase.kind) {
+      case 'function':
+        // If public/protected/private, preserve the prefix.
+        if (this.isOperator(memberBase.name)) {
+          adjustedSectionKind = sectionDef.computeAdjustedKind('operator')
+        } else if (classUnqualifiedName !== undefined) {
+          if (memberBase.name === classUnqualifiedName) {
+            adjustedSectionKind = sectionDef.computeAdjustedKind('constructorr')
+          } else if (memberBase.name.replace('~', '') === classUnqualifiedName) {
+            adjustedSectionKind = sectionDef.computeAdjustedKind('destructor')
+          } else {
+            adjustedSectionKind = sectionDef.computeAdjustedKind('func', 'function')
+          }
+        } else {
+          adjustedSectionKind = sectionDef.computeAdjustedKind('func', 'function')
+        }
+        break
+
+      case 'variable':
+        adjustedSectionKind = sectionDef.computeAdjustedKind('attrib', 'variable')
+        break
+
+      case 'typedef':
+        adjustedSectionKind = sectionDef.computeAdjustedKind('type', 'typedef')
+        break
+
+      case 'slot':
+        adjustedSectionKind = sectionDef.computeAdjustedKind('slot')
+        break
+
+      // case 'define':
+      // case 'property':
+      // case 'event':
+      // case 'enum':
+      // case 'signal':
+      // case 'prototype':
+      // case 'friend':
+      // case 'dcop':
+      // case 'interface':
+      // case 'service':
+      default:
+        // Adjust to member kind.
+        adjustedSectionKind = memberBase.kind
+        break
+    }
+
+    // console.log('adjustedSectionKind:', memberBase.kind, adjustedSectionKind)
+    return adjustedSectionKind
+  }
+
   initializeLate (): void {
     const workspace = this.collection.workspace
 
@@ -167,6 +308,14 @@ export abstract class CompoundBase {
         this.innerCompounds.set(innerKey, compoundDef)
       }
     }
+  }
+
+  isOperator (name: string): boolean {
+    // Two word operators, like
+    if (name.startsWith('operator') && ' =!<>+-*/%&|^~,"(['.includes(name.charAt(8))) {
+      return true
+    }
+    return false
   }
 
   // --------------------------------------------------------------------------

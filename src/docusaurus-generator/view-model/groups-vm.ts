@@ -312,13 +312,7 @@ export class Group extends CompoundBase {
 
     this.docusaurusId = `groups/${flattenPath(sanitizedPath)}`
 
-    if (compoundDef.sectionDefs !== undefined) {
-      for (const sectionDef of compoundDef.sectionDefs) {
-        if (sectionDef.hasMembers()) {
-          this.sections.push(new Section(this, sectionDef))
-        }
-      }
-    }
+    this.createSections()
 
     // console.log('1', this.compoundName, this.titleMdxText)
     // console.log('2', this.relativePermalink)

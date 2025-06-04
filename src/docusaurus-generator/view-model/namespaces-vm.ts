@@ -230,13 +230,7 @@ export class Namespace extends CompoundBase {
 
     this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
 
-    if (compoundDef.sectionDefs !== undefined) {
-      for (const sectionDef of compoundDef.sectionDefs) {
-        if (sectionDef.hasMembers()) {
-          this.sections.push(new Section(this, sectionDef))
-        }
-      }
-    }
+    this.createSections()
 
     // console.log('1', this.compoundName)
     // console.log('2', this.relativePermalink)
