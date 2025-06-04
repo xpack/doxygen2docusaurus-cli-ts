@@ -514,10 +514,17 @@ export class Member extends MemberBase {
     }
     switch (this.kind) {
       case 'typedef':
-        itemType = 'using'
-        if (this.typeMdxText !== undefined) {
-          itemName += ' = '
-          itemName += this.typeMdxText
+        if (this.definition?.startsWith('typedef')) {
+          itemType = 'typedef'
+          itemName = `${this.typeMdxText} ${itemName}${this.argsstring}`
+        } else if (this.definition?.startsWith('using')) {
+          itemType = 'using'
+          if (this.typeMdxText !== undefined) {
+            itemName += ' = '
+            itemName += this.typeMdxText
+          }
+        } else {
+          console.error('Unsupported typedef in member', this.definition)
         }
         break
 
@@ -558,6 +565,11 @@ export class Member extends MemberBase {
 
       case 'variable':
         itemType += this.typeMdxText
+        if (this.definition?.startsWith('struct ')) {
+          itemType = escapeMdx('struct { ... }')
+        } else if (this.definition?.startsWith('class ')) {
+          itemType = escapeMdx('class { ... }')
+        }
         if (this.initializerMdxText !== undefined) {
           itemName += ' '
           itemName += this.initializerMdxText
