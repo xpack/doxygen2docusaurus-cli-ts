@@ -132,13 +132,19 @@ import { ReimplementDataModel, ReimplementedByDataModel } from './reimplementtyp
 
 export type DoxMemberKind = 'define' | 'property' | 'event' | 'variable' | 'typedef' | 'enum' | 'function' | 'signal' | 'prototype' | 'friend' | 'dcop' | 'slot' | 'interface' | 'service'
 
-export abstract class AbstractMemberDefType extends AbstractDataModelBase {
+export abstract class AbstractMemberBaseType extends AbstractDataModelBase {
   // Mandatory elements.
   name: string = ''
+  kind: string = ''
+}
+
+export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
+  // Mandatory elements.
+  // name: string = '' (in parent)
   location: LocationDataModel | undefined
 
   // Mandatory attributes.
-  kind: DoxMemberKind | '' = ''
+  // kind: DoxMemberKind | '' = '' (in parent)
   id: string = ''
   prot: string = ''
   staticc: Boolean | undefined

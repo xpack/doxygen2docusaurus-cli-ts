@@ -14,7 +14,7 @@
 import assert from 'assert'
 import * as util from 'node:util'
 import { DoxygenXmlParser } from '../doxygen-xml-parser.js'
-import { AbstractDataModelBase } from '../types.js'
+import { AbstractMemberBaseType } from './memberdeftype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -26,13 +26,13 @@ import { AbstractDataModelBase } from '../types.js'
 //   <xsd:attribute name="kind" type="MemberKind" use="required"/>
 // </xsd:complexType>
 
-export abstract class AbstractMemberType extends AbstractDataModelBase {
+export abstract class AbstractMemberType extends AbstractMemberBaseType {
   // Mandatory elements.
-  name: string = ''
+  // name: string = '' (in parent)
 
   // Mandatory attributes.
   refid: string = ''
-  kind: string = '' // MemberKind
+  // kind: string = '' // MemberKind (in parent)
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
