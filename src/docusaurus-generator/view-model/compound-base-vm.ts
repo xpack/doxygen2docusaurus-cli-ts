@@ -622,7 +622,7 @@ export abstract class CompoundBase {
       const workspace = this.collection.workspace
       const files: FilesAndFolders = workspace.viewModel.get('files') as FilesAndFolders
 
-      const sortedFiles = [...this.locationSet].sort()
+      const sortedFiles = [...this.locationSet].sort((a, b) => a.localeCompare(b))
       for (const fileName of sortedFiles) {
         const file = files.filesByPath.get(fileName)
         assert(file !== undefined)
