@@ -82,7 +82,7 @@ export class Classes extends CollectionBase {
       label: 'Classes',
       link: {
         type: 'doc',
-        id: `${this.workspace.permalinkBaseUrl}classes/index`
+        id: `${this.workspace.sidebarBaseId}classes/index`
       },
       collapsed: true,
       items: []
@@ -93,34 +93,34 @@ export class Classes extends CollectionBase {
       label: '#Index',
       link: {
         type: 'doc',
-        id: `${this.workspace.permalinkBaseUrl}index/classes/all`
+        id: `${this.workspace.sidebarBaseId}index/classes/all`
       },
       collapsed: true,
       items: [
         {
           type: 'doc',
           label: 'All',
-          id: `${this.workspace.permalinkBaseUrl}index/classes/all`
+          id: `${this.workspace.sidebarBaseId}index/classes/all`
         },
         {
           type: 'doc',
           label: 'Classes',
-          id: `${this.workspace.permalinkBaseUrl}index/classes/classes`
+          id: `${this.workspace.sidebarBaseId}index/classes/classes`
         },
         {
           type: 'doc',
           label: 'Functions',
-          id: `${this.workspace.permalinkBaseUrl}index/classes/functions`
+          id: `${this.workspace.sidebarBaseId}index/classes/functions`
         },
         {
           type: 'doc',
           label: 'Variables',
-          id: `${this.workspace.permalinkBaseUrl}index/classes/variables`
+          id: `${this.workspace.sidebarBaseId}index/classes/variables`
         },
         {
           type: 'doc',
           label: 'Typedefs',
-          id: `${this.workspace.permalinkBaseUrl}index/classes/typedefs`
+          id: `${this.workspace.sidebarBaseId}index/classes/typedefs`
         }
       ]
     })
@@ -137,7 +137,7 @@ export class Classes extends CollectionBase {
       const docItem: SidebarDocItem = {
         type: 'doc',
         label: classs.sidebarLabel,
-        id: `${this.workspace.permalinkBaseUrl}${classs.docusaurusId}`
+        id: `${this.workspace.sidebarBaseId}${classs.docusaurusId}`
       }
       return docItem
     } else {
@@ -146,7 +146,7 @@ export class Classes extends CollectionBase {
         label: classs.sidebarLabel,
         link: {
           type: 'doc',
-          id: `${this.workspace.permalinkBaseUrl}${classs.docusaurusId}`
+          id: `${this.workspace.sidebarBaseId}${classs.docusaurusId}`
         },
         collapsed: true,
         items: []
@@ -165,7 +165,7 @@ export class Classes extends CollectionBase {
   override createMenuItems (): MenuItem[] {
     const menuItem: MenuItem = {
       label: 'Classes',
-      to: `/${this.workspace.pluginOptions.outputFolderPath}/classes/`
+      to: `${this.workspace.menuBaseUrl}classes/`
     }
     return [menuItem]
   }
@@ -173,13 +173,12 @@ export class Classes extends CollectionBase {
   // --------------------------------------------------------------------------
 
   override async generateIndexDotMdxFile (): Promise<void> {
-    const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
-    const filePath = `${outputFolderPath}/classes/index.mdx`
+    const filePath = `${this.workspace.outputFolderPath}classes/index.mdx`
     const permalink = 'classes'
 
     const frontMatter: FrontMatter = {
       title: 'The Classes Reference',
-      slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+      slug: `${this.workspace.slugBaseUrl}${permalink}`,
       // description: '...', // TODO
       custom_edit_url: null,
       keywords: ['doxygen', 'classes', 'reference']
@@ -263,7 +262,7 @@ export class Classes extends CollectionBase {
       }
     }
 
-    const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
+    const outputFolderPath = this.workspace.outputFolderPath
 
     // ------------------------------------------------------------------------
 
@@ -273,7 +272,7 @@ export class Classes extends CollectionBase {
 
       const frontMatter: FrontMatter = {
         title: 'The Classes and Members Index',
-        slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+        slug: `${this.workspace.slugBaseUrl}${permalink}`,
         // description: '...', // TODO
         custom_edit_url: null,
         keywords: ['doxygen', 'classes', 'index']
@@ -303,7 +302,7 @@ export class Classes extends CollectionBase {
 
       const frontMatter: FrontMatter = {
         title: 'The Classes Index',
-        slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+        slug: `${this.workspace.slugBaseUrl}${permalink}`,
         // description: '...', // TODO
         custom_edit_url: null,
         keywords: ['doxygen', 'classes', 'index']
@@ -339,7 +338,7 @@ export class Classes extends CollectionBase {
 
       const frontMatter: FrontMatter = {
         title: 'The Class Functions Index',
-        slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+        slug: `${this.workspace.slugBaseUrl}${permalink}`,
         // description: '...', // TODO
         custom_edit_url: null,
         keywords: ['doxygen', 'classes', 'index']
@@ -375,7 +374,7 @@ export class Classes extends CollectionBase {
 
       const frontMatter: FrontMatter = {
         title: 'The Class Variables Index',
-        slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+        slug: `${this.workspace.slugBaseUrl}${permalink}`,
         // description: '...', // TODO
         custom_edit_url: null,
         keywords: ['doxygen', 'classes', 'index']
@@ -411,7 +410,7 @@ export class Classes extends CollectionBase {
 
       const frontMatter: FrontMatter = {
         title: 'The Class Type Definitions Index',
-        slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+        slug: `${this.workspace.slugBaseUrl}${permalink}`,
         // description: '...', // TODO
         custom_edit_url: null,
         keywords: ['doxygen', 'classes', 'index']

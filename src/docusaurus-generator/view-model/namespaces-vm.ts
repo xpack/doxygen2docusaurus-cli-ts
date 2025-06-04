@@ -77,7 +77,7 @@ export class Namespaces extends CollectionBase {
       label: 'Namespaces',
       link: {
         type: 'doc',
-        id: `${this.workspace.permalinkBaseUrl}namespaces/index`
+        id: `${this.workspace.sidebarBaseId}namespaces/index`
       },
       collapsed: true,
       items: []
@@ -95,7 +95,7 @@ export class Namespaces extends CollectionBase {
       const docItem: SidebarDocItem = {
         type: 'doc',
         label: namespace.sidebarLabel,
-        id: `${this.workspace.permalinkBaseUrl}${namespace.docusaurusId}`
+        id: `${this.workspace.sidebarBaseId}${namespace.docusaurusId}`
       }
       return docItem
     } else {
@@ -104,7 +104,7 @@ export class Namespaces extends CollectionBase {
         label: namespace.sidebarLabel,
         link: {
           type: 'doc',
-          id: `${this.workspace.permalinkBaseUrl}${namespace.docusaurusId}`
+          id: `${this.workspace.sidebarBaseId}${namespace.docusaurusId}`
         },
         collapsed: true,
         items: []
@@ -123,7 +123,7 @@ export class Namespaces extends CollectionBase {
   override createMenuItems (): MenuItem[] {
     const menuItem: MenuItem = {
       label: 'Namespaces',
-      to: `/${this.workspace.pluginOptions.outputFolderPath}/namespaces/`
+      to: `${this.workspace.menuBaseUrl}namespaces/`
     }
     return [menuItem]
   }
@@ -131,13 +131,13 @@ export class Namespaces extends CollectionBase {
   // --------------------------------------------------------------------------
 
   override async generateIndexDotMdxFile (): Promise<void> {
-    const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
+    const outputFolderPath = this.workspace.outputFolderPath
     const filePath = `${outputFolderPath}/namespaces/index.mdx`
     const permalink = 'namespaces'
 
     const frontMatter: FrontMatter = {
       title: 'The Namespaces Reference',
-      slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+      slug: `${this.workspace.slugBaseUrl}${permalink}`,
       // description: '...', // TODO
       custom_edit_url: null,
       keywords: ['doxygen', 'namespaces', 'reference']

@@ -80,7 +80,7 @@ export class Pages extends CollectionBase {
         continue
       }
       const label: string = page.sidebarLabel
-      const id: string = `${this.workspace.permalinkBaseUrl}${page.docusaurusId as string}`
+      const id: string = `${this.workspace.sidebarBaseId}${page.docusaurusId as string}`
       const docItem: SidebarDocItem = {
         type: 'doc',
         label,

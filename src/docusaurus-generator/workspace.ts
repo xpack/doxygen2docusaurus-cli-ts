@@ -64,8 +64,23 @@ export class Workspace {
   // The many options used by Doxygen during build.
   doxygenOptions: DoxygenFileOptions
 
-  // Like `/api/` (with heading and trailing slashes)
-  permalinkBaseUrl: string
+  // Like `/micro-os-plus/docs/api/`.
+  absoluteBaseUrl: string
+
+  // Like `/micro-os-plus/docs/api/`.
+  pageBaseUrl: string
+
+  // Like `/api/`.
+  slugBaseUrl: string
+
+  // Like `/docs/api/`.
+  menuBaseUrl: string
+
+  // Like `docs/api/`.
+  outputFolderPath: string
+
+  // like `api/`.
+  sidebarBaseId: string
 
   // The order of entries in the sidebar and in the top menu dropdown.
   sidebarCollectionNames: string[] = ['groups', 'namespaces', 'classes', 'files', 'pages']
@@ -101,11 +116,21 @@ export class Workspace {
 
     this.doxygenOptions = new DoxygenFileOptions(this.dataModel.doxyfile?.options)
 
-    // The relevant part of the permalink, like 'api', with the trailing slash.
-    // TODO: what if not below `docs`?
-    const outputBaseUrl = this.pluginOptions.outputBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '')
-    this.permalinkBaseUrl = `${outputBaseUrl}/`
-    // console.log('permalinkBaseUrl:', this.permalinkBaseUrl)
+    const docsFolderPath = this.pluginOptions.docsFolderPath.replace(/^[/]/, '').replace(/[/]$/, '')
+    const apiFolderPath = this.pluginOptions.apiFolderPath.replace(/^[/]/, '').replace(/[/]$/, '')
+
+    this.outputFolderPath = `${docsFolderPath}/${apiFolderPath}/`
+
+    this.sidebarBaseId = `${apiFolderPath}/`
+
+    const docsBaseUrl = this.pluginOptions.docsBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '')
+    const apiBaseUrl = this.pluginOptions.apiBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '')
+
+    this.absoluteBaseUrl = `${this.siteConfig.baseUrl}${docsBaseUrl}/${apiBaseUrl}/`
+    this.pageBaseUrl = `${this.siteConfig.baseUrl}${docsBaseUrl}/${apiBaseUrl}/`
+    this.slugBaseUrl = `/${apiBaseUrl}/`
+    this.menuBaseUrl = `/${docsBaseUrl}/${apiBaseUrl}/`
+    // console.log('absoluteBaseUrl:', this.absoluteBaseUrl)
 
     // Create the view-model objects.
     this.viewModel = new Map()
@@ -255,7 +280,6 @@ export class Workspace {
   validatePermalinks (): void {
     console.log('Validating permalinks...')
 
-    assert(this.pluginOptions.outputFolderPath)
     // const outputFolderPath = this.options.outputFolderPath
 
     const pagePermalinksById: Map<string, string> = new Map()
@@ -560,7 +584,7 @@ export class Workspace {
     }
 
     assert(pagePermalink !== undefined)
-    return `/${this.pluginOptions.outputFolderPath}/${pagePermalink}`
+    return `${this.pageBaseUrl}${pagePermalink}`
   }
 
   getXrefPermalink (id: string): string {
@@ -571,7 +595,7 @@ export class Workspace {
     // if (this.currentCompound !== undefined && pagePart === this.currentCompound.id) {
     //   return `#${anchorPart}`
     // } else {
-    return `/${this.pluginOptions.outputFolderPath}/pages/${pagePart}/#${anchorPart}`
+    return `${this.pageBaseUrl}pages/${pagePart}/#${anchorPart}`
     // }
   }
 

@@ -72,8 +72,7 @@ export class DocusaurusGenerator {
 
   // https://nodejs.org/en/learn/manipulating-files/working-with-folders-in-nodejs
   async prepareOutputFolder (): Promise<void> {
-    assert(this.workspace.pluginOptions.outputFolderPath)
-    const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
+    const outputFolderPath = this.workspace.outputFolderPath
     try {
       await fs.access(outputFolderPath)
       // Remove the folder if it exist.
@@ -108,13 +107,12 @@ export class DocusaurusGenerator {
   // --------------------------------------------------------------------------
 
   async generateSidebarFile (): Promise<void> {
-    const outputBaseUrl = this.workspace.pluginOptions.outputBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '')
     const sidebarCategory: SidebarCategory = {
       type: 'category',
       label: this.workspace.pluginOptions.sidebarCategoryLabel,
       link: {
         type: 'doc',
-        id: `${outputBaseUrl}/index`
+        id: `${this.workspace.sidebarBaseId}index`
       },
       collapsed: false,
       items: []
@@ -154,7 +152,7 @@ export class DocusaurusGenerator {
     const menuDropdown: MenuDropdown = {
       type: 'dropdown',
       label: pluginOptions.menuDropdownLabel,
-      to: `/${this.workspace.pluginOptions.outputFolderPath}/`,
+      to: `${this.workspace.menuBaseUrl}`,
       position: 'left',
       items: []
     }
@@ -207,8 +205,6 @@ export class DocusaurusGenerator {
   async generatePages (): Promise<void> {
     console.log('Writing Docusaurus pages (object -> url)...')
 
-    const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
-
     for (const [compoundId, compound] of this.workspace.compoundsById) {
       if (compound instanceof Page && compound.id === 'indexpage') {
         // This is the @mainpage. We diverge from Doxygen and generate
@@ -224,7 +220,7 @@ export class DocusaurusGenerator {
       assert(permalink !== undefined)
 
       if (this.workspace.pluginOptions.verbose) {
-        console.log(`${compound.kind as string}: ${compound.compoundName.replaceAll(/[ ]*/g, '') as string}`, '->', `${outputFolderPath}/${permalink}...`)
+        console.log(`${compound.kind as string}: ${compound.compoundName.replaceAll(/[ ]*/g, '') as string}`, '->', `${this.workspace.absoluteBaseUrl}${permalink}...`)
       }
 
       const docusaurusId: string = compound.docusaurusId
@@ -232,8 +228,8 @@ export class DocusaurusGenerator {
 
       const fileName = `${docusaurusId}.mdx`
       // console.log('fileName:', fileName)
-      const filePath = `${outputFolderPath}/${fileName}`
-      const slug = `/${this.workspace.permalinkBaseUrl}${permalink}`
+      const filePath = `${this.workspace.outputFolderPath}${fileName}`
+      const slug = `${this.workspace.slugBaseUrl}${permalink}`
 
       const frontMatter: FrontMatter = {
         // title: `${dataObject.pageTitle ?? compound.compoundName}`,
@@ -267,8 +263,6 @@ export class DocusaurusGenerator {
     console.log(`Removing existing folder static/${redirectsOutputFolderPath}...`)
     await fs.rm(`static/${redirectsOutputFolderPath}`, { recursive: true, force: true })
 
-    const baseUrl: string = this.workspace.siteConfig.baseUrl
-
     console.log('Writing redirect files...')
     const compoundIds: string[] = Array.from(this.workspace.compoundsById.keys()).sort()
     for (const compoundId of compoundIds) {
@@ -276,8 +270,7 @@ export class DocusaurusGenerator {
       assert(compound !== undefined)
 
       const filePath = `static/${redirectsOutputFolderPath}/${compoundId}.html`
-      // TODO: What if not below `docs`?
-      const permalink = `${baseUrl}${this.workspace.pluginOptions.outputFolderPath}/${compound.relativePermalink}/`
+      const permalink = `${this.workspace.absoluteBaseUrl}${compound.relativePermalink}/`
 
       await this.generateRedirectFile({
         filePath,
@@ -315,10 +308,8 @@ export class DocusaurusGenerator {
     // namespacemembers, _enum, _func, type, _vars
 
     for (const [from, to] of indexFilesMap) {
-      const baseUrl: string = this.workspace.siteConfig.baseUrl
-
       const filePath = `static/${redirectsOutputFolderPath}/${from as string}`
-      const permalink = `${baseUrl}${this.workspace.pluginOptions.outputFolderPath}/${to as string}/`
+      const permalink = `${this.workspace.absoluteBaseUrl}${to as string}/`
 
       await this.generateRedirectFile({
         filePath,

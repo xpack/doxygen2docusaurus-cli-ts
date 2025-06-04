@@ -13,8 +13,10 @@
 
 export interface PluginConfigurationOptions {
   doxygenXmlInputFolderPath?: string
-  outputFolderPath?: string
-  outputBaseUrl?: string
+  docsFolderPath?: string
+  apiFolderPath?: string
+  docsBaseUrl?: string
+  apiBaseUrl?: string
   redirectsOutputFolderPath?: string
   sidebarCategoryFilePath?: string
   sidebarCategoryLabel?: string
@@ -26,23 +28,52 @@ export interface PluginConfigurationOptions {
 }
 
 export interface PluginOptions {
-  doxygenXmlInputFolderPath: string /** like `doxygen/xml`, no initial/final slash */
-  outputFolderPath: string /** like `docs/api`, no initial/final slash */
-  outputBaseUrl: string
+  /** Relative to the current website folder, like `doxygen/xml`, no initial/final slashes. */
+  doxygenXmlInputFolderPath: string
+
+  /** Relative to the current website folder, like `docs`, no initial/final slashes. */
+  docsFolderPath: string
+
+  /** Relative to the docs folder, like `api`, no initial/final slashes. */
+  apiFolderPath: string
+
+  /** Relative to the web home, like `docs`, without initial/final slashes. */
+  docsBaseUrl: string
+
+  /** Relative to the docs home, like `api`, without initial/final slashes. */
+  apiBaseUrl: string
+
+  /**  Relative to the current website folder, like `reference`. */
   redirectsOutputFolderPath?: string | undefined
+
+  /** Relative to the current website folder, default `sidebar-category-doxygen.json`. */
   sidebarCategoryFilePath: string
+
+  /** Short text to be displayed in the sidebar. */
   sidebarCategoryLabel: string
+
+  /** Relative to the current website folder, default `docusaurus-config-doxygen-menu-dropdown.json`. */
   menuDropdownFilePath: string
+
+  /** Short text to be displayed in the menu. */
   menuDropdownLabel: string
+
+  /** Boolean to control verbosity. */
   verbose: boolean
+
+  /** Boolean to control if the plugin runs automatically on Docusaurus start. */
   runOnStart: boolean
+
+  /** String identifier in case of multiple instances. */
   id: string
 }
 
 export const defaultOptions: PluginConfigurationOptions = {
   doxygenXmlInputFolderPath: 'doxygen/xml',
-  outputFolderPath: 'docs/api',
-  outputBaseUrl: 'api',
+  docsFolderPath: 'docs',
+  apiFolderPath: 'api',
+  docsBaseUrl: 'docs',
+  apiBaseUrl: 'api',
   sidebarCategoryFilePath: 'sidebar-category-doxygen.json',
   sidebarCategoryLabel: 'API Reference (Doxygen)',
   menuDropdownFilePath: 'docusaurus-config-doxygen-menu-dropdown.json',

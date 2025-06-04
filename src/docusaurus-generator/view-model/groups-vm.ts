@@ -91,7 +91,7 @@ export class Groups extends CollectionBase {
       const docItem: SidebarDocItem = {
         type: 'doc',
         label: group.sidebarLabel,
-        id: `${this.workspace.permalinkBaseUrl}${group.docusaurusId}`
+        id: `${this.workspace.sidebarBaseId}${group.docusaurusId}`
       }
       return docItem
     } else {
@@ -100,7 +100,7 @@ export class Groups extends CollectionBase {
         label: group.sidebarLabel,
         link: {
           type: 'doc',
-          id: `${this.workspace.permalinkBaseUrl}${group.docusaurusId}`
+          id: `${this.workspace.sidebarBaseId}${group.docusaurusId}`
         },
         collapsed: true,
         items: []
@@ -121,7 +121,7 @@ export class Groups extends CollectionBase {
     for (const topLevelGroup of this.topLevelGroups) {
       const menuItem: MenuItem = {
         label: `${topLevelGroup.sidebarLabel}`,
-        to: `/${this.workspace.pluginOptions.outputFolderPath}/${topLevelGroup.relativePermalink}/`
+        to: `${this.workspace.menuBaseUrl}${topLevelGroup.relativePermalink}/`
       }
       menuItems.push(menuItem)
     }
@@ -135,7 +135,7 @@ export class Groups extends CollectionBase {
     // Home page for the API reference.
     // It diverts from Doxygen, since it renders the list of topics and
     // the main page.
-    const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
+    const outputFolderPath = this.workspace.outputFolderPath
     const filePath = `${outputFolderPath}/index.mdx`
     const jsonFileName = 'index-table.json'
 
@@ -164,7 +164,7 @@ export class Groups extends CollectionBase {
     // This is the top index.mdx file (@mainpage)
     const frontMatter: FrontMatter = {
       title: `${projectBrief} API Reference`,
-      slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+      slug: `${this.workspace.slugBaseUrl}${permalink}`,
       // description: '...', // TODO
       custom_edit_url: null,
       keywords: ['doxygen', 'reference']

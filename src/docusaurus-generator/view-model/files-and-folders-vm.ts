@@ -178,7 +178,7 @@ export class FilesAndFolders extends CollectionBase {
       label: 'Files',
       link: {
         type: 'doc',
-        id: `${this.workspace.permalinkBaseUrl}files/index`
+        id: `${this.workspace.sidebarBaseId}files/index`
       },
       collapsed: true,
       items: []
@@ -201,7 +201,7 @@ export class FilesAndFolders extends CollectionBase {
       label: folder.sidebarLabel,
       link: {
         type: 'doc',
-        id: `${this.workspace.permalinkBaseUrl}${folder.docusaurusId}`
+        id: `${this.workspace.sidebarBaseId}${folder.docusaurusId}`
       },
       collapsed: true,
       items: []
@@ -226,7 +226,7 @@ export class FilesAndFolders extends CollectionBase {
     const docItem: SidebarDocItem = {
       type: 'doc',
       label: file.sidebarLabel,
-      id: `${this.workspace.permalinkBaseUrl}${file.docusaurusId}`
+      id: `${this.workspace.sidebarBaseId}${file.docusaurusId}`
     }
     return docItem
   }
@@ -236,7 +236,7 @@ export class FilesAndFolders extends CollectionBase {
   override createMenuItems (): MenuItem[] {
     const menuItem: MenuItem = {
       label: 'Files',
-      to: `/${this.workspace.pluginOptions.outputFolderPath}/files/`
+      to: `${this.workspace.menuBaseUrl}files/`
     }
     return [menuItem]
   }
@@ -244,14 +244,14 @@ export class FilesAndFolders extends CollectionBase {
   // --------------------------------------------------------------------------
 
   override async generateIndexDotMdxFile (): Promise<void> {
-    const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
+    const outputFolderPath = this.workspace.outputFolderPath
 
     const filePath = `${outputFolderPath}/files/index.mdx`
     const permalink = 'files'
 
     const frontMatter: FrontMatter = {
       title: 'The Files & Folders Reference',
-      slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+      slug: `${this.workspace.slugBaseUrl}${permalink}`,
       // description: '...', // TODO
       custom_edit_url: null,
       keywords: ['doxygen', 'files', 'folders', 'reference']
