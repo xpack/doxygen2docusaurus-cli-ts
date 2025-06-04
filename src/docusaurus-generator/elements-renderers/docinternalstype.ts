@@ -33,7 +33,7 @@ export class DocS1TypeLinesRenderer extends ElementLinesRendererBase {
       lines.push(`## ${title} {#details}`)
     } else {
       lines.push('')
-      lines.push('<Link id="#details" />')
+      lines.push('<a id="#details" />')
     }
 
     lines.push('')

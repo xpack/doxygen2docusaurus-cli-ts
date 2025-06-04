@@ -13,7 +13,6 @@
 
 import styles from './styles.module.css';
 import React from 'react';
-import Link from '@docusaurus/Link'
 
 // ----------------------------------------------------------------------------
 

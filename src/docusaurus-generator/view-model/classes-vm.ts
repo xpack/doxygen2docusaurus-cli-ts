@@ -488,7 +488,7 @@ export class Classes extends CollectionBase {
         if (entry.objectKind === 'compound') {
           kind = `${entry.kind} `
         }
-        lines.push(`- ${escapeMdx(entry.name)}: <Link to="${entry.permalink}">${kind}${escapeMdx(entry.longName)}</Link>`)
+        lines.push(`- ${escapeMdx(entry.name)}: <a href="${entry.permalink}">${kind}${escapeMdx(entry.longName)}</a>`)
       }
     }
 
@@ -782,7 +782,7 @@ export class Class extends CompoundBase {
     const permalink = workspace.getPagePermalink(this.id)
 
     const itemType = this.kind
-    const itemName = `<Link to="${permalink}">${escapeMdx(this.indexName)}</Link>`
+    const itemName = `<a href="${permalink}">${escapeMdx(this.indexName)}</a>`
 
     lines.push('<MembersIndexItem')
     lines.push(`  type="${itemType}"`)

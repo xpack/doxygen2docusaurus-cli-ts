@@ -15,8 +15,6 @@ import styles from './styles.module.css'
 import React, { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 
-import Link from '@docusaurus/Link'
-
 import TreeTable from '../TreeTable/index.js'
 import TreeTableRow from '../TreeTableRow/index.js'
 
@@ -43,7 +41,7 @@ export default function CollapsibleTreeTable({ rows }) {
           <tr class="doxyTreeItem">
             <td class={doxyClass} align="left" valign="top">
               {row.iconLetter && <><span class="doxyTreeIconBox"><span class="doxyTreeIcon">{row.iconLetter}</span></span></>}
-              {row.iconClass ? <Link to={itemLink}><span class={row.iconClass}><ReactMarkdown components={{p:({children}) => <>{children}</>}}>{row.label}</ReactMarkdown></span></Link> : <Link to={row.link}><ReactMarkdown components={{p:({children}) => <>{children}</>}}>{row.label}</ReactMarkdown></Link>}
+              {row.iconClass ? <a href={itemLink}><span class={row.iconClass}><ReactMarkdown components={{p:({children}) => <>{children}</>}}>{row.label}</ReactMarkdown></span></a> : <a href={row.link}><ReactMarkdown components={{p:({children}) => <>{children}</>}}>{row.label}</ReactMarkdown></a>}
             </td>
             <td class="doxyTreeItemRight" align="left" valign="top">{row.description}</td>
           </tr>

@@ -344,9 +344,9 @@ export abstract class CompoundBase {
     if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
       text += briefDescriptionMdxText
       if (morePermalink !== undefined && morePermalink.length > 0) {
-        text += ` <Link to="${morePermalink}">`
+        text += ` <a href="${morePermalink}">`
         text += 'More...'
-        text += '</Link>'
+        text += '</a>'
       }
     } else if (todo.length > 0) {
       text += `TODO: add <code>@brief</code> to <code>${todo}</code>`
@@ -452,7 +452,7 @@ export abstract class CompoundBase {
           const kind = innerDataObject.kind
 
           const itemType = kind === 'dir' ? 'folder' : (kind === 'group' ? '&nbsp;' : kind)
-          const itemName = `<Link to="${permalink}">${escapeHtml(innerDataObject.indexName)}</Link>`
+          const itemName = `<a href="${permalink}">${escapeHtml(innerDataObject.indexName)}</a>`
 
           lines.push('')
           lines.push('<MembersIndexItem')
@@ -558,13 +558,13 @@ export abstract class CompoundBase {
           if (!file.listingLineNumbers.has(location.line)) {
             text += location.line?.toString()
           } else {
-            text += `<Link to="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</Link>`
+            text += `<a href="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</a>`
           }
           text += ' of file '
         } else {
           text += ' in file '
         }
-        text += `<Link to="${permalink}">${escapeMdx(path.basename(location.file) as string)}</Link>`
+        text += `<a href="${permalink}">${escapeMdx(path.basename(location.file) as string)}</a>`
 
         const definitionFile = files.filesByPath.get(location.bodyfile)
         assert(definitionFile !== undefined)
@@ -577,13 +577,13 @@ export abstract class CompoundBase {
           if (!definitionFile.listingLineNumbers.has(location.bodystart)) {
             text += location.bodystart?.toString()
           } else {
-            text += `<Link to="${definitionPermalink}/#${lineStart}">${escapeMdx(location.bodystart?.toString() ?? '?')}</Link>`
+            text += `<a href="${definitionPermalink}/#${lineStart}">${escapeMdx(location.bodystart?.toString() ?? '?')}</a>`
           }
           text += ' of file '
         } else {
           text += ' in file '
         }
-        text += `<Link to="${definitionPermalink}">${escapeMdx(path.basename(location.bodyfile) as string)}</Link>`
+        text += `<a href="${definitionPermalink}">${escapeMdx(path.basename(location.bodyfile) as string)}</a>`
         text += '.'
       } else {
         text += 'Definition '
@@ -593,13 +593,13 @@ export abstract class CompoundBase {
           if (!file.listingLineNumbers.has(location.line)) {
             text += location.line?.toString()
           } else {
-            text += `<Link to="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</Link>`
+            text += `<a href="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</a>`
           }
           text += ' of file '
         } else {
           text += ' in file '
         }
-        text += `<Link to="${permalink}">${escapeMdx(path.basename(location.file) as string)}</Link>`
+        text += `<a href="${permalink}">${escapeMdx(path.basename(location.file) as string)}</a>`
         text += '.'
       }
     }
@@ -627,7 +627,7 @@ export abstract class CompoundBase {
         const file = files.filesByPath.get(fileName)
         assert(file !== undefined)
         const permalink = workspace.getPagePermalink(file.id)
-        lines.push(`<li><Link to="${permalink}">${path.basename(fileName) as string}</Link></li>`)
+        lines.push(`<li><a href="${permalink}">${path.basename(fileName) as string}</a></li>`)
       }
       lines.push('</ul>')
     }

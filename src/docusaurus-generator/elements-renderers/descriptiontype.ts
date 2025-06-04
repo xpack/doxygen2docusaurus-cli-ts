@@ -115,9 +115,9 @@ export class DocRefTextTypeTextRenderer extends ElementTextRendererBase {
 
     assert(permalink !== undefined && permalink.length > 1)
 
-    text += `<Link to="${permalink}">`
+    text += `<a href="${permalink}">`
     text += this.workspace.renderElementsToMdxText(element.children)
-    text += '</Link>'
+    text += '</a>'
 
     return text
   }
@@ -353,7 +353,7 @@ export class DocAnchorTypeLinesRenderer extends ElementLinesRendererBase {
     const lines: string[] = []
 
     const anchor = getPermalinkAnchor(element.id)
-    lines.push(`<Link id="${anchor}" />`)
+    lines.push(`<a id="#${anchor}" />`)
 
     return lines
   }

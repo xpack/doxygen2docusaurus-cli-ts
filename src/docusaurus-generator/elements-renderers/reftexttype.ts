@@ -40,7 +40,7 @@ export class RefTextTypeTextRenderer extends ElementTextRendererBase {
 
     assert(permalink !== undefined && permalink.length > 1)
 
-    text += `<Link to="${permalink}">${escapeMdx(element.text.trim())}</Link>`
+    text += `<a href="${permalink}">${escapeMdx(element.text.trim())}</a>`
 
     return text
   }

@@ -503,7 +503,7 @@ export class Member extends MemberBase {
 
     let itemTemplate = ''
     let itemType = ''
-    let itemName = `<Link to="${permalink}">${name}</Link>`
+    let itemName = `<a href="${permalink}">${name}</a>`
 
     if (this.templateParametersMdxText !== undefined && this.templateParametersMdxText.length > 0) {
       if (this.templateParametersMdxText.length < 64) {
@@ -592,7 +592,7 @@ export class Member extends MemberBase {
           itemName += `: ${this.typeMdxText} `
         }
         itemName += escapeHtml('{ ')
-        itemName += `<Link to="${permalink}">...</Link>`
+        itemName += `<a href="${permalink}">...</a>`
         itemName += escapeHtml(' }')
 
         break
@@ -872,7 +872,7 @@ export class Member extends MemberBase {
         }
 
         lines.push('')
-        lines.push(`<Link id="${anchor}" />`)
+        lines.push(`<a id="#${anchor}" />`)
         lines.push(`<EnumerationListItem name="${enumValue.name.trim()}">`)
         lines.push(`${enumBriefDescription}`)
         lines.push('</EnumerationListItem>')
