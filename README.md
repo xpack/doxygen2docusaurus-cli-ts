@@ -12,8 +12,8 @@ The reference pages will be generated under `/docs/api/`, similarly to the pages
 To install in the project website folder:
 
 ```sh
-npm install @xpack/docusaurus-plugin-doxygen --save-dev -C website
-``
+(cd website; npm install @xpack/docusaurus-plugin-doxygen --save-dev)
+```
 
 or, during development:
 
@@ -21,20 +21,18 @@ or, during development:
 (cd website; npm link @xpack/docusaurus-plugin-doxygen)
 ```
 
-Add the plugin to docusaurus.config.js
+Add the plugin to `docusaurus.config.js`
 
 ```js
-module.exports = {
-  // Add option types
+const config: Config = {
+  // ...
   plugins: [
     [
       '@xpack/docusaurus-plugin-doxygen',
-
-      // Options
       {
         doxygenXmlInputFolderPath: 'doxygen/xml',
-        outputFolderPath: 'docs/api',
-        sidebarFileName: 'sidebar-doxygen.json'
+        verbose: false,
+        suggestToDoDescriptions: false
       },
     ],
   ],
