@@ -707,7 +707,13 @@ export class Member extends MemberBase {
             const template = escapeMdx(`template ${this.templateParametersMdxText}`)
             lines.push(`  template={<>${template}</>}`)
           }
-          lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`)
+
+          if (prototype.includes('<') || prototype.includes('&')) {
+            lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`)
+          } else {
+            lines.push(`  prototype="${prototype}"${this.labels.length === 0 ? '>' : ''}`)
+          }
+
           if (this.labels.length > 0) {
             lines.push(`  labels = {["${this.labels.join('", "')}"]}>`)
           }
@@ -752,7 +758,13 @@ export class Member extends MemberBase {
 
           lines.push('')
           lines.push('<MemberDefinition')
-          lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`)
+
+          if (prototype.includes('<') || prototype.includes('&')) {
+            lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`)
+          } else {
+            lines.push(`  prototype="${prototype}"${this.labels.length === 0 ? '>' : ''}`)
+          }
+
           if (this.labels.length > 0) {
             lines.push(` labels = {["${this.labels.join('", "')}"]}>`)
           }
@@ -788,7 +800,11 @@ export class Member extends MemberBase {
           lines.push('')
           lines.push('<MemberDefinition')
 
-          lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`)
+          if (prototype.includes('<') || prototype.includes('&')) {
+            lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`)
+          } else {
+            lines.push(`  prototype="${prototype}"${this.labels.length === 0 ? '>' : ''}`)
+          }
 
           if (this.labels.length > 0) {
             lines.push(`  labels = {["${this.labels.join('", "')}"]}>`)
@@ -823,7 +839,11 @@ export class Member extends MemberBase {
           lines.push('')
           lines.push('<MemberDefinition')
 
-          lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`)
+          if (prototype.includes('<') || prototype.includes('&')) {
+            lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`)
+          } else {
+            lines.push(`  prototype="${prototype}"${this.labels.length === 0 ? '>' : ''}`)
+          }
 
           if (this.labels.length > 0) {
             lines.push(`  labels = {["${this.labels.join('", "')}"]}>`)
