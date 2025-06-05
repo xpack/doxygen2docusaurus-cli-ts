@@ -342,7 +342,8 @@ export class Workspace {
     lines.push('</DoxygenPage>')
     lines.push('')
 
-    const text = lines.join('\n')
+    // Hack to prevent Docusaurus replace legit content with emojis.
+    const text = lines.join('\n').replaceAll(':thread:', "{':thread:'}").replaceAll(':flags:', "{':flags:'}")
 
     // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
     const frontMatterLines: string[] = []
