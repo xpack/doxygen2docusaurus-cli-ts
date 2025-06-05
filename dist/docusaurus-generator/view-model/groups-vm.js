@@ -14,7 +14,6 @@ import path from 'node:path';
 import { CompoundBase } from './compound-base-vm.js';
 import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
 import { CollectionBase } from './collection-base.js';
-import { Section } from './members-vm.js';
 // Support for collapsible tables is experimental.
 const useCollapsibleTable = false;
 // ----------------------------------------------------------------------------
@@ -68,7 +67,7 @@ export class Groups extends CollectionBase {
             const docItem = {
                 type: 'doc',
                 label: group.sidebarLabel,
-                id: `${this.workspace.permalinkBaseUrl}${group.docusaurusId}`
+                id: `${this.workspace.sidebarBaseId}${group.docusaurusId}`
             };
             return docItem;
         }
@@ -78,7 +77,7 @@ export class Groups extends CollectionBase {
                 label: group.sidebarLabel,
                 link: {
                     type: 'doc',
-                    id: `${this.workspace.permalinkBaseUrl}${group.docusaurusId}`
+                    id: `${this.workspace.sidebarBaseId}${group.docusaurusId}`
                 },
                 collapsed: true,
                 items: []
@@ -95,7 +94,7 @@ export class Groups extends CollectionBase {
         for (const topLevelGroup of this.topLevelGroups) {
             const menuItem = {
                 label: `${topLevelGroup.sidebarLabel}`,
-                to: `/${this.workspace.pluginOptions.outputFolderPath}/${topLevelGroup.relativePermalink}/`
+                to: `${this.workspace.menuBaseUrl}${topLevelGroup.relativePermalink}/`
             };
             menuItems.push(menuItem);
         }
@@ -106,11 +105,11 @@ export class Groups extends CollectionBase {
         // Home page for the API reference.
         // It diverts from Doxygen, since it renders the list of topics and
         // the main page.
-        const outputFolderPath = this.workspace.pluginOptions.outputFolderPath;
-        const filePath = `${outputFolderPath}/index.mdx`;
+        const outputFolderPath = this.workspace.outputFolderPath;
+        const filePath = `${outputFolderPath}index.mdx`;
         const jsonFileName = 'index-table.json';
         if (useCollapsibleTable) {
-            const jsonFilePath = `${outputFolderPath}/${jsonFileName}`;
+            const jsonFilePath = `${outputFolderPath}${jsonFileName}`;
             const tableData = [];
             for (const group of this.topLevelGroups) {
                 tableData.push(this.generateTableRowRecursively(group));
@@ -127,7 +126,7 @@ export class Groups extends CollectionBase {
         // This is the top index.mdx file (@mainpage)
         const frontMatter = {
             title: `${projectBrief} API Reference`,
-            slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+            slug: `${this.workspace.slugBaseUrl}${permalink}`,
             // description: '...', // TODO
             custom_edit_url: null,
             keywords: ['doxygen', 'reference']
@@ -243,13 +242,7 @@ export class Group extends CompoundBase {
         const sanitizedPath = sanitizeHierarchicalPath(this.compoundName);
         this.relativePermalink = `groups/${sanitizedPath}`;
         this.docusaurusId = `groups/${flattenPath(sanitizedPath)}`;
-        if (compoundDef.sectionDefs !== undefined) {
-            for (const sectionDef of compoundDef.sectionDefs) {
-                if (sectionDef.hasMembers()) {
-                    this.sections.push(new Section(this, sectionDef));
-                }
-            }
-        }
+        this.createSections();
         // console.log('1', this.compoundName, this.titleMdxText)
         // console.log('2', this.relativePermalink)
         // console.log('3', this.docusaurusId)
@@ -274,7 +267,7 @@ export class Group extends CompoundBase {
         lines.push(...this.renderSectionIndicesToMdxLines());
         // if (this.hasSect1InDescription) {
         //   lines.push('')
-        //   lines.push('<Link id="#details" />')
+        //   lines.push('<Link id="details" />')
         // }
         lines.push(...this.renderDetailedDescriptionToMdxLines({
             briefDescriptionMdxText: this.briefDescriptionMdxText,
@@ -288,3 +281,4 @@ export class Group extends CompoundBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=groups-vm.js.map

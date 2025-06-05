@@ -11,7 +11,7 @@
 // ----------------------------------------------------------------------------
 import assert from 'assert';
 import * as util from 'node:util';
-import { AbstractDataModelBase } from '../types.js';
+import { AbstractMemberBaseType } from './memberdeftype-dm.js';
 // ----------------------------------------------------------------------------
 // <xsd:complexType name="MemberType">
 //   <xsd:sequence>
@@ -20,14 +20,14 @@ import { AbstractDataModelBase } from '../types.js';
 //   <xsd:attribute name="refid" type="xsd:string" use="required"/>
 //   <xsd:attribute name="kind" type="MemberKind" use="required"/>
 // </xsd:complexType>
-export class AbstractMemberType extends AbstractDataModelBase {
+export class AbstractMemberType extends AbstractMemberBaseType {
+    // kind: string = '' // MemberKind (in parent)
     constructor(xml, element, elementName) {
         super(elementName);
         // Mandatory elements.
-        this.name = '';
+        // name: string = '' (in parent)
         // Mandatory attributes.
         this.refid = '';
-        this.kind = ''; // MemberKind
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -78,3 +78,4 @@ export class MemberDataModel extends AbstractMemberType {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=membertype-dm.js.map

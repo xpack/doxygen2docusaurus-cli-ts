@@ -263,3 +263,4 @@ export class CompoundDefDataModel extends AbstractCompoundDefType {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=compounddef-dm.js.map

@@ -8,10 +8,12 @@ import { TemplateParamListDataModel } from './templateparamlisttype-dm.js';
 import { EnumValueDataModel } from './enumvaluetype-dm.js';
 import { ReimplementDataModel } from './reimplementtype-dm.js';
 export type DoxMemberKind = 'define' | 'property' | 'event' | 'variable' | 'typedef' | 'enum' | 'function' | 'signal' | 'prototype' | 'friend' | 'dcop' | 'slot' | 'interface' | 'service';
-export declare abstract class AbstractMemberDefType extends AbstractDataModelBase {
+export declare abstract class AbstractMemberBaseType extends AbstractDataModelBase {
     name: string;
+    kind: string;
+}
+export declare abstract class AbstractMemberDefType extends AbstractMemberBaseType {
     location: LocationDataModel | undefined;
-    kind: DoxMemberKind | '';
     id: string;
     prot: string;
     staticc: Boolean | undefined;

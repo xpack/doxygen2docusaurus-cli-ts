@@ -74,3 +74,4 @@ export class RefTextDataModel extends AbstractRefTextType {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=reftexttype-dm.js.map

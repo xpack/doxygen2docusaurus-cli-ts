@@ -19,14 +19,20 @@ import { AbstractDataModelBase } from '../types.js';
 import { TemplateParamListDataModel } from './templateparamlisttype-dm.js';
 import { EnumValueDataModel } from './enumvaluetype-dm.js';
 import { ReimplementDataModel, ReimplementedByDataModel } from './reimplementtype-dm.js';
-export class AbstractMemberDefType extends AbstractDataModelBase {
+export class AbstractMemberBaseType extends AbstractDataModelBase {
+    constructor() {
+        super(...arguments);
+        // Mandatory elements.
+        this.name = '';
+        this.kind = '';
+    }
+}
+export class AbstractMemberDefType extends AbstractMemberBaseType {
     // TODO: add more...
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory elements.
-        this.name = '';
         // Mandatory attributes.
-        this.kind = '';
+        // kind: DoxMemberKind | '' = '' (in parent)
         this.id = '';
         this.prot = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -194,3 +200,4 @@ export class MemberDefDataModel extends AbstractMemberDefType {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=memberdeftype-dm.js.map

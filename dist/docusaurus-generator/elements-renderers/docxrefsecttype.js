@@ -27,3 +27,4 @@ export class DocXRefSectTextRenderer extends ElementTextRendererBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=docxrefsecttype.js.map

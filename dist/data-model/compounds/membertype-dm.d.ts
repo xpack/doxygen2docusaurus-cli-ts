@@ -1,9 +1,7 @@
 import { DoxygenXmlParser } from '../doxygen-xml-parser.js';
-import { AbstractDataModelBase } from '../types.js';
-export declare abstract class AbstractMemberType extends AbstractDataModelBase {
-    name: string;
+import { AbstractMemberBaseType } from './memberdeftype-dm.js';
+export declare abstract class AbstractMemberType extends AbstractMemberBaseType {
     refid: string;
-    kind: string;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
 export type MemberKind = 'define' | 'property' | 'event' | 'variable' | 'typedef' | 'enum' | 'function' | 'signal' | 'prototype' | 'friend' | 'dcop' | 'slot';

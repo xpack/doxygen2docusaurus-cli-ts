@@ -22,8 +22,13 @@ export async function parseDoxygen({ options }) {
         console.log();
         console.log('pluginOptions:', util.inspect(options));
     }
-    assert(options?.doxygenXmlInputFolderPath !== undefined && options?.doxygenXmlInputFolderPath?.length > 0, 'doxygenXmlInputFolderPath is required');
-    assert(options.outputFolderPath !== undefined && options.outputFolderPath.length > 0, 'outputFolderPath is required');
+    assert(options.doxygenXmlInputFolderPath.length > 0, 'doxygenXmlInputFolderPath is required');
+    assert(options.docsFolderPath.length > 0, 'docsFolderPath is required');
+    assert(options.apiFolderPath.length > 0, 'apiFolderPath is required');
+    assert(options.docsBaseUrl.length > 0, 'docsBaseUrl is required');
+    assert(options.apiBaseUrl.length > 0, 'apiBaseUrl is required');
+    assert(options.sidebarCategoryFilePath.length > 0, 'sidebarCategoryFilePath is required');
+    assert(options.menuDropdownFilePath.length > 0, 'menuDropdownFilePath is required');
     console.log();
     const xml = new DoxygenXmlParser({
         verbose: options.verbose
@@ -43,3 +48,4 @@ export async function generateDocusaurusMdx({ dataModel, options, siteConfig, pl
     return 0;
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=main.js.map

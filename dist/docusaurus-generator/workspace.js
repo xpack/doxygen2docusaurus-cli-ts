@@ -47,11 +47,17 @@ export class Workspace {
         this.siteConfig = siteConfig;
         this.pluginActions = pluginActions;
         this.doxygenOptions = new DoxygenFileOptions(this.dataModel.doxyfile?.options);
-        // The relevant part of the permalink, like 'api', with the trailing slash.
-        // TODO: what if not below `docs`?
-        const outputBaseUrl = this.pluginOptions.outputBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '');
-        this.permalinkBaseUrl = `${outputBaseUrl}/`;
-        // console.log('permalinkBaseUrl:', this.permalinkBaseUrl)
+        const docsFolderPath = this.pluginOptions.docsFolderPath.replace(/^[/]/, '').replace(/[/]$/, '');
+        const apiFolderPath = this.pluginOptions.apiFolderPath.replace(/^[/]/, '').replace(/[/]$/, '');
+        this.outputFolderPath = `${docsFolderPath}/${apiFolderPath}/`;
+        this.sidebarBaseId = `${apiFolderPath}/`;
+        const docsBaseUrl = this.pluginOptions.docsBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '');
+        const apiBaseUrl = this.pluginOptions.apiBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '');
+        this.absoluteBaseUrl = `${this.siteConfig.baseUrl}${docsBaseUrl}/${apiBaseUrl}/`;
+        this.pageBaseUrl = `${this.siteConfig.baseUrl}${docsBaseUrl}/${apiBaseUrl}/`;
+        this.slugBaseUrl = `/${apiBaseUrl}/`;
+        this.menuBaseUrl = `/${docsBaseUrl}/${apiBaseUrl}/`;
+        // console.log('absoluteBaseUrl:', this.absoluteBaseUrl)
         // Create the view-model objects.
         this.viewModel = new Map();
         this.viewModel.set('groups', new Groups(this));
@@ -122,9 +128,9 @@ export class Workspace {
             // console.log(compound.kind, compound.compoundName, compound.id)
             if (compound.sections !== undefined) {
                 for (const section of compound.sections) {
-                    if (section.members !== undefined) {
+                    if (section.indexMembers !== undefined) {
                         // console.log('  ', sectionDef.kind)
-                        for (const member of section.members) {
+                        for (const member of section.indexMembers) {
                             if (member instanceof Member) {
                                 const memberCompoundId = stripPermalinkAnchor(member.id);
                                 if (memberCompoundId !== compound.id) {
@@ -161,9 +167,9 @@ export class Workspace {
             if (compound.sections !== undefined) {
                 for (const section of compound.sections) {
                     section.initializeLate();
-                    if (section.members !== undefined) {
+                    if (section.indexMembers !== undefined) {
                         // console.log('  ', sectionDef.kind)
-                        for (const member of section.members) {
+                        for (const member of section.indexMembers) {
                             if (member instanceof Member) {
                                 member.initializeLate();
                             }
@@ -180,8 +186,6 @@ export class Workspace {
      */
     validatePermalinks() {
         console.log('Validating permalinks...');
-        assert(this.pluginOptions.outputFolderPath);
-        // const outputFolderPath = this.options.outputFolderPath
         const pagePermalinksById = new Map();
         const pagePermalinksSet = new Set();
         for (const compoundDefDataModel of this.dataModel.compoundDefs) {
@@ -211,7 +215,7 @@ export class Workspace {
         }
     }
     // --------------------------------------------------------------------------
-    async writeMdxFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title }) {
+    async writeMdxFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title, pagePermalink }) {
         const lines = [];
         lines.push('');
         lines.push('<DoxygenPage pluginConfig={pluginConfig}>');
@@ -220,7 +224,13 @@ export class Workspace {
         lines.push('');
         lines.push('</DoxygenPage>');
         lines.push('');
-        const text = lines.join('\n');
+        // Hack to prevent Docusaurus replace legit content with emojis.
+        let text = lines.join('\n');
+        if (pagePermalink !== undefined && pagePermalink.length > 0) {
+            // Strip local page permalink from anchors.
+            text = text.replaceAll(`"${pagePermalink}/#`, '"#');
+        }
+        text = text.replaceAll(':thread:', "{':thread:'}").replaceAll(':flags:', "{':flags:'}");
         // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
         const frontMatterLines = [];
         frontMatterLines.push('---');
@@ -420,7 +430,7 @@ export class Workspace {
             console.error('refid', refid, 'has no permalink');
         }
         assert(pagePermalink !== undefined);
-        return `/${this.pluginOptions.outputFolderPath}/${pagePermalink}`;
+        return `${this.pageBaseUrl}${pagePermalink}`;
     }
     getXrefPermalink(id) {
         // console.log('1', id, this.currentCompoundDef.id)
@@ -430,8 +440,9 @@ export class Workspace {
         // if (this.currentCompound !== undefined && pagePart === this.currentCompound.id) {
         //   return `#${anchorPart}`
         // } else {
-        return `/${this.pluginOptions.outputFolderPath}/pages/${pagePart}/#${anchorPart}`;
+        return `${this.pageBaseUrl}pages/${pagePart}/#${anchorPart}`;
         // }
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=workspace.js.map

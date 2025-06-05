@@ -2,12 +2,13 @@ import { MemberDefDataModel } from '../../data-model/compounds/memberdeftype-dm.
 import { MemberDataModel } from '../../data-model/compounds/membertype-dm.js';
 import { SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-dm.js';
 import { CompoundBase } from './compound-base-vm.js';
+export declare const sectionHeaders: Record<string, [string, number]>;
 export declare class Section {
     compound: CompoundBase;
     kind: string;
     headerName: string;
     descriptionMdxText: string | undefined;
-    members: Array<Member | MemberRef>;
+    indexMembers: Array<MemberRef | Member>;
     definitionMembers: Member[];
     _private: {
         _sectionDef?: SectionDefDataModel;
@@ -16,6 +17,7 @@ export declare class Section {
     initializeLate(): void;
     hasDefinitionMembers(): boolean;
     getHeaderNameByKind(sectionDef: SectionDefDataModel): string;
+    getSectionOrderByKind(): number;
     renderIndexToMdxLines(): string[];
     renderToMdxLines(): string[];
 }

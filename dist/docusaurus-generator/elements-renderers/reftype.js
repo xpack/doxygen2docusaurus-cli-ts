@@ -25,8 +25,9 @@ export class RefTypeLinesRenderer extends ElementLinesRendererBase {
         const lines = [];
         const permalink = this.workspace.getPagePermalink(element.refid);
         assert(permalink !== undefined && permalink.length > 1);
-        lines.push(`<Link to="${permalink}">${escapeMdx(element.text)}</Link>`); // trim?
+        lines.push(`<a href="${permalink}">${escapeMdx(element.text)}</a>`); // trim?
         return lines;
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=reftype.js.map

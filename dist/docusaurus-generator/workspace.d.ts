@@ -14,7 +14,12 @@ export declare class Workspace {
     collectionNamesByKind: Record<string, string>;
     viewModel: Map<string, CollectionBase>;
     doxygenOptions: DoxygenFileOptions;
-    permalinkBaseUrl: string;
+    absoluteBaseUrl: string;
+    pageBaseUrl: string;
+    slugBaseUrl: string;
+    menuBaseUrl: string;
+    outputFolderPath: string;
+    sidebarBaseId: string;
     sidebarCollectionNames: string[];
     compoundsById: Map<string, CompoundBase>;
     membersById: Map<String, Member>;
@@ -36,12 +41,13 @@ export declare class Workspace {
      */
     validatePermalinks(): void;
     cleanups(): void;
-    writeMdxFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title }: {
+    writeMdxFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title, pagePermalink }: {
         filePath: string;
         bodyLines: string[];
         frontMatter: FrontMatter;
         frontMatterCodeLines?: string[];
         title?: string;
+        pagePermalink?: string;
     }): Promise<void>;
     renderElementsToMdxLines(elements: Object[] | undefined): string[];
     renderElementToMdxLines(element: Object | undefined): string[];

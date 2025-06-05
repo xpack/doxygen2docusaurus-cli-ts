@@ -56,7 +56,7 @@ export class Pages extends CollectionBase {
                 continue;
             }
             const label = page.sidebarLabel;
-            const id = `${this.workspace.permalinkBaseUrl}${page.docusaurusId}`;
+            const id = `${this.workspace.sidebarBaseId}${page.docusaurusId}`;
             const docItem = {
                 type: 'doc',
                 label,
@@ -116,3 +116,4 @@ export class Page extends CompoundBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=pages-vm.js.map

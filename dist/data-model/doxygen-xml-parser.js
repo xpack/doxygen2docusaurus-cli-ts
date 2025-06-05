@@ -92,6 +92,27 @@ export class DoxygenXmlParser {
                     }
                 }
             }
+            const memberDefsById = new Map();
+            for (const compoundDef of compoundDefs) {
+                if (compoundDef.sectionDefs !== undefined) {
+                    for (const sectionDef of compoundDef.sectionDefs) {
+                        if (sectionDef.memberDefs !== undefined) {
+                            for (const memberDef of sectionDef.memberDefs) {
+                                memberDefsById.set(memberDef.id, memberDef);
+                            }
+                        }
+                        if (sectionDef.members !== undefined) {
+                            for (const member of sectionDef.members) {
+                                if (member.kind.length === 0) {
+                                    const memberDef = memberDefsById.get(member.refid);
+                                    assert(memberDef !== undefined);
+                                    member.kind = memberDef.kind;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         // ------------------------------------------------------------------------
         // Parse the Doxyfile.xml with the options.
@@ -254,3 +275,4 @@ export class DoxygenXmlParser {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=doxygen-xml-parser.js.map

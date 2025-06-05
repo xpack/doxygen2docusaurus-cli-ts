@@ -84,3 +84,4 @@ export function validateOptions({ validate, options: userOptions }) {
     };
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=docusaurus.js.map

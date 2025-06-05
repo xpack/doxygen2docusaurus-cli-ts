@@ -2301,3 +2301,4 @@ export class HrulerDataModel extends AbstractDocEmptyType {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=descriptiontype-dm.js.map

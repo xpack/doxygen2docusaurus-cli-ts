@@ -12,7 +12,6 @@ import assert from 'node:assert';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
 import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
-import { Section } from './members-vm.js';
 // ----------------------------------------------------------------------------
 export class FilesAndFolders extends CollectionBase {
     // folders: Folders
@@ -52,14 +51,14 @@ export class FilesAndFolders extends CollectionBase {
             for (const childFolderId of folder.childrenFolderIds) {
                 const childFolder = this.compoundFoldersById.get(childFolderId);
                 assert(childFolder !== undefined);
-                // console.log('childFolderId', childFolderId, 'has parent', folderId)
+                // console.log('childFolderId', childFolderId, childFolder.compoundName, 'has parent', folderId, folder.compoundName)
                 childFolder.parent = folder;
                 folder.children.push(childFolder);
             }
             for (const childFileId of folder.childrenFileIds) {
                 const childFile = this.compoundFilesById.get(childFileId);
                 assert(childFile !== undefined);
-                // console.log('childFileId', childFileId, 'has parent', folderId)
+                // console.log('childFileId', childFileId, childFile.compoundName, 'has parent', folderId, folder.compoundName)
                 childFile.parent = folder;
                 folder.children.push(childFile);
             }
@@ -89,15 +88,16 @@ export class FilesAndFolders extends CollectionBase {
             if (folder.parent !== undefined) {
                 parentPath = `${this.getRelativePathRecursively(folder.parent)}/`;
             }
+            // console.log(folder.compoundName)
             folder.relativePath = `${parentPath}${folder.compoundName}`;
             const sanitizedPath = sanitizeHierarchicalPath(folder.relativePath);
             folder.relativePermalink = `folders/${sanitizedPath}`;
             folder.docusaurusId = `folders/${flattenPath(sanitizedPath)}`;
-            // console.log('1', file.compoundName)
-            // console.log('2', file.relativePermalink)
-            // console.log('3', file.docusaurusId)
-            // console.log('4', file.sidebarLabel)
-            // console.log('5', file.indexName)
+            // console.log('1', folder.compoundName)
+            // console.log('2', folder.relativePermalink)
+            // console.log('3', folder.docusaurusId)
+            // console.log('4', folder.sidebarLabel)
+            // console.log('5', folder.indexName)
             // console.log()
         }
         // Cannot be done in each object, since it needs the hierarchy.
@@ -106,6 +106,7 @@ export class FilesAndFolders extends CollectionBase {
             if (file.parent !== undefined) {
                 parentPath = `${this.getRelativePathRecursively(file.parent)}/`;
             }
+            // console.log(file.compoundName)
             file.relativePath = `${parentPath}${file.compoundName}`;
             const sanitizedPath = sanitizeHierarchicalPath(file.relativePath);
             file.relativePermalink = `files/${sanitizedPath}`;
@@ -134,7 +135,7 @@ export class FilesAndFolders extends CollectionBase {
             label: 'Files',
             link: {
                 type: 'doc',
-                id: `${this.workspace.permalinkBaseUrl}files/index`
+                id: `${this.workspace.sidebarBaseId}files/index`
             },
             collapsed: true,
             items: []
@@ -153,7 +154,7 @@ export class FilesAndFolders extends CollectionBase {
             label: folder.sidebarLabel,
             link: {
                 type: 'doc',
-                id: `${this.workspace.permalinkBaseUrl}${folder.docusaurusId}`
+                id: `${this.workspace.sidebarBaseId}${folder.docusaurusId}`
             },
             collapsed: true,
             items: []
@@ -174,7 +175,7 @@ export class FilesAndFolders extends CollectionBase {
         const docItem = {
             type: 'doc',
             label: file.sidebarLabel,
-            id: `${this.workspace.permalinkBaseUrl}${file.docusaurusId}`
+            id: `${this.workspace.sidebarBaseId}${file.docusaurusId}`
         };
         return docItem;
     }
@@ -182,18 +183,17 @@ export class FilesAndFolders extends CollectionBase {
     createMenuItems() {
         const menuItem = {
             label: 'Files',
-            to: `/${this.workspace.pluginOptions.outputFolderPath}/files/`
+            to: `${this.workspace.menuBaseUrl}files/`
         };
         return [menuItem];
     }
     // --------------------------------------------------------------------------
     async generateIndexDotMdxFile() {
-        const outputFolderPath = this.workspace.pluginOptions.outputFolderPath;
-        const filePath = `${outputFolderPath}/files/index.mdx`;
+        const filePath = `${this.workspace.outputFolderPath}files/index.mdx`;
         const permalink = 'files';
         const frontMatter = {
             title: 'The Files & Folders Reference',
-            slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+            slug: `${this.workspace.slugBaseUrl}${permalink}`,
             // description: '...', // TODO
             custom_edit_url: null,
             keywords: ['doxygen', 'files', 'folders', 'reference']
@@ -203,7 +203,7 @@ export class FilesAndFolders extends CollectionBase {
         lines.push('');
         lines.push('<TreeTable>');
         for (const folder of this.topLevelFolders) {
-            lines.push(...this.generateIndexMdxFileRecursively(folder, 1));
+            lines.push(...this.generateIndexMdxFileRecursively(folder, 0));
         }
         for (const file of this.topLevelFiles) {
             lines.push(...this.generateFileIndexMdx(file, 1));
@@ -277,7 +277,8 @@ export class Folder extends CompoundBase {
         this.childrenFolderIds = [];
         this.childrenFolders = [];
         this.relativePath = '';
-        // console.log('Folder.constructor', util.inspect(compoundDef))
+        // console.log('folder:', util.inspect(compoundDef))
+        // console.log('folder:', compoundDef.compoundName)
         if (Array.isArray(compoundDef.innerDirs)) {
             for (const ref of compoundDef.innerDirs) {
                 // console.log('component', compoundDef.id, 'has child folder', ref.refid)
@@ -295,13 +296,7 @@ export class Folder extends CompoundBase {
         this.sidebarLabel = compoundDef.compoundName ?? '?';
         this.indexName = this.sidebarLabel;
         this.pageTitle = `The \`${this.sidebarLabel}\` Folder Reference`;
-        if (compoundDef.sectionDefs !== undefined) {
-            for (const sectionDef of compoundDef.sectionDefs) {
-                if (sectionDef.hasMembers()) {
-                    this.sections.push(new Section(this, sectionDef));
-                }
-            }
-        }
+        this.createSections();
     }
     // --------------------------------------------------------------------------
     renderToMdxLines(frontMatter) {
@@ -334,17 +329,13 @@ export class File extends CompoundBase {
         super(collection, compoundDef);
         this.relativePath = '';
         this.listingLineNumbers = new Set();
-        // The compoundName is the actual file name.
-        this.sidebarLabel = compoundDef.compoundName ?? '?';
+        // console.log('file:', compoundDef.compoundName)
+        // The compoundName is the actual file name, without path.
+        assert(compoundDef.compoundName !== undefined);
+        this.sidebarLabel = compoundDef.compoundName;
         this.indexName = this.sidebarLabel;
         this.pageTitle = `The \`${this.sidebarLabel}\` File Reference`;
-        if (compoundDef.sectionDefs !== undefined) {
-            for (const sectionDef of compoundDef.sectionDefs) {
-                if (sectionDef.hasMembers()) {
-                    this.sections.push(new Section(this, sectionDef));
-                }
-            }
-        }
+        this.createSections();
     }
     initializeLate() {
         super.initializeLate();
@@ -395,3 +386,4 @@ export class File extends CompoundBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=files-and-folders-vm.js.map

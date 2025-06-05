@@ -87,3 +87,4 @@ export class IndexCompoundDataModel extends AbstractIndexCompoundType {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=indexcompoundtype-dm.js.map

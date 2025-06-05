@@ -86,9 +86,9 @@ export class DocRefTextTypeTextRenderer extends ElementTextRendererBase {
             kindref: element.kindref
         });
         assert(permalink !== undefined && permalink.length > 1);
-        text += `<Link to="${permalink}">`;
+        text += `<a href="${permalink}">`;
         text += this.workspace.renderElementsToMdxText(element.children);
-        text += '</Link>';
+        text += '</a>';
         return text;
     }
 }
@@ -306,3 +306,4 @@ export class DocAnchorTypeLinesRenderer extends ElementLinesRendererBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=descriptiontype.js.map

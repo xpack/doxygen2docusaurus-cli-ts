@@ -12,7 +12,6 @@ import assert from 'node:assert';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
 import { escapeHtml, escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
-import { Section } from './members-vm.js';
 // ----------------------------------------------------------------------------
 export class Namespaces extends CollectionBase {
     constructor() {
@@ -59,7 +58,7 @@ export class Namespaces extends CollectionBase {
             label: 'Namespaces',
             link: {
                 type: 'doc',
-                id: `${this.workspace.permalinkBaseUrl}namespaces/index`
+                id: `${this.workspace.sidebarBaseId}namespaces/index`
             },
             collapsed: true,
             items: []
@@ -74,7 +73,7 @@ export class Namespaces extends CollectionBase {
             const docItem = {
                 type: 'doc',
                 label: namespace.sidebarLabel,
-                id: `${this.workspace.permalinkBaseUrl}${namespace.docusaurusId}`
+                id: `${this.workspace.sidebarBaseId}${namespace.docusaurusId}`
             };
             return docItem;
         }
@@ -84,7 +83,7 @@ export class Namespaces extends CollectionBase {
                 label: namespace.sidebarLabel,
                 link: {
                     type: 'doc',
-                    id: `${this.workspace.permalinkBaseUrl}${namespace.docusaurusId}`
+                    id: `${this.workspace.sidebarBaseId}${namespace.docusaurusId}`
                 },
                 collapsed: true,
                 items: []
@@ -99,18 +98,17 @@ export class Namespaces extends CollectionBase {
     createMenuItems() {
         const menuItem = {
             label: 'Namespaces',
-            to: `/${this.workspace.pluginOptions.outputFolderPath}/namespaces/`
+            to: `${this.workspace.menuBaseUrl}namespaces/`
         };
         return [menuItem];
     }
     // --------------------------------------------------------------------------
     async generateIndexDotMdxFile() {
-        const outputFolderPath = this.workspace.pluginOptions.outputFolderPath;
-        const filePath = `${outputFolderPath}/namespaces/index.mdx`;
+        const filePath = `${this.workspace.outputFolderPath}namespaces/index.mdx`;
         const permalink = 'namespaces';
         const frontMatter = {
             title: 'The Namespaces Reference',
-            slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+            slug: `${this.workspace.slugBaseUrl}${permalink}`,
             // description: '...', // TODO
             custom_edit_url: null,
             keywords: ['doxygen', 'namespaces', 'reference']
@@ -176,13 +174,7 @@ export class Namespace extends CompoundBase {
         const sanitizedPath = sanitizeHierarchicalPath(this.compoundName.replaceAll('::', '/').replace(/anonymous_namespace\{/, 'anonymous{'));
         this.relativePermalink = `namespaces/${sanitizedPath}`;
         this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`;
-        if (compoundDef.sectionDefs !== undefined) {
-            for (const sectionDef of compoundDef.sectionDefs) {
-                if (sectionDef.hasMembers()) {
-                    this.sections.push(new Section(this, sectionDef));
-                }
-            }
-        }
+        this.createSections();
         // console.log('1', this.compoundName)
         // console.log('2', this.relativePermalink)
         // console.log('3', this.docusaurusId)
@@ -227,3 +219,4 @@ export class Namespace extends CompoundBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=namespaces-vm.js.map

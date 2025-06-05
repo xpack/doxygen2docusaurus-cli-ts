@@ -14,16 +14,24 @@ export class DocS1TypeLinesRenderer extends ElementLinesRendererBase {
     renderToMdxLines(element) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
+        // Ignore the H1 header, it is generated automatically by Docusaurus.
+        // const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '')
+        // if (title.length > 0) {
+        //   lines.push('')
+        //   lines.push(`## ${title} {#details}`)
+        // } else {
+        //   lines.push('')
+        //   lines.push('<Link id="details" />')
+        // }
+        if (element.title !== undefined) {
+            // console.log(element)
+            // Note that `.md` files have the sections promoted one level,
+            // so `## RTOS` is generated as `sect1`.
+            console.warn('H1 header', this.workspace.renderElementToMdxText(element.title), 'ignored');
+        }
         // Add the anchor referred by the 'More...' link.
-        const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
-        if (title.length > 0) {
-            lines.push('');
-            lines.push(`## ${title}{#details}`);
-        }
-        else {
-            lines.push('');
-            lines.push('<Link id="#details" />');
-        }
+        // TODO: investigate why this does not work.
+        lines.push('<Link id="details" />');
         lines.push('');
         lines.push(...this.workspace.renderElementsToMdxLines(element.children));
         return lines;
@@ -36,7 +44,7 @@ export class DocS2TypeLinesRenderer extends ElementLinesRendererBase {
         const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
-            lines.push(`### ${title}`);
+            lines.push(`## ${title}`);
         }
         lines.push('');
         lines.push(...this.workspace.renderElementsToMdxLines(element.children));
@@ -50,7 +58,7 @@ export class DocS3TypeLinesRenderer extends ElementLinesRendererBase {
         const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
-            lines.push(`#### ${title}`);
+            lines.push(`### ${title}`);
         }
         lines.push('');
         lines.push(...this.workspace.renderElementsToMdxLines(element.children));
@@ -64,7 +72,7 @@ export class DocS4TypeLinesRenderer extends ElementLinesRendererBase {
         const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
-            lines.push(`##### ${title}`);
+            lines.push(`#### ${title}`);
         }
         lines.push('');
         lines.push(...this.workspace.renderElementsToMdxLines(element.children));
@@ -78,7 +86,7 @@ export class DocS5TypeLinesRenderer extends ElementLinesRendererBase {
         const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
-            lines.push(`###### ${title}`);
+            lines.push(`##### ${title}`);
         }
         lines.push('');
         lines.push(...this.workspace.renderElementsToMdxLines(element.children));
@@ -92,7 +100,7 @@ export class DocS6TypeLinesRenderer extends ElementLinesRendererBase {
         const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
-            lines.push(`####### ${title}`);
+            lines.push(`###### ${title}`);
         }
         lines.push('');
         lines.push(...this.workspace.renderElementsToMdxLines(element.children));
@@ -100,3 +108,4 @@ export class DocS6TypeLinesRenderer extends ElementLinesRendererBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=docinternalstype.js.map

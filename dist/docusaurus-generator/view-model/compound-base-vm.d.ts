@@ -37,7 +37,11 @@ export declare abstract class CompoundBase {
         _compoundDef?: CompoundDefDataModel | undefined;
     };
     constructor(collection: CollectionBase, compoundDef: CompoundDefDataModel);
+    createSections(classUnqualifiedName?: string | undefined): void;
+    private reorderSectionDefs;
+    private adjustSectionKind;
     initializeLate(): void;
+    isOperator(name: string): boolean;
     abstract renderToMdxLines(frontMatter: FrontMatter): string[];
     renderBriefDescriptionToMdxText({ briefDescriptionMdxText, todo, morePermalink }: {
         briefDescriptionMdxText: string | undefined;

@@ -13,11 +13,74 @@ import * as util from 'node:util';
 import assert from 'node:assert';
 import { escapeHtml, escapeMdx, getPermalinkAnchor } from '../utils.js';
 // ----------------------------------------------------------------------------
+export const sectionHeaders = {
+    typedef: ['Typedefs', 100], // DoxMemberKind too
+    'public-type': ['Public Member Typedefs', 110],
+    'protected-type': ['Protected Member Typedefs', 120],
+    'private-type': ['Private Member Typedefs', 130],
+    'package-type': ['Package Member Typedefs', 140],
+    enum: ['Enumerations', 150], // DoxMemberKind too
+    friend: ['Friends', 160], // DoxMemberKind too
+    interface: ['Interfaces', 170], // DoxMemberKind only
+    // Extra, not present in Doxygen.
+    constructorr: ['Constructors', 200],
+    'public-constructorr': ['Public Constructors', 200],
+    'protected-constructorr': ['Protected Constructors', 210],
+    'private-constructorr': ['Private Constructors', 220],
+    // Extra, not present in Doxygen.
+    'public-destructor': ['Public Destructor', 230],
+    'protected-destructor': ['Protected Destructor', 240],
+    'private-destructor': ['Private Destructor', 250],
+    // Extra, not present in Doxygen.
+    operator: ['Operators', 300],
+    'public-operator': ['Public Operators', 310],
+    'protected-operator': ['Protected Operators', 320],
+    'private-operator': ['Private Operators', 330],
+    'package-operator': ['Package Operators', 340],
+    func: ['Functions', 350],
+    function: ['Functions', 350], // DoxMemberKind only
+    'public-func': ['Public Member Functions', 360],
+    'protected-func': ['Protected Member Functions', 370],
+    'private-func': ['Private Member Functions', 380],
+    'package-func': ['Package Member Functions', 390],
+    var: ['Variables', 400],
+    variable: ['Variables', 400], // DoxMemberKind only
+    'public-attrib': ['Public Member Attributes', 410],
+    'protected-attrib': ['Protected Member Attributes', 420],
+    'private-attrib': ['Private Member Attributes', 430],
+    'package-attrib': ['Package Member Attributes', 440],
+    'public-static-func': ['Public Static Functions', 500],
+    'protected-static-func': ['Protected Static Functions', 510],
+    'private-static-func': ['Private Static Functions', 520],
+    'package-static-func': ['Package Static Functions', 530],
+    'public-static-attrib': ['Public Static Attributes', 600],
+    'protected-static-attrib': ['Protected Static Attributes', 610],
+    'private-static-attrib': ['Private Static Attributes', 620],
+    'package-static-attrib': ['Package Static Attributes', 630],
+    slot: ['Slots', 700], // DoxMemberKind only
+    'public-slot': ['Public Slots', 700],
+    'protected-slot': ['Protected Slot', 710],
+    'private-slot': ['Private Slot', 720],
+    related: ['Related', 800],
+    define: ['Defines', 810], // DoxMemberKind too
+    prototype: ['Prototypes', 820], // DoxMemberKind too
+    signal: ['Signals', 830], // DoxMemberKind too
+    // 'dcop-func': ['DCOP Functions', 840],
+    dcop: ['DCOP Functions', 840], // DoxMemberKind only
+    property: ['Properties', 850], // DoxMemberKind too
+    event: ['Events', 860], // DoxMemberKind too
+    service: ['Services', 870], // DoxMemberKind only
+    'user-defined': ['Definitions', 1000]
+};
+// ----------------------------------------------------------------------------
 export class Section {
     constructor(compound, sectionDef) {
-        this.members = [];
+        // Both references and definitions.
+        this.indexMembers = [];
+        // Only definitions.
         this.definitionMembers = [];
         this._private = {};
+        // console.log(compound.kind, compound.compoundName, sectionDef.kind)
         this._private._sectionDef = sectionDef;
         this.compound = compound;
         this.kind = sectionDef.kind;
@@ -28,7 +91,6 @@ export class Section {
             for (const memberDefDataModel of sectionDef.memberDefs) {
                 const member = new Member(this, memberDefDataModel);
                 members.push(member);
-                this.definitionMembers.push(member);
                 // Do not add it to the global map since additional checks are needed
                 // therefore the procedure is done in the global generator.
             }
@@ -38,7 +100,13 @@ export class Section {
                 members.push(new MemberRef(this, memberRef));
             }
         }
-        this.members = members.sort((a, b) => a.name.localeCompare(b.name));
+        this.indexMembers = members.sort((a, b) => a.name.localeCompare(b.name));
+        // The array is already sorted.
+        for (const member of this.indexMembers) {
+            if (member instanceof Member) {
+                this.definitionMembers.push(member);
+            }
+        }
     }
     initializeLate() {
         const workspace = this.compound.collection.workspace;
@@ -46,6 +114,7 @@ export class Section {
         const sectionDef = this._private._sectionDef;
         if (sectionDef.description !== undefined) {
             this.descriptionMdxText = workspace.renderElementToMdxText(sectionDef.description);
+            // console.log(this.indexMembers, this.descriptionMdxText)
         }
     }
     hasDefinitionMembers() {
@@ -98,91 +167,39 @@ export class Section {
             if (sectionDef.header !== undefined) {
                 return sectionDef.header.trim();
             }
-            // if (sectionDef.header === undefined) {
-            //   // console.warn(util.inspect(sectionDef, { compact: false, depth: 999 }))
-            //   console.warn('header missing in sectionDef of kind', sectionDef.kind)
-            //   return 'User Defined'
-            // } else {
-            //   return sectionDef.header.trim()
-            // }
-            if (sectionDef.memberDefs === undefined) {
-                // console.log(sectionDef)
-                console.warn('sectionDef of kind user-defined has no members, cannot compute title');
-                return 'User Defined';
-            }
-            console.log('---');
-            for (const m of sectionDef.memberDefs) {
-                console.log(m.kind);
-            }
+            console.warn('sectionDef of kind user-defined');
             return 'User Defined';
         }
         if (sectionDef.header !== undefined) {
             console.warn('header', sectionDef.header, 'ignored in sectionDef of kind', sectionDef.kind);
         }
-        const headerNamesByKind = {
-            // 'user-defined': '?',
-            'public-type': 'Public Member Typedefs',
-            'public-func': 'Public Member Functions',
-            'public-attrib': 'Public Member Attributes',
-            'public-slot': 'Member Slots',
-            'public-static-func': 'Public Static Functions',
-            'public-static-attrib': 'Public Static Attributes',
-            signal: 'Signals',
-            // 'dcop-func': 'DCOP Functions',
-            property: 'Properties',
-            event: 'Events',
-            'package-type': 'Package Member Typedefs',
-            'package-func': 'Package Member Functions',
-            'package-attrib': 'Package Member Attributes',
-            'package-static-func': 'Package Static Functions',
-            'package-static-attrib': 'Package Static Attributes',
-            'protected-type': 'Protected Member Typedefs',
-            'protected-func': 'Protected Member Functions',
-            'protected-attrib': 'Protected Member Attributes',
-            'protected-slot': 'Protected Slot',
-            'protected-static-func': 'Protected Static Functions',
-            'protected-static-attrib': 'Protected Static Attributes',
-            'private-type': 'Private Member Typedefs',
-            'private-func': 'Private Member Functions',
-            'private-attrib': 'Private Member Attributes',
-            'private-slot': 'Private Slot',
-            'private-static-func': 'Private Static Functions',
-            'private-static-attrib': 'Private Static Attributes',
-            friend: 'Friends',
-            // 'related': 'Related',
-            define: 'Defines',
-            prototype: 'Prototypes',
-            typedef: 'Typedefs',
-            enum: 'Enumerations',
-            func: 'Functions',
-            var: 'Variables',
-            // Extra, not present in Doxygen.
-            'public-constructor': 'Public Constructors',
-            'public-destructor': 'Public Destructor',
-            'protected-constructor': 'Protected Constructors',
-            'protected-destructor': 'Protected Destructor',
-            'private-constructor': 'Private Constructors',
-            'private-destructor': 'Private Destructor'
-        };
         // ------------------------------------------------------------------------
-        const header = headerNamesByKind[sectionDef.kind];
+        const header = sectionHeaders[sectionDef.kind];
         if (header === undefined) {
             console.error(util.inspect(sectionDef, { compact: false, depth: 999 }));
-            console.error(sectionDef.constructor.name, 'kind', sectionDef.kind, 'not yet rendered in', this.constructor.name, 'getHeaderByKind');
+            console.error(sectionDef.constructor.name, 'kind', sectionDef.kind, 'not yet rendered in', this.constructor.name, 'getHeaderNameByKind');
             return '';
         }
-        return header.trim();
+        return header[0].trim();
+    }
+    getSectionOrderByKind() {
+        if (this.kind === 'user-defined') {
+            return 1000; // At the end.
+        }
+        const header = sectionHeaders[this.kind];
+        assert(header !== undefined);
+        return header[1];
     }
     // --------------------------------------------------------------------------
     renderIndexToMdxLines() {
         const lines = [];
         // console.log(sectionDef)
-        if (this.members.length > 0) {
+        if (this.indexMembers.length > 0) {
             lines.push('');
             lines.push(`## ${escapeMdx(this.headerName)} Index`);
             lines.push('');
             lines.push('<MembersIndex>');
-            for (const member of this.members) {
+            for (const member of this.indexMembers) {
                 if (member instanceof Member) {
                     lines.push(...member.renderIndexToMdxLines());
                 }
@@ -200,7 +217,7 @@ export class Section {
     // --------------------------------------------------------------------------
     renderToMdxLines() {
         const lines = [];
-        if (this.definitionMembers.length === 0) {
+        if (!this.hasDefinitionMembers()) {
             return lines;
         }
         // TODO: filter out members defined in other compounds.
@@ -350,14 +367,32 @@ export class Member extends MemberBase {
         const permalink = workspace.getPermalink({ refid: this.id, kindref: 'member' });
         assert(permalink !== undefined && permalink.length > 1);
         const name = escapeMdx(this.name);
+        let itemTemplate = '';
         let itemType = '';
-        let itemName = `<Link to="${permalink}">${name}</Link>`;
+        let itemName = `<a href="${permalink}">${name}</a>`;
+        if (this.templateParametersMdxText !== undefined && this.templateParametersMdxText.length > 0) {
+            if (this.templateParametersMdxText.length < 64) {
+                itemTemplate = escapeMdx(`template ${this.templateParametersMdxText}`);
+            }
+            else {
+                itemTemplate = escapeMdx('template < ... >');
+            }
+        }
         switch (this.kind) {
             case 'typedef':
-                itemType = 'using';
-                if (this.typeMdxText !== undefined) {
-                    itemName += ' = ';
-                    itemName += this.typeMdxText;
+                if (this.definition?.startsWith('typedef')) {
+                    itemType = 'typedef';
+                    itemName = `${this.typeMdxText} ${itemName}${this.argsstring}`;
+                }
+                else if (this.definition?.startsWith('using')) {
+                    itemType = 'using';
+                    if (this.typeMdxText !== undefined) {
+                        itemName += ' = ';
+                        itemName += this.typeMdxText;
+                    }
+                }
+                else {
+                    console.error('Unsupported typedef in member', this.definition);
                 }
                 break;
             case 'function':
@@ -392,6 +427,12 @@ export class Member extends MemberBase {
                 break;
             case 'variable':
                 itemType += this.typeMdxText;
+                if (this.definition?.startsWith('struct ')) {
+                    itemType = escapeMdx('struct { ... }');
+                }
+                else if (this.definition?.startsWith('class ')) {
+                    itemType = escapeMdx('class { ... }');
+                }
                 if (this.initializerMdxText !== undefined) {
                     itemName += ' ';
                     itemName += this.initializerMdxText;
@@ -412,7 +453,7 @@ export class Member extends MemberBase {
                     itemName += `: ${this.typeMdxText} `;
                 }
                 itemName += escapeHtml('{ ');
-                itemName += `<Link to="${permalink}">...</Link>`;
+                itemName += `<a href="${permalink}">...</a>`;
                 itemName += escapeHtml(' }');
                 break;
             case 'friend':
@@ -432,6 +473,14 @@ export class Member extends MemberBase {
         }
         lines.push('');
         lines.push('<MembersIndexItem');
+        if (itemTemplate.length > 0) {
+            if (itemTemplate.includes('<') || itemTemplate.includes('&')) {
+                lines.push(`  template={<>${itemTemplate}</>}`);
+            }
+            else {
+                lines.push(`  template="${itemTemplate}"`);
+            }
+        }
         if (itemType.length > 0) {
             if (itemType.includes('<') || itemType.includes('&')) {
                 lines.push(`  type={<>${itemType}</>}`);
@@ -439,9 +488,6 @@ export class Member extends MemberBase {
             else {
                 lines.push(`  type="${itemType}"`);
             }
-        }
-        else {
-            lines.push('  type="&nbsp;"');
         }
         if (itemName.length === 0) {
             console.log(this);
@@ -466,7 +512,7 @@ export class Member extends MemberBase {
     // --------------------------------------------------------------------------
     renderToMdxLines() {
         const lines = [];
-        const isFunction = this.section.kind.endsWith('func') || this.section.kind.endsWith('constructor') || this.section.kind.endsWith('destructor');
+        const isFunction = this.section.kind.startsWith('func') || this.section.kind.endsWith('func') || this.section.kind.endsWith('constructorr') || this.section.kind.endsWith('destructor') || this.section.kind.endsWith('operator');
         const id = getPermalinkAnchor(this.id);
         const name = this.name + (isFunction ? '()' : '');
         lines.push('');
@@ -502,7 +548,12 @@ export class Member extends MemberBase {
                         const template = escapeMdx(`template ${this.templateParametersMdxText}`);
                         lines.push(`  template={<>${template}</>}`);
                     }
-                    lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`);
+                    if (prototype.includes('<') || prototype.includes('&')) {
+                        lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`);
+                    }
+                    else {
+                        lines.push(`  prototype="${prototype}"${this.labels.length === 0 ? '>' : ''}`);
+                    }
                     if (this.labels.length > 0) {
                         lines.push(`  labels = {["${this.labels.join('", "')}"]}>`);
                     }
@@ -542,7 +593,12 @@ export class Member extends MemberBase {
                     }
                     lines.push('');
                     lines.push('<MemberDefinition');
-                    lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`);
+                    if (prototype.includes('<') || prototype.includes('&')) {
+                        lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`);
+                    }
+                    else {
+                        lines.push(`  prototype="${prototype}"${this.labels.length === 0 ? '>' : ''}`);
+                    }
                     if (this.labels.length > 0) {
                         lines.push(` labels = {["${this.labels.join('", "')}"]}>`);
                     }
@@ -571,7 +627,12 @@ export class Member extends MemberBase {
                     const prototype = `friend ${this.typeMdxText} ${this.parameters}`;
                     lines.push('');
                     lines.push('<MemberDefinition');
-                    lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`);
+                    if (prototype.includes('<') || prototype.includes('&')) {
+                        lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`);
+                    }
+                    else {
+                        lines.push(`  prototype="${prototype}"${this.labels.length === 0 ? '>' : ''}`);
+                    }
                     if (this.labels.length > 0) {
                         lines.push(`  labels = {["${this.labels.join('", "')}"]}>`);
                     }
@@ -599,7 +660,12 @@ export class Member extends MemberBase {
                     }
                     lines.push('');
                     lines.push('<MemberDefinition');
-                    lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`);
+                    if (prototype.includes('<') || prototype.includes('&')) {
+                        lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`);
+                    }
+                    else {
+                        lines.push(`  prototype="${prototype}"${this.labels.length === 0 ? '>' : ''}`);
+                    }
                     if (this.labels.length > 0) {
                         lines.push(`  labels = {["${this.labels.join('", "')}"]}>`);
                     }
@@ -656,3 +722,4 @@ export class MemberRef extends MemberBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=members-vm.js.map

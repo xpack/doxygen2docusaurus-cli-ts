@@ -40,8 +40,7 @@ export class DocusaurusGenerator {
     // --------------------------------------------------------------------------
     // https://nodejs.org/en/learn/manipulating-files/working-with-folders-in-nodejs
     async prepareOutputFolder() {
-        assert(this.workspace.pluginOptions.outputFolderPath);
-        const outputFolderPath = this.workspace.pluginOptions.outputFolderPath;
+        const outputFolderPath = this.workspace.outputFolderPath;
         try {
             await fs.access(outputFolderPath);
             // Remove the folder if it exist.
@@ -56,7 +55,6 @@ export class DocusaurusGenerator {
     }
     // --------------------------------------------------------------------------
     async generateConfigurationFile() {
-        // const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
         const jsonFileName = 'docusaurus-plugin-doxygen-config.json';
         const jsonFilePath = `${jsonFileName}`;
         const configurationData = {
@@ -69,13 +67,12 @@ export class DocusaurusGenerator {
     }
     // --------------------------------------------------------------------------
     async generateSidebarFile() {
-        const outputBaseUrl = this.workspace.pluginOptions.outputBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '');
         const sidebarCategory = {
             type: 'category',
             label: this.workspace.pluginOptions.sidebarCategoryLabel,
             link: {
                 type: 'doc',
-                id: `${outputBaseUrl}/index`
+                id: `${this.workspace.sidebarBaseId}index`
             },
             collapsed: false,
             items: []
@@ -107,7 +104,7 @@ export class DocusaurusGenerator {
         const menuDropdown = {
             type: 'dropdown',
             label: pluginOptions.menuDropdownLabel,
-            to: `/${this.workspace.pluginOptions.outputFolderPath}/`,
+            to: `${this.workspace.menuBaseUrl}`,
             position: 'left',
             items: []
         };
@@ -148,7 +145,6 @@ export class DocusaurusGenerator {
     // --------------------------------------------------------------------------
     async generatePages() {
         console.log('Writing Docusaurus pages (object -> url)...');
-        const outputFolderPath = this.workspace.pluginOptions.outputFolderPath;
         for (const [compoundId, compound] of this.workspace.compoundsById) {
             if (compound instanceof Page && compound.id === 'indexpage') {
                 // This is the @mainpage. We diverge from Doxygen and generate
@@ -161,14 +157,14 @@ export class DocusaurusGenerator {
             const permalink = compound.relativePermalink;
             assert(permalink !== undefined);
             if (this.workspace.pluginOptions.verbose) {
-                console.log(`${compound.kind}: ${compound.compoundName.replaceAll(/[ ]*/g, '')}`, '->', `${outputFolderPath}/${permalink}...`);
+                console.log(`${compound.kind}: ${compound.compoundName.replaceAll(/[ ]*/g, '')}`, '->', `${this.workspace.absoluteBaseUrl}${permalink}...`);
             }
             const docusaurusId = compound.docusaurusId;
             assert(docusaurusId !== undefined);
             const fileName = `${docusaurusId}.mdx`;
             // console.log('fileName:', fileName)
-            const filePath = `${outputFolderPath}/${fileName}`;
-            const slug = `/${this.workspace.permalinkBaseUrl}${permalink}`;
+            const filePath = `${this.workspace.outputFolderPath}${fileName}`;
+            const slug = `${this.workspace.slugBaseUrl}${permalink}`;
             const frontMatter = {
                 // title: `${dataObject.pageTitle ?? compound.compoundName}`,
                 slug,
@@ -177,11 +173,13 @@ export class DocusaurusGenerator {
                 keywords: ['doxygen', 'reference', `${compound.kind}`]
             };
             const bodyLines = compound.renderToMdxLines(frontMatter);
+            const pagePermalink = `${this.workspace.pageBaseUrl}${compound.relativePermalink}`;
             await this.workspace.writeMdxFile({
                 filePath,
                 frontMatter,
                 bodyLines,
-                title: compound.pageTitle
+                title: compound.pageTitle,
+                pagePermalink
             });
             this.workspace.currentCompound = undefined;
         }
@@ -194,15 +192,13 @@ export class DocusaurusGenerator {
         }
         console.log(`Removing existing folder static/${redirectsOutputFolderPath}...`);
         await fs.rm(`static/${redirectsOutputFolderPath}`, { recursive: true, force: true });
-        const baseUrl = this.workspace.siteConfig.baseUrl;
         console.log('Writing redirect files...');
         const compoundIds = Array.from(this.workspace.compoundsById.keys()).sort();
         for (const compoundId of compoundIds) {
             const compound = this.workspace.compoundsById.get(compoundId);
             assert(compound !== undefined);
             const filePath = `static/${redirectsOutputFolderPath}/${compoundId}.html`;
-            // TODO: What if not below `docs`?
-            const permalink = `${baseUrl}${this.workspace.pluginOptions.outputFolderPath}/${compound.relativePermalink}/`;
+            const permalink = `${this.workspace.absoluteBaseUrl}${compound.relativePermalink}/`;
             await this.generateRedirectFile({
                 filePath,
                 permalink
@@ -236,9 +232,8 @@ export class DocusaurusGenerator {
         // hierarchy
         // namespacemembers, _enum, _func, type, _vars
         for (const [from, to] of indexFilesMap) {
-            const baseUrl = this.workspace.siteConfig.baseUrl;
             const filePath = `static/${redirectsOutputFolderPath}/${from}`;
-            const permalink = `${baseUrl}${this.workspace.pluginOptions.outputFolderPath}/${to}/`;
+            const permalink = `${this.workspace.absoluteBaseUrl}${to}/`;
             await this.generateRedirectFile({
                 filePath,
                 permalink
@@ -269,3 +264,4 @@ export class DocusaurusGenerator {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=generator.js.map

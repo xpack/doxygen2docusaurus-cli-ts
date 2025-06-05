@@ -12,7 +12,9 @@ import assert from 'node:assert';
 import path from 'node:path';
 import { Sect1DataModel } from '../../data-model/compounds/descriptiontype-dm.js';
 import { escapeHtml, escapeMdx } from '../utils.js';
+import { Section } from './members-vm.js';
 import { RefTextDataModel } from '../../data-model/compounds/reftexttype-dm.js';
+import { SectionDefByKindDataModel } from '../../data-model/compounds/sectiondeftype-dm.js';
 // ----------------------------------------------------------------------------
 export class CompoundBase {
     // --------------------------------------------------------------------------
@@ -48,6 +50,131 @@ export class CompoundBase {
         if (compoundDef?.location?.file !== undefined) {
             this.locationFilePath = compoundDef?.location?.file;
         }
+    }
+    createSections(classUnqualifiedName) {
+        const reorderedSectionDefs = this.reorderSectionDefs(classUnqualifiedName);
+        if (reorderedSectionDefs !== undefined) {
+            const sections = [];
+            for (const sectionDef of reorderedSectionDefs) {
+                sections.push(new Section(this, sectionDef));
+            }
+            this.sections = sections.sort((a, b) => {
+                return a.getSectionOrderByKind() - b.getSectionOrderByKind();
+            });
+        }
+    }
+    reorderSectionDefs(classUnqualifiedName) {
+        const sectionDefs = this._private._compoundDef?.sectionDefs;
+        if (sectionDefs === undefined) {
+            return undefined;
+        }
+        const resultSectionDefs = [];
+        const sectionDefsByKind = new Map();
+        for (const sectionDef of sectionDefs) {
+            if (sectionDef.kind === 'user-defined' && sectionDef.header !== undefined) {
+                resultSectionDefs.push(sectionDef);
+                continue;
+            }
+            if (sectionDef.memberDefs !== undefined) {
+                for (const memberDef of sectionDef.memberDefs) {
+                    const adjustedSectionKind = this.adjustSectionKind(sectionDef, memberDef, classUnqualifiedName);
+                    let mapSectionDef = sectionDefsByKind.get(adjustedSectionKind);
+                    if (mapSectionDef === undefined) {
+                        mapSectionDef = new SectionDefByKindDataModel(adjustedSectionKind);
+                        sectionDefsByKind.set(adjustedSectionKind, mapSectionDef);
+                    }
+                    if (mapSectionDef.memberDefs === undefined) {
+                        mapSectionDef.memberDefs = [];
+                    }
+                    mapSectionDef.memberDefs.push(memberDef);
+                }
+            }
+            if (sectionDef.members !== undefined) {
+                for (const member of sectionDef.members) {
+                    const adjustedSectionKind = this.adjustSectionKind(sectionDef, member, classUnqualifiedName);
+                    let mapSectionDef = sectionDefsByKind.get(adjustedSectionKind);
+                    if (mapSectionDef === undefined) {
+                        mapSectionDef = new SectionDefByKindDataModel(adjustedSectionKind);
+                        sectionDefsByKind.set(adjustedSectionKind, mapSectionDef);
+                    }
+                    if (mapSectionDef.members === undefined) {
+                        mapSectionDef.members = [];
+                    }
+                    mapSectionDef.members.push(member);
+                }
+            }
+        }
+        resultSectionDefs.push(...sectionDefsByKind.values());
+        return resultSectionDefs;
+    }
+    // <xsd:simpleType name="DoxMemberKind">
+    //   <xsd:restriction base="xsd:string">
+    //     <xsd:enumeration value="define" />
+    //     <xsd:enumeration value="property" />
+    //     <xsd:enumeration value="event" />
+    //     <xsd:enumeration value="variable" />
+    //     <xsd:enumeration value="typedef" />
+    //     <xsd:enumeration value="enum" />
+    //     <xsd:enumeration value="function" />
+    //     <xsd:enumeration value="signal" />
+    //     <xsd:enumeration value="prototype" />
+    //     <xsd:enumeration value="friend" />
+    //     <xsd:enumeration value="dcop" />
+    //     <xsd:enumeration value="slot" />
+    //     <xsd:enumeration value="interface" />
+    //     <xsd:enumeration value="service" />
+    //   </xsd:restriction>
+    // </xsd:simpleType>
+    adjustSectionKind(sectionDef, memberBase, classUnqualifiedName) {
+        // In general, adjust to member kind.
+        let adjustedSectionKind = memberBase.kind;
+        switch (memberBase.kind) {
+            case 'function':
+                // If public/protected/private, preserve the prefix.
+                if (this.isOperator(memberBase.name)) {
+                    adjustedSectionKind = sectionDef.computeAdjustedKind('operator');
+                }
+                else if (classUnqualifiedName !== undefined) {
+                    if (memberBase.name === classUnqualifiedName) {
+                        adjustedSectionKind = sectionDef.computeAdjustedKind('constructorr');
+                    }
+                    else if (memberBase.name.replace('~', '') === classUnqualifiedName) {
+                        adjustedSectionKind = sectionDef.computeAdjustedKind('destructor');
+                    }
+                    else {
+                        adjustedSectionKind = sectionDef.computeAdjustedKind('func', 'function');
+                    }
+                }
+                else {
+                    adjustedSectionKind = sectionDef.computeAdjustedKind('func', 'function');
+                }
+                break;
+            case 'variable':
+                adjustedSectionKind = sectionDef.computeAdjustedKind('attrib', 'variable');
+                break;
+            case 'typedef':
+                adjustedSectionKind = sectionDef.computeAdjustedKind('type', 'typedef');
+                break;
+            case 'slot':
+                adjustedSectionKind = sectionDef.computeAdjustedKind('slot');
+                break;
+            // case 'define':
+            // case 'property':
+            // case 'event':
+            // case 'enum':
+            // case 'signal':
+            // case 'prototype':
+            // case 'friend':
+            // case 'dcop':
+            // case 'interface':
+            // case 'service':
+            default:
+                // Adjust to member kind.
+                adjustedSectionKind = memberBase.kind;
+                break;
+        }
+        // console.log('adjustedSectionKind:', memberBase.kind, adjustedSectionKind)
+        return adjustedSectionKind;
     }
     initializeLate() {
         const workspace = this.collection.workspace;
@@ -103,19 +230,28 @@ export class CompoundBase {
             }
         }
     }
+    isOperator(name) {
+        // Two word operators, like
+        if (name.startsWith('operator') && ' =!<>+-*/%&|^~,"(['.includes(name.charAt(8))) {
+            return true;
+        }
+        return false;
+    }
     // --------------------------------------------------------------------------
     renderBriefDescriptionToMdxText({ briefDescriptionMdxText, todo = '', morePermalink }) {
         let text = '';
-        // console.log(this
+        if (!this.collection.workspace.pluginOptions.suggestToDoDescriptions) {
+            todo = '';
+        }
         if (briefDescriptionMdxText === undefined && todo.length === 0) {
             return '';
         }
         if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
             text += briefDescriptionMdxText;
             if (morePermalink !== undefined && morePermalink.length > 0) {
-                text += ` <Link to="${morePermalink}">`;
+                text += ` <a href="${morePermalink}">`;
                 text += 'More...';
-                text += '</Link>';
+                text += '</a>';
             }
         }
         else if (todo.length > 0) {
@@ -125,6 +261,9 @@ export class CompoundBase {
     }
     renderDetailedDescriptionToMdxLines({ briefDescriptionMdxText, detailedDescriptionMdxText, todo = '', showHeader, showBrief = false }) {
         const lines = [];
+        if (!this.collection.workspace.pluginOptions.suggestToDoDescriptions) {
+            todo = '';
+        }
         // const workspace = this.collection.workspace
         if (showHeader) {
             if ((detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) ||
@@ -190,7 +329,7 @@ export class CompoundBase {
                     const permalink = workspace.getPagePermalink(innerObject.refid);
                     const kind = innerDataObject.kind;
                     const itemType = kind === 'dir' ? 'folder' : (kind === 'group' ? '&nbsp;' : kind);
-                    const itemName = `<Link to="${permalink}">${escapeHtml(innerDataObject.indexName)}</Link>`;
+                    const itemName = `<a href="${permalink}">${escapeHtml(innerDataObject.indexName)}</a>`;
                     lines.push('');
                     lines.push('<MembersIndexItem');
                     lines.push(`  type="${itemType}"`);
@@ -273,14 +412,14 @@ export class CompoundBase {
                         text += location.line?.toString();
                     }
                     else {
-                        text += `<Link to="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</Link>`;
+                        text += `<a href="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</a>`;
                     }
                     text += ' of file ';
                 }
                 else {
                     text += ' in file ';
                 }
-                text += `<Link to="${permalink}">${escapeMdx(path.basename(location.file))}</Link>`;
+                text += `<a href="${permalink}">${escapeMdx(path.basename(location.file))}</a>`;
                 const definitionFile = files.filesByPath.get(location.bodyfile);
                 assert(definitionFile !== undefined);
                 const definitionPermalink = workspace.getPagePermalink(definitionFile.id);
@@ -292,14 +431,14 @@ export class CompoundBase {
                         text += location.bodystart?.toString();
                     }
                     else {
-                        text += `<Link to="${definitionPermalink}/#${lineStart}">${escapeMdx(location.bodystart?.toString() ?? '?')}</Link>`;
+                        text += `<a href="${definitionPermalink}/#${lineStart}">${escapeMdx(location.bodystart?.toString() ?? '?')}</a>`;
                     }
                     text += ' of file ';
                 }
                 else {
                     text += ' in file ';
                 }
-                text += `<Link to="${definitionPermalink}">${escapeMdx(path.basename(location.bodyfile))}</Link>`;
+                text += `<a href="${definitionPermalink}">${escapeMdx(path.basename(location.bodyfile))}</a>`;
                 text += '.';
             }
             else {
@@ -311,14 +450,14 @@ export class CompoundBase {
                         text += location.line?.toString();
                     }
                     else {
-                        text += `<Link to="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</Link>`;
+                        text += `<a href="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</a>`;
                     }
                     text += ' of file ';
                 }
                 else {
                     text += ' in file ';
                 }
-                text += `<Link to="${permalink}">${escapeMdx(path.basename(location.file))}</Link>`;
+                text += `<a href="${permalink}">${escapeMdx(path.basename(location.file))}</a>`;
                 text += '.';
             }
         }
@@ -335,12 +474,12 @@ export class CompoundBase {
             lines.push('<ul>');
             const workspace = this.collection.workspace;
             const files = workspace.viewModel.get('files');
-            const sortedFiles = [...this.locationSet].sort();
+            const sortedFiles = [...this.locationSet].sort((a, b) => a.localeCompare(b));
             for (const fileName of sortedFiles) {
                 const file = files.filesByPath.get(fileName);
                 assert(file !== undefined);
                 const permalink = workspace.getPagePermalink(file.id);
-                lines.push(`<li><Link to="${permalink}">${path.basename(fileName)}</Link></li>`);
+                lines.push(`<li><a href="${permalink}">${path.basename(fileName)}</a></li>`);
             }
             lines.push('</ul>');
         }
@@ -446,3 +585,4 @@ export class CompoundBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=compound-base-vm.js.map
