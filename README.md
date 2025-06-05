@@ -12,7 +12,7 @@ The reference pages will be generated under `/docs/api/`, similarly to the pages
 To install in the project website folder:
 
 ```sh
-(cd website; npm install @xpack/docusaurus-plugin-doxygen --save-dev)
+(cd website; npm install @xpack/docusaurus-plugin-doxygen react-markdown --save-dev)
 ```
 
 or, during development:
