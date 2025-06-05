@@ -262,12 +262,12 @@ export class Classes extends CollectionBase {
       }
     }
 
-    const outputFolderPath = this.workspace.outputFolderPath
-
     // ------------------------------------------------------------------------
 
+    const outputFolderPath = this.workspace.outputFolderPath
+
     {
-      const filePath = `${outputFolderPath}/index/classes/all.mdx`
+      const filePath = `${outputFolderPath}index/classes/all.mdx`
       const permalink = 'index/classes/all'
 
       const frontMatter: FrontMatter = {
@@ -297,7 +297,7 @@ export class Classes extends CollectionBase {
     // ------------------------------------------------------------------------
 
     {
-      const filePath = `${outputFolderPath}/index/classes/classes.mdx`
+      const filePath = `${outputFolderPath}index/classes/classes.mdx`
       const permalink = 'index/classes/classes'
 
       const frontMatter: FrontMatter = {
@@ -333,7 +333,7 @@ export class Classes extends CollectionBase {
     // ------------------------------------------------------------------------
 
     {
-      const filePath = `${outputFolderPath}/index/classes/functions.mdx`
+      const filePath = `${outputFolderPath}index/classes/functions.mdx`
       const permalink = 'index/classes/functions'
 
       const frontMatter: FrontMatter = {
@@ -369,7 +369,7 @@ export class Classes extends CollectionBase {
     // ------------------------------------------------------------------------
 
     {
-      const filePath = `${outputFolderPath}/index/classes/variables.mdx`
+      const filePath = `${outputFolderPath}index/classes/variables.mdx`
       const permalink = 'index/classes/variables'
 
       const frontMatter: FrontMatter = {
@@ -405,7 +405,7 @@ export class Classes extends CollectionBase {
     // ------------------------------------------------------------------------
 
     {
-      const filePath = `${outputFolderPath}/index/classes/typedefs.mdx`
+      const filePath = `${outputFolderPath}index/classes/typedefs.mdx`
       const permalink = 'index/classes/typedefs'
 
       const frontMatter: FrontMatter = {

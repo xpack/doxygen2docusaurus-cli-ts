@@ -88,7 +88,6 @@ export class DocusaurusGenerator {
   // --------------------------------------------------------------------------
 
   async generateConfigurationFile (): Promise<void> {
-    // const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
     const jsonFileName = 'docusaurus-plugin-doxygen-config.json'
     const jsonFilePath = `${jsonFileName}`
 

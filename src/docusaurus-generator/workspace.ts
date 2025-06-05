@@ -280,8 +280,6 @@ export class Workspace {
   validatePermalinks (): void {
     console.log('Validating permalinks...')
 
-    // const outputFolderPath = this.options.outputFolderPath
-
     const pagePermalinksById: Map<string, string> = new Map()
     const pagePermalinksSet: Set<string> = new Set()
 

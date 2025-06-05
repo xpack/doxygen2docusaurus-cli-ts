@@ -136,11 +136,11 @@ export class Groups extends CollectionBase {
     // It diverts from Doxygen, since it renders the list of topics and
     // the main page.
     const outputFolderPath = this.workspace.outputFolderPath
-    const filePath = `${outputFolderPath}/index.mdx`
+    const filePath = `${outputFolderPath}index.mdx`
     const jsonFileName = 'index-table.json'
 
     if (useCollapsibleTable) {
-      const jsonFilePath = `${outputFolderPath}/${jsonFileName}`
+      const jsonFilePath = `${outputFolderPath}${jsonFileName}`
 
       const tableData: collapsibleTableRow[] = []
 

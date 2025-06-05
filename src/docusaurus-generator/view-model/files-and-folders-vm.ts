@@ -244,9 +244,7 @@ export class FilesAndFolders extends CollectionBase {
   // --------------------------------------------------------------------------
 
   override async generateIndexDotMdxFile (): Promise<void> {
-    const outputFolderPath = this.workspace.outputFolderPath
-
-    const filePath = `${outputFolderPath}/files/index.mdx`
+    const filePath = `${this.workspace.outputFolderPath}files/index.mdx`
     const permalink = 'files'
 
     const frontMatter: FrontMatter = {
