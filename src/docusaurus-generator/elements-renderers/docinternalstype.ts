@@ -37,6 +37,9 @@ export class DocS1TypeLinesRenderer extends ElementLinesRendererBase {
     // }
 
     if (element.title !== undefined) {
+      // console.log(element)
+      // Note that `.md` files have the sections promoted one level,
+      // so `## RTOS` is generated as `sect1`.
       console.warn('H1 header', this.workspace.renderElementToMdxText(element.title), 'ignored')
     }
     // Add the anchor referred by the 'More...' link.
