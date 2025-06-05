@@ -324,13 +324,15 @@ export class Workspace {
     bodyLines,
     frontMatter,
     frontMatterCodeLines,
-    title
+    title,
+    pagePermalink
   }: {
     filePath: string
     bodyLines: string[]
     frontMatter: FrontMatter
     frontMatterCodeLines?: string[]
     title?: string
+    pagePermalink?: string
   }): Promise<void> {
     const lines: string[] = []
 
@@ -343,7 +345,12 @@ export class Workspace {
     lines.push('')
 
     // Hack to prevent Docusaurus replace legit content with emojis.
-    const text = lines.join('\n').replaceAll(':thread:', "{':thread:'}").replaceAll(':flags:', "{':flags:'}")
+    let text = lines.join('\n')
+    if (pagePermalink !== undefined && pagePermalink.length > 0) {
+      // Strip local page permalink from anchors.
+      text = text.replaceAll(`"${pagePermalink}/#`, '"#')
+    }
+    text = text.replaceAll(':thread:', "{':thread:'}").replaceAll(':flags:', "{':flags:'}")
 
     // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
     const frontMatterLines: string[] = []

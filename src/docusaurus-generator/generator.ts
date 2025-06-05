@@ -240,12 +240,14 @@ export class DocusaurusGenerator {
       }
 
       const bodyLines = compound.renderToMdxLines(frontMatter)
+      const pagePermalink = `${this.workspace.pageBaseUrl}${compound.relativePermalink}`
 
       await this.workspace.writeMdxFile({
         filePath,
         frontMatter,
         bodyLines,
-        title: compound.pageTitle
+        title: compound.pageTitle,
+        pagePermalink
       })
 
       this.workspace.currentCompound = undefined
