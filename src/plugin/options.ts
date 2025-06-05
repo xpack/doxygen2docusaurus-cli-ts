@@ -24,6 +24,7 @@ export interface PluginConfigurationOptions {
   menuDropdownLabel?: string
   verbose?: boolean
   runOnStart?: boolean
+  suggestToDoDescriptions?: boolean
   id?: string
 }
 
@@ -64,6 +65,9 @@ export interface PluginOptions {
   /** Boolean to control if the plugin runs automatically on Docusaurus start. */
   runOnStart: boolean
 
+  /** Boolean to control if the TODO suggestions are shown. */
+  suggestToDoDescriptions: boolean
+
   /** String identifier in case of multiple instances. */
   id: string
 }
@@ -80,6 +84,7 @@ export const defaultOptions: PluginConfigurationOptions = {
   menuDropdownLabel: 'Reference',
   verbose: false,
   runOnStart: false,
+  suggestToDoDescriptions: false,
   id: 'default'
 }
 

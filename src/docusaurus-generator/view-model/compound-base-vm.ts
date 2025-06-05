@@ -335,7 +335,9 @@ export abstract class CompoundBase {
   }): string {
     let text: string = ''
 
-    // console.log(this
+    if (!this.collection.workspace.pluginOptions.suggestToDoDescriptions) {
+      todo = ''
+    }
 
     if (briefDescriptionMdxText === undefined && todo.length === 0) {
       return ''
@@ -369,6 +371,10 @@ export abstract class CompoundBase {
     showBrief?: boolean
   }): string[] {
     const lines: string[] = []
+
+    if (!this.collection.workspace.pluginOptions.suggestToDoDescriptions) {
+      todo = ''
+    }
 
     // const workspace = this.collection.workspace
     if (showHeader) {
