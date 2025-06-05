@@ -353,7 +353,7 @@ export class DocAnchorTypeLinesRenderer extends ElementLinesRendererBase {
     const lines: string[] = []
 
     const anchor = getPermalinkAnchor(element.id)
-    lines.push(`<Link id="#${anchor}" />`)
+    lines.push(`<Link id="${anchor}" />`)
 
     return lines
   }

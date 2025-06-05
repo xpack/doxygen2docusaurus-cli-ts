@@ -65,7 +65,7 @@ export class CodeLineTypeLinesRenderer extends ElementLinesRendererBase {
 
     if (element.lineno !== undefined) {
       const anchor = `l${element.lineno.toString().padStart(5, '0')}`
-      text += `<Link id="#${anchor}" />`
+      text += `<Link id="${anchor}" />`
     }
 
     text += '<CodeLine'

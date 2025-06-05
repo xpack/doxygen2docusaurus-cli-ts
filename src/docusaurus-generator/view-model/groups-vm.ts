@@ -346,7 +346,7 @@ export class Group extends CompoundBase {
 
     // if (this.hasSect1InDescription) {
     //   lines.push('')
-    //   lines.push('<Link id="#details" />')
+    //   lines.push('<Link id="details" />')
     // }
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({

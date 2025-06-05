@@ -892,7 +892,7 @@ export class Member extends MemberBase {
         }
 
         lines.push('')
-        lines.push(`<Link id="#${anchor}" />`)
+        lines.push(`<Link id="${anchor}" />`)
         lines.push(`<EnumerationListItem name="${enumValue.name.trim()}">`)
         lines.push(`${enumBriefDescription}`)
         lines.push('</EnumerationListItem>')
