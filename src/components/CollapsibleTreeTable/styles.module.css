@@ -2,55 +2,55 @@
 /* --- Part of docusaurus-plugin-doxygen --- */
 
 
-:global(tr.doxyTreeItem:hover) {
+:global(tr.doxyCollapsibleTreeItem:hover) {
   background-color: var(--ifm-menu-color-background-hover);
 }
 
-:global(td.doxyTreeItemLeft) {
+:global(td.doxyCollapsibleTreeItemLeft) {
   white-space: nowrap;
   padding-top: 6px;
   padding-bottom: 6px;
 }
 
-:global(td.doxyTreeItemRight) {
+:global(td.doxyCollapsibleTreeItemRight) {
   padding-top: 6px;
   padding-bottom: 6px;
   width: 100%;
 }
 
-:global(td.doxyTreeItemRight p) {
+:global(td.doxyCollapsibleTreeItemRight p) {
   margin: 0px;
 }
 
-:global(td.doxyTreeIndent1) {
+:global(td.doxyCollapsibleTreeIndent1) {
   padding-left: 12px;
 }
 
-:global(td.doxyTreeIndent2) {
+:global(td.doxyCollapsibleTreeIndent2) {
   padding-left: 24px;
 }
 
-:global(td.doxyTreeIndent3) {
+:global(td.doxyCollapsibleTreeIndent3) {
   padding-left: 36px;
 }
 
-:global(td.doxyTreeIndent4) {
+:global(td.doxyCollapsibleTreeIndent4) {
   padding-left: 48px;
 }
 
-:global(td.doxyTreeIndent5) {
+:global(td.doxyCollapsibleTreeIndent5) {
   padding-left: 60px;
 }
 
-:global(td.doxyTreeIndent6) {
+:global(td.doxyCollapsibleTreeIndent6) {
   margin-left: 72px;
 }
 
-:global(span.doxyTreeIconBox) {
+:global(span.doxyCollapsibleTreeIconBox) {
   margin-right: 6px;
 }
 
-:global(span.doxyTreeIcon) {
+:global(span.doxyCollapsibleTreeIcon) {
   background: var(--ifm-color-primary);
   color: var(--ifm-color-content-inverse);
   border-radius: 4px;
