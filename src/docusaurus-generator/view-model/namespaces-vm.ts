@@ -20,7 +20,6 @@ import { CollectionBase } from './collection-base.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { escapeHtml, escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { FrontMatter } from '../types.js'
-import { Section } from './members-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -40,7 +39,14 @@ export class Namespaces extends CollectionBase {
 
   override addChild (compoundDef: CompoundDefDataModel): CompoundBase {
     const namespace = new Namespace(this, compoundDef)
-    this.collectionCompoundsById.set(compoundDef.id, namespace)
+    // Skip
+    if (namespace.compoundName.length === 0) {
+      if (namespace.children.length > 0) {
+        console.error('Anonymous namespace', namespace.id, ' with children?')
+      }
+    } else {
+      this.collectionCompoundsById.set(compoundDef.id, namespace)
+    }
 
     return namespace
   }
