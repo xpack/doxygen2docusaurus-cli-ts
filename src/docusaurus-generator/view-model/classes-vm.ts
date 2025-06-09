@@ -704,7 +704,6 @@ export class Class extends CompoundBase {
 
         lines.push('')
         lines.push('<MembersIndex>')
-        lines.push('')
 
         for (const baseClassId of classs.baseClassIds) {
           const baseClass = (this.collection as Classes).collectionCompoundsById.get(baseClassId) as Class
@@ -724,7 +723,6 @@ export class Class extends CompoundBase {
 
         lines.push('')
         lines.push('<MembersIndex>')
-        lines.push('')
 
         for (const derivedCompoundRef of this.derivedCompoundRefs) {
           // console.log(util.inspect(derivedCompoundRef, { compact: false, depth: 999 }))
@@ -752,7 +750,6 @@ export class Class extends CompoundBase {
 
         lines.push('')
         lines.push('<MembersIndex>')
-        lines.push('')
 
         for (const derivedClassId of classs.childrenIds) {
           const derivedClass = (this.collection as Classes).collectionCompoundsById.get(derivedClassId) as Class
@@ -803,6 +800,7 @@ export class Class extends CompoundBase {
     const itemType = this.kind
     const itemName = `<a href="${permalink}">${escapeMdx(this.indexName)}</a>`
 
+    lines.push('')
     lines.push('<MembersIndexItem')
     lines.push(`  type="${itemType}"`)
     if (itemName.includes('<') || itemName.includes('&')) {
