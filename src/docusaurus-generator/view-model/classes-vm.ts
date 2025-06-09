@@ -26,6 +26,14 @@ import { IndexEntry } from './indices-vm.js'
 
 // ----------------------------------------------------------------------------
 
+const kindsPlurals: Record<string, string> = {
+  class: 'Classes',
+  struct: 'Structs',
+  union: 'Unions'
+}
+
+// ----------------------------------------------------------------------------
+
 export class Classes extends CollectionBase {
   // compoundsById: Map<string, Class>
   topLevelClasses: Class[] = []
@@ -54,12 +62,16 @@ export class Classes extends CollectionBase {
     for (const [classId, base] of this.collectionCompoundsById) {
       const classs = base as Class
       for (const baseClassId of classs.baseClassIds) {
+        // console.log(classId, baseClassId)
         const baseClass = this.collectionCompoundsById.get(baseClassId) as Class
-        assert(baseClass !== undefined)
-        // console.log('baseClassId', baseClassId, 'has child', classId)
-        baseClass.children.push(classs)
+        if (baseClass !== undefined) {
+          // console.log('baseClassId', baseClassId, 'has child', classId)
+          baseClass.children.push(classs)
 
-        classs.baseClasses.push(baseClass)
+          classs.baseClasses.push(baseClass)
+        } else {
+          console.warn(baseClassId, 'ignored as base class for', classId)
+        }
       }
     }
 
@@ -557,7 +569,8 @@ export class Class extends CompoundBase {
     }
     this.pageTitle += ' Reference'
 
-    const pluralKind = (kind === 'class' ? 'classes' : 'structs')
+    assert(kindsPlurals[kind] !== undefined)
+    const pluralKind = kindsPlurals[kind].toLowerCase()
 
     // Turn the namespace into a hierarchical path. Keep the dot.
     let sanitizedPath: string = sanitizeHierarchicalPath(this.fullyQualifiedName.replaceAll(/::/g, '/'))
@@ -642,13 +655,13 @@ export class Class extends CompoundBase {
 
     lines.push(...this.renderIncludesIndexToMdxLines())
 
-    if (this.kind === 'class') {
+    if (this.kind === 'class' || this.kind === 'struct') {
       if (this.baseCompoundRefs !== undefined) {
         lines.push('')
         if (this.baseCompoundRefs.length > 1) {
-          lines.push('## Base classes')
+          lines.push(`## Base ${kindsPlurals[this.kind]?.toLowerCase()}`)
         } else {
-          lines.push('## Base class')
+          lines.push(`## Base ${this.kind}`)
         }
         lines.push('')
         lines.push('<MembersIndex>')
@@ -677,9 +690,9 @@ export class Class extends CompoundBase {
       } else if ('baseClassIds' in classs && classs.baseClassIds.length > 0) {
         lines.push('')
         if (classs.baseClassIds.length > 1) {
-          lines.push('## Base classes')
+          lines.push(`## Base ${kindsPlurals[this.kind]?.toLowerCase()}`)
         } else {
-          lines.push('## Base class')
+          lines.push(`## Base ${this.kind}`)
         }
 
         lines.push('')
@@ -700,7 +713,7 @@ export class Class extends CompoundBase {
 
       if (this.derivedCompoundRefs !== undefined) {
         lines.push('')
-        lines.push('## Derived Classes')
+        lines.push(`## Derived ${kindsPlurals[this.kind]}`)
 
         lines.push('')
         lines.push('<MembersIndex>')
@@ -728,7 +741,7 @@ export class Class extends CompoundBase {
         lines.push('</MembersIndex>')
       } else if ('derivedClassIds' in classs && classs.childrenIds.length > 0) {
         lines.push('')
-        lines.push('## Derived Classes')
+        lines.push(`## Derived ${kindsPlurals[this.kind]}`)
 
         lines.push('')
         lines.push('<MembersIndex>')
