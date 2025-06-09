@@ -35,6 +35,31 @@ import { Renderers } from './elements-renderers/renderers.js'
 
 // ----------------------------------------------------------------------------
 
+// <xsd:simpleType name="DoxCompoundKind">
+//   <xsd:restriction base="xsd:string">
+//     <xsd:enumeration value="class" />
+//     <xsd:enumeration value="struct" />
+//     <xsd:enumeration value="union" />
+//     <xsd:enumeration value="interface" />
+//     <xsd:enumeration value="protocol" />
+//     <xsd:enumeration value="category" />
+//     <xsd:enumeration value="exception" />
+//     <xsd:enumeration value="service" />
+//     <xsd:enumeration value="singleton" />
+//     <xsd:enumeration value="module" />
+//     <xsd:enumeration value="type" />
+//     <xsd:enumeration value="file" />
+//     <xsd:enumeration value="namespace" />
+//     <xsd:enumeration value="group" />
+//     <xsd:enumeration value="page" />
+//     <xsd:enumeration value="example" />
+//     <xsd:enumeration value="dir" />
+//     <xsd:enumeration value="concept" />
+//   </xsd:restriction>
+// </xsd:simpleType>
+
+// ----------------------------------------------------------------------------
+
 export class Workspace {
   // The data parsed from the Doxygen XML files.
   dataModel: DataModel
@@ -48,13 +73,24 @@ export class Workspace {
   pluginActions: any
 
   collectionNamesByKind: Record<string, string> = {
-    group: 'groups',
-    namespace: 'namespaces',
     class: 'classes',
     struct: 'classes',
+    union: 'classes',
+    // interface
+    // protocol
+    // category
+    // exception
+    // service
+    // singleton
+    // module
+    // type
     file: 'files',
-    dir: 'files',
-    page: 'pages'
+    namespace: 'namespaces',
+    group: 'groups',
+    page: 'pages',
+    // example
+    dir: 'files'
+    // concept
   }
 
   // The key is one of the above collection names.
@@ -167,6 +203,7 @@ export class Workspace {
         const collection = this.viewModel.get(collectionName)
         if (collection !== undefined) {
           // Create the compound object and add it to the parent collection.
+          // console.log(compoundDefDataModel.kind, compoundDefDataModel.compoundName)
           const compound = collection.addChild(compoundDefDataModel)
           // Also add it to the global compounds map.
           this.compoundsById.set(compoundDefDataModel.id, compound)
