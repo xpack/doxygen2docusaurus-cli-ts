@@ -23,6 +23,7 @@ import { AbstractDataModelBase } from '../types.js'
 import { TemplateParamListDataModel } from './templateparamlisttype-dm.js'
 import { EnumValueDataModel } from './enumvaluetype-dm.js'
 import { ReimplementDataModel, ReimplementedByDataModel } from './reimplementtype-dm.js'
+import { ReferenceDataModel, ReferencedByDataModel } from './referencetype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -169,8 +170,8 @@ export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
   briefDescription?: BriefDescriptionDataModel | undefined
   detailedDescription?: DetailedDescriptionDataModel | undefined
   inbodyDescription?: InbodyDescriptionDataModel | undefined
-  // references?: ReferenceType[] | undefined
-  // referencedby?: ReferenceType[] | undefined
+  references?: ReferenceDataModel[] | undefined
+  referencedBy?: ReferencedByDataModel[] | undefined
 
   // Optional attributes.
   extern?: Boolean | undefined
@@ -249,6 +250,16 @@ export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
         this.detailedDescription = new DetailedDescriptionDataModel(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'inbodydescription')) {
         this.inbodyDescription = new InbodyDescriptionDataModel(xml, innerElement)
+      } else if (xml.hasInnerElement(innerElement, 'references')) {
+        if (this.references === undefined) {
+          this.references = []
+        }
+        this.references.push(new ReferenceDataModel(xml, innerElement))
+      } else if (xml.hasInnerElement(innerElement, 'referencedby')) {
+        if (this.referencedBy === undefined) {
+          this.referencedBy = []
+        }
+        this.referencedBy.push(new ReferencedByDataModel(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
