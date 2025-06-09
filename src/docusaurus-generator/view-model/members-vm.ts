@@ -70,6 +70,11 @@ export const sectionHeaders: Record<string, [string, number]> = {
   'private-attrib': ['Private Member Attributes', 430],
   'package-attrib': ['Package Member Attributes', 440],
 
+  'public-static-operator': ['Public Operators', 450],
+  'protected-static-operator': ['Protected Operators', 460],
+  'private-static-operator': ['Private Operators', 470],
+  'package-static-operator': ['Package Operators', 480],
+
   'public-static-func': ['Public Static Functions', 500],
   'protected-static-func': ['Protected Static Functions', 510],
   'private-static-func': ['Private Static Functions', 520],
@@ -126,7 +131,7 @@ export class Section {
     this.kind = sectionDef.kind
 
     this.headerName = this.getHeaderNameByKind(sectionDef)
-    assert(this.headerName.length > 0)
+    assert(this.headerName !== undefined && this.headerName.length > 0)
 
     const members: Array<Member | MemberRef> = []
 
