@@ -233,7 +233,8 @@ export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
       }
     }
 
-    assert(this.compoundName.length > 0)
+    // Moved down, depends on kind.
+    // assert(this.compoundName.length > 0)
 
     // ------------------------------------------------------------------------
     // Process attributes.
