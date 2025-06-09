@@ -272,6 +272,10 @@ export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
     // WARNING: The attribute is not marked as optional, but is not present.
     // assert(this.prot.length > 0)
 
+    if (this.kind !== 'namespace') {
+      assert(this.compoundName.length > 0)
+    }
+
     // ------------------------------------------------------------------------
 
     // console.log(util.inspect(this, { compact: false, depth: 999 }))
