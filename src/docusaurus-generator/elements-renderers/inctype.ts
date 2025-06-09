@@ -25,11 +25,11 @@ export class IncTypeLinesRenderer extends ElementLinesRendererBase {
 
     const lines: string[] = []
 
-    let permalink: string = ''
+    let permalink: string | undefined
     if (element.refId !== undefined) {
       permalink = this.workspace.getPagePermalink(element.refId)
-      assert(permalink !== undefined && permalink.length > 1)
     }
+    assert(permalink !== undefined && permalink.length > 1)
 
     lines.push('<IncludesListItem')
     lines.push(`  filePath="${element.text}"`)

@@ -110,7 +110,7 @@ export abstract class CompoundBase {
     }
 
     if (compoundDef?.location?.file !== undefined) {
-      this.locationFilePath = compoundDef?.location?.file
+      this.locationFilePath = compoundDef.location.file.toLowerCase()
     }
   }
 
@@ -551,66 +551,77 @@ export abstract class CompoundBase {
     const workspace = this.collection.workspace
 
     if (location !== undefined) {
-      // console.log(location.file)
+      // console.log('location.file:', location.file)
+      if (location.file.includes('[')) {
+        // Ignore cases like `[generated]`, encountered in llvm.
+        return text
+      }
       const files: FilesAndFolders = workspace.viewModel.get('files') as FilesAndFolders
       assert(files !== undefined)
-      // console.log('renderLocationToMdxText', this.kind, this.compoundName)
-      const file = files.filesByPath.get(location.file)
-      assert(file !== undefined)
-      const permalink = workspace.getPagePermalink(file.id)
 
-      text += '\n'
-      if (location.bodyfile !== undefined && location.file !== location.bodyfile) {
-        text += 'Declaration '
-        if (location.line !== undefined) {
-          text += 'at line '
-          const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
-          if (!file.listingLineNumbers.has(location.line)) {
-            text += location.line?.toString()
+      // console.log('renderLocationToMdxText', this.kind, this.compoundName, this.id)
+      const file = files.filesByPath.get(location.file.toLowerCase())
+      if (file !== undefined) {
+        const permalink = workspace.getPagePermalink(file.id)
+
+        text += '\n'
+        if (location.bodyfile !== undefined && location.file.toLowerCase() !== location.bodyfile.toLowerCase()) {
+          text += 'Declaration '
+          if (location.line !== undefined) {
+            text += 'at line '
+            const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
+            if (!file.listingLineNumbers.has(location.line)) {
+              text += location.line?.toString()
+            } else {
+              text += `<a href="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</a>`
+            }
+            text += ' of file '
           } else {
-            text += `<a href="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</a>`
+            text += ' in file '
           }
-          text += ' of file '
+          text += `<a href="${permalink}">${escapeMdx(path.basename(location.file) as string)}</a>`
+
+          const definitionFile = files.filesByPath.get(location.bodyfile.toLowerCase())
+          if (definitionFile !== undefined) {
+            console.warn('File', location.bodyfile, 'not a location')
+
+            const definitionPermalink = workspace.getPagePermalink(definitionFile.id)
+
+            text += ', definition '
+            if (location.bodystart !== undefined) {
+              text += 'at line '
+              const lineStart = `l${location.bodystart?.toString().padStart(5, '0')}`
+              if (!definitionFile.listingLineNumbers.has(location.bodystart)) {
+                text += location.bodystart?.toString()
+              } else {
+                text += `<a href="${definitionPermalink}/#${lineStart}">${escapeMdx(location.bodystart?.toString() ?? '?')}</a>`
+              }
+              text += ' of file '
+            } else {
+              text += ' in file '
+            }
+            text += `<a href="${definitionPermalink}">${escapeMdx(path.basename(location.bodyfile) as string)}</a>`
+          }
+          text += '.'
         } else {
-          text += ' in file '
-        }
-        text += `<a href="${permalink}">${escapeMdx(path.basename(location.file) as string)}</a>`
-
-        const definitionFile = files.filesByPath.get(location.bodyfile)
-        assert(definitionFile !== undefined)
-        const definitionPermalink = workspace.getPagePermalink(definitionFile.id)
-
-        text += ', definition '
-        if (location.bodystart !== undefined) {
-          text += 'at line '
-          const lineStart = `l${location.bodystart?.toString().padStart(5, '0')}`
-          if (!definitionFile.listingLineNumbers.has(location.bodystart)) {
-            text += location.bodystart?.toString()
+          text += 'Definition '
+          if (location.line !== undefined) {
+            text += 'at line '
+            const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
+            if (!file.listingLineNumbers.has(location.line)) {
+              text += location.line?.toString()
+            } else {
+              text += `<a href="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</a>`
+            }
+            text += ' of file '
           } else {
-            text += `<a href="${definitionPermalink}/#${lineStart}">${escapeMdx(location.bodystart?.toString() ?? '?')}</a>`
+            text += ' in file '
           }
-          text += ' of file '
-        } else {
-          text += ' in file '
+          text += `<a href="${permalink}">${escapeMdx(path.basename(location.file) as string)}</a>`
+          text += '.'
         }
-        text += `<a href="${definitionPermalink}">${escapeMdx(path.basename(location.bodyfile) as string)}</a>`
-        text += '.'
       } else {
-        text += 'Definition '
-        if (location.line !== undefined) {
-          text += 'at line '
-          const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
-          if (!file.listingLineNumbers.has(location.line)) {
-            text += location.line?.toString()
-          } else {
-            text += `<a href="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</a>`
-          }
-          text += ' of file '
-        } else {
-          text += ' in file '
-        }
-        text += `<a href="${permalink}">${escapeMdx(path.basename(location.file) as string)}</a>`
-        text += '.'
+        console.warn('File', location.file, 'not a known location.')
       }
     }
 
@@ -634,7 +645,8 @@ export abstract class CompoundBase {
 
       const sortedFiles = [...this.locationSet].sort((a, b) => a.localeCompare(b))
       for (const fileName of sortedFiles) {
-        const file = files.filesByPath.get(fileName)
+        // console.log('search', fileName)
+        const file = files.filesByPath.get(fileName.toLowerCase())
         assert(file !== undefined)
         const permalink = workspace.getPagePermalink(file.id)
         lines.push(`<li><a href="${permalink}">${path.basename(fileName) as string}</a></li>`)
@@ -725,7 +737,7 @@ export abstract class CompoundBase {
       } else {
         for (const child of param.type.children) {
           if (typeof child === 'string') {
-          // Extract the parameter name, passed as `class T`.
+            // Extract the parameter name, passed as `class T`.
             paramString += child
           } else if (child as object instanceof RefTextDataModel) {
             paramString += (child as RefTextDataModel).text

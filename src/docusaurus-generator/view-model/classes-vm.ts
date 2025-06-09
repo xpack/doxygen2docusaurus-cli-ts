@@ -499,7 +499,11 @@ export class Classes extends CollectionBase {
         if (entry.objectKind === 'compound') {
           kind = `${entry.kind} `
         }
-        lines.push(`- ${escapeMdx(entry.name)}: <a href="${entry.permalink}">${kind}${escapeMdx(entry.longName)}</a>`)
+        if (entry.permalink !== undefined && entry.permalink.length > 0) {
+          lines.push(`- ${escapeMdx(entry.name)}: <a href="${entry.permalink}">${kind}${escapeMdx(entry.longName)}</a>`)
+        } else {
+          lines.push(`- ${escapeMdx(entry.name)}: ${kind}${escapeMdx(entry.longName)}`)
+        }
       }
     }
 
@@ -730,9 +734,11 @@ export class Class extends CompoundBase {
 
           if (derivedCompoundRef.refid !== undefined) {
             const derivedClass = (this.collection as Classes).collectionCompoundsById.get(derivedCompoundRef.refid.toLowerCase()) as Class
-            assert(derivedClass !== undefined)
-
-            lines.push(...derivedClass.renderIndexToMdxLines())
+            if (derivedClass !== undefined) {
+              lines.push(...derivedClass.renderIndexToMdxLines())
+            } else {
+              console.warn('Derive class id', derivedCompoundRef.refid, 'not a class')
+            }
           } else {
             const itemName = escapeMdx(derivedCompoundRef.text.trim())
             lines.push('')
@@ -754,10 +760,12 @@ export class Class extends CompoundBase {
 
         for (const derivedClassId of classs.childrenIds) {
           const derivedClass = (this.collection as Classes).collectionCompoundsById.get(derivedClassId) as Class
-          assert(derivedClass !== undefined)
-          // console.log(util.inspect(derivedCompoundDef, { compact: false, depth: 999 }))
-
-          lines.push(...derivedClass.renderIndexToMdxLines())
+          if (derivedClass !== undefined) {
+            // console.log(util.inspect(derivedCompoundDef, { compact: false, depth: 999 }))
+            lines.push(...derivedClass.renderIndexToMdxLines())
+          } else {
+            console.warn('Derive class id', derivedClassId, 'not a class')
+          }
         }
 
         lines.push('')

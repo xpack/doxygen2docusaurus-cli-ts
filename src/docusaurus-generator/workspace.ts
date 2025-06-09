@@ -589,7 +589,7 @@ export class Workspace {
   }: {
     refid: string
     kindref: string // 'compound', 'member'
-  }): string {
+  }): string | undefined {
     // console.log(refid, kindref)
     // if (refid.endsWith('ga45942bdeee4fb61db5a7dc3747cb7193')) {
     //   console.log(refid, kindref)
@@ -609,23 +609,27 @@ export class Workspace {
       console.error('Unsupported kindref', kindref, 'for', refid, 'in', this.constructor.name, 'getPermalink')
     }
 
-    assert(permalink !== undefined && permalink.length > 1)
     // if (refid.endsWith('ga45942bdeee4fb61db5a7dc3747cb7193')) {
     //   console.log(permalink)
     // }
     return permalink
   }
 
-  getPagePermalink (refid: string): string {
+  getPagePermalink (refid: string): string | undefined {
     const dataObject: CompoundBase | undefined = this.compoundsById.get(refid.toLowerCase())
     if (dataObject === undefined) {
-      console.log('refid', refid)
+      if (this.pluginOptions.verbose) {
+        console.warn('refid', refid, 'is not recognised')
+      }
+      return undefined
     }
-    assert(dataObject !== undefined)
 
     const pagePermalink = dataObject.relativePermalink
     if (pagePermalink === undefined) {
-      console.error('refid', refid, 'has no permalink')
+      if (this.pluginOptions.verbose) {
+        console.warn('refid', refid, 'has no permalink')
+      }
+      return undefined
     }
 
     assert(pagePermalink !== undefined)
