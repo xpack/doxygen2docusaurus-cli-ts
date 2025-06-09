@@ -521,7 +521,8 @@ export class Class extends CompoundBase {
   classFullNameMdxText: string = '?'
   templateMdxText: string | undefined
 
-  // Shortcut, use data model objects.
+  // Shortcuts, use data model objects.
+  // WARNING: May be duplicate.
   baseCompoundRefs: BaseCompoundRefDataModel[] | undefined
   derivedCompoundRefs: DerivedCompoundRefDataModel[] | undefined
 
@@ -657,17 +658,23 @@ export class Class extends CompoundBase {
 
     if (this.kind === 'class' || this.kind === 'struct') {
       if (this.baseCompoundRefs !== undefined) {
+        const baseCompoundRefs: Map<string, BaseCompoundRefDataModel> = new Map()
+        for (const baseCompoundRef of this.baseCompoundRefs) {
+          if (!baseCompoundRefs.has(baseCompoundRef.text)) {
+            baseCompoundRefs.set(baseCompoundRef.text, baseCompoundRef)
+          }
+        }
+
         lines.push('')
-        if (this.baseCompoundRefs.length > 1) {
+        if (baseCompoundRefs.size > 1) {
           lines.push(`## Base ${kindsPlurals[this.kind]?.toLowerCase()}`)
         } else {
           lines.push(`## Base ${this.kind}`)
         }
         lines.push('')
         lines.push('<MembersIndex>')
-        lines.push('')
 
-        for (const baseCompoundRef of this.baseCompoundRefs) {
+        for (const baseCompoundRef of baseCompoundRefs.values()) {
           // console.log(util.inspect(baseCompoundRef, { compact: false, depth: 999 }))
 
           if (baseCompoundRef.refid !== undefined) {
