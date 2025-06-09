@@ -124,6 +124,7 @@ export class Workspace {
   // View model objects.
   compoundsById: Map<string, CompoundBase> = new Map()
 
+  /** @brief Lower case ids. */
   membersById: Map<String, Member> = new Map()
 
   currentCompound: CompoundBase | undefined
@@ -206,7 +207,7 @@ export class Workspace {
           // console.log(compoundDefDataModel.kind, compoundDefDataModel.compoundName)
           const compound = collection.addChild(compoundDefDataModel)
           // Also add it to the global compounds map.
-          this.compoundsById.set(compoundDefDataModel.id, compound)
+          this.compoundsById.set(compoundDefDataModel.id.toLowerCase(), compound)
           added = true
         }
       }
@@ -323,9 +324,10 @@ export class Workspace {
     for (const compoundDefDataModel of this.dataModel.compoundDefs) {
       // console.log(compoundDefDataModel.kind, compoundDefDataModel.compoundName)
 
-      const compound: CompoundBase | undefined = this.compoundsById.get(compoundDefDataModel.id)
+      const compoundDefDataModelId = compoundDefDataModel.id.toLowerCase()
+      const compound: CompoundBase | undefined = this.compoundsById.get(compoundDefDataModelId)
       if (compound === undefined) {
-        console.error('compoundDefDataModel', compoundDefDataModel.id, 'not yet processed in', this.constructor.name, 'validatePermalinks')
+        console.error('compoundDefDataModel', compoundDefDataModelId, 'not yet processed in', this.constructor.name, 'validatePermalinks')
         continue
       }
 
@@ -333,13 +335,13 @@ export class Workspace {
       assert(permalink !== undefined)
       // console.log('permalink:', permalink)
 
-      if (pagePermalinksById.has(compoundDefDataModel.id)) {
-        console.error('Permalink clash for id', compoundDefDataModel.id)
+      if (pagePermalinksById.has(compoundDefDataModelId)) {
+        console.error('Permalink clash for id', compoundDefDataModelId)
       }
       if (pagePermalinksSet.has(permalink)) {
-        console.error('Permalink clash for permalink', permalink, 'id:', compoundDefDataModel.id)
+        console.error('Permalink clash for permalink', permalink, 'id:', compoundDefDataModelId)
       }
-      pagePermalinksById.set(compoundDefDataModel.id, permalink)
+      pagePermalinksById.set(compoundDefDataModelId, permalink)
       pagePermalinksSet.add(permalink)
     }
   }
@@ -615,7 +617,7 @@ export class Workspace {
   }
 
   getPagePermalink (refid: string): string {
-    const dataObject: CompoundBase | undefined = this.compoundsById.get(refid)
+    const dataObject: CompoundBase | undefined = this.compoundsById.get(refid.toLowerCase())
     if (dataObject === undefined) {
       console.log('refid', refid)
     }

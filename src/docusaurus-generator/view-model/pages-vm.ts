@@ -39,7 +39,7 @@ export class Pages extends CollectionBase {
 
   override addChild (compoundDef: CompoundDefDataModel): CompoundBase {
     const page = new Page(this, compoundDef)
-    this.collectionCompoundsById.set(compoundDef.id, page)
+    this.collectionCompoundsById.set(page.id, page)
 
     if (page.id === 'indexpage') {
       this.mainPage = page

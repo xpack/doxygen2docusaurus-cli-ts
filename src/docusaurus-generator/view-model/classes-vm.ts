@@ -50,7 +50,7 @@ export class Classes extends CollectionBase {
 
   override addChild (compoundDef: CompoundDefDataModel): CompoundBase {
     const classs = new Class(this, compoundDef)
-    this.collectionCompoundsById.set(compoundDef.id, classs)
+    this.collectionCompoundsById.set(classs.id, classs)
 
     return classs
   }
@@ -77,7 +77,7 @@ export class Classes extends CollectionBase {
 
     for (const [classId, base] of this.collectionCompoundsById) {
       const classs = base as Class
-      if (classs.baseClassIds.length === 0) {
+      if (classs.baseClassIds.size === 0) {
         // console.log('topLevelClassId:', classId)
         this.topLevelClasses.push(classs)
       }
@@ -511,7 +511,8 @@ export class Classes extends CollectionBase {
 
 export class Class extends CompoundBase {
   // Due to multiple-inheritance, there can be multiple parents.
-  baseClassIds: string[] = []
+  /** @brief Lower case ids. */
+  baseClassIds: Set<string> = new Set()
   baseClasses: Class[] = []
 
   fullyQualifiedName: string = '?'
@@ -538,7 +539,7 @@ export class Class extends CompoundBase {
       for (const ref of compoundDef.baseCompoundRefs) {
         // console.log('component', compoundDef.id, 'has base', ref.refid)
         if (ref.refid !== undefined) {
-          this.baseClassIds.push(ref.refid)
+          this.baseClassIds.add(ref.refid.toLowerCase())
         }
       }
     }
@@ -678,7 +679,7 @@ export class Class extends CompoundBase {
           // console.log(util.inspect(baseCompoundRef, { compact: false, depth: 999 }))
 
           if (baseCompoundRef.refid !== undefined) {
-            const baseClass = (this.collection as Classes).collectionCompoundsById.get(baseCompoundRef.refid) as Class
+            const baseClass = (this.collection as Classes).collectionCompoundsById.get(baseCompoundRef.refid.toLowerCase()) as Class
             assert(baseClass !== undefined)
 
             lines.push(...baseClass.renderIndexToMdxLines())
@@ -694,9 +695,9 @@ export class Class extends CompoundBase {
 
         lines.push('')
         lines.push('</MembersIndex>')
-      } else if ('baseClassIds' in classs && classs.baseClassIds.length > 0) {
+      } else if ('baseClassIds' in classs && classs.baseClassIds.size > 0) {
         lines.push('')
-        if (classs.baseClassIds.length > 1) {
+        if (classs.baseClassIds.size > 1) {
           lines.push(`## Base ${kindsPlurals[this.kind]?.toLowerCase()}`)
         } else {
           lines.push(`## Base ${this.kind}`)
@@ -728,7 +729,7 @@ export class Class extends CompoundBase {
           // console.log(util.inspect(derivedCompoundRef, { compact: false, depth: 999 }))
 
           if (derivedCompoundRef.refid !== undefined) {
-            const derivedClass = (this.collection as Classes).collectionCompoundsById.get(derivedCompoundRef.refid) as Class
+            const derivedClass = (this.collection as Classes).collectionCompoundsById.get(derivedCompoundRef.refid.toLowerCase()) as Class
             assert(derivedClass !== undefined)
 
             lines.push(...derivedClass.renderIndexToMdxLines())

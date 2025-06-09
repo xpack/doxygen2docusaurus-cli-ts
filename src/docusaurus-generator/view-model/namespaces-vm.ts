@@ -45,7 +45,7 @@ export class Namespaces extends CollectionBase {
         console.error('Anonymous namespace', namespace.id, ' with children?')
       }
     } else {
-      this.collectionCompoundsById.set(compoundDef.id, namespace)
+      this.collectionCompoundsById.set(namespace.id, namespace)
     }
 
     return namespace
@@ -216,7 +216,7 @@ export class Namespace extends CompoundBase {
     if (Array.isArray(compoundDef.innerNamespaces)) {
       for (const ref of compoundDef.innerNamespaces) {
         // console.log('component', compoundDef.id, 'has child', ref.refid)
-        this.childrenIds.push(ref.refid)
+        this.childrenIds.push(ref.refid.toLowerCase())
       }
     }
 

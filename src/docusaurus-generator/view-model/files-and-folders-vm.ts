@@ -28,7 +28,11 @@ import { ProgramListingDataModel } from '../../data-model/compounds/descriptiont
 
 export class FilesAndFolders extends CollectionBase {
   // compoundsById: Map<string, File | Folder>
+
+  /** @brief Lower case ids. */
   compoundFoldersById: Map<string, Folder>
+
+  /** @brief Lower case ids. */
   compoundFilesById: Map<string, File>
 
   topLevelFolders: Folder[] = []
@@ -44,6 +48,7 @@ export class FilesAndFolders extends CollectionBase {
     super(workspace)
 
     // this.compoundsById = new Map()
+    /** @brief Lower case id. */
     this.compoundFoldersById = new Map()
     this.compoundFilesById = new Map()
 
@@ -55,13 +60,13 @@ export class FilesAndFolders extends CollectionBase {
   override addChild (compoundDef: CompoundDefDataModel): CompoundBase {
     if (compoundDef.kind === 'file') {
       const file = new File(this, compoundDef)
-      this.collectionCompoundsById.set(compoundDef.id, file)
-      this.compoundFilesById.set(compoundDef.id, file)
+      this.collectionCompoundsById.set(file.id, file)
+      this.compoundFilesById.set(file.id, file)
       return file
     } else if (compoundDef.kind === 'dir') {
       const folder = new Folder(this, compoundDef)
-      this.collectionCompoundsById.set(compoundDef.id, folder)
-      this.compoundFoldersById.set(compoundDef.id, folder)
+      this.collectionCompoundsById.set(folder.id, folder)
+      this.compoundFoldersById.set(folder.id, folder)
       return folder
     } else {
       throw new Error(`kind ${compoundDef.kind} not implemented in ${this.constructor.name}`)
@@ -83,10 +88,13 @@ export class FilesAndFolders extends CollectionBase {
       }
       for (const childFileId of folder.childrenFileIds) {
         const childFile = this.compoundFilesById.get(childFileId)
-        assert(childFile !== undefined)
-        // console.log('childFileId', childFileId, childFile.compoundName, 'has parent', folderId, folder.compoundName)
-        childFile.parent = folder
-        folder.children.push(childFile)
+        if (childFile !== undefined) {
+          // console.log('childFileId', childFileId, childFile.compoundName, 'has parent', folderId, folder.compoundName)
+          childFile.parent = folder
+          folder.children.push(childFile)
+        } else {
+          console.warn(childFileId, 'not a child of', folder.id)
+        }
       }
     }
 
@@ -352,9 +360,11 @@ export class FilesAndFolders extends CollectionBase {
 export class Folder extends CompoundBase {
   // childrenIds & children - not used
 
+  /** @brief Lower case ids. */
   childrenFileIds: string[] = []
   childrenFiles: File[] = []
 
+  /** @brief Lower case ids. */
   childrenFolderIds: string[] = []
   childrenFolders: Folder[] = []
 
@@ -371,16 +381,16 @@ export class Folder extends CompoundBase {
     if (Array.isArray(compoundDef.innerDirs)) {
       for (const ref of compoundDef.innerDirs) {
         // console.log('component', compoundDef.id, 'has child folder', ref.refid)
-        this.childrenIds.push(ref.refid)
-        this.childrenFolderIds.push(ref.refid)
+        this.childrenIds.push(ref.refid.toLowerCase())
+        this.childrenFolderIds.push(ref.refid.toLowerCase())
       }
     }
 
     if (Array.isArray(compoundDef.innerFiles)) {
       for (const ref of compoundDef.innerFiles) {
         // console.log('component', compoundDef.id, 'has child file', ref.refid)
-        this.childrenIds.push(ref.refid)
-        this.childrenFileIds.push(ref.refid)
+        this.childrenIds.push(ref.refid.toLowerCase())
+        this.childrenFileIds.push(ref.refid.toLowerCase())
       }
     }
 

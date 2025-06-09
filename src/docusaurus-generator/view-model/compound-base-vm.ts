@@ -34,12 +34,14 @@ import { AbstractMemberBaseType } from '../../data-model/compounds/memberdeftype
 // ----------------------------------------------------------------------------
 
 export abstract class CompoundBase {
-  // The collection this compound is part of.
-  collection: CollectionBase
-
   kind: string = ''
   compoundName: string = ''
+
+  /** Lower case id. */
   id: string = ''
+
+  // The collection this compound is part of.
+  collection: CollectionBase
 
   titleMdxText: string | undefined
   locationFilePath: string | undefined
@@ -51,7 +53,9 @@ export abstract class CompoundBase {
 
   // Set in 2 steps, first the Ids and then, when all objects are in, the references.
   // Folder objects use separate arrays for files and folders children.
+  /** @brief Lower case ids. */
   childrenIds: string[] = []
+
   children: CompoundBase[] = []
 
   /** Relative path to the output folder, starts with plural kind. */
@@ -99,7 +103,7 @@ export abstract class CompoundBase {
 
     this.kind = compoundDef.kind
     this.compoundName = compoundDef.compoundName
-    this.id = compoundDef.id
+    this.id = compoundDef.id.toLowerCase()
 
     if (compoundDef.title !== undefined) {
       this.titleMdxText = escapeMdx(compoundDef.title)
@@ -450,7 +454,7 @@ export abstract class CompoundBase {
 
         for (const innerObject of innerObjects) {
           // console.log(util.inspect(innerObject, { compact: false, depth: 999 }))
-          const innerDataObject = workspace.compoundsById.get(innerObject.refid)
+          const innerDataObject = workspace.compoundsById.get(innerObject.refid.toLowerCase())
           assert(innerDataObject !== undefined)
 
           const permalink = workspace.getPagePermalink(innerObject.refid)

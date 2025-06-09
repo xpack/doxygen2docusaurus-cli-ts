@@ -46,7 +46,7 @@ export class Groups extends CollectionBase {
 
   override addChild (compoundDef: CompoundDefDataModel): CompoundBase {
     const group = new Group(this, compoundDef)
-    this.collectionCompoundsById.set(compoundDef.id, group)
+    this.collectionCompoundsById.set(group.id, group)
 
     return group
   }
@@ -296,7 +296,7 @@ export class Group extends CompoundBase {
     if (Array.isArray(compoundDef.innerGroups)) {
       for (const ref of compoundDef.innerGroups) {
         // console.log('component', compoundDef.id, 'has child', ref.refid)
-        this.childrenIds.push(ref.refid)
+        this.childrenIds.push(ref.refid.toLowerCase())
       }
     }
 
