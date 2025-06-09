@@ -672,20 +672,21 @@ export abstract class CompoundBase {
         } else if (child as object instanceof RefTextDataModel) {
           paramString += (child as RefTextDataModel).text
         }
-        if (param.declname !== undefined) {
-          paramString += ` ${param.declname}`
-        }
+      }
 
-        if (withDefaults) {
-          if (param.defval !== undefined) {
-            const defval: DefValDataModel = param.defval
-            paramString += ' = '
-            for (const child of defval.children) {
-              if (typeof child === 'string') {
-                paramString += child
-              } else if (child as object instanceof RefTextDataModel) {
-                paramString += (child as RefTextDataModel).text
-              }
+      if (param.declname !== undefined) {
+        paramString += ` ${param.declname}`
+      }
+
+      if (withDefaults) {
+        if (param.defval !== undefined) {
+          const defval: DefValDataModel = param.defval
+          paramString += ' = '
+          for (const child of defval.children) {
+            if (typeof child === 'string') {
+              paramString += child
+            } else if (child as object instanceof RefTextDataModel) {
+              paramString += (child as RefTextDataModel).text
             }
           }
         }
@@ -711,21 +712,24 @@ export abstract class CompoundBase {
     for (const param of templateParamList.params) {
       // console.log(util.inspect(param, { compact: false, depth: 999 }))
       assert(param.type !== undefined)
-      assert(param.type.children.length === 1)
-      assert(typeof param.type.children[0] === 'string')
-      let paramName = ''
+
       let paramString = ''
 
-      // declname or defname?
+      // declname? defname? order?
       if (param.declname !== undefined) {
-        paramString = param.declname
-      } else if (typeof param.type.children[0] === 'string') {
-        // Extract the parameter name, passed as `class T`.
-        paramString = param.type.children[0]
-      } else if (param.type.children[0] as object instanceof RefTextDataModel) {
-        paramString = (param.type.children[0] as RefTextDataModel).text
+        paramString += param.declname
+      } else {
+        for (const child of param.type.children) {
+          if (typeof child === 'string') {
+          // Extract the parameter name, passed as `class T`.
+            paramString += child
+          } else if (child as object instanceof RefTextDataModel) {
+            paramString += (child as RefTextDataModel).text
+          }
+        }
       }
-      paramName = paramString.replace(/class /, '')
+
+      const paramName = paramString.replaceAll(/class /g, '').replaceAll(/typename /g, '')
       templateParameterNames.push(paramName)
     }
     return templateParameterNames
