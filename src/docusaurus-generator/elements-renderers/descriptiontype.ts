@@ -15,9 +15,9 @@ import assert from 'assert'
 import util from 'util'
 
 import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js'
-import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractSpType, ParaDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
+import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractSpType, AbstractVerbatimType, ParaDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
-import { escapeQuotes, getPermalinkAnchor } from '../utils.js'
+import { escapeHtml, escapeQuotes, getPermalinkAnchor } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -73,7 +73,8 @@ export class DocURLLinkTextRenderer extends ElementTextRendererBase {
 const htmlElements: { [key: string]: string } = {
   BoldDataModel: 'b',
   ComputerOutputDataModel: 'code',
-  EmphasisDataModel: 'em'
+  EmphasisDataModel: 'em',
+  UnderlineDataModel: 'u'
 }
 
 export class DocMarkupTypeTextRenderer extends ElementTextRendererBase {
@@ -358,6 +359,77 @@ export class DocAnchorTypeLinesRenderer extends ElementLinesRendererBase {
     lines.push(`<Link id="${anchor}" />`)
 
     return lines
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+export class VerbatimRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractVerbatimType): string {
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
+
+    let text = ''
+    text += '<CodeBlock>'
+    text += this.workspace.renderElementToMdxText(element.text)
+    text += '</CodeBlock>'
+
+    return text
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+export class FormulaRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractDocFormulaType): string {
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
+
+    let text = ''
+    text += '<CodeBlock>'
+    // element.id is ignored.
+    text += this.workspace.renderElementToMdxText(element.text)
+    text += '</CodeBlock>'
+
+    return text
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+export class ImageRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractDocImageType): string {
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
+
+    let text = ''
+    if (element.type === 'html') {
+      text += '\n'
+      text += '<figure>'
+      text += '  <img'
+      if (element.name !== undefined) {
+        text += ` src="${element.name}"`
+      }
+      if (element.width !== undefined) {
+        text += ` width="${element.width}"`
+      }
+      if (element.height !== undefined) {
+        text += ` height="${element.height}"`
+      }
+      if (element.alt !== undefined) {
+        text += ` alt="${element.alt}"`
+      }
+      if (element.inline?.valueOf()) {
+        text += ' class="inline"'
+      }
+      text += ' />'
+      if (element.caption !== undefined) {
+        text += '\n'
+        text += `  <figcaption>${escapeHtml(element.caption)}</figcaption>`
+      }
+      text += '\n'
+      text += '</figure>'
+    } else {
+      console.error('Image type', element.type, 'not rendered in', this.constructor.name)
+    }
+    return text
   }
 }
 
