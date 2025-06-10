@@ -24,7 +24,7 @@ export default function IncludesListItem({
 }) {
   return (
     <>
-      <code>#include {isLocal === 'true' ? '"' : '<'}{permalink.length > 0 ? (<a href={permalink}>{filePath}</a>) : filePath }{isLocal === 'true'  ? '"' : '>'}</code>
+      <code>#include {isLocal === 'true' ? '"' : '<'}{permalink?.length > 0 ? (<a href={permalink}>{filePath}</a>) : filePath }{isLocal === 'true'  ? '"' : '>'}</code>
       <br />
     </>
   );
