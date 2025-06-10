@@ -515,7 +515,6 @@ export class Classes extends CollectionBase {
 
 export class Class extends CompoundBase {
   // Due to multiple-inheritance, there can be multiple parents.
-  /** @brief Lower case ids. */
   baseClassIds: Set<string> = new Set()
   baseClasses: Class[] = []
 
@@ -543,7 +542,7 @@ export class Class extends CompoundBase {
       for (const ref of compoundDef.baseCompoundRefs) {
         // console.log('component', compoundDef.id, 'has base', ref.refid)
         if (ref.refid !== undefined) {
-          this.baseClassIds.add(ref.refid.toLowerCase())
+          this.baseClassIds.add(ref.refid)
         }
       }
     }
@@ -683,18 +682,18 @@ export class Class extends CompoundBase {
           // console.log(util.inspect(baseCompoundRef, { compact: false, depth: 999 }))
 
           if (baseCompoundRef.refid !== undefined) {
-            const baseClass = (this.collection as Classes).collectionCompoundsById.get(baseCompoundRef.refid.toLowerCase()) as Class
-            assert(baseClass !== undefined)
-
-            lines.push(...baseClass.renderIndexToMdxLines())
-          } else {
-            const itemName = escapeMdx(baseCompoundRef.text)
-            lines.push('')
-            lines.push('<MembersIndexItem')
-            lines.push(`  type="${this.kind}"`)
-            lines.push(`  name={<>${itemName}</>}>`)
-            lines.push('</MembersIndexItem>')
+            const baseClass = (this.collection as Classes).collectionCompoundsById.get(baseCompoundRef.refid) as Class
+            if (baseClass !== undefined) {
+              lines.push(...baseClass.renderIndexToMdxLines())
+              continue
+            }
           }
+          const itemName = escapeMdx(baseCompoundRef.text)
+          lines.push('')
+          lines.push('<MembersIndexItem')
+          lines.push(`  type="${this.kind}"`)
+          lines.push(`  name={<>${itemName}</>}>`)
+          lines.push('</MembersIndexItem>')
         }
 
         lines.push('')
@@ -733,11 +732,20 @@ export class Class extends CompoundBase {
           // console.log(util.inspect(derivedCompoundRef, { compact: false, depth: 999 }))
 
           if (derivedCompoundRef.refid !== undefined) {
-            const derivedClass = (this.collection as Classes).collectionCompoundsById.get(derivedCompoundRef.refid.toLowerCase()) as Class
+            const derivedClass = (this.collection as Classes).collectionCompoundsById.get(derivedCompoundRef.refid) as Class
             if (derivedClass !== undefined) {
               lines.push(...derivedClass.renderIndexToMdxLines())
             } else {
-              console.warn('Derive class id', derivedCompoundRef.refid, 'not a class')
+              if (this.collection.workspace.pluginOptions.debug) {
+                console.warn('Derived class id', derivedCompoundRef.refid, 'not a defined class')
+              }
+
+              const itemName = escapeMdx(derivedCompoundRef.text.trim())
+              lines.push('')
+              lines.push('<MembersIndexItem')
+              lines.push(`  type="${this.kind}"`)
+              lines.push(`  name={<>${itemName}</>}>`)
+              lines.push('</MembersIndexItem>')
             }
           } else {
             const itemName = escapeMdx(derivedCompoundRef.text.trim())

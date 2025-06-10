@@ -216,7 +216,7 @@ export class Namespace extends CompoundBase {
     if (Array.isArray(compoundDef.innerNamespaces)) {
       for (const ref of compoundDef.innerNamespaces) {
         // console.log('component', compoundDef.id, 'has child', ref.refid)
-        this.childrenIds.push(ref.refid.toLowerCase())
+        this.childrenIds.push(ref.refid)
       }
     }
 

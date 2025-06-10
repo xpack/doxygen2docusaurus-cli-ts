@@ -37,7 +37,6 @@ export abstract class CompoundBase {
   kind: string = ''
   compoundName: string = ''
 
-  /** Lower case id. */
   id: string = ''
 
   // The collection this compound is part of.
@@ -53,7 +52,6 @@ export abstract class CompoundBase {
 
   // Set in 2 steps, first the Ids and then, when all objects are in, the references.
   // Folder objects use separate arrays for files and folders children.
-  /** @brief Lower case ids. */
   childrenIds: string[] = []
 
   children: CompoundBase[] = []
@@ -103,14 +101,14 @@ export abstract class CompoundBase {
 
     this.kind = compoundDef.kind
     this.compoundName = compoundDef.compoundName
-    this.id = compoundDef.id.toLowerCase()
+    this.id = compoundDef.id
 
     if (compoundDef.title !== undefined) {
       this.titleMdxText = escapeMdx(compoundDef.title)
     }
 
     if (compoundDef?.location?.file !== undefined) {
-      this.locationFilePath = compoundDef.location.file.toLowerCase()
+      this.locationFilePath = compoundDef.location.file
     }
   }
 
@@ -454,7 +452,7 @@ export abstract class CompoundBase {
 
         for (const innerObject of innerObjects) {
           // console.log(util.inspect(innerObject, { compact: false, depth: 999 }))
-          const innerDataObject = workspace.compoundsById.get(innerObject.refid.toLowerCase())
+          const innerDataObject = workspace.compoundsById.get(innerObject.refid)
           assert(innerDataObject !== undefined)
 
           const permalink = workspace.getPagePermalink(innerObject.refid)
@@ -560,12 +558,12 @@ export abstract class CompoundBase {
       assert(files !== undefined)
 
       // console.log('renderLocationToMdxText', this.kind, this.compoundName, this.id)
-      const file = files.filesByPath.get(location.file.toLowerCase())
+      const file = files.filesByPath.get(location.file)
       if (file !== undefined) {
         const permalink = workspace.getPagePermalink(file.id)
 
         text += '\n'
-        if (location.bodyfile !== undefined && location.file.toLowerCase() !== location.bodyfile.toLowerCase()) {
+        if (location.bodyfile !== undefined && location.file !== location.bodyfile) {
           text += 'Declaration '
           if (location.line !== undefined) {
             text += 'at line '
@@ -581,7 +579,7 @@ export abstract class CompoundBase {
           }
           text += `<a href="${permalink}">${escapeMdx(path.basename(location.file) as string)}</a>`
 
-          const definitionFile = files.filesByPath.get(location.bodyfile.toLowerCase())
+          const definitionFile = files.filesByPath.get(location.bodyfile)
           if (definitionFile !== undefined) {
             const definitionPermalink = workspace.getPagePermalink(definitionFile.id)
 
@@ -650,10 +648,7 @@ export abstract class CompoundBase {
       const sortedFiles = [...this.locationSet].sort((a, b) => a.localeCompare(b))
       for (const fileName of sortedFiles) {
         // console.log('search', fileName)
-        const file = files.filesByPath.get(fileName.toLowerCase())
-        assert(file !== undefined)
-        const permalink = workspace.getPagePermalink(file.id)
-        lines.push(`<li><a href="${permalink}">${path.basename(fileName) as string}</a></li>`)
+        const file = files.filesByPath.get(fileName)
       }
       lines.push('</ul>')
     }

@@ -23,7 +23,6 @@ export class IndexEntry {
   longName: string
   permalink: string | undefined
 
-  /** @brief Lower case id. */
   id: string
 
   constructor (object: Member | Class) {

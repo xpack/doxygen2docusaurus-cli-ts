@@ -124,7 +124,6 @@ export class Workspace {
   // View model objects.
   compoundsById: Map<string, CompoundBase> = new Map()
 
-  /** @brief Lower case ids. */
   membersById: Map<String, Member> = new Map()
 
   currentCompound: CompoundBase | undefined
@@ -207,7 +206,8 @@ export class Workspace {
           // console.log(compoundDefDataModel.kind, compoundDefDataModel.compoundName)
           const compound = collection.addChild(compoundDefDataModel)
           // Also add it to the global compounds map.
-          this.compoundsById.set(compoundDefDataModel.id.toLowerCase(), compound)
+          this.compoundsById.set(compound.id, compound)
+          // console.log('compoundsById.set', compound.kind, compound.id)
           added = true
         }
       }
@@ -333,7 +333,7 @@ export class Workspace {
     for (const compoundDefDataModel of this.dataModel.compoundDefs) {
       // console.log(compoundDefDataModel.kind, compoundDefDataModel.compoundName)
 
-      const compoundDefDataModelId = compoundDefDataModel.id.toLowerCase()
+      const compoundDefDataModelId = compoundDefDataModel.id
       const compound: CompoundBase | undefined = this.compoundsById.get(compoundDefDataModelId)
       if (compound === undefined) {
         console.error('compoundDefDataModel', compoundDefDataModelId, 'not yet processed in', this.constructor.name, 'validatePermalinks')
@@ -625,10 +625,10 @@ export class Workspace {
   }
 
   getPagePermalink (refid: string): string | undefined {
-    const dataObject: CompoundBase | undefined = this.compoundsById.get(refid.toLowerCase())
+    const dataObject: CompoundBase | undefined = this.compoundsById.get(refid)
     if (dataObject === undefined) {
-      if (this.pluginOptions.verbose) {
-        console.warn('refid', refid, 'is not recognised')
+      if (this.pluginOptions.debug) {
+        console.warn('refid', refid, 'is not a known compound, no permalink')
       }
       return undefined
     }

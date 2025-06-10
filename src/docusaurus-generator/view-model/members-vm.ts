@@ -272,7 +272,7 @@ export class Section {
         if (member instanceof Member) {
           lines.push(...member.renderIndexToMdxLines())
         } else if (member instanceof MemberRef) {
-          const referredMember = this.compound.collection.workspace.membersById.get(member.refid.toLowerCase())
+          const referredMember = this.compound.collection.workspace.membersById.get(member.refid)
           assert(referredMember !== undefined)
           lines.push(...referredMember.renderIndexToMdxLines())
         }
@@ -336,7 +336,6 @@ class MemberBase {
 }
 
 export class Member extends MemberBase {
-  /** @brief Lower case id. */
   id: string
 
   kind: string
@@ -370,7 +369,7 @@ export class Member extends MemberBase {
     super(section, memberDef.name)
     this._private._memberDef = memberDef
 
-    this.id = memberDef.id.toLowerCase()
+    this.id = memberDef.id
     this.kind = memberDef.kind
   }
 
@@ -916,14 +915,13 @@ export class Member extends MemberBase {
 
 export class MemberRef extends MemberBase {
   // memberRef: MemberDataModel
-  /** @break Lower case id. */
   refid: string
 
   constructor (section: Section, memberRef: MemberDataModel) {
     super(section, memberRef.name)
     // this.memberRef = memberRef
 
-    this.refid = memberRef.refid.toLowerCase()
+    this.refid = memberRef.refid
   }
 }
 

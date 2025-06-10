@@ -22,7 +22,6 @@ import { CompoundBase } from './compound-base-vm.js'
 export abstract class CollectionBase {
   workspace: Workspace
 
-  /** @brief Lower case ids. */
   collectionCompoundsById: Map<string, CompoundBase>
 
   // --------------------------------------------------------------------------

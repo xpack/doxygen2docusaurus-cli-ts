@@ -296,7 +296,7 @@ export class Group extends CompoundBase {
     if (Array.isArray(compoundDef.innerGroups)) {
       for (const ref of compoundDef.innerGroups) {
         // console.log('component', compoundDef.id, 'has child', ref.refid)
-        this.childrenIds.push(ref.refid.toLowerCase())
+        this.childrenIds.push(ref.refid)
       }
     }
 
@@ -343,11 +343,6 @@ export class Group extends CompoundBase {
     }))
 
     lines.push(...this.renderSectionIndicesToMdxLines())
-
-    // if (this.hasSect1InDescription) {
-    //   lines.push('')
-    //   lines.push('<Link id="details" />')
-    // }
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({
       briefDescriptionMdxText: this.briefDescriptionMdxText,

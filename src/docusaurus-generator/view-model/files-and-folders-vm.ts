@@ -29,10 +29,8 @@ import { ProgramListingDataModel } from '../../data-model/compounds/descriptiont
 export class FilesAndFolders extends CollectionBase {
   // compoundsById: Map<string, File | Folder>
 
-  /** @brief Lower case ids. */
   compoundFoldersById: Map<string, Folder>
 
-  /** @brief Lower case ids. */
   compoundFilesById: Map<string, File>
 
   topLevelFolders: Folder[] = []
@@ -48,7 +46,6 @@ export class FilesAndFolders extends CollectionBase {
     super(workspace)
 
     // this.compoundsById = new Map()
-    /** @brief Lower case id. */
     this.compoundFoldersById = new Map()
     this.compoundFilesById = new Map()
 
@@ -368,11 +365,9 @@ export class FilesAndFolders extends CollectionBase {
 export class Folder extends CompoundBase {
   // childrenIds & children - not used
 
-  /** @brief Lower case ids. */
   childrenFileIds: string[] = []
   childrenFiles: File[] = []
 
-  /** @brief Lower case ids. */
   childrenFolderIds: string[] = []
   childrenFolders: Folder[] = []
 
@@ -389,16 +384,16 @@ export class Folder extends CompoundBase {
     if (Array.isArray(compoundDef.innerDirs)) {
       for (const ref of compoundDef.innerDirs) {
         // console.log('component', compoundDef.id, 'has child folder', ref.refid)
-        this.childrenIds.push(ref.refid.toLowerCase())
-        this.childrenFolderIds.push(ref.refid.toLowerCase())
+        this.childrenIds.push(ref.refid)
+        this.childrenFolderIds.push(ref.refid)
       }
     }
 
     if (Array.isArray(compoundDef.innerFiles)) {
       for (const ref of compoundDef.innerFiles) {
         // console.log('component', compoundDef.id, 'has child file', ref.refid)
-        this.childrenIds.push(ref.refid.toLowerCase())
-        this.childrenFileIds.push(ref.refid.toLowerCase())
+        this.childrenIds.push(ref.refid)
+        this.childrenFileIds.push(ref.refid)
       }
     }
 
