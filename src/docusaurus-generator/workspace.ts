@@ -242,7 +242,9 @@ export class Workspace {
       // console.log('createHierarchies:', collectionName)
       for (const [compoundId, compound] of collection.collectionCompoundsById) {
         this.currentCompound = compound
-        // console.log(compound.compoundName)
+        if (this.pluginOptions.debug) {
+          console.log(compound.kind, compound.compoundName)
+        }
         compound.initializeLate()
       }
     }
@@ -291,15 +293,22 @@ export class Workspace {
   initializeMemberLate (): void {
     console.log('Performing members late initializations...')
     for (const [, compound] of this.compoundsById) {
-      // console.log(compound.kind, compound.compoundName, compound.id)
+      if (this.pluginOptions.debug) {
+        console.log(compound.kind, compound.compoundName, compound.id)
+      }
       this.currentCompound = compound
       if (compound.sections !== undefined) {
         for (const section of compound.sections) {
           section.initializeLate()
           if (section.indexMembers !== undefined) {
-            // console.log('  ', sectionDef.kind)
+            if (this.pluginOptions.debug) {
+              console.log('  ', section.kind)
+            }
             for (const member of section.indexMembers) {
               if (member instanceof Member) {
+                if (this.pluginOptions.debug) {
+                  console.log('    ', member.kind, member.id)
+                }
                 member.initializeLate()
               }
             }

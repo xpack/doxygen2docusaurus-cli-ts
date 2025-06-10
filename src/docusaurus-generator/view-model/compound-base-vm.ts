@@ -583,8 +583,6 @@ export abstract class CompoundBase {
 
           const definitionFile = files.filesByPath.get(location.bodyfile.toLowerCase())
           if (definitionFile !== undefined) {
-            console.warn('File', location.bodyfile, 'not a location')
-
             const definitionPermalink = workspace.getPagePermalink(definitionFile.id)
 
             text += ', definition '
@@ -601,6 +599,10 @@ export abstract class CompoundBase {
               text += ' in file '
             }
             text += `<a href="${definitionPermalink}">${escapeMdx(path.basename(location.bodyfile) as string)}</a>`
+          } else {
+            if (this.collection.workspace.pluginOptions.debug) {
+              console.warn('File', location.bodyfile, 'not a location.')
+            }
           }
           text += '.'
         } else {
@@ -621,7 +623,9 @@ export abstract class CompoundBase {
           text += '.'
         }
       } else {
-        console.warn('File', location.file, 'not a known location.')
+        if (this.collection.workspace.pluginOptions.debug) {
+          console.warn('File', location.file, 'not a known location.')
+        }
       }
     }
 

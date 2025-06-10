@@ -82,14 +82,18 @@ export class FilesAndFolders extends CollectionBase {
       for (const childFolderId of folder.childrenFolderIds) {
         const childFolder = this.compoundFoldersById.get(childFolderId)
         assert(childFolder !== undefined)
-        // console.log('childFolderId', childFolderId, childFolder.compoundName, 'has parent', folderId, folder.compoundName)
+        if (this.workspace.pluginOptions.debug) {
+          console.log('childFolderId', childFolderId, childFolder.compoundName, 'has parent', folderId, folder.compoundName)
+        }
         childFolder.parent = folder
         folder.children.push(childFolder)
       }
       for (const childFileId of folder.childrenFileIds) {
         const childFile = this.compoundFilesById.get(childFileId)
         if (childFile !== undefined) {
-          // console.log('childFileId', childFileId, childFile.compoundName, 'has parent', folderId, folder.compoundName)
+          if (this.workspace.pluginOptions.debug) {
+            console.log('childFileId', childFileId, childFile.compoundName, 'has parent', folderId, folder.compoundName)
+          }
           childFile.parent = folder
           folder.children.push(childFile)
         } else {
@@ -104,7 +108,9 @@ export class FilesAndFolders extends CollectionBase {
 
     for (const [folderId, folder] of this.compoundFoldersById) {
       if (folder.parent === undefined) {
-        // console.log('topFolderId:', folderId)
+        if (this.workspace.pluginOptions.debug) {
+          console.log('topFolderId:', folderId)
+        }
         this.topLevelFolders.push(folder)
       }
     }
@@ -118,8 +124,10 @@ export class FilesAndFolders extends CollectionBase {
       const path = file.locationFilePath
       assert(path !== undefined)
       this.filesByPath.set(path, file)
-      // console.log('filesByPath.set', path, file)
-      // console.log('filesByPath.set', path)
+      if (this.workspace.pluginOptions.debug) {
+        // console.log('filesByPath.set', path, file)
+        console.log('filesByPath.set', path)
+      }
     }
 
     for (const [folderId, folder] of this.compoundFoldersById) {

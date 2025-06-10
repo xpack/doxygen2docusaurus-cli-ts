@@ -23,6 +23,7 @@ export interface PluginConfigurationOptions {
   menuDropdownFilePath?: string
   menuDropdownLabel?: string
   verbose?: boolean
+  debug?: boolean
   runOnStart?: boolean
   suggestToDoDescriptions?: boolean
   id?: string
@@ -62,6 +63,9 @@ export interface PluginOptions {
   /** Boolean to control verbosity. */
   verbose: boolean
 
+  /** Boolean to control debug verbosity. */
+  debug: boolean
+
   /** Boolean to control if the plugin runs automatically on Docusaurus start. */
   runOnStart: boolean
 
@@ -83,6 +87,7 @@ export const defaultOptions: PluginConfigurationOptions = {
   menuDropdownFilePath: 'docusaurus-config-doxygen-menu-dropdown.json',
   menuDropdownLabel: 'Reference',
   verbose: false,
+  debug: false,
   runOnStart: false,
   suggestToDoDescriptions: false,
   id: 'default'
