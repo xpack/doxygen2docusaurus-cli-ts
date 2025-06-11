@@ -2532,7 +2532,9 @@ export abstract class AbstractDocRefTextType extends AbstractDataModelBase {
       }
     }
 
-    assert(this.refid.length > 0)
+    // WARNING may be empty
+    // assert(this.refid.length > 0)
+
     assert(this.kindref.length > 0)
 
     // ------------------------------------------------------------------------
