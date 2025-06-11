@@ -274,7 +274,9 @@ export class Workspace {
                 } else {
                   // console.log('    ', memberDef.kind, memberDef.id)
                   if (this.membersById.has(member.id)) {
-                    console.warn('member already in map', member.id, 'in', this.membersById.get(member.id)?.name)
+                    if (this.pluginOptions.verbose) {
+                      console.warn('member already in map', member.id, 'in', this.membersById.get(member.id)?.name)
+                    }
                   } else {
                     this.membersById.set(member.id, member)
                   }

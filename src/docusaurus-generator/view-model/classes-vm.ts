@@ -749,7 +749,7 @@ export class Class extends CompoundBase {
             if (derivedClass !== undefined) {
               lines.push(...derivedClass.renderIndexToMdxLines())
             } else {
-              if (this.collection.workspace.pluginOptions.debug) {
+              if (this.collection.workspace.pluginOptions.verbose) {
                 console.warn('Derived class id', derivedCompoundRef.refid, 'not a defined class')
               }
 
@@ -785,7 +785,7 @@ export class Class extends CompoundBase {
             // console.log(util.inspect(derivedCompoundDef, { compact: false, depth: 999 }))
             lines.push(...derivedClass.renderIndexToMdxLines())
           } else {
-            console.warn('Derive class id', derivedClassId, 'not a class')
+            console.warn('Derived class id', derivedClassId, 'not a class')
           }
         }
 

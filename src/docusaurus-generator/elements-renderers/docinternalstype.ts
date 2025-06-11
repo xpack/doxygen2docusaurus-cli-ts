@@ -36,7 +36,7 @@ export class DocS1TypeLinesRenderer extends ElementLinesRendererBase {
     //   lines.push('<Link id="details" />')
     // }
 
-    if (element.title !== undefined) {
+    if (element.title !== undefined && this.workspace.pluginOptions.verbose) {
       // console.log(element)
       // Note that `.md` files have the sections promoted one level,
       // so `## RTOS` is generated as `sect1`.

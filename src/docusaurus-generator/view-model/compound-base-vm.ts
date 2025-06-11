@@ -628,7 +628,7 @@ export abstract class CompoundBase {
             }
             text += `<a href="${definitionPermalink}">${escapeMdx(path.basename(location.bodyfile) as string)}</a>`
           } else {
-            if (this.collection.workspace.pluginOptions.debug) {
+            if (this.collection.workspace.pluginOptions.verbose) {
               console.warn('File', location.bodyfile, 'not a location.')
             }
           }
@@ -651,7 +651,7 @@ export abstract class CompoundBase {
           text += '.'
         }
       } else {
-        if (this.collection.workspace.pluginOptions.debug) {
+        if (this.collection.workspace.pluginOptions.verbose) {
           console.warn('File', location.file, 'not a known location.')
         }
       }
