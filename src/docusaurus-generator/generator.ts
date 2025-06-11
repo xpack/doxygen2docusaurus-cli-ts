@@ -220,14 +220,18 @@ export class DocusaurusGenerator {
       this.workspace.currentCompound = compound
 
       const permalink: string = compound.relativePermalink as string
-      assert(permalink !== undefined)
+      const docusaurusId = compound.docusaurusId
+      if (permalink === undefined || docusaurusId === undefined) {
+        if (this.workspace.pluginOptions.verbose) {
+          console.warn('Skip', compound.id, 'no permalink')
+        }
+        continue
+      }
+      // assert(permalink !== undefined)
 
       if (this.workspace.pluginOptions.verbose) {
         console.log(`${compound.kind as string}: ${compound.compoundName.replaceAll(/[ ]*/g, '') as string}`, '->', `${this.workspace.absoluteBaseUrl}${permalink}...`)
       }
-
-      const docusaurusId: string = compound.docusaurusId
-      assert(docusaurusId !== undefined)
 
       const fileName = `${docusaurusId}.mdx`
       // console.log('fileName:', fileName)
@@ -275,6 +279,11 @@ export class DocusaurusGenerator {
       assert(compound !== undefined)
 
       const filePath = `static/${redirectsOutputFolderPath}/${compoundId}.html`
+
+      if (compound.relativePermalink === undefined) {
+        continue
+      }
+
       const permalink = `${this.workspace.absoluteBaseUrl}${compound.relativePermalink}/`
 
       await this.generateRedirectFile({
