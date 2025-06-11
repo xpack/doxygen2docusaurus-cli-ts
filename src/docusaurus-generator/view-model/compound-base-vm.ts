@@ -19,7 +19,7 @@ import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.
 import { FrontMatter } from '../types.js'
 import { Sect1DataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { CollectionBase } from './collection-base.js'
-import { AbstractRefType } from '../../data-model/compounds/reftype-dm.js'
+import { AbstractRefType, InnerClassDataModel } from '../../data-model/compounds/reftype-dm.js'
 import { escapeHtml, escapeMdx } from '../utils.js'
 import { Section } from './members-vm.js'
 import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js'
@@ -43,6 +43,7 @@ export abstract class CompoundBase {
   collection: CollectionBase
 
   titleMdxText: string | undefined
+
   locationFilePath: string | undefined
 
   // --------------------------------------------------------------------------
@@ -679,6 +680,16 @@ export abstract class CompoundBase {
       for (const fileName of sortedFiles) {
         // console.log('search', fileName)
         const file = files.filesByPath.get(fileName)
+        if (file !== undefined) {
+          const permalink = workspace.getPagePermalink(file.id)
+          if (permalink !== undefined && permalink.length > 0) {
+            lines.push(`<li><a href="${permalink}">${path.basename(fileName) as string}</a></li>`)
+          } else {
+            lines.push(`<li>${path.basename(fileName) as string}</li>`)
+          }
+        } else {
+          lines.push(`<li>${path.basename(fileName) as string}</li>`)
+        }
       }
       lines.push('</ul>')
     }
