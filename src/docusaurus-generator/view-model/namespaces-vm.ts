@@ -13,6 +13,7 @@
 
 import * as util from 'node:util'
 import assert from 'node:assert'
+import path from 'node:path'
 
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
@@ -188,6 +189,9 @@ export class Namespaces extends CollectionBase {
     const label = escapeMdx(namespace.unqualifiedName)
 
     const permalink = this.workspace.getPagePermalink(namespace.id)
+    if (permalink === undefined || permalink.length === 0) {
+      console.log(namespace)
+    }
     assert(permalink !== undefined && permalink.length > 1)
 
     lines.push('')
@@ -217,6 +221,7 @@ export class Namespaces extends CollectionBase {
 
 export class Namespace extends CompoundBase {
   unqualifiedName: string = '?'
+  isAnonymous: boolean = false
 
   constructor (collection: Namespaces, compoundDef: CompoundDefDataModel) {
     super(collection, compoundDef)
@@ -230,28 +235,80 @@ export class Namespace extends CompoundBase {
       }
     }
 
-    // The compoundName is the fully qualified namespace name.
-    // Keep only the last name.
-    this.sidebarLabel = compoundDef.compoundName.replace(/.*::/, '').replace(/anonymous_namespace\{/, 'anonymous{')
+    // Tricky case: namespace { namespace CU { ... }}
+    // id: "namespace_0d341223050020306256025223146376054302122106363020_1_1CU"
+    // compoundname: "::CU"
+    // location: "[generated]"
 
-    this.indexName = this.compoundName
+    if (/^namespace.*_0d\d{48}/.test(this.id)) {
+      let fileName = ''
+      if (compoundDef.location?.file !== undefined) {
+        fileName = path.basename(compoundDef.location.file)
+      }
 
-    this.unqualifiedName = this.sidebarLabel
+      if (this.compoundName.startsWith('::')) {
+        this.unqualifiedName = compoundDef.compoundName.replace(/.*::/, '')
 
-    this.pageTitle = `The \`${this.sidebarLabel}\` Namespace Reference`
+        this.indexName = `anonymous{${fileName}}${this.compoundName}`
 
-    const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundName.replaceAll('::', '/').replace(/anonymous_namespace\{/, 'anonymous{'))
-    this.relativePermalink = `namespaces/${sanitizedPath}`
+        const sanitizedPath = sanitizeHierarchicalPath(this.indexName.replaceAll('::', '/'))
 
-    this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
+        this.pageTitle = `The \`${this.indexName}\` Namespace Reference`
+
+        this.relativePermalink = `namespaces/${sanitizedPath}`
+        this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
+        this.sidebarLabel = this.unqualifiedName
+      } else {
+        this.unqualifiedName = `anonymous{${fileName}}`
+        this.isAnonymous = true
+
+        if (this.compoundName.length > 0) {
+          this.indexName = `${this.compoundName}::${this.unqualifiedName}`
+        } else {
+          this.indexName = this.unqualifiedName
+        }
+
+        const sanitizedPath = sanitizeHierarchicalPath(this.indexName.replaceAll('::', '/'))
+
+        // if (compoundDef.location?.file !== undefined) {
+        //   sanitizedPath += `-${crypto.hash('md5', compoundDef.location?.file)}`
+        // }
+
+        this.pageTitle = `The \`${this.indexName}\` Namespace Reference`
+
+        this.relativePermalink = `namespaces/${sanitizedPath}`
+        this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
+        this.sidebarLabel = this.unqualifiedName
+      }
+    } else {
+      // The compoundName is the fully qualified namespace name.
+      // Keep only the last name.
+      this.unqualifiedName = compoundDef.compoundName.replace(/.*::/, '').replace(/anonymous_namespace\{/, 'anonymous{')
+
+      this.indexName = this.compoundName.replaceAll(/anonymous_namespace\{/g, 'anonymous{')
+
+      this.pageTitle = `The \`${this.unqualifiedName}\` Namespace Reference`
+
+      const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundName.replaceAll('::', '/').replaceAll(/anonymous_namespace\{/g, 'anonymous{'))
+
+      if (compoundDef.compoundName.length > 0) {
+        // Skip un-named namespaces, and generated ones, since they can be duplicate.
+        this.relativePermalink = `namespaces/${sanitizedPath}`
+        this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
+        this.sidebarLabel = this.unqualifiedName
+      } else {
+        console.warn('Skipping unnamed namespace', compoundDef.id, compoundDef.location?.file)
+      }
+    }
 
     this.createSections()
 
-    // console.log('1', this.compoundName)
-    // console.log('2', this.relativePermalink)
-    // console.log('3', this.docusaurusId)
-    // console.log('4', this.sidebarLabel)
-    // console.log('4', this.indexName)
+    // console.log('0 id', this.id)
+    // console.log('1 nm', this.compoundName)
+    // console.log('2 pl', this.relativePermalink)
+    // console.log('3 di', this.docusaurusId)
+    // console.log('4 sb', this.sidebarLabel)
+    // console.log('5 ix', this.indexName)
     // console.log()
   }
 
