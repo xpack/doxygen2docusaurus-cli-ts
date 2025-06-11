@@ -333,12 +333,16 @@ export class Workspace {
     console.log('Validating permalinks...')
 
     const pagePermalinksById: Map<string, string> = new Map()
-    const pagePermalinksSet: Set<string> = new Set()
+    const compoundsByPermalink: Map<string, Map<string, CompoundBase>> = new Map()
 
     for (const compoundDefDataModel of this.dataModel.compoundDefs) {
       // console.log(compoundDefDataModel.kind, compoundDefDataModel.compoundName)
 
       const compoundDefDataModelId = compoundDefDataModel.id
+      if (pagePermalinksById.has(compoundDefDataModelId)) {
+        console.warn('Duplicate id', compoundDefDataModelId)
+      }
+
       const compound: CompoundBase | undefined = this.compoundsById.get(compoundDefDataModelId)
       if (compound === undefined) {
         console.error('compoundDefDataModel', compoundDefDataModelId, 'not yet processed in', this.constructor.name, 'validatePermalinks')
@@ -346,17 +350,37 @@ export class Workspace {
       }
 
       const permalink = compound.relativePermalink
-      assert(permalink !== undefined)
-      // console.log('permalink:', permalink)
+      if (permalink !== undefined) {
+        // console.log('permalink:', permalink)
+        let compoundsMap = compoundsByPermalink.get(permalink)
+        if (compoundsMap === undefined) {
+          compoundsMap = new Map()
+          compoundsByPermalink.set(permalink, compoundsMap)
+        }
+        pagePermalinksById.set(compoundDefDataModelId, permalink)
+        if (!compoundsMap.has(compound.id)) {
+          compoundsMap.set(compound.id, compound)
+        }
+      }
+    }
 
-      if (pagePermalinksById.has(compoundDefDataModelId)) {
-        console.error('Permalink clash for id', compoundDefDataModelId)
+    for (const [permalink, compoundsMap] of compoundsByPermalink) {
+      if (compoundsMap.size > 1) {
+        if (this.pluginOptions.verbose) {
+          console.warn('Permalink', permalink, 'has', compoundsMap.size, 'occurrences:')
+        }
+        let count = 1
+        for (const [compoundId, compound] of compoundsMap) {
+          const suffix = `-${count}`
+          count += 1
+          compound.relativePermalink += suffix
+          compound.docusaurusId += suffix
+
+          if (this.pluginOptions.verbose) {
+            console.warn('-', compound.relativePermalink, compound.id)
+          }
+        }
       }
-      if (pagePermalinksSet.has(permalink)) {
-        console.error('Permalink clash for permalink', permalink, 'id:', compoundDefDataModelId)
-      }
-      pagePermalinksById.set(compoundDefDataModelId, permalink)
-      pagePermalinksSet.add(permalink)
     }
   }
 
