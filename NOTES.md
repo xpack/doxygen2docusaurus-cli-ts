@@ -38,3 +38,8 @@ As aspect, the output will remain close to the
 - https://github.com/microsoft/react-native-windows/tree/main/packages/%40rnw-scripts/doxysaurus
 - https://github.com/sourcey/moxygen
 - https://github.com/matusnovak/doxybook2 (archived)
+
+## Issues
+
+- https://github.com/doxygen/doxygen/issues/11613 - case-insensitive file names (not a bug; use CASE_SENSE_NAMES = SYSTEM)
+- https://github.com/doxygen/doxygen/issues/11614 - duplicate IDs
