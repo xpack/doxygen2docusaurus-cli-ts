@@ -49,7 +49,7 @@ export class IndexEntry {
             this.kind = '?';
             this.objectKind = '?';
             this.longName = '?';
-            this.permalink = '';
+            // this.permalink = ''
             this.id = '?';
         }
         // console.log(this)

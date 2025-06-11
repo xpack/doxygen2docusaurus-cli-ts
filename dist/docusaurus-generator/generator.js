@@ -35,6 +35,9 @@ export class DocusaurusGenerator {
         console.log();
         await this.generateIndexDotMdxFiles();
         await this.generatePerInitialsIndexMdxFiles();
+        if (this.workspace.pluginOptions.verbose) {
+            console.log(this.workspace.writtenMdxFilesCounter, 'mdx files written');
+        }
         await this.generateRedirectFiles();
     }
     // --------------------------------------------------------------------------
@@ -155,12 +158,17 @@ export class DocusaurusGenerator {
             }
             this.workspace.currentCompound = compound;
             const permalink = compound.relativePermalink;
-            assert(permalink !== undefined);
+            const docusaurusId = compound.docusaurusId;
+            if (permalink === undefined || docusaurusId === undefined) {
+                if (this.workspace.pluginOptions.verbose) {
+                    console.warn('Skip', compound.id, 'no permalink');
+                }
+                continue;
+            }
+            // assert(permalink !== undefined)
             if (this.workspace.pluginOptions.verbose) {
                 console.log(`${compound.kind}: ${compound.compoundName.replaceAll(/[ ]*/g, '')}`, '->', `${this.workspace.absoluteBaseUrl}${permalink}...`);
             }
-            const docusaurusId = compound.docusaurusId;
-            assert(docusaurusId !== undefined);
             const fileName = `${docusaurusId}.mdx`;
             // console.log('fileName:', fileName)
             const filePath = `${this.workspace.outputFolderPath}${fileName}`;
@@ -198,6 +206,9 @@ export class DocusaurusGenerator {
             const compound = this.workspace.compoundsById.get(compoundId);
             assert(compound !== undefined);
             const filePath = `static/${redirectsOutputFolderPath}/${compoundId}.html`;
+            if (compound.relativePermalink === undefined) {
+                continue;
+            }
             const permalink = `${this.workspace.absoluteBaseUrl}${compound.relativePermalink}/`;
             await this.generateRedirectFile({
                 filePath,
@@ -239,6 +250,9 @@ export class DocusaurusGenerator {
                 permalink
             });
         }
+        if (this.workspace.pluginOptions.verbose) {
+            console.log(this.workspace.writtenHtmlFilesCounter, 'html files written');
+        }
     }
     // If `trailingSlash` is true, Docusaurus redirects do not generate .html files,
     // therefore we have to do it manually.
@@ -261,6 +275,7 @@ export class DocusaurusGenerator {
         const fileHandle = await fs.open(filePath, 'ax');
         await fileHandle.write(lines.join('\n'));
         await fileHandle.close();
+        this.workspace.writtenHtmlFilesCounter += 1;
     }
 }
 // ----------------------------------------------------------------------------

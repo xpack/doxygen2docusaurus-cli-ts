@@ -29,14 +29,14 @@ export class FilesAndFolders extends CollectionBase {
     addChild(compoundDef) {
         if (compoundDef.kind === 'file') {
             const file = new File(this, compoundDef);
-            this.collectionCompoundsById.set(compoundDef.id, file);
-            this.compoundFilesById.set(compoundDef.id, file);
+            this.collectionCompoundsById.set(file.id, file);
+            this.compoundFilesById.set(file.id, file);
             return file;
         }
         else if (compoundDef.kind === 'dir') {
             const folder = new Folder(this, compoundDef);
-            this.collectionCompoundsById.set(compoundDef.id, folder);
-            this.compoundFoldersById.set(compoundDef.id, folder);
+            this.collectionCompoundsById.set(folder.id, folder);
+            this.compoundFoldersById.set(folder.id, folder);
             return folder;
         }
         else {
@@ -51,16 +51,24 @@ export class FilesAndFolders extends CollectionBase {
             for (const childFolderId of folder.childrenFolderIds) {
                 const childFolder = this.compoundFoldersById.get(childFolderId);
                 assert(childFolder !== undefined);
-                // console.log('childFolderId', childFolderId, childFolder.compoundName, 'has parent', folderId, folder.compoundName)
+                if (this.workspace.pluginOptions.debug) {
+                    console.log('childFolderId', childFolderId, childFolder.compoundName, 'has parent', folderId, folder.compoundName);
+                }
                 childFolder.parent = folder;
                 folder.children.push(childFolder);
             }
             for (const childFileId of folder.childrenFileIds) {
                 const childFile = this.compoundFilesById.get(childFileId);
-                assert(childFile !== undefined);
-                // console.log('childFileId', childFileId, childFile.compoundName, 'has parent', folderId, folder.compoundName)
-                childFile.parent = folder;
-                folder.children.push(childFile);
+                if (childFile !== undefined) {
+                    if (this.workspace.pluginOptions.debug) {
+                        console.log('childFileId', childFileId, childFile.compoundName, 'has parent', folderId, folder.compoundName);
+                    }
+                    childFile.parent = folder;
+                    folder.children.push(childFile);
+                }
+                else {
+                    console.warn(childFileId, 'not a child of', folder.id);
+                }
             }
         }
         for (const [fileId, file] of this.compoundFilesById) {
@@ -68,7 +76,9 @@ export class FilesAndFolders extends CollectionBase {
         }
         for (const [folderId, folder] of this.compoundFoldersById) {
             if (folder.parent === undefined) {
-                // console.log('topFolderId:', folderId)
+                if (this.workspace.pluginOptions.debug) {
+                    console.log('topFolderId:', folderId);
+                }
                 this.topLevelFolders.push(folder);
             }
         }
@@ -80,8 +90,10 @@ export class FilesAndFolders extends CollectionBase {
             const path = file.locationFilePath;
             assert(path !== undefined);
             this.filesByPath.set(path, file);
-            // console.log('filesByPath.set', path, file)
-            // console.log('filesByPath.set', path)
+            if (this.workspace.pluginOptions.debug) {
+                // console.log('filesByPath.set', path, file)
+                console.log('filesByPath.set', path);
+            }
         }
         for (const [folderId, folder] of this.compoundFoldersById) {
             let parentPath = '';
@@ -93,6 +105,7 @@ export class FilesAndFolders extends CollectionBase {
             const sanitizedPath = sanitizeHierarchicalPath(folder.relativePath);
             folder.relativePermalink = `folders/${sanitizedPath}`;
             folder.docusaurusId = `folders/${flattenPath(sanitizedPath)}`;
+            // console.log('0', folder.id)
             // console.log('1', folder.compoundName)
             // console.log('2', folder.relativePermalink)
             // console.log('3', folder.docusaurusId)
@@ -111,6 +124,7 @@ export class FilesAndFolders extends CollectionBase {
             const sanitizedPath = sanitizeHierarchicalPath(file.relativePath);
             file.relativePermalink = `files/${sanitizedPath}`;
             file.docusaurusId = `files/${flattenPath(sanitizedPath)}`;
+            // console.log('0', file.id)
             // console.log('1', file.compoundName)
             // console.log('2', file.relativePermalink)
             // console.log('3', file.docusaurusId)
@@ -141,14 +155,23 @@ export class FilesAndFolders extends CollectionBase {
             items: []
         };
         for (const folder of this.topLevelFolders) {
-            filesCategory.items.push(this.createFolderSidebarItemRecursively(folder));
+            const item = this.createFolderSidebarItemRecursively(folder);
+            if (item !== undefined) {
+                filesCategory.items.push(item);
+            }
         }
         for (const file of this.topLevelFiles) {
-            filesCategory.items.push(this.createFileSidebarItem(file));
+            const item = this.createFileSidebarItem(file);
+            if (item !== undefined) {
+                filesCategory.items.push(item);
+            }
         }
         return [filesCategory];
     }
     createFolderSidebarItemRecursively(folder) {
+        if (folder.sidebarLabel === undefined) {
+            return undefined;
+        }
         const categoryItem = {
             type: 'category',
             label: folder.sidebarLabel,
@@ -161,17 +184,26 @@ export class FilesAndFolders extends CollectionBase {
         };
         for (const fileOrFolder of folder.children) {
             if (fileOrFolder instanceof Folder) {
-                categoryItem.items.push(this.createFolderSidebarItemRecursively(fileOrFolder));
+                const item = this.createFolderSidebarItemRecursively(fileOrFolder);
+                if (item !== undefined) {
+                    categoryItem.items.push(item);
+                }
             }
         }
         for (const fileOrFolder of folder.children) {
             if (fileOrFolder instanceof File) {
-                categoryItem.items.push(this.createFileSidebarItem(fileOrFolder));
+                const item = this.createFileSidebarItem(fileOrFolder);
+                if (item !== undefined) {
+                    categoryItem.items.push(item);
+                }
             }
         }
         return categoryItem;
     }
     createFileSidebarItem(file) {
+        if (file.sidebarLabel === undefined) {
+            return undefined;
+        }
         const docItem = {
             type: 'doc',
             label: file.sidebarLabel,

@@ -8,8 +8,6 @@
  * If a copy of the license was not distributed with this file, it can
  * be obtained from https://opensource.org/licenses/MIT.
  */
-// ----------------------------------------------------------------------------
-import assert from 'assert';
 import { ElementTextRendererBase } from './element-renderer-base.js';
 import { escapeMdx } from '../utils.js';
 // ----------------------------------------------------------------------------
@@ -27,8 +25,12 @@ export class RefTextTypeTextRenderer extends ElementTextRendererBase {
             refid: element.refid,
             kindref: element.kindref
         });
-        assert(permalink !== undefined && permalink.length > 1);
-        text += `<a href="${permalink}">${escapeMdx(element.text.trim())}</a>`;
+        if (permalink !== undefined && permalink.length > 0) {
+            text += `<a href="${permalink}">${escapeMdx(element.text.trim())}</a>`;
+        }
+        else {
+            text += `${escapeMdx(element.text.trim())}`;
+        }
         return text;
     }
 }

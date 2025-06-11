@@ -20,7 +20,7 @@ export declare class Classes extends CollectionBase {
     outputEntries(entriesPerInitialsMap: Map<string, IndexEntry[]>): string[];
 }
 export declare class Class extends CompoundBase {
-    baseClassIds: string[];
+    baseClassIds: Set<string>;
     baseClasses: Class[];
     fullyQualifiedName: string;
     unqualifiedName: string;

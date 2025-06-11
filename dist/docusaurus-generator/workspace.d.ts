@@ -25,6 +25,8 @@ export declare class Workspace {
     membersById: Map<String, Member>;
     currentCompound: CompoundBase | undefined;
     elementRenderers: Renderers;
+    writtenMdxFilesCounter: number;
+    writtenHtmlFilesCounter: number;
     constructor({ dataModel, pluginOptions, siteConfig, pluginActions }: {
         dataModel: DataModel;
         pluginOptions: PluginOptions;
@@ -56,7 +58,7 @@ export declare class Workspace {
     getPermalink({ refid, kindref }: {
         refid: string;
         kindref: string;
-    }): string;
-    getPagePermalink(refid: string): string;
+    }): string | undefined;
+    getPagePermalink(refid: string): string | undefined;
     getXrefPermalink(id: string): string;
 }

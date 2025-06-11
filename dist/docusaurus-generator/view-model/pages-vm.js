@@ -22,7 +22,7 @@ export class Pages extends CollectionBase {
     // --------------------------------------------------------------------------
     addChild(compoundDef) {
         const page = new Page(this, compoundDef);
-        this.collectionCompoundsById.set(compoundDef.id, page);
+        this.collectionCompoundsById.set(page.id, page);
         if (page.id === 'indexpage') {
             this.mainPage = page;
         }
@@ -56,6 +56,9 @@ export class Pages extends CollectionBase {
                 continue;
             }
             const label = page.sidebarLabel;
+            if (label === undefined) {
+                continue;
+            }
             const id = `${this.workspace.sidebarBaseId}${page.docusaurusId}`;
             const docItem = {
                 type: 'doc',
@@ -89,6 +92,7 @@ export class Page extends CompoundBase {
         this.docusaurusId = `pages/${flattenPath(sanitizedPath)}`;
         // SectionDefs for pages?
         assert(compoundDef.sectionDefs === undefined);
+        // console.log('0', this.id)
         // console.log('1', this.compoundName)
         // console.log('2', this.relativePermalink)
         // console.log('3', this.docusaurusId)

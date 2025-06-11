@@ -49,6 +49,10 @@ export const sectionHeaders = {
     'protected-attrib': ['Protected Member Attributes', 420],
     'private-attrib': ['Private Member Attributes', 430],
     'package-attrib': ['Package Member Attributes', 440],
+    'public-static-operator': ['Public Operators', 450],
+    'protected-static-operator': ['Protected Operators', 460],
+    'private-static-operator': ['Private Operators', 470],
+    'package-static-operator': ['Package Operators', 480],
     'public-static-func': ['Public Static Functions', 500],
     'protected-static-func': ['Protected Static Functions', 510],
     'private-static-func': ['Private Static Functions', 520],
@@ -85,7 +89,7 @@ export class Section {
         this.compound = compound;
         this.kind = sectionDef.kind;
         this.headerName = this.getHeaderNameByKind(sectionDef);
-        assert(this.headerName.length > 0);
+        assert(this.headerName !== undefined && this.headerName.length > 0);
         const members = [];
         if (sectionDef.memberDefs !== undefined) {
             for (const memberDefDataModel of sectionDef.memberDefs) {
@@ -319,13 +323,10 @@ export class Member extends MemberBase {
         if (memberDef.strong?.valueOf()) {
             labels.push('strong');
         }
-        // WARNING: could not find how to generate 'inherited'.
-        // Validation checks.
-        // const passed via the prototype.
         if (memberDef.mutable?.valueOf()) {
-            console.error(util.inspect(memberDef, { compact: false, depth: 999 }));
-            console.error(memberDef.constructor.name, 'mutable not yet rendered in', this.constructor.name);
+            labels.push('mutable');
         }
+        // WARNING: could not find how to generate 'inherited'.
         this.labels = labels;
         const type = this.typeMdxText ?? '';
         const templateParamList = memberDef.templateparamlist ?? this.section.compound.templateParamList;

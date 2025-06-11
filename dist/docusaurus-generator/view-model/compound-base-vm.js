@@ -11,6 +11,7 @@
 import assert from 'node:assert';
 import path from 'node:path';
 import { Sect1DataModel } from '../../data-model/compounds/descriptiontype-dm.js';
+import { InnerClassDataModel } from '../../data-model/compounds/reftype-dm.js';
 import { escapeHtml, escapeMdx } from '../utils.js';
 import { Section } from './members-vm.js';
 import { RefTextDataModel } from '../../data-model/compounds/reftexttype-dm.js';
@@ -26,10 +27,6 @@ export class CompoundBase {
         // Folder objects use separate arrays for files and folders children.
         this.childrenIds = [];
         this.children = [];
-        /** Relative path to the output folder, starts with plural kind. */
-        this.docusaurusId = '';
-        /** Short name, to fit the limited space in the sidebar. */
-        this.sidebarLabel = '';
         /** The name shown in the index section. */
         this.indexName = '';
         /** The name shown in the page title. */
@@ -48,7 +45,7 @@ export class CompoundBase {
             this.titleMdxText = escapeMdx(compoundDef.title);
         }
         if (compoundDef?.location?.file !== undefined) {
-            this.locationFilePath = compoundDef?.location?.file;
+            this.locationFilePath = compoundDef.location.file;
         }
     }
     createSections(classUnqualifiedName) {
@@ -325,28 +322,44 @@ export class CompoundBase {
                 for (const innerObject of innerObjects) {
                     // console.log(util.inspect(innerObject, { compact: false, depth: 999 }))
                     const innerDataObject = workspace.compoundsById.get(innerObject.refid);
-                    assert(innerDataObject !== undefined);
-                    const permalink = workspace.getPagePermalink(innerObject.refid);
-                    const kind = innerDataObject.kind;
-                    const itemType = kind === 'dir' ? 'folder' : (kind === 'group' ? '&nbsp;' : kind);
-                    const itemName = `<a href="${permalink}">${escapeHtml(innerDataObject.indexName)}</a>`;
-                    lines.push('');
-                    lines.push('<MembersIndexItem');
-                    lines.push(`  type="${itemType}"`);
-                    if (itemName.includes('<') || itemName.includes('&')) {
-                        lines.push(`  name={<>${itemName}</>}>`);
+                    if (innerDataObject !== undefined) {
+                        const kind = innerDataObject.kind;
+                        const itemType = kind === 'dir' ? 'folder' : (kind === 'group' ? '&nbsp;' : kind);
+                        const permalink = workspace.getPagePermalink(innerObject.refid);
+                        const itemName = `<a href="${permalink}">${escapeHtml(innerDataObject.indexName)}</a>`;
+                        lines.push('');
+                        lines.push('<MembersIndexItem');
+                        lines.push(`  type="${itemType}"`);
+                        if (itemName.includes('<') || itemName.includes('&')) {
+                            lines.push(`  name={<>${itemName}</>}>`);
+                        }
+                        else {
+                            lines.push(`  name="${itemName}">`);
+                        }
+                        const morePermalink = innerDataObject.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined;
+                        if (innerDataObject.briefDescriptionMdxText !== undefined && innerDataObject.briefDescriptionMdxText.length > 0) {
+                            lines.push(this.renderBriefDescriptionToMdxText({
+                                briefDescriptionMdxText: innerDataObject.briefDescriptionMdxText,
+                                morePermalink
+                            }));
+                        }
+                        lines.push('</MembersIndexItem>');
+                    }
+                    else if (innerObject instanceof InnerClassDataModel) {
+                        lines.push('');
+                        lines.push('<MembersIndexItem');
+                        lines.push('  type="class"');
+                        lines.push(`  name="${escapeHtml(innerObject.text)}">`);
+                        lines.push('</MembersIndexItem>');
                     }
                     else {
-                        lines.push(`  name="${itemName}">`);
+                        if (this.collection.workspace.pluginOptions.debug) {
+                            console.warn(innerObject);
+                        }
+                        if (this.collection.workspace.pluginOptions.verbose) {
+                            console.warn('Object not rendered in renderInnerIndicesToMdxLines()');
+                        }
                     }
-                    const morePermalink = innerDataObject.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined;
-                    if (innerDataObject.briefDescriptionMdxText !== undefined && innerDataObject.briefDescriptionMdxText.length > 0) {
-                        lines.push(this.renderBriefDescriptionToMdxText({
-                            briefDescriptionMdxText: innerDataObject.briefDescriptionMdxText,
-                            morePermalink
-                        }));
-                    }
-                    lines.push('</MembersIndexItem>');
                 }
                 lines.push('');
                 lines.push('</MembersIndex>');
@@ -395,70 +408,86 @@ export class CompoundBase {
         let text = '';
         const workspace = this.collection.workspace;
         if (location !== undefined) {
-            // console.log(location.file)
+            // console.log('location.file:', location.file)
+            if (location.file.includes('[')) {
+                // Ignore cases like `[generated]`, encountered in llvm.
+                return text;
+            }
             const files = workspace.viewModel.get('files');
             assert(files !== undefined);
-            // console.log('renderLocationToMdxText', this.kind, this.compoundName)
+            // console.log('renderLocationToMdxText', this.kind, this.compoundName, this.id)
             const file = files.filesByPath.get(location.file);
-            assert(file !== undefined);
-            const permalink = workspace.getPagePermalink(file.id);
-            text += '\n';
-            if (location.bodyfile !== undefined && location.file !== location.bodyfile) {
-                text += 'Declaration ';
-                if (location.line !== undefined) {
-                    text += 'at line ';
-                    const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`;
-                    if (!file.listingLineNumbers.has(location.line)) {
-                        text += location.line?.toString();
+            if (file !== undefined) {
+                const permalink = workspace.getPagePermalink(file.id);
+                text += '\n';
+                if (location.bodyfile !== undefined && location.file !== location.bodyfile) {
+                    text += 'Declaration ';
+                    if (location.line !== undefined) {
+                        text += 'at line ';
+                        const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`;
+                        if (!file.listingLineNumbers.has(location.line)) {
+                            text += location.line?.toString();
+                        }
+                        else {
+                            text += `<a href="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</a>`;
+                        }
+                        text += ' of file ';
                     }
                     else {
-                        text += `<a href="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</a>`;
+                        text += ' in file ';
                     }
-                    text += ' of file ';
-                }
-                else {
-                    text += ' in file ';
-                }
-                text += `<a href="${permalink}">${escapeMdx(path.basename(location.file))}</a>`;
-                const definitionFile = files.filesByPath.get(location.bodyfile);
-                assert(definitionFile !== undefined);
-                const definitionPermalink = workspace.getPagePermalink(definitionFile.id);
-                text += ', definition ';
-                if (location.bodystart !== undefined) {
-                    text += 'at line ';
-                    const lineStart = `l${location.bodystart?.toString().padStart(5, '0')}`;
-                    if (!definitionFile.listingLineNumbers.has(location.bodystart)) {
-                        text += location.bodystart?.toString();
+                    text += `<a href="${permalink}">${escapeMdx(path.basename(location.file))}</a>`;
+                    const definitionFile = files.filesByPath.get(location.bodyfile);
+                    if (definitionFile !== undefined) {
+                        const definitionPermalink = workspace.getPagePermalink(definitionFile.id);
+                        text += ', definition ';
+                        if (location.bodystart !== undefined) {
+                            text += 'at line ';
+                            const lineStart = `l${location.bodystart?.toString().padStart(5, '0')}`;
+                            if (!definitionFile.listingLineNumbers.has(location.bodystart)) {
+                                text += location.bodystart?.toString();
+                            }
+                            else {
+                                text += `<a href="${definitionPermalink}/#${lineStart}">${escapeMdx(location.bodystart?.toString() ?? '?')}</a>`;
+                            }
+                            text += ' of file ';
+                        }
+                        else {
+                            text += ' in file ';
+                        }
+                        text += `<a href="${definitionPermalink}">${escapeMdx(path.basename(location.bodyfile))}</a>`;
                     }
                     else {
-                        text += `<a href="${definitionPermalink}/#${lineStart}">${escapeMdx(location.bodystart?.toString() ?? '?')}</a>`;
+                        if (this.collection.workspace.pluginOptions.verbose) {
+                            console.warn('File', location.bodyfile, 'not a location.');
+                        }
                     }
-                    text += ' of file ';
+                    text += '.';
                 }
                 else {
-                    text += ' in file ';
+                    text += 'Definition ';
+                    if (location.line !== undefined) {
+                        text += 'at line ';
+                        const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`;
+                        if (!file.listingLineNumbers.has(location.line)) {
+                            text += location.line?.toString();
+                        }
+                        else {
+                            text += `<a href="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</a>`;
+                        }
+                        text += ' of file ';
+                    }
+                    else {
+                        text += ' in file ';
+                    }
+                    text += `<a href="${permalink}">${escapeMdx(path.basename(location.file))}</a>`;
+                    text += '.';
                 }
-                text += `<a href="${definitionPermalink}">${escapeMdx(path.basename(location.bodyfile))}</a>`;
-                text += '.';
             }
             else {
-                text += 'Definition ';
-                if (location.line !== undefined) {
-                    text += 'at line ';
-                    const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`;
-                    if (!file.listingLineNumbers.has(location.line)) {
-                        text += location.line?.toString();
-                    }
-                    else {
-                        text += `<a href="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</a>`;
-                    }
-                    text += ' of file ';
+                if (this.collection.workspace.pluginOptions.verbose) {
+                    console.warn('File', location.file, 'not a known location.');
                 }
-                else {
-                    text += ' in file ';
-                }
-                text += `<a href="${permalink}">${escapeMdx(path.basename(location.file))}</a>`;
-                text += '.';
             }
         }
         return text;
@@ -476,10 +505,20 @@ export class CompoundBase {
             const files = workspace.viewModel.get('files');
             const sortedFiles = [...this.locationSet].sort((a, b) => a.localeCompare(b));
             for (const fileName of sortedFiles) {
+                // console.log('search', fileName)
                 const file = files.filesByPath.get(fileName);
-                assert(file !== undefined);
-                const permalink = workspace.getPagePermalink(file.id);
-                lines.push(`<li><a href="${permalink}">${path.basename(fileName)}</a></li>`);
+                if (file !== undefined) {
+                    const permalink = workspace.getPagePermalink(file.id);
+                    if (permalink !== undefined && permalink.length > 0) {
+                        lines.push(`<li><a href="${permalink}">${path.basename(fileName)}</a></li>`);
+                    }
+                    else {
+                        lines.push(`<li>${path.basename(fileName)}</li>`);
+                    }
+                }
+                else {
+                    lines.push(`<li>${path.basename(fileName)}</li>`);
+                }
             }
             lines.push('</ul>');
         }
@@ -507,20 +546,20 @@ export class CompoundBase {
                 else if (child instanceof RefTextDataModel) {
                     paramString += child.text;
                 }
-                if (param.declname !== undefined) {
-                    paramString += ` ${param.declname}`;
-                }
-                if (withDefaults) {
-                    if (param.defval !== undefined) {
-                        const defval = param.defval;
-                        paramString += ' = ';
-                        for (const child of defval.children) {
-                            if (typeof child === 'string') {
-                                paramString += child;
-                            }
-                            else if (child instanceof RefTextDataModel) {
-                                paramString += child.text;
-                            }
+            }
+            if (param.declname !== undefined) {
+                paramString += ` ${param.declname}`;
+            }
+            if (withDefaults) {
+                if (param.defval !== undefined) {
+                    const defval = param.defval;
+                    paramString += ' = ';
+                    for (const child of defval.children) {
+                        if (typeof child === 'string') {
+                            paramString += child;
+                        }
+                        else if (child instanceof RefTextDataModel) {
+                            paramString += child.text;
                         }
                     }
                 }
@@ -540,22 +579,23 @@ export class CompoundBase {
         for (const param of templateParamList.params) {
             // console.log(util.inspect(param, { compact: false, depth: 999 }))
             assert(param.type !== undefined);
-            assert(param.type.children.length === 1);
-            assert(typeof param.type.children[0] === 'string');
-            let paramName = '';
             let paramString = '';
-            // declname or defname?
+            // declname? defname? order?
             if (param.declname !== undefined) {
-                paramString = param.declname;
+                paramString += param.declname;
             }
-            else if (typeof param.type.children[0] === 'string') {
-                // Extract the parameter name, passed as `class T`.
-                paramString = param.type.children[0];
+            else {
+                for (const child of param.type.children) {
+                    if (typeof child === 'string') {
+                        // Extract the parameter name, passed as `class T`.
+                        paramString += child;
+                    }
+                    else if (child instanceof RefTextDataModel) {
+                        paramString += child.text;
+                    }
+                }
             }
-            else if (param.type.children[0] instanceof RefTextDataModel) {
-                paramString = param.type.children[0].text;
-            }
-            paramName = paramString.replace(/class /, '');
+            const paramName = paramString.replaceAll(/class /g, '').replaceAll(/typename /g, '');
             templateParameterNames.push(paramName);
         }
         return templateParameterNames;

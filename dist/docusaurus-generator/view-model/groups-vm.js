@@ -31,7 +31,7 @@ export class Groups extends CollectionBase {
     // --------------------------------------------------------------------------
     addChild(compoundDef) {
         const group = new Group(this, compoundDef);
-        this.collectionCompoundsById.set(compoundDef.id, group);
+        this.collectionCompoundsById.set(group.id, group);
         return group;
     }
     // --------------------------------------------------------------------------
@@ -58,11 +58,17 @@ export class Groups extends CollectionBase {
     createSidebarItems() {
         const sidebarItems = [];
         for (const topLevelGroup of this.topLevelGroups) {
-            sidebarItems.push(this.createSidebarItemRecursively(topLevelGroup));
+            const item = this.createSidebarItemRecursively(topLevelGroup);
+            if (item !== undefined) {
+                sidebarItems.push(item);
+            }
         }
         return sidebarItems;
     }
     createSidebarItemRecursively(group) {
+        if (group.sidebarLabel === undefined) {
+            return undefined;
+        }
         if (group.children.length === 0) {
             const docItem = {
                 type: 'doc',
@@ -83,7 +89,10 @@ export class Groups extends CollectionBase {
                 items: []
             };
             for (const childGroup of group.children) {
-                categoryItem.items.push(this.createSidebarItemRecursively(childGroup));
+                const item = this.createSidebarItemRecursively(childGroup);
+                if (item !== undefined) {
+                    categoryItem.items.push(item);
+                }
             }
             return categoryItem;
         }
@@ -243,11 +252,12 @@ export class Group extends CompoundBase {
         this.relativePermalink = `groups/${sanitizedPath}`;
         this.docusaurusId = `groups/${flattenPath(sanitizedPath)}`;
         this.createSections();
+        // console.log('0', this.id)
         // console.log('1', this.compoundName, this.titleMdxText)
         // console.log('2', this.relativePermalink)
         // console.log('3', this.docusaurusId)
         // console.log('4', this.sidebarLabel)
-        // console.log('4', this.indexName)
+        // console.log('5', this.indexName)
         // console.log()
     }
     // --------------------------------------------------------------------------
@@ -265,10 +275,6 @@ export class Group extends CompoundBase {
             suffixes: ['Groups', 'Classes']
         }));
         lines.push(...this.renderSectionIndicesToMdxLines());
-        // if (this.hasSect1InDescription) {
-        //   lines.push('')
-        //   lines.push('<Link id="details" />')
-        // }
         lines.push(...this.renderDetailedDescriptionToMdxLines({
             briefDescriptionMdxText: this.briefDescriptionMdxText,
             detailedDescriptionMdxText: this.detailedDescriptionMdxText,

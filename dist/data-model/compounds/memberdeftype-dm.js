@@ -19,6 +19,7 @@ import { AbstractDataModelBase } from '../types.js';
 import { TemplateParamListDataModel } from './templateparamlisttype-dm.js';
 import { EnumValueDataModel } from './enumvaluetype-dm.js';
 import { ReimplementDataModel, ReimplementedByDataModel } from './reimplementtype-dm.js';
+import { ReferenceDataModel, ReferencedByDataModel } from './referencetype-dm.js';
 export class AbstractMemberBaseType extends AbstractDataModelBase {
     constructor() {
         super(...arguments);
@@ -103,6 +104,18 @@ export class AbstractMemberDefType extends AbstractMemberBaseType {
             }
             else if (xml.hasInnerElement(innerElement, 'inbodydescription')) {
                 this.inbodyDescription = new InbodyDescriptionDataModel(xml, innerElement);
+            }
+            else if (xml.hasInnerElement(innerElement, 'references')) {
+                if (this.references === undefined) {
+                    this.references = [];
+                }
+                this.references.push(new ReferenceDataModel(xml, innerElement));
+            }
+            else if (xml.hasInnerElement(innerElement, 'referencedby')) {
+                if (this.referencedBy === undefined) {
+                    this.referencedBy = [];
+                }
+                this.referencedBy.push(new ReferencedByDataModel(xml, innerElement));
             }
             else {
                 console.error(util.inspect(innerElement));

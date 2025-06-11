@@ -65,11 +65,28 @@ export function escapeQuotes(text) {
 }
 // Preserve '/' too.
 export function sanitizeHierarchicalPath(text) {
-    return text.toLowerCase().replaceAll(/[ ]*/g, '').replaceAll(/[^a-zA-Z0-9/-]/g, '-');
+    return text.toLowerCase()
+        .replaceAll(/[ ]*/g, '')
+        .replaceAll(/\*/g, '2a')
+        .replaceAll(/&/g, '26')
+        .replaceAll(/</g, '3c')
+        .replaceAll(/>/g, '3e')
+        .replaceAll(/\(/g, '28')
+        .replaceAll(/\)/g, '29')
+        .replaceAll(/[^a-zA-Z0-9/-]/g, '-');
 }
-export function sanitizeName(text) {
-    return text.toLowerCase().replaceAll(/[ ]*/g, '').replaceAll(/[^a-zA-Z0-9-]/g, '-');
-}
+// export function sanitizeName (text: string): string {
+//   return text.toLowerCase()
+//     .replaceAll(/[ ]*/g, '')
+//     .replaceAll(/\*/g, '2a')
+//     .replaceAll(/&/g, '26')
+//     .replaceAll(/\./g, '2e')
+//     .replaceAll(/</g, '3c')
+//     .replaceAll(/>/g, '3e')
+//     .replaceAll(/\(/g, '28')
+//     .replaceAll(/\)/g, '29')
+//     .replaceAll(/[^a-zA-Z0-9-]/g, '-')
+// }
 export function flattenPath(text) {
     return text.replaceAll('/', '-');
 }

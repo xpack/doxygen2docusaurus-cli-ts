@@ -209,7 +209,8 @@ export class AbstractCompoundDefType extends AbstractDataModelBase {
                 console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name);
             }
         }
-        assert(this.compoundName.length > 0);
+        // Moved down, depends on kind.
+        // assert(this.compoundName.length > 0)
         // ------------------------------------------------------------------------
         // Process attributes.
         assert(xml.hasAttributes(element));
@@ -250,6 +251,9 @@ export class AbstractCompoundDefType extends AbstractDataModelBase {
         assert(this.kind.length > 0);
         // WARNING: The attribute is not marked as optional, but is not present.
         // assert(this.prot.length > 0)
+        if (this.kind !== 'namespace') {
+            assert(this.compoundName.length > 0);
+        }
         // ------------------------------------------------------------------------
         // console.log(util.inspect(this, { compact: false, depth: 999 }))
     }

@@ -7,6 +7,7 @@ import { AbstractDataModelBase } from '../types.js';
 import { TemplateParamListDataModel } from './templateparamlisttype-dm.js';
 import { EnumValueDataModel } from './enumvaluetype-dm.js';
 import { ReimplementDataModel } from './reimplementtype-dm.js';
+import { ReferenceDataModel, ReferencedByDataModel } from './referencetype-dm.js';
 export type DoxMemberKind = 'define' | 'property' | 'event' | 'variable' | 'typedef' | 'enum' | 'function' | 'signal' | 'prototype' | 'friend' | 'dcop' | 'slot' | 'interface' | 'service';
 export declare abstract class AbstractMemberBaseType extends AbstractDataModelBase {
     name: string;
@@ -31,6 +32,8 @@ export declare abstract class AbstractMemberDefType extends AbstractMemberBaseTy
     briefDescription?: BriefDescriptionDataModel | undefined;
     detailedDescription?: DetailedDescriptionDataModel | undefined;
     inbodyDescription?: InbodyDescriptionDataModel | undefined;
+    references?: ReferenceDataModel[] | undefined;
+    referencedBy?: ReferencedByDataModel[] | undefined;
     extern?: Boolean | undefined;
     strong?: Boolean | undefined;
     constt?: Boolean | undefined;

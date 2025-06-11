@@ -2,6 +2,7 @@ import { XMLParser } from 'fast-xml-parser';
 import { XmlElement, DataModel } from './types.js';
 export declare class DoxygenXmlParser {
     verbose: boolean;
+    parsedFilesCounter: number;
     constructor({ verbose }: {
         verbose: boolean;
     });

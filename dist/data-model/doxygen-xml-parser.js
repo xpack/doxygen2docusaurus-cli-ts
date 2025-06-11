@@ -21,6 +21,7 @@ import { DoxygenDataModel } from './compounds/doxygentype-dm.js';
 export class DoxygenXmlParser {
     constructor({ verbose = false }) {
         this.verbose = false;
+        this.parsedFilesCounter = 0;
         this.verbose = verbose;
     }
     async parse({ folderPath }) {
@@ -136,6 +137,9 @@ export class DoxygenXmlParser {
             }
         }
         assert(doxyfile);
+        if (this.verbose) {
+            console.log(this.parsedFilesCounter, 'xml files parsed');
+        }
         // ------------------------------------------------------------------------
         return {
             doxygenindex,
@@ -151,6 +155,7 @@ export class DoxygenXmlParser {
         if (this.verbose) {
             console.log(`Parsing ${fileName}...`);
         }
+        this.parsedFilesCounter += 1;
         return xmlParser.parse(xmlString);
     }
     // --------------------------------------------------------------------------
@@ -175,6 +180,12 @@ export class DoxygenXmlParser {
             const attributeValue = elementWithNamedAttribute[name];
             if (attributeValue !== undefined && typeof attributeValue === 'string') {
                 return attributeValue;
+            }
+            else if (attributeValue !== undefined && typeof attributeValue === 'number') {
+                // The xml parser returns attributes like `refid="21"` as numbers,
+                // but the DTD defines them as strings and the applications expects
+                // strings.
+                return String(attributeValue);
             }
         }
         throw new Error(`Element ${util.inspect(element)} does not have the ${name} attribute`);

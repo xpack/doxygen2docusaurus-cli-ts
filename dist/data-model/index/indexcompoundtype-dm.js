@@ -76,6 +76,7 @@ export class AbstractIndexCompoundType extends AbstractDataModelBase {
         assert(this.kind.length > 0);
         // ------------------------------------------------------------------------
         // console.log(util.inspect(this, { compact: false, depth: 999 }))
+        // console.log('compound: ', this.refid)
     }
 }
 // ----------------------------------------------------------------------------

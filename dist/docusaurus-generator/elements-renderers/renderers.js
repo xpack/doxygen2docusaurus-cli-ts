@@ -8,7 +8,7 @@
  * If a copy of the license was not distributed with this file, it can
  * be obtained from https://opensource.org/licenses/MIT.
  */
-import { DescriptionTypeTextRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeLinesRenderer, DocMarkupTypeTextRenderer, DocParamListTypeTextRenderer, DocParaTypeTextRenderer, DocRefTextTypeTextRenderer, DocSimpleSectTypeTextRenderer, DocURLLinkTextRenderer, SpTypeTextRenderer } from './descriptiontype.js';
+import { DescriptionTypeTextRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeLinesRenderer, DocMarkupTypeTextRenderer, DocParamListTypeTextRenderer, DocParaTypeTextRenderer, DocRefTextTypeTextRenderer, DocSimpleSectTypeTextRenderer, DocURLLinkTextRenderer, FormulaRenderer, ImageRenderer, SpTypeTextRenderer, VerbatimRenderer } from './descriptiontype.js';
 import { ListingTypeLinesRenderer, CodeLineTypeLinesRenderer, HighlightTypeLinesRenderer } from './listingtype.js';
 import { DocListTypeLinesRenderer } from './doclisttype.js';
 import { DocS1TypeLinesRenderer, DocS2TypeLinesRenderer, DocS3TypeLinesRenderer, DocS4TypeLinesRenderer, DocS5TypeLinesRenderer, DocS6TypeLinesRenderer } from './docinternalstype.js';
@@ -51,6 +51,8 @@ export class Renderers {
         this.elementTextRenderers.set('AbstractDescriptionType', new DescriptionTypeTextRenderer(workspace));
         this.elementTextRenderers.set('AbstractDocEmptyType', new DocEmptyTypeLinesRenderer(workspace));
         this.elementTextRenderers.set('AbstractDocEntryType', new DocEntryTypeTextRenderer(workspace));
+        this.elementTextRenderers.set('AbstractDocFormulaType', new FormulaRenderer(workspace));
+        this.elementTextRenderers.set('AbstractDocImageType', new ImageRenderer(workspace));
         this.elementTextRenderers.set('AbstractDocMarkupType', new DocMarkupTypeTextRenderer(workspace));
         this.elementTextRenderers.set('AbstractDocParaType', new DocParaTypeTextRenderer(workspace));
         this.elementTextRenderers.set('AbstractDocParamListType', new DocParamListTypeTextRenderer(workspace));
@@ -62,6 +64,7 @@ export class Renderers {
         this.elementTextRenderers.set('AbstractLinkedTextType', new LinkedTextTypeTextRenderer(workspace));
         this.elementTextRenderers.set('AbstractRefTextType', new RefTextTypeTextRenderer(workspace));
         this.elementTextRenderers.set('AbstractSpType', new SpTypeTextRenderer(workspace));
+        this.elementTextRenderers.set('AbstractVerbatimType', new VerbatimRenderer(workspace));
         this.elementTextRenderers.set('SubstringDocMarkupType', new SubstringDocMarkupTypeRenderer(workspace));
     }
     getElementLinesRenderer(element) {

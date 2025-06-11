@@ -19,6 +19,7 @@ export const defaultOptions = {
     menuDropdownFilePath: 'docusaurus-config-doxygen-menu-dropdown.json',
     menuDropdownLabel: 'Reference',
     verbose: false,
+    debug: false,
     runOnStart: false,
     suggestToDoDescriptions: false,
     id: 'default'

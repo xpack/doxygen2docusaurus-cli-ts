@@ -61,17 +61,31 @@ export default async function pluginDocusaurus(context, options // The user opti
         }
     };
 }
+function formatDuration(n) {
+    if (n < 1000) {
+        return `${n} ms`;
+    }
+    else if (n < 100000) {
+        return `${(n / 1000).toFixed(1)} sec`;
+    }
+    else {
+        return `${(n / 60000).toFixed(1)} min`;
+    }
+}
 export function extendCliGenerateDoxygen(cli, context, options) {
+    let startTime;
     cli
         .command('generate-doxygen')
         .option('--id <string>', 'Specify the plugin instance')
         .description('[@xpack/docusaurus-plugin-doxygen] Generate Doxygen docs independently of the Docusaurus build process.')
         .action(async (cliOptions) => {
+        startTime = Date.now();
         console.log();
         console.log('Running \'docusaurus generate-doxygen\'...');
         const exitCode = await generateDoxygen(context, options, cliOptions);
         console.log();
-        console.log('Running \'docusaurus generate-doxygen\' has completed successfully.');
+        const durationString = formatDuration(Date.now() - startTime);
+        console.log(`Running 'docusaurus generate-doxygen' has completed successfully in ${durationString}.`);
         return exitCode;
     });
 }

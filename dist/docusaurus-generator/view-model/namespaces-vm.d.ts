@@ -15,6 +15,7 @@ export declare class Namespaces extends CollectionBase {
 }
 export declare class Namespace extends CompoundBase {
     unqualifiedName: string;
+    isAnonymous: boolean;
     constructor(collection: Namespaces, compoundDef: CompoundDefDataModel);
     renderToMdxLines(frontMatter: FrontMatter): string[];
 }

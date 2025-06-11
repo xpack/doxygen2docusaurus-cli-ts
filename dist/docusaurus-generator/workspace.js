@@ -24,23 +24,59 @@ import { pluginName } from '../plugin/docusaurus.js';
 import { Member } from './view-model/members-vm.js';
 import { Renderers } from './elements-renderers/renderers.js';
 // ----------------------------------------------------------------------------
+// <xsd:simpleType name="DoxCompoundKind">
+//   <xsd:restriction base="xsd:string">
+//     <xsd:enumeration value="class" />
+//     <xsd:enumeration value="struct" />
+//     <xsd:enumeration value="union" />
+//     <xsd:enumeration value="interface" />
+//     <xsd:enumeration value="protocol" />
+//     <xsd:enumeration value="category" />
+//     <xsd:enumeration value="exception" />
+//     <xsd:enumeration value="service" />
+//     <xsd:enumeration value="singleton" />
+//     <xsd:enumeration value="module" />
+//     <xsd:enumeration value="type" />
+//     <xsd:enumeration value="file" />
+//     <xsd:enumeration value="namespace" />
+//     <xsd:enumeration value="group" />
+//     <xsd:enumeration value="page" />
+//     <xsd:enumeration value="example" />
+//     <xsd:enumeration value="dir" />
+//     <xsd:enumeration value="concept" />
+//   </xsd:restriction>
+// </xsd:simpleType>
+// ----------------------------------------------------------------------------
 export class Workspace {
     // --------------------------------------------------------------------------
     constructor({ dataModel, pluginOptions, siteConfig, pluginActions = undefined }) {
         this.collectionNamesByKind = {
-            group: 'groups',
-            namespace: 'namespaces',
             class: 'classes',
             struct: 'classes',
+            union: 'classes',
+            // interface
+            // protocol
+            // category
+            // exception
+            // service
+            // singleton
+            // module
+            // type
             file: 'files',
-            dir: 'files',
-            page: 'pages'
+            namespace: 'namespaces',
+            group: 'groups',
+            page: 'pages',
+            // example
+            dir: 'files'
+            // concept
         };
         // The order of entries in the sidebar and in the top menu dropdown.
         this.sidebarCollectionNames = ['groups', 'namespaces', 'classes', 'files', 'pages'];
         // View model objects.
         this.compoundsById = new Map();
         this.membersById = new Map();
+        this.writtenMdxFilesCounter = 0;
+        this.writtenHtmlFilesCounter = 0;
         console.log();
         this.dataModel = dataModel;
         this.pluginOptions = pluginOptions;
@@ -84,9 +120,11 @@ export class Workspace {
                 const collection = this.viewModel.get(collectionName);
                 if (collection !== undefined) {
                     // Create the compound object and add it to the parent collection.
+                    // console.log(compoundDefDataModel.kind, compoundDefDataModel.compoundName)
                     const compound = collection.addChild(compoundDefDataModel);
                     // Also add it to the global compounds map.
-                    this.compoundsById.set(compoundDefDataModel.id, compound);
+                    this.compoundsById.set(compound.id, compound);
+                    // console.log('compoundsById.set', compound.kind, compound.id)
                     added = true;
                 }
             }
@@ -115,7 +153,9 @@ export class Workspace {
             // console.log('createHierarchies:', collectionName)
             for (const [compoundId, compound] of collection.collectionCompoundsById) {
                 this.currentCompound = compound;
-                // console.log(compound.compoundName)
+                if (this.pluginOptions.debug) {
+                    console.log(compound.kind, compound.compoundName);
+                }
                 compound.initializeLate();
             }
         }
@@ -141,7 +181,9 @@ export class Workspace {
                                 else {
                                     // console.log('    ', memberDef.kind, memberDef.id)
                                     if (this.membersById.has(member.id)) {
-                                        console.warn('member already in map', member.id, 'in', this.membersById.get(member.id)?.name);
+                                        if (this.pluginOptions.verbose) {
+                                            console.warn('member already in map', member.id, 'in', this.membersById.get(member.id)?.name);
+                                        }
                                     }
                                     else {
                                         this.membersById.set(member.id, member);
@@ -162,15 +204,22 @@ export class Workspace {
     initializeMemberLate() {
         console.log('Performing members late initializations...');
         for (const [, compound] of this.compoundsById) {
-            // console.log(compound.kind, compound.compoundName, compound.id)
+            if (this.pluginOptions.debug) {
+                console.log(compound.kind, compound.compoundName, compound.id);
+            }
             this.currentCompound = compound;
             if (compound.sections !== undefined) {
                 for (const section of compound.sections) {
                     section.initializeLate();
                     if (section.indexMembers !== undefined) {
-                        // console.log('  ', sectionDef.kind)
+                        if (this.pluginOptions.debug) {
+                            console.log('  ', section.kind);
+                        }
                         for (const member of section.indexMembers) {
                             if (member instanceof Member) {
+                                if (this.pluginOptions.debug) {
+                                    console.log('    ', member.kind, member.id);
+                                }
                                 member.initializeLate();
                             }
                         }
@@ -187,25 +236,48 @@ export class Workspace {
     validatePermalinks() {
         console.log('Validating permalinks...');
         const pagePermalinksById = new Map();
-        const pagePermalinksSet = new Set();
+        const compoundsByPermalink = new Map();
         for (const compoundDefDataModel of this.dataModel.compoundDefs) {
             // console.log(compoundDefDataModel.kind, compoundDefDataModel.compoundName)
-            const compound = this.compoundsById.get(compoundDefDataModel.id);
+            const compoundDefDataModelId = compoundDefDataModel.id;
+            if (pagePermalinksById.has(compoundDefDataModelId)) {
+                console.warn('Duplicate id', compoundDefDataModelId);
+            }
+            const compound = this.compoundsById.get(compoundDefDataModelId);
             if (compound === undefined) {
-                console.error('compoundDefDataModel', compoundDefDataModel.id, 'not yet processed in', this.constructor.name, 'validatePermalinks');
+                console.error('compoundDefDataModel', compoundDefDataModelId, 'not yet processed in', this.constructor.name, 'validatePermalinks');
                 continue;
             }
             const permalink = compound.relativePermalink;
-            assert(permalink !== undefined);
-            // console.log('permalink:', permalink)
-            if (pagePermalinksById.has(compoundDefDataModel.id)) {
-                console.error('Permalink clash for id', compoundDefDataModel.id);
+            if (permalink !== undefined) {
+                // console.log('permalink:', permalink)
+                let compoundsMap = compoundsByPermalink.get(permalink);
+                if (compoundsMap === undefined) {
+                    compoundsMap = new Map();
+                    compoundsByPermalink.set(permalink, compoundsMap);
+                }
+                pagePermalinksById.set(compoundDefDataModelId, permalink);
+                if (!compoundsMap.has(compound.id)) {
+                    compoundsMap.set(compound.id, compound);
+                }
             }
-            if (pagePermalinksSet.has(permalink)) {
-                console.error('Permalink clash for permalink', permalink, 'id:', compoundDefDataModel.id);
+        }
+        for (const [permalink, compoundsMap] of compoundsByPermalink) {
+            if (compoundsMap.size > 1) {
+                if (this.pluginOptions.verbose) {
+                    console.warn('Permalink', permalink, 'has', compoundsMap.size, 'occurrences:');
+                }
+                let count = 1;
+                for (const [compoundId, compound] of compoundsMap) {
+                    const suffix = `-${count}`;
+                    count += 1;
+                    compound.relativePermalink += suffix;
+                    compound.docusaurusId += suffix;
+                    if (this.pluginOptions.verbose) {
+                        console.warn('-', compound.relativePermalink, compound.id);
+                    }
+                }
             }
-            pagePermalinksById.set(compoundDefDataModel.id, permalink);
-            pagePermalinksSet.add(permalink);
         }
     }
     // --------------------------------------------------------------------------
@@ -316,6 +388,7 @@ export class Workspace {
         await fileHandle.write(frontMatterLines.join('\n'));
         await fileHandle.write(text);
         await fileHandle.close();
+        this.writtenMdxFilesCounter += 1;
     }
     // --------------------------------------------------------------------------
     renderElementsToMdxLines(elements) {
@@ -413,7 +486,6 @@ export class Workspace {
         else {
             console.error('Unsupported kindref', kindref, 'for', refid, 'in', this.constructor.name, 'getPermalink');
         }
-        assert(permalink !== undefined && permalink.length > 1);
         // if (refid.endsWith('ga45942bdeee4fb61db5a7dc3747cb7193')) {
         //   console.log(permalink)
         // }
@@ -422,12 +494,17 @@ export class Workspace {
     getPagePermalink(refid) {
         const dataObject = this.compoundsById.get(refid);
         if (dataObject === undefined) {
-            console.log('refid', refid);
+            if (this.pluginOptions.debug) {
+                console.warn('refid', refid, 'is not a known compound, no permalink');
+            }
+            return undefined;
         }
-        assert(dataObject !== undefined);
         const pagePermalink = dataObject.relativePermalink;
         if (pagePermalink === undefined) {
-            console.error('refid', refid, 'has no permalink');
+            if (this.pluginOptions.verbose) {
+                console.warn('refid', refid, 'has no permalink');
+            }
+            return undefined;
         }
         assert(pagePermalink !== undefined);
         return `${this.pageBaseUrl}${pagePermalink}`;
