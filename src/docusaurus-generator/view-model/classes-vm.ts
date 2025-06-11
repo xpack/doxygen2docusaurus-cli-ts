@@ -239,7 +239,8 @@ export class Classes extends CollectionBase {
 
     const iconLetters: Record<string, string> = {
       class: 'C',
-      struct: 'S'
+      struct: 'S',
+      union: 'U'
     }
 
     let iconLetter: string | undefined = iconLetters[classs.kind]
