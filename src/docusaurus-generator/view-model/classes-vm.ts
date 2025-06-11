@@ -724,10 +724,10 @@ export class Class extends CompoundBase {
 
         for (const baseClassId of classs.baseClassIds) {
           const baseClass = (this.collection as Classes).collectionCompoundsById.get(baseClassId) as Class
-          assert(baseClass !== undefined)
-          // console.log(util.inspect(derivedCompoundDef, { compact: false, depth: 999 }))
-
-          lines.push(...baseClass.renderIndexToMdxLines())
+          if (baseClass !== undefined) {
+            // console.log(util.inspect(derivedCompoundDef, { compact: false, depth: 999 }))
+            lines.push(...baseClass.renderIndexToMdxLines())
+          }
         }
 
         lines.push('')
