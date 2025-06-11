@@ -80,13 +80,20 @@ export class Groups extends CollectionBase {
     const sidebarItems: SidebarItem[] = []
 
     for (const topLevelGroup of this.topLevelGroups) {
-      sidebarItems.push(this.createSidebarItemRecursively(topLevelGroup))
+      const item = this.createSidebarItemRecursively(topLevelGroup)
+      if (item !== undefined) {
+        sidebarItems.push(item)
+      }
     }
 
     return sidebarItems
   }
 
-  private createSidebarItemRecursively (group: Group): SidebarItem {
+  private createSidebarItemRecursively (group: Group): SidebarItem | undefined {
+    if (group.sidebarLabel === undefined) {
+      return undefined
+    }
+
     if (group.children.length === 0) {
       const docItem: SidebarDocItem = {
         type: 'doc',
@@ -107,7 +114,10 @@ export class Groups extends CollectionBase {
       }
 
       for (const childGroup of group.children) {
-        categoryItem.items.push(this.createSidebarItemRecursively(childGroup as Group))
+        const item = this.createSidebarItemRecursively(childGroup as Group)
+        if (item !== undefined) {
+          categoryItem.items.push(item)
+        }
       }
 
       return categoryItem

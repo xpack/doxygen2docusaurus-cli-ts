@@ -138,13 +138,20 @@ export class Classes extends CollectionBase {
     })
 
     for (const classs of this.topLevelClasses) {
-      classesCategory.items.push(this.createSidebarItemRecursively(classs))
+      const item = this.createSidebarItemRecursively(classs)
+      if (item !== undefined) {
+        classesCategory.items.push(item)
+      }
     }
 
     return [classesCategory]
   }
 
-  private createSidebarItemRecursively (classs: Class): SidebarItem {
+  private createSidebarItemRecursively (classs: Class): SidebarItem | undefined {
+    if (classs.sidebarLabel === undefined) {
+      return undefined
+    }
+
     if (classs.children.length === 0) {
       const docItem: SidebarDocItem = {
         type: 'doc',
@@ -164,8 +171,11 @@ export class Classes extends CollectionBase {
         items: []
       }
 
-      for (const childClass of classs.children) {
-        categoryItem.items.push(this.createSidebarItemRecursively(childClass as Class))
+      for (const child of classs.children) {
+        const item = this.createSidebarItemRecursively(child as Class)
+        if (item !== undefined) {
+          categoryItem.items.push(item)
+        }
       }
 
       return categoryItem

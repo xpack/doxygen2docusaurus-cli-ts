@@ -198,17 +198,27 @@ export class FilesAndFolders extends CollectionBase {
     }
 
     for (const folder of this.topLevelFolders) {
-      filesCategory.items.push(this.createFolderSidebarItemRecursively(folder))
+      const item = this.createFolderSidebarItemRecursively(folder)
+      if (item !== undefined) {
+        filesCategory.items.push(item)
+      }
     }
 
     for (const file of this.topLevelFiles) {
-      filesCategory.items.push(this.createFileSidebarItem(file))
+      const item = this.createFileSidebarItem(file)
+      if (item !== undefined) {
+        filesCategory.items.push(item)
+      }
     }
 
     return [filesCategory]
   }
 
-  private createFolderSidebarItemRecursively (folder: Folder): SidebarItem {
+  private createFolderSidebarItemRecursively (folder: Folder): SidebarItem | undefined {
+    if (folder.sidebarLabel === undefined) {
+      return undefined
+    }
+
     const categoryItem: SidebarCategoryItem = {
       type: 'category',
       label: folder.sidebarLabel,
@@ -222,20 +232,30 @@ export class FilesAndFolders extends CollectionBase {
 
     for (const fileOrFolder of folder.children) {
       if (fileOrFolder instanceof Folder) {
-        categoryItem.items.push(this.createFolderSidebarItemRecursively(fileOrFolder))
+        const item = this.createFolderSidebarItemRecursively(fileOrFolder)
+        if (item !== undefined) {
+          categoryItem.items.push(item)
+        }
       }
     }
 
     for (const fileOrFolder of folder.children) {
       if (fileOrFolder instanceof File) {
-        categoryItem.items.push(this.createFileSidebarItem(fileOrFolder))
+        const item = this.createFileSidebarItem(fileOrFolder)
+        if (item !== undefined) {
+          categoryItem.items.push(item)
+        }
       }
     }
 
     return categoryItem
   }
 
-  private createFileSidebarItem (file: File): SidebarItem {
+  private createFileSidebarItem (file: File): SidebarItem | undefined {
+    if (file.sidebarLabel === undefined) {
+      return undefined
+    }
+
     const docItem: SidebarDocItem = {
       type: 'doc',
       label: file.sidebarLabel,

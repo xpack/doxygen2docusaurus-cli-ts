@@ -90,13 +90,20 @@ export class Namespaces extends CollectionBase {
     }
 
     for (const namespace of this.topLevelNamespaces) {
-      namespacesCategory.items.push(this.createNamespaceItemRecursively(namespace))
+      const item = this.createNamespaceItemRecursively(namespace)
+      if (item !== undefined) {
+        namespacesCategory.items.push(item)
+      }
     }
 
     return [namespacesCategory]
   }
 
-  private createNamespaceItemRecursively (namespace: Namespace): SidebarItem {
+  private createNamespaceItemRecursively (namespace: Namespace): SidebarItem | undefined {
+    if (namespace.sidebarLabel === undefined) {
+      return undefined
+    }
+
     if (namespace.children.length === 0) {
       const docItem: SidebarDocItem = {
         type: 'doc',
@@ -117,7 +124,10 @@ export class Namespaces extends CollectionBase {
       }
 
       for (const childNamespace of namespace.children) {
-        categoryItem.items.push(this.createNamespaceItemRecursively(childNamespace as Namespace))
+        const item = this.createNamespaceItemRecursively(childNamespace as Namespace)
+        if (item !== undefined) {
+          categoryItem.items.push(item)
+        }
       }
 
       return categoryItem

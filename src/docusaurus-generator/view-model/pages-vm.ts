@@ -79,7 +79,12 @@ export class Pages extends CollectionBase {
       if (pageId === 'indexpage') {
         continue
       }
-      const label: string = page.sidebarLabel
+
+      const label = page.sidebarLabel
+      if (label === undefined) {
+        continue
+      }
+
       const id: string = `${this.workspace.sidebarBaseId}${page.docusaurusId as string}`
       const docItem: SidebarDocItem = {
         type: 'doc',
