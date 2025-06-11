@@ -13,11 +13,12 @@
 
 import * as util from 'node:util'
 import assert from 'node:assert'
+import crypto from 'node:crypto'
 
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
-import { escapeHtml, escapeMdx, flattenPath, sanitizeHierarchicalPath, sanitizeName } from '../utils.js'
+import { escapeHtml, escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { FrontMatter } from '../types.js'
 import { BaseCompoundRefDataModel, DerivedCompoundRefDataModel } from '../../data-model/compounds/compoundreftype-dm.js'
@@ -590,7 +591,8 @@ export class Class extends CompoundBase {
     // Turn the namespace into a hierarchical path. Keep the dot.
     let sanitizedPath: string = sanitizeHierarchicalPath(this.fullyQualifiedName.replaceAll(/::/g, '/'))
     if (this.templateParameters?.length > 0) {
-      sanitizedPath += sanitizeName(this.templateParameters)
+      // sanitizedPath += sanitizeName(this.templateParameters)
+      sanitizedPath += `-${crypto.hash('md5', this.templateParameters)}`
     }
     this.relativePermalink = `${pluralKind}/${sanitizedPath}`
 
