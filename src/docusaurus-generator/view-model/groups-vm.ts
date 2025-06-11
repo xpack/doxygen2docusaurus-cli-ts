@@ -22,7 +22,6 @@ import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { CollectionBase } from './collection-base.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { collapsibleTableRow, FrontMatter } from '../types.js'
-import { Section } from './members-vm.js'
 import { Pages } from './pages-vm.js'
 
 // Support for collapsible tables is experimental.
@@ -324,11 +323,12 @@ export class Group extends CompoundBase {
 
     this.createSections()
 
+    // console.log('0', this.id)
     // console.log('1', this.compoundName, this.titleMdxText)
     // console.log('2', this.relativePermalink)
     // console.log('3', this.docusaurusId)
     // console.log('4', this.sidebarLabel)
-    // console.log('4', this.indexName)
+    // console.log('5', this.indexName)
     // console.log()
   }
 

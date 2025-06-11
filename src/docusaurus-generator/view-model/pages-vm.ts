@@ -133,6 +133,7 @@ export class Page extends CompoundBase {
     // SectionDefs for pages?
     assert(compoundDef.sectionDefs === undefined)
 
+    // console.log('0', this.id)
     // console.log('1', this.compoundName)
     // console.log('2', this.relativePermalink)
     // console.log('3', this.docusaurusId)

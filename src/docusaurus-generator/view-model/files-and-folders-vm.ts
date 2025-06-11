@@ -21,7 +21,6 @@ import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../.
 import { Workspace } from '../workspace.js'
 import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { FrontMatter } from '../types.js'
-import { Section } from './members-vm.js'
 import { ProgramListingDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 
 // ----------------------------------------------------------------------------
@@ -141,6 +140,7 @@ export class FilesAndFolders extends CollectionBase {
 
       folder.docusaurusId = `folders/${flattenPath(sanitizedPath)}`
 
+      // console.log('0', folder.id)
       // console.log('1', folder.compoundName)
       // console.log('2', folder.relativePermalink)
       // console.log('3', folder.docusaurusId)
@@ -164,6 +164,7 @@ export class FilesAndFolders extends CollectionBase {
 
       file.docusaurusId = `files/${flattenPath(sanitizedPath)}`
 
+      // console.log('0', file.id)
       // console.log('1', file.compoundName)
       // console.log('2', file.relativePermalink)
       // console.log('3', file.docusaurusId)

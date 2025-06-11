@@ -602,6 +602,7 @@ export class Class extends CompoundBase {
 
     this.createSections(this.unqualifiedName)
 
+    // console.log('0', compoundDef.id)
     // console.log('1', compoundDef.compoundName)
     // console.log('2', this.relativePermalink)
     // console.log('3', this.docusaurusId)
