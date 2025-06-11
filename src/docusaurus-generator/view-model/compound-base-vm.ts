@@ -56,13 +56,31 @@ export abstract class CompoundBase {
 
   children: CompoundBase[] = []
 
-  /** Relative path to the output folder, starts with plural kind. */
-  docusaurusId: string = ''
+  /**
+   * @brief Relative path to the output folder.
+   *
+   * Starts with plural kind.
+   *
+   * If undefined, the compound must not
+   * be referred in the sidebar.
+   */
+  docusaurusId: string | undefined
 
-  /** Short name, to fit the limited space in the sidebar. */
-  sidebarLabel: string = ''
+  /**
+   * @brief Short name, to fit the limited space in the sidebar.
+   *
+   * If undefined, the compound must not
+   * be referred in the sidebar.
+   */
+  sidebarLabel: string | undefined
 
-  /** The part below outputFolderPath, no leading slash. */
+  /**
+   * @brief The part below outputFolderPath.
+   *
+   * No leading slash.
+   *
+   * If undefined, the MDX file for the compound must not be generated.
+   */
   relativePermalink: string | undefined
 
   /** The name shown in the index section. */
