@@ -439,15 +439,12 @@ export class Member extends MemberBase {
     if (memberDef.strong?.valueOf()) {
       labels.push('strong')
     }
+    if (memberDef.mutable?.valueOf()) {
+      labels.push('mutable')
+    }
 
     // WARNING: could not find how to generate 'inherited'.
 
-    // Validation checks.
-    // const passed via the prototype.
-    if (memberDef.mutable?.valueOf()) {
-      console.error(util.inspect(memberDef, { compact: false, depth: 999 }))
-      console.error(memberDef.constructor.name, 'mutable not yet rendered in', this.constructor.name)
-    }
     this.labels = labels
 
     const type = this.typeMdxText ?? ''
