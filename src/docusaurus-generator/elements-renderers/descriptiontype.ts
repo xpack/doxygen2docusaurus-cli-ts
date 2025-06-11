@@ -109,10 +109,14 @@ export class DocRefTextTypeTextRenderer extends ElementTextRendererBase {
 
     let text = ''
 
-    const permalink = this.workspace.getPermalink({
-      refid: element.refid,
-      kindref: element.kindref
-    })
+    let permalink
+
+    if (element.refid.length > 0) {
+      permalink = this.workspace.getPermalink({
+        refid: element.refid,
+        kindref: element.kindref
+      })
+    }
 
     if (permalink !== undefined && permalink.length > 1) {
       text += `<a href="${permalink}">`
