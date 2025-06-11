@@ -65,6 +65,10 @@ export class DocusaurusGenerator {
     await this.generateIndexDotMdxFiles()
     await this.generatePerInitialsIndexMdxFiles()
 
+    if (this.workspace.pluginOptions.verbose) {
+      console.log(this.workspace.writtenMdxFilesCounter, 'mdx files written')
+    }
+
     await this.generateRedirectFiles()
   }
 
@@ -317,6 +321,10 @@ export class DocusaurusGenerator {
         permalink
       })
     }
+
+    if (this.workspace.pluginOptions.verbose) {
+      console.log(this.workspace.writtenHtmlFilesCounter, 'html files written')
+    }
   }
 
   // If `trailingSlash` is true, Docusaurus redirects do not generate .html files,
@@ -351,6 +359,8 @@ export class DocusaurusGenerator {
     await fileHandle.write(lines.join('\n'))
 
     await fileHandle.close()
+
+    this.workspace.writtenHtmlFilesCounter += 1
   }
 }
 

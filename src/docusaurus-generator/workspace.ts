@@ -130,6 +130,9 @@ export class Workspace {
 
   elementRenderers: Renderers
 
+  writtenMdxFilesCounter: number = 0
+  writtenHtmlFilesCounter: number = 0
+
   // --------------------------------------------------------------------------
 
   constructor ({
@@ -494,6 +497,8 @@ export class Workspace {
     await fileHandle.write(text)
 
     await fileHandle.close()
+
+    this.writtenMdxFilesCounter += 1
   }
 
   // --------------------------------------------------------------------------
