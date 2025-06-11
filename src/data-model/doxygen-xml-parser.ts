@@ -28,6 +28,7 @@ import { MemberDefDataModel } from './compounds/memberdeftype-dm.js'
 
 export class DoxygenXmlParser {
   verbose: boolean = false
+  parsedFilesCounter: number = 0
 
   constructor ({
     verbose = false
@@ -164,6 +165,10 @@ export class DoxygenXmlParser {
 
     assert(doxyfile)
 
+    if (this.verbose) {
+      console.log(this.parsedFilesCounter, 'xml files parsed')
+    }
+
     // ------------------------------------------------------------------------
 
     return {
@@ -191,6 +196,8 @@ export class DoxygenXmlParser {
     if (this.verbose) {
       console.log(`Parsing ${fileName}...`)
     }
+    this.parsedFilesCounter += 1
+
     return xmlParser.parse(xmlString)
   }
 
