@@ -453,33 +453,45 @@ export abstract class CompoundBase {
         for (const innerObject of innerObjects) {
           // console.log(util.inspect(innerObject, { compact: false, depth: 999 }))
           const innerDataObject = workspace.compoundsById.get(innerObject.refid)
-          assert(innerDataObject !== undefined)
+          if (innerDataObject !== undefined) {
+            const kind = innerDataObject.kind
+            const itemType = kind === 'dir' ? 'folder' : (kind === 'group' ? '&nbsp;' : kind)
 
-          const permalink = workspace.getPagePermalink(innerObject.refid)
+            const permalink = workspace.getPagePermalink(innerObject.refid)
+            const itemName = `<a href="${permalink}">${escapeHtml(innerDataObject.indexName)}</a>`
 
-          const kind = innerDataObject.kind
+            lines.push('')
+            lines.push('<MembersIndexItem')
+            lines.push(`  type="${itemType}"`)
+            if (itemName.includes('<') || itemName.includes('&')) {
+              lines.push(`  name={<>${itemName}</>}>`)
+            } else {
+              lines.push(`  name="${itemName}">`)
+            }
 
-          const itemType = kind === 'dir' ? 'folder' : (kind === 'group' ? '&nbsp;' : kind)
-          const itemName = `<a href="${permalink}">${escapeHtml(innerDataObject.indexName)}</a>`
+            const morePermalink = innerDataObject.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined
+            if (innerDataObject.briefDescriptionMdxText !== undefined && innerDataObject.briefDescriptionMdxText.length > 0) {
+              lines.push(this.renderBriefDescriptionToMdxText({
+                briefDescriptionMdxText: innerDataObject.briefDescriptionMdxText,
+                morePermalink
+              }))
+            }
 
-          lines.push('')
-          lines.push('<MembersIndexItem')
-          lines.push(`  type="${itemType}"`)
-          if (itemName.includes('<') || itemName.includes('&')) {
-            lines.push(`  name={<>${itemName}</>}>`)
+            lines.push('</MembersIndexItem>')
+          } else if (innerObject instanceof InnerClassDataModel) {
+            lines.push('')
+            lines.push('<MembersIndexItem')
+            lines.push('  type="class"')
+            lines.push(`  name="${escapeHtml(innerObject.text)}">`)
+            lines.push('</MembersIndexItem>')
           } else {
-            lines.push(`  name="${itemName}">`)
+            if (this.collection.workspace.pluginOptions.debug) {
+              console.warn(innerObject)
+            }
+            if (this.collection.workspace.pluginOptions.verbose) {
+              console.warn('Object not rendered in renderInnerIndicesToMdxLines()')
+            }
           }
-
-          const morePermalink = innerDataObject.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined
-          if (innerDataObject.briefDescriptionMdxText !== undefined && innerDataObject.briefDescriptionMdxText.length > 0) {
-            lines.push(this.renderBriefDescriptionToMdxText({
-              briefDescriptionMdxText: innerDataObject.briefDescriptionMdxText,
-              morePermalink
-            }))
-          }
-
-          lines.push('</MembersIndexItem>')
         }
 
         lines.push('')
