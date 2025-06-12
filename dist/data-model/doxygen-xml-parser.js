@@ -43,7 +43,7 @@ export class DoxygenXmlParser {
         // ------------------------------------------------------------------------
         // Parse the top index.xml file.
         if (!this.verbose) {
-            console.log('Parsing doxygen generated .xml files...');
+            console.log('Parsing Doxygen generated .xml files...');
         }
         const parsedIndexElements = await this.parseFile({ fileName: 'index.xml', folderPath, xmlParser });
         // console.log(util.inspect(parsedIndex))
