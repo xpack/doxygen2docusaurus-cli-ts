@@ -206,7 +206,11 @@ export class DocusaurusGenerator {
   // --------------------------------------------------------------------------
 
   async generatePages (): Promise<void> {
-    console.log('Writing Docusaurus pages (object -> url)...')
+    if (this.workspace.pluginOptions.verbose) {
+      console.log('Writing Docusaurus MDX pages (object -> url)...')
+    } else {
+      console.log('Writing Docusaurus MDX pages...')
+    }
 
     for (const [compoundId, compound] of this.workspace.compoundsById) {
       if (compound instanceof Page && compound.id === 'indexpage') {
