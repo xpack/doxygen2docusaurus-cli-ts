@@ -31,6 +31,7 @@ export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
         lines.push(...this.workspace.renderElementsToMdxLines(element.codelines));
         lines.push('');
         lines.push('</ProgramListing>');
+        lines.push('');
         return lines;
     }
 }

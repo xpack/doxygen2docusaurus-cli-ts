@@ -318,6 +318,7 @@ export class VerbatimRenderer extends ElementTextRendererBase {
     renderToMdxText(element) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         let text = '';
+        text += '\n';
         text += '<CodeBlock>';
         text += this.workspace.renderElementToMdxText(element.text);
         text += '</CodeBlock>';
