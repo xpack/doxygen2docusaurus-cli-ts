@@ -318,7 +318,8 @@ export class VerbatimRenderer extends ElementTextRendererBase {
     renderToMdxText(element) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         let text = '';
-        text += '\n';
+        text += '\n'; // This is to end the previous line
+        text += '\n'; // This is an empty line for aesthetics.
         text += '<CodeBlock>\n';
         text += this.workspace.renderElementToMdxText(element.text);
         text += '</CodeBlock>';
