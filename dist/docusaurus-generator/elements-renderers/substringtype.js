@@ -17,3 +17,4 @@ export class SubstringDocMarkupTypeRenderer extends ElementTextRendererBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=substringtype.js.map

@@ -14,14 +14,12 @@
 import styles from './styles.module.css';
 import React from 'react';
 
-import Link from '@docusaurus/Link'
-
 // ----------------------------------------------------------------------------
 
 export default function CodeLine({lineNumber, lineLink, children}) {
   return (
     <div class="doxyCodeLine">
-      {lineNumber && <span class="doxyLineNumber">{lineLink ? <><Link to={lineLink}>{lineNumber}</Link></> : `${lineNumber}`}</span>}
+      {lineNumber && <span class="doxyLineNumber">{lineLink ? <><a href={lineLink}>{lineNumber}</a></> : `${lineNumber}`}</span>}
       {!lineNumber && <span class="doxyNoLineNumber">&nbsp;</span>}
       <span class="doxyLineContent">{children}</span>
     </div>

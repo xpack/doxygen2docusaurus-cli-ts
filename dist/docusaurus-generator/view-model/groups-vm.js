@@ -12,9 +12,8 @@ import assert from 'node:assert';
 import * as fs from 'node:fs/promises';
 import path from 'node:path';
 import { CompoundBase } from './compound-base-vm.js';
-import { flattenPath, sanitizeHierarchicalPath } from '../utils.js';
+import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
 import { CollectionBase } from './collection-base.js';
-import { Section } from './members-vm.js';
 // Support for collapsible tables is experimental.
 const useCollapsibleTable = false;
 // ----------------------------------------------------------------------------
@@ -32,7 +31,7 @@ export class Groups extends CollectionBase {
     // --------------------------------------------------------------------------
     addChild(compoundDef) {
         const group = new Group(this, compoundDef);
-        this.collectionCompoundsById.set(compoundDef.id, group);
+        this.collectionCompoundsById.set(group.id, group);
         return group;
     }
     // --------------------------------------------------------------------------
@@ -59,16 +58,22 @@ export class Groups extends CollectionBase {
     createSidebarItems() {
         const sidebarItems = [];
         for (const topLevelGroup of this.topLevelGroups) {
-            sidebarItems.push(this.createSidebarItemRecursively(topLevelGroup));
+            const item = this.createSidebarItemRecursively(topLevelGroup);
+            if (item !== undefined) {
+                sidebarItems.push(item);
+            }
         }
         return sidebarItems;
     }
     createSidebarItemRecursively(group) {
+        if (group.sidebarLabel === undefined) {
+            return undefined;
+        }
         if (group.children.length === 0) {
             const docItem = {
                 type: 'doc',
                 label: group.sidebarLabel,
-                id: `${this.workspace.permalinkBaseUrl}${group.docusaurusId}`
+                id: `${this.workspace.sidebarBaseId}${group.docusaurusId}`
             };
             return docItem;
         }
@@ -78,13 +83,16 @@ export class Groups extends CollectionBase {
                 label: group.sidebarLabel,
                 link: {
                     type: 'doc',
-                    id: `${this.workspace.permalinkBaseUrl}${group.docusaurusId}`
+                    id: `${this.workspace.sidebarBaseId}${group.docusaurusId}`
                 },
                 collapsed: true,
                 items: []
             };
             for (const childGroup of group.children) {
-                categoryItem.items.push(this.createSidebarItemRecursively(childGroup));
+                const item = this.createSidebarItemRecursively(childGroup);
+                if (item !== undefined) {
+                    categoryItem.items.push(item);
+                }
             }
             return categoryItem;
         }
@@ -95,7 +103,7 @@ export class Groups extends CollectionBase {
         for (const topLevelGroup of this.topLevelGroups) {
             const menuItem = {
                 label: `${topLevelGroup.sidebarLabel}`,
-                to: `/${this.workspace.pluginOptions.outputFolderPath}/${topLevelGroup.relativePermalink}/`
+                to: `${this.workspace.menuBaseUrl}${topLevelGroup.relativePermalink}/`
             };
             menuItems.push(menuItem);
         }
@@ -106,11 +114,11 @@ export class Groups extends CollectionBase {
         // Home page for the API reference.
         // It diverts from Doxygen, since it renders the list of topics and
         // the main page.
-        const outputFolderPath = this.workspace.pluginOptions.outputFolderPath;
-        const filePath = `${outputFolderPath}/index.mdx`;
+        const outputFolderPath = this.workspace.outputFolderPath;
+        const filePath = `${outputFolderPath}index.mdx`;
         const jsonFileName = 'index-table.json';
         if (useCollapsibleTable) {
-            const jsonFilePath = `${outputFolderPath}/${jsonFileName}`;
+            const jsonFilePath = `${outputFolderPath}${jsonFileName}`;
             const tableData = [];
             for (const group of this.topLevelGroups) {
                 tableData.push(this.generateTableRowRecursively(group));
@@ -127,7 +135,7 @@ export class Groups extends CollectionBase {
         // This is the top index.mdx file (@mainpage)
         const frontMatter = {
             title: `${projectBrief} API Reference`,
-            slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+            slug: `${this.workspace.slugBaseUrl}${permalink}`,
             // description: '...', // TODO
             custom_edit_url: null,
             keywords: ['doxygen', 'reference']
@@ -155,6 +163,9 @@ export class Groups extends CollectionBase {
             lines.push('');
             assert(pages.mainPage !== undefined);
             lines.push(...pages.mainPage?.renderDetailedDescriptionToMdxLines({
+                briefDescriptionMdxText: pages.mainPage?.briefDescriptionMdxText,
+                detailedDescriptionMdxText: pages.mainPage?.detailedDescriptionMdxText,
+                showHeader: true,
                 showBrief: !pages.mainPage?.hasSect1InDescription
             }));
         }
@@ -240,27 +251,23 @@ export class Group extends CompoundBase {
         const sanitizedPath = sanitizeHierarchicalPath(this.compoundName);
         this.relativePermalink = `groups/${sanitizedPath}`;
         this.docusaurusId = `groups/${flattenPath(sanitizedPath)}`;
-        if (compoundDef.sectionDefs !== undefined) {
-            for (const sectionDef of compoundDef.sectionDefs) {
-                if (sectionDef.hasMembers()) {
-                    this.sections.push(new Section(this, sectionDef));
-                }
-            }
-        }
+        this.createSections();
+        // console.log('0', this.id)
         // console.log('1', this.compoundName, this.titleMdxText)
         // console.log('2', this.relativePermalink)
         // console.log('3', this.docusaurusId)
         // console.log('4', this.sidebarLabel)
-        // console.log('4', this.indexName)
+        // console.log('5', this.indexName)
         // console.log()
     }
     // --------------------------------------------------------------------------
     renderToMdxLines(frontMatter) {
         const lines = [];
-        const descriptionTodo = `@defgroup ${this.compoundName}`;
+        const descriptionTodo = `@defgroup ${escapeMdx(this.compoundName)}`;
         const hasIndices = (this.renderDetailedDescriptionToMdxLines !== undefined || this.hasSect1InDescription) && (this.hasInnerIndices() || this.hasSections());
         const morePermalink = hasIndices ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToMdxText({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -268,11 +275,9 @@ export class Group extends CompoundBase {
             suffixes: ['Groups', 'Classes']
         }));
         lines.push(...this.renderSectionIndicesToMdxLines());
-        // if (this.hasSect1InDescription) {
-        //   lines.push('')
-        //   lines.push('<Link id="#details" />')
-        // }
         lines.push(...this.renderDetailedDescriptionToMdxLines({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
+            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
             todo: descriptionTodo,
             showHeader: !this.hasSect1InDescription,
             showBrief: !this.hasSect1InDescription
@@ -282,3 +287,4 @@ export class Group extends CompoundBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=groups-vm.js.map

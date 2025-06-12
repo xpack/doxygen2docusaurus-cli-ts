@@ -77,24 +77,39 @@ export default async function pluginDocusaurus (
 
     // https://docusaurus.io/docs/api/plugin-methods/extend-infrastructure#extendCli
     extendCli (cli: any) {
-      extendCliGenerateDoxygenMdx(cli, context, options)
+      extendCliGenerateDoxygen(cli, context, options)
     }
   }
 }
 
-export function extendCliGenerateDoxygenMdx (cli: any, context: LoadContext, options: PluginOptions): void {
+function formatDuration (n: number): string {
+  if (n < 1000) {
+    return `${n} ms`
+  } else if (n < 100000) {
+    return `${(n / 1000).toFixed(1)} sec`
+  } else {
+    return `${(n / 60000).toFixed(1)} min`
+  }
+}
+
+export function extendCliGenerateDoxygen (cli: any, context: LoadContext, options: PluginOptions): void {
+  let startTime
+
   cli
-    .command('generate-doxygen-mdx')
+    .command('generate-doxygen')
     .option('--id <string>', 'Specify the plugin instance')
     .description(
-      '[@xpack/docusaurus-plugin-doxygen] Generate Doxygen MDX docs.'
+      '[@xpack/docusaurus-plugin-doxygen] Generate Doxygen docs independently of the Docusaurus build process.'
     )
     .action(async (cliOptions: any) => {
+      startTime = Date.now()
       console.log()
       console.log('Running \'docusaurus generate-doxygen\'...')
       const exitCode = await generateDoxygen(context, options, cliOptions)
       console.log()
-      console.log('Running \'docusaurus generate-doxygen\' has completed successfully.')
+      const durationString = formatDuration(Date.now() - startTime)
+
+      console.log(`Running 'docusaurus generate-doxygen' has completed successfully in ${durationString}.`)
       return exitCode
     })
 }

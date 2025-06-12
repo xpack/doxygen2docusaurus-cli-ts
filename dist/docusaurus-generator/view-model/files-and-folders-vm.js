@@ -12,7 +12,6 @@ import assert from 'node:assert';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
 import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
-import { Section } from './members-vm.js';
 // ----------------------------------------------------------------------------
 export class FilesAndFolders extends CollectionBase {
     // folders: Folders
@@ -30,14 +29,14 @@ export class FilesAndFolders extends CollectionBase {
     addChild(compoundDef) {
         if (compoundDef.kind === 'file') {
             const file = new File(this, compoundDef);
-            this.collectionCompoundsById.set(compoundDef.id, file);
-            this.compoundFilesById.set(compoundDef.id, file);
+            this.collectionCompoundsById.set(file.id, file);
+            this.compoundFilesById.set(file.id, file);
             return file;
         }
         else if (compoundDef.kind === 'dir') {
             const folder = new Folder(this, compoundDef);
-            this.collectionCompoundsById.set(compoundDef.id, folder);
-            this.compoundFoldersById.set(compoundDef.id, folder);
+            this.collectionCompoundsById.set(folder.id, folder);
+            this.compoundFoldersById.set(folder.id, folder);
             return folder;
         }
         else {
@@ -52,16 +51,24 @@ export class FilesAndFolders extends CollectionBase {
             for (const childFolderId of folder.childrenFolderIds) {
                 const childFolder = this.compoundFoldersById.get(childFolderId);
                 assert(childFolder !== undefined);
-                // console.log('childFolderId', childFolderId, 'has parent', folderId)
+                if (this.workspace.pluginOptions.debug) {
+                    console.log('childFolderId', childFolderId, childFolder.compoundName, 'has parent', folderId, folder.compoundName);
+                }
                 childFolder.parent = folder;
                 folder.children.push(childFolder);
             }
             for (const childFileId of folder.childrenFileIds) {
                 const childFile = this.compoundFilesById.get(childFileId);
-                assert(childFile !== undefined);
-                // console.log('childFileId', childFileId, 'has parent', folderId)
-                childFile.parent = folder;
-                folder.children.push(childFile);
+                if (childFile !== undefined) {
+                    if (this.workspace.pluginOptions.debug) {
+                        console.log('childFileId', childFileId, childFile.compoundName, 'has parent', folderId, folder.compoundName);
+                    }
+                    childFile.parent = folder;
+                    folder.children.push(childFile);
+                }
+                else {
+                    console.warn(childFileId, 'not a child of', folder.id);
+                }
             }
         }
         for (const [fileId, file] of this.compoundFilesById) {
@@ -69,7 +76,9 @@ export class FilesAndFolders extends CollectionBase {
         }
         for (const [folderId, folder] of this.compoundFoldersById) {
             if (folder.parent === undefined) {
-                // console.log('topFolderId:', folderId)
+                if (this.workspace.pluginOptions.debug) {
+                    console.log('topFolderId:', folderId);
+                }
                 this.topLevelFolders.push(folder);
             }
         }
@@ -81,23 +90,27 @@ export class FilesAndFolders extends CollectionBase {
             const path = file.locationFilePath;
             assert(path !== undefined);
             this.filesByPath.set(path, file);
-            // console.log('filesByPath.set', path, file)
-            // console.log('filesByPath.set', path)
+            if (this.workspace.pluginOptions.debug) {
+                // console.log('filesByPath.set', path, file)
+                console.log('filesByPath.set', path);
+            }
         }
         for (const [folderId, folder] of this.compoundFoldersById) {
             let parentPath = '';
             if (folder.parent !== undefined) {
                 parentPath = `${this.getRelativePathRecursively(folder.parent)}/`;
             }
+            // console.log(folder.compoundName)
             folder.relativePath = `${parentPath}${folder.compoundName}`;
             const sanitizedPath = sanitizeHierarchicalPath(folder.relativePath);
             folder.relativePermalink = `folders/${sanitizedPath}`;
             folder.docusaurusId = `folders/${flattenPath(sanitizedPath)}`;
-            // console.log('1', file.compoundName)
-            // console.log('2', file.relativePermalink)
-            // console.log('3', file.docusaurusId)
-            // console.log('4', file.sidebarLabel)
-            // console.log('5', file.indexName)
+            // console.log('0', folder.id)
+            // console.log('1', folder.compoundName)
+            // console.log('2', folder.relativePermalink)
+            // console.log('3', folder.docusaurusId)
+            // console.log('4', folder.sidebarLabel)
+            // console.log('5', folder.indexName)
             // console.log()
         }
         // Cannot be done in each object, since it needs the hierarchy.
@@ -106,10 +119,12 @@ export class FilesAndFolders extends CollectionBase {
             if (file.parent !== undefined) {
                 parentPath = `${this.getRelativePathRecursively(file.parent)}/`;
             }
+            // console.log(file.compoundName)
             file.relativePath = `${parentPath}${file.compoundName}`;
             const sanitizedPath = sanitizeHierarchicalPath(file.relativePath);
             file.relativePermalink = `files/${sanitizedPath}`;
             file.docusaurusId = `files/${flattenPath(sanitizedPath)}`;
+            // console.log('0', file.id)
             // console.log('1', file.compoundName)
             // console.log('2', file.relativePermalink)
             // console.log('3', file.docusaurusId)
@@ -134,47 +149,65 @@ export class FilesAndFolders extends CollectionBase {
             label: 'Files',
             link: {
                 type: 'doc',
-                id: `${this.workspace.permalinkBaseUrl}files/index`
+                id: `${this.workspace.sidebarBaseId}files/index`
             },
             collapsed: true,
             items: []
         };
         for (const folder of this.topLevelFolders) {
-            filesCategory.items.push(this.createFolderSidebarItemRecursively(folder));
+            const item = this.createFolderSidebarItemRecursively(folder);
+            if (item !== undefined) {
+                filesCategory.items.push(item);
+            }
         }
         for (const file of this.topLevelFiles) {
-            filesCategory.items.push(this.createFileSidebarItem(file));
+            const item = this.createFileSidebarItem(file);
+            if (item !== undefined) {
+                filesCategory.items.push(item);
+            }
         }
         return [filesCategory];
     }
     createFolderSidebarItemRecursively(folder) {
+        if (folder.sidebarLabel === undefined) {
+            return undefined;
+        }
         const categoryItem = {
             type: 'category',
             label: folder.sidebarLabel,
             link: {
                 type: 'doc',
-                id: `${this.workspace.permalinkBaseUrl}${folder.docusaurusId}`
+                id: `${this.workspace.sidebarBaseId}${folder.docusaurusId}`
             },
             collapsed: true,
             items: []
         };
         for (const fileOrFolder of folder.children) {
             if (fileOrFolder instanceof Folder) {
-                categoryItem.items.push(this.createFolderSidebarItemRecursively(fileOrFolder));
+                const item = this.createFolderSidebarItemRecursively(fileOrFolder);
+                if (item !== undefined) {
+                    categoryItem.items.push(item);
+                }
             }
         }
         for (const fileOrFolder of folder.children) {
             if (fileOrFolder instanceof File) {
-                categoryItem.items.push(this.createFileSidebarItem(fileOrFolder));
+                const item = this.createFileSidebarItem(fileOrFolder);
+                if (item !== undefined) {
+                    categoryItem.items.push(item);
+                }
             }
         }
         return categoryItem;
     }
     createFileSidebarItem(file) {
+        if (file.sidebarLabel === undefined) {
+            return undefined;
+        }
         const docItem = {
             type: 'doc',
             label: file.sidebarLabel,
-            id: `${this.workspace.permalinkBaseUrl}${file.docusaurusId}`
+            id: `${this.workspace.sidebarBaseId}${file.docusaurusId}`
         };
         return docItem;
     }
@@ -182,18 +215,17 @@ export class FilesAndFolders extends CollectionBase {
     createMenuItems() {
         const menuItem = {
             label: 'Files',
-            to: `/${this.workspace.pluginOptions.outputFolderPath}/files/`
+            to: `${this.workspace.menuBaseUrl}files/`
         };
         return [menuItem];
     }
     // --------------------------------------------------------------------------
     async generateIndexDotMdxFile() {
-        const outputFolderPath = this.workspace.pluginOptions.outputFolderPath;
-        const filePath = `${outputFolderPath}/files/index.mdx`;
+        const filePath = `${this.workspace.outputFolderPath}files/index.mdx`;
         const permalink = 'files';
         const frontMatter = {
             title: 'The Files & Folders Reference',
-            slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+            slug: `${this.workspace.slugBaseUrl}${permalink}`,
             // description: '...', // TODO
             custom_edit_url: null,
             keywords: ['doxygen', 'files', 'folders', 'reference']
@@ -203,7 +235,7 @@ export class FilesAndFolders extends CollectionBase {
         lines.push('');
         lines.push('<TreeTable>');
         for (const folder of this.topLevelFolders) {
-            lines.push(...this.generateIndexMdxFileRecursively(folder, 1));
+            lines.push(...this.generateIndexMdxFileRecursively(folder, 0));
         }
         for (const file of this.topLevelFiles) {
             lines.push(...this.generateFileIndexMdx(file, 1));
@@ -277,7 +309,8 @@ export class Folder extends CompoundBase {
         this.childrenFolderIds = [];
         this.childrenFolders = [];
         this.relativePath = '';
-        // console.log('Folder.constructor', util.inspect(compoundDef))
+        // console.log('folder:', util.inspect(compoundDef))
+        // console.log('folder:', compoundDef.compoundName)
         if (Array.isArray(compoundDef.innerDirs)) {
             for (const ref of compoundDef.innerDirs) {
                 // console.log('component', compoundDef.id, 'has child folder', ref.refid)
@@ -295,20 +328,15 @@ export class Folder extends CompoundBase {
         this.sidebarLabel = compoundDef.compoundName ?? '?';
         this.indexName = this.sidebarLabel;
         this.pageTitle = `The \`${this.sidebarLabel}\` Folder Reference`;
-        if (compoundDef.sectionDefs !== undefined) {
-            for (const sectionDef of compoundDef.sectionDefs) {
-                if (sectionDef.hasMembers()) {
-                    this.sections.push(new Section(this, sectionDef));
-                }
-            }
-        }
+        this.createSections();
     }
     // --------------------------------------------------------------------------
     renderToMdxLines(frontMatter) {
         const lines = [];
-        const descriptionTodo = `@dir ${this.relativePath}`;
+        const descriptionTodo = `@dir ${escapeMdx(this.relativePath)}`;
         const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToMdxText({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -317,7 +345,10 @@ export class Folder extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToMdxLines());
         lines.push(...this.renderDetailedDescriptionToMdxLines({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
+            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
             todo: descriptionTodo,
+            showHeader: true,
             showBrief: !this.hasSect1InDescription
         }));
         lines.push(...this.renderSectionsToMdxLines());
@@ -329,30 +360,37 @@ export class File extends CompoundBase {
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
         this.relativePath = '';
-        // The compoundName is the actual file name.
-        this.sidebarLabel = compoundDef.compoundName ?? '?';
+        this.listingLineNumbers = new Set();
+        // console.log('file:', compoundDef.compoundName)
+        // The compoundName is the actual file name, without path.
+        assert(compoundDef.compoundName !== undefined);
+        this.sidebarLabel = compoundDef.compoundName;
         this.indexName = this.sidebarLabel;
         this.pageTitle = `The \`${this.sidebarLabel}\` File Reference`;
-        if (compoundDef.sectionDefs !== undefined) {
-            for (const sectionDef of compoundDef.sectionDefs) {
-                if (sectionDef.hasMembers()) {
-                    this.sections.push(new Section(this, sectionDef));
-                }
-            }
-        }
+        this.createSections();
     }
     initializeLate() {
         super.initializeLate();
         const compoundDef = this._private._compoundDef;
         assert(compoundDef !== undefined);
         this.programListing = compoundDef.programListing;
+        // Keep track of line number, since not all lines referred exist and
+        // this might result in broken links.
+        if (this.programListing?.codelines !== undefined) {
+            for (const codeline of this.programListing?.codelines) {
+                if (codeline.lineno !== undefined) {
+                    this.listingLineNumbers.add(codeline.lineno);
+                }
+            }
+        }
     }
     // --------------------------------------------------------------------------
     renderToMdxLines(frontMatter) {
         const lines = [];
-        const descriptionTodo = `@file ${this.relativePath}`;
+        const descriptionTodo = `@file ${escapeMdx(this.relativePath)}`;
         const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToMdxText({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -362,7 +400,10 @@ export class File extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToMdxLines());
         lines.push(...this.renderDetailedDescriptionToMdxLines({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
+            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
             todo: descriptionTodo,
+            showHeader: true,
             showBrief: !this.hasSect1InDescription
         }));
         lines.push(...this.renderSectionsToMdxLines());
@@ -377,3 +418,4 @@ export class File extends CompoundBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=files-and-folders-vm.js.map

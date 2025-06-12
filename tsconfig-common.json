@@ -19,7 +19,7 @@
     // These two options will be selectively overridden in each project.
     // Utility libraries will have source maps on, but plugins will not.
     "declarationMap": false,
-    "sourceMap": false,
+    "sourceMap": true,
     "jsx": "react-native",
     "importHelpers": true,
     "noEmitHelpers": true,

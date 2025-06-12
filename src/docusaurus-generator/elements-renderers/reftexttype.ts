@@ -33,14 +33,16 @@ export class RefTextTypeTextRenderer extends ElementTextRendererBase {
 
     let text: string = ''
 
-    const permalink: string = this.workspace.getPermalink({
+    const permalink = this.workspace.getPermalink({
       refid: element.refid,
       kindref: element.kindref
     })
 
-    assert(permalink !== undefined && permalink.length > 1)
-
-    text += `<Link to="${permalink}">${escapeMdx(element.text.trim())}</Link>`
+    if (permalink !== undefined && permalink.length > 0) {
+      text += `<a href="${permalink}">${escapeMdx(element.text.trim())}</a>`
+    } else {
+      text += `${escapeMdx(element.text.trim())}`
+    }
 
     return text
   }

@@ -35,6 +35,31 @@ import { Renderers } from './elements-renderers/renderers.js'
 
 // ----------------------------------------------------------------------------
 
+// <xsd:simpleType name="DoxCompoundKind">
+//   <xsd:restriction base="xsd:string">
+//     <xsd:enumeration value="class" />
+//     <xsd:enumeration value="struct" />
+//     <xsd:enumeration value="union" />
+//     <xsd:enumeration value="interface" />
+//     <xsd:enumeration value="protocol" />
+//     <xsd:enumeration value="category" />
+//     <xsd:enumeration value="exception" />
+//     <xsd:enumeration value="service" />
+//     <xsd:enumeration value="singleton" />
+//     <xsd:enumeration value="module" />
+//     <xsd:enumeration value="type" />
+//     <xsd:enumeration value="file" />
+//     <xsd:enumeration value="namespace" />
+//     <xsd:enumeration value="group" />
+//     <xsd:enumeration value="page" />
+//     <xsd:enumeration value="example" />
+//     <xsd:enumeration value="dir" />
+//     <xsd:enumeration value="concept" />
+//   </xsd:restriction>
+// </xsd:simpleType>
+
+// ----------------------------------------------------------------------------
+
 export class Workspace {
   // The data parsed from the Doxygen XML files.
   dataModel: DataModel
@@ -48,13 +73,24 @@ export class Workspace {
   pluginActions: any
 
   collectionNamesByKind: Record<string, string> = {
-    group: 'groups',
-    namespace: 'namespaces',
     class: 'classes',
     struct: 'classes',
+    union: 'classes',
+    // interface
+    // protocol
+    // category
+    // exception
+    // service
+    // singleton
+    // module
+    // type
     file: 'files',
-    dir: 'files',
-    page: 'pages'
+    namespace: 'namespaces',
+    group: 'groups',
+    page: 'pages',
+    // example
+    dir: 'files'
+    // concept
   }
 
   // The key is one of the above collection names.
@@ -64,8 +100,23 @@ export class Workspace {
   // The many options used by Doxygen during build.
   doxygenOptions: DoxygenFileOptions
 
-  // Like `/api/` (with heading and trailing slashes)
-  permalinkBaseUrl: string
+  // Like `/micro-os-plus/docs/api/`.
+  absoluteBaseUrl: string
+
+  // Like `/micro-os-plus/docs/api/`.
+  pageBaseUrl: string
+
+  // Like `/api/`.
+  slugBaseUrl: string
+
+  // Like `/docs/api/`.
+  menuBaseUrl: string
+
+  // Like `docs/api/`.
+  outputFolderPath: string
+
+  // like `api/`.
+  sidebarBaseId: string
 
   // The order of entries in the sidebar and in the top menu dropdown.
   sidebarCollectionNames: string[] = ['groups', 'namespaces', 'classes', 'files', 'pages']
@@ -78,6 +129,9 @@ export class Workspace {
   currentCompound: CompoundBase | undefined
 
   elementRenderers: Renderers
+
+  writtenMdxFilesCounter: number = 0
+  writtenHtmlFilesCounter: number = 0
 
   // --------------------------------------------------------------------------
 
@@ -101,11 +155,21 @@ export class Workspace {
 
     this.doxygenOptions = new DoxygenFileOptions(this.dataModel.doxyfile?.options)
 
-    // The relevant part of the permalink, like 'api', with the trailing slash.
-    // TODO: what if not below `docs`?
-    const outputBaseUrl = this.pluginOptions.outputBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '')
-    this.permalinkBaseUrl = `${outputBaseUrl}/`
-    // console.log('permalinkBaseUrl:', this.permalinkBaseUrl)
+    const docsFolderPath = this.pluginOptions.docsFolderPath.replace(/^[/]/, '').replace(/[/]$/, '')
+    const apiFolderPath = this.pluginOptions.apiFolderPath.replace(/^[/]/, '').replace(/[/]$/, '')
+
+    this.outputFolderPath = `${docsFolderPath}/${apiFolderPath}/`
+
+    this.sidebarBaseId = `${apiFolderPath}/`
+
+    const docsBaseUrl = this.pluginOptions.docsBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '')
+    const apiBaseUrl = this.pluginOptions.apiBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '')
+
+    this.absoluteBaseUrl = `${this.siteConfig.baseUrl}${docsBaseUrl}/${apiBaseUrl}/`
+    this.pageBaseUrl = `${this.siteConfig.baseUrl}${docsBaseUrl}/${apiBaseUrl}/`
+    this.slugBaseUrl = `/${apiBaseUrl}/`
+    this.menuBaseUrl = `/${docsBaseUrl}/${apiBaseUrl}/`
+    // console.log('absoluteBaseUrl:', this.absoluteBaseUrl)
 
     // Create the view-model objects.
     this.viewModel = new Map()
@@ -142,9 +206,11 @@ export class Workspace {
         const collection = this.viewModel.get(collectionName)
         if (collection !== undefined) {
           // Create the compound object and add it to the parent collection.
+          // console.log(compoundDefDataModel.kind, compoundDefDataModel.compoundName)
           const compound = collection.addChild(compoundDefDataModel)
           // Also add it to the global compounds map.
-          this.compoundsById.set(compoundDefDataModel.id, compound)
+          this.compoundsById.set(compound.id, compound)
+          // console.log('compoundsById.set', compound.kind, compound.id)
           added = true
         }
       }
@@ -179,7 +245,9 @@ export class Workspace {
       // console.log('createHierarchies:', collectionName)
       for (const [compoundId, compound] of collection.collectionCompoundsById) {
         this.currentCompound = compound
-        // console.log(compound.compoundName)
+        if (this.pluginOptions.debug) {
+          console.log(compound.kind, compound.compoundName)
+        }
         compound.initializeLate()
       }
     }
@@ -194,9 +262,9 @@ export class Workspace {
       // console.log(compound.kind, compound.compoundName, compound.id)
       if (compound.sections !== undefined) {
         for (const section of compound.sections) {
-          if (section.members !== undefined) {
+          if (section.indexMembers !== undefined) {
             // console.log('  ', sectionDef.kind)
-            for (const member of section.members) {
+            for (const member of section.indexMembers) {
               if (member instanceof Member) {
                 const memberCompoundId = stripPermalinkAnchor(member.id)
                 if (memberCompoundId !== compound.id) {
@@ -206,7 +274,9 @@ export class Workspace {
                 } else {
                   // console.log('    ', memberDef.kind, memberDef.id)
                   if (this.membersById.has(member.id)) {
-                    console.warn('member already in map', member.id, 'in', this.membersById.get(member.id)?.name)
+                    if (this.pluginOptions.verbose) {
+                      console.warn('member already in map', member.id, 'in', this.membersById.get(member.id)?.name)
+                    }
                   } else {
                     this.membersById.set(member.id, member)
                   }
@@ -228,15 +298,22 @@ export class Workspace {
   initializeMemberLate (): void {
     console.log('Performing members late initializations...')
     for (const [, compound] of this.compoundsById) {
-      // console.log(compound.kind, compound.compoundName, compound.id)
+      if (this.pluginOptions.debug) {
+        console.log(compound.kind, compound.compoundName, compound.id)
+      }
       this.currentCompound = compound
       if (compound.sections !== undefined) {
         for (const section of compound.sections) {
           section.initializeLate()
-          if (section.members !== undefined) {
-            // console.log('  ', sectionDef.kind)
-            for (const member of section.members) {
+          if (section.indexMembers !== undefined) {
+            if (this.pluginOptions.debug) {
+              console.log('  ', section.kind)
+            }
+            for (const member of section.indexMembers) {
               if (member instanceof Member) {
+                if (this.pluginOptions.debug) {
+                  console.log('    ', member.kind, member.id)
+                }
                 member.initializeLate()
               }
             }
@@ -255,33 +332,55 @@ export class Workspace {
   validatePermalinks (): void {
     console.log('Validating permalinks...')
 
-    assert(this.pluginOptions.outputFolderPath)
-    // const outputFolderPath = this.options.outputFolderPath
-
     const pagePermalinksById: Map<string, string> = new Map()
-    const pagePermalinksSet: Set<string> = new Set()
+    const compoundsByPermalink: Map<string, Map<string, CompoundBase>> = new Map()
 
     for (const compoundDefDataModel of this.dataModel.compoundDefs) {
       // console.log(compoundDefDataModel.kind, compoundDefDataModel.compoundName)
 
-      const compound: CompoundBase | undefined = this.compoundsById.get(compoundDefDataModel.id)
+      const compoundDefDataModelId = compoundDefDataModel.id
+      if (pagePermalinksById.has(compoundDefDataModelId)) {
+        console.warn('Duplicate id', compoundDefDataModelId)
+      }
+
+      const compound: CompoundBase | undefined = this.compoundsById.get(compoundDefDataModelId)
       if (compound === undefined) {
-        console.error('compoundDefDataModel', compoundDefDataModel.id, 'not yet processed in', this.constructor.name, 'validatePermalinks')
+        console.error('compoundDefDataModel', compoundDefDataModelId, 'not yet processed in', this.constructor.name, 'validatePermalinks')
         continue
       }
 
       const permalink = compound.relativePermalink
-      assert(permalink !== undefined)
-      // console.log('permalink:', permalink)
+      if (permalink !== undefined) {
+        // console.log('permalink:', permalink)
+        let compoundsMap = compoundsByPermalink.get(permalink)
+        if (compoundsMap === undefined) {
+          compoundsMap = new Map()
+          compoundsByPermalink.set(permalink, compoundsMap)
+        }
+        pagePermalinksById.set(compoundDefDataModelId, permalink)
+        if (!compoundsMap.has(compound.id)) {
+          compoundsMap.set(compound.id, compound)
+        }
+      }
+    }
 
-      if (pagePermalinksById.has(compoundDefDataModel.id)) {
-        console.error('Permalink clash for id', compoundDefDataModel.id)
+    for (const [permalink, compoundsMap] of compoundsByPermalink) {
+      if (compoundsMap.size > 1) {
+        if (this.pluginOptions.verbose) {
+          console.warn('Permalink', permalink, 'has', compoundsMap.size, 'occurrences:')
+        }
+        let count = 1
+        for (const [compoundId, compound] of compoundsMap) {
+          const suffix = `-${count}`
+          count += 1
+          compound.relativePermalink += suffix
+          compound.docusaurusId += suffix
+
+          if (this.pluginOptions.verbose) {
+            console.warn('-', compound.relativePermalink, compound.id)
+          }
+        }
       }
-      if (pagePermalinksSet.has(permalink)) {
-        console.error('Permalink clash for permalink', permalink, 'id:', compoundDefDataModel.id)
-      }
-      pagePermalinksById.set(compoundDefDataModel.id, permalink)
-      pagePermalinksSet.add(permalink)
     }
   }
 
@@ -300,13 +399,15 @@ export class Workspace {
     bodyLines,
     frontMatter,
     frontMatterCodeLines,
-    title
+    title,
+    pagePermalink
   }: {
     filePath: string
     bodyLines: string[]
     frontMatter: FrontMatter
     frontMatterCodeLines?: string[]
     title?: string
+    pagePermalink?: string
   }): Promise<void> {
     const lines: string[] = []
 
@@ -318,7 +419,13 @@ export class Workspace {
     lines.push('</DoxygenPage>')
     lines.push('')
 
-    const text = lines.join('\n')
+    // Hack to prevent Docusaurus replace legit content with emojis.
+    let text = lines.join('\n')
+    if (pagePermalink !== undefined && pagePermalink.length > 0) {
+      // Strip local page permalink from anchors.
+      text = text.replaceAll(`"${pagePermalink}/#`, '"#')
+    }
+    text = text.replaceAll(':thread:', "{':thread:'}").replaceAll(':flags:', "{':flags:'}")
 
     // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
     const frontMatterLines: string[] = []
@@ -416,6 +523,8 @@ export class Workspace {
     await fileHandle.write(text)
 
     await fileHandle.close()
+
+    this.writtenMdxFilesCounter += 1
   }
 
   // --------------------------------------------------------------------------
@@ -520,41 +629,51 @@ export class Workspace {
   }: {
     refid: string
     kindref: string // 'compound', 'member'
-  }): string {
+  }): string | undefined {
     // console.log(refid, kindref)
+    // if (refid.endsWith('ga45942bdeee4fb61db5a7dc3747cb7193')) {
+    //   console.log(refid, kindref)
+    // }
     let permalink: string | undefined
     if (kindref === 'compound') {
       permalink = this.getPagePermalink(refid)
     } else if (kindref === 'member') {
       const compoundId = stripPermalinkAnchor(refid)
       // console.log('compoundId:', compoundId)
-      if (compoundId === this.currentCompound?.id) {
-        permalink = `#${getPermalinkAnchor(refid)}`
-      } else {
-        permalink = `${this.getPagePermalink(compoundId)}/#${getPermalinkAnchor(refid)}`
-      }
+      // if (this.currentCompound !== undefined && compoundId === this.currentCompound.id) {
+      //   permalink = `#${getPermalinkAnchor(refid)}`
+      // } else {
+      permalink = `${this.getPagePermalink(compoundId)}/#${getPermalinkAnchor(refid)}`
+      // }
     } else {
       console.error('Unsupported kindref', kindref, 'for', refid, 'in', this.constructor.name, 'getPermalink')
     }
 
-    assert(permalink !== undefined && permalink.length > 1)
+    // if (refid.endsWith('ga45942bdeee4fb61db5a7dc3747cb7193')) {
+    //   console.log(permalink)
+    // }
     return permalink
   }
 
-  getPagePermalink (refid: string): string {
+  getPagePermalink (refid: string): string | undefined {
     const dataObject: CompoundBase | undefined = this.compoundsById.get(refid)
     if (dataObject === undefined) {
-      console.log('refid', refid)
+      if (this.pluginOptions.debug) {
+        console.warn('refid', refid, 'is not a known compound, no permalink')
+      }
+      return undefined
     }
-    assert(dataObject !== undefined)
 
     const pagePermalink = dataObject.relativePermalink
     if (pagePermalink === undefined) {
-      console.error('refid', refid, 'has no permalink')
+      if (this.pluginOptions.verbose) {
+        console.warn('refid', refid, 'has no permalink')
+      }
+      return undefined
     }
 
     assert(pagePermalink !== undefined)
-    return `/${this.pluginOptions.outputFolderPath}/${pagePermalink}`
+    return `${this.pageBaseUrl}${pagePermalink}`
   }
 
   getXrefPermalink (id: string): string {
@@ -562,12 +681,16 @@ export class Workspace {
     const pagePart = id.replace(/_1.*/, '')
     const anchorPart = id.replace(/.*_1/, '')
     // console.log('2', part1, part2)
-    if (this.currentCompound !== undefined && pagePart === this.currentCompound.id) {
-      return `#${anchorPart}`
-    } else {
-      return `/${this.pluginOptions.outputFolderPath}/pages/${pagePart}/#${anchorPart}`
-    }
+    // if (this.currentCompound !== undefined && pagePart === this.currentCompound.id) {
+    //   return `#${anchorPart}`
+    // } else {
+    return `${this.pageBaseUrl}pages/${pagePart}/#${anchorPart}`
+    // }
   }
+
+  // In utils:
+  // export function stripPermalinkAnchor (refid: string): string
+  // export function getPermalinkAnchor (refid: string): string
 }
 
 // ----------------------------------------------------------------------------

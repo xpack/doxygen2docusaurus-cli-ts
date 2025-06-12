@@ -19,14 +19,21 @@ import { AbstractDataModelBase } from '../types.js';
 import { TemplateParamListDataModel } from './templateparamlisttype-dm.js';
 import { EnumValueDataModel } from './enumvaluetype-dm.js';
 import { ReimplementDataModel, ReimplementedByDataModel } from './reimplementtype-dm.js';
-export class AbstractMemberDefType extends AbstractDataModelBase {
+import { ReferenceDataModel, ReferencedByDataModel } from './referencetype-dm.js';
+export class AbstractMemberBaseType extends AbstractDataModelBase {
+    constructor() {
+        super(...arguments);
+        // Mandatory elements.
+        this.name = '';
+        this.kind = '';
+    }
+}
+export class AbstractMemberDefType extends AbstractMemberBaseType {
     // TODO: add more...
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory elements.
-        this.name = '';
         // Mandatory attributes.
-        this.kind = '';
+        // kind: DoxMemberKind | '' = '' (in parent)
         this.id = '';
         this.prot = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -55,6 +62,9 @@ export class AbstractMemberDefType extends AbstractDataModelBase {
             }
             else if (xml.isInnerElementText(innerElement, 'argsstring')) {
                 this.argsstring = xml.getInnerElementText(innerElement, 'argsstring');
+            }
+            else if (xml.isInnerElementText(innerElement, 'bitfield')) {
+                this.bitfield = xml.getInnerElementText(innerElement, 'bitfield');
             }
             else if (xml.isInnerElementText(innerElement, 'qualifiedname')) {
                 this.qualifiedName = xml.getInnerElementText(innerElement, 'qualifiedname');
@@ -95,12 +105,25 @@ export class AbstractMemberDefType extends AbstractDataModelBase {
             else if (xml.hasInnerElement(innerElement, 'inbodydescription')) {
                 this.inbodyDescription = new InbodyDescriptionDataModel(xml, innerElement);
             }
+            else if (xml.hasInnerElement(innerElement, 'references')) {
+                if (this.references === undefined) {
+                    this.references = [];
+                }
+                this.references.push(new ReferenceDataModel(xml, innerElement));
+            }
+            else if (xml.hasInnerElement(innerElement, 'referencedby')) {
+                if (this.referencedBy === undefined) {
+                    this.referencedBy = [];
+                }
+                this.referencedBy.push(new ReferencedByDataModel(xml, innerElement));
+            }
             else {
                 console.error(util.inspect(innerElement));
                 console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name);
             }
         }
-        assert(this.name.length > 0);
+        // WARNING it may be empty.
+        // assert(this.name.length > 0)
         assert(this.location !== undefined);
         // ------------------------------------------------------------------------
         // Process attributes.
@@ -166,6 +189,9 @@ export class AbstractMemberDefType extends AbstractDataModelBase {
             else if (attributeName === '@_constinit') {
                 this.constinit = Boolean(xml.getAttributeBooleanValue(element, '@_constinit'));
             }
+            else if (attributeName === '@_final') {
+                this.final = Boolean(xml.getAttributeBooleanValue(element, '@_final'));
+            }
             else {
                 console.error(util.inspect(element, { compact: false, depth: 999 }));
                 console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name);
@@ -187,3 +213,4 @@ export class MemberDefDataModel extends AbstractMemberDefType {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=memberdeftype-dm.js.map

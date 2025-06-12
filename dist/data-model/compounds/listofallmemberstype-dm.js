@@ -59,3 +59,4 @@ export class ListOfAllMembersDataModel extends AbstractListOfAllMembersType {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=listofallmemberstype-dm.js.map

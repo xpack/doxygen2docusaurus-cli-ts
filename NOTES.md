@@ -2,13 +2,21 @@
 
 ## Inspiration
 
-This plugin is inspired by [`docusaurus-plugin-typedoc-api`](https://github.com/milesj/docusaurus-plugin-typedoc-api/).
+This project is inspired by
+[`docusaurus-plugin-typedoc-api`](https://github.com/milesj/docusaurus-plugin-typedoc-api/),
+but does not go that far to reimplement the `content-docs` functionality of
+processing the MDX files.
 
-The preliminary plan is to use `loadContent()` to parse the input files into some internal structures,
-then on `contentLoaded()` do some magic, possibly with `createData()`, create a lot of internal routes
-for all API pages and finally `addRoute({path: 'api', component: '@thee/DocsRoot', routes:... })`.
+The initial plan was to use `loadContent()` to parse the input XML files,
+and generate the MDX files, but this proved not realistic with the current
+Docusaurus policy
+to run all plugins initialisation code in parallel, since this plugin must run
+before the `content-docs` plugin, that parses the MDX files.
 
-As aspect, it'll stay close to the [Doxygen Awesome](https://jothepro.github.io/doxygen-awesome-css/).
+Therefore, for now, it is recommended to invoke the plugin via the CLI command.
+
+As aspect, the output will remain close to the
+[Doxygen Awesome](https://jothepro.github.io/doxygen-awesome-css/).
 
 ## Discussions
 
@@ -30,3 +38,8 @@ As aspect, it'll stay close to the [Doxygen Awesome](https://jothepro.github.io/
 - https://github.com/microsoft/react-native-windows/tree/main/packages/%40rnw-scripts/doxysaurus
 - https://github.com/sourcey/moxygen
 - https://github.com/matusnovak/doxybook2 (archived)
+
+## Issues
+
+- https://github.com/doxygen/doxygen/issues/11613 - case-insensitive file names (not a bug; use CASE_SENSE_NAMES = SYSTEM)
+- https://github.com/doxygen/doxygen/issues/11614 - duplicate IDs

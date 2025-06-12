@@ -39,7 +39,7 @@ export class Pages extends CollectionBase {
 
   override addChild (compoundDef: CompoundDefDataModel): CompoundBase {
     const page = new Page(this, compoundDef)
-    this.collectionCompoundsById.set(compoundDef.id, page)
+    this.collectionCompoundsById.set(page.id, page)
 
     if (page.id === 'indexpage') {
       this.mainPage = page
@@ -79,8 +79,13 @@ export class Pages extends CollectionBase {
       if (pageId === 'indexpage') {
         continue
       }
-      const label: string = page.sidebarLabel
-      const id: string = `${this.workspace.permalinkBaseUrl}${page.docusaurusId as string}`
+
+      const label = page.sidebarLabel
+      if (label === undefined) {
+        continue
+      }
+
+      const id: string = `${this.workspace.sidebarBaseId}${page.docusaurusId as string}`
       const docItem: SidebarDocItem = {
         type: 'doc',
         label,
@@ -113,11 +118,8 @@ export class Page extends CompoundBase {
   constructor (collection: Pages, compoundDef: CompoundDefDataModel) {
     super(collection, compoundDef)
 
-    if (compoundDef.title !== undefined) {
-      this.sidebarLabel = compoundDef.title?.trim().replace(/\.$/, '')
-    } else {
-      this.sidebarLabel = '?'
-    }
+    assert(compoundDef.title !== undefined)
+    this.sidebarLabel = compoundDef.title.trim().replace(/\.$/, '')
 
     this.indexName = this.sidebarLabel
 
@@ -131,6 +133,7 @@ export class Page extends CompoundBase {
     // SectionDefs for pages?
     assert(compoundDef.sectionDefs === undefined)
 
+    // console.log('0', this.id)
     // console.log('1', this.compoundName)
     // console.log('2', this.relativePermalink)
     // console.log('3', this.docusaurusId)
@@ -146,6 +149,7 @@ export class Page extends CompoundBase {
 
     const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToMdxText({
+      briefDescriptionMdxText: this.briefDescriptionMdxText,
       morePermalink
     }))
 
@@ -154,6 +158,8 @@ export class Page extends CompoundBase {
     lines.push(...this.renderSectionIndicesToMdxLines())
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({
+      briefDescriptionMdxText: this.briefDescriptionMdxText,
+      detailedDescriptionMdxText: this.detailedDescriptionMdxText,
       showHeader: false
     }))
 

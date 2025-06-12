@@ -10,14 +10,19 @@
  */
 export const defaultOptions = {
     doxygenXmlInputFolderPath: 'doxygen/xml',
-    outputFolderPath: 'docs/api',
-    outputBaseUrl: 'api',
+    docsFolderPath: 'docs',
+    apiFolderPath: 'api',
+    docsBaseUrl: 'docs',
+    apiBaseUrl: 'api',
     sidebarCategoryFilePath: 'sidebar-category-doxygen.json',
     sidebarCategoryLabel: 'API Reference (Doxygen)',
     menuDropdownFilePath: 'docusaurus-config-doxygen-menu-dropdown.json',
     menuDropdownLabel: 'Reference',
     verbose: false,
+    debug: false,
     runOnStart: false,
+    suggestToDoDescriptions: false,
     id: 'default'
 };
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=options.js.map

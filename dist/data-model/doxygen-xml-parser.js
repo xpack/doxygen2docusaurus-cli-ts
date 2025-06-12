@@ -21,6 +21,7 @@ import { DoxygenDataModel } from './compounds/doxygentype-dm.js';
 export class DoxygenXmlParser {
     constructor({ verbose = false }) {
         this.verbose = false;
+        this.parsedFilesCounter = 0;
         this.verbose = verbose;
     }
     async parse({ folderPath }) {
@@ -92,6 +93,27 @@ export class DoxygenXmlParser {
                     }
                 }
             }
+            const memberDefsById = new Map();
+            for (const compoundDef of compoundDefs) {
+                if (compoundDef.sectionDefs !== undefined) {
+                    for (const sectionDef of compoundDef.sectionDefs) {
+                        if (sectionDef.memberDefs !== undefined) {
+                            for (const memberDef of sectionDef.memberDefs) {
+                                memberDefsById.set(memberDef.id, memberDef);
+                            }
+                        }
+                        if (sectionDef.members !== undefined) {
+                            for (const member of sectionDef.members) {
+                                if (member.kind.length === 0) {
+                                    const memberDef = memberDefsById.get(member.refid);
+                                    assert(memberDef !== undefined);
+                                    member.kind = memberDef.kind;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         // ------------------------------------------------------------------------
         // Parse the Doxyfile.xml with the options.
@@ -115,6 +137,9 @@ export class DoxygenXmlParser {
             }
         }
         assert(doxyfile);
+        if (this.verbose) {
+            console.log(this.parsedFilesCounter, 'xml files parsed');
+        }
         // ------------------------------------------------------------------------
         return {
             doxygenindex,
@@ -130,6 +155,7 @@ export class DoxygenXmlParser {
         if (this.verbose) {
             console.log(`Parsing ${fileName}...`);
         }
+        this.parsedFilesCounter += 1;
         return xmlParser.parse(xmlString);
     }
     // --------------------------------------------------------------------------
@@ -154,6 +180,12 @@ export class DoxygenXmlParser {
             const attributeValue = elementWithNamedAttribute[name];
             if (attributeValue !== undefined && typeof attributeValue === 'string') {
                 return attributeValue;
+            }
+            else if (attributeValue !== undefined && typeof attributeValue === 'number') {
+                // The xml parser returns attributes like `refid="21"` as numbers,
+                // but the DTD defines them as strings and the applications expects
+                // strings.
+                return String(attributeValue);
             }
         }
         throw new Error(`Element ${util.inspect(element)} does not have the ${name} attribute`);
@@ -254,3 +286,4 @@ export class DoxygenXmlParser {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=doxygen-xml-parser.js.map

@@ -29,11 +29,12 @@ import { AbstractDataModelBase } from '../types.js';
 export class AbstractParamType extends AbstractDataModelBase {
     constructor(xml, element, elementName) {
         super(elementName);
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))
+        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
-        assert(innerElements.length > 0);
+        // May be empty.
+        // assert(innerElements.length > 0)
         for (const innerElement of innerElements) {
             // console.log(util.inspect(paramElement))
             if (xml.hasInnerText(innerElement)) {
@@ -100,3 +101,4 @@ export class ParamDataModel extends AbstractParamType {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=paramtype-dm.js.map

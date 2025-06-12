@@ -22,3 +22,4 @@ export class CollectionBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=collection-base.js.map

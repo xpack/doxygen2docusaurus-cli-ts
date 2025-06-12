@@ -28,7 +28,6 @@ import { AbstractDataModelBase } from '../types.js';
 //   <xsd:attribute name="kind" type="DoxSectionKind" />
 // </xsd:complexType>
 export class AbstractSectionDefTypeBase extends AbstractDataModelBase {
-    // TODO: update SectionDefCloneDataModel when more members are added
     constructor(elementName, kind) {
         super(elementName);
         // Mandatory attributes.
@@ -37,6 +36,22 @@ export class AbstractSectionDefTypeBase extends AbstractDataModelBase {
     }
     hasMembers() {
         return this.memberDefs !== undefined || this.members !== undefined;
+    }
+    computeAdjustedKind(sectionSuffix, memberSuffix = sectionSuffix) {
+        // Turn `public-func` into
+        // - `public-constructor`
+        // - `public-destructor`.
+        // - `public-operator` etc.
+        if (this.kind === 'user-defined') {
+            return memberSuffix;
+        }
+        if (this.kind.includes('-')) {
+            // Replace only the last word with the new suffix.
+            return `${this.kind.replace(/[-][a-z][a-z]*$/, '-')}${sectionSuffix}`;
+        }
+        else {
+            return memberSuffix;
+        }
     }
 }
 export class AbstractSectionDefType extends AbstractSectionDefTypeBase {
@@ -103,17 +118,10 @@ export class SectionDefDataModel extends AbstractSectionDefType {
         super(xml, element, 'sectiondef');
     }
 }
-export class SectionDefCloneDataModel extends AbstractSectionDefTypeBase {
-    constructor(base) {
-        super(base.elementName, base.kind);
-        this.header = base.header;
-        this.description = base.description;
-        this.memberDefs = base.memberDefs;
-        this.members = base.members;
-    }
-    adjustKind(suffix) {
-        // Turn `public-func` into `public-constructor` or `public-destructor`.
-        this.kind = `${this.kind.replace(/-.*/, '-')}${suffix}`;
+export class SectionDefByKindDataModel extends AbstractSectionDefTypeBase {
+    constructor(kind) {
+        super('sectiondef', kind);
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=sectiondeftype-dm.js.map

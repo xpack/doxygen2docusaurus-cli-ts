@@ -77,3 +77,4 @@ export class DerivedCompoundRefDataModel extends AbstractCompoundRefType {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=compoundreftype-dm.js.map

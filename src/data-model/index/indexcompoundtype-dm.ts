@@ -91,6 +91,7 @@ export abstract class AbstractIndexCompoundType extends AbstractDataModelBase {
     // ------------------------------------------------------------------------
 
     // console.log(util.inspect(this, { compact: false, depth: 999 }))
+    // console.log('compound: ', this.refid)
   }
 }
 

@@ -13,7 +13,6 @@
 
 import styles from './styles.module.css';
 import React from 'react';
-import Link from '@docusaurus/Link'
 
 // ----------------------------------------------------------------------------
 
@@ -25,7 +24,7 @@ export default function IncludesListItem({
 }) {
   return (
     <>
-      <code>#include {isLocal === 'true' ? '"' : '<'}{permalink.length > 0 ? (<Link to={permalink}>{filePath}</Link>) : filePath }{isLocal === 'true'  ? '"' : '>'}</code>
+      <code>#include {isLocal === 'true' ? '"' : '<'}{permalink?.length > 0 ? (<a href={permalink}>{filePath}</a>) : filePath }{isLocal === 'true'  ? '"' : '>'}</code>
       <br />
     </>
   );

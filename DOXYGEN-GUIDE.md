@@ -165,3 +165,53 @@ For functions without parameters, to make this explicit, use:
    * @par Parameters
    *	 None.
 ```
+
+## Same line comments
+
+To shortly document the members of strucs/classes/enums, use `/** ... */.
+
+Be sure the text is a properly formatted sentence, i.e. it starts with
+an upper case letter and ends with a dot.
+
+```c++
+  /**
+   * @brief The verbosity levels for test reporting.
+   *
+   * @details
+   * The `verbosity` enumeration defines the available levels of detail for
+   * test output produced by the reporting system. These levels control the
+   * amount and type of information displayed during test execution, allowing
+   * users to tailor the output to their specific requirements.
+   *
+   * Selecting an appropriate verbosity level enhances the usability of test
+   * reports, whether for concise summaries or comprehensive diagnostics.
+   *
+   * @headerfile micro-test-plus.h <micro-os-plus/micro-test-plus.h>
+   */
+  enum class verbosity
+  {
+    silent = 0, /**< No output is produced; only the exit code is returned. */
+    quiet = 1, /**< Displays results for test suites only. */
+    normal = 2, /**< Displays results for test suites and failed test cases. */
+    verbose = 3 /**< Displays all results, including passed checks, for maximum
+                   detail. */
+  };
+```
+
+For enums, the comment can be also placed before the line, but in
+this case the `@brief` is mandatory, since the details are not shown in
+the compact list.
+
+```
+  enum class verbosity
+  {
+    /** @brief No output is produced; only the exit code is returned. */
+    silent = 0,
+    /** @brief Displays results for test suites only. */
+    quiet = 1,
+    /** @brief Displays results for test suites and failed test cases. */
+    normal = 2,
+    /** @brief Displays all results, including passed checks, for maximum detail. */
+    verbose = 3
+  };
+```

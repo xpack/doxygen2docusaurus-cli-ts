@@ -83,3 +83,4 @@ export class TypeConstraintDataModel extends AbstractLinkedTextType {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=linkedtexttype-dm.js.map

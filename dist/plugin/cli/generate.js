@@ -44,3 +44,4 @@ export async function generateDoxygen(context, pluginOptions, cliOptions) {
     return exitCode;
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=generate.js.map

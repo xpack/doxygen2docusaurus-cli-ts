@@ -24,3 +24,4 @@ export class LinkedTextTypeTextRenderer extends ElementTextRendererBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=linkedtexttype.js.map

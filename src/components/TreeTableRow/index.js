@@ -13,7 +13,7 @@
 
 import styles from './styles.module.css';
 import React from 'react';
-import Link from '@docusaurus/Link'
+import ReactMarkdown from 'react-markdown'
 
 // ----------------------------------------------------------------------------
 
@@ -25,12 +25,12 @@ export default function TreeTableRow({
   depth,
   children
 }) {
-  const doxyClass=`doxyTreeItemLeft doxyTreeIndent${depth}`
   return (
     <tr class="doxyTreeItem">
-      <td class={doxyClass} align="left" valign="top">
+      <td class="doxyTreeItemLeft" align="left" valign="top">
+        <span style={{ width: `${depth * 12}px`, display: "inline-block" }}></span>
         {itemIconLetter && <><span class="doxyTreeIconBox"><span class="doxyTreeIcon">{itemIconLetter}</span></span></>}
-        {itemIconClass ? <Link to={itemLink}><span class={itemIconClass}>{itemLabel}</span></Link> : <Link to={itemLink}>{itemLabel}</Link>}
+        {itemIconClass ? <a href={itemLink}><span class={itemIconClass}>{itemLabel}</span></a> : <a href={itemLink}><ReactMarkdown components={{p:({children}) => <>{children}</>}}>{itemLabel}</ReactMarkdown></a>}
       </td>
       <td class="doxyTreeItemRight" align="left" valign="top">{children}</td>
     </tr>

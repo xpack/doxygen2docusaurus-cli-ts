@@ -20,7 +20,7 @@ export declare class Classes extends CollectionBase {
     outputEntries(entriesPerInitialsMap: Map<string, IndexEntry[]>): string[];
 }
 export declare class Class extends CompoundBase {
-    baseClassIds: string[];
+    baseClassIds: Set<string>;
     baseClasses: Class[];
     fullyQualifiedName: string;
     unqualifiedName: string;
@@ -32,7 +32,6 @@ export declare class Class extends CompoundBase {
     templateParamList: TemplateParamListDataModel | undefined;
     constructor(collection: Classes, compoundDef: CompoundDefDataModel);
     initializeLate(): void;
-    private splitSections;
     renderToMdxLines(frontMatter: FrontMatter): string[];
     renderIndexToMdxLines(): string[];
 }

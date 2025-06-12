@@ -15,8 +15,6 @@ import styles from './styles.module.css'
 import React, { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 
-import Link from '@docusaurus/Link'
-
 import TreeTable from '../TreeTable/index.js'
 import TreeTableRow from '../TreeTableRow/index.js'
 
@@ -37,15 +35,15 @@ export default function CollapsibleTreeTable({ rows }) {
 
   const renderRows = (rows, level = 1) =>
     rows.map((row) => {
-      const doxyClass = `doxyTreeItemLeft doxyTreeIndent${level}`
+      const doxyClass = `doxyCollapsibleTreeItemLeft doxyCollapsibleTreeIndent${level}`
       return (
         <React.Fragment key={row.id}>
-          <tr class="doxyTreeItem">
+          <tr class="doxyCollapsibleTreeItem">
             <td class={doxyClass} align="left" valign="top">
-              {row.iconLetter && <><span class="doxyTreeIconBox"><span class="doxyTreeIcon">{row.iconLetter}</span></span></>}
-              {row.iconClass ? <Link to={itemLink}><span class={row.iconClass}><ReactMarkdown components={{p:({children}) => <>{children}</>}}>{row.label}</ReactMarkdown></span></Link> : <Link to={row.link}><ReactMarkdown components={{p:({children}) => <>{children}</>}}>{row.label}</ReactMarkdown></Link>}
+              {row.iconLetter && <><span class="doxyCollapsibleTreeIconBox"><span class="doxyCollapsibleTreeIcon">{row.iconLetter}</span></span></>}
+              {row.iconClass ? <a href={itemLink}><span class={row.iconClass}><ReactMarkdown components={{p:({children}) => <>{children}</>}}>{row.label}</ReactMarkdown></span></a> : <a href={row.link}><ReactMarkdown components={{p:({children}) => <>{children}</>}}>{row.label}</ReactMarkdown></a>}
             </td>
-            <td class="doxyTreeItemRight" align="left" valign="top">{row.description}</td>
+            <td class="doxyCollapsibleTreeItemRight" align="left" valign="top">{row.description}</td>
           </tr>
           {row.children && /* expanded.has(row.id) && */ renderRows(row.children, level + 1)}
         </React.Fragment>
@@ -53,7 +51,7 @@ export default function CollapsibleTreeTable({ rows }) {
     });
 
   return (
-    <table class="doxyTreeTable">
+    <table class="doxyCollapsibleTreeTable">
       {renderRows(rows)}
     </table>
   );

@@ -13,14 +13,14 @@
 
 import * as util from 'node:util'
 import assert from 'node:assert'
+import path from 'node:path'
 
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
-import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
+import { escapeHtml, escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { FrontMatter } from '../types.js'
-import { Section } from './members-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -40,7 +40,14 @@ export class Namespaces extends CollectionBase {
 
   override addChild (compoundDef: CompoundDefDataModel): CompoundBase {
     const namespace = new Namespace(this, compoundDef)
-    this.collectionCompoundsById.set(compoundDef.id, namespace)
+    // Skip
+    if (namespace.compoundName.length === 0) {
+      if (namespace.children.length > 0) {
+        console.error('Anonymous namespace', namespace.id, ' with children?')
+      }
+    } else {
+      this.collectionCompoundsById.set(namespace.id, namespace)
+    }
 
     return namespace
   }
@@ -77,25 +84,32 @@ export class Namespaces extends CollectionBase {
       label: 'Namespaces',
       link: {
         type: 'doc',
-        id: `${this.workspace.permalinkBaseUrl}namespaces/index`
+        id: `${this.workspace.sidebarBaseId}namespaces/index`
       },
       collapsed: true,
       items: []
     }
 
     for (const namespace of this.topLevelNamespaces) {
-      namespacesCategory.items.push(this.createNamespaceItemRecursively(namespace))
+      const item = this.createNamespaceItemRecursively(namespace)
+      if (item !== undefined) {
+        namespacesCategory.items.push(item)
+      }
     }
 
     return [namespacesCategory]
   }
 
-  private createNamespaceItemRecursively (namespace: Namespace): SidebarItem {
+  private createNamespaceItemRecursively (namespace: Namespace): SidebarItem | undefined {
+    if (namespace.sidebarLabel === undefined) {
+      return undefined
+    }
+
     if (namespace.children.length === 0) {
       const docItem: SidebarDocItem = {
         type: 'doc',
         label: namespace.sidebarLabel,
-        id: `${this.workspace.permalinkBaseUrl}${namespace.docusaurusId}`
+        id: `${this.workspace.sidebarBaseId}${namespace.docusaurusId}`
       }
       return docItem
     } else {
@@ -104,14 +118,17 @@ export class Namespaces extends CollectionBase {
         label: namespace.sidebarLabel,
         link: {
           type: 'doc',
-          id: `${this.workspace.permalinkBaseUrl}${namespace.docusaurusId}`
+          id: `${this.workspace.sidebarBaseId}${namespace.docusaurusId}`
         },
         collapsed: true,
         items: []
       }
 
       for (const childNamespace of namespace.children) {
-        categoryItem.items.push(this.createNamespaceItemRecursively(childNamespace as Namespace))
+        const item = this.createNamespaceItemRecursively(childNamespace as Namespace)
+        if (item !== undefined) {
+          categoryItem.items.push(item)
+        }
       }
 
       return categoryItem
@@ -123,7 +140,7 @@ export class Namespaces extends CollectionBase {
   override createMenuItems (): MenuItem[] {
     const menuItem: MenuItem = {
       label: 'Namespaces',
-      to: `/${this.workspace.pluginOptions.outputFolderPath}/namespaces/`
+      to: `${this.workspace.menuBaseUrl}namespaces/`
     }
     return [menuItem]
   }
@@ -131,13 +148,12 @@ export class Namespaces extends CollectionBase {
   // --------------------------------------------------------------------------
 
   override async generateIndexDotMdxFile (): Promise<void> {
-    const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
-    const filePath = `${outputFolderPath}/namespaces/index.mdx`
+    const filePath = `${this.workspace.outputFolderPath}namespaces/index.mdx`
     const permalink = 'namespaces'
 
     const frontMatter: FrontMatter = {
       title: 'The Namespaces Reference',
-      slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+      slug: `${this.workspace.slugBaseUrl}${permalink}`,
       // description: '...', // TODO
       custom_edit_url: null,
       keywords: ['doxygen', 'namespaces', 'reference']
@@ -173,6 +189,9 @@ export class Namespaces extends CollectionBase {
     const label = escapeMdx(namespace.unqualifiedName)
 
     const permalink = this.workspace.getPagePermalink(namespace.id)
+    if (permalink === undefined || permalink.length === 0) {
+      console.log(namespace)
+    }
     assert(permalink !== undefined && permalink.length > 1)
 
     lines.push('')
@@ -202,6 +221,7 @@ export class Namespaces extends CollectionBase {
 
 export class Namespace extends CompoundBase {
   unqualifiedName: string = '?'
+  isAnonymous: boolean = false
 
   constructor (collection: Namespaces, compoundDef: CompoundDefDataModel) {
     super(collection, compoundDef)
@@ -215,34 +235,80 @@ export class Namespace extends CompoundBase {
       }
     }
 
-    // The compoundName is the fully qualified namespace name.
-    // Keep only the last name.
-    this.sidebarLabel = compoundDef.compoundName.replace(/.*::/, '')
+    // Tricky case: namespace { namespace CU { ... }}
+    // id: "namespace_0d341223050020306256025223146376054302122106363020_1_1CU"
+    // compoundname: "::CU"
+    // location: "[generated]"
 
-    this.indexName = this.compoundName
+    if (/^namespace.*_0d\d{48}/.test(this.id)) {
+      let fileName = ''
+      if (compoundDef.location?.file !== undefined) {
+        fileName = path.basename(compoundDef.location.file)
+      }
 
-    this.unqualifiedName = this.sidebarLabel
+      if (this.compoundName.startsWith('::')) {
+        this.unqualifiedName = compoundDef.compoundName.replace(/.*::/, '')
 
-    this.pageTitle = `The \`${this.sidebarLabel}\` Namespace Reference`
+        this.indexName = `anonymous{${fileName}}${this.compoundName}`
 
-    const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundName.replaceAll('::', '/'))
-    this.relativePermalink = `namespaces/${sanitizedPath}`
+        const sanitizedPath = sanitizeHierarchicalPath(this.indexName.replaceAll('::', '/'))
 
-    this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
+        this.pageTitle = `The \`${this.indexName}\` Namespace Reference`
 
-    if (compoundDef.sectionDefs !== undefined) {
-      for (const sectionDef of compoundDef.sectionDefs) {
-        if (sectionDef.hasMembers()) {
-          this.sections.push(new Section(this, sectionDef))
+        this.relativePermalink = `namespaces/${sanitizedPath}`
+        this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
+        this.sidebarLabel = this.unqualifiedName
+      } else {
+        this.unqualifiedName = `anonymous{${fileName}}`
+        this.isAnonymous = true
+
+        if (this.compoundName.length > 0) {
+          this.indexName = `${this.compoundName}::${this.unqualifiedName}`
+        } else {
+          this.indexName = this.unqualifiedName
         }
+
+        const sanitizedPath = sanitizeHierarchicalPath(this.indexName.replaceAll('::', '/'))
+
+        // if (compoundDef.location?.file !== undefined) {
+        //   sanitizedPath += `-${crypto.hash('md5', compoundDef.location?.file)}`
+        // }
+
+        this.pageTitle = `The \`${this.indexName}\` Namespace Reference`
+
+        this.relativePermalink = `namespaces/${sanitizedPath}`
+        this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
+        this.sidebarLabel = this.unqualifiedName
+      }
+    } else {
+      // The compoundName is the fully qualified namespace name.
+      // Keep only the last name.
+      this.unqualifiedName = compoundDef.compoundName.replace(/.*::/, '').replace(/anonymous_namespace\{/, 'anonymous{')
+
+      this.indexName = this.compoundName.replaceAll(/anonymous_namespace\{/g, 'anonymous{')
+
+      this.pageTitle = `The \`${this.unqualifiedName}\` Namespace Reference`
+
+      const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundName.replaceAll('::', '/').replaceAll(/anonymous_namespace\{/g, 'anonymous{'))
+
+      if (compoundDef.compoundName.length > 0) {
+        // Skip un-named namespaces, and generated ones, since they can be duplicate.
+        this.relativePermalink = `namespaces/${sanitizedPath}`
+        this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
+        this.sidebarLabel = this.unqualifiedName
+      } else {
+        console.warn('Skipping unnamed namespace', compoundDef.id, compoundDef.location?.file)
       }
     }
 
-    // console.log('1', this.compoundName)
-    // console.log('2', this.relativePermalink)
-    // console.log('3', this.docusaurusId)
-    // console.log('4', this.sidebarLabel)
-    // console.log('4', this.indexName)
+    this.createSections()
+
+    // console.log('0 id', this.id)
+    // console.log('1 nm', this.compoundName)
+    // console.log('2 pl', this.relativePermalink)
+    // console.log('3 di', this.docusaurusId)
+    // console.log('4 sb', this.sidebarLabel)
+    // console.log('5 ix', this.indexName)
     // console.log()
   }
 
@@ -251,10 +317,11 @@ export class Namespace extends CompoundBase {
   override renderToMdxLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    const descriptionTodo = `@namespace ${this.compoundName}`
+    const descriptionTodo = `@namespace ${escapeMdx(this.compoundName)}`
 
     const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToMdxText({
+      briefDescriptionMdxText: this.briefDescriptionMdxText,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -262,8 +329,13 @@ export class Namespace extends CompoundBase {
     lines.push('')
     lines.push('## Definition')
     lines.push('')
-    // Intentionally on two lines.
-    lines.push(`<CodeBlock>namespace ${this.compoundName}</CodeBlock>`)
+
+    const dots = escapeHtml('{ ... }')
+    if (this.compoundName.startsWith('anonymous_namespace{')) {
+      lines.push(`<CodeBlock>namespace ${dots}</CodeBlock>`)
+    } else {
+      lines.push(`<CodeBlock>namespace ${escapeMdx(this.compoundName)} ${dots}</CodeBlock>`)
+    }
 
     lines.push(...this.renderInnerIndicesToMdxLines({
       suffixes: ['Namespaces', 'Classes']
@@ -272,7 +344,10 @@ export class Namespace extends CompoundBase {
     lines.push(...this.renderSectionIndicesToMdxLines())
 
     lines.push(...this.renderDetailedDescriptionToMdxLines({
+      briefDescriptionMdxText: this.briefDescriptionMdxText,
+      detailedDescriptionMdxText: this.detailedDescriptionMdxText,
       todo: descriptionTodo,
+      showHeader: true,
       showBrief: !this.hasSect1InDescription
     }))
 

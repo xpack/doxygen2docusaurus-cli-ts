@@ -35,3 +35,4 @@ export class VariableListPairLinesRenderer extends ElementLinesRendererBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=docvariablelisttype.js.map

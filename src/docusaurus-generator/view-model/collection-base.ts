@@ -21,6 +21,7 @@ import { CompoundBase } from './compound-base-vm.js'
 
 export abstract class CollectionBase {
   workspace: Workspace
+
   collectionCompoundsById: Map<string, CompoundBase>
 
   // --------------------------------------------------------------------------

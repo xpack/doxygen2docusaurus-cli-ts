@@ -20,6 +20,10 @@ export function formatDate(date) {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds} +0000`;
 }
 // ----------------------------------------------------------------------------
+/**
+ * Escape characters that are problematic in MDX/JSX context.
+ * This includes HTML special chars and MDX/JSX delimiters.
+ */
 export function escapeMdx(text) {
     return text
         .replaceAll(/[&]/g, '&amp;')
@@ -28,11 +32,13 @@ export function escapeMdx(text) {
         .replaceAll(/["]/g, '&quot;')
         .replaceAll(/[']/g, '&#39;')
         .replaceAll(/[`]/g, '&#96;')
-        .replaceAll(/[{]/g, '&#123;')
-        .replaceAll(/[}]/g, '&#125;')
+        .replaceAll(/{/g, '&#123;')
+        .replaceAll(/}/g, '&#125;')
+        .replaceAll(/\[/g, '&#91;')
+        .replaceAll(/\]/g, '&#93;')
         .replaceAll(/[\\]/g, '\\\\')
-        .replaceAll(/[*]/g, '&#42;') // Markdown for bold.
-        .replaceAll(/[_]/g, '&#95;'); // Markdown for italics.
+        .replaceAll(/\*/g, '&#42;') // Markdown for bold
+        .replaceAll(/_/g, '&#95;'); // Markdown for italics
 }
 // export function encodeUrl (text: string): string {
 //   return text
@@ -43,13 +49,44 @@ export function escapeMdx(text) {
 //     .replaceAll(/[&]/g, '%26')
 //     .replaceAll(/[*]/g, '%2A')
 // }
+export function escapeHtml(text) {
+    return text
+        .replaceAll(/&/g, '&amp;')
+        .replaceAll(/</g, '&lt;')
+        .replaceAll(/>/g, '&gt;')
+        .replaceAll(/"/g, '&quot;')
+        .replaceAll(/'/g, '&#39;')
+        .replaceAll(/{/g, '&#123;') // MDX
+        .replaceAll(/}/g, '&#125;'); // MDX
+}
+export function escapeQuotes(text) {
+    return text
+        .replaceAll(/"/g, '&quot;');
+}
 // Preserve '/' too.
 export function sanitizeHierarchicalPath(text) {
-    return text.toLowerCase().replaceAll(/[ ]*/g, '').replaceAll(/[^a-zA-Z0-9/-]/g, '-');
+    return text.toLowerCase()
+        .replaceAll(/[ ]*/g, '')
+        .replaceAll(/\*/g, '2a')
+        .replaceAll(/&/g, '26')
+        .replaceAll(/</g, '3c')
+        .replaceAll(/>/g, '3e')
+        .replaceAll(/\(/g, '28')
+        .replaceAll(/\)/g, '29')
+        .replaceAll(/[^a-zA-Z0-9/-]/g, '-');
 }
-export function sanitizeName(text) {
-    return text.toLowerCase().replaceAll(/[ ]*/g, '').replaceAll(/[^a-zA-Z0-9-]/g, '-');
-}
+// export function sanitizeName (text: string): string {
+//   return text.toLowerCase()
+//     .replaceAll(/[ ]*/g, '')
+//     .replaceAll(/\*/g, '2a')
+//     .replaceAll(/&/g, '26')
+//     .replaceAll(/\./g, '2e')
+//     .replaceAll(/</g, '3c')
+//     .replaceAll(/>/g, '3e')
+//     .replaceAll(/\(/g, '28')
+//     .replaceAll(/\)/g, '29')
+//     .replaceAll(/[^a-zA-Z0-9-]/g, '-')
+// }
 export function flattenPath(text) {
     return text.replaceAll('/', '-');
 }
@@ -61,3 +98,4 @@ export function getPermalinkAnchor(refid) {
     return refid.replace(/^.*_1/, '');
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=utils.js.map

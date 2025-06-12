@@ -11,23 +11,23 @@
 // ----------------------------------------------------------------------------
 import assert from 'assert';
 import * as util from 'node:util';
-import { AbstractDataModelBase } from '../types.js';
+import { AbstractMemberBaseType } from './memberdeftype-dm.js';
 // ----------------------------------------------------------------------------
 // <xsd:complexType name="MemberType">
 //   <xsd:sequence>
-//     <xsd:element name="name" type="xsd:string"/>
+//     <xsd:element name="name" type="xsd:string"/> // WARNING name may be empty
 //   </xsd:sequence>
 //   <xsd:attribute name="refid" type="xsd:string" use="required"/>
 //   <xsd:attribute name="kind" type="MemberKind" use="required"/>
 // </xsd:complexType>
-export class AbstractMemberType extends AbstractDataModelBase {
+export class AbstractMemberType extends AbstractMemberBaseType {
+    // kind: string = '' // MemberKind (in parent)
     constructor(xml, element, elementName) {
         super(elementName);
         // Mandatory elements.
-        this.name = '';
+        // name: string = '' (in parent)
         // Mandatory attributes.
         this.refid = '';
-        this.kind = ''; // MemberKind
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -45,7 +45,8 @@ export class AbstractMemberType extends AbstractDataModelBase {
                 console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name);
             }
         }
-        assert(this.name.length > 0);
+        // In practice it may be empty.
+        // assert(this.name.length > 0)
         // ------------------------------------------------------------------------
         // Process attributes.
         assert(xml.hasAttributes(element));
@@ -77,3 +78,4 @@ export class MemberDataModel extends AbstractMemberType {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=membertype-dm.js.map

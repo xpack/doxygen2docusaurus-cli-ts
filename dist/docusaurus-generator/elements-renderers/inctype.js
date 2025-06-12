@@ -8,8 +8,6 @@
  * If a copy of the license was not distributed with this file, it can
  * be obtained from https://opensource.org/licenses/MIT.
  */
-// ----------------------------------------------------------------------------
-import assert from 'assert';
 import { ElementLinesRendererBase } from './element-renderer-base.js';
 // ----------------------------------------------------------------------------
 export class IncTypeLinesRenderer extends ElementLinesRendererBase {
@@ -19,7 +17,7 @@ export class IncTypeLinesRenderer extends ElementLinesRendererBase {
         let permalink = '';
         if (element.refId !== undefined) {
             permalink = this.workspace.getPagePermalink(element.refId);
-            assert(permalink !== undefined && permalink.length > 1);
+            // May be undefined.
         }
         lines.push('<IncludesListItem');
         lines.push(`  filePath="${element.text}"`);
@@ -29,3 +27,4 @@ export class IncTypeLinesRenderer extends ElementLinesRendererBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=inctype.js.map

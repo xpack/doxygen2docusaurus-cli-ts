@@ -5,7 +5,7 @@ export declare class IndexEntry {
     kind: string;
     objectKind: string;
     longName: string;
-    permalink: string;
+    permalink: string | undefined;
     id: string;
     constructor(object: Member | Class);
 }

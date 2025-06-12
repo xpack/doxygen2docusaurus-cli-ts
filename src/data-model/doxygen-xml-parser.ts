@@ -22,11 +22,13 @@ import { DoxygenIndexDataModel } from './index/indexdoxygentype-dm.js'
 import { DoxygenFileDataModel } from './doxyfile/doxyfiletype-dm.js'
 import { CompoundDefDataModel } from './compounds/compounddef-dm.js'
 import { DoxygenDataModel } from './compounds/doxygentype-dm.js'
+import { MemberDefDataModel } from './compounds/memberdeftype-dm.js'
 
 // ----------------------------------------------------------------------------
 
 export class DoxygenXmlParser {
   verbose: boolean = false
+  parsedFilesCounter: number = 0
 
   constructor ({
     verbose = false
@@ -115,6 +117,28 @@ export class DoxygenXmlParser {
           }
         }
       }
+
+      const memberDefsById: Map<string, MemberDefDataModel> = new Map()
+      for (const compoundDef of compoundDefs) {
+        if (compoundDef.sectionDefs !== undefined) {
+          for (const sectionDef of compoundDef.sectionDefs) {
+            if (sectionDef.memberDefs !== undefined) {
+              for (const memberDef of sectionDef.memberDefs) {
+                memberDefsById.set(memberDef.id, memberDef)
+              }
+            }
+            if (sectionDef.members !== undefined) {
+              for (const member of sectionDef.members) {
+                if (member.kind.length === 0) {
+                  const memberDef = memberDefsById.get(member.refid)
+                  assert(memberDef !== undefined)
+                  member.kind = memberDef.kind
+                }
+              }
+            }
+          }
+        }
+      }
     }
 
     // ------------------------------------------------------------------------
@@ -140,6 +164,10 @@ export class DoxygenXmlParser {
     }
 
     assert(doxyfile)
+
+    if (this.verbose) {
+      console.log(this.parsedFilesCounter, 'xml files parsed')
+    }
 
     // ------------------------------------------------------------------------
 
@@ -168,6 +196,8 @@ export class DoxygenXmlParser {
     if (this.verbose) {
       console.log(`Parsing ${fileName}...`)
     }
+    this.parsedFilesCounter += 1
+
     return xmlParser.parse(xmlString)
   }
 
@@ -196,6 +226,11 @@ export class DoxygenXmlParser {
       const attributeValue = elementWithNamedAttribute[name]
       if (attributeValue !== undefined && typeof attributeValue === 'string') {
         return attributeValue
+      } else if (attributeValue !== undefined && typeof attributeValue === 'number') {
+        // The xml parser returns attributes like `refid="21"` as numbers,
+        // but the DTD defines them as strings and the applications expects
+        // strings.
+        return String(attributeValue)
       }
     }
     throw new Error(`Element ${util.inspect(element)} does not have the ${name} attribute`)

@@ -23,6 +23,7 @@ import { AbstractDataModelBase } from '../types.js'
 import { TemplateParamListDataModel } from './templateparamlisttype-dm.js'
 import { EnumValueDataModel } from './enumvaluetype-dm.js'
 import { ReimplementDataModel, ReimplementedByDataModel } from './reimplementtype-dm.js'
+import { ReferenceDataModel, ReferencedByDataModel } from './referencetype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -132,13 +133,19 @@ import { ReimplementDataModel, ReimplementedByDataModel } from './reimplementtyp
 
 export type DoxMemberKind = 'define' | 'property' | 'event' | 'variable' | 'typedef' | 'enum' | 'function' | 'signal' | 'prototype' | 'friend' | 'dcop' | 'slot' | 'interface' | 'service'
 
-export abstract class AbstractMemberDefType extends AbstractDataModelBase {
+export abstract class AbstractMemberBaseType extends AbstractDataModelBase {
   // Mandatory elements.
   name: string = ''
+  kind: string = ''
+}
+
+export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
+  // Mandatory elements.
+  // name: string = '' (in parent)
   location: LocationDataModel | undefined
 
   // Mandatory attributes.
-  kind: DoxMemberKind | '' = ''
+  // kind: DoxMemberKind | '' = '' (in parent)
   id: string = ''
   prot: string = ''
   staticc: Boolean | undefined
@@ -151,7 +158,7 @@ export abstract class AbstractMemberDefType extends AbstractDataModelBase {
   qualifiedName?: string | undefined
   // read?: string | undefined
   // write?: string | undefined
-  // bitfield?: string | undefined
+  bitfield?: string | undefined
   reimplements?: ReimplementDataModel[] | undefined
   reimplementedBys?: ReimplementDataModel[] | undefined
   // qualifier?: string[] | undefined
@@ -163,8 +170,8 @@ export abstract class AbstractMemberDefType extends AbstractDataModelBase {
   briefDescription?: BriefDescriptionDataModel | undefined
   detailedDescription?: DetailedDescriptionDataModel | undefined
   inbodyDescription?: InbodyDescriptionDataModel | undefined
-  // references?: ReferenceType[] | undefined
-  // referencedby?: ReferenceType[] | undefined
+  references?: ReferenceDataModel[] | undefined
+  referencedBy?: ReferencedByDataModel[] | undefined
 
   // Optional attributes.
   extern?: Boolean | undefined
@@ -182,6 +189,7 @@ export abstract class AbstractMemberDefType extends AbstractDataModelBase {
   constexpr?: Boolean | undefined
   consteval?: Boolean | undefined
   constinit?: Boolean | undefined
+  final?: Boolean | undefined
   // TODO: add more...
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
@@ -210,6 +218,8 @@ export abstract class AbstractMemberDefType extends AbstractDataModelBase {
         this.definition = xml.getInnerElementText(innerElement, 'definition')
       } else if (xml.isInnerElementText(innerElement, 'argsstring')) {
         this.argsstring = xml.getInnerElementText(innerElement, 'argsstring')
+      } else if (xml.isInnerElementText(innerElement, 'bitfield')) {
+        this.bitfield = xml.getInnerElementText(innerElement, 'bitfield')
       } else if (xml.isInnerElementText(innerElement, 'qualifiedname')) {
         this.qualifiedName = xml.getInnerElementText(innerElement, 'qualifiedname')
       } else if (xml.hasInnerElement(innerElement, 'reimplements')) {
@@ -240,13 +250,24 @@ export abstract class AbstractMemberDefType extends AbstractDataModelBase {
         this.detailedDescription = new DetailedDescriptionDataModel(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'inbodydescription')) {
         this.inbodyDescription = new InbodyDescriptionDataModel(xml, innerElement)
+      } else if (xml.hasInnerElement(innerElement, 'references')) {
+        if (this.references === undefined) {
+          this.references = []
+        }
+        this.references.push(new ReferenceDataModel(xml, innerElement))
+      } else if (xml.hasInnerElement(innerElement, 'referencedby')) {
+        if (this.referencedBy === undefined) {
+          this.referencedBy = []
+        }
+        this.referencedBy.push(new ReferencedByDataModel(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
       }
     }
 
-    assert(this.name.length > 0)
+    // WARNING it may be empty.
+    // assert(this.name.length > 0)
     assert(this.location !== undefined)
 
     // ------------------------------------------------------------------------
@@ -296,6 +317,8 @@ export abstract class AbstractMemberDefType extends AbstractDataModelBase {
         this.consteval = Boolean(xml.getAttributeBooleanValue(element, '@_consteval'))
       } else if (attributeName === '@_constinit') {
         this.constinit = Boolean(xml.getAttributeBooleanValue(element, '@_constinit'))
+      } else if (attributeName === '@_final') {
+        this.final = Boolean(xml.getAttributeBooleanValue(element, '@_final'))
       } else {
         console.error(util.inspect(element, { compact: false, depth: 999 }))
         console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name)

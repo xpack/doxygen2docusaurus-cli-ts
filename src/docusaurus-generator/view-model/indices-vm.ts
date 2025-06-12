@@ -21,7 +21,8 @@ export class IndexEntry {
   kind: string
   objectKind: string
   longName: string
-  permalink: string
+  permalink: string | undefined
+
   id: string
 
   constructor (object: Member | Class) {
@@ -58,7 +59,7 @@ export class IndexEntry {
       this.kind = '?'
       this.objectKind = '?'
       this.longName = '?'
-      this.permalink = ''
+      // this.permalink = ''
       this.id = '?'
     }
     // console.log(this)

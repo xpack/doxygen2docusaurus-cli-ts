@@ -22,7 +22,7 @@ export class Pages extends CollectionBase {
     // --------------------------------------------------------------------------
     addChild(compoundDef) {
         const page = new Page(this, compoundDef);
-        this.collectionCompoundsById.set(compoundDef.id, page);
+        this.collectionCompoundsById.set(page.id, page);
         if (page.id === 'indexpage') {
             this.mainPage = page;
         }
@@ -56,7 +56,10 @@ export class Pages extends CollectionBase {
                 continue;
             }
             const label = page.sidebarLabel;
-            const id = `${this.workspace.permalinkBaseUrl}${page.docusaurusId}`;
+            if (label === undefined) {
+                continue;
+            }
+            const id = `${this.workspace.sidebarBaseId}${page.docusaurusId}`;
             const docItem = {
                 type: 'doc',
                 label,
@@ -80,12 +83,8 @@ export class Pages extends CollectionBase {
 export class Page extends CompoundBase {
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
-        if (compoundDef.title !== undefined) {
-            this.sidebarLabel = compoundDef.title?.trim().replace(/\.$/, '');
-        }
-        else {
-            this.sidebarLabel = '?';
-        }
+        assert(compoundDef.title !== undefined);
+        this.sidebarLabel = compoundDef.title.trim().replace(/\.$/, '');
         this.indexName = this.sidebarLabel;
         this.pageTitle = `The ${this.sidebarLabel}`;
         const sanitizedPath = sanitizeHierarchicalPath(this.compoundName);
@@ -93,6 +92,7 @@ export class Page extends CompoundBase {
         this.docusaurusId = `pages/${flattenPath(sanitizedPath)}`;
         // SectionDefs for pages?
         assert(compoundDef.sectionDefs === undefined);
+        // console.log('0', this.id)
         // console.log('1', this.compoundName)
         // console.log('2', this.relativePermalink)
         // console.log('3', this.docusaurusId)
@@ -105,11 +105,14 @@ export class Page extends CompoundBase {
         const lines = [];
         const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToMdxText({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
             morePermalink
         }));
         lines.push(...this.renderInnerIndicesToMdxLines({}));
         lines.push(...this.renderSectionIndicesToMdxLines());
         lines.push(...this.renderDetailedDescriptionToMdxLines({
+            briefDescriptionMdxText: this.briefDescriptionMdxText,
+            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
             showHeader: false
         }));
         lines.push(...this.renderSectionsToMdxLines());
@@ -117,3 +120,4 @@ export class Page extends CompoundBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=pages-vm.js.map

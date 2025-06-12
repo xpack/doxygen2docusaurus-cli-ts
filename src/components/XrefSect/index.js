@@ -14,15 +14,13 @@
 import styles from './styles.module.css';
 import React from 'react';
 
-import Link from '@docusaurus/Link'
-
 // ----------------------------------------------------------------------------
 
 export default function XrefSect({title, permalink, children}) {
   return (
     <div class="doxyXrefSect">
       <dl class="doxyXrefSectList">
-        <dt class="doxyXrefSectTitle"><Link to={permalink}>{title}</Link></dt>
+        <dt class="doxyXrefSectTitle"><a href={permalink}>{title}</a></dt>
         <dd class="doxyXrefSectDescription">
           {children}
         </dd>

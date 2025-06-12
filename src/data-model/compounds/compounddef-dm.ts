@@ -233,7 +233,8 @@ export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
       }
     }
 
-    assert(this.compoundName.length > 0)
+    // Moved down, depends on kind.
+    // assert(this.compoundName.length > 0)
 
     // ------------------------------------------------------------------------
     // Process attributes.
@@ -271,6 +272,10 @@ export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
 
     // WARNING: The attribute is not marked as optional, but is not present.
     // assert(this.prot.length > 0)
+
+    if (this.kind !== 'namespace') {
+      assert(this.compoundName.length > 0)
+    }
 
     // ------------------------------------------------------------------------
 

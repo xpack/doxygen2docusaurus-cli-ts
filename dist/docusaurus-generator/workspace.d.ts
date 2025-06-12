@@ -14,12 +14,19 @@ export declare class Workspace {
     collectionNamesByKind: Record<string, string>;
     viewModel: Map<string, CollectionBase>;
     doxygenOptions: DoxygenFileOptions;
-    permalinkBaseUrl: string;
+    absoluteBaseUrl: string;
+    pageBaseUrl: string;
+    slugBaseUrl: string;
+    menuBaseUrl: string;
+    outputFolderPath: string;
+    sidebarBaseId: string;
     sidebarCollectionNames: string[];
     compoundsById: Map<string, CompoundBase>;
     membersById: Map<String, Member>;
     currentCompound: CompoundBase | undefined;
     elementRenderers: Renderers;
+    writtenMdxFilesCounter: number;
+    writtenHtmlFilesCounter: number;
     constructor({ dataModel, pluginOptions, siteConfig, pluginActions }: {
         dataModel: DataModel;
         pluginOptions: PluginOptions;
@@ -36,12 +43,13 @@ export declare class Workspace {
      */
     validatePermalinks(): void;
     cleanups(): void;
-    writeMdxFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title }: {
+    writeMdxFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title, pagePermalink }: {
         filePath: string;
         bodyLines: string[];
         frontMatter: FrontMatter;
         frontMatterCodeLines?: string[];
         title?: string;
+        pagePermalink?: string;
     }): Promise<void>;
     renderElementsToMdxLines(elements: Object[] | undefined): string[];
     renderElementToMdxLines(element: Object | undefined): string[];
@@ -50,7 +58,7 @@ export declare class Workspace {
     getPermalink({ refid, kindref }: {
         refid: string;
         kindref: string;
-    }): string;
-    getPagePermalink(refid: string): string;
+    }): string | undefined;
+    getPagePermalink(refid: string): string | undefined;
     getXrefPermalink(id: string): string;
 }

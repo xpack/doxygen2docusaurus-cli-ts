@@ -1,5 +1,5 @@
 import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js';
-import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractSpType } from '../../data-model/compounds/descriptiontype-dm.js';
+import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractSpType, AbstractVerbatimType } from '../../data-model/compounds/descriptiontype-dm.js';
 export declare class DescriptionTypeTextRenderer extends ElementTextRendererBase {
     renderToMdxText(element: AbstractDescriptionType): string;
 }
@@ -29,4 +29,13 @@ export declare class DocParamListTypeTextRenderer extends ElementTextRendererBas
 }
 export declare class DocAnchorTypeLinesRenderer extends ElementLinesRendererBase {
     renderToMdxLines(element: AbstractDocAnchorType): string[];
+}
+export declare class VerbatimRenderer extends ElementTextRendererBase {
+    renderToMdxText(element: AbstractVerbatimType): string;
+}
+export declare class FormulaRenderer extends ElementTextRendererBase {
+    renderToMdxText(element: AbstractDocFormulaType): string;
+}
+export declare class ImageRenderer extends ElementTextRendererBase {
+    renderToMdxText(element: AbstractDocImageType): string;
 }

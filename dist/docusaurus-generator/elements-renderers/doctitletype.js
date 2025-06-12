@@ -27,3 +27,4 @@ export class DocTitleTypeLinesRenderer extends ElementLinesRendererBase {
     }
 }
 // ----------------------------------------------------------------------------
+//# sourceMappingURL=doctitletype.js.map

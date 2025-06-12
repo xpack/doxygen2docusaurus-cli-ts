@@ -18,11 +18,10 @@ import path from 'node:path'
 
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
-import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
+import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { CollectionBase } from './collection-base.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { collapsibleTableRow, FrontMatter } from '../types.js'
-import { Section } from './members-vm.js'
 import { Pages } from './pages-vm.js'
 
 // Support for collapsible tables is experimental.
@@ -46,7 +45,7 @@ export class Groups extends CollectionBase {
 
   override addChild (compoundDef: CompoundDefDataModel): CompoundBase {
     const group = new Group(this, compoundDef)
-    this.collectionCompoundsById.set(compoundDef.id, group)
+    this.collectionCompoundsById.set(group.id, group)
 
     return group
   }
@@ -80,18 +79,25 @@ export class Groups extends CollectionBase {
     const sidebarItems: SidebarItem[] = []
 
     for (const topLevelGroup of this.topLevelGroups) {
-      sidebarItems.push(this.createSidebarItemRecursively(topLevelGroup))
+      const item = this.createSidebarItemRecursively(topLevelGroup)
+      if (item !== undefined) {
+        sidebarItems.push(item)
+      }
     }
 
     return sidebarItems
   }
 
-  private createSidebarItemRecursively (group: Group): SidebarItem {
+  private createSidebarItemRecursively (group: Group): SidebarItem | undefined {
+    if (group.sidebarLabel === undefined) {
+      return undefined
+    }
+
     if (group.children.length === 0) {
       const docItem: SidebarDocItem = {
         type: 'doc',
         label: group.sidebarLabel,
-        id: `${this.workspace.permalinkBaseUrl}${group.docusaurusId}`
+        id: `${this.workspace.sidebarBaseId}${group.docusaurusId}`
       }
       return docItem
     } else {
@@ -100,14 +106,17 @@ export class Groups extends CollectionBase {
         label: group.sidebarLabel,
         link: {
           type: 'doc',
-          id: `${this.workspace.permalinkBaseUrl}${group.docusaurusId}`
+          id: `${this.workspace.sidebarBaseId}${group.docusaurusId}`
         },
         collapsed: true,
         items: []
       }
 
       for (const childGroup of group.children) {
-        categoryItem.items.push(this.createSidebarItemRecursively(childGroup as Group))
+        const item = this.createSidebarItemRecursively(childGroup as Group)
+        if (item !== undefined) {
+          categoryItem.items.push(item)
+        }
       }
 
       return categoryItem
@@ -121,7 +130,7 @@ export class Groups extends CollectionBase {
     for (const topLevelGroup of this.topLevelGroups) {
       const menuItem: MenuItem = {
         label: `${topLevelGroup.sidebarLabel}`,
-        to: `/${this.workspace.pluginOptions.outputFolderPath}/${topLevelGroup.relativePermalink}/`
+        to: `${this.workspace.menuBaseUrl}${topLevelGroup.relativePermalink}/`
       }
       menuItems.push(menuItem)
     }
@@ -135,12 +144,12 @@ export class Groups extends CollectionBase {
     // Home page for the API reference.
     // It diverts from Doxygen, since it renders the list of topics and
     // the main page.
-    const outputFolderPath = this.workspace.pluginOptions.outputFolderPath
-    const filePath = `${outputFolderPath}/index.mdx`
+    const outputFolderPath = this.workspace.outputFolderPath
+    const filePath = `${outputFolderPath}index.mdx`
     const jsonFileName = 'index-table.json'
 
     if (useCollapsibleTable) {
-      const jsonFilePath = `${outputFolderPath}/${jsonFileName}`
+      const jsonFilePath = `${outputFolderPath}${jsonFileName}`
 
       const tableData: collapsibleTableRow[] = []
 
@@ -164,7 +173,7 @@ export class Groups extends CollectionBase {
     // This is the top index.mdx file (@mainpage)
     const frontMatter: FrontMatter = {
       title: `${projectBrief} API Reference`,
-      slug: `/${this.workspace.permalinkBaseUrl}${permalink}`,
+      slug: `${this.workspace.slugBaseUrl}${permalink}`,
       // description: '...', // TODO
       custom_edit_url: null,
       keywords: ['doxygen', 'reference']
@@ -198,6 +207,9 @@ export class Groups extends CollectionBase {
       lines.push('')
       assert(pages.mainPage !== undefined)
       lines.push(...pages.mainPage?.renderDetailedDescriptionToMdxLines({
+        briefDescriptionMdxText: pages.mainPage?.briefDescriptionMdxText,
+        detailedDescriptionMdxText: pages.mainPage?.detailedDescriptionMdxText,
+        showHeader: true,
         showBrief: !pages.mainPage?.hasSect1InDescription
       }))
     }
@@ -309,19 +321,14 @@ export class Group extends CompoundBase {
 
     this.docusaurusId = `groups/${flattenPath(sanitizedPath)}`
 
-    if (compoundDef.sectionDefs !== undefined) {
-      for (const sectionDef of compoundDef.sectionDefs) {
-        if (sectionDef.hasMembers()) {
-          this.sections.push(new Section(this, sectionDef))
-        }
-      }
-    }
+    this.createSections()
 
+    // console.log('0', this.id)
     // console.log('1', this.compoundName, this.titleMdxText)
     // console.log('2', this.relativePermalink)
     // console.log('3', this.docusaurusId)
     // console.log('4', this.sidebarLabel)
-    // console.log('4', this.indexName)
+    // console.log('5', this.indexName)
     // console.log()
   }
 
@@ -330,12 +337,13 @@ export class Group extends CompoundBase {
   override renderToMdxLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    const descriptionTodo = `@defgroup ${this.compoundName}`
+    const descriptionTodo = `@defgroup ${escapeMdx(this.compoundName)}`
 
     const hasIndices = (this.renderDetailedDescriptionToMdxLines !== undefined || this.hasSect1InDescription) && (this.hasInnerIndices() || this.hasSections())
     const morePermalink = hasIndices ? '#details' : undefined
 
     lines.push(this.renderBriefDescriptionToMdxText({
+      briefDescriptionMdxText: this.briefDescriptionMdxText,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -346,12 +354,9 @@ export class Group extends CompoundBase {
 
     lines.push(...this.renderSectionIndicesToMdxLines())
 
-    // if (this.hasSect1InDescription) {
-    //   lines.push('')
-    //   lines.push('<Link id="#details" />')
-    // }
-
     lines.push(...this.renderDetailedDescriptionToMdxLines({
+      briefDescriptionMdxText: this.briefDescriptionMdxText,
+      detailedDescriptionMdxText: this.detailedDescriptionMdxText,
       todo: descriptionTodo,
       showHeader: !this.hasSect1InDescription,
       showBrief: !this.hasSect1InDescription

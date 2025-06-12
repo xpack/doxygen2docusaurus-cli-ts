@@ -6,20 +6,38 @@ import { TemplateParamListDataModel } from '../../data-model/compounds/templatep
 import { LocationDataModel } from '../../data-model/compounds/locationtype-dm.js';
 import { IncludesDataModel } from '../../data-model/compounds/inctype-dm.js';
 export declare abstract class CompoundBase {
-    collection: CollectionBase;
     kind: string;
     compoundName: string;
     id: string;
+    collection: CollectionBase;
     titleMdxText: string | undefined;
     locationFilePath: string | undefined;
     parent?: CompoundBase;
     childrenIds: string[];
     children: CompoundBase[];
-    /** Relative path to the output folder, starts with plural kind. */
-    docusaurusId: string;
-    /** Short name, to fit the limited space in the sidebar. */
-    sidebarLabel: string;
-    /** The part below outputFolderPath, no leading slash. */
+    /**
+     * @brief Relative path to the output folder.
+     *
+     * Starts with plural kind.
+     *
+     * If undefined, the compound must not
+     * be referred in the sidebar.
+     */
+    docusaurusId: string | undefined;
+    /**
+     * @brief Short name, to fit the limited space in the sidebar.
+     *
+     * If undefined, the compound must not
+     * be referred in the sidebar.
+     */
+    sidebarLabel: string | undefined;
+    /**
+     * @brief The part below outputFolderPath.
+     *
+     * No leading slash.
+     *
+     * If undefined, the MDX file for the compound must not be generated.
+     */
     relativePermalink: string | undefined;
     /** The name shown in the index section. */
     indexName: string;
@@ -37,17 +55,22 @@ export declare abstract class CompoundBase {
         _compoundDef?: CompoundDefDataModel | undefined;
     };
     constructor(collection: CollectionBase, compoundDef: CompoundDefDataModel);
+    createSections(classUnqualifiedName?: string | undefined): void;
+    private reorderSectionDefs;
+    private adjustSectionKind;
     initializeLate(): void;
+    isOperator(name: string): boolean;
     abstract renderToMdxLines(frontMatter: FrontMatter): string[];
-    renderBriefDescriptionToMdxText({ briefDescriptionMdxText, todo, morePermalink }?: {
-        briefDescriptionMdxText?: string | undefined;
+    renderBriefDescriptionToMdxText({ briefDescriptionMdxText, todo, morePermalink }: {
+        briefDescriptionMdxText: string | undefined;
         todo?: string;
         morePermalink?: string | undefined;
     }): string;
-    renderDetailedDescriptionToMdxLines({ detailedDescriptionMdxText, todo, showHeader, showBrief }: {
-        detailedDescriptionMdxText?: string | undefined;
+    renderDetailedDescriptionToMdxLines({ briefDescriptionMdxText, detailedDescriptionMdxText, todo, showHeader, showBrief }: {
+        briefDescriptionMdxText?: string | undefined;
+        detailedDescriptionMdxText: string | undefined;
         todo?: string;
-        showHeader?: boolean;
+        showHeader: boolean;
         showBrief?: boolean;
     }): string[];
     hasInnerIndices(): boolean;
