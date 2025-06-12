@@ -39,6 +39,7 @@ export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
 
     lines.push('')
     lines.push('</ProgramListing>')
+    lines.push('')
 
     return lines
   }
