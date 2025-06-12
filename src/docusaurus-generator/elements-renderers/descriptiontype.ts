@@ -374,7 +374,7 @@ export class VerbatimRenderer extends ElementTextRendererBase {
 
     let text = ''
     text += '\n'
-    text += '<CodeBlock>'
+    text += '<CodeBlock>\n'
     text += this.workspace.renderElementToMdxText(element.text)
     text += '</CodeBlock>'
 
