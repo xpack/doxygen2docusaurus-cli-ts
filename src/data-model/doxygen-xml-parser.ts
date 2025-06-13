@@ -326,6 +326,38 @@ export class DoxygenXmlParser {
     }
   }
 
+  getInnerElementNumber (element: Object, name: string): number {
+    const innerElements: XmlElement[] | undefined = (element as { [name]: XmlElement[] })[name]
+
+    if (innerElements === undefined) {
+      throw new Error('No inner elements')
+    }
+    if (innerElements.length === 1) {
+      const value = (innerElements[0] as { ['#text']: any })['#text']
+      return parseInt(value)
+    } else if (innerElements.length === 0) {
+      return NaN
+    } else {
+      throw new Error('Too many elements')
+    }
+  }
+
+  getInnerElementBoolean (element: Object, name: string): boolean {
+    const innerElements: XmlElement[] | undefined = (element as { [name]: XmlElement[] })[name]
+
+    if (innerElements === undefined) {
+      throw new Error('No inner elements')
+    }
+    if (innerElements.length === 1) {
+      const value = ((innerElements[0] as { ['#text']: any })['#text']).trim().toLowerCase()
+      return value === 'true'
+    } else if (innerElements.length === 0) {
+      return false
+    } else {
+      throw new Error('Too many elements')
+    }
+  }
+
   getInnerText (element: Object): string {
     // assert(Object.hasOwn(element, '#text') === true)
     const value = (element as { ['#text']: any })['#text']
