@@ -14,6 +14,28 @@ import * as util from 'node:util';
 import { AbstractDataModelBase } from '../types.js';
 import { RefTextDataModel } from './reftexttype-dm.js';
 import { VariableListDataModel } from './docvarlistentrytype-dm.js';
+import { DocBookOnlyDataModel, HtmlOnlyDataModel, LatexOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel } from './compounddef-dm.js';
+import { TocListDataModel } from './tableofcontentstype-dm.js';
+// ----------------------------------------------------------------------------
+// A bit unusual, since string values should be stored as object properties.
+// However, for consistency reasons, for objects like XXXonly perhaps it is
+// better to use objects,
+export class AbstractStringType extends AbstractDataModelBase {
+    constructor(xml, element, elementName) {
+        super(elementName);
+        this.text = '';
+        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+        // ------------------------------------------------------------------------
+        // Process elements.
+        assert(xml.isInnerElementText(element, elementName));
+        this.text = xml.getInnerElementText(element, elementName);
+        // ------------------------------------------------------------------------
+        // Process attributes.
+        assert(!xml.hasAttributes(element));
+        // ------------------------------------------------------------------------
+        // console.log(util.inspect(this, { compact: false, depth: 999 }))
+    }
+}
 // ----------------------------------------------------------------------------
 // <xsd:complexType name="descriptionType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
@@ -908,39 +930,85 @@ export class AbstractDocInternalS6Type extends AbstractDataModelBase {
         // console.log(util.inspect(this, { compact: false, depth: 999 }))
     }
 }
-function parseDocTitleCmdGroup(xml, element, elementName) {
+export function parseDocTitleCmdGroup(xml, element, elementName) {
     const children = [];
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
-    if (xml.hasInnerElement(element, 'bold')) {
-        children.push(new BoldDataModel(xml, element));
+    if (xml.hasInnerElement(element, 'ulink')) {
+        children.push(new UlinkDataModel(xml, element));
     }
-    else if (xml.hasInnerElement(element, 'emphasis')) {
-        children.push(new EmphasisDataModel(xml, element));
+    else if (xml.hasInnerElement(element, 'bold')) {
+        children.push(new BoldDataModel(xml, element));
     }
     else if (xml.hasInnerElement(element, 'underline')) {
         children.push(new UnderlineDataModel(xml, element));
     }
+    else if (xml.hasInnerElement(element, 'emphasis')) {
+        children.push(new EmphasisDataModel(xml, element));
+    }
     else if (xml.hasInnerElement(element, 'computeroutput')) {
         children.push(new ComputerOutputDataModel(xml, element));
     }
-    else if (xml.hasInnerElement(element, 'ref')) {
-        children.push(new RefDataModel(xml, element));
+    else if (xml.hasInnerElement(element, 'subscript')) {
+        children.push(new SubscriptDataModel(xml, element));
     }
-    else if (xml.hasInnerElement(element, 'linebreak')) {
-        children.push(new LineBreakDataModel(xml, element));
+    else if (xml.hasInnerElement(element, 'superscript')) {
+        children.push(new SuperscriptDataModel(xml, element));
     }
-    else if (xml.hasInnerElement(element, 'ulink')) {
-        children.push(new UlinkDataModel(xml, element));
+    else if (xml.hasInnerElement(element, 'center')) {
+        children.push(new CenterDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'center')) {
+        children.push(new CenterDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'small')) {
+        children.push(new SmallDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'cite')) {
+        children.push(new CiteDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'del')) {
+        children.push(new DelDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ins')) {
+        children.push(new InsDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'htmlonly')) {
+        children.push(new HtmlOnlyDataModel(xml, element));
+        // manonly
+        // xmlonly
+        // rtfonly
+        // latexonly
+        // docbookonly
+    }
+    else if (xml.hasInnerElement(element, 'image')) {
+        children.push(new ImageDataModel(xml, element));
+        // dot
+        // msc
+        // plantuml
     }
     else if (xml.hasInnerElement(element, 'anchor')) {
         children.push(new AnchorDataModel(xml, element));
     }
-    else if (xml.hasInnerElement(element, 'image')) {
-        children.push(new ImageDataModel(xml, element));
-    }
     else if (xml.hasInnerElement(element, 'formula')) {
         children.push(new FormulaDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ref')) {
+        children.push(new RefDataModel(xml, element));
+        // emoji
+    }
+    else if (xml.hasInnerElement(element, 'linebreak')) {
+        children.push(new LineBreakDataModel(xml, element));
         // Substring elements.
+    }
+    else if (xml.hasInnerElement(element, 'nonbreakablespace')) {
+        children.push(new NonBreakableSpaceDataModel(xml, element));
+        // iexcl
+        // cent
+        // pound
+        // curren
+        // yen
+        // brvbar
+        // ...
     }
     else if (xml.hasInnerElement(element, 'nzwj')) {
         children.push(new NzwjDocMarkupDataModel(xml, element));
@@ -1003,6 +1071,8 @@ function parseDocCmdGroup(xml, element, elementName) {
     }
     else if (xml.hasInnerElement(element, 'bold')) {
         children.push(new BoldDataModel(xml, element));
+        // s
+        // strike
     }
     else if (xml.hasInnerElement(element, 'underline')) {
         children.push(new UnderlineDataModel(xml, element));
@@ -1013,58 +1083,71 @@ function parseDocCmdGroup(xml, element, elementName) {
     else if (xml.hasInnerElement(element, 'computeroutput')) {
         children.push(new ComputerOutputDataModel(xml, element));
     }
+    else if (xml.hasInnerElement(element, 'subscript')) {
+        children.push(new SubscriptDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'superscript')) {
+        children.push(new SuperscriptDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'center')) {
+        children.push(new CenterDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'center')) {
+        children.push(new CenterDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'small')) {
+        children.push(new SmallDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'cite')) {
+        children.push(new CiteDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'del')) {
+        children.push(new DelDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ins')) {
+        children.push(new InsDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'htmlonly')) {
+        children.push(new HtmlOnlyDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'manonly')) {
+        children.push(new ManOnlyDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'xmlonly')) {
+        children.push(new XmlOnlyDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rtfonly')) {
+        children.push(new RtfOnlyDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'latexonly')) {
+        children.push(new LatexOnlyDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'docbookonly')) {
+        children.push(new DocBookOnlyDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'image')) {
+        children.push(new ImageDataModel(xml, element));
+        // dot
+        // msc
+        // plantuml
+    }
     else if (xml.hasInnerElement(element, 'anchor')) {
         children.push(new AnchorDataModel(xml, element));
     }
+    else if (xml.hasInnerElement(element, 'formula')) {
+        children.push(new FormulaDataModel(xml, element));
+    }
     else if (xml.hasInnerElement(element, 'ref')) {
         children.push(new RefDataModel(xml, element));
+        // emoji
+        // ----
+        // Substring elements.
     }
     else if (xml.hasInnerElement(element, 'linebreak')) {
         children.push(new LineBreakDataModel(xml, element));
     }
-    else if (xml.hasInnerElement(element, 'image')) {
-        children.push(new ImageDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'formula')) {
-        children.push(new FormulaDataModel(xml, element));
-        // ----
-    }
-    else if (xml.hasInnerElement(element, 'hruler')) {
-        children.push(new HrulerDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'programlisting')) {
-        children.push(new ProgramListingDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'itemizedlist')) {
-        children.push(new ItemizedListDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'orderedlist')) {
-        children.push(new OrderedListDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'simplesect')) {
-        children.push(new SimpleSectDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'variablelist')) {
-        children.push(new VariableListDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'variablelist')) {
-        children.push(new VariableListDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'table')) {
-        children.push(new DocTableDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'parameterlist')) {
-        children.push(new ParameterListDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'xrefsect')) {
-        children.push(new XrefSectDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'blockquote')) {
-        children.push(new BlockquoteDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'verbatim')) {
-        children.push(new VerbatimDataModel(xml, element));
-        // Substring elements.
+    else if (xml.hasInnerElement(element, 'nonbreakablespace')) {
+        children.push(new NonBreakableSpaceDataModel(xml, element));
     }
     else if (xml.hasInnerElement(element, 'nzwj')) {
         children.push(new NzwjDocMarkupDataModel(xml, element));
@@ -1083,6 +1166,65 @@ function parseDocCmdGroup(xml, element, elementName) {
     }
     else if (xml.hasInnerElement(element, 'rsquo')) {
         children.push(new RsquoDocMarkupDataModel(xml, element));
+        // ----
+    }
+    else if (xml.hasInnerElement(element, 'hruler')) {
+        children.push(new HrulerDataModel(xml, element));
+        // preformatted
+    }
+    else if (xml.hasInnerElement(element, 'programlisting')) {
+        children.push(new ProgramListingDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'verbatim')) {
+        children.push(new VerbatimDataModel(xml, element));
+        // javadocliteral
+        // javadoccode
+    }
+    else if (xml.hasInnerElement(element, 'indexentry')) {
+        children.push(new IndexEntryDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'orderedlist')) {
+        children.push(new OrderedListDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'itemizedlist')) {
+        children.push(new ItemizedListDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'simplesect')) {
+        children.push(new SimpleSectDataModel(xml, element));
+        // title
+    }
+    else if (xml.hasInnerElement(element, 'variablelist')) {
+        children.push(new VariableListDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'variablelist')) {
+        children.push(new VariableListDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'table')) {
+        children.push(new DocTableDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'heading')) {
+        children.push(new HeadingDataModel(xml, element));
+        // heading
+        // dotfile
+        // mscfile
+        // dialfile
+        // plantumlfile
+    }
+    else if (xml.hasInnerElement(element, 'toclist')) {
+        children.push(new TocListDataModel(xml, element));
+        // language
+    }
+    else if (xml.hasInnerElement(element, 'parameterlist')) {
+        children.push(new ParameterListDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'xrefsect')) {
+        children.push(new XrefSectDataModel(xml, element));
+        // copydoc
+        // details
+    }
+    else if (xml.hasInnerElement(element, 'blockquote')) {
+        children.push(new BlockquoteDataModel(xml, element));
+        // parblock
     }
     else {
         console.error(util.inspect(element, { compact: false, depth: 999 }));
@@ -1341,6 +1483,49 @@ export class FormulaDataModel extends AbstractDocFormulaType {
 //     <xsd:element name="secondaryie" type="xsd:string" />
 //   </xsd:sequence>
 // </xsd:complexType>
+export class AbstractDocIndexEntryType extends AbstractDataModelBase {
+    constructor(xml, element, elementName) {
+        super(elementName);
+        // Mandatory elements.
+        this.primaryie = '';
+        this.secondaryie = '';
+        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+        // ------------------------------------------------------------------------
+        // Process elements.
+        const innerElements = xml.getInnerElements(element, elementName);
+        assert(innerElements.length > 0);
+        for (const innerElement of innerElements) {
+            if (xml.hasInnerText(innerElement)) {
+                // Ignore texts.
+            }
+            else if (xml.isInnerElementText(innerElement, 'primaryie')) {
+                this.primaryie = xml.getInnerElementText(innerElement, 'primaryie');
+            }
+            else if (xml.isInnerElementText(innerElement, 'secondaryie')) {
+                this.secondaryie = xml.getInnerElementText(innerElement, 'secondaryie');
+            }
+            else {
+                console.error(util.inspect(innerElement));
+                console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name);
+            }
+        }
+        // May be empty.
+        // assert(this.primaryie.length > 0)
+        // assert(this.secondaryie.length > 0)
+        // ------------------------------------------------------------------------
+        // Process attributes.
+        assert(!xml.hasAttributes(element));
+        // ------------------------------------------------------------------------
+        // console.log(util.inspect(this, { compact: false, depth: 999 }))
+    }
+}
+// <xsd:element name="indexentry" type="docIndexEntryType" />
+export class IndexEntryDataModel extends AbstractDocIndexEntryType {
+    constructor(xml, element) {
+        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+        super(xml, element, 'indexentry');
+    }
+}
 // ----------------------------------------------------------------------------
 // WARNING: start & type are optionsl.
 // <xsd:complexType name="docListType">
@@ -1844,10 +2029,55 @@ export class DocCaptionDataModel extends AbstractDocCaptionType {
 //     <xsd:maxInclusive value="6"/>
 //   </xsd:restriction>
 // </xsd:simpleType>
+// ----------------------------------------------------------------------------
 // <xsd:complexType name="docHeadingType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:group ref="docTitleCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 //   <xsd:attribute name="level" type="range_1_6" />
 // </xsd:complexType>
+export class AbstractDocHeadingType extends AbstractDataModelBase {
+    constructor(xml, element, elementName) {
+        super(elementName);
+        // Any sequence of them.
+        this.children = [];
+        // Mandatory attributes.
+        this.level = NaN;
+        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+        // ------------------------------------------------------------------------
+        // Process elements.
+        const innerElements = xml.getInnerElements(element, elementName);
+        assert(innerElements.length > 0);
+        for (const innerElement of innerElements) {
+            if (xml.hasInnerText(innerElement)) {
+                this.children.push(xml.getInnerText(innerElement));
+            }
+            else {
+                this.children.push(...parseDocTitleCmdGroup(xml, innerElement, elementName));
+            }
+        }
+        // ------------------------------------------------------------------------
+        // Process attributes.
+        if (xml.hasAttributes(element)) {
+            const attributesNames = xml.getAttributesNames(element);
+            for (const attributeName of attributesNames) {
+                if (attributeName === '@_level') {
+                    this.level = xml.getAttributeNumberValue(element, '@_level');
+                }
+                else {
+                    console.error(util.inspect(element, { compact: false, depth: 999 }));
+                    console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name);
+                }
+            }
+        }
+        // ------------------------------------------------------------------------
+        // console.log(util.inspect(this, { compact: false, depth: 999 }))
+    }
+}
+// <xsd:element name="heading" type="docHeadingType" />
+export class HeadingDataModel extends AbstractDocHeadingType {
+    constructor(xml, element) {
+        super(xml, element, 'heading');
+    }
+}
 // ----------------------------------------------------------------------------
 // <xsd:complexType name="docImageType" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:group ref="docTitleCmdGroup" minOccurs="0" maxOccurs="unbounded" />
@@ -2473,13 +2703,6 @@ export class ParaDataModel extends AbstractDocParaType {
         super(xml, element, 'para');
     }
 }
-// Not yet used, present just to remind its presence.
-// <xsd:element name="para" type="docEmptyType" />
-export class ParaEmptyDataModel extends AbstractDocEmptyType {
-    constructor(xml, element) {
-        super(xml, element, 'para');
-    }
-}
 // ----------------------------------------------------------------------------
 // <xsd:element name="bold" type="docMarkupType" />
 // <xsd:element name="underline" type="docMarkupType" />
@@ -2488,6 +2711,16 @@ export class ParaEmptyDataModel extends AbstractDocEmptyType {
 export class BoldDataModel extends AbstractDocMarkupType {
     constructor(xml, element) {
         super(xml, element, 'bold');
+    }
+}
+export class SDataModel extends AbstractDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 's');
+    }
+}
+export class StrikeDataModel extends AbstractDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'strike');
     }
 }
 export class UnderlineDataModel extends AbstractDocMarkupType {
@@ -2503,6 +2736,41 @@ export class EmphasisDataModel extends AbstractDocMarkupType {
 export class ComputerOutputDataModel extends AbstractDocMarkupType {
     constructor(xml, element) {
         super(xml, element, 'computeroutput');
+    }
+}
+export class SubscriptDataModel extends AbstractDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'subscript');
+    }
+}
+export class SuperscriptDataModel extends AbstractDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'superscript');
+    }
+}
+export class CenterDataModel extends AbstractDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'center');
+    }
+}
+export class SmallDataModel extends AbstractDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'small');
+    }
+}
+export class CiteDataModel extends AbstractDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'cite');
+    }
+}
+export class DelDataModel extends AbstractDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'del');
+    }
+}
+export class InsDataModel extends AbstractDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'ins');
     }
 }
 // ----------------------------------------------------------------------------
@@ -2536,6 +2804,18 @@ export class LineBreakDataModel extends AbstractDocEmptyType {
 export class HrulerDataModel extends AbstractDocEmptyType {
     constructor(xml, element) {
         super(xml, element, 'hruler');
+    }
+}
+export class NonBreakableSpaceDataModel extends AbstractDocEmptyType {
+    constructor(xml, element) {
+        super(xml, element, 'nonbreakablespace');
+    }
+}
+// Not yet used, present just to remind its presence.
+// <xsd:element name="para" type="docEmptyType" />
+export class ParaEmptyDataModel extends AbstractDocEmptyType {
+    constructor(xml, element) {
+        super(xml, element, 'para');
     }
 }
 // ----------------------------------------------------------------------------

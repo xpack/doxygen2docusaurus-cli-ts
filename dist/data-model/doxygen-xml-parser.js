@@ -278,6 +278,38 @@ export class DoxygenXmlParser {
             throw new Error('Too many elements');
         }
     }
+    getInnerElementNumber(element, name) {
+        const innerElements = element[name];
+        if (innerElements === undefined) {
+            throw new Error('No inner elements');
+        }
+        if (innerElements.length === 1) {
+            const value = innerElements[0]['#text'];
+            return parseInt(value);
+        }
+        else if (innerElements.length === 0) {
+            return NaN;
+        }
+        else {
+            throw new Error('Too many elements');
+        }
+    }
+    getInnerElementBoolean(element, name) {
+        const innerElements = element[name];
+        if (innerElements === undefined) {
+            throw new Error('No inner elements');
+        }
+        if (innerElements.length === 1) {
+            const value = (innerElements[0]['#text']).trim().toLowerCase();
+            return value === 'true';
+        }
+        else if (innerElements.length === 0) {
+            return false;
+        }
+        else {
+            throw new Error('Too many elements');
+        }
+    }
     getInnerText(element) {
         // assert(Object.hasOwn(element, '#text') === true)
         const value = element['#text'];

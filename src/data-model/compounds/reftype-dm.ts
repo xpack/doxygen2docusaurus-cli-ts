@@ -100,6 +100,13 @@ export abstract class AbstractRefType extends AbstractDataModelBase {
 // <xsd:element name="innerpage" type="refType" minOccurs="0" maxOccurs="unbounded" />
 // <xsd:element name="innergroup" type="refType" minOccurs="0" maxOccurs="unbounded" />
 
+export class InnerModuleDataModel extends AbstractRefType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+    super(xml, element, 'innermodule')
+  }
+}
+
 export class InnerDirDataModel extends AbstractRefType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -121,10 +128,24 @@ export class InnerClassDataModel extends AbstractRefType {
   }
 }
 
+export class InnerConceptDataModel extends AbstractRefType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+    super(xml, element, 'innerconcept')
+  }
+}
+
 export class InnerNamespaceDataModel extends AbstractRefType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'innernamespace')
+  }
+}
+
+export class InnerPageDataModel extends AbstractRefType {
+  constructor (xml: DoxygenXmlParser, element: Object) {
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+    super(xml, element, 'innerpage')
   }
 }
 

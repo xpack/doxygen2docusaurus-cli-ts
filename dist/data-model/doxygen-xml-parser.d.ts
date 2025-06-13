@@ -25,5 +25,7 @@ export declare class DoxygenXmlParser {
     hasInnerText(element: Object): boolean;
     getInnerElements<T = XmlElement[]>(element: Object, name: string): T;
     getInnerElementText(element: Object, name: string): string;
+    getInnerElementNumber(element: Object, name: string): number;
+    getInnerElementBoolean(element: Object, name: string): boolean;
     getInnerText(element: Object): string;
 }

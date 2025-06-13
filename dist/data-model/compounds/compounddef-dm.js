@@ -16,10 +16,123 @@ import { BaseCompoundRefDataModel, DerivedCompoundRefDataModel } from './compoun
 import { TemplateParamListDataModel } from './templateparamlisttype-dm.js';
 import { SectionDefDataModel } from './sectiondeftype-dm.js';
 import { ListOfAllMembersDataModel } from './listofallmemberstype-dm.js';
-import { BriefDescriptionDataModel, DetailedDescriptionDataModel, ProgramListingDataModel } from './descriptiontype-dm.js';
-import { InnerClassDataModel, InnerDirDataModel, InnerFileDataModel, InnerGroupDataModel, InnerNamespaceDataModel } from './reftype-dm.js';
+import { AbstractStringType, BriefDescriptionDataModel, DetailedDescriptionDataModel, ParaDataModel, ProgramListingDataModel, Sect5DataModel } from './descriptiontype-dm.js';
+import { InnerClassDataModel, InnerDirDataModel, InnerFileDataModel, InnerGroupDataModel, InnerNamespaceDataModel, InnerPageDataModel } from './reftype-dm.js';
 import { LocationDataModel } from './locationtype-dm.js';
 import { AbstractDataModelBase } from '../types.js';
+import { TableOfContentsDataModel } from './tableofcontentstype-dm.js';
+// ----------------------------------------------------------------------------
+// Template, to be used for creating new objects.
+export class AbstractXyzType extends AbstractDataModelBase {
+    constructor(xml, element, elementName) {
+        super(elementName);
+        // If the object has a text.
+        this.text = '';
+        // Mandatory elements.
+        this.compoundName = '';
+        this.colsCount = NaN;
+        this.elm12 = false;
+        // Mandatory attributes.
+        this.id = '';
+        this.rowsCount = NaN;
+        this.thead = false;
+        // ------------------------------------------
+        this.children = [];
+        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+        // ------------------------------------------------------------------------
+        // Process elements.
+        // If the object has only a text.
+        assert(xml.isInnerElementText(element, elementName));
+        this.text = xml.getInnerElementText(element, elementName);
+        // ------------------------------------------
+        // If the object has sub-elements.
+        const innerElements = xml.getInnerElements(element, elementName);
+        assert(innerElements.length > 0);
+        for (const innerElement of innerElements) {
+            if (xml.hasInnerText(innerElement)) {
+                // Ignore texts.
+            }
+            else if (xml.isInnerElementText(innerElement, 'compoundname')) {
+                this.compoundName = xml.getInnerElementText(innerElement, 'compoundname');
+            }
+            else if (xml.hasInnerElement(innerElement, 'briefdescription')) {
+                this.briefDescription = new BriefDescriptionDataModel(xml, innerElement);
+            }
+            else if (xml.hasInnerElement(innerElement, 'includes')) {
+                // console.log(util.inspect(item))
+                if (this.includes === undefined) {
+                    this.includes = [];
+                }
+                this.includes.push(new IncludesDataModel(xml, innerElement));
+            }
+            else {
+                console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name);
+            }
+        }
+        // ------------------------------------------
+        // If the object has to keep trak of the order of mixed type children.
+        // const innerElements = xml.getInnerElements(element, elementName)
+        // assert(innerElements.length > 0)
+        for (const innerElement of innerElements) {
+            if (xml.hasInnerText(innerElement)) {
+                this.children.push(xml.getInnerText(innerElement));
+            }
+            else if (xml.hasInnerElement(innerElement, 'para')) {
+                this.children.push(new ParaDataModel(xml, innerElement));
+            }
+            else if (xml.hasInnerElement(innerElement, 'sect5')) {
+                this.children.push(new Sect5DataModel(xml, innerElement));
+            }
+            else {
+                console.error(util.inspect(innerElement));
+                console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name);
+            }
+        }
+        // ------------------------------------------------------------------------
+        // Process attributes.
+        // If the object has no attributes.
+        assert(!xml.hasAttributes(element));
+        // ------------------------------------------
+        assert(xml.hasAttributes(element));
+        const attributesNames = xml.getAttributesNames(element);
+        // console.log(attributesNames)
+        for (const attributeName of attributesNames) {
+            // console.log(attributeName)
+            if (attributeName === '@_id') {
+                this.id = xml.getAttributeStringValue(element, '@_id');
+            }
+            else if (attributeName === '@_rows') {
+                assert(isNaN(this.rowsCount));
+                this.rowsCount = xml.getAttributeNumberValue(element, '@_rows');
+            }
+            else if (attributeName === '@_thead') {
+                this.thead = xml.getAttributeBooleanValue(element, '@_thead');
+            }
+            else if (attributeName === '@_language') {
+                this.language = xml.getAttributeStringValue(element, '@_language');
+            }
+            else if (attributeName === '@_final') {
+                this.final = Boolean(xml.getAttributeBooleanValue(element, '@_final'));
+            }
+            else if (attributeName === '@_lineno') {
+                this.lineno = Number(xml.getAttributeNumberValue(element, '@_lineno'));
+            }
+            else {
+                console.error(util.inspect(element, { compact: false, depth: 999 }));
+                console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name);
+            }
+        }
+        assert(this.id.length > 0);
+        // ------------------------------------------------------------------------
+        // console.log(util.inspect(this, { compact: false, depth: 999 }))
+    }
+}
+export class XyzDataModel extends AbstractXyzType {
+    constructor(xml, element) {
+        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+        super(xml, element, 'xyz');
+    }
+}
 // ----------------------------------------------------------------------------
 // <xsd:complexType name="compounddefType">
 //   <xsd:sequence>
@@ -174,6 +287,12 @@ export class AbstractCompoundDefType extends AbstractDataModelBase {
                 }
                 this.innerNamespaces.push(new InnerNamespaceDataModel(xml, innerElement));
             }
+            else if (xml.hasInnerElement(innerElement, 'innerpage')) {
+                if (this.innerPages === undefined) {
+                    this.innerPages = [];
+                }
+                this.innerPages.push(new InnerPageDataModel(xml, innerElement));
+            }
             else if (xml.hasInnerElement(innerElement, 'innergroup')) {
                 if (this.innerGroups === undefined) {
                     this.innerGroups = [];
@@ -188,6 +307,9 @@ export class AbstractCompoundDefType extends AbstractDataModelBase {
                     this.sectionDefs = [];
                 }
                 this.sectionDefs.push(new SectionDefDataModel(xml, innerElement));
+            }
+            else if (xml.hasInnerElement(innerElement, 'tableofcontents')) {
+                this.tableOfContents = new TableOfContentsDataModel(xml, innerElement);
             }
             else if (xml.hasInnerElement(innerElement, 'inheritancegraph')) {
                 // TODO: Ignored, not used for now.
@@ -264,6 +386,85 @@ export class CompoundDefDataModel extends AbstractCompoundDefType {
     constructor(xml, element) {
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         super(xml, element, 'compounddef');
+    }
+}
+// ----------------------------------------------------------------------------
+// <xsd:complexType name="docHtmlOnlyType">
+//   <xsd:simpleContent>
+//     <xsd:extension base="xsd:string">
+//       <xsd:attribute name="block" type="xsd:string" />
+//     </xsd:extension>
+//   </xsd:simpleContent>
+// </xsd:complexType>
+export class AbstractDocHtmlOnlyType extends AbstractDataModelBase {
+    constructor(xml, element, elementName) {
+        super(elementName);
+        this.text = '';
+        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+        // ------------------------------------------------------------------------
+        // Process elements.
+        assert(xml.isInnerElementText(element, elementName));
+        this.text = xml.getInnerElementText(element, elementName);
+        // ------------------------------------------------------------------------
+        // Process attributes.
+        if (xml.hasAttributes(element)) {
+            const attributesNames = xml.getAttributesNames(element);
+            for (const attributeName of attributesNames) {
+                if (attributeName === '@_block') {
+                    this.block = xml.getAttributeStringValue(element, '@_block');
+                }
+                else {
+                    console.error(util.inspect(element, { compact: false, depth: 999 }));
+                    console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name);
+                }
+            }
+        }
+        // ------------------------------------------------------------------------
+        // console.log(util.inspect(this, { compact: false, depth: 999 }))
+    }
+}
+// ----------------------------------------------------------------------------
+// <xsd:element name="htmlonly" type="docHtmlOnlyType" />
+export class HtmlOnlyDataModel extends AbstractDocHtmlOnlyType {
+    constructor(xml, element) {
+        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+        super(xml, element, 'htmlonly');
+    }
+}
+// Normally strings are properties, but these are unusual, so we keep them as objects.
+// <xsd:element name="manonly" type="xsd:string" />
+// <xsd:element name="xmlonly" type="xsd:string" />
+// <xsd:element name="rtfonly" type="xsd:string" />
+// <xsd:element name="latexonly" type="xsd:string" />
+// <xsd:element name="docbookonly" type="xsd:string" />
+export class ManOnlyDataModel extends AbstractStringType {
+    constructor(xml, element) {
+        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+        super(xml, element, 'manonly');
+    }
+}
+export class XmlOnlyDataModel extends AbstractStringType {
+    constructor(xml, element) {
+        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+        super(xml, element, 'xmlonly');
+    }
+}
+export class RtfOnlyDataModel extends AbstractStringType {
+    constructor(xml, element) {
+        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+        super(xml, element, 'rtfonly');
+    }
+}
+export class LatexOnlyDataModel extends AbstractStringType {
+    constructor(xml, element) {
+        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+        super(xml, element, 'latexonly');
+    }
+}
+export class DocBookOnlyDataModel extends AbstractStringType {
+    constructor(xml, element) {
+        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+        super(xml, element, 'docbookonly');
     }
 }
 // ----------------------------------------------------------------------------
