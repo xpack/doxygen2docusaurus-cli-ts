@@ -974,11 +974,21 @@ export function parseDocTitleCmdGroup(xml, element, elementName) {
     }
     else if (xml.hasInnerElement(element, 'htmlonly')) {
         children.push(new HtmlOnlyDataModel(xml, element));
-        // manonly
-        // xmlonly
-        // rtfonly
-        // latexonly
-        // docbookonly
+    }
+    else if (xml.hasInnerElement(element, 'manonly')) {
+        children.push(new ManOnlyDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'xmlonly')) {
+        children.push(new XmlOnlyDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rtfonly')) {
+        children.push(new RtfOnlyDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'latexonly')) {
+        children.push(new LatexOnlyDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'docbookonly')) {
+        children.push(new DocBookOnlyDataModel(xml, element));
     }
     else if (xml.hasInnerElement(element, 'image')) {
         children.push(new ImageDataModel(xml, element));
@@ -994,21 +1004,16 @@ export function parseDocTitleCmdGroup(xml, element, elementName) {
     }
     else if (xml.hasInnerElement(element, 'ref')) {
         children.push(new RefDataModel(xml, element));
-        // emoji
+    }
+    else if (xml.hasInnerElement(element, 'emoji')) {
+        children.push(new EmojiDataModel(xml, element));
+        // Substring elements.
     }
     else if (xml.hasInnerElement(element, 'linebreak')) {
         children.push(new LineBreakDataModel(xml, element));
-        // Substring elements.
     }
     else if (xml.hasInnerElement(element, 'nonbreakablespace')) {
         children.push(new NonBreakableSpaceDataModel(xml, element));
-        // iexcl
-        // cent
-        // pound
-        // curren
-        // yen
-        // brvbar
-        // ...
     }
     else if (xml.hasInnerElement(element, 'nzwj')) {
         children.push(new NzwjDocMarkupDataModel(xml, element));
@@ -1027,6 +1032,768 @@ export function parseDocTitleCmdGroup(xml, element, elementName) {
     }
     else if (xml.hasInnerElement(element, 'rsquo')) {
         children.push(new RsquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'copy')) {
+        children.push(new CopyDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'iexcl')) {
+        children.push(new IexclDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'cent')) {
+        children.push(new CentDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'pound')) {
+        children.push(new PoundDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'curren')) {
+        children.push(new CurrenDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'yen')) {
+        children.push(new YenDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'brvbar')) {
+        children.push(new BrvbarDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sect')) {
+        children.push(new SectDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'umlaut')) {
+        children.push(new UmlautDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'nzwj')) {
+        children.push(new NzwjDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'zwj')) {
+        children.push(new ZwjDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ndash')) {
+        children.push(new NdashDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'mdash')) {
+        children.push(new MdashDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ordf')) {
+        children.push(new OrdfDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'laquo')) {
+        children.push(new LaquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'not')) {
+        children.push(new NotDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'shy')) {
+        children.push(new ShyDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'registered')) {
+        children.push(new RegisteredDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'macr')) {
+        children.push(new MacrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'deg')) {
+        children.push(new DegDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'plusmn')) {
+        children.push(new PlusmnDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sup2')) {
+        children.push(new Sup2DocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sup3')) {
+        children.push(new Sup3DocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'acute')) {
+        children.push(new AcuteDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'micro')) {
+        children.push(new MicroDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'para')) {
+        children.push(new ParaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'middot')) {
+        children.push(new MiddotDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'cedil')) {
+        children.push(new CedilDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sup1')) {
+        children.push(new Sup1DocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ordm')) {
+        children.push(new OrdmDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'raquo')) {
+        children.push(new RaquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'frac14')) {
+        children.push(new Frac14DocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'frac12')) {
+        children.push(new Frac12DocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'frac34')) {
+        children.push(new Frac34DocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'iquest')) {
+        children.push(new IquestDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Agrave')) {
+        children.push(new AgraveDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Aacute')) {
+        children.push(new AacuteDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Acirc')) {
+        children.push(new AcircDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Atilde')) {
+        children.push(new AtildeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Aumlaut')) {
+        children.push(new AumlautDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Aring')) {
+        children.push(new AringDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'AElig')) {
+        children.push(new AEligDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Ccedil')) {
+        children.push(new CcedilDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Egrave')) {
+        children.push(new EgraveDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Eacute')) {
+        children.push(new EacuteDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Ecirc')) {
+        children.push(new EcircDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Eumlaut')) {
+        children.push(new EumlautDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Igrave')) {
+        children.push(new IgraveDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Iacute')) {
+        children.push(new IacuteDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Icirc')) {
+        children.push(new IcircDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Iumlaut')) {
+        children.push(new IumlautDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ETH')) {
+        children.push(new ETHDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Ntilde')) {
+        children.push(new NtildeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Ograve')) {
+        children.push(new OgraveDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Oacute')) {
+        children.push(new OacuteDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Ocirc')) {
+        children.push(new OcircDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Otilde')) {
+        children.push(new OtildeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Oumlaut')) {
+        children.push(new OumlautDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'times')) {
+        children.push(new TimesDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Oslash')) {
+        children.push(new OslashDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Ugrave')) {
+        children.push(new UgraveDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Uacute')) {
+        children.push(new UacuteDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Ucirc')) {
+        children.push(new UcircDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Uumlaut')) {
+        children.push(new UumlautDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Yacute')) {
+        children.push(new YacuteDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'THORN')) {
+        children.push(new THORNDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'szlig')) {
+        children.push(new SzligDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'agrave')) {
+        children.push(new AgraveSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'aacute')) {
+        children.push(new AacuteSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'acirc')) {
+        children.push(new AcircSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'atilde')) {
+        children.push(new AtildeSmallDocMarkupType(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'aumlaut')) {
+        children.push(new AumlautSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'aring')) {
+        children.push(new AringSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'aelig')) {
+        children.push(new AeligSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ccedil')) {
+        children.push(new CcedilSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'egrave')) {
+        children.push(new EgraveSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'eacute')) {
+        children.push(new EacuteSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ecirc')) {
+        children.push(new EcircSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'eumlaut')) {
+        children.push(new EumlautSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'igrave')) {
+        children.push(new IgraveSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'iacute')) {
+        children.push(new IacuteSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'icirc')) {
+        children.push(new IcircSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'iumlaut')) {
+        children.push(new IumlautSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'eth')) {
+        children.push(new EthSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ntilde')) {
+        children.push(new NtildeSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ograve')) {
+        children.push(new OgraveSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'oacute')) {
+        children.push(new OacuteSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ocirc')) {
+        children.push(new OcircSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'otilde')) {
+        children.push(new OtildeSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'oumlaut')) {
+        children.push(new OumlautSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'oslash')) {
+        children.push(new OslashSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ugrave')) {
+        children.push(new UgraveSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'uacute')) {
+        children.push(new UacuteSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ucirc')) {
+        children.push(new UcircSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'uumlaut')) {
+        children.push(new UumlautSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'yacute')) {
+        children.push(new YacuteSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'thorn')) {
+        children.push(new ThornSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'yumlaut')) {
+        children.push(new YumlautSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'divide')) {
+        children.push(new DivideDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'oslash')) {
+        children.push(new OslashSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ugrave')) {
+        children.push(new UgraveSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'uacute')) {
+        children.push(new UacuteSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ucirc')) {
+        children.push(new UcircSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'uumlaut')) {
+        children.push(new UumlautSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'yacute')) {
+        children.push(new YacuteSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'thorn')) {
+        children.push(new ThornSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'fnof')) {
+        children.push(new FnofDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Alpha')) {
+        children.push(new AlphaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Beta')) {
+        children.push(new BetaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Gamma')) {
+        children.push(new GammaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Delta')) {
+        children.push(new DeltaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Epsilon')) {
+        children.push(new EpsilonDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Zeta')) {
+        children.push(new ZetaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Eta')) {
+        children.push(new EtaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Theta')) {
+        children.push(new ThetaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Iota')) {
+        children.push(new IotaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Kappa')) {
+        children.push(new KappaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Lambda')) {
+        children.push(new LambdaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Mu')) {
+        children.push(new MuDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Nu')) {
+        children.push(new NuDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Xi')) {
+        children.push(new XiDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Omicron')) {
+        children.push(new OmicronDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Pi')) {
+        children.push(new PiDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Rho')) {
+        children.push(new RhoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Sigma')) {
+        children.push(new SigmaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Tau')) {
+        children.push(new TauDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Upsilon')) {
+        children.push(new UpsilonDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Phi')) {
+        children.push(new PhiDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Chi')) {
+        children.push(new ChiDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Psi')) {
+        children.push(new PsiDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Omega')) {
+        children.push(new OmegaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'alpha')) {
+        children.push(new AlphaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'beta')) {
+        children.push(new BetaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'gamma')) {
+        children.push(new GammaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'delta')) {
+        children.push(new DeltaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'epsilon')) {
+        children.push(new EpsilonSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'zeta')) {
+        children.push(new ZetaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'eta')) {
+        children.push(new EtaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'theta')) {
+        children.push(new ThetaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'iota')) {
+        children.push(new IotaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'kappa')) {
+        children.push(new KappaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'lambda')) {
+        children.push(new LambdaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'mu')) {
+        children.push(new MuSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'nu')) {
+        children.push(new NuSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'xi')) {
+        children.push(new XiSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'omicron')) {
+        children.push(new OmicronSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'pi')) {
+        children.push(new PiSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rho')) {
+        children.push(new RhoSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sigma')) {
+        children.push(new SigmaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sigmaf')) {
+        children.push(new SigmafSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'tau')) {
+        children.push(new TauSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'upsilon')) {
+        children.push(new UpsilonSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'phi')) {
+        children.push(new PhiSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'chi')) {
+        children.push(new ChiSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'psi')) {
+        children.push(new PsiSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'omega')) {
+        children.push(new OmegaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'thetasym')) {
+        children.push(new ThetasymDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'upsih')) {
+        children.push(new UpsihDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'piv')) {
+        children.push(new PivDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'bull')) {
+        children.push(new BullDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'hellip')) {
+        children.push(new HellipDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'prime')) {
+        children.push(new PrimeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Prime')) {
+        children.push(new PrimeUpperDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'oline')) {
+        children.push(new OlineDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'frasl')) {
+        children.push(new FraslDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'weierp')) {
+        children.push(new WeierpDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'imaginary')) {
+        children.push(new ImaginaryDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'real')) {
+        children.push(new RealDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'trademark')) {
+        children.push(new TrademarkDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'alefsym')) {
+        children.push(new AlefsymDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'larr')) {
+        children.push(new LarrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'uarr')) {
+        children.push(new UarrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rarr')) {
+        children.push(new RarrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'darr')) {
+        children.push(new DarrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'harr')) {
+        children.push(new HarrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'crarr')) {
+        children.push(new CrarrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'lArr')) {
+        children.push(new LArrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'uArr')) {
+        children.push(new UArrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rArr')) {
+        children.push(new RArrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'dArr')) {
+        children.push(new DArrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'hArr')) {
+        children.push(new HArrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'forall')) {
+        children.push(new ForallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'part')) {
+        children.push(new PartDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'exist')) {
+        children.push(new ExistDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'empty')) {
+        children.push(new EmptyDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'nabla')) {
+        children.push(new NablaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'isin')) {
+        children.push(new IsinDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'notin')) {
+        children.push(new NotinDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ni')) {
+        children.push(new NiDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'prod')) {
+        children.push(new ProdDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sum')) {
+        children.push(new SumDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'minus')) {
+        children.push(new MinusDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'lowast')) {
+        children.push(new LowastDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'radic')) {
+        children.push(new RadicDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'prop')) {
+        children.push(new PropDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'infin')) {
+        children.push(new InfinDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ang')) {
+        children.push(new AngDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'and')) {
+        children.push(new AndDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'or')) {
+        children.push(new OrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'cap')) {
+        children.push(new CapDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'cup')) {
+        children.push(new CupDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'int')) {
+        children.push(new IntDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'there4')) {
+        children.push(new There4DocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sim')) {
+        children.push(new SimDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'cong')) {
+        children.push(new CongDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'asymp')) {
+        children.push(new AsympDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ne')) {
+        children.push(new NeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'equiv')) {
+        children.push(new EquivDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'le')) {
+        children.push(new LeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ge')) {
+        children.push(new GeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sub')) {
+        children.push(new SubDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sup')) {
+        children.push(new SupDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'nsub')) {
+        children.push(new NsubDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sube')) {
+        children.push(new SubeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'supe')) {
+        children.push(new SupeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'oplus')) {
+        children.push(new OplusDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'otimes')) {
+        children.push(new OtimesDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'perp')) {
+        children.push(new PerpDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sdot')) {
+        children.push(new SdotDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'lceil')) {
+        children.push(new LceilDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rceil')) {
+        children.push(new RceilDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'lfloor')) {
+        children.push(new LfloorDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rfloor')) {
+        children.push(new RfloorDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'lang')) {
+        children.push(new LangDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rang')) {
+        children.push(new RangDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'loz')) {
+        children.push(new LozDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'spades')) {
+        children.push(new SpadesDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'clubs')) {
+        children.push(new ClubsDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'hearts')) {
+        children.push(new HeartsDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'diams')) {
+        children.push(new DiamsDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'OElig')) {
+        children.push(new OEligDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'oelig')) {
+        children.push(new OeligDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Scaron')) {
+        children.push(new ScaronDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'scaron')) {
+        children.push(new ScaronSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Yumlaut')) {
+        children.push(new YumlautDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'circ')) {
+        children.push(new CircDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'tilde')) {
+        children.push(new TildeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ensp')) {
+        children.push(new EnspDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'emsp')) {
+        children.push(new EmspDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'thinsp')) {
+        children.push(new ThinspDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'zwnj')) {
+        children.push(new ZwnjDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'lrm')) {
+        children.push(new LrmDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rlm')) {
+        children.push(new RlmDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sbquo')) {
+        children.push(new SbquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ldquo')) {
+        children.push(new LdquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rdquo')) {
+        children.push(new RdquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'bdquo')) {
+        children.push(new BdquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'dagger')) {
+        children.push(new DaggerDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Dagger')) {
+        children.push(new DaggerUpperDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'permil')) {
+        children.push(new PermilDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'lsaquo')) {
+        children.push(new LsaquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rsaquo')) {
+        children.push(new RsaquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'euro')) {
+        children.push(new EuroDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'tm')) {
+        children.push(new TmDocMarkupDataModel(xml, element));
     }
     else {
         console.error(util.inspect(element, { compact: false, depth: 999 }));
@@ -1139,7 +1906,9 @@ function parseDocCmdGroup(xml, element, elementName) {
     }
     else if (xml.hasInnerElement(element, 'ref')) {
         children.push(new RefDataModel(xml, element));
-        // emoji
+    }
+    else if (xml.hasInnerElement(element, 'emoji')) {
+        children.push(new EmojiDataModel(xml, element));
         // ----
         // Substring elements.
     }
@@ -1166,11 +1935,775 @@ function parseDocCmdGroup(xml, element, elementName) {
     }
     else if (xml.hasInnerElement(element, 'rsquo')) {
         children.push(new RsquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'copy')) {
+        children.push(new CopyDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'iexcl')) {
+        children.push(new IexclDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'cent')) {
+        children.push(new CentDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'pound')) {
+        children.push(new PoundDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'curren')) {
+        children.push(new CurrenDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'yen')) {
+        children.push(new YenDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'brvbar')) {
+        children.push(new BrvbarDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sect')) {
+        children.push(new SectDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'umlaut')) {
+        children.push(new UmlautDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'nzwj')) {
+        children.push(new NzwjDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'zwj')) {
+        children.push(new ZwjDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ndash')) {
+        children.push(new NdashDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'mdash')) {
+        children.push(new MdashDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ordf')) {
+        children.push(new OrdfDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'laquo')) {
+        children.push(new LaquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'not')) {
+        children.push(new NotDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'shy')) {
+        children.push(new ShyDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'registered')) {
+        children.push(new RegisteredDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'macr')) {
+        children.push(new MacrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'deg')) {
+        children.push(new DegDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'plusmn')) {
+        children.push(new PlusmnDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sup2')) {
+        children.push(new Sup2DocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sup3')) {
+        children.push(new Sup3DocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'acute')) {
+        children.push(new AcuteDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'micro')) {
+        children.push(new MicroDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'para')) {
+        children.push(new ParaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'middot')) {
+        children.push(new MiddotDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'cedil')) {
+        children.push(new CedilDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sup1')) {
+        children.push(new Sup1DocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ordm')) {
+        children.push(new OrdmDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'raquo')) {
+        children.push(new RaquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'frac14')) {
+        children.push(new Frac14DocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'frac12')) {
+        children.push(new Frac12DocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'frac34')) {
+        children.push(new Frac34DocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'iquest')) {
+        children.push(new IquestDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Agrave')) {
+        children.push(new AgraveDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Aacute')) {
+        children.push(new AacuteDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Acirc')) {
+        children.push(new AcircDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Atilde')) {
+        children.push(new AtildeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Aumlaut')) {
+        children.push(new AumlautDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Aring')) {
+        children.push(new AringDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'AElig')) {
+        children.push(new AEligDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Ccedil')) {
+        children.push(new CcedilDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Egrave')) {
+        children.push(new EgraveDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Eacute')) {
+        children.push(new EacuteDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Ecirc')) {
+        children.push(new EcircDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Eumlaut')) {
+        children.push(new EumlautDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Igrave')) {
+        children.push(new IgraveDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Iacute')) {
+        children.push(new IacuteDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Icirc')) {
+        children.push(new IcircDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Iumlaut')) {
+        children.push(new IumlautDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ETH')) {
+        children.push(new ETHDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Ntilde')) {
+        children.push(new NtildeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Ograve')) {
+        children.push(new OgraveDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Oacute')) {
+        children.push(new OacuteDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Ocirc')) {
+        children.push(new OcircDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Otilde')) {
+        children.push(new OtildeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Oumlaut')) {
+        children.push(new OumlautDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'times')) {
+        children.push(new TimesDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Oslash')) {
+        children.push(new OslashDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Ugrave')) {
+        children.push(new UgraveDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Uacute')) {
+        children.push(new UacuteDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Ucirc')) {
+        children.push(new UcircDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Uumlaut')) {
+        children.push(new UumlautDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Yacute')) {
+        children.push(new YacuteDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'THORN')) {
+        children.push(new THORNDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'szlig')) {
+        children.push(new SzligDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'agrave')) {
+        children.push(new AgraveSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'aacute')) {
+        children.push(new AacuteSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'acirc')) {
+        children.push(new AcircSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'atilde')) {
+        children.push(new AtildeSmallDocMarkupType(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'aumlaut')) {
+        children.push(new AumlautSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'aring')) {
+        children.push(new AringSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'aelig')) {
+        children.push(new AeligSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ccedil')) {
+        children.push(new CcedilSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'egrave')) {
+        children.push(new EgraveSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'eacute')) {
+        children.push(new EacuteSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ecirc')) {
+        children.push(new EcircSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'eumlaut')) {
+        children.push(new EumlautSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'igrave')) {
+        children.push(new IgraveSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'iacute')) {
+        children.push(new IacuteSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'icirc')) {
+        children.push(new IcircSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'iumlaut')) {
+        children.push(new IumlautSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'eth')) {
+        children.push(new EthSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ntilde')) {
+        children.push(new NtildeSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ograve')) {
+        children.push(new OgraveSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'oacute')) {
+        children.push(new OacuteSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ocirc')) {
+        children.push(new OcircSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'otilde')) {
+        children.push(new OtildeSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'oumlaut')) {
+        children.push(new OumlautSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'oslash')) {
+        children.push(new OslashSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ugrave')) {
+        children.push(new UgraveSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'uacute')) {
+        children.push(new UacuteSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ucirc')) {
+        children.push(new UcircSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'uumlaut')) {
+        children.push(new UumlautSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'yacute')) {
+        children.push(new YacuteSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'thorn')) {
+        children.push(new ThornSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'yumlaut')) {
+        children.push(new YumlautSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'divide')) {
+        children.push(new DivideDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'oslash')) {
+        children.push(new OslashSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ugrave')) {
+        children.push(new UgraveSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'uacute')) {
+        children.push(new UacuteSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ucirc')) {
+        children.push(new UcircSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'uumlaut')) {
+        children.push(new UumlautSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'yacute')) {
+        children.push(new YacuteSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'thorn')) {
+        children.push(new ThornSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'fnof')) {
+        children.push(new FnofDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Alpha')) {
+        children.push(new AlphaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Beta')) {
+        children.push(new BetaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Gamma')) {
+        children.push(new GammaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Delta')) {
+        children.push(new DeltaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Epsilon')) {
+        children.push(new EpsilonDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Zeta')) {
+        children.push(new ZetaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Eta')) {
+        children.push(new EtaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Theta')) {
+        children.push(new ThetaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Iota')) {
+        children.push(new IotaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Kappa')) {
+        children.push(new KappaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Lambda')) {
+        children.push(new LambdaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Mu')) {
+        children.push(new MuDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Nu')) {
+        children.push(new NuDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Xi')) {
+        children.push(new XiDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Omicron')) {
+        children.push(new OmicronDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Pi')) {
+        children.push(new PiDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Rho')) {
+        children.push(new RhoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Sigma')) {
+        children.push(new SigmaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Tau')) {
+        children.push(new TauDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Upsilon')) {
+        children.push(new UpsilonDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Phi')) {
+        children.push(new PhiDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Chi')) {
+        children.push(new ChiDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Psi')) {
+        children.push(new PsiDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Omega')) {
+        children.push(new OmegaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'alpha')) {
+        children.push(new AlphaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'beta')) {
+        children.push(new BetaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'gamma')) {
+        children.push(new GammaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'delta')) {
+        children.push(new DeltaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'epsilon')) {
+        children.push(new EpsilonSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'zeta')) {
+        children.push(new ZetaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'eta')) {
+        children.push(new EtaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'theta')) {
+        children.push(new ThetaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'iota')) {
+        children.push(new IotaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'kappa')) {
+        children.push(new KappaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'lambda')) {
+        children.push(new LambdaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'mu')) {
+        children.push(new MuSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'nu')) {
+        children.push(new NuSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'xi')) {
+        children.push(new XiSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'omicron')) {
+        children.push(new OmicronSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'pi')) {
+        children.push(new PiSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rho')) {
+        children.push(new RhoSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sigma')) {
+        children.push(new SigmaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sigmaf')) {
+        children.push(new SigmafSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'tau')) {
+        children.push(new TauSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'upsilon')) {
+        children.push(new UpsilonSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'phi')) {
+        children.push(new PhiSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'chi')) {
+        children.push(new ChiSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'psi')) {
+        children.push(new PsiSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'omega')) {
+        children.push(new OmegaSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'thetasym')) {
+        children.push(new ThetasymDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'upsih')) {
+        children.push(new UpsihDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'piv')) {
+        children.push(new PivDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'bull')) {
+        children.push(new BullDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'hellip')) {
+        children.push(new HellipDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'prime')) {
+        children.push(new PrimeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Prime')) {
+        children.push(new PrimeUpperDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'oline')) {
+        children.push(new OlineDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'frasl')) {
+        children.push(new FraslDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'weierp')) {
+        children.push(new WeierpDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'imaginary')) {
+        children.push(new ImaginaryDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'real')) {
+        children.push(new RealDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'trademark')) {
+        children.push(new TrademarkDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'alefsym')) {
+        children.push(new AlefsymDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'larr')) {
+        children.push(new LarrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'uarr')) {
+        children.push(new UarrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rarr')) {
+        children.push(new RarrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'darr')) {
+        children.push(new DarrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'harr')) {
+        children.push(new HarrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'crarr')) {
+        children.push(new CrarrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'lArr')) {
+        children.push(new LArrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'uArr')) {
+        children.push(new UArrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rArr')) {
+        children.push(new RArrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'dArr')) {
+        children.push(new DArrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'hArr')) {
+        children.push(new HArrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'forall')) {
+        children.push(new ForallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'part')) {
+        children.push(new PartDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'exist')) {
+        children.push(new ExistDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'empty')) {
+        children.push(new EmptyDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'nabla')) {
+        children.push(new NablaDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'isin')) {
+        children.push(new IsinDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'notin')) {
+        children.push(new NotinDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ni')) {
+        children.push(new NiDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'prod')) {
+        children.push(new ProdDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sum')) {
+        children.push(new SumDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'minus')) {
+        children.push(new MinusDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'lowast')) {
+        children.push(new LowastDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'radic')) {
+        children.push(new RadicDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'prop')) {
+        children.push(new PropDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'infin')) {
+        children.push(new InfinDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ang')) {
+        children.push(new AngDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'and')) {
+        children.push(new AndDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'or')) {
+        children.push(new OrDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'cap')) {
+        children.push(new CapDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'cup')) {
+        children.push(new CupDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'int')) {
+        children.push(new IntDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'there4')) {
+        children.push(new There4DocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sim')) {
+        children.push(new SimDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'cong')) {
+        children.push(new CongDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'asymp')) {
+        children.push(new AsympDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ne')) {
+        children.push(new NeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'equiv')) {
+        children.push(new EquivDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'le')) {
+        children.push(new LeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ge')) {
+        children.push(new GeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sub')) {
+        children.push(new SubDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sup')) {
+        children.push(new SupDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'nsub')) {
+        children.push(new NsubDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sube')) {
+        children.push(new SubeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'supe')) {
+        children.push(new SupeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'oplus')) {
+        children.push(new OplusDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'otimes')) {
+        children.push(new OtimesDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'perp')) {
+        children.push(new PerpDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sdot')) {
+        children.push(new SdotDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'lceil')) {
+        children.push(new LceilDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rceil')) {
+        children.push(new RceilDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'lfloor')) {
+        children.push(new LfloorDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rfloor')) {
+        children.push(new RfloorDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'lang')) {
+        children.push(new LangDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rang')) {
+        children.push(new RangDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'loz')) {
+        children.push(new LozDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'spades')) {
+        children.push(new SpadesDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'clubs')) {
+        children.push(new ClubsDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'hearts')) {
+        children.push(new HeartsDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'diams')) {
+        children.push(new DiamsDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'OElig')) {
+        children.push(new OEligDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'oelig')) {
+        children.push(new OeligDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Scaron')) {
+        children.push(new ScaronDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'scaron')) {
+        children.push(new ScaronSmallDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Yumlaut')) {
+        children.push(new YumlautDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'circ')) {
+        children.push(new CircDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'tilde')) {
+        children.push(new TildeDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ensp')) {
+        children.push(new EnspDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'emsp')) {
+        children.push(new EmspDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'thinsp')) {
+        children.push(new ThinspDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'zwnj')) {
+        children.push(new ZwnjDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'lrm')) {
+        children.push(new LrmDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rlm')) {
+        children.push(new RlmDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'sbquo')) {
+        children.push(new SbquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'ldquo')) {
+        children.push(new LdquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rdquo')) {
+        children.push(new RdquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'bdquo')) {
+        children.push(new BdquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'dagger')) {
+        children.push(new DaggerDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'Dagger')) {
+        children.push(new DaggerUpperDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'permil')) {
+        children.push(new PermilDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'lsaquo')) {
+        children.push(new LsaquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'rsaquo')) {
+        children.push(new RsaquoDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'euro')) {
+        children.push(new EuroDocMarkupDataModel(xml, element));
+    }
+    else if (xml.hasInnerElement(element, 'tm')) {
+        children.push(new TmDocMarkupDataModel(xml, element));
         // ----
     }
     else if (xml.hasInnerElement(element, 'hruler')) {
         children.push(new HrulerDataModel(xml, element));
-        // preformatted
+    }
+    else if (xml.hasInnerElement(element, 'preformatted')) {
+        children.push(new PreformattedDataModel(xml, element));
     }
     else if (xml.hasInnerElement(element, 'programlisting')) {
         children.push(new ProgramListingDataModel(xml, element));
@@ -1299,10 +2832,64 @@ export class SubstringDocMarkupType extends AbstractDocMarkupType {
 // <xsd:element name="mdash" type="docEmptyType" />
 // <xsd:element name="lsquo" type="docEmptyType" />
 // <xsd:element name="rsquo" type="docEmptyType" />
+// copyright
+export class CopyDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'copy', '\u00A9');
+    }
+}
+// inverted exclamation mark
+export class IexclDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'iexcl', '\u00A1');
+    }
+}
+// cent
+export class CentDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'cent', '\u00A2');
+    }
+}
+// pound
+export class PoundDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'pound', '\u00A3');
+    }
+}
+// curren
+export class CurrenDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'curren', '\u00A4');
+    }
+}
+// yen
+export class YenDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'yen', '\u00A5');
+    }
+}
+// brvbar
+export class BrvbarDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'brvbar', '\u00A6');
+    }
+}
+// sect
+export class SectDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'sect', '\u00A7');
+    }
+}
+// umlaut (diaeresis)
+export class UmlautDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'umlaut', '\u00A8');
+    }
+}
 // Zero Width Non-Joiner
 export class NzwjDocMarkupDataModel extends SubstringDocMarkupType {
     constructor(xml, element) {
-        super(xml, element, 'zwj', '\u200C');
+        super(xml, element, 'nzwj', '\u200C');
     }
 }
 // Zero Width Joiner.
@@ -1321,6 +2908,1410 @@ export class NdashDocMarkupDataModel extends SubstringDocMarkupType {
 export class MdashDocMarkupDataModel extends SubstringDocMarkupType {
     constructor(xml, element) {
         super(xml, element, 'mdash', '\u2014'); // '—'
+    }
+}
+// ordfeminine
+export class OrdfDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'ordf', '\u00AA');
+    }
+}
+// left-pointing double angle quotation mark
+export class LaquoDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'laquo', '\u00AB');
+    }
+}
+// not sign
+export class NotDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'not', '\u00AC');
+    }
+}
+// soft hyphen
+export class ShyDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'shy', '\u00AD');
+    }
+}
+// registered sign
+export class RegisteredDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'registered', '\u00AE');
+    }
+}
+// macron
+export class MacrDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'macr', '\u00AF');
+    }
+}
+// degree sign
+export class DegDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'deg', '\u00B0');
+    }
+}
+// plus-minus sign
+export class PlusmnDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'plusmn', '\u00B1');
+    }
+}
+// superscript two
+export class Sup2DocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'sup2', '\u00B2');
+    }
+}
+// superscript three
+export class Sup3DocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'sup3', '\u00B3');
+    }
+}
+// acute accent
+export class AcuteDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'acute', '\u00B4');
+    }
+}
+// micro sign
+export class MicroDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'micro', '\u00B5');
+    }
+}
+// pilcrow/paragraph sign
+export class ParaDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'para', '\u00B6');
+    }
+}
+// middle dot
+export class MiddotDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'middot', '\u00B7');
+    }
+}
+// cedilla
+export class CedilDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'cedil', '\u00B8');
+    }
+}
+// superscript one
+export class Sup1DocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'sup1', '\u00B9');
+    }
+}
+// masculine ordinal indicator
+export class OrdmDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'ordm', '\u00BA');
+    }
+}
+// right-pointing double angle quotation mark
+export class RaquoDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'raquo', '\u00BB');
+    }
+}
+// fraction one quarter
+export class Frac14DocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'frac14', '\u00BC');
+    }
+}
+// fraction one half
+export class Frac12DocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'frac12', '\u00BD');
+    }
+}
+// fraction three quarters
+export class Frac34DocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'frac34', '\u00BE');
+    }
+}
+// inverted question mark
+export class IquestDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'iquest', '\u00BF');
+    }
+}
+// Latin capital letter A with grave
+export class AgraveDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Agrave', '\u00C0');
+    }
+}
+// Latin capital letter A with acute
+export class AacuteDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Aacute', '\u00C1');
+    }
+}
+// Latin capital letter A with circumflex
+export class AcircDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Acirc', '\u00C2');
+    }
+}
+// Latin capital letter A with tilde
+export class AtildeDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Atilde', '\u00C3');
+    }
+}
+// Latin capital letter A with diaeresis (umlaut)
+export class AumlautDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Aumlaut', '\u00C4');
+    }
+}
+// Latin capital letter A with ring above
+export class AringDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Aring', '\u00C5');
+    }
+}
+// Latin capital letter AE
+export class AEligDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'AElig', '\u00C6');
+    }
+}
+// Latin capital letter C with cedilla
+export class CcedilDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Ccedil', '\u00C7');
+    }
+}
+// Latin capital letter E with grave
+export class EgraveDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Egrave', '\u00C8');
+    }
+}
+// Latin capital letter E with acute
+export class EacuteDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Eacute', '\u00C9');
+    }
+}
+// Latin capital letter E with circumflex
+export class EcircDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Ecirc', '\u00CA');
+    }
+}
+// Latin capital letter E with diaeresis (umlaut)
+export class EumlautDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Eumlaut', '\u00CB');
+    }
+}
+// Latin capital letter I with grave
+export class IgraveDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Igrave', '\u00CC');
+    }
+}
+// Latin capital letter I with acute
+export class IacuteDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Iacute', '\u00CD');
+    }
+}
+// Latin capital letter I with circumflex
+export class IcircDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Icirc', '\u00CE');
+    }
+}
+// Latin capital letter I with diaeresis (umlaut)
+export class IumlautDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Iumlaut', '\u00CF');
+    }
+}
+// Latin capital letter ETH
+export class ETHDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'ETH', '\u00D0');
+    }
+}
+// Latin capital letter N with tilde
+export class NtildeDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Ntilde', '\u00D1');
+    }
+}
+// Latin capital letter O with grave
+export class OgraveDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Ograve', '\u00D2');
+    }
+}
+// Latin capital letter O with acute
+export class OacuteDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Oacute', '\u00D3');
+    }
+}
+// Latin capital letter O with circumflex
+export class OcircDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Ocirc', '\u00D4');
+    }
+}
+// Latin capital letter O with tilde
+export class OtildeDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Otilde', '\u00D5');
+    }
+}
+// Latin capital letter O with diaeresis (umlaut)
+export class OumlautDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Oumlaut', '\u00D6');
+    }
+}
+// multiplication sign
+export class TimesDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'times', '\u00D7');
+    }
+}
+// Latin capital letter O with stroke
+export class OslashDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Oslash', '\u00D8');
+    }
+}
+// Latin capital letter U with grave
+export class UgraveDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Ugrave', '\u00D9');
+    }
+}
+// Latin capital letter U with acute
+export class UacuteDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Uacute', '\u00DA');
+    }
+}
+// Latin capital letter U with circumflex
+export class UcircDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Ucirc', '\u00DB');
+    }
+}
+// Latin capital letter U with diaeresis (umlaut)
+export class UumlautDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Uumlaut', '\u00DC');
+    }
+}
+// Latin capital letter Y with acute
+export class YacuteDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Yacute', '\u00DD');
+    }
+}
+// Latin capital letter Thorn
+export class THORNDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'THORN', '\u00DE');
+    }
+}
+// Latin small letter sharp s (eszett)
+export class SzligDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'szlig', '\u00DF');
+    }
+}
+// Latin small letter a with grave
+export class AgraveSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'agrave', '\u00E0');
+    }
+}
+// Latin small letter a with acute
+export class AacuteSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'aacute', '\u00E1');
+    }
+}
+// Latin small letter a with circumflex
+export class AcircSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'acirc', '\u00E2');
+    }
+}
+// Latin small letter a with tilde
+export class AtildeSmallDocMarkupType extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'atilde', '\u00E3');
+    }
+}
+// Latin small letter a with diaeresis (umlaut)
+export class AumlautSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'aumlaut', '\u00E4');
+    }
+}
+// Latin small letter a with ring above
+export class AringSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'aring', '\u00E5');
+    }
+}
+// Latin small letter ae
+export class AeligSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'aelig', '\u00E6');
+    }
+}
+// Latin small letter c with cedilla
+export class CcedilSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'ccedil', '\u00E7');
+    }
+}
+// Latin small letter e with grave
+export class EgraveSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'egrave', '\u00E8');
+    }
+}
+// Latin small letter e with acute
+export class EacuteSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'eacute', '\u00E9');
+    }
+}
+// Latin small letter e with circumflex
+export class EcircSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'ecirc', '\u00EA');
+    }
+}
+// Latin small letter e with diaeresis (umlaut)
+export class EumlautSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'eumlaut', '\u00EB');
+    }
+}
+// Latin small letter i with grave
+export class IgraveSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'igrave', '\u00EC');
+    }
+}
+// Latin small letter i with acute
+export class IacuteSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'iacute', '\u00ED');
+    }
+}
+// Latin small letter i with circumflex
+export class IcircSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'icirc', '\u00EE');
+    }
+}
+// Latin small letter i with diaeresis (umlaut)
+export class IumlautSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'iumlaut', '\u00EF');
+    }
+}
+// Latin small letter eth
+export class EthSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'eth', '\u00F0');
+    }
+}
+// Latin small letter n with tilde
+export class NtildeSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'ntilde', '\u00F1');
+    }
+}
+// Latin small letter o with grave
+export class OgraveSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'ograve', '\u00F2');
+    }
+}
+// Latin small letter o with acute
+export class OacuteSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'oacute', '\u00F3');
+    }
+}
+// Latin small letter o with circumflex
+export class OcircSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'ocirc', '\u00F4');
+    }
+}
+// Latin small letter o with tilde
+export class OtildeSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'otilde', '\u00F5');
+    }
+}
+// Latin small letter o with diaeresis (umlaut)
+export class OumlautSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'oumlaut', '\u00F6');
+    }
+}
+// division sign
+export class DivideDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'divide', '\u00F7');
+    }
+}
+// Latin small letter o with stroke
+export class OslashSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'oslash', '\u00F8');
+    }
+}
+// Latin small letter u with grave
+export class UgraveSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'ugrave', '\u00F9');
+    }
+}
+// Latin small letter u with acute
+export class UacuteSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'uacute', '\u00FA');
+    }
+}
+// Latin small letter u with circumflex
+export class UcircSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'ucirc', '\u00FB');
+    }
+}
+// Latin small letter u with diaeresis (umlaut)
+export class UumlautSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'uumlaut', '\u00FC');
+    }
+}
+// Latin small letter y with acute
+export class YacuteSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'yacute', '\u00FD');
+    }
+}
+// Latin small letter thorn
+export class ThornSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'thorn', '\u00FE');
+    }
+}
+// Latin small letter y with diaeresis (umlaut)
+export class YumlautSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'yumlaut', '\u00FF');
+    }
+}
+// Latin small letter f with hook (function)
+export class FnofDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'fnof', '\u0192');
+    }
+}
+// Greek capital letter Alpha
+export class AlphaDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Alpha', '\u0391');
+    }
+}
+// Greek capital letter Beta
+export class BetaDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Beta', '\u0392');
+    }
+}
+// Greek capital letter Gamma
+export class GammaDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Gamma', '\u0393');
+    }
+}
+// Greek capital letter Delta
+export class DeltaDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Delta', '\u0394');
+    }
+}
+// Greek capital letter Epsilon
+export class EpsilonDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Epsilon', '\u0395');
+    }
+}
+// Greek capital letter Zeta
+export class ZetaDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Zeta', '\u0396');
+    }
+}
+// Greek capital letter Eta
+export class EtaDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Eta', '\u0397');
+    }
+}
+// Greek capital letter Theta
+export class ThetaDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Theta', '\u0398');
+    }
+}
+// Greek capital letter Iota
+export class IotaDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Iota', '\u0399');
+    }
+}
+// Greek capital letter Kappa
+export class KappaDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Kappa', '\u039A');
+    }
+}
+// Greek capital letter Lambda
+export class LambdaDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Lambda', '\u039B');
+    }
+}
+// Greek capital letter Mu
+export class MuDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Mu', '\u039C');
+    }
+}
+// Greek capital letter Nu
+export class NuDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Nu', '\u039D');
+    }
+}
+// Greek capital letter Xi
+export class XiDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Xi', '\u039E');
+    }
+}
+// Greek capital letter Omicron
+export class OmicronDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Omicron', '\u039F');
+    }
+}
+// Greek capital letter Pi
+export class PiDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Pi', '\u03A0');
+    }
+}
+// Greek capital letter Rho
+export class RhoDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Rho', '\u03A1');
+    }
+}
+// Greek capital letter Sigma
+export class SigmaDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Sigma', '\u03A3');
+    }
+}
+// Greek capital letter Tau
+export class TauDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Tau', '\u03A4');
+    }
+}
+// Greek capital letter Upsilon
+export class UpsilonDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Upsilon', '\u03A5');
+    }
+}
+// Greek capital letter Phi
+export class PhiDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Phi', '\u03A6');
+    }
+}
+// Greek capital letter Chi
+export class ChiDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Chi', '\u03A7');
+    }
+}
+// Greek capital letter Psi
+export class PsiDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Psi', '\u03A8');
+    }
+}
+// Greek capital letter Omega
+export class OmegaDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Omega', '\u03A9');
+    }
+}
+// Greek small letter alpha
+export class AlphaSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'alpha', '\u03B1');
+    }
+}
+// Greek small letter beta
+export class BetaSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'beta', '\u03B2');
+    }
+}
+// Greek small letter gamma
+export class GammaSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'gamma', '\u03B3');
+    }
+}
+// Greek small letter delta
+export class DeltaSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'delta', '\u03B4');
+    }
+}
+// Greek small letter epsilon
+export class EpsilonSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'epsilon', '\u03B5');
+    }
+}
+// Greek small letter zeta
+export class ZetaSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'zeta', '\u03B6');
+    }
+}
+// Greek small letter eta
+export class EtaSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'eta', '\u03B7');
+    }
+}
+// Greek small letter theta
+export class ThetaSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'theta', '\u03B8');
+    }
+}
+// Greek small letter iota
+export class IotaSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'iota', '\u03B9');
+    }
+}
+// Greek small letter kappa
+export class KappaSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'kappa', '\u03BA');
+    }
+}
+// Greek small letter lambda
+export class LambdaSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'lambda', '\u03BB');
+    }
+}
+// Greek small letter mu
+export class MuSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'mu', '\u03BC');
+    }
+}
+// Greek small letter nu
+export class NuSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'nu', '\u03BD');
+    }
+}
+// Greek small letter xi
+export class XiSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'xi', '\u03BE');
+    }
+}
+// Greek small letter omicron
+export class OmicronSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'omicron', '\u03BF');
+    }
+}
+// Greek small letter pi
+export class PiSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'pi', '\u03C0');
+    }
+}
+// Greek small letter rho
+export class RhoSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'rho', '\u03C1');
+    }
+}
+// Greek small letter sigma
+export class SigmaSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'sigma', '\u03C3');
+    }
+}
+// Greek small letter sigmaf
+export class SigmafSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'sigmaf', '\u03C2');
+    }
+}
+// Greek small letter tau
+export class TauSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'tau', '\u03C4');
+    }
+}
+// Greek small letter upsilon
+export class UpsilonSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'upsilon', '\u03C5');
+    }
+}
+// Greek small letter phi
+export class PhiSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'phi', '\u03C6');
+    }
+}
+// Greek small letter chi
+export class ChiSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'chi', '\u03C7');
+    }
+}
+// Greek small letter psi
+export class PsiSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'psi', '\u03C8');
+    }
+}
+// Greek small letter omega
+export class OmegaSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'omega', '\u03C9');
+    }
+}
+// Greek small letter theta symbol
+export class ThetasymDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'thetasym', '\u03D1');
+    }
+}
+// Greek upsilon with hook symbol
+export class UpsihDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'upsih', '\u03D2');
+    }
+}
+// Greek pi symbol (variant)
+export class PivDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'piv', '\u03D6');
+    }
+}
+// Bullet
+export class BullDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'bull', '\u2022');
+    }
+}
+// Horizontal ellipsis
+export class HellipDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'hellip', '\u2026');
+    }
+}
+// Prime (minutes, feet)
+export class PrimeDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'prime', '\u2032');
+    }
+}
+// Double prime (seconds, inches)
+export class PrimeUpperDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Prime', '\u2033');
+    }
+}
+// Overline
+export class OlineDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'oline', '\u203E');
+    }
+}
+// Fraction slash
+export class FraslDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'frasl', '\u2044');
+    }
+}
+// Script capital P (Weierstrass p)
+export class WeierpDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'weierp', '\u2118');
+    }
+}
+// Imaginary part
+export class ImaginaryDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'imaginary', '\u2111');
+    }
+}
+// Real part
+export class RealDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'real', '\u211C');
+    }
+}
+// Trademark
+export class TrademarkDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'trademark', '\u2122');
+    }
+}
+// Alef symbol
+export class AlefsymDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'alefsym', '\u2135');
+    }
+}
+// Leftwards arrow
+export class LarrDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'larr', '\u2190');
+    }
+}
+// Upwards arrow
+export class UarrDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'uarr', '\u2191');
+    }
+}
+// Rightwards arrow
+export class RarrDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'rarr', '\u2192');
+    }
+}
+// Downwards arrow
+export class DarrDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'darr', '\u2193');
+    }
+}
+// Left right arrow
+export class HarrDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'harr', '\u2194');
+    }
+}
+// Downwards arrow with corner leftwards (carriage return)
+export class CrarrDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'crarr', '\u21B5');
+    }
+}
+// Leftwards double arrow
+export class LArrDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'lArr', '\u21D0');
+    }
+}
+// Upwards double arrow
+export class UArrDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'uArr', '\u21D1');
+    }
+}
+// Rightwards double arrow
+export class RArrDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'rArr', '\u21D2');
+    }
+}
+// Downwards double arrow
+export class DArrDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'dArr', '\u21D3');
+    }
+}
+// Left right double arrow
+export class HArrDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'hArr', '\u21D4');
+    }
+}
+// For all
+export class ForallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'forall', '\u2200');
+    }
+}
+// Partial differential
+export class PartDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'part', '\u2202');
+    }
+}
+// There exists
+export class ExistDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'exist', '\u2203');
+    }
+}
+// Empty set
+export class EmptyDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'empty', '\u2205');
+    }
+}
+// Nabla
+export class NablaDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'nabla', '\u2207');
+    }
+}
+// Element of
+export class IsinDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'isin', '\u2208');
+    }
+}
+// Not an element of
+export class NotinDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'notin', '\u2209');
+    }
+}
+// Contains as member
+export class NiDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'ni', '\u220B');
+    }
+}
+// N-ary product
+export class ProdDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'prod', '\u220F');
+    }
+}
+// N-ary summation
+export class SumDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'sum', '\u2211');
+    }
+}
+// Minus sign
+export class MinusDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'minus', '\u2212');
+    }
+}
+// Asterisk operator
+export class LowastDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'lowast', '\u2217');
+    }
+}
+// Square root
+export class RadicDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'radic', '\u221A');
+    }
+}
+// Proportional to
+export class PropDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'prop', '\u221D');
+    }
+}
+// Infinity
+export class InfinDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'infin', '\u221E');
+    }
+}
+// Angle
+export class AngDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'ang', '\u2220');
+    }
+}
+// Logical and
+export class AndDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'and', '\u2227');
+    }
+}
+// Logical or
+export class OrDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'or', '\u2228');
+    }
+}
+// Intersection
+export class CapDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'cap', '\u2229');
+    }
+}
+// Union
+export class CupDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'cup', '\u222A');
+    }
+}
+// Integral
+export class IntDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'int', '\u222B');
+    }
+}
+// Therefore
+export class There4DocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'there4', '\u2234');
+    }
+}
+// Tilde operator
+export class SimDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'sim', '\u223C');
+    }
+}
+// Approximately equal to
+export class CongDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'cong', '\u2245');
+    }
+}
+// Almost equal to
+export class AsympDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'asymp', '\u2248');
+    }
+}
+// Not equal to
+export class NeDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'ne', '\u2260');
+    }
+}
+// Identical to
+export class EquivDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'equiv', '\u2261');
+    }
+}
+// Less-than or equal to
+export class LeDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'le', '\u2264');
+    }
+}
+// Greater-than or equal to
+export class GeDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'ge', '\u2265');
+    }
+}
+// Subset of
+export class SubDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'sub', '\u2282');
+    }
+}
+// Superset of
+export class SupDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'sup', '\u2283');
+    }
+}
+// Not a subset of
+export class NsubDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'nsub', '\u2284');
+    }
+}
+// Subset of or equal to
+export class SubeDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'sube', '\u2286');
+    }
+}
+// Superset of or equal to
+export class SupeDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'supe', '\u2287');
+    }
+}
+// Circled plus
+export class OplusDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'oplus', '\u2295');
+    }
+}
+// Circled times
+export class OtimesDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'otimes', '\u2297');
+    }
+}
+// Perpendicular
+export class PerpDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'perp', '\u22A5');
+    }
+}
+// Dot operator
+export class SdotDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'sdot', '\u22C5');
+    }
+}
+// Left ceiling
+export class LceilDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'lceil', '\u2308');
+    }
+}
+// Right ceiling
+export class RceilDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'rceil', '\u2309');
+    }
+}
+// Left floor
+export class LfloorDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'lfloor', '\u230A');
+    }
+}
+// Right floor
+export class RfloorDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'rfloor', '\u230B');
+    }
+}
+// Left-pointing angle bracket
+export class LangDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'lang', '\u2329');
+    }
+}
+// Right-pointing angle bracket
+export class RangDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'rang', '\u232A');
+    }
+}
+// Lozenge
+export class LozDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'loz', '\u25CA');
+    }
+}
+// Black spade suit
+export class SpadesDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'spades', '\u2660');
+    }
+}
+// Black club suit
+export class ClubsDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'clubs', '\u2663');
+    }
+}
+// Black heart suit
+export class HeartsDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'hearts', '\u2665');
+    }
+}
+// Black diamond suit
+export class DiamsDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'diams', '\u2666');
+    }
+}
+// Latin capital ligature OE
+export class OEligDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'OElig', '\u0152');
+    }
+}
+// Latin small ligature oe
+export class OeligDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'oelig', '\u0153');
+    }
+}
+// Latin capital letter S with caron
+export class ScaronDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Scaron', '\u0160');
+    }
+}
+// Latin small letter s with caron
+export class ScaronSmallDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'scaron', '\u0161');
+    }
+}
+// Latin capital letter Y with diaeresis (umlaut)
+export class YumlautDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Yumlaut', '\u0178');
+    }
+}
+// Modifier letter circumflex accent
+export class CircDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'circ', '\u02C6');
+    }
+}
+// Small tilde
+export class TildeDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'tilde', '\u02DC');
+    }
+}
+// En space
+export class EnspDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'ensp', '\u2002');
+    }
+}
+// Em space
+export class EmspDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'emsp', '\u2003');
+    }
+}
+// Thin space
+export class ThinspDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'thinsp', '\u2009');
+    }
+}
+// Zero width non-joiner
+export class ZwnjDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'zwnj', '\u200C');
+    }
+}
+// Left-to-right mark
+export class LrmDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'lrm', '\u200E');
+    }
+}
+// Right-to-left mark
+export class RlmDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'rlm', '\u200F');
+    }
+}
+// Single low-9 quotation mark
+export class SbquoDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'sbquo', '\u201A');
+    }
+}
+// Left double quotation mark
+export class LdquoDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'ldquo', '\u201C');
+    }
+}
+// Right double quotation mark
+export class RdquoDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'rdquo', '\u201D');
+    }
+}
+// Double low-9 quotation mark
+export class BdquoDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'bdquo', '\u201E');
+    }
+}
+// Dagger
+export class DaggerDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'dagger', '\u2020');
+    }
+}
+// Double dagger
+export class DaggerUpperDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'Dagger', '\u2021');
+    }
+}
+// Per mille sign
+export class PermilDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'permil', '\u2030');
+    }
+}
+// Single left-pointing angle quotation mark
+export class LsaquoDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'lsaquo', '\u2039');
+    }
+}
+// Single right-pointing angle quotation mark
+export class RsaquoDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'rsaquo', '\u203A');
+    }
+}
+// Euro sign
+export class EuroDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'euro', '\u20AC');
+    }
+}
+// Trade mark sign
+export class TmDocMarkupDataModel extends SubstringDocMarkupType {
+    constructor(xml, element) {
+        super(xml, element, 'tm', '\u2122');
     }
 }
 // Left single quote.
@@ -2567,6 +5558,44 @@ export class AbstractDocEmptyType extends AbstractDataModelBase {
 //   <xsd:attribute name="name" type="xsd:string"/>
 //   <xsd:attribute name="unicode" type="xsd:string"/>
 // </xsd:complexType>
+export class AbstractEmojiType extends AbstractDataModelBase {
+    constructor(xml, element, elementName) {
+        super(elementName);
+        this.name = '';
+        this.unicode = '';
+        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+        // ------------------------------------------------------------------------
+        // Process elements.
+        const innerElements = xml.getInnerElements(element, elementName);
+        assert(innerElements.length === 0);
+        // ------------------------------------------------------------------------
+        // Process attributes.
+        assert(xml.hasAttributes(element));
+        const attributesNames = xml.getAttributesNames(element);
+        // console.log(attributesNames)
+        for (const attributeName of attributesNames) {
+            // console.log(attributeName)
+            if (attributeName === '@_name') {
+                this.name = xml.getAttributeStringValue(element, '@_name');
+            }
+            else if (attributeName === '@_unicode') {
+                this.unicode = xml.getAttributeStringValue(element, '@_unicode');
+            }
+            else {
+                console.error(util.inspect(element, { compact: false, depth: 999 }));
+                console.error(`${elementName} attribute:`, attributeName, 'not implemented yet in', this.constructor.name);
+            }
+        }
+        // ------------------------------------------------------------------------
+        // console.log(util.inspect(this, { compact: false, depth: 999 }))
+    }
+}
+// <xsd:element name="emoji" type="docEmojiType" />
+export class EmojiDataModel extends AbstractEmojiType {
+    constructor(xml, element) {
+        super(xml, element, 'emoji');
+    }
+}
 // ----------------------------------------------------------------------------
 // <xsd:element name="briefdescription" type="descriptionType" minOccurs="0" />
 // <xsd:element name="detaileddescription" type="descriptionType" minOccurs="0" />
@@ -2838,6 +5867,11 @@ export class AbstractVerbatimType extends AbstractDataModelBase {
 export class VerbatimDataModel extends AbstractVerbatimType {
     constructor(xml, element) {
         super(xml, element, 'verbatim');
+    }
+}
+export class PreformattedDataModel extends AbstractVerbatimType {
+    constructor(xml, element) {
+        super(xml, element, 'preformatted');
     }
 }
 // ----------------------------------------------------------------------------
