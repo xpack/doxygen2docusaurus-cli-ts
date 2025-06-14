@@ -476,7 +476,6 @@ export class Workspace {
       'EnumerationList',
       'EnumerationListItem',
       'GeneratedByDoxygen',
-      'Highlight',
       'IncludesList',
       'IncludesListItem',
       'MemberDefinition',

@@ -19,8 +19,9 @@ import React from 'react';
 export default function CodeLine({lineNumber, lineLink, children}) {
   return (
     <div class="doxyCodeLine">
-      {lineNumber && <span class="doxyLineNumber">{lineLink ? <><a href={lineLink}>{lineNumber}</a></> : `${lineNumber}`}</span>}
-      {!lineNumber && <span class="doxyNoLineNumber">&nbsp;</span>}
+      {lineNumber
+        ? <span class="doxyLineNumber">{lineLink ? <><a href={lineLink}>{lineNumber}</a></> : `${lineNumber}`}</span>
+        : <span class="doxyNoLineNumber">&nbsp;</span>}
       <span class="doxyLineContent">{children}</span>
     </div>
   );

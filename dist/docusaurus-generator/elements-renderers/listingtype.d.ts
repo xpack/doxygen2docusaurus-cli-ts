@@ -7,6 +7,6 @@ export declare class CodeLineTypeLinesRenderer extends ElementLinesRendererBase 
     renderToMdxLines(element: AbstractCodeLineType): string[];
 }
 export declare class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
-    knownClasses: string[];
+    knownClasses: Record<string, string>;
     renderToMdxLines(element: AbstractHighlightType): string[];
 }

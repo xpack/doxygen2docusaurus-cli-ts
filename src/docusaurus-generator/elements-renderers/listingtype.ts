@@ -86,36 +86,38 @@ export class CodeLineTypeLinesRenderer extends ElementLinesRendererBase {
   }
 }
 
+// Optimise this to directly generate plain html, to save the compiler/bundler
+// a lot of efforts, since the file references are very large.
 export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
-  knownClasses = [
-    'normal',
-    'comment',
-    'preprocessor',
-    'keyword',
-    'keywordtype',
-    'keywordflow',
-    'token',
-    'stringliteral',
-    'charliteral'
-  ]
+  knownClasses: Record<string, string> = {
+    normal: 'doxyHighlight',
+    comment: 'doxyHighlightComment',
+    preprocessor: 'doxyHighlightPreprocessor',
+    keyword: 'doxyHighlightKeyword',
+    keywordtype: 'doxyHighlightKeywordType',
+    keywordflow: 'doxyHighlightKeywordFlow',
+    token: 'doxyHighlightToken',
+    stringliteral: 'doxyHighlightStringLiteral',
+    charliteral: 'doxyHighlightCharLiteral'
+  }
 
   override renderToMdxLines (element: AbstractHighlightType): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
     assert(element instanceof HighlightDataModel)
 
-    let kind = element.classs
-    if (!this.knownClasses.includes(element.classs)) {
+    let spanClass = this.knownClasses[element.classs]
+    if (spanClass === undefined) {
       console.error(util.inspect(element, { compact: false, depth: 999 }))
       console.error(element.classs, 'not implemented yet in', this.constructor.name)
-      kind = 'normal'
+      spanClass = 'doxyHighlight'
     }
 
     let text = ''
 
     if (element.children.length > 0) {
-      text += `<Highlight kind="${kind}">`
+      text += `<span class="${spanClass}">`
       text += this.workspace.renderElementsToMdxText(element.children)
-      text += '</Highlight>'
+      text += '</span>'
     }
 
     return [text]

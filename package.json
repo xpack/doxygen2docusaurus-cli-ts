@@ -10,7 +10,6 @@
     "./components/DoxygenPage": "./src/components/DoxygenPage/index.js",
     "./components/EnumerationList": "./src/components/EnumerationList/index.js",
     "./components/EnumerationListItem": "./src/components/EnumerationListItem/index.js",
-    "./components/Highlight": "./src/components/Highlight/index.js",
     "./components/IncludesList": "./src/components/IncludesList/index.js",
     "./components/IncludesListItem": "./src/components/IncludesListItem/index.js",
     "./components/MemberDefinition": "./src/components/MemberDefinition/index.js",
