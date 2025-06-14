@@ -112,9 +112,11 @@ export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
 
     let text = ''
 
-    text += `<Highlight kind="${kind}">`
-    text += this.workspace.renderElementsToMdxText(element.children)
-    text += '</Highlight>'
+    if (element.children.length > 0) {
+      text += `<Highlight kind="${kind}">`
+      text += this.workspace.renderElementsToMdxText(element.children)
+      text += '</Highlight>'
+    }
 
     return [text]
   }
