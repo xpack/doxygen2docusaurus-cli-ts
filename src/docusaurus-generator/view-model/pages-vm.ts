@@ -123,7 +123,8 @@ export class Page extends CompoundBase {
 
     this.indexName = this.sidebarLabel
 
-    this.pageTitle = `The ${this.sidebarLabel}`
+    // this.pageTitle = `The ${this.sidebarLabel}`
+    this.pageTitle = this.sidebarLabel
 
     const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundName)
     this.relativePermalink = `pages/${sanitizedPath}`
