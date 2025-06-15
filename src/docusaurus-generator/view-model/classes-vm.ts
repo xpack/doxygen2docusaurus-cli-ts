@@ -196,6 +196,10 @@ export class Classes extends CollectionBase {
   // --------------------------------------------------------------------------
 
   override async generateIndexDotMdxFile (): Promise<void> {
+    if (this.topLevelClasses.length === 0) {
+      return
+    }
+
     const filePath = `${this.workspace.outputFolderPath}classes/index.mdx`
     const permalink = 'classes'
 
@@ -274,6 +278,10 @@ export class Classes extends CollectionBase {
   }
 
   override async generatePerInitialsIndexMdxFiles (): Promise<void> {
+    if (this.topLevelClasses.length === 0) {
+      return
+    }
+
     const allUnorderedEntriesMap: Map<string, IndexEntry> = new Map()
     for (const [compoundId, compound] of this.collectionCompoundsById) {
       const compoundEntry = new IndexEntry(compound as Class)

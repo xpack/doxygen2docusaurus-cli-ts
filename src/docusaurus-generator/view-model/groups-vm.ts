@@ -141,6 +141,10 @@ export class Groups extends CollectionBase {
   // --------------------------------------------------------------------------
 
   override async generateIndexDotMdxFile (): Promise<void> {
+    if (this.topLevelGroups.length === 0) {
+      return
+    }
+
     // Home page for the API reference.
     // It diverts from Doxygen, since it renders the list of topics and
     // the main page.

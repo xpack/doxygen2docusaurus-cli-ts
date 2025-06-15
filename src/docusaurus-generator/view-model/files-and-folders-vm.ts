@@ -278,6 +278,10 @@ export class FilesAndFolders extends CollectionBase {
   // --------------------------------------------------------------------------
 
   override async generateIndexDotMdxFile (): Promise<void> {
+    if (this.topLevelFolders.length === 0 && this.topLevelFiles.length === 0) {
+      return
+    }
+
     const filePath = `${this.workspace.outputFolderPath}files/index.mdx`
     const permalink = 'files'
 

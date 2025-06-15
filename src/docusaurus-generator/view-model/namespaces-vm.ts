@@ -148,6 +148,10 @@ export class Namespaces extends CollectionBase {
   // --------------------------------------------------------------------------
 
   override async generateIndexDotMdxFile (): Promise<void> {
+    if (this.topLevelNamespaces.length === 0) {
+      return
+    }
+
     const filePath = `${this.workspace.outputFolderPath}namespaces/index.mdx`
     const permalink = 'namespaces'
 
