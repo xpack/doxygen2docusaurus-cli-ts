@@ -26,6 +26,7 @@ export class DocListTypeLinesRenderer extends ElementLinesRendererBase {
     const lines: string[] = []
 
     lines.push('')
+    lines.push('')
     lines.push('<ul>')
     for (const listItem of element.listItems) {
       if (listItem.paras !== undefined) {
