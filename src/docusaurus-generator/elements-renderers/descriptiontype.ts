@@ -15,7 +15,7 @@ import assert from 'assert'
 import util from 'util'
 
 import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js'
-import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractSpType, AbstractVerbatimType, ParaDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
+import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocHeadingType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractSpType, AbstractVerbatimType, ParaDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
 import { escapeHtml, escapeQuotes, getPermalinkAnchor } from '../utils.js'
 import { AbstractDocHtmlOnlyType } from '../../data-model/compounds/compounddef-dm.js'
@@ -453,6 +453,22 @@ export class HtmlOnlyRenderer extends ElementTextRendererBase {
   }
 }
 
+// ----------------------------------------------------------------------------
+
+export class HeadingStringRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractDocHeadingType): string {
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
+
+    let text = ''
+    if (element.level === 1) {
+      if (this.workspace.pluginOptions.verbose) {
+        console.warn('Level 1 Heading', element.text, 'interferes with Docusaurus pages')
+      }
+    }
+    text += '\n'
+    text += '#'.repeat(element.level)
+    text += ' '
+    text += this.workspace.renderElementsArrayToString(element.children)
 
     return text
   }
