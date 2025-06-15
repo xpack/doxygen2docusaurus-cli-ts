@@ -25,7 +25,7 @@ import { AbstractLinkedTextType } from '../../data-model/compounds/linkedtexttyp
 //   </xsd:sequence>
 // </xsd:complexType>
 
-export class LinkedTextTypeTextRenderer extends ElementTextRendererBase {
+export class LinkedTextTypeStringRenderer extends ElementTextRendererBase {
   renderToMdxText (element: AbstractLinkedTextType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

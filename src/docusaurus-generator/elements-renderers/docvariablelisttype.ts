@@ -19,7 +19,7 @@ import { AbstractDocVariableListType, VariableListPairDataModel } from '../../da
 
 // ----------------------------------------------------------------------------
 
-export class DocVariableListTypeTextRenderer extends ElementTextRendererBase {
+export class DocVariableListTypeStringRenderer extends ElementTextRendererBase {
   renderToMdxText (element: AbstractDocVariableListType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

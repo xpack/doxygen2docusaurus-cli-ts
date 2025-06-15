@@ -15,27 +15,27 @@ import * as util from 'node:util'
 import assert from 'node:assert'
 
 import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js'
-import { DescriptionTypeTextRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeLinesRenderer, DocMarkupTypeTextRenderer, DocParamListTypeTextRenderer, DocParaTypeTextRenderer, DocRefTextTypeTextRenderer, DocSimpleSectTypeTextRenderer, DocURLLinkTextRenderer, FormulaRenderer, HeadingStringRenderer, HtmlOnlyRenderer, ImageRenderer, SpTypeTextRenderer, VerbatimRenderer } from './descriptiontype.js'
+import { DescriptionTypeStringRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeStringRenderer, DocMarkupTypeStringRenderer, DocParamListTypeStringRenderer, DocParaTypeStringRenderer, DocRefTextTypeStringRenderer, DocSimpleSectTypeStringRenderer, DocURLLinkStringRenderer, FormulaStringRenderer, HeadingStringRenderer, HtmlOnlyStringRenderer, ImageStringRenderer, SpTypeStringRenderer, VerbatimStringRenderer } from './descriptiontype.js'
 import { ListingTypeLinesRenderer, CodeLineTypeLinesRenderer, HighlightTypeLinesRenderer } from './listingtype.js'
 import { DocListTypeLinesRenderer } from './doclisttype.js'
 import { DocS1TypeLinesRenderer, DocS2TypeLinesRenderer, DocS3TypeLinesRenderer, DocS4TypeLinesRenderer, DocS5TypeLinesRenderer, DocS6TypeLinesRenderer } from './docinternalstype.js'
 import { DocTitleTypeLinesRenderer } from './doctitletype.js'
-import { DocVariableListTypeTextRenderer, VariableListPairLinesRenderer } from './docvariablelisttype.js'
-import { DocXRefSectTextRenderer } from './docxrefsecttype.js'
+import { DocVariableListTypeStringRenderer, VariableListPairLinesRenderer } from './docvariablelisttype.js'
+import { DocXRefSectTextRenderer as DocXRefSectStringRenderer } from './docxrefsecttype.js'
 import { IncTypeLinesRenderer } from './inctype.js'
-import { LinkedTextTypeTextRenderer } from './linkedtexttype.js'
+import { LinkedTextTypeStringRenderer } from './linkedtexttype.js'
 import { ParamTypeLinesRenderer } from './paramtype.js'
-import { RefTextTypeTextRenderer } from './reftexttype.js'
+import { RefTextTypeStringRenderer } from './reftexttype.js'
 import { RefTypeLinesRenderer } from './reftype.js'
 import { Workspace } from '../workspace.js'
 import { SubstringDocMarkupTypeRenderer } from './substringtype.js'
-import { DocEntryTypeTextRenderer, DocRowTypeLinesRenderer, DocTableTypeLinesRenderer } from './doctabletype.js'
+import { DocEntryTypeStringRenderer, DocRowTypeLinesRenderer, DocTableTypeLinesRenderer } from './doctabletype.js'
 
 // ----------------------------------------------------------------------------
 
 export class Renderers {
   elementLinesRenderers: Map<string, ElementLinesRendererBase> = new Map()
-  elementTextRenderers: Map<string, ElementTextRendererBase> = new Map()
+  elementStringRenderers: Map<string, ElementTextRendererBase> = new Map()
 
   constructor (workspace: Workspace) {
     // Add renderers for the parsed xml elements (in alphabetical order).
@@ -61,26 +61,26 @@ export class Renderers {
     this.elementLinesRenderers.set('VariableListPairDataModel', new VariableListPairLinesRenderer(workspace))
     // console.log(this.elementGenerators.size, 'element generators')
 
-    this.elementTextRenderers.set('AbstractDescriptionType', new DescriptionTypeTextRenderer(workspace))
-    this.elementTextRenderers.set('AbstractDocEmptyType', new DocEmptyTypeLinesRenderer(workspace))
-    this.elementTextRenderers.set('AbstractDocEntryType', new DocEntryTypeTextRenderer(workspace))
-    this.elementTextRenderers.set('AbstractDocFormulaType', new FormulaRenderer(workspace))
-    this.elementTextRenderers.set('AbstractDocHeadingType', new HeadingStringRenderer(workspace))
-    this.elementTextRenderers.set('AbstractDocHtmlOnlyType', new HtmlOnlyRenderer(workspace))
-    this.elementTextRenderers.set('AbstractDocImageType', new ImageRenderer(workspace))
-    this.elementTextRenderers.set('AbstractDocMarkupType', new DocMarkupTypeTextRenderer(workspace))
-    this.elementTextRenderers.set('AbstractDocParaType', new DocParaTypeTextRenderer(workspace))
-    this.elementTextRenderers.set('AbstractDocParamListType', new DocParamListTypeTextRenderer(workspace))
-    this.elementTextRenderers.set('AbstractDocRefTextType', new DocRefTextTypeTextRenderer(workspace))
-    this.elementTextRenderers.set('AbstractDocSimpleSectType', new DocSimpleSectTypeTextRenderer(workspace))
-    this.elementTextRenderers.set('AbstractDocURLLink', new DocURLLinkTextRenderer(workspace))
-    this.elementTextRenderers.set('AbstractDocVariableListType', new DocVariableListTypeTextRenderer(workspace))
-    this.elementTextRenderers.set('AbstractDocXRefSectType', new DocXRefSectTextRenderer(workspace))
-    this.elementTextRenderers.set('AbstractLinkedTextType', new LinkedTextTypeTextRenderer(workspace))
-    this.elementTextRenderers.set('AbstractRefTextType', new RefTextTypeTextRenderer(workspace))
-    this.elementTextRenderers.set('AbstractSpType', new SpTypeTextRenderer(workspace))
-    this.elementTextRenderers.set('AbstractVerbatimType', new VerbatimRenderer(workspace))
-    this.elementTextRenderers.set('SubstringDocMarkupType', new SubstringDocMarkupTypeRenderer(workspace))
+    this.elementStringRenderers.set('AbstractDescriptionType', new DescriptionTypeStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractDocEmptyType', new DocEmptyTypeStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractDocEntryType', new DocEntryTypeStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractDocFormulaType', new FormulaStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractDocHeadingType', new HeadingStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractDocHtmlOnlyType', new HtmlOnlyStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractDocImageType', new ImageStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractDocMarkupType', new DocMarkupTypeStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractDocParaType', new DocParaTypeStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractDocParamListType', new DocParamListTypeStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractDocRefTextType', new DocRefTextTypeStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractDocSimpleSectType', new DocSimpleSectTypeStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractDocURLLink', new DocURLLinkStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractDocVariableListType', new DocVariableListTypeStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractDocXRefSectType', new DocXRefSectStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractLinkedTextType', new LinkedTextTypeStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractRefTextType', new RefTextTypeStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractSpType', new SpTypeStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractVerbatimType', new VerbatimStringRenderer(workspace))
+    this.elementStringRenderers.set('SubstringDocMarkupType', new SubstringDocMarkupTypeRenderer(workspace))
   }
 
   getElementLinesRenderer (element: Object): ElementLinesRendererBase | undefined {
@@ -103,7 +103,7 @@ export class Renderers {
     while (elementClass.name !== '') {
       // console.log(elementClass.name)
       // console.log(this.elementGenerators)
-      const elementGenerator = this.elementTextRenderers.get(elementClass.name)
+      const elementGenerator = this.elementStringRenderers.get(elementClass.name)
       if (elementGenerator !== undefined) {
         return elementGenerator
       }

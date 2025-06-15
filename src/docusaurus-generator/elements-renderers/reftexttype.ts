@@ -20,7 +20,7 @@ import { escapeMdx } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
-export class RefTextTypeTextRenderer extends ElementTextRendererBase {
+export class RefTextTypeStringRenderer extends ElementTextRendererBase {
   renderToMdxText (element: AbstractRefTextType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

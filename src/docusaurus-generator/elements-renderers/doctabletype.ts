@@ -48,7 +48,7 @@ export class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
   }
 }
 
-export class DocEntryTypeTextRenderer extends ElementTextRendererBase {
+export class DocEntryTypeStringRenderer extends ElementTextRendererBase {
   renderToMdxText (element: AbstractDocEntryType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
