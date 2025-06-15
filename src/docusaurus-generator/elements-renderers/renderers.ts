@@ -30,6 +30,7 @@ import { RefTypeLinesRenderer } from './reftype.js'
 import { Workspace } from '../workspace.js'
 import { SubstringDocMarkupTypeRenderer } from './substringtype.js'
 import { DocEntryTypeStringRenderer, DocRowTypeLinesRenderer, DocTableTypeLinesRenderer } from './doctabletype.js'
+import { TocListLinesRenderer } from './tableofcontentstype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -52,6 +53,7 @@ export class Renderers {
     this.elementLinesRenderers.set('AbstractDocSect6Type', new DocS6TypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocTableType', new DocTableTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocTitleType', new DocTitleTypeLinesRenderer(workspace))
+    this.elementLinesRenderers.set('AbstractDocTocListType', new TocListLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractHighlightType', new HighlightTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractIncType', new IncTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractListingType', new ListingTypeLinesRenderer(workspace))
