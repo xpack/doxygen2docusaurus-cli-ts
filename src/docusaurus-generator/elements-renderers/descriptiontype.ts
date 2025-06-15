@@ -15,7 +15,7 @@ import assert from 'assert'
 import util from 'util'
 
 import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js'
-import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocHeadingType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractSpType, AbstractVerbatimType, ParaDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
+import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocHeadingType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractEmojiType, AbstractSpType, AbstractVerbatimType, ParaDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
 import { escapeHtml, escapeQuotes, getPermalinkAnchor } from '../utils.js'
 import { AbstractDocHtmlOnlyType } from '../../data-model/compounds/compounddef-dm.js'
@@ -249,15 +249,20 @@ export class DocEmptyTypeStringRenderer extends ElementTextRendererBase {
   renderToMdxText (element: AbstractDocEmptyType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
-    const lines: string[] = []
+    let text: string = ''
 
     switch (element.constructor.name) {
       case 'HrulerDataModel':
-        lines.push('<hr/>')
+        text += '\n'
+        text += '<hr/>'
         break
 
       case 'LineBreakDataModel':
-        lines.push('\n')
+        text += '\n'
+        break
+
+      case 'NonBreakableSpaceDataModel':
+        text += '&nbsp;'
         break
 
       default:
@@ -265,7 +270,7 @@ export class DocEmptyTypeStringRenderer extends ElementTextRendererBase {
         console.error(element.constructor.name, 'not yet rendered in', this.constructor.name)
     }
 
-    return lines.join('\n')
+    return text
   }
 }
 
@@ -433,6 +438,8 @@ export class ImageStringRenderer extends ElementTextRendererBase {
       }
       text += '\n'
       text += '</figure>'
+    } else if (element.type === 'latex') {
+      // Skipped, no LaTeX images rendered.
     } else {
       console.error('Image type', element.type, 'not rendered in', this.constructor.name)
     }
@@ -469,6 +476,20 @@ export class HeadingStringRenderer extends ElementTextRendererBase {
     text += '#'.repeat(element.level)
     text += ' '
     text += this.workspace.renderElementsArrayToString(element.children)
+
+    return text
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+export class EmojiStringRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractEmojiType): string {
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
+
+    let text = ''
+    // <span class="emoji">&#x1f604;</span>
+    text += `<span class="doxyEmoji">${element.unicode}</span>}`
 
     return text
   }
