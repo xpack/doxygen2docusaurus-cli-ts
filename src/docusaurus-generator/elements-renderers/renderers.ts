@@ -15,7 +15,7 @@ import * as util from 'node:util'
 import assert from 'node:assert'
 
 import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js'
-import { DescriptionTypeStringRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeStringRenderer, DocMarkupTypeStringRenderer, DocParamListTypeStringRenderer, DocParaTypeStringRenderer, DocRefTextTypeStringRenderer, DocSimpleSectTypeStringRenderer, DocURLLinkStringRenderer, FormulaStringRenderer, HeadingStringRenderer, HtmlOnlyStringRenderer, ImageStringRenderer, SpTypeStringRenderer, VerbatimStringRenderer } from './descriptiontype.js'
+import { DescriptionTypeStringRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeStringRenderer, DocMarkupTypeStringRenderer, DocParamListTypeStringRenderer, DocParaTypeStringRenderer, DocRefTextTypeStringRenderer, DocSimpleSectTypeStringRenderer, DocURLLinkStringRenderer, EmojiStringRenderer, FormulaStringRenderer, HeadingStringRenderer, HtmlOnlyStringRenderer, ImageStringRenderer, SpTypeStringRenderer, VerbatimStringRenderer } from './descriptiontype.js'
 import { ListingTypeLinesRenderer, CodeLineTypeLinesRenderer, HighlightTypeLinesRenderer } from './listingtype.js'
 import { DocListTypeLinesRenderer } from './doclisttype.js'
 import { DocS1TypeLinesRenderer, DocS2TypeLinesRenderer, DocS3TypeLinesRenderer, DocS4TypeLinesRenderer, DocS5TypeLinesRenderer, DocS6TypeLinesRenderer } from './docinternalstype.js'
@@ -64,6 +64,7 @@ export class Renderers {
     this.elementStringRenderers.set('AbstractDescriptionType', new DescriptionTypeStringRenderer(workspace))
     this.elementStringRenderers.set('AbstractDocEmptyType', new DocEmptyTypeStringRenderer(workspace))
     this.elementStringRenderers.set('AbstractDocEntryType', new DocEntryTypeStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractEmojiType', new EmojiStringRenderer(workspace))
     this.elementStringRenderers.set('AbstractDocFormulaType', new FormulaStringRenderer(workspace))
     this.elementStringRenderers.set('AbstractDocHeadingType', new HeadingStringRenderer(workspace))
     this.elementStringRenderers.set('AbstractDocHtmlOnlyType', new HtmlOnlyStringRenderer(workspace))
