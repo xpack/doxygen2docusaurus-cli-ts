@@ -23,7 +23,7 @@ import { AbstractDocHtmlOnlyType } from '../../data-model/compounds/compounddef-
 // ----------------------------------------------------------------------------
 
 export class DescriptionTypeStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractDescriptionType): string {
+  renderToString (element: AbstractDescriptionType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     if (element.title !== undefined && element.title.length > 0) {
@@ -31,7 +31,7 @@ export class DescriptionTypeStringRenderer extends ElementStringRendererBase {
     }
 
     let text = ''
-    text += this.workspace.renderElementsArrayToString(element.children).trim()
+    text += this.workspace.renderElementsArrayToString(element.children, type).trim()
 
     // console.log(result)
     return text
@@ -41,11 +41,11 @@ export class DescriptionTypeStringRenderer extends ElementStringRendererBase {
 // ----------------------------------------------------------------------------
 
 export class DocParaTypeStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractDocParaType): string {
+  renderToString (element: AbstractDocParaType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text: string = ''
-    text += this.workspace.renderElementsArrayToString(element.children)
+    text += this.workspace.renderElementsArrayToString(element.children, type)
     if (element instanceof ParaDataModel) {
       text += '\n'
     }
@@ -57,12 +57,12 @@ export class DocParaTypeStringRenderer extends ElementStringRendererBase {
 // ----------------------------------------------------------------------------
 
 export class DocURLLinkStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractDocURLLink): string {
+  renderToString (element: AbstractDocURLLink, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''
     text += `<a href="${element.url}">`
-    text += this.workspace.renderElementsArrayToString(element.children)
+    text += this.workspace.renderElementsArrayToString(element.children, type)
     text += '</a>'
 
     return text
@@ -79,7 +79,7 @@ const htmlElements: { [key: string]: string } = {
 }
 
 export class DocMarkupTypeStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractDocMarkupType): string {
+  renderToString (element: AbstractDocMarkupType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const htmlElement: string | undefined = htmlElements[element.constructor.name]
@@ -91,7 +91,7 @@ export class DocMarkupTypeStringRenderer extends ElementStringRendererBase {
 
     let text = ''
     text += `<${htmlElement}>`
-    text += this.workspace.renderElementsArrayToString(element.children)
+    text += this.workspace.renderElementsArrayToString(element.children, type)
     text += `</${htmlElement}>`
 
     return text
@@ -101,7 +101,7 @@ export class DocMarkupTypeStringRenderer extends ElementStringRendererBase {
 // ----------------------------------------------------------------------------
 
 export class DocRefTextTypeStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractDocRefTextType): string {
+  renderToString (element: AbstractDocRefTextType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     if (element.external !== undefined && element.external.length > 0) {
@@ -121,10 +121,10 @@ export class DocRefTextTypeStringRenderer extends ElementStringRendererBase {
 
     if (permalink !== undefined && permalink.length > 1) {
       text += `<a href="${permalink}">`
-      text += this.workspace.renderElementsArrayToString(element.children)
+      text += this.workspace.renderElementsArrayToString(element.children, type)
       text += '</a>'
     } else {
-      text += this.workspace.renderElementsArrayToString(element.children)
+      text += this.workspace.renderElementsArrayToString(element.children, type)
     }
 
     return text
@@ -157,7 +157,7 @@ export class DocRefTextTypeStringRenderer extends ElementStringRendererBase {
 // </xsd:simpleType>
 
 export class DocSimpleSectTypeStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractDocSimpleSectType): string {
+  renderToString (element: AbstractDocSimpleSectType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -187,30 +187,30 @@ export class DocSimpleSectTypeStringRenderer extends ElementStringRendererBase {
     lines.push('')
     if (DoxSimpleSectKind[element.kind] !== undefined) {
       lines.push(`<SectionUser title="${DoxSimpleSectKind[element.kind]}">`)
-      lines.push(this.workspace.renderElementsArrayToString(element.children).trim())
+      lines.push(this.workspace.renderElementsArrayToString(element.children, type).trim())
       lines.push('</SectionUser>')
     } else if (element.kind === 'par') {
       assert(element.title !== undefined)
       const title = element.title.replace(/\.$/, '')
       lines.push(`<SectionUser title="${title}">`)
-      lines.push(this.workspace.renderElementsArrayToString(element.children).trim())
+      lines.push(this.workspace.renderElementsArrayToString(element.children, type).trim())
       lines.push('</SectionUser>')
     } else if (element.kind === 'note') {
       // https://docusaurus.io/docs/markdown-features/admonitions
       lines.push(':::info')
-      lines.push(this.workspace.renderElementToString(element.children).trim())
+      lines.push(this.workspace.renderElementToString(element.children, type).trim())
       lines.push(':::')
     } else if (element.kind === 'warning') {
       lines.push(':::warning')
-      lines.push(this.workspace.renderElementToString(element.children).trim())
+      lines.push(this.workspace.renderElementToString(element.children, type).trim())
       lines.push(':::')
     } else if (element.kind === 'attention') {
       lines.push(':::danger')
-      lines.push(this.workspace.renderElementToString(element.children).trim())
+      lines.push(this.workspace.renderElementToString(element.children, type).trim())
       lines.push(':::')
     } else if (element.kind === 'important') {
       lines.push(':::tip')
-      lines.push(this.workspace.renderElementToString(element.children).trim())
+      lines.push(this.workspace.renderElementToString(element.children, type).trim())
       lines.push(':::')
     } else {
       console.error(util.inspect(element, { compact: false, depth: 999 }))
@@ -225,7 +225,7 @@ export class DocSimpleSectTypeStringRenderer extends ElementStringRendererBase {
 // ----------------------------------------------------------------------------
 
 export class SpTypeStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractSpType): string {
+  renderToString (element: AbstractSpType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text: string = ''
@@ -246,7 +246,7 @@ export class SpTypeStringRenderer extends ElementStringRendererBase {
 // ----------------------------------------------------------------------------
 
 export class DocEmptyTypeStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractDocEmptyType): string {
+  renderToString (element: AbstractDocEmptyType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text: string = ''
@@ -277,7 +277,7 @@ export class DocEmptyTypeStringRenderer extends ElementStringRendererBase {
 // ----------------------------------------------------------------------------
 
 export class DocParamListTypeStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractDocParamListType): string {
+  renderToString (element: AbstractDocParamListType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -323,7 +323,7 @@ export class DocParamListTypeStringRenderer extends ElementStringRendererBase {
                         names.push((subChild))
                       }
                     } else if (subChild instanceof AbstractRefTextType) {
-                      const name = this.workspace.renderElementToString(subChild)
+                      const name = this.workspace.renderElementToString(subChild, type)
                       names.push(name)
                     } else {
                       console.error(util.inspect(subChild, { compact: false, depth: 999 }))
@@ -334,7 +334,7 @@ export class DocParamListTypeStringRenderer extends ElementStringRendererBase {
               }
             }
 
-            const parameterLines = this.workspace.renderElementToString(parameterItem.parameterDescription).split('\n')
+            const parameterLines = this.workspace.renderElementToString(parameterItem.parameterDescription, type).split('\n')
             const escapedName = escapeQuotes(names.join(', '))
             if (parameterLines.length > 1) {
               lines.push(`<ParametersListItem name="${escapedName}">`)
@@ -360,7 +360,7 @@ export class DocParamListTypeStringRenderer extends ElementStringRendererBase {
 // ----------------------------------------------------------------------------
 
 export class DocAnchorTypeLinesRenderer extends ElementLinesRendererBase {
-  override renderToMdxLines (element: AbstractDocAnchorType): string[] {
+  override renderToLines (element: AbstractDocAnchorType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -375,14 +375,14 @@ export class DocAnchorTypeLinesRenderer extends ElementLinesRendererBase {
 // ----------------------------------------------------------------------------
 
 export class VerbatimStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractVerbatimType): string {
+  renderToString (element: AbstractVerbatimType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''
     text += '\n' // This is to end the previous line
     text += '\n' // This is an empty line for aesthetics.
     text += '<CodeBlock>\n'
-    text += this.workspace.renderElementToString(element.text)
+    text += this.workspace.renderElementToString(element.text, type)
     text += '</CodeBlock>'
 
     return text
@@ -392,13 +392,13 @@ export class VerbatimStringRenderer extends ElementStringRendererBase {
 // ----------------------------------------------------------------------------
 
 export class FormulaStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractDocFormulaType): string {
+  renderToString (element: AbstractDocFormulaType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''
     text += '<CodeBlock>'
     // element.id is ignored.
-    text += this.workspace.renderElementToString(element.text)
+    text += this.workspace.renderElementToString(element.text, type)
     text += '</CodeBlock>'
 
     return text
@@ -408,7 +408,7 @@ export class FormulaStringRenderer extends ElementStringRendererBase {
 // ----------------------------------------------------------------------------
 
 export class ImageStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractDocImageType): string {
+  renderToString (element: AbstractDocImageType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''
@@ -450,7 +450,7 @@ export class ImageStringRenderer extends ElementStringRendererBase {
 // ----------------------------------------------------------------------------
 
 export class HtmlOnlyStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractDocHtmlOnlyType): string {
+  renderToString (element: AbstractDocHtmlOnlyType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''
@@ -463,7 +463,7 @@ export class HtmlOnlyStringRenderer extends ElementStringRendererBase {
 // ----------------------------------------------------------------------------
 
 export class HeadingStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractDocHeadingType): string {
+  renderToString (element: AbstractDocHeadingType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''
@@ -475,7 +475,7 @@ export class HeadingStringRenderer extends ElementStringRendererBase {
     text += '\n'
     text += '#'.repeat(element.level)
     text += ' '
-    text += this.workspace.renderElementsArrayToString(element.children)
+    text += this.workspace.renderElementsArrayToString(element.children, type)
 
     return text
   }
@@ -484,7 +484,7 @@ export class HeadingStringRenderer extends ElementStringRendererBase {
 // ----------------------------------------------------------------------------
 
 export class EmojiStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractEmojiType): string {
+  renderToString (element: AbstractEmojiType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''

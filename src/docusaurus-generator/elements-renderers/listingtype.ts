@@ -19,7 +19,7 @@ import { ElementLinesRendererBase } from './element-renderer-base.js'
 // ----------------------------------------------------------------------------
 
 export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
-  override renderToMdxLines (element: AbstractListingType): string[] {
+  override renderToLines (element: AbstractListingType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -35,7 +35,7 @@ export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
     lines.push(text)
 
     lines.push('')
-    lines.push(...this.workspace.renderElementsArrayToLines(element.codelines))
+    lines.push(...this.workspace.renderElementsArrayToLines(element.codelines, type))
 
     lines.push('')
     lines.push('</ProgramListing>')
@@ -46,7 +46,7 @@ export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
 }
 
 export class CodeLineTypeLinesRenderer extends ElementLinesRendererBase {
-  override renderToMdxLines (element: AbstractCodeLineType): string[] {
+  override renderToLines (element: AbstractCodeLineType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
     assert(element instanceof CodeLineDataModel)
 
@@ -78,7 +78,7 @@ export class CodeLineTypeLinesRenderer extends ElementLinesRendererBase {
     }
     text += '>'
 
-    text += this.workspace.renderElementsArrayToString(element.highlights)
+    text += this.workspace.renderElementsArrayToString(element.highlights, type)
 
     text += '</CodeLine>'
 
@@ -101,7 +101,7 @@ export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
     charliteral: 'doxyHighlightCharLiteral'
   }
 
-  override renderToMdxLines (element: AbstractHighlightType): string[] {
+  override renderToLines (element: AbstractHighlightType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
     assert(element instanceof HighlightDataModel)
 
@@ -116,7 +116,7 @@ export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
 
     if (element.children.length > 0) {
       text += `<span class="${spanClass}">`
-      text += this.workspace.renderElementsArrayToString(element.children)
+      text += this.workspace.renderElementsArrayToString(element.children, type)
       text += '</span>'
     }
 

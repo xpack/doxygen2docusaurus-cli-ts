@@ -250,7 +250,7 @@ export class DocusaurusGenerator {
         keywords: ['doxygen', 'reference', `${compound.kind as string}`]
       }
 
-      const bodyLines = compound.renderToMdxLines(frontMatter)
+      const bodyLines = compound.renderToLines(frontMatter)
       const pagePermalink = `${this.workspace.pageBaseUrl}${compound.relativePermalink}`
 
       await this.workspace.writeMdxFile({

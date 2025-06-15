@@ -165,7 +165,7 @@ export class Section {
     assert(this._private._sectionDef !== undefined)
     const sectionDef = this._private._sectionDef
     if (sectionDef.description !== undefined) {
-      this.descriptionMdxText = workspace.renderElementToString(sectionDef.description)
+      this.descriptionMdxText = workspace.renderElementToString(sectionDef.description, 'mdx')
       // console.log(this.indexMembers, this.descriptionMdxText)
     }
   }
@@ -286,7 +286,7 @@ export class Section {
 
   // --------------------------------------------------------------------------
 
-  renderToMdxLines (): string[] {
+  renderToLines (): string[] {
     const lines: string[] = []
 
     if (!this.hasDefinitionMembers()) {
@@ -310,7 +310,7 @@ export class Section {
     }
 
     for (const member of this.definitionMembers) {
-      lines.push(...member.renderToMdxLines())
+      lines.push(...member.renderToLines())
     }
 
     lines.push('')
@@ -382,21 +382,21 @@ export class Member extends MemberBase {
     const workspace = this.section.compound.collection.workspace
 
     if (memberDef.briefDescription !== undefined) {
-      this.briefDescriptionMdxText = workspace.renderElementToString(memberDef.briefDescription)
+      this.briefDescriptionMdxText = workspace.renderElementToString(memberDef.briefDescription, 'mdx')
     }
 
     if (memberDef.detailedDescription !== undefined) {
-      this.detailedDescriptionMdxText = workspace.renderElementToString(memberDef.detailedDescription)
+      this.detailedDescriptionMdxText = workspace.renderElementToString(memberDef.detailedDescription, 'mdx')
     }
 
     this.argsstring = memberDef.argsstring
 
     if (memberDef.type !== undefined) {
-      this.typeMdxText = workspace.renderElementToString(memberDef.type).trim()
+      this.typeMdxText = workspace.renderElementToString(memberDef.type, 'mdx').trim()
     }
 
     if (memberDef.initializer !== undefined) {
-      this.initializerMdxText = workspace.renderElementToString(memberDef.initializer)
+      this.initializerMdxText = workspace.renderElementToString(memberDef.initializer, 'mdx')
     }
 
     if (memberDef.location !== undefined) {
@@ -463,7 +463,7 @@ export class Member extends MemberBase {
     if (memberDef.params !== undefined) {
       const parameters: string[] = []
       for (const param of memberDef.params) {
-        parameters.push(workspace.renderElementToString(param))
+        parameters.push(workspace.renderElementToString(param, 'mdx'))
       }
       this.parameters = parameters.join(', ')
     }
@@ -663,7 +663,7 @@ export class Member extends MemberBase {
 
   // --------------------------------------------------------------------------
 
-  renderToMdxLines (): string[] {
+  renderToLines (): string[] {
     const lines: string[] = []
 
     const isFunction: boolean = this.section.kind.startsWith('func') || this.section.kind.endsWith('func') || this.section.kind.endsWith('constructorr') || this.section.kind.endsWith('destructor') || this.section.kind.endsWith('operator')
@@ -869,7 +869,7 @@ export class Member extends MemberBase {
 
       default:
         lines.push('')
-        console.warn('memberDef', this.kind, this.name, 'not implemented yet in', this.constructor.name, 'renderToMdxLines')
+        console.warn('memberDef', this.kind, this.name, 'not implemented yet in', this.constructor.name, 'renderToLines')
     }
 
     return lines
@@ -887,9 +887,9 @@ export class Member extends MemberBase {
 
     if (memberDef.enumvalues !== undefined) {
       for (const enumValue of memberDef.enumvalues) {
-        let enumBriefDescription: string = workspace.renderElementToString(enumValue.briefDescription).replace(/[.]$/, '')
+        let enumBriefDescription: string = workspace.renderElementToString(enumValue.briefDescription, 'mdx').replace(/[.]$/, '')
         const anchor = getPermalinkAnchor(enumValue.id)
-        const value = workspace.renderElementToString(enumValue.initializer)
+        const value = workspace.renderElementToString(enumValue.initializer, 'mdx')
         if (value.length > 0) {
           enumBriefDescription += ` (${value})`
         }

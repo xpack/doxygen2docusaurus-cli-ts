@@ -19,7 +19,7 @@ import { SubstringDocMarkupType } from '../../data-model/compounds/descriptionty
 // ----------------------------------------------------------------------------
 
 export class SubstringDocMarkupTypeRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: SubstringDocMarkupType): string {
+  renderToString (element: SubstringDocMarkupType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     return element.substring

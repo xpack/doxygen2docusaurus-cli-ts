@@ -20,19 +20,19 @@ import { AbstractDocVariableListType, VariableListPairDataModel } from '../../da
 // ----------------------------------------------------------------------------
 
 export class DocVariableListTypeStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractDocVariableListType): string {
+  renderToString (element: AbstractDocVariableListType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text: string = ''
 
-    text += this.workspace.renderElementsArrayToString(element.children)
+    text += this.workspace.renderElementsArrayToString(element.children, type)
 
     return text
   }
 }
 
 export class VariableListPairLinesRenderer extends ElementLinesRendererBase {
-  override renderToMdxLines (element: VariableListPairDataModel): string[] {
+  override renderToLines (element: VariableListPairDataModel, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -41,11 +41,11 @@ export class VariableListPairLinesRenderer extends ElementLinesRendererBase {
     // console.log(element.listitem.paras)
 
     // WARNING: the title includes <b></b>
-    const title = this.workspace.renderElementToString(element.varlistentry.term).trim()
+    const title = this.workspace.renderElementToString(element.varlistentry.term, type).trim()
 
     lines.push('')
     lines.push(`<Reference title={<>${title}</>}>`)
-    lines.push(this.workspace.renderElementsArrayToString(element.listitem.paras).trim())
+    lines.push(this.workspace.renderElementsArrayToString(element.listitem.paras, type).trim())
     lines.push('</Reference>')
     lines.push('')
 

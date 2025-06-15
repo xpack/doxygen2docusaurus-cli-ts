@@ -26,12 +26,12 @@ import { AbstractLinkedTextType } from '../../data-model/compounds/linkedtexttyp
 // </xsd:complexType>
 
 export class LinkedTextTypeStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractLinkedTextType): string {
+  renderToString (element: AbstractLinkedTextType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text: string = ''
 
-    text += this.workspace.renderElementsArrayToString(element.children)
+    text += this.workspace.renderElementsArrayToString(element.children, type)
 
     return text
   }

@@ -24,110 +24,110 @@ import { AbstractDocSect1Type, AbstractDocSect2Type, AbstractDocSect3Type, Abstr
 // in the table of contents.
 
 export class DocS1TypeLinesRenderer extends ElementLinesRendererBase {
-  override renderToMdxLines (element: AbstractDocSect1Type): string[] {
+  override renderToLines (element: AbstractDocSect1Type, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
 
-    const title = this.workspace.renderElementToString(element.title).trim().replace(/\.$/, '')
+    const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '')
     if (title.length > 0) {
       lines.push('')
       lines.push(`## ${title}`)
     }
 
     lines.push('')
-    lines.push(...this.workspace.renderElementsArrayToLines(element.children))
+    lines.push(...this.workspace.renderElementsArrayToLines(element.children, type))
 
     return lines
   }
 }
 
 export class DocS2TypeLinesRenderer extends ElementLinesRendererBase {
-  override renderToMdxLines (element: AbstractDocSect2Type): string[] {
+  override renderToLines (element: AbstractDocSect2Type, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
 
-    const title = this.workspace.renderElementToString(element.title).trim().replace(/\.$/, '')
+    const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '')
     if (title.length > 0) {
       lines.push('')
       lines.push(`### ${title}`)
     }
     lines.push('')
-    lines.push(...this.workspace.renderElementsArrayToLines(element.children))
+    lines.push(...this.workspace.renderElementsArrayToLines(element.children, type))
 
     return lines
   }
 }
 
 export class DocS3TypeLinesRenderer extends ElementLinesRendererBase {
-  override renderToMdxLines (element: AbstractDocSect3Type): string[] {
+  override renderToLines (element: AbstractDocSect3Type, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
 
-    const title = this.workspace.renderElementToString(element.title).trim().replace(/\.$/, '')
+    const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '')
     if (title.length > 0) {
       lines.push('')
       lines.push(`#### ${title}`)
     }
     lines.push('')
-    lines.push(...this.workspace.renderElementsArrayToLines(element.children))
+    lines.push(...this.workspace.renderElementsArrayToLines(element.children, type))
 
     return lines
   }
 }
 
 export class DocS4TypeLinesRenderer extends ElementLinesRendererBase {
-  override renderToMdxLines (element: AbstractDocSect4Type): string[] {
+  override renderToLines (element: AbstractDocSect4Type, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
 
-    const title = this.workspace.renderElementToString(element.title).trim().replace(/\.$/, '')
+    const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '')
     if (title.length > 0) {
       lines.push('')
       lines.push(`##### ${title}`)
     }
     lines.push('')
-    lines.push(...this.workspace.renderElementsArrayToLines(element.children))
+    lines.push(...this.workspace.renderElementsArrayToLines(element.children, type))
 
     return lines
   }
 }
 
 export class DocS5TypeLinesRenderer extends ElementLinesRendererBase {
-  override renderToMdxLines (element: AbstractDocSect5Type): string[] {
+  override renderToLines (element: AbstractDocSect5Type, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
 
-    const title = this.workspace.renderElementToString(element.title).trim().replace(/\.$/, '')
+    const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '')
     if (title.length > 0) {
       lines.push('')
       lines.push(`###### ${title}`)
     }
     lines.push('')
-    lines.push(...this.workspace.renderElementsArrayToLines(element.children))
+    lines.push(...this.workspace.renderElementsArrayToLines(element.children, type))
 
     return lines
   }
 }
 
 export class DocS6TypeLinesRenderer extends ElementLinesRendererBase {
-  override renderToMdxLines (element: AbstractDocSect6Type): string[] {
+  override renderToLines (element: AbstractDocSect6Type, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
 
-    const title = this.workspace.renderElementToString(element.title).trim().replace(/\.$/, '')
+    const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '')
     if (title.length > 0) {
       lines.push('')
       lines.push(`####### ${title}`)
     }
 
     lines.push('')
-    lines.push(...this.workspace.renderElementsArrayToLines(element.children))
+    lines.push(...this.workspace.renderElementsArrayToLines(element.children, type))
 
     return lines
   }

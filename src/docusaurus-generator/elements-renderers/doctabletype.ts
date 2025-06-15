@@ -21,13 +21,13 @@ import { escapeHtml } from '../utils.js'
 // ----------------------------------------------------------------------------
 
 export class DocTableTypeLinesRenderer extends ElementLinesRendererBase {
-  override renderToMdxLines (element: AbstractDocTableType): string[] {
+  override renderToLines (element: AbstractDocTableType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
 
     lines.push('<table class="markdownTable">')
-    lines.push(...this.workspace.renderElementsArrayToLines(element.rows))
+    lines.push(...this.workspace.renderElementsArrayToLines(element.rows, type))
     lines.push('</table>')
 
     return lines
@@ -35,13 +35,13 @@ export class DocTableTypeLinesRenderer extends ElementLinesRendererBase {
 }
 
 export class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
-  override renderToMdxLines (element: AbstractDocRowType): string[] {
+  override renderToLines (element: AbstractDocRowType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
 
     lines.push('  <tr class="markdownTableRow">')
-    lines.push(...this.workspace.renderElementsArrayToLines(element.entries))
+    lines.push(...this.workspace.renderElementsArrayToLines(element.entries, type))
     lines.push('  </tr>')
 
     return lines
@@ -49,12 +49,12 @@ export class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
 }
 
 export class DocEntryTypeStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractDocEntryType): string {
+  renderToString (element: AbstractDocEntryType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text: string = ''
 
-    const entry = escapeHtml(this.workspace.renderElementsArrayToString(element.paras).trim())
+    const entry = escapeHtml(this.workspace.renderElementsArrayToString(element.paras, type).trim())
     if (element.thead) {
       text += `    <th class="markdownTableColumn">${entry}</th>`
     } else {

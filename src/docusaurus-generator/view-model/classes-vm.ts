@@ -648,7 +648,7 @@ export class Class extends CompoundBase {
 
   // --------------------------------------------------------------------------
 
-  override renderToMdxLines (frontMatter: FrontMatter): string[] {
+  override renderToLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
     frontMatter.toc_max_heading_level = 3

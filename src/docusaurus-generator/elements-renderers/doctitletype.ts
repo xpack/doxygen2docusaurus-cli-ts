@@ -20,16 +20,16 @@ import { AbstractDocTitleType, TitleDataModel } from '../../data-model/compounds
 // ----------------------------------------------------------------------------
 
 export class DocTitleTypeLinesRenderer extends ElementLinesRendererBase {
-  override renderToMdxLines (element: AbstractDocTitleType): string[] {
+  override renderToLines (element: AbstractDocTitleType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''
 
     if (element instanceof TitleDataModel) {
-      text += this.workspace.renderElementsArrayToString(element.children)
+      text += this.workspace.renderElementsArrayToString(element.children, type)
     } else {
       text += '<b>'
-      text += this.workspace.renderElementsArrayToString(element.children)
+      text += this.workspace.renderElementsArrayToString(element.children, type)
       text += '</b>'
     }
 

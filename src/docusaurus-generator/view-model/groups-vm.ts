@@ -338,7 +338,7 @@ export class Group extends CompoundBase {
 
   // --------------------------------------------------------------------------
 
-  override renderToMdxLines (frontMatter: FrontMatter): string[] {
+  override renderToLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
     const descriptionTodo = `@defgroup ${escapeMdx(this.compoundName)}`

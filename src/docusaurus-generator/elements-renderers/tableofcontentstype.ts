@@ -20,7 +20,7 @@ import { AbstractDocTocListType } from '../../data-model/compounds/tableofconten
 // ----------------------------------------------------------------------------
 
 export class TocListLinesRenderer extends ElementLinesRendererBase {
-  renderToMdxLines (element: AbstractDocTocListType): string[] {
+  renderToLines (element: AbstractDocTocListType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []

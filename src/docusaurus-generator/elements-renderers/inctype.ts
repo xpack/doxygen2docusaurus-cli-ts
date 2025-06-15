@@ -20,7 +20,7 @@ import { AbstractIncType } from '../../data-model/compounds/inctype-dm.js'
 // ----------------------------------------------------------------------------
 
 export class IncTypeLinesRenderer extends ElementLinesRendererBase {
-  override renderToMdxLines (element: AbstractIncType): string[] {
+  override renderToLines (element: AbstractIncType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []

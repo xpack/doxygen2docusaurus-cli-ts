@@ -21,7 +21,7 @@ import { escapeMdx } from '../utils.js'
 // ----------------------------------------------------------------------------
 
 export class RefTextTypeStringRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractRefTextType): string {
+  renderToString (element: AbstractRefTextType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     if (element.external !== undefined) {

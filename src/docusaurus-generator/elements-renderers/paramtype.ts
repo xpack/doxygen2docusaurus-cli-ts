@@ -33,7 +33,7 @@ import { AbstractParamType } from '../../data-model/compounds/paramtype-dm.js'
 // </xsd:complexType>
 
 export class ParamTypeLinesRenderer extends ElementLinesRendererBase {
-  override renderToMdxLines (element: AbstractParamType): string[] {
+  override renderToLines (element: AbstractParamType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     if (element.attributes !== undefined) {
@@ -55,14 +55,14 @@ export class ParamTypeLinesRenderer extends ElementLinesRendererBase {
 
     let text = ''
 
-    text += this.workspace.renderElementToString(element.type)
+    text += this.workspace.renderElementToString(element.type, type)
     if (element.declname !== undefined) {
       text += ` ${element.declname}`
       if (element.array !== undefined) {
         text += `=${element.array}`
       }
       if (element.defval !== undefined) {
-        text += `=${this.workspace.renderElementToString(element.defval)}`
+        text += `=${this.workspace.renderElementToString(element.defval, type)}`
       }
     }
 

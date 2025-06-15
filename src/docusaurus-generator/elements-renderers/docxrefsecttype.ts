@@ -21,7 +21,7 @@ import { escapeMdx } from '../utils.js'
 // ----------------------------------------------------------------------------
 
 export class DocXRefSectTextRenderer extends ElementStringRendererBase {
-  renderToMdxText (element: AbstractDocXRefSectType): string {
+  renderToString (element: AbstractDocXRefSectType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -31,7 +31,7 @@ export class DocXRefSectTextRenderer extends ElementStringRendererBase {
     lines.push(`  title="${escapeMdx(element.xreftitle ?? '?')}"`)
     const permalink: string = this.workspace.getXrefPermalink(element.id)
     lines.push(`  permalink="${permalink}">`)
-    lines.push(this.workspace.renderElementToString(element.xrefdescription))
+    lines.push(this.workspace.renderElementToString(element.xrefdescription, type))
     // lines.push('')
     lines.push('</XrefSect>')
 

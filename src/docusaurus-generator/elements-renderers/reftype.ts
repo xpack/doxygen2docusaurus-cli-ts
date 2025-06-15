@@ -21,7 +21,7 @@ import { escapeMdx } from '../utils.js'
 // ----------------------------------------------------------------------------
 
 export class RefTypeLinesRenderer extends ElementLinesRendererBase {
-  override renderToMdxLines (element: AbstractRefType): string[] {
+  override renderToLines (element: AbstractRefType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     if (element.prot !== undefined) {

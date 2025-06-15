@@ -433,7 +433,7 @@ export class Folder extends CompoundBase {
 
   // --------------------------------------------------------------------------
 
-  override renderToMdxLines (frontMatter: FrontMatter): string[] {
+  override renderToLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
     const descriptionTodo = `@dir ${escapeMdx(this.relativePath)}`
@@ -511,7 +511,7 @@ export class File extends CompoundBase {
 
   // --------------------------------------------------------------------------
 
-  override renderToMdxLines (frontMatter: FrontMatter): string[] {
+  override renderToLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
     const descriptionTodo = `@file ${escapeMdx(this.relativePath)}`
@@ -548,7 +548,7 @@ export class File extends CompoundBase {
       lines.push('')
       lines.push('The file content with the documentation metadata removed is:')
 
-      lines.push(...this.collection.workspace.renderElementToLines(this.programListing))
+      lines.push(...this.collection.workspace.renderElementToLines(this.programListing, 'mdx'))
     }
 
     return lines
