@@ -1500,15 +1500,19 @@ export function parseDocTitleCmdGroup (
   } else if (xml.hasInnerElement(element, 'htmlonly')) {
     children.push(new HtmlOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'manonly')) {
+    // Skipped, no Man output.
     children.push(new ManOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'xmlonly')) {
     children.push(new XmlOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'rtfonly')) {
-    children.push(new RtfOnlyDataModel(xml, element))
+    // Skipped, no RTF output.
+    // children.push(new RtfOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'latexonly')) {
-    children.push(new LatexOnlyDataModel(xml, element))
+    // Skipped, no LaTeX output.
+    // children.push(new LatexOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'docbookonly')) {
-    children.push(new DocBookOnlyDataModel(xml, element))
+    // Skipped, no DocBook output.
+    // children.push(new DocBookOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'image')) {
     children.push(new ImageDataModel(xml, element))
     // dot
@@ -2462,14 +2466,18 @@ function parseDocCmdGroup (
   } else if (xml.hasInnerElement(element, 'htmlonly')) {
     children.push(new HtmlOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'manonly')) {
+    // Skipped, no Man output.
     children.push(new ManOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'xmlonly')) {
     children.push(new XmlOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'rtfonly')) {
+    // Skipped, no RTF output.
     children.push(new RtfOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'latexonly')) {
-    children.push(new LatexOnlyDataModel(xml, element))
+    // Skipped, no LaTeX output.
+    // children.push(new LatexOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'docbookonly')) {
+    // Skipped, no DocBook output.
     children.push(new DocBookOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'image')) {
     children.push(new ImageDataModel(xml, element))
@@ -3023,7 +3031,8 @@ function parseDocCmdGroup (
     // javadocliteral
     // javadoccode
   } else if (xml.hasInnerElement(element, 'indexentry')) {
-    children.push(new IndexEntryDataModel(xml, element))
+    // Skipped, no index rendered.
+    // children.push(new IndexEntryDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'orderedlist')) {
     children.push(new OrderedListDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'itemizedlist')) {
