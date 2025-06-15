@@ -283,12 +283,12 @@ export abstract class CompoundBase {
     if (compoundDef.detailedDescription !== undefined) {
       this.detailedDescriptionMdxText = workspace.renderElementToString(compoundDef.detailedDescription)
 
-      for (const child of compoundDef.detailedDescription.children) {
-        if (child instanceof Sect1DataModel) {
-          this.hasSect1InDescription = true
-          break
-        }
-      }
+      // for (const child of compoundDef.detailedDescription.children) {
+      //   if (child instanceof Sect1DataModel) {
+      //     this.hasSect1InDescription = true
+      //     break
+      //   }
+      // }
     }
 
     if (this.kind === 'page') {
