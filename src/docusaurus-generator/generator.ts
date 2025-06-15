@@ -213,13 +213,13 @@ export class DocusaurusGenerator {
     }
 
     for (const [compoundId, compound] of this.workspace.compoundsById) {
-      if (compound instanceof Page && compound.id === 'indexpage') {
-        // This is the @mainpage. We diverge from Doxygen and generate
-        // the API main page differently, with the list of topics and
-        // this page detailed description. Therefore it is not generated
-        // as a regular page and must be skipped at this stage.
-        continue
-      }
+      // if (compound instanceof Page && compound.id === 'indexpage') {
+      //   // This is the @mainpage. We diverge from Doxygen and generate
+      //   // the API main page differently, with the list of topics and
+      //   // this page detailed description. Therefore it is not generated
+      //   // as a regular page and must be skipped at this stage.
+      //   continue
+      // }
 
       this.workspace.currentCompound = compound
 
