@@ -574,7 +574,7 @@ export class Workspace {
     }
 
     console.error(util.inspect(element, { compact: false, depth: 999 }))
-    console.error('no element lines renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToMdxLines')
+    console.error('no element lines renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToLines')
     assert(false)
   }
 
@@ -617,14 +617,14 @@ export class Workspace {
       return textRenderer.renderToMdxText(element, type)
     }
 
-    // console.warn('trying element lines renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToMdxText')
+    // console.warn('trying element lines renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToString')
     const linesRenderer: ElementLinesRendererBase | undefined = this.elementRenderers.getElementLinesRenderer(element)
     if (linesRenderer !== undefined) {
       return linesRenderer.renderToMdxLines(element, type).join('\n')
     }
 
     console.error(util.inspect(element, { compact: false, depth: 999 }))
-    console.error('no element text renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToMdxText')
+    console.error('no element text renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToString')
     return ''
   }
 

@@ -447,7 +447,12 @@ export class HtmlOnlyRenderer extends ElementTextRendererBase {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''
-    text += this.workspace.renderElementToMdxText(element.text)
+    text += this.workspace.renderElementToString(element.text, 'unchanged')
+
+    return text
+  }
+}
+
 
     return text
   }
