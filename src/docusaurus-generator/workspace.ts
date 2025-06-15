@@ -528,7 +528,7 @@ export class Workspace {
 
   // --------------------------------------------------------------------------
 
-  renderElementsToMdxLines (elements: Object[] | undefined): string[] {
+  renderElementsArrayToLines (elements: Object[] | undefined, type: string = 'mdx'): string[] {
     if (!Array.isArray(elements)) {
       return []
     }
@@ -536,37 +536,41 @@ export class Workspace {
     const lines: string[] = []
 
     for (const element of elements) {
-      lines.push(...this.renderElementToMdxLines(element))
+      lines.push(...this.renderElementToLines(element, type))
     }
 
     return lines
   }
 
-  renderElementToMdxLines (element: Object | undefined): string[] {
+  renderElementToLines (element: Object | undefined, type: string = 'mdx'): string[] {
     if (element === undefined) {
       return []
     }
 
     if (typeof element === 'string') {
-      return [escapeMdx(element)]
+      if (type === 'unchanged') {
+        return [element]
+      } else {
+        return [escapeMdx(element)]
+      }
     }
 
     if (Array.isArray(element)) {
       const lines: string[] = []
       for (const elementOfArray of element) {
-        lines.push(...this.renderElementToMdxLines(elementOfArray))
+        lines.push(...this.renderElementToLines(elementOfArray, type))
       }
       return lines
     }
 
     const linesRenderer: ElementLinesRendererBase | undefined = this.elementRenderers.getElementLinesRenderer(element)
     if (linesRenderer !== undefined) {
-      return linesRenderer.renderToMdxLines(element)
+      return linesRenderer.renderToMdxLines(element, type)
     }
 
     const textRenderer: ElementTextRendererBase | undefined = this.elementRenderers.getElementTextRenderer(element)
     if (textRenderer !== undefined) {
-      return [textRenderer.renderToMdxText(element)]
+      return [textRenderer.renderToMdxText(element, type)]
     }
 
     console.error(util.inspect(element, { compact: false, depth: 999 }))
@@ -574,45 +578,49 @@ export class Workspace {
     assert(false)
   }
 
-  renderElementsToMdxText (elements: Object[] | undefined): string {
+  renderElementsArrayToString (elements: Object[] | undefined, type: string = 'mdx'): string {
     if (elements === undefined) {
       return ''
     }
 
     let text = ''
     for (const element of elements) {
-      text += this.renderElementToMdxText(element)
+      text += this.renderElementToString(element, type)
     }
 
     return text
   }
 
-  renderElementToMdxText (element: Object | undefined): string {
+  renderElementToString (element: Object | undefined, type: string = 'mdx'): string {
     if (element === undefined) {
       return ''
     }
 
     if (typeof element === 'string') {
-      return escapeMdx(element)
+      if (type === 'unchanged') {
+        return element
+      } else {
+        return escapeMdx(element)
+      }
     }
 
     if (Array.isArray(element)) {
       let text = ''
       for (const elementOfArray of element) {
-        text += this.renderElementToMdxText(elementOfArray)
+        text += this.renderElementToString(elementOfArray, type)
       }
       return text
     }
 
     const textRenderer: ElementTextRendererBase | undefined = this.elementRenderers.getElementTextRenderer(element)
     if (textRenderer !== undefined) {
-      return textRenderer.renderToMdxText(element)
+      return textRenderer.renderToMdxText(element, type)
     }
 
     // console.warn('trying element lines renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToMdxText')
     const linesRenderer: ElementLinesRendererBase | undefined = this.elementRenderers.getElementLinesRenderer(element)
     if (linesRenderer !== undefined) {
-      return linesRenderer.renderToMdxLines(element).join('\n')
+      return linesRenderer.renderToMdxLines(element, type).join('\n')
     }
 
     console.error(util.inspect(element, { compact: false, depth: 999 }))

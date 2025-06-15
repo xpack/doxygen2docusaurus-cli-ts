@@ -35,7 +35,7 @@ export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
     lines.push(text)
 
     lines.push('')
-    lines.push(...this.workspace.renderElementsToMdxLines(element.codelines))
+    lines.push(...this.workspace.renderElementsArrayToLines(element.codelines))
 
     lines.push('')
     lines.push('</ProgramListing>')
@@ -78,7 +78,7 @@ export class CodeLineTypeLinesRenderer extends ElementLinesRendererBase {
     }
     text += '>'
 
-    text += this.workspace.renderElementsToMdxText(element.highlights)
+    text += this.workspace.renderElementsArrayToString(element.highlights)
 
     text += '</CodeLine>'
 
@@ -116,7 +116,7 @@ export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
 
     if (element.children.length > 0) {
       text += `<span class="${spanClass}">`
-      text += this.workspace.renderElementsToMdxText(element.children)
+      text += this.workspace.renderElementsArrayToString(element.children)
       text += '</span>'
     }
 

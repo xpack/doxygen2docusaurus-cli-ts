@@ -27,7 +27,7 @@ export class DocTableTypeLinesRenderer extends ElementLinesRendererBase {
     const lines: string[] = []
 
     lines.push('<table class="markdownTable">')
-    lines.push(...this.workspace.renderElementsToMdxLines(element.rows))
+    lines.push(...this.workspace.renderElementsArrayToLines(element.rows))
     lines.push('</table>')
 
     return lines
@@ -41,7 +41,7 @@ export class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
     const lines: string[] = []
 
     lines.push('  <tr class="markdownTableRow">')
-    lines.push(...this.workspace.renderElementsToMdxLines(element.entries))
+    lines.push(...this.workspace.renderElementsArrayToLines(element.entries))
     lines.push('  </tr>')
 
     return lines
@@ -54,7 +54,7 @@ export class DocEntryTypeTextRenderer extends ElementTextRendererBase {
 
     let text: string = ''
 
-    const entry = escapeHtml(this.workspace.renderElementsToMdxText(element.paras).trim())
+    const entry = escapeHtml(this.workspace.renderElementsArrayToString(element.paras).trim())
     if (element.thead) {
       text += `    <th class="markdownTableColumn">${entry}</th>`
     } else {

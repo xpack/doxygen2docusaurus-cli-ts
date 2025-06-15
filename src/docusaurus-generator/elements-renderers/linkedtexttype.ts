@@ -31,7 +31,7 @@ export class LinkedTextTypeTextRenderer extends ElementTextRendererBase {
 
     let text: string = ''
 
-    text += this.workspace.renderElementsToMdxText(element.children)
+    text += this.workspace.renderElementsArrayToString(element.children)
 
     return text
   }

@@ -31,7 +31,7 @@ export class DocXRefSectTextRenderer extends ElementTextRendererBase {
     lines.push(`  title="${escapeMdx(element.xreftitle ?? '?')}"`)
     const permalink: string = this.workspace.getXrefPermalink(element.id)
     lines.push(`  permalink="${permalink}">`)
-    lines.push(this.workspace.renderElementToMdxText(element.xrefdescription))
+    lines.push(this.workspace.renderElementToString(element.xrefdescription))
     // lines.push('')
     lines.push('</XrefSect>')
 

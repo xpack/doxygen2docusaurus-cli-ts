@@ -55,14 +55,14 @@ export class ParamTypeLinesRenderer extends ElementLinesRendererBase {
 
     let text = ''
 
-    text += this.workspace.renderElementToMdxText(element.type)
+    text += this.workspace.renderElementToString(element.type)
     if (element.declname !== undefined) {
       text += ` ${element.declname}`
       if (element.array !== undefined) {
         text += `=${element.array}`
       }
       if (element.defval !== undefined) {
-        text += `=${this.workspace.renderElementToMdxText(element.defval)}`
+        text += `=${this.workspace.renderElementToString(element.defval)}`
       }
     }
 

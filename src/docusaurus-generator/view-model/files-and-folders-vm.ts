@@ -548,7 +548,7 @@ export class File extends CompoundBase {
       lines.push('')
       lines.push('The file content with the documentation metadata removed is:')
 
-      lines.push(...this.collection.workspace.renderElementToMdxLines(this.programListing))
+      lines.push(...this.collection.workspace.renderElementToLines(this.programListing))
     }
 
     return lines

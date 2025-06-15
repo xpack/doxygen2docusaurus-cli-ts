@@ -31,7 +31,7 @@ export class DescriptionTypeTextRenderer extends ElementTextRendererBase {
     }
 
     let text = ''
-    text += this.workspace.renderElementsToMdxText(element.children).trim()
+    text += this.workspace.renderElementsArrayToString(element.children).trim()
 
     // console.log(result)
     return text
@@ -45,7 +45,7 @@ export class DocParaTypeTextRenderer extends ElementTextRendererBase {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text: string = ''
-    text += this.workspace.renderElementsToMdxText(element.children)
+    text += this.workspace.renderElementsArrayToString(element.children)
     if (element instanceof ParaDataModel) {
       text += '\n'
     }
@@ -62,7 +62,7 @@ export class DocURLLinkTextRenderer extends ElementTextRendererBase {
 
     let text = ''
     text += `<a href="${element.url}">`
-    text += this.workspace.renderElementsToMdxText(element.children)
+    text += this.workspace.renderElementsArrayToString(element.children)
     text += '</a>'
 
     return text
@@ -91,7 +91,7 @@ export class DocMarkupTypeTextRenderer extends ElementTextRendererBase {
 
     let text = ''
     text += `<${htmlElement}>`
-    text += this.workspace.renderElementsToMdxText(element.children)
+    text += this.workspace.renderElementsArrayToString(element.children)
     text += `</${htmlElement}>`
 
     return text
@@ -121,10 +121,10 @@ export class DocRefTextTypeTextRenderer extends ElementTextRendererBase {
 
     if (permalink !== undefined && permalink.length > 1) {
       text += `<a href="${permalink}">`
-      text += this.workspace.renderElementsToMdxText(element.children)
+      text += this.workspace.renderElementsArrayToString(element.children)
       text += '</a>'
     } else {
-      text += this.workspace.renderElementsToMdxText(element.children)
+      text += this.workspace.renderElementsArrayToString(element.children)
     }
 
     return text
@@ -187,30 +187,30 @@ export class DocSimpleSectTypeTextRenderer extends ElementTextRendererBase {
     lines.push('')
     if (DoxSimpleSectKind[element.kind] !== undefined) {
       lines.push(`<SectionUser title="${DoxSimpleSectKind[element.kind]}">`)
-      lines.push(this.workspace.renderElementsToMdxText(element.children).trim())
+      lines.push(this.workspace.renderElementsArrayToString(element.children).trim())
       lines.push('</SectionUser>')
     } else if (element.kind === 'par') {
       assert(element.title !== undefined)
       const title = element.title.replace(/\.$/, '')
       lines.push(`<SectionUser title="${title}">`)
-      lines.push(this.workspace.renderElementsToMdxText(element.children).trim())
+      lines.push(this.workspace.renderElementsArrayToString(element.children).trim())
       lines.push('</SectionUser>')
     } else if (element.kind === 'note') {
       // https://docusaurus.io/docs/markdown-features/admonitions
       lines.push(':::info')
-      lines.push(this.workspace.renderElementToMdxText(element.children).trim())
+      lines.push(this.workspace.renderElementToString(element.children).trim())
       lines.push(':::')
     } else if (element.kind === 'warning') {
       lines.push(':::warning')
-      lines.push(this.workspace.renderElementToMdxText(element.children).trim())
+      lines.push(this.workspace.renderElementToString(element.children).trim())
       lines.push(':::')
     } else if (element.kind === 'attention') {
       lines.push(':::danger')
-      lines.push(this.workspace.renderElementToMdxText(element.children).trim())
+      lines.push(this.workspace.renderElementToString(element.children).trim())
       lines.push(':::')
     } else if (element.kind === 'important') {
       lines.push(':::tip')
-      lines.push(this.workspace.renderElementToMdxText(element.children).trim())
+      lines.push(this.workspace.renderElementToString(element.children).trim())
       lines.push(':::')
     } else {
       console.error(util.inspect(element, { compact: false, depth: 999 }))
@@ -318,7 +318,7 @@ export class DocParamListTypeTextRenderer extends ElementTextRendererBase {
                         names.push((subChild))
                       }
                     } else if (subChild instanceof AbstractRefTextType) {
-                      const name = this.workspace.renderElementToMdxText(subChild)
+                      const name = this.workspace.renderElementToString(subChild)
                       names.push(name)
                     } else {
                       console.error(util.inspect(subChild, { compact: false, depth: 999 }))
@@ -329,7 +329,7 @@ export class DocParamListTypeTextRenderer extends ElementTextRendererBase {
               }
             }
 
-            const parameterLines = this.workspace.renderElementToMdxText(parameterItem.parameterDescription).split('\n')
+            const parameterLines = this.workspace.renderElementToString(parameterItem.parameterDescription).split('\n')
             const escapedName = escapeQuotes(names.join(', '))
             if (parameterLines.length > 1) {
               lines.push(`<ParametersListItem name="${escapedName}">`)
@@ -377,7 +377,7 @@ export class VerbatimRenderer extends ElementTextRendererBase {
     text += '\n' // This is to end the previous line
     text += '\n' // This is an empty line for aesthetics.
     text += '<CodeBlock>\n'
-    text += this.workspace.renderElementToMdxText(element.text)
+    text += this.workspace.renderElementToString(element.text)
     text += '</CodeBlock>'
 
     return text
@@ -393,7 +393,7 @@ export class FormulaRenderer extends ElementTextRendererBase {
     let text = ''
     text += '<CodeBlock>'
     // element.id is ignored.
-    text += this.workspace.renderElementToMdxText(element.text)
+    text += this.workspace.renderElementToString(element.text)
     text += '</CodeBlock>'
 
     return text

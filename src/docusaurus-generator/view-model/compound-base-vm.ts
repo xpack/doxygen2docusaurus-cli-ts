@@ -277,11 +277,11 @@ export abstract class CompoundBase {
     assert(compoundDef !== undefined)
 
     if (compoundDef.briefDescription !== undefined) {
-      this.briefDescriptionMdxText = workspace.renderElementToMdxText(compoundDef.briefDescription)
+      this.briefDescriptionMdxText = workspace.renderElementToString(compoundDef.briefDescription)
     }
 
     if (compoundDef.detailedDescription !== undefined) {
-      this.detailedDescriptionMdxText = workspace.renderElementToMdxText(compoundDef.detailedDescription)
+      this.detailedDescriptionMdxText = workspace.renderElementToString(compoundDef.detailedDescription)
 
       for (const child of compoundDef.detailedDescription.children) {
         if (child instanceof Sect1DataModel) {
@@ -551,7 +551,7 @@ export abstract class CompoundBase {
       lines.push('<IncludesList>')
 
       for (const include of this.includes) {
-        lines.push(workspace.renderElementToMdxText(include))
+        lines.push(workspace.renderElementToString(include))
       }
 
       lines.push('</IncludesList>')

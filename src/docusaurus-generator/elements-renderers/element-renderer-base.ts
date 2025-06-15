@@ -22,7 +22,7 @@ export abstract class ElementTextRendererBase {
     this.workspace = workspace
   }
 
-  abstract renderToMdxText (element: Object): string
+  abstract renderToMdxText (element: Object, type: string): string
 }
 
 export abstract class ElementLinesRendererBase {
@@ -32,7 +32,7 @@ export abstract class ElementLinesRendererBase {
     this.workspace = workspace
   }
 
-  abstract renderToMdxLines (element: Object): string[]
+  abstract renderToMdxLines (element: Object, type: string): string[]
 }
 
 // ----------------------------------------------------------------------------

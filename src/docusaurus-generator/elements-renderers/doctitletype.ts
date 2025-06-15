@@ -26,10 +26,10 @@ export class DocTitleTypeLinesRenderer extends ElementLinesRendererBase {
     let text = ''
 
     if (element instanceof TitleDataModel) {
-      text += this.workspace.renderElementsToMdxText(element.children)
+      text += this.workspace.renderElementsArrayToString(element.children)
     } else {
       text += '<b>'
-      text += this.workspace.renderElementsToMdxText(element.children)
+      text += this.workspace.renderElementsArrayToString(element.children)
       text += '</b>'
     }
 

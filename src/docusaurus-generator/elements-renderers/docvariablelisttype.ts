@@ -25,7 +25,7 @@ export class DocVariableListTypeTextRenderer extends ElementTextRendererBase {
 
     let text: string = ''
 
-    text += this.workspace.renderElementsToMdxText(element.children)
+    text += this.workspace.renderElementsArrayToString(element.children)
 
     return text
   }
@@ -41,11 +41,11 @@ export class VariableListPairLinesRenderer extends ElementLinesRendererBase {
     // console.log(element.listitem.paras)
 
     // WARNING: the title includes <b></b>
-    const title = this.workspace.renderElementToMdxText(element.varlistentry.term).trim()
+    const title = this.workspace.renderElementToString(element.varlistentry.term).trim()
 
     lines.push('')
     lines.push(`<Reference title={<>${title}</>}>`)
-    lines.push(this.workspace.renderElementsToMdxText(element.listitem.paras).trim())
+    lines.push(this.workspace.renderElementsArrayToString(element.listitem.paras).trim())
     lines.push('</Reference>')
     lines.push('')
 

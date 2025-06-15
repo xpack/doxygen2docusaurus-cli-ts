@@ -30,7 +30,7 @@ export class DocListTypeLinesRenderer extends ElementLinesRendererBase {
     lines.push('<ul>')
     for (const listItem of element.listItems) {
       if (listItem.paras !== undefined) {
-        lines.push(`<li>${this.workspace.renderElementsToMdxText(listItem.paras).trim()}</li>`)
+        lines.push(`<li>${this.workspace.renderElementsArrayToString(listItem.paras).trim()}</li>`)
       }
     }
     lines.push('</ul>')

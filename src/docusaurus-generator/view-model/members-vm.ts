@@ -165,7 +165,7 @@ export class Section {
     assert(this._private._sectionDef !== undefined)
     const sectionDef = this._private._sectionDef
     if (sectionDef.description !== undefined) {
-      this.descriptionMdxText = workspace.renderElementToMdxText(sectionDef.description)
+      this.descriptionMdxText = workspace.renderElementToString(sectionDef.description)
       // console.log(this.indexMembers, this.descriptionMdxText)
     }
   }
@@ -382,21 +382,21 @@ export class Member extends MemberBase {
     const workspace = this.section.compound.collection.workspace
 
     if (memberDef.briefDescription !== undefined) {
-      this.briefDescriptionMdxText = workspace.renderElementToMdxText(memberDef.briefDescription)
+      this.briefDescriptionMdxText = workspace.renderElementToString(memberDef.briefDescription)
     }
 
     if (memberDef.detailedDescription !== undefined) {
-      this.detailedDescriptionMdxText = workspace.renderElementToMdxText(memberDef.detailedDescription)
+      this.detailedDescriptionMdxText = workspace.renderElementToString(memberDef.detailedDescription)
     }
 
     this.argsstring = memberDef.argsstring
 
     if (memberDef.type !== undefined) {
-      this.typeMdxText = workspace.renderElementToMdxText(memberDef.type).trim()
+      this.typeMdxText = workspace.renderElementToString(memberDef.type).trim()
     }
 
     if (memberDef.initializer !== undefined) {
-      this.initializerMdxText = workspace.renderElementToMdxText(memberDef.initializer)
+      this.initializerMdxText = workspace.renderElementToString(memberDef.initializer)
     }
 
     if (memberDef.location !== undefined) {
@@ -463,7 +463,7 @@ export class Member extends MemberBase {
     if (memberDef.params !== undefined) {
       const parameters: string[] = []
       for (const param of memberDef.params) {
-        parameters.push(workspace.renderElementToMdxText(param))
+        parameters.push(workspace.renderElementToString(param))
       }
       this.parameters = parameters.join(', ')
     }
@@ -887,9 +887,9 @@ export class Member extends MemberBase {
 
     if (memberDef.enumvalues !== undefined) {
       for (const enumValue of memberDef.enumvalues) {
-        let enumBriefDescription: string = workspace.renderElementToMdxText(enumValue.briefDescription).replace(/[.]$/, '')
+        let enumBriefDescription: string = workspace.renderElementToString(enumValue.briefDescription).replace(/[.]$/, '')
         const anchor = getPermalinkAnchor(enumValue.id)
-        const value = workspace.renderElementToMdxText(enumValue.initializer)
+        const value = workspace.renderElementToString(enumValue.initializer)
         if (value.length > 0) {
           enumBriefDescription += ` (${value})`
         }
