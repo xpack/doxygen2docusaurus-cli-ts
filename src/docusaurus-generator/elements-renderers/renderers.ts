@@ -15,7 +15,7 @@ import * as util from 'node:util'
 import assert from 'node:assert'
 
 import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js'
-import { DescriptionTypeTextRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeLinesRenderer, DocMarkupTypeTextRenderer, DocParamListTypeTextRenderer, DocParaTypeTextRenderer, DocRefTextTypeTextRenderer, DocSimpleSectTypeTextRenderer, DocURLLinkTextRenderer, FormulaRenderer, ImageRenderer, SpTypeTextRenderer, VerbatimRenderer } from './descriptiontype.js'
+import { DescriptionTypeTextRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeLinesRenderer, DocMarkupTypeTextRenderer, DocParamListTypeTextRenderer, DocParaTypeTextRenderer, DocRefTextTypeTextRenderer, DocSimpleSectTypeTextRenderer, DocURLLinkTextRenderer, FormulaRenderer, HtmlOnlyRenderer, ImageRenderer, SpTypeTextRenderer, VerbatimRenderer } from './descriptiontype.js'
 import { ListingTypeLinesRenderer, CodeLineTypeLinesRenderer, HighlightTypeLinesRenderer } from './listingtype.js'
 import { DocListTypeLinesRenderer } from './doclisttype.js'
 import { DocS1TypeLinesRenderer, DocS2TypeLinesRenderer, DocS3TypeLinesRenderer, DocS4TypeLinesRenderer, DocS5TypeLinesRenderer, DocS6TypeLinesRenderer } from './docinternalstype.js'
@@ -65,6 +65,7 @@ export class Renderers {
     this.elementTextRenderers.set('AbstractDocEmptyType', new DocEmptyTypeLinesRenderer(workspace))
     this.elementTextRenderers.set('AbstractDocEntryType', new DocEntryTypeTextRenderer(workspace))
     this.elementTextRenderers.set('AbstractDocFormulaType', new FormulaRenderer(workspace))
+    this.elementTextRenderers.set('AbstractDocHtmlOnlyType', new HtmlOnlyRenderer(workspace))
     this.elementTextRenderers.set('AbstractDocImageType', new ImageRenderer(workspace))
     this.elementTextRenderers.set('AbstractDocMarkupType', new DocMarkupTypeTextRenderer(workspace))
     this.elementTextRenderers.set('AbstractDocParaType', new DocParaTypeTextRenderer(workspace))

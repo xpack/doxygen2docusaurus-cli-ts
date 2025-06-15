@@ -18,6 +18,7 @@ import { ElementLinesRendererBase, ElementTextRendererBase } from './element-ren
 import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractSpType, AbstractVerbatimType, ParaDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
 import { escapeHtml, escapeQuotes, getPermalinkAnchor } from '../utils.js'
+import { AbstractDocHtmlOnlyType } from '../../data-model/compounds/compounddef-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -435,6 +436,19 @@ export class ImageRenderer extends ElementTextRendererBase {
     } else {
       console.error('Image type', element.type, 'not rendered in', this.constructor.name)
     }
+    return text
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+export class HtmlOnlyRenderer extends ElementTextRendererBase {
+  renderToMdxText (element: AbstractDocHtmlOnlyType): string {
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
+
+    let text = ''
+    text += this.workspace.renderElementToMdxText(element.text)
+
     return text
   }
 }
