@@ -462,7 +462,7 @@ export class HeadingStringRenderer extends ElementTextRendererBase {
     let text = ''
     if (element.level === 1) {
       if (this.workspace.pluginOptions.verbose) {
-        console.warn('Level 1 Heading', element.text, 'interferes with Docusaurus pages')
+        console.warn('Level 1 Heading interferes with Docusaurus pages')
       }
     }
     text += '\n'
