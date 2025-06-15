@@ -22,7 +22,7 @@ import { Groups } from './view-model/groups-vm.js'
 import { CollectionBase } from './view-model/collection-base.js'
 import { Classes } from './view-model/classes-vm.js'
 import { DoxygenFileOptions } from './view-model/options.js'
-import { ElementLinesRendererBase, ElementTextRendererBase } from './elements-renderers/element-renderer-base.js'
+import { ElementLinesRendererBase, ElementStringRendererBase } from './elements-renderers/element-renderer-base.js'
 import { escapeMdx, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js'
 import { CompoundBase } from './view-model/compound-base-vm.js'
 import { Namespaces } from './view-model/namespaces-vm.js'
@@ -568,7 +568,7 @@ export class Workspace {
       return linesRenderer.renderToMdxLines(element, type)
     }
 
-    const textRenderer: ElementTextRendererBase | undefined = this.elementRenderers.getElementTextRenderer(element)
+    const textRenderer: ElementStringRendererBase | undefined = this.elementRenderers.getElementTextRenderer(element)
     if (textRenderer !== undefined) {
       return [textRenderer.renderToMdxText(element, type)]
     }
@@ -612,7 +612,7 @@ export class Workspace {
       return text
     }
 
-    const textRenderer: ElementTextRendererBase | undefined = this.elementRenderers.getElementTextRenderer(element)
+    const textRenderer: ElementStringRendererBase | undefined = this.elementRenderers.getElementTextRenderer(element)
     if (textRenderer !== undefined) {
       return textRenderer.renderToMdxText(element, type)
     }

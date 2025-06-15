@@ -15,7 +15,7 @@ import { Workspace } from '../workspace.js'
 
 // ----------------------------------------------------------------------------
 
-export abstract class ElementTextRendererBase {
+export abstract class ElementStringRendererBase {
   workspace: Workspace
 
   constructor (workspace: Workspace) {

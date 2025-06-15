@@ -14,7 +14,7 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { ElementTextRendererBase } from './element-renderer-base.js'
+import { ElementStringRendererBase } from './element-renderer-base.js'
 import { AbstractLinkedTextType } from '../../data-model/compounds/linkedtexttype-dm.js'
 
 // ----------------------------------------------------------------------------
@@ -25,7 +25,7 @@ import { AbstractLinkedTextType } from '../../data-model/compounds/linkedtexttyp
 //   </xsd:sequence>
 // </xsd:complexType>
 
-export class LinkedTextTypeStringRenderer extends ElementTextRendererBase {
+export class LinkedTextTypeStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractLinkedTextType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

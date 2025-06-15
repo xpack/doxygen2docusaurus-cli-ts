@@ -14,13 +14,13 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { ElementTextRendererBase } from './element-renderer-base.js'
+import { ElementStringRendererBase } from './element-renderer-base.js'
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
 import { escapeMdx } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
-export class RefTextTypeStringRenderer extends ElementTextRendererBase {
+export class RefTextTypeStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractRefTextType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

@@ -13,12 +13,12 @@
 
 import assert from 'assert'
 import * as util from 'util'
-import { ElementTextRendererBase } from './element-renderer-base.js'
+import { ElementStringRendererBase } from './element-renderer-base.js'
 import { SubstringDocMarkupType } from '../../data-model/compounds/descriptiontype-dm.js'
 
 // ----------------------------------------------------------------------------
 
-export class SubstringDocMarkupTypeRenderer extends ElementTextRendererBase {
+export class SubstringDocMarkupTypeRenderer extends ElementStringRendererBase {
   renderToMdxText (element: SubstringDocMarkupType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

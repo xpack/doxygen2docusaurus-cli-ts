@@ -14,7 +14,7 @@
 import * as util from 'node:util'
 import assert from 'node:assert'
 
-import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js'
+import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js'
 import { DescriptionTypeStringRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeStringRenderer, DocMarkupTypeStringRenderer, DocParamListTypeStringRenderer, DocParaTypeStringRenderer, DocRefTextTypeStringRenderer, DocSimpleSectTypeStringRenderer, DocURLLinkStringRenderer, EmojiStringRenderer, FormulaStringRenderer, HeadingStringRenderer, HtmlOnlyStringRenderer, ImageStringRenderer, SpTypeStringRenderer, VerbatimStringRenderer } from './descriptiontype.js'
 import { ListingTypeLinesRenderer, CodeLineTypeLinesRenderer, HighlightTypeLinesRenderer } from './listingtype.js'
 import { DocListTypeLinesRenderer } from './doclisttype.js'
@@ -35,7 +35,7 @@ import { DocEntryTypeStringRenderer, DocRowTypeLinesRenderer, DocTableTypeLinesR
 
 export class Renderers {
   elementLinesRenderers: Map<string, ElementLinesRendererBase> = new Map()
-  elementStringRenderers: Map<string, ElementTextRendererBase> = new Map()
+  elementStringRenderers: Map<string, ElementStringRendererBase> = new Map()
 
   constructor (workspace: Workspace) {
     // Add renderers for the parsed xml elements (in alphabetical order).
@@ -99,7 +99,7 @@ export class Renderers {
     return undefined
   }
 
-  getElementTextRenderer (element: Object): ElementTextRendererBase | undefined {
+  getElementTextRenderer (element: Object): ElementStringRendererBase | undefined {
     let elementClass = element.constructor
     while (elementClass.name !== '') {
       // console.log(elementClass.name)

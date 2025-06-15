@@ -14,7 +14,7 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js'
+import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js'
 import { AbstractDocEntryType, AbstractDocRowType, AbstractDocTableType } from '../../data-model/compounds/descriptiontype-dm.js'
 import { escapeHtml } from '../utils.js'
 
@@ -48,7 +48,7 @@ export class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
   }
 }
 
-export class DocEntryTypeStringRenderer extends ElementTextRendererBase {
+export class DocEntryTypeStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractDocEntryType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

@@ -14,12 +14,12 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js'
+import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js'
 import { AbstractDocVariableListType, VariableListPairDataModel } from '../../data-model/compounds/docvarlistentrytype-dm.js'
 
 // ----------------------------------------------------------------------------
 
-export class DocVariableListTypeStringRenderer extends ElementTextRendererBase {
+export class DocVariableListTypeStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractDocVariableListType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

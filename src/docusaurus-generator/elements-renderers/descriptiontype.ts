@@ -14,7 +14,7 @@
 import assert from 'assert'
 import util from 'util'
 
-import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js'
+import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js'
 import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocHeadingType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractEmojiType, AbstractSpType, AbstractVerbatimType, ParaDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
 import { escapeHtml, escapeQuotes, getPermalinkAnchor } from '../utils.js'
@@ -22,7 +22,7 @@ import { AbstractDocHtmlOnlyType } from '../../data-model/compounds/compounddef-
 
 // ----------------------------------------------------------------------------
 
-export class DescriptionTypeStringRenderer extends ElementTextRendererBase {
+export class DescriptionTypeStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractDescriptionType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -40,7 +40,7 @@ export class DescriptionTypeStringRenderer extends ElementTextRendererBase {
 
 // ----------------------------------------------------------------------------
 
-export class DocParaTypeStringRenderer extends ElementTextRendererBase {
+export class DocParaTypeStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractDocParaType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -56,7 +56,7 @@ export class DocParaTypeStringRenderer extends ElementTextRendererBase {
 
 // ----------------------------------------------------------------------------
 
-export class DocURLLinkStringRenderer extends ElementTextRendererBase {
+export class DocURLLinkStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractDocURLLink): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -78,7 +78,7 @@ const htmlElements: { [key: string]: string } = {
   UnderlineDataModel: 'u'
 }
 
-export class DocMarkupTypeStringRenderer extends ElementTextRendererBase {
+export class DocMarkupTypeStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractDocMarkupType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -100,7 +100,7 @@ export class DocMarkupTypeStringRenderer extends ElementTextRendererBase {
 
 // ----------------------------------------------------------------------------
 
-export class DocRefTextTypeStringRenderer extends ElementTextRendererBase {
+export class DocRefTextTypeStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractDocRefTextType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -156,7 +156,7 @@ export class DocRefTextTypeStringRenderer extends ElementTextRendererBase {
 //   </xsd:restriction>
 // </xsd:simpleType>
 
-export class DocSimpleSectTypeStringRenderer extends ElementTextRendererBase {
+export class DocSimpleSectTypeStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractDocSimpleSectType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -224,7 +224,7 @@ export class DocSimpleSectTypeStringRenderer extends ElementTextRendererBase {
 
 // ----------------------------------------------------------------------------
 
-export class SpTypeStringRenderer extends ElementTextRendererBase {
+export class SpTypeStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractSpType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -245,7 +245,7 @@ export class SpTypeStringRenderer extends ElementTextRendererBase {
 
 // ----------------------------------------------------------------------------
 
-export class DocEmptyTypeStringRenderer extends ElementTextRendererBase {
+export class DocEmptyTypeStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractDocEmptyType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -276,7 +276,7 @@ export class DocEmptyTypeStringRenderer extends ElementTextRendererBase {
 
 // ----------------------------------------------------------------------------
 
-export class DocParamListTypeStringRenderer extends ElementTextRendererBase {
+export class DocParamListTypeStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractDocParamListType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -374,7 +374,7 @@ export class DocAnchorTypeLinesRenderer extends ElementLinesRendererBase {
 
 // ----------------------------------------------------------------------------
 
-export class VerbatimStringRenderer extends ElementTextRendererBase {
+export class VerbatimStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractVerbatimType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -391,7 +391,7 @@ export class VerbatimStringRenderer extends ElementTextRendererBase {
 
 // ----------------------------------------------------------------------------
 
-export class FormulaStringRenderer extends ElementTextRendererBase {
+export class FormulaStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractDocFormulaType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -407,7 +407,7 @@ export class FormulaStringRenderer extends ElementTextRendererBase {
 
 // ----------------------------------------------------------------------------
 
-export class ImageStringRenderer extends ElementTextRendererBase {
+export class ImageStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractDocImageType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -449,7 +449,7 @@ export class ImageStringRenderer extends ElementTextRendererBase {
 
 // ----------------------------------------------------------------------------
 
-export class HtmlOnlyStringRenderer extends ElementTextRendererBase {
+export class HtmlOnlyStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractDocHtmlOnlyType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -462,7 +462,7 @@ export class HtmlOnlyStringRenderer extends ElementTextRendererBase {
 
 // ----------------------------------------------------------------------------
 
-export class HeadingStringRenderer extends ElementTextRendererBase {
+export class HeadingStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractDocHeadingType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -483,7 +483,7 @@ export class HeadingStringRenderer extends ElementTextRendererBase {
 
 // ----------------------------------------------------------------------------
 
-export class EmojiStringRenderer extends ElementTextRendererBase {
+export class EmojiStringRenderer extends ElementStringRendererBase {
   renderToMdxText (element: AbstractEmojiType): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
