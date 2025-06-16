@@ -41,6 +41,7 @@ export function escapeMdx (text: string): string {
     .replaceAll(/}/g, '&#125;')
     .replaceAll(/\[/g, '&#91;')
     .replaceAll(/\]/g, '&#93;')
+    .replaceAll(/~/g, '&#126;')
     .replaceAll(/[\\]/g, '\\\\')
     .replaceAll(/\*/g, '&#42;') // Markdown for bold
     .replaceAll(/_/g, '&#95;') // Markdown for italics
@@ -70,6 +71,23 @@ export function escapeHtml (text: string): string {
 export function escapeQuotes (text: string): string {
   return text
     .replaceAll(/"/g, '&quot;')
+}
+
+// type='html'
+export function escapeHtml2 (text: string): string {
+  return text
+    .replaceAll(/&/g, '&amp;')
+    .replaceAll(/</g, '&lt;')
+    .replaceAll(/>/g, '&gt;')
+    .replaceAll(/{/g, '&#123;') // MDX
+    .replaceAll(/}/g, '&#125;') // MDX
+}
+
+// type='plain-html'
+export function escapeBraces (text: string): string {
+  return text
+    .replaceAll(/{/g, '&#123;') // MDX
+    .replaceAll(/}/g, '&#125;') // MDX
 }
 
 // Preserve '/' too.

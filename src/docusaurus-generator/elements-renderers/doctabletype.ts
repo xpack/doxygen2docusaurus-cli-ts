@@ -15,8 +15,8 @@ import assert from 'assert'
 import * as util from 'util'
 
 import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js'
-import { AbstractDocEntryType, AbstractDocRowType, AbstractDocTableType } from '../../data-model/compounds/descriptiontype-dm.js'
-import { escapeHtml } from '../utils.js'
+import { AbstractDocCaptionType, AbstractDocEntryType, AbstractDocRowType, AbstractDocTableType } from '../../data-model/compounds/descriptiontype-dm.js'
+import { escapeHtml, escapeHtml2 } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -26,11 +26,32 @@ export class DocTableTypeLinesRenderer extends ElementLinesRendererBase {
 
     const lines: string[] = []
 
-    lines.push('<table class="markdownTable">')
-    lines.push(...this.workspace.renderElementsArrayToLines(element.rows, type))
+    lines.push('<table class="doxyTable">')
+    if (element.caption !== undefined) {
+      lines.push(this.workspace.renderElementToString(element.caption, 'html'))
+    }
+    lines.push(...this.workspace.renderElementsArrayToLines(element.rows, 'html'))
     lines.push('</table>')
 
     return lines
+  }
+}
+
+export class DocCaptionLinesRenderer extends ElementLinesRendererBase {
+  renderToLines (element: AbstractDocCaptionType, type: string): string[] {
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
+
+    let text: string = ''
+
+    let attributes = ''
+    if (element.id.length > 0) {
+      attributes += ` id="${element.id}"`
+    }
+    text += `<caption${attributes}>`
+    text += this.workspace.renderElementsArrayToString(element.children, 'html').trim()
+    text += '</caption>'
+
+    return [text]
   }
 }
 
@@ -40,9 +61,9 @@ export class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
 
     const lines: string[] = []
 
-    lines.push('  <tr class="markdownTableRow">')
+    lines.push('<tr>')
     lines.push(...this.workspace.renderElementsArrayToLines(element.entries, type))
-    lines.push('  </tr>')
+    lines.push('</tr>')
 
     return lines
   }
@@ -50,15 +71,34 @@ export class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
 
 export class DocEntryTypeStringRenderer extends ElementStringRendererBase {
   renderToString (element: AbstractDocEntryType, type: string): string {
-    // console.log(util.inspect(element, { compact: false, depth: 999 }))
+    console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text: string = ''
 
-    const entry = escapeHtml(this.workspace.renderElementsArrayToString(element.paras, type).trim())
+    let attributes = ''
+    if (element.colspan !== undefined) {
+      attributes += ` colspan="${element.colspan.valueOf()}"`
+    }
+    if (element.rowspan !== undefined) {
+      attributes += ` rowspan="${element.rowspan.valueOf()}"`
+    }
+    if (element.align !== undefined) {
+      attributes += ` align="${element.align}"`
+    }
+    if (element.valign !== undefined) {
+      attributes += ` valign="${element.valign}"`
+    }
+    if (element.width !== undefined) {
+      attributes += ` width="${element.width}"`
+    }
+    if (element.classs !== undefined) {
+      attributes += ` class="${element.classs}"`
+    }
+    const entry = this.workspace.renderElementsArrayToString(element.paras, 'html').trim()
     if (element.thead) {
-      text += `    <th class="markdownTableColumn">${entry}</th>`
+      text += `<th${attributes}>${entry}</th>`
     } else {
-      text += `    <td class="markdownTableColumn">${entry}</td>`
+      text += `<td${attributes}>${entry}</td>`
     }
     return text
   }

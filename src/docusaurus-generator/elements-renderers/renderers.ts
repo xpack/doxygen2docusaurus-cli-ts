@@ -29,7 +29,7 @@ import { RefTextTypeStringRenderer } from './reftexttype.js'
 import { RefTypeLinesRenderer } from './reftype.js'
 import { Workspace } from '../workspace.js'
 import { SubstringDocMarkupTypeRenderer } from './substringtype.js'
-import { DocEntryTypeStringRenderer, DocRowTypeLinesRenderer, DocTableTypeLinesRenderer } from './doctabletype.js'
+import { DocCaptionLinesRenderer, DocEntryTypeStringRenderer, DocRowTypeLinesRenderer, DocTableTypeLinesRenderer } from './doctabletype.js'
 import { TocListLinesRenderer } from './tableofcontentstype.js'
 
 // ----------------------------------------------------------------------------
@@ -43,6 +43,7 @@ export class Renderers {
 
     this.elementLinesRenderers.set('AbstractCodeLineType', new CodeLineTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocAnchorType', new DocAnchorTypeLinesRenderer(workspace))
+    this.elementLinesRenderers.set('AbstractDocCaptionType', new DocCaptionLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocListType', new DocListTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocRowType', new DocRowTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocSect1Type', new DocS1TypeLinesRenderer(workspace))

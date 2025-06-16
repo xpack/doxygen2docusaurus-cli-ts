@@ -23,7 +23,7 @@ import { CollectionBase } from './view-model/collection-base.js'
 import { Classes } from './view-model/classes-vm.js'
 import { DoxygenFileOptions } from './view-model/options.js'
 import { ElementLinesRendererBase, ElementStringRendererBase } from './elements-renderers/element-renderer-base.js'
-import { escapeMdx, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js'
+import { escapeBraces, escapeHtml, escapeHtml2, escapeMdx, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js'
 import { CompoundBase } from './view-model/compound-base-vm.js'
 import { Namespaces } from './view-model/namespaces-vm.js'
 import { FilesAndFolders } from './view-model/files-and-folders-vm.js'
@@ -528,6 +528,18 @@ export class Workspace {
 
   // --------------------------------------------------------------------------
 
+  private renderString (element: string, type: string): string {
+    if (type === 'unchanged') {
+      return element
+    } else if (type === 'plain-html') {
+      return escapeBraces(element)
+    } else if (type === 'html') {
+      return escapeHtml2(element)
+    } else {
+      return escapeMdx(element)
+    }
+  }
+
   renderElementsArrayToLines (elements: Object[] | undefined, type: string): string[] {
     if (!Array.isArray(elements)) {
       return []
@@ -548,11 +560,7 @@ export class Workspace {
     }
 
     if (typeof element === 'string') {
-      if (type === 'unchanged') {
-        return [element]
-      } else {
-        return [escapeMdx(element)]
-      }
+      return [this.renderString(element, type)]
     }
 
     if (Array.isArray(element)) {
@@ -597,11 +605,7 @@ export class Workspace {
     }
 
     if (typeof element === 'string') {
-      if (type === 'unchanged') {
-        return element
-      } else {
-        return escapeMdx(element)
-      }
+      return this.renderString(element, type)
     }
 
     if (Array.isArray(element)) {

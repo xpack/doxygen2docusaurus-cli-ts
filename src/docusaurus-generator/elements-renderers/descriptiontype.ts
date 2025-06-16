@@ -255,10 +255,11 @@ export class DocEmptyTypeStringRenderer extends ElementStringRendererBase {
       case 'HrulerDataModel':
         text += '\n'
         text += '<hr/>'
+        text += '\n'
         break
 
       case 'LineBreakDataModel':
-        text += '\n'
+        text += '<br/>'
         break
 
       case 'NonBreakableSpaceDataModel':
@@ -379,11 +380,12 @@ export class VerbatimStringRenderer extends ElementStringRendererBase {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''
-    text += '\n' // This is to end the previous line
-    text += '\n' // This is an empty line for aesthetics.
-    text += '<CodeBlock>\n'
-    text += this.workspace.renderElementToString(element.text, type)
-    text += '</CodeBlock>'
+    // text += '\n' // This is to end the previous line
+    // text += '\n' // This is an empty line for aesthetics.
+    text += '<pre class="doxyVerbatim">\n'
+    text += this.workspace.renderElementToString(element.text, 'html')
+    // text += '\n'
+    text += '</pre>'
 
     return text
   }
@@ -396,10 +398,10 @@ export class FormulaStringRenderer extends ElementStringRendererBase {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''
-    text += '<CodeBlock>'
+    text += '<code>'
     // element.id is ignored.
-    text += this.workspace.renderElementToString(element.text, type)
-    text += '</CodeBlock>'
+    text += this.workspace.renderElementToString(element.text, 'plain-html')
+    text += '</code>'
 
     return text
   }
@@ -454,7 +456,7 @@ export class HtmlOnlyStringRenderer extends ElementStringRendererBase {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''
-    text += this.workspace.renderElementToString(element.text, 'unchanged')
+    text += this.workspace.renderElementToString(element.text, 'plain-html')
 
     return text
   }
