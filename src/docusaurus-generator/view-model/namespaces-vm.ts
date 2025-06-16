@@ -152,7 +152,7 @@ export class Namespaces extends CollectionBase {
       return
     }
 
-    const filePath = `${this.workspace.outputFolderPath}namespaces/index.mdx`
+    const filePath = `${this.workspace.outputFolderPath}namespaces/index.md`
     const permalink = 'namespaces'
 
     const frontMatter: FrontMatter = {

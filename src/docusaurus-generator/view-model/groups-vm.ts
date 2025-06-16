@@ -149,7 +149,7 @@ export class Groups extends CollectionBase {
     // It diverts from Doxygen, since it renders the list of topics and
     // the main page.
     const outputFolderPath = this.workspace.outputFolderPath
-    const filePath = `${outputFolderPath}index.mdx`
+    const filePath = `${outputFolderPath}index.md`
     const jsonFileName = 'index-table.json'
 
     if (useCollapsibleTable) {
@@ -174,7 +174,7 @@ export class Groups extends CollectionBase {
     const projectBrief = this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF')
     const permalink = '' // The root of the API sub-site.
 
-    // This is the top index.mdx file (@mainpage)
+    // This is the top index.md file (@mainpage)
     const frontMatter: FrontMatter = {
       title: `${projectBrief} API Reference`,
       slug: `${this.workspace.slugBaseUrl}${permalink}`,

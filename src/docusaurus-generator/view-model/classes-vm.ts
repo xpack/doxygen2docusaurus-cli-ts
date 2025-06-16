@@ -200,7 +200,7 @@ export class Classes extends CollectionBase {
       return
     }
 
-    const filePath = `${this.workspace.outputFolderPath}classes/index.mdx`
+    const filePath = `${this.workspace.outputFolderPath}classes/index.md`
     const permalink = 'classes'
 
     const frontMatter: FrontMatter = {
@@ -299,7 +299,7 @@ export class Classes extends CollectionBase {
     const outputFolderPath = this.workspace.outputFolderPath
 
     {
-      const filePath = `${outputFolderPath}index/classes/all.mdx`
+      const filePath = `${outputFolderPath}index/classes/all.md`
       const permalink = 'index/classes/all'
 
       const frontMatter: FrontMatter = {
@@ -329,7 +329,7 @@ export class Classes extends CollectionBase {
     // ------------------------------------------------------------------------
 
     {
-      const filePath = `${outputFolderPath}index/classes/classes.mdx`
+      const filePath = `${outputFolderPath}index/classes/classes.md`
       const permalink = 'index/classes/classes'
 
       const frontMatter: FrontMatter = {
@@ -365,7 +365,7 @@ export class Classes extends CollectionBase {
     // ------------------------------------------------------------------------
 
     {
-      const filePath = `${outputFolderPath}index/classes/functions.mdx`
+      const filePath = `${outputFolderPath}index/classes/functions.md`
       const permalink = 'index/classes/functions'
 
       const frontMatter: FrontMatter = {
@@ -401,7 +401,7 @@ export class Classes extends CollectionBase {
     // ------------------------------------------------------------------------
 
     {
-      const filePath = `${outputFolderPath}index/classes/variables.mdx`
+      const filePath = `${outputFolderPath}index/classes/variables.md`
       const permalink = 'index/classes/variables'
 
       const frontMatter: FrontMatter = {
@@ -437,7 +437,7 @@ export class Classes extends CollectionBase {
     // ------------------------------------------------------------------------
 
     {
-      const filePath = `${outputFolderPath}index/classes/typedefs.mdx`
+      const filePath = `${outputFolderPath}index/classes/typedefs.md`
       const permalink = 'index/classes/typedefs'
 
       const frontMatter: FrontMatter = {

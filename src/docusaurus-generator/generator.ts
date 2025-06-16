@@ -207,9 +207,9 @@ export class DocusaurusGenerator {
 
   async generatePages (): Promise<void> {
     if (this.workspace.pluginOptions.verbose) {
-      console.log('Writing Docusaurus .mdx pages (object -> url)...')
+      console.log('Writing Docusaurus .md pages (object -> url)...')
     } else {
-      console.log('Writing Docusaurus .mdx pages...')
+      console.log('Writing Docusaurus .md pages...')
     }
 
     for (const [compoundId, compound] of this.workspace.compoundsById) {
@@ -237,7 +237,7 @@ export class DocusaurusGenerator {
         console.log(`${compound.kind as string}: ${compound.compoundName.replaceAll(/[ ]*/g, '') as string}`, '->', `${this.workspace.absoluteBaseUrl}${permalink}...`)
       }
 
-      const fileName = `${docusaurusId}.mdx`
+      const fileName = `${docusaurusId}.md`
       // console.log('fileName:', fileName)
       const filePath = `${this.workspace.outputFolderPath}${fileName}`
       const slug = `${this.workspace.slugBaseUrl}${permalink}`

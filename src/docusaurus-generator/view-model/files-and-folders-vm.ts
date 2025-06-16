@@ -282,7 +282,7 @@ export class FilesAndFolders extends CollectionBase {
       return
     }
 
-    const filePath = `${this.workspace.outputFolderPath}files/index.mdx`
+    const filePath = `${this.workspace.outputFolderPath}files/index.md`
     const permalink = 'files'
 
     const frontMatter: FrontMatter = {
