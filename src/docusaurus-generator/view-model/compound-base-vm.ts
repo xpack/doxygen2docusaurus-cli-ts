@@ -90,8 +90,8 @@ export abstract class CompoundBase {
   /** The name shown in the page title. */
   pageTitle: string = ''
 
-  briefDescriptionMdxText: string | undefined
-  detailedDescriptionMdxText: string | undefined
+  briefDescriptionString: string | undefined
+  detailedDescriptionLines: string[] | undefined
   hasSect1InDescription: boolean = false
 
   // labelMdxText: string | undefined
@@ -280,15 +280,15 @@ export abstract class CompoundBase {
       // console.log(compoundDef.briefDescription)
       if (compoundDef.briefDescription.children.length > 1) {
         assert(compoundDef.briefDescription.children[1] instanceof ParaDataModel)
-        this.briefDescriptionMdxText = workspace.renderElementsArrayToString(compoundDef.briefDescription.children[1].children, 'mdx').trim()
+        this.briefDescriptionString = workspace.renderElementsArrayToString(compoundDef.briefDescription.children[1].children, 'mdx').trim()
       } else {
-        this.briefDescriptionMdxText = workspace.renderElementToString(compoundDef.briefDescription, 'mdx').trim()
+        this.briefDescriptionString = workspace.renderElementToString(compoundDef.briefDescription, 'mdx').trim()
       }
     }
 
     if (compoundDef.detailedDescription !== undefined) {
       // console.log(compoundDef.detailedDescription)
-      this.detailedDescriptionMdxText = workspace.renderElementToString(compoundDef.detailedDescription, 'mdx').trim()
+      this.detailedDescriptionLines = workspace.renderElementToLines(compoundDef.detailedDescription, 'mdx')
 
       // for (const child of compoundDef.detailedDescription.children) {
       //   if (child instanceof Sect1DataModel) {
@@ -352,12 +352,12 @@ export abstract class CompoundBase {
 
   // --------------------------------------------------------------------------
 
-  renderBriefDescriptionToMdxText ({
-    briefDescriptionMdxText,
+  renderBriefDescriptionToString ({
+    briefDescriptionString,
     todo = '',
     morePermalink
   }: {
-    briefDescriptionMdxText: string | undefined
+    briefDescriptionString: string | undefined
     todo?: string
     morePermalink?: string | undefined
   }): string {
@@ -367,13 +367,13 @@ export abstract class CompoundBase {
       todo = ''
     }
 
-    if (briefDescriptionMdxText === undefined && todo.length === 0) {
+    if (briefDescriptionString === undefined && todo.length === 0) {
       return ''
     }
 
-    if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
+    if (briefDescriptionString !== undefined && briefDescriptionString.length > 0) {
       text += '<p>'
-      text += briefDescriptionMdxText
+      text += briefDescriptionString
       if (morePermalink !== undefined && morePermalink.length > 0) {
         text += ` <a href="${morePermalink}">`
         text += 'More...'
@@ -387,15 +387,15 @@ export abstract class CompoundBase {
     return text
   }
 
-  renderDetailedDescriptionToMdxLines ({
-    briefDescriptionMdxText,
-    detailedDescriptionMdxText,
+  renderDetailedDescriptionToLines ({
+    briefDescriptionString,
+    detailedDescriptionLines,
     todo = '',
     showHeader,
     showBrief = false
   }: {
-    briefDescriptionMdxText?: string | undefined
-    detailedDescriptionMdxText: string | undefined
+    briefDescriptionString?: string | undefined
+    detailedDescriptionLines: string[] | undefined
     todo?: string
     showHeader: boolean
     showBrief?: boolean
@@ -408,9 +408,9 @@ export abstract class CompoundBase {
 
     // const workspace = this.collection.workspace
     if (showHeader) {
-      if ((detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) ||
+      if ((detailedDescriptionLines !== undefined && detailedDescriptionLines.length > 0) ||
         todo.length > 0 ||
-        (showBrief && briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0)) {
+        (showBrief && briefDescriptionString !== undefined && briefDescriptionString.length > 0)) {
         lines.push('')
         lines.push('## Description {#details}')
       }
@@ -420,17 +420,17 @@ export abstract class CompoundBase {
       if (showHeader) {
         lines.push('')
       }
-      if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
-        lines.push(`<p>${briefDescriptionMdxText}</p>`)
+      if (briefDescriptionString !== undefined && briefDescriptionString.length > 0) {
+        lines.push(`<p>${briefDescriptionString}</p>`)
       } else if (todo.length > 0) {
         lines.push(`TODO: add <code>@brief</code> to <code>${todo}</code>`)
       }
     }
 
     // console.log(util.inspect(detailedDescriptionMdxText, { compact: false, depth: 999 }))
-    if (detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) {
+    if (detailedDescriptionLines !== undefined && detailedDescriptionLines.length > 0) {
       lines.push('')
-      lines.push(detailedDescriptionMdxText)
+      lines.push(...detailedDescriptionLines)
     } else if (todo.length > 0) {
       lines.push('')
       lines.push(`TODO: add <code>@details</code> to <code>${todo}</code>`)
@@ -491,10 +491,10 @@ export abstract class CompoundBase {
             lines.push('')
 
             const childrenLines: string[] = []
-            const morePermalink = innerDataObject.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined
-            if (innerDataObject.briefDescriptionMdxText !== undefined && innerDataObject.briefDescriptionMdxText.length > 0) {
-              childrenLines.push(this.renderBriefDescriptionToMdxText({
-                briefDescriptionMdxText: innerDataObject.briefDescriptionMdxText,
+            const morePermalink = innerDataObject.renderDetailedDescriptionToLines !== undefined ? `${permalink}/#details` : undefined
+            if (innerDataObject.briefDescriptionString !== undefined && innerDataObject.briefDescriptionString.length > 0) {
+              childrenLines.push(this.renderBriefDescriptionToString({
+                briefDescriptionString: innerDataObject.briefDescriptionString,
                 morePermalink
               }))
             }

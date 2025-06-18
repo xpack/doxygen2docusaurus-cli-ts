@@ -330,8 +330,8 @@ export class FilesAndFolders extends CollectionBase {
     assert(permalink !== undefined && permalink.length > 1)
 
     let description: string = ''
-    if (folder.briefDescriptionMdxText !== undefined && folder.briefDescriptionMdxText.length > 0) {
-      description = folder.briefDescriptionMdxText.replace(/[.]$/, '')
+    if (folder.briefDescriptionString !== undefined && folder.briefDescriptionString.length > 0) {
+      description = folder.briefDescriptionString.replace(/[.]$/, '')
     }
 
     lines.push('')
@@ -370,8 +370,8 @@ export class FilesAndFolders extends CollectionBase {
     assert(permalink !== undefined && permalink.length > 1)
 
     let description: string = ''
-    if (file.briefDescriptionMdxText !== undefined && file.briefDescriptionMdxText.length > 0) {
-      description = file.briefDescriptionMdxText.replace(/[.]$/, '')
+    if (file.briefDescriptionString !== undefined && file.briefDescriptionString.length > 0) {
+      description = file.briefDescriptionString.replace(/[.]$/, '')
     }
 
     lines.push('')
@@ -440,9 +440,9 @@ export class Folder extends CompoundBase {
 
     const descriptionTodo = `@dir ${escapeMdx(this.relativePath)}`
 
-    const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
-    lines.push(this.renderBriefDescriptionToMdxText({
-      briefDescriptionMdxText: this.briefDescriptionMdxText,
+    const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
+    lines.push(this.renderBriefDescriptionToString({
+      briefDescriptionString: this.briefDescriptionString,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -453,9 +453,9 @@ export class Folder extends CompoundBase {
 
     lines.push(...this.renderSectionIndicesToMdxLines())
 
-    lines.push(...this.renderDetailedDescriptionToMdxLines({
-      briefDescriptionMdxText: this.briefDescriptionMdxText,
-      detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+    lines.push(...this.renderDetailedDescriptionToLines({
+      briefDescriptionString: this.briefDescriptionString,
+      detailedDescriptionLines: this.detailedDescriptionLines,
       todo: descriptionTodo,
       showHeader: true,
       showBrief: !this.hasSect1InDescription
@@ -518,9 +518,9 @@ export class File extends CompoundBase {
 
     const descriptionTodo = `@file ${escapeMdx(this.relativePath)}`
 
-    const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
-    lines.push(this.renderBriefDescriptionToMdxText({
-      briefDescriptionMdxText: this.briefDescriptionMdxText,
+    const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
+    lines.push(this.renderBriefDescriptionToString({
+      briefDescriptionString: this.briefDescriptionString,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -533,9 +533,9 @@ export class File extends CompoundBase {
 
     lines.push(...this.renderSectionIndicesToMdxLines())
 
-    lines.push(...this.renderDetailedDescriptionToMdxLines({
-      briefDescriptionMdxText: this.briefDescriptionMdxText,
-      detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+    lines.push(...this.renderDetailedDescriptionToLines({
+      briefDescriptionString: this.briefDescriptionString,
+      detailedDescriptionLines: this.detailedDescriptionLines,
       todo: descriptionTodo,
       showHeader: true,
       showBrief: !this.hasSect1InDescription

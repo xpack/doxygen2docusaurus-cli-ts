@@ -199,8 +199,8 @@ export class Namespaces extends CollectionBase {
     assert(permalink !== undefined && permalink.length > 1)
 
     let description: string = ''
-    if (namespace.briefDescriptionMdxText !== undefined && namespace.briefDescriptionMdxText.length > 0) {
-      description = namespace.briefDescriptionMdxText.replace(/[.]$/, '')
+    if (namespace.briefDescriptionString !== undefined && namespace.briefDescriptionString.length > 0) {
+      description = namespace.briefDescriptionString.replace(/[.]$/, '')
     }
 
     lines.push('')
@@ -324,9 +324,9 @@ export class Namespace extends CompoundBase {
 
     const descriptionTodo = `@namespace ${escapeMdx(this.compoundName)}`
 
-    const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
-    lines.push(this.renderBriefDescriptionToMdxText({
-      briefDescriptionMdxText: this.briefDescriptionMdxText,
+    const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
+    lines.push(this.renderBriefDescriptionToString({
+      briefDescriptionString: this.briefDescriptionString,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -350,9 +350,9 @@ export class Namespace extends CompoundBase {
 
     lines.push(...this.renderSectionIndicesToMdxLines())
 
-    lines.push(...this.renderDetailedDescriptionToMdxLines({
-      briefDescriptionMdxText: this.briefDescriptionMdxText,
-      detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+    lines.push(...this.renderDetailedDescriptionToLines({
+      briefDescriptionString: this.briefDescriptionString,
+      detailedDescriptionLines: this.detailedDescriptionLines,
       todo: descriptionTodo,
       showHeader: true,
       showBrief: !this.hasSect1InDescription

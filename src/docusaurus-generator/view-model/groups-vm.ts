@@ -206,13 +206,13 @@ export class Groups extends CollectionBase {
     }
 
     const pages = this.workspace.viewModel.get('pages') as Pages
-    const detailedDescriptionMdxText = pages.mainPage?.detailedDescriptionMdxText
+    const detailedDescriptionMdxText = pages.mainPage?.detailedDescriptionLines
     if (detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) {
       lines.push('')
       assert(pages.mainPage !== undefined)
-      lines.push(...pages.mainPage?.renderDetailedDescriptionToMdxLines({
-        briefDescriptionMdxText: pages.mainPage?.briefDescriptionMdxText,
-        detailedDescriptionMdxText: pages.mainPage?.detailedDescriptionMdxText,
+      lines.push(...pages.mainPage?.renderDetailedDescriptionToLines({
+        briefDescriptionString: pages.mainPage?.briefDescriptionString,
+        detailedDescriptionLines: pages.mainPage?.detailedDescriptionLines,
         showHeader: true,
         showBrief: !pages.mainPage?.hasSect1InDescription
       }))
@@ -249,7 +249,7 @@ export class Groups extends CollectionBase {
     const permalink = this.workspace.getPagePermalink(group.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    const description: string = group.briefDescriptionMdxText?.replace(/[.]$/, '') ?? ''
+    const description: string = group.briefDescriptionString?.replace(/[.]$/, '') ?? ''
 
     const tableRow: collapsibleTableRow = {
       id: group.id,
@@ -277,8 +277,8 @@ export class Groups extends CollectionBase {
     assert(permalink !== undefined && permalink.length > 1)
 
     let description: string = ''
-    if (group.briefDescriptionMdxText !== undefined && group.briefDescriptionMdxText.length > 0) {
-      description = group.briefDescriptionMdxText.replace(/[.]$/, '')
+    if (group.briefDescriptionString !== undefined && group.briefDescriptionString.length > 0) {
+      description = group.briefDescriptionString.replace(/[.]$/, '')
     }
 
     lines.push('')
@@ -344,11 +344,11 @@ export class Group extends CompoundBase {
 
     const descriptionTodo = `@defgroup ${escapeMdx(this.compoundName)}`
 
-    const hasIndices = (this.renderDetailedDescriptionToMdxLines !== undefined || this.hasSect1InDescription) && (this.hasInnerIndices() || this.hasSections())
+    const hasIndices = (this.renderDetailedDescriptionToLines !== undefined || this.hasSect1InDescription) && (this.hasInnerIndices() || this.hasSections())
     const morePermalink = hasIndices ? '#details' : undefined
 
-    lines.push(this.renderBriefDescriptionToMdxText({
-      briefDescriptionMdxText: this.briefDescriptionMdxText,
+    lines.push(this.renderBriefDescriptionToString({
+      briefDescriptionString: this.briefDescriptionString,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -359,9 +359,9 @@ export class Group extends CompoundBase {
 
     lines.push(...this.renderSectionIndicesToMdxLines())
 
-    lines.push(...this.renderDetailedDescriptionToMdxLines({
-      briefDescriptionMdxText: this.briefDescriptionMdxText,
-      detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+    lines.push(...this.renderDetailedDescriptionToLines({
+      briefDescriptionString: this.briefDescriptionString,
+      detailedDescriptionLines: this.detailedDescriptionLines,
       todo: descriptionTodo,
       showHeader: !this.hasSect1InDescription,
       showBrief: !this.hasSect1InDescription

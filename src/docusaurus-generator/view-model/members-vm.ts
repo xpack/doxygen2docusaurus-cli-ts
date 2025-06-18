@@ -111,7 +111,7 @@ export class Section {
   compound: CompoundBase
   kind: string
   headerName: string
-  descriptionMdxText: string | undefined
+  descriptionLines: string[] | undefined
 
   // Both references and definitions.
   indexMembers: Array<MemberRef | Member> = []
@@ -166,7 +166,7 @@ export class Section {
     assert(this._private._sectionDef !== undefined)
     const sectionDef = this._private._sectionDef
     if (sectionDef.description !== undefined) {
-      this.descriptionMdxText = workspace.renderElementToString(sectionDef.description, 'mdx')
+      this.descriptionLines = workspace.renderElementToLines(sectionDef.description, 'mdx')
       // console.log(this.indexMembers, this.descriptionMdxText)
     }
   }
@@ -302,10 +302,10 @@ export class Section {
     lines.push('')
     lines.push(`## ${escapeMdx(this.headerName)}`)
 
-    if (this.descriptionMdxText !== undefined) {
+    if (this.descriptionLines !== undefined) {
       lines.push('')
-      lines.push(...this.compound.renderDetailedDescriptionToMdxLines({
-        detailedDescriptionMdxText: this.descriptionMdxText,
+      lines.push(...this.compound.renderDetailedDescriptionToLines({
+        detailedDescriptionLines: this.descriptionLines,
         showHeader: false
       }))
     }
@@ -341,8 +341,8 @@ export class Member extends MemberBase {
 
   kind: string
 
-  briefDescriptionMdxText: string | undefined
-  detailedDescriptionMdxText: string | undefined
+  briefDescriptionString: string | undefined
+  detailedDescriptionLines: string[] | undefined
 
   argsstring: string | undefined
   qualifiedName: string | undefined
@@ -386,14 +386,14 @@ export class Member extends MemberBase {
       // console.log(memberDef.briefDescription)
       if (memberDef.briefDescription.children.length > 1) {
         assert(memberDef.briefDescription.children[1] instanceof ParaDataModel)
-        this.briefDescriptionMdxText = workspace.renderElementsArrayToString(memberDef.briefDescription.children[1].children, 'mdx').trim()
+        this.briefDescriptionString = workspace.renderElementsArrayToString(memberDef.briefDescription.children[1].children, 'mdx').trim()
       } else {
-        this.briefDescriptionMdxText = workspace.renderElementToString(memberDef.briefDescription, 'mdx').trim()
+        this.briefDescriptionString = workspace.renderElementToString(memberDef.briefDescription, 'mdx').trim()
       }
     }
 
     if (memberDef.detailedDescription !== undefined) {
-      this.detailedDescriptionMdxText = workspace.renderElementToString(memberDef.detailedDescription, 'mdx').trim()
+      this.detailedDescriptionLines = workspace.renderElementToLines(memberDef.detailedDescription, 'mdx')
     }
 
     this.argsstring = memberDef.argsstring
@@ -635,10 +635,10 @@ export class Member extends MemberBase {
     }
 
     const childrenLines: string[] = []
-    const briefDescriptionMdxText = this.briefDescriptionMdxText
-    if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
-      childrenLines.push(this.section.compound.renderBriefDescriptionToMdxText({
-        briefDescriptionMdxText,
+    const briefDescriptionString = this.briefDescriptionString
+    if (briefDescriptionString !== undefined && briefDescriptionString.length > 0) {
+      childrenLines.push(this.section.compound.renderBriefDescriptionToString({
+        briefDescriptionString,
         morePermalink: `${permalink}` // No #details, it is already an anchor.
       }))
     }
@@ -705,10 +705,10 @@ export class Member extends MemberBase {
           }
 
           const childrenLines: string[] = []
-          if (this.detailedDescriptionMdxText !== undefined) {
-            childrenLines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
-              briefDescriptionMdxText: this.briefDescriptionMdxText,
-              detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+          if (this.detailedDescriptionLines !== undefined) {
+            childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
+              briefDescriptionString: this.briefDescriptionString,
+              detailedDescriptionLines: this.detailedDescriptionLines,
               showHeader: false,
               showBrief: true
             }))
@@ -751,18 +751,18 @@ export class Member extends MemberBase {
           lines.push('')
 
           const childrenLines: string[] = []
-          if (this.briefDescriptionMdxText !== undefined && this.briefDescriptionMdxText.length > 0) {
-            childrenLines.push(this.section.compound.renderBriefDescriptionToMdxText({
-              briefDescriptionMdxText: this.briefDescriptionMdxText
+          if (this.briefDescriptionString !== undefined && this.briefDescriptionString.length > 0) {
+            childrenLines.push(this.section.compound.renderBriefDescriptionToString({
+              briefDescriptionString: this.briefDescriptionString
             }))
           }
 
           assert(this.enumMdxLines !== undefined)
           childrenLines.push(...this.enumMdxLines)
 
-          if (this.detailedDescriptionMdxText !== undefined) {
-            childrenLines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
-              detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+          if (this.detailedDescriptionLines !== undefined) {
+            childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
+              detailedDescriptionLines: this.detailedDescriptionLines,
               showHeader: false
             }))
           }
@@ -787,10 +787,10 @@ export class Member extends MemberBase {
           lines.push('')
 
           const childrenLines: string[] = []
-          if (this.detailedDescriptionMdxText !== undefined) {
-            childrenLines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
-              briefDescriptionMdxText: this.briefDescriptionMdxText,
-              detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+          if (this.detailedDescriptionLines !== undefined) {
+            childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
+              briefDescriptionString: this.briefDescriptionString,
+              detailedDescriptionLines: this.detailedDescriptionLines,
               showHeader: false,
               showBrief: true
             }))
@@ -820,9 +820,9 @@ export class Member extends MemberBase {
           lines.push('')
 
           const childrenLines: string[] = []
-          childrenLines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
-            briefDescriptionMdxText: this.briefDescriptionMdxText,
-            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+          childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
+            briefDescriptionString: this.briefDescriptionString,
+            detailedDescriptionLines: this.detailedDescriptionLines,
             showHeader: false,
             showBrief: true
           }))

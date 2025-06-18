@@ -256,8 +256,8 @@ export class Classes extends CollectionBase {
     const label = escapeMdx(classs.unqualifiedName)
 
     let description: string = ''
-    if (classs.briefDescriptionMdxText !== undefined && classs.briefDescriptionMdxText.length > 0) {
-      description = classs.briefDescriptionMdxText.replace(/[.]$/, '')
+    if (classs.briefDescriptionString !== undefined && classs.briefDescriptionString.length > 0) {
+      description = classs.briefDescriptionString.replace(/[.]$/, '')
     }
 
     lines.push('')
@@ -656,9 +656,9 @@ export class Class extends CompoundBase {
 
     const descriptionTodo = `@${this.kind} ${escapeMdx(this.compoundName)}`
 
-    const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined
-    lines.push(this.renderBriefDescriptionToMdxText({
-      briefDescriptionMdxText: this.briefDescriptionMdxText,
+    const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
+    lines.push(this.renderBriefDescriptionToString({
+      briefDescriptionString: this.briefDescriptionString,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -810,9 +810,9 @@ export class Class extends CompoundBase {
 
     lines.push(...this.renderSectionIndicesToMdxLines())
 
-    lines.push(...this.renderDetailedDescriptionToMdxLines({
-      briefDescriptionMdxText: this.briefDescriptionMdxText,
-      detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+    lines.push(...this.renderDetailedDescriptionToLines({
+      briefDescriptionString: this.briefDescriptionString,
+      detailedDescriptionLines: this.detailedDescriptionLines,
       todo: descriptionTodo,
       showHeader: true,
       showBrief: !this.hasSect1InDescription
@@ -843,11 +843,11 @@ export class Class extends CompoundBase {
     lines.push('')
 
     const childrenLines: string[] = []
-    const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined
-    const briefDescriptionMdxText: string | undefined = this.briefDescriptionMdxText
-    if ((briefDescriptionMdxText ?? '').length > 0) {
-      childrenLines.push(this.renderBriefDescriptionToMdxText({
-        briefDescriptionMdxText,
+    const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? `${permalink}/#details` : undefined
+    const briefDescriptionString: string | undefined = this.briefDescriptionString
+    if ((briefDescriptionString ?? '').length > 0) {
+      childrenLines.push(this.renderBriefDescriptionToString({
+        briefDescriptionString,
         morePermalink
       }))
     }
