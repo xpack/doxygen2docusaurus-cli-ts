@@ -35,7 +35,7 @@ export class DocXRefSectLinesRenderer extends ElementLinesRendererBase {
     lines.push(`<dt class="doxyXrefSectTitle"><a href=${permalink}>${title}</a></dt>`)
     lines.push('<dd class="doxyXrefSectDescription">')
 
-    lines.push(this.workspace.renderElementToString(element.xrefdescription, type))
+    lines.push(this.workspace.renderElementToString(element.xrefdescription, type).trim())
     lines.push('</dd>')
     lines.push('</dl>')
     lines.push('</div>')
