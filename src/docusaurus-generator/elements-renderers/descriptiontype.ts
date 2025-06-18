@@ -49,7 +49,7 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
     let inParagraph = false
     let text: string = ''
     for (const child of element.children) {
-      console.log(child)
+      // console.log(child)
       if (this.isParagraph(child)) {
         inParagraph = true
         text += this.workspace.renderElementToString(child, type)
@@ -77,7 +77,7 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
       }
     }
 
-    console.log(lines)
+    // console.log(lines)
     return lines
   }
 
