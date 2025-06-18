@@ -866,15 +866,12 @@ export class Member extends MemberBase {
       lines.push(`<div class="doxyMemberTemplate">${template}</div>`)
     }
     lines.push('<table class="doxyMemberLabels">')
-    lines.push('<tbody>')
     lines.push('<tr class="doxyMemberLabels">')
     lines.push('<td class="doxyMemberLabelsLeft">')
     lines.push('<table class="doxyMemberName">')
-    lines.push('<tbody>')
     lines.push('<tr>')
     lines.push(`<td class="doxyMemberName">${prototype}</td>`)
     lines.push('</tr>')
-    lines.push('</tbody>')
     lines.push('</table>')
     lines.push('</td>')
     if (labels.length > 0) {
@@ -887,7 +884,6 @@ export class Member extends MemberBase {
       lines.push('</td>')
     }
     lines.push('</tr>')
-    lines.push('</tbody>')
     lines.push('</table>')
     lines.push('</div>')
     lines.push('<div class="doxyMemberDoc">')
