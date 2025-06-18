@@ -18,7 +18,7 @@ import { DoxygenXmlParser } from '../doxygen-xml-parser.js'
 import { AbstractDataModelBase } from '../types.js'
 import { RefTextDataModel } from './reftexttype-dm.js'
 import { VariableListDataModel } from './docvarlistentrytype-dm.js'
-import { DocBookOnlyDataModel, HtmlOnlyDataModel, LatexOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel } from './compounddef-dm.js'
+import { DocBookOnlyDataModel, HtmlOnlyDataModel } from './compounddef-dm.js'
 import { TocListDataModel } from './tableofcontentstype-dm.js'
 
 // ----------------------------------------------------------------------------
@@ -1501,9 +1501,9 @@ export function parseDocTitleCmdGroup (
     children.push(new HtmlOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'manonly')) {
     // Skipped, no Man output.
-    children.push(new ManOnlyDataModel(xml, element))
+    // children.push(new ManOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'xmlonly')) {
-    children.push(new XmlOnlyDataModel(xml, element))
+    // children.push(new XmlOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'rtfonly')) {
     // Skipped, no RTF output.
     // children.push(new RtfOnlyDataModel(xml, element))
@@ -2397,6 +2397,7 @@ export class AbstractDocTitleType extends AbstractDataModelBase {
 //     <!-- end workaround for xsd.exe -->
 //     <xsd:element name="hruler" type="docEmptyType" />
 //     <xsd:element name="preformatted" type="docMarkupType" />
+
 //     <xsd:element name="programlisting" type="listingType" />
 //     <xsd:element name="verbatim" type="xsd:string" />
 //     <xsd:element name="javadocliteral" type="xsd:string" />
@@ -2467,12 +2468,12 @@ function parseDocCmdGroup (
     children.push(new HtmlOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'manonly')) {
     // Skipped, no Man output.
-    children.push(new ManOnlyDataModel(xml, element))
+    // children.push(new ManOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'xmlonly')) {
-    children.push(new XmlOnlyDataModel(xml, element))
+    // children.push(new XmlOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'rtfonly')) {
     // Skipped, no RTF output.
-    children.push(new RtfOnlyDataModel(xml, element))
+    // children.push(new RtfOnlyDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'latexonly')) {
     // Skipped, no LaTeX output.
     // children.push(new LatexOnlyDataModel(xml, element))
