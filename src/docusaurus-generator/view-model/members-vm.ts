@@ -350,7 +350,7 @@ export class Member extends MemberBase {
 
   typeMdxText: string | undefined
   initializerMdxText: string | undefined
-  locationMdxText: string | undefined
+  locationLines: string[] | undefined
   templateParametersMdxText: string | undefined
   enumMdxLines: string[] | undefined
   parameters: string | undefined
@@ -407,7 +407,7 @@ export class Member extends MemberBase {
     }
 
     if (memberDef.location !== undefined) {
-      this.locationMdxText = this.section.compound.renderLocationToMdxText(memberDef.location)
+      this.locationLines = this.section.compound.renderLocationToMdxText(memberDef.location)
     }
 
     const labels: string[] = []
@@ -714,8 +714,8 @@ export class Member extends MemberBase {
             }))
           }
 
-          if (this.locationMdxText !== undefined) {
-            childrenLines.push(this.locationMdxText)
+          if (this.locationLines !== undefined) {
+            childrenLines.push(...this.locationLines)
           }
 
           lines.push(...this.renderMemberDefinitionToLines({
@@ -767,8 +767,8 @@ export class Member extends MemberBase {
             }))
           }
 
-          if (this.locationMdxText !== undefined) {
-            childrenLines.push(this.locationMdxText)
+          if (this.locationLines !== undefined) {
+            childrenLines.push(...this.locationLines)
           }
 
           lines.push(...this.renderMemberDefinitionToLines({
@@ -796,8 +796,8 @@ export class Member extends MemberBase {
             }))
           }
 
-          if (this.locationMdxText !== undefined) {
-            childrenLines.push(this.locationMdxText)
+          if (this.locationLines !== undefined) {
+            childrenLines.push(...this.locationLines)
           }
 
           lines.push(...this.renderMemberDefinitionToLines({
@@ -827,8 +827,8 @@ export class Member extends MemberBase {
             showBrief: true
           }))
 
-          if (this.locationMdxText !== undefined) {
-            childrenLines.push(this.locationMdxText)
+          if (this.locationLines !== undefined) {
+            childrenLines.push(...this.locationLines)
           }
 
           lines.push(...this.renderMemberDefinitionToLines({

@@ -95,7 +95,7 @@ export abstract class CompoundBase {
   hasSect1InDescription: boolean = false
 
   // labelMdxText: string | undefined
-  locationMdxText: string | undefined
+  locationLines: string[] | undefined
 
   // detailedDescriptionMdxLines: string[] | undefined
 
@@ -304,7 +304,7 @@ export abstract class CompoundBase {
       // The location for folders is not used.
     } else {
       if (compoundDef.location !== undefined) {
-        this.locationMdxText = this.renderLocationToMdxText(compoundDef.location)
+        this.locationLines = this.renderLocationToMdxText(compoundDef.location)
       }
     }
 
@@ -583,7 +583,8 @@ export abstract class CompoundBase {
     return lines
   }
 
-  renderLocationToMdxText (location: LocationDataModel | undefined): string {
+  renderLocationToMdxText (location: LocationDataModel | undefined): string[] {
+    const lines: string[] = []
     let text: string = ''
 
     const workspace = this.collection.workspace
@@ -592,7 +593,7 @@ export abstract class CompoundBase {
       // console.log('location.file:', location.file)
       if (location.file.includes('[')) {
         // Ignore cases like `[generated]`, encountered in llvm.
-        return text
+        return lines
       }
       const files: FilesAndFolders = workspace.viewModel.get('files') as FilesAndFolders
       assert(files !== undefined)
@@ -602,7 +603,6 @@ export abstract class CompoundBase {
       if (file !== undefined) {
         const permalink = workspace.getPagePermalink(file.id)
 
-        text += '\n'
         if (location.bodyfile !== undefined && location.file !== location.bodyfile) {
           text += 'Declaration '
           if (location.line !== undefined) {
@@ -667,7 +667,12 @@ export abstract class CompoundBase {
       }
     }
 
-    return text
+    if (text.length > 0) {
+      lines.push('')
+      lines.push(`<p>${text}</p>`)
+    }
+
+    return lines
   }
 
   renderGeneratedFromToMdxLines (): string[] {

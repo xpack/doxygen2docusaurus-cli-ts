@@ -14,20 +14,20 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js'
+import { ElementLinesRendererBase } from './element-renderer-base.js'
 import { AbstractDocVariableListType, VariableListPairDataModel } from '../../data-model/compounds/docvarlistentrytype-dm.js'
 
 // ----------------------------------------------------------------------------
 
-export class DocVariableListTypeStringRenderer extends ElementStringRendererBase {
-  renderToString (element: AbstractDocVariableListType, type: string): string {
+export class DocVariableListTypeLinesRenderer extends ElementLinesRendererBase {
+  renderToLines (element: AbstractDocVariableListType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
-    let text: string = ''
+    const lines: string[] = []
 
-    text += this.workspace.renderElementsArrayToString(element.children, type)
+    lines.push(...this.workspace.renderElementsArrayToLines(element.children, type))
 
-    return text
+    return lines
   }
 }
 

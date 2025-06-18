@@ -818,8 +818,8 @@ export class Class extends CompoundBase {
       showBrief: !this.hasSect1InDescription
     }))
 
-    if (this.locationMdxText !== undefined) {
-      lines.push(this.locationMdxText)
+    if (this.locationLines !== undefined) {
+      lines.push(...this.locationLines)
     }
 
     lines.push(...this.renderSectionsToMdxLines())
