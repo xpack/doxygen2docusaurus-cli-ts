@@ -298,7 +298,7 @@ export class FilesAndFolders extends CollectionBase {
     lines.push('The files & folders that contributed content to this site are:')
 
     lines.push('')
-    lines.push('<TreeTable>')
+    lines.push('<table class="doxyTreeTable">')
 
     for (const folder of this.topLevelFolders) {
       lines.push(...this.generateIndexMdxFileRecursively(folder, 0))
@@ -309,7 +309,7 @@ export class FilesAndFolders extends CollectionBase {
     }
 
     lines.push('')
-    lines.push('</TreeTable>')
+    lines.push('</table>')
 
     console.log(`Writing files index file ${filePath}...`)
     await this.workspace.writeMdxFile({
@@ -329,18 +329,19 @@ export class FilesAndFolders extends CollectionBase {
     const permalink = this.workspace.getPagePermalink(folder.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    lines.push('')
-    lines.push('<TreeTableRow')
-    lines.push('  itemIconClass="doxyIconFolder"')
-    lines.push(`  itemLabel="${label}"`)
-    lines.push(`  itemLink="${permalink}"`)
-    lines.push(`  depth="${depth}">`)
-
+    let description: string = ''
     if (folder.briefDescriptionMdxText !== undefined && folder.briefDescriptionMdxText.length > 0) {
-      lines.push(folder.briefDescriptionMdxText.replace(/[.]$/, ''))
+      description = folder.briefDescriptionMdxText.replace(/[.]$/, '')
     }
 
-    lines.push('</TreeTableRow>')
+    lines.push('')
+    lines.push(...this.workspace.renderTreeTableRowToLines({
+      itemIconClass: 'doxyIconFolder',
+      itemLabel: label,
+      itemLink: permalink,
+      depth,
+      description
+    }))
 
     if (folder.children.length > 0) {
       for (const childFileOrFolder of folder.children) {
@@ -368,18 +369,19 @@ export class FilesAndFolders extends CollectionBase {
     const permalink = this.workspace.getPagePermalink(file.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    lines.push('')
-    lines.push('<TreeTableRow')
-    lines.push('  itemIconClass="doxyIconFile"')
-    lines.push(`  itemLabel="${label}"`)
-    lines.push(`  itemLink="${permalink}"`)
-    lines.push(`  depth="${depth}">`)
-
+    let description: string = ''
     if (file.briefDescriptionMdxText !== undefined && file.briefDescriptionMdxText.length > 0) {
-      lines.push(file.briefDescriptionMdxText.replace(/[.]$/, ''))
+      description = file.briefDescriptionMdxText.replace(/[.]$/, '')
     }
 
-    lines.push('</TreeTableRow>')
+    lines.push('')
+    lines.push(...this.workspace.renderTreeTableRowToLines({
+      itemIconClass: 'doxyIconFile',
+      itemLabel: label,
+      itemLink: permalink,
+      depth,
+      description
+    }))
 
     return lines
   }

@@ -43,12 +43,14 @@ export class DescriptionTypeStringRenderer extends ElementStringRendererBase {
 export class DocParaTypeStringRenderer extends ElementStringRendererBase {
   renderToString (element: AbstractDocParaType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
+    // console.log(element)
 
     let text: string = ''
-    text += this.workspace.renderElementsArrayToString(element.children, type)
-    if (element instanceof ParaDataModel) {
-      text += '\n'
-    }
+    // TODO skip complex objects.
+    text += '<p>'
+    text += this.workspace.renderElementsArrayToString(element.children, type).trim()
+    text += '</p>'
+    text += '\n'
 
     return text
   }
@@ -73,7 +75,6 @@ export class DocURLLinkStringRenderer extends ElementStringRendererBase {
 
 const htmlElements: { [key: string]: string } = {
   BoldDataModel: 'b',
-  ComputerOutputDataModel: 'code',
   EmphasisDataModel: 'em',
   UnderlineDataModel: 'u'
 }
@@ -93,6 +94,19 @@ export class DocMarkupTypeStringRenderer extends ElementStringRendererBase {
     text += `<${htmlElement}>`
     text += this.workspace.renderElementsArrayToString(element.children, type)
     text += `</${htmlElement}>`
+
+    return text
+  }
+}
+
+export class ComputerOutputDataModelStringRenderer extends ElementStringRendererBase {
+  renderToString (element: AbstractDocMarkupType, type: string): string {
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
+
+    let text = ''
+    text += '<span class="doxyComputerOutput">'
+    text += this.workspace.renderElementsArrayToString(element.children, type)
+    text += '</span>'
 
     return text
   }
@@ -186,15 +200,22 @@ export class DocSimpleSectTypeStringRenderer extends ElementStringRendererBase {
 
     lines.push('')
     if (DoxSimpleSectKind[element.kind] !== undefined) {
-      lines.push(`<SectionUser title="${DoxSimpleSectKind[element.kind]}">`)
+      const title = DoxSimpleSectKind[element.kind]
+      lines.push('<dl class="doxySectionUser"')
+      lines.push(`<dt><b>${title}</b></dt>`)
+      lines.push('<dd>')
       lines.push(this.workspace.renderElementsArrayToString(element.children, type).trim())
-      lines.push('</SectionUser>')
+      lines.push('</dd>')
+      lines.push('</dl>')
     } else if (element.kind === 'par') {
       assert(element.title !== undefined)
       const title = element.title.replace(/\.$/, '')
-      lines.push(`<SectionUser title="${title}">`)
+      lines.push('<dl class="doxySectionUser"')
+      lines.push(`<dt><b>${title}</b></dt>`)
+      lines.push('<dd>')
       lines.push(this.workspace.renderElementsArrayToString(element.children, type).trim())
-      lines.push('</SectionUser>')
+      lines.push('</dd>')
+      lines.push('</dl>')
     } else if (element.kind === 'note') {
       // https://docusaurus.io/docs/markdown-features/admonitions
       lines.push(':::info')
@@ -202,6 +223,7 @@ export class DocSimpleSectTypeStringRenderer extends ElementStringRendererBase {
       lines.push(':::')
     } else if (element.kind === 'warning') {
       lines.push(':::warning')
+      // console.log(util.inspect(element, { compact: false, depth: 999 }))
       lines.push(this.workspace.renderElementToString(element.children, type).trim())
       lines.push(':::')
     } else if (element.kind === 'attention') {
@@ -300,7 +322,11 @@ export class DocParamListTypeStringRenderer extends ElementStringRendererBase {
       switch (element.constructor.name) {
         case 'ParameterListDataModel':
           lines.push('')
-          lines.push(`<ParametersList title="${title}">`)
+          lines.push('<dl class="doxyParamsList">')
+          lines.push(`<dt class="doxyParamsTableTitle">${title}</dt>`)
+          lines.push('<dd>')
+          lines.push('<table class="doxyParamsTable">')
+
           for (const parameterItem of element.parameterItems) {
             // console.log(util.inspect(parameterItem, { compact: false, depth: 999 }))
 
@@ -335,17 +361,17 @@ export class DocParamListTypeStringRenderer extends ElementStringRendererBase {
               }
             }
 
-            const parameterLines = this.workspace.renderElementToString(parameterItem.parameterDescription, type).split('\n')
+            const parameters = this.workspace.renderElementToString(parameterItem.parameterDescription, type)
             const escapedName = escapeQuotes(names.join(', '))
-            if (parameterLines.length > 1) {
-              lines.push(`<ParametersListItem name="${escapedName}">`)
-              lines.push(...parameterLines)
-              lines.push('</ParametersListItem>')
-            } else {
-              lines.push(`<ParametersListItem name="${escapedName}">${parameterLines[0]}</ParametersListItem>`)
-            }
+            lines.push('<tr class="doxyParamItem">')
+            lines.push(`<td class="doxyParamItemName">${escapedName}</td>`)
+            lines.push(`<td class="doxyParamItemDescription">${parameters}</td>`)
+            lines.push('</tr>')
           }
-          lines.push('</ParametersList>')
+          lines.push('</table>')
+          lines.push('</dd>')
+          lines.push('</dl>')
+
           break
 
         default:
@@ -367,7 +393,7 @@ export class DocAnchorTypeLinesRenderer extends ElementLinesRendererBase {
     const lines: string[] = []
 
     const anchor = getPermalinkAnchor(element.id)
-    lines.push(`<a id="${anchor}" />`)
+    lines.push(`<a id="${anchor}"></a>`)
 
     return lines
   }
@@ -433,7 +459,7 @@ export class ImageStringRenderer extends ElementStringRendererBase {
       if (element.inline?.valueOf()) {
         text += ' class="inline"'
       }
-      text += ' />'
+      text += '></img>'
       if (element.caption !== undefined) {
         text += '\n'
         text += `  <figcaption>${escapeHtml(element.caption)}</figcaption>`

@@ -164,7 +164,10 @@ export class Classes extends CollectionBase {
     }
     // --------------------------------------------------------------------------
     async generateIndexDotMdxFile() {
-        const filePath = `${this.workspace.outputFolderPath}classes/index.mdx`;
+        if (this.topLevelClasses.length === 0) {
+            return;
+        }
+        const filePath = `${this.workspace.outputFolderPath}classes/index.md`;
         const permalink = 'classes';
         const frontMatter = {
             title: 'The Classes Reference',
@@ -176,12 +179,12 @@ export class Classes extends CollectionBase {
         const lines = [];
         lines.push('The classes, structs, union and interfaces used by this project are:');
         lines.push('');
-        lines.push('<TreeTable>');
+        lines.push('<table class="doxyTreeTable">');
         for (const classs of this.topLevelClasses) {
             lines.push(...this.generateIndexMdxFileRecursively(classs, 1));
         }
         lines.push('');
-        lines.push('</TreeTable>');
+        lines.push('</table>');
         console.log(`Writing classes index file ${filePath}...`);
         await this.workspace.writeMdxFile({
             filePath,
@@ -205,16 +208,18 @@ export class Classes extends CollectionBase {
             iconLetter = '?';
         }
         const label = escapeMdx(classs.unqualifiedName);
-        lines.push('');
-        lines.push('<TreeTableRow');
-        lines.push(`  itemIconLetter="${iconLetter}"`);
-        lines.push(`  itemLabel="${label}"`);
-        lines.push(`  itemLink="${permalink}"`);
-        lines.push(`  depth = "${depth}" >`);
+        let description = '';
         if (classs.briefDescriptionMdxText !== undefined && classs.briefDescriptionMdxText.length > 0) {
-            lines.push(classs.briefDescriptionMdxText.replace(/[.]$/, ''));
+            description = classs.briefDescriptionMdxText.replace(/[.]$/, '');
         }
-        lines.push('</TreeTableRow>');
+        lines.push('');
+        lines.push(...this.workspace.renderTreeTableRowToLines({
+            itemIconLetter: iconLetter,
+            itemLabel: label,
+            itemLink: permalink,
+            depth,
+            description
+        }));
         if (classs.children.length > 0) {
             for (const childClass of classs.children) {
                 lines.push(...this.generateIndexMdxFileRecursively(childClass, depth + 1));
@@ -223,6 +228,9 @@ export class Classes extends CollectionBase {
         return lines;
     }
     async generatePerInitialsIndexMdxFiles() {
+        if (this.topLevelClasses.length === 0) {
+            return;
+        }
         const allUnorderedEntriesMap = new Map();
         for (const [compoundId, compound] of this.collectionCompoundsById) {
             const compoundEntry = new IndexEntry(compound);
@@ -237,7 +245,7 @@ export class Classes extends CollectionBase {
         // ------------------------------------------------------------------------
         const outputFolderPath = this.workspace.outputFolderPath;
         {
-            const filePath = `${outputFolderPath}index/classes/all.mdx`;
+            const filePath = `${outputFolderPath}index/classes/all.md`;
             const permalink = 'index/classes/all';
             const frontMatter = {
                 title: 'The Classes and Members Index',
@@ -259,7 +267,7 @@ export class Classes extends CollectionBase {
         }
         // ------------------------------------------------------------------------
         {
-            const filePath = `${outputFolderPath}index/classes/classes.mdx`;
+            const filePath = `${outputFolderPath}index/classes/classes.md`;
             const permalink = 'index/classes/classes';
             const frontMatter = {
                 title: 'The Classes Index',
@@ -287,7 +295,7 @@ export class Classes extends CollectionBase {
         }
         // ------------------------------------------------------------------------
         {
-            const filePath = `${outputFolderPath}index/classes/functions.mdx`;
+            const filePath = `${outputFolderPath}index/classes/functions.md`;
             const permalink = 'index/classes/functions';
             const frontMatter = {
                 title: 'The Class Functions Index',
@@ -315,7 +323,7 @@ export class Classes extends CollectionBase {
         }
         // ------------------------------------------------------------------------
         {
-            const filePath = `${outputFolderPath}index/classes/variables.mdx`;
+            const filePath = `${outputFolderPath}index/classes/variables.md`;
             const permalink = 'index/classes/variables';
             const frontMatter = {
                 title: 'The Class Variables Index',
@@ -343,7 +351,7 @@ export class Classes extends CollectionBase {
         }
         // ------------------------------------------------------------------------
         {
-            const filePath = `${outputFolderPath}index/classes/typedefs.mdx`;
+            const filePath = `${outputFolderPath}index/classes/typedefs.md`;
             const permalink = 'index/classes/typedefs';
             const frontMatter = {
                 title: 'The Class Type Definitions Index',
@@ -510,7 +518,7 @@ export class Class extends CompoundBase {
         this.templateParamList = compoundDef.templateParamList;
     }
     // --------------------------------------------------------------------------
-    renderToMdxLines(frontMatter) {
+    renderToLines(frontMatter) {
         const lines = [];
         frontMatter.toc_max_heading_level = 3;
         const descriptionTodo = `@${this.kind} ${escapeMdx(this.compoundName)}`;
@@ -525,16 +533,14 @@ export class Class extends CompoundBase {
         const classs = this.collection.collectionCompoundsById.get(this.id);
         assert(classs !== undefined);
         // const classFullName = this.classFullNameMdxText
+        // This generates <pre><code>...</code></pre> and the copy button.
+        lines.push('');
+        lines.push('<div class="doxyDeclaration">');
         if (this.templateMdxText !== undefined) {
-            lines.push('');
-            // Intentionally on two lines.
-            lines.push(`<CodeBlock>template ${this.templateMdxText}`);
-            lines.push(`${this.kind} ${this.classFullNameMdxText}</CodeBlock>`);
+            lines.push(`template ${this.templateMdxText}<br/>`);
         }
-        else {
-            lines.push('');
-            lines.push(`<CodeBlock>${this.kind} ${this.classFullNameMdxText}</CodeBlock>`);
-        }
+        lines.push(`${this.kind} ${this.classFullNameMdxText}`);
+        lines.push('</div>');
         lines.push(...this.renderIncludesIndexToMdxLines());
         if (this.kind === 'class' || this.kind === 'struct') {
             if (this.baseCompoundRefs !== undefined) {
@@ -552,7 +558,7 @@ export class Class extends CompoundBase {
                     lines.push(`## Base ${this.kind}`);
                 }
                 lines.push('');
-                lines.push('<MembersIndex>');
+                lines.push('<table class="doxyMembersIndex">');
                 for (const baseCompoundRef of baseCompoundRefs.values()) {
                     // console.log(util.inspect(baseCompoundRef, { compact: false, depth: 999 }))
                     if (baseCompoundRef.refid !== undefined) {
@@ -564,13 +570,13 @@ export class Class extends CompoundBase {
                     }
                     const itemName = escapeMdx(baseCompoundRef.text);
                     lines.push('');
-                    lines.push('<MembersIndexItem');
-                    lines.push(`  type="${this.kind}"`);
-                    lines.push(`  name={<>${itemName}</>}>`);
-                    lines.push('</MembersIndexItem>');
+                    lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
+                        type: this.kind,
+                        name: itemName
+                    }));
                 }
                 lines.push('');
-                lines.push('</MembersIndex>');
+                lines.push('</table>');
             }
             else if ('baseClassIds' in classs && classs.baseClassIds.size > 0) {
                 lines.push('');
@@ -581,7 +587,7 @@ export class Class extends CompoundBase {
                     lines.push(`## Base ${this.kind}`);
                 }
                 lines.push('');
-                lines.push('<MembersIndex>');
+                lines.push('<table class="doxyMembersIndex">');
                 for (const baseClassId of classs.baseClassIds) {
                     const baseClass = this.collection.collectionCompoundsById.get(baseClassId);
                     if (baseClass !== undefined) {
@@ -590,13 +596,13 @@ export class Class extends CompoundBase {
                     }
                 }
                 lines.push('');
-                lines.push('</MembersIndex>');
+                lines.push('</table>');
             }
             if (this.derivedCompoundRefs !== undefined) {
                 lines.push('');
                 lines.push(`## Derived ${kindsPlurals[this.kind]}`);
                 lines.push('');
-                lines.push('<MembersIndex>');
+                lines.push('<table class="doxyMembersIndex">');
                 for (const derivedCompoundRef of this.derivedCompoundRefs) {
                     // console.log(util.inspect(derivedCompoundRef, { compact: false, depth: 999 }))
                     if (derivedCompoundRef.refid !== undefined) {
@@ -610,29 +616,29 @@ export class Class extends CompoundBase {
                             }
                             const itemName = escapeMdx(derivedCompoundRef.text.trim());
                             lines.push('');
-                            lines.push('<MembersIndexItem');
-                            lines.push(`  type="${this.kind}"`);
-                            lines.push(`  name={<>${itemName}</>}>`);
-                            lines.push('</MembersIndexItem>');
+                            lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
+                                type: this.kind,
+                                name: itemName
+                            }));
                         }
                     }
                     else {
                         const itemName = escapeMdx(derivedCompoundRef.text.trim());
                         lines.push('');
-                        lines.push('<MembersIndexItem');
-                        lines.push(`  type="${this.kind}"`);
-                        lines.push(`  name={<>${itemName}</>}>`);
-                        lines.push('</MembersIndexItem>');
+                        lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
+                            type: this.kind,
+                            name: itemName
+                        }));
                     }
                 }
                 lines.push('');
-                lines.push('</MembersIndex>');
+                lines.push('</table>');
             }
             else if ('derivedClassIds' in classs && classs.childrenIds.length > 0) {
                 lines.push('');
                 lines.push(`## Derived ${kindsPlurals[this.kind]}`);
                 lines.push('');
-                lines.push('<MembersIndex>');
+                lines.push('<table class="doxyMembersIndex">');
                 for (const derivedClassId of classs.childrenIds) {
                     const derivedClass = this.collection.collectionCompoundsById.get(derivedClassId);
                     if (derivedClass !== undefined) {
@@ -644,7 +650,7 @@ export class Class extends CompoundBase {
                     }
                 }
                 lines.push('');
-                lines.push('</MembersIndex>');
+                lines.push('</table>');
             }
         }
         lines.push(...this.renderInnerIndicesToMdxLines({
@@ -673,23 +679,20 @@ export class Class extends CompoundBase {
         const itemType = this.kind;
         const itemName = `<a href="${permalink}">${escapeMdx(this.indexName)}</a>`;
         lines.push('');
-        lines.push('<MembersIndexItem');
-        lines.push(`  type="${itemType}"`);
-        if (itemName.includes('<') || itemName.includes('&')) {
-            lines.push(`  name={<>${itemName}</>}>`);
-        }
-        else {
-            lines.push(`  name="${itemName}">`);
-        }
+        const childrenLines = [];
         const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined;
         const briefDescriptionMdxText = this.briefDescriptionMdxText;
         if ((briefDescriptionMdxText ?? '').length > 0) {
-            lines.push(this.renderBriefDescriptionToMdxText({
+            childrenLines.push(this.renderBriefDescriptionToMdxText({
                 briefDescriptionMdxText,
                 morePermalink
             }));
         }
-        lines.push('</MembersIndexItem>');
+        lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
+            type: itemType,
+            name: itemName,
+            childrenLines
+        }));
         return lines;
     }
 }

@@ -20,6 +20,7 @@ import { SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-d
 import { CompoundBase } from './compound-base-vm.js'
 import { escapeHtml, escapeMdx, getPermalinkAnchor } from '../utils.js'
 import { Class } from './classes-vm.js'
+import { ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -266,7 +267,7 @@ export class Section {
       lines.push(`## ${escapeMdx(this.headerName)} Index`)
 
       lines.push('')
-      lines.push('<MembersIndex>')
+      lines.push('<table class="doxyMembersIndex">')
 
       for (const member of this.indexMembers) {
         if (member instanceof Member) {
@@ -279,7 +280,7 @@ export class Section {
       }
 
       lines.push('')
-      lines.push('</MembersIndex>')
+      lines.push('</table>')
     }
     return lines
   }
@@ -296,7 +297,7 @@ export class Section {
     // TODO: filter out members defined in other compounds.
 
     lines.push('')
-    lines.push('<SectionDefinition>')
+    lines.push('<div class="doxySectionDef">')
 
     lines.push('')
     lines.push(`## ${escapeMdx(this.headerName)}`)
@@ -314,7 +315,7 @@ export class Section {
     }
 
     lines.push('')
-    lines.push('</SectionDefinition>')
+    lines.push('</div>')
 
     return lines
   }
@@ -382,11 +383,17 @@ export class Member extends MemberBase {
     const workspace = this.section.compound.collection.workspace
 
     if (memberDef.briefDescription !== undefined) {
-      this.briefDescriptionMdxText = workspace.renderElementToString(memberDef.briefDescription, 'mdx')
+      // console.log(memberDef.briefDescription)
+      if (memberDef.briefDescription.children.length > 1) {
+        assert(memberDef.briefDescription.children[1] instanceof ParaDataModel)
+        this.briefDescriptionMdxText = workspace.renderElementsArrayToString(memberDef.briefDescription.children[1].children, 'mdx').trim()
+      } else {
+        this.briefDescriptionMdxText = workspace.renderElementToString(memberDef.briefDescription, 'mdx').trim()
+      }
     }
 
     if (memberDef.detailedDescription !== undefined) {
-      this.detailedDescriptionMdxText = workspace.renderElementToString(memberDef.detailedDescription, 'mdx')
+      this.detailedDescriptionMdxText = workspace.renderElementToString(memberDef.detailedDescription, 'mdx').trim()
     }
 
     this.argsstring = memberDef.argsstring
@@ -621,42 +628,27 @@ export class Member extends MemberBase {
     }
 
     lines.push('')
-    lines.push('<MembersIndexItem')
-
-    if (itemTemplate.length > 0) {
-      if (itemTemplate.includes('<') || itemTemplate.includes('&')) {
-        lines.push(`  template={<>${itemTemplate}</>}`)
-      } else {
-        lines.push(`  template="${itemTemplate}"`)
-      }
-    }
-    if (itemType.length > 0) {
-      if (itemType.includes('<') || itemType.includes('&')) {
-        lines.push(`  type={<>${itemType}</>}`)
-      } else {
-        lines.push(`  type="${itemType}"`)
-      }
-    }
 
     if (itemName.length === 0) {
       console.log(this)
       console.warn('empty name in', this.id)
     }
-    if (itemName.includes('<') || itemName.includes('&')) {
-      lines.push(`  name={<>${itemName}</>}>`)
-    } else {
-      lines.push(`  name="${itemName}">`)
-    }
 
+    const childrenLines: string[] = []
     const briefDescriptionMdxText = this.briefDescriptionMdxText
     if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
-      lines.push(this.section.compound.renderBriefDescriptionToMdxText({
+      childrenLines.push(this.section.compound.renderBriefDescriptionToMdxText({
         briefDescriptionMdxText,
         morePermalink: `${permalink}` // No #details, it is already an anchor.
       }))
     }
 
-    lines.push('</MembersIndexItem>')
+    lines.push(...workspace.renderMembersIndexItemToLines({
+      template: itemTemplate,
+      type: itemType,
+      name: itemName,
+      childrenLines
+    }))
 
     return lines
   }
@@ -705,24 +697,16 @@ export class Member extends MemberBase {
           }
 
           lines.push('')
-          lines.push('<MemberDefinition')
+
+          let template
+
           if (this.templateParametersMdxText !== undefined && this.templateParametersMdxText.length > 0) {
-            const template = escapeMdx(`template ${this.templateParametersMdxText}`)
-            lines.push(`  template={<>${template}</>}`)
+            template = escapeMdx(`template ${this.templateParametersMdxText}`)
           }
 
-          if (prototype.includes('<') || prototype.includes('&')) {
-            lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`)
-          } else {
-            lines.push(`  prototype="${prototype}"${this.labels.length === 0 ? '>' : ''}`)
-          }
-
-          if (this.labels.length > 0) {
-            lines.push(`  labels = {["${this.labels.join('", "')}"]}>`)
-          }
-
+          const childrenLines: string[] = []
           if (this.detailedDescriptionMdxText !== undefined) {
-            lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+            childrenLines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
               briefDescriptionMdxText: this.briefDescriptionMdxText,
               detailedDescriptionMdxText: this.detailedDescriptionMdxText,
               showHeader: false,
@@ -731,10 +715,15 @@ export class Member extends MemberBase {
           }
 
           if (this.locationMdxText !== undefined) {
-            lines.push(this.locationMdxText)
+            childrenLines.push(this.locationMdxText)
           }
 
-          lines.push('</MemberDefinition>')
+          lines.push(...this.renderMemberDefinitionToLines({
+            template,
+            prototype,
+            labels: this.labels,
+            childrenLines
+          }))
         }
         break
 
@@ -760,39 +749,33 @@ export class Member extends MemberBase {
           }
 
           lines.push('')
-          lines.push('<MemberDefinition')
 
-          if (prototype.includes('<') || prototype.includes('&')) {
-            lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`)
-          } else {
-            lines.push(`  prototype="${prototype}"${this.labels.length === 0 ? '>' : ''}`)
-          }
-
-          if (this.labels.length > 0) {
-            lines.push(` labels = {["${this.labels.join('", "')}"]}>`)
-          }
-
+          const childrenLines: string[] = []
           if (this.briefDescriptionMdxText !== undefined && this.briefDescriptionMdxText.length > 0) {
-            lines.push(this.section.compound.renderBriefDescriptionToMdxText({
+            childrenLines.push(this.section.compound.renderBriefDescriptionToMdxText({
               briefDescriptionMdxText: this.briefDescriptionMdxText
             }))
           }
 
           assert(this.enumMdxLines !== undefined)
-          lines.push(...this.enumMdxLines)
+          childrenLines.push(...this.enumMdxLines)
 
           if (this.detailedDescriptionMdxText !== undefined) {
-            lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+            childrenLines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
               detailedDescriptionMdxText: this.detailedDescriptionMdxText,
               showHeader: false
             }))
           }
 
           if (this.locationMdxText !== undefined) {
-            lines.push(this.locationMdxText)
+            childrenLines.push(this.locationMdxText)
           }
 
-          lines.push('</MemberDefinition>')
+          lines.push(...this.renderMemberDefinitionToLines({
+            prototype,
+            labels: this.labels,
+            childrenLines
+          }))
         }
         break
 
@@ -800,21 +783,12 @@ export class Member extends MemberBase {
         {
           // console.log(this)
           const prototype = `friend ${this.typeMdxText} ${this.parameters}`
+
           lines.push('')
-          lines.push('<MemberDefinition')
 
-          if (prototype.includes('<') || prototype.includes('&')) {
-            lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`)
-          } else {
-            lines.push(`  prototype="${prototype}"${this.labels.length === 0 ? '>' : ''}`)
-          }
-
-          if (this.labels.length > 0) {
-            lines.push(`  labels = {["${this.labels.join('", "')}"]}>`)
-          }
-
+          const childrenLines: string[] = []
           if (this.detailedDescriptionMdxText !== undefined) {
-            lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+            childrenLines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
               briefDescriptionMdxText: this.briefDescriptionMdxText,
               detailedDescriptionMdxText: this.detailedDescriptionMdxText,
               showHeader: false,
@@ -823,10 +797,14 @@ export class Member extends MemberBase {
           }
 
           if (this.locationMdxText !== undefined) {
-            lines.push(this.locationMdxText)
+            childrenLines.push(this.locationMdxText)
           }
 
-          lines.push('</MemberDefinition>')
+          lines.push(...this.renderMemberDefinitionToLines({
+            prototype,
+            labels: this.labels,
+            childrenLines
+          }))
         }
         break
 
@@ -840,19 +818,9 @@ export class Member extends MemberBase {
           }
 
           lines.push('')
-          lines.push('<MemberDefinition')
 
-          if (prototype.includes('<') || prototype.includes('&')) {
-            lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`)
-          } else {
-            lines.push(`  prototype="${prototype}"${this.labels.length === 0 ? '>' : ''}`)
-          }
-
-          if (this.labels.length > 0) {
-            lines.push(`  labels = {["${this.labels.join('", "')}"]}>`)
-          }
-
-          lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+          const childrenLines: string[] = []
+          childrenLines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
             briefDescriptionMdxText: this.briefDescriptionMdxText,
             detailedDescriptionMdxText: this.detailedDescriptionMdxText,
             showHeader: false,
@@ -860,10 +828,14 @@ export class Member extends MemberBase {
           }))
 
           if (this.locationMdxText !== undefined) {
-            lines.push(this.locationMdxText)
+            childrenLines.push(this.locationMdxText)
           }
 
-          lines.push('</MemberDefinition>')
+          lines.push(...this.renderMemberDefinitionToLines({
+            prototype,
+            labels: this.labels,
+            childrenLines
+          }))
         }
         break
 
@@ -875,6 +847,56 @@ export class Member extends MemberBase {
     return lines
   }
 
+  private renderMemberDefinitionToLines ({
+    template,
+    prototype,
+    labels,
+    childrenLines
+  }: {
+    template?: string | undefined
+    prototype: string
+    labels: string[]
+    childrenLines: string[]
+  }): string[] {
+    const lines: string[] = []
+
+    lines.push('<div class="doxyMemberItem">')
+    lines.push('<div class="doxyMemberProto">')
+    if (template !== undefined && template.length > 0) {
+      lines.push(`<div class="doxyMemberTemplate">${template}</div>`)
+    }
+    lines.push('<table class="doxyMemberLabels">')
+    lines.push('<tbody>')
+    lines.push('<tr class="doxyMemberLabels">')
+    lines.push('<td class="doxyMemberLabelsLeft">')
+    lines.push('<table class="doxyMemberName">')
+    lines.push('<tbody>')
+    lines.push('<tr>')
+    lines.push(`<td class="doxyMemberName">${prototype}</td>`)
+    lines.push('</tr>')
+    lines.push('</tbody>')
+    lines.push('</table>')
+    lines.push('</td>')
+    if (labels.length > 0) {
+      lines.push('<td class="doxyMemberLabelsRight">')
+      lines.push('<span class="doxyMemberLabels">')
+      for (const label of labels) {
+        lines.push(`<span class="doxyMemberLabel ${label}">${label}</span>`)
+      }
+      lines.push('</span>')
+      lines.push('</td>')
+    }
+    lines.push('</tr>')
+    lines.push('</tbody>')
+    lines.push('</table>')
+    lines.push('</div>')
+    lines.push('<div class="doxyMemberDoc">')
+    lines.push(...childrenLines)
+    lines.push('</div>')
+    lines.push('</div>')
+
+    return lines
+  }
   // --------------------------------------------------------------------------
 
   renderEnumToMdxLines (memberDef: MemberDefDataModel): string[] {
@@ -883,7 +905,10 @@ export class Member extends MemberBase {
     const workspace = this.section.compound.collection.workspace
 
     lines.push('')
-    lines.push('<EnumerationList title="Enumeration values">')
+    lines.push('<dl class="doxyEnumList">')
+    lines.push('<dt class="doxyEnumTableTitle">Enumeration values</dt>')
+    lines.push('<dd>')
+    lines.push('<table class="doxyEnumTable">')
 
     if (memberDef.enumvalues !== undefined) {
       for (const enumValue of memberDef.enumvalues) {
@@ -895,14 +920,17 @@ export class Member extends MemberBase {
         }
 
         lines.push('')
-        lines.push(`<a id="${anchor}" />`)
-        lines.push(`<EnumerationListItem name="${enumValue.name.trim()}">`)
-        lines.push(`${enumBriefDescription}`)
-        lines.push('</EnumerationListItem>')
+        // lines.push(`<a id="${anchor}"></a>`)
+        lines.push('<tr class="doxyEnumItem">')
+        lines.push(`<td class="doxyEnumItemName">${enumValue.name.trim()}<a id="${anchor}"></a></td>`)
+        lines.push(`<td class="doxyEnumItemDescription">${enumBriefDescription}</td>`)
+        lines.push('</tr>')
       }
     }
     lines.push('')
-    lines.push('</EnumerationList>')
+    lines.push('</table>')
+    lines.push('</dd>')
+    lines.push('</dl>')
 
     return lines
   }

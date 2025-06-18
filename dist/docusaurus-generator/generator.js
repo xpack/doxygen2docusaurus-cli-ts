@@ -12,7 +12,6 @@ import assert from 'node:assert';
 import path from 'node:path';
 import * as fs from 'node:fs/promises';
 import { Workspace } from './workspace.js';
-import { Page } from './view-model/pages-vm.js';
 export class DocusaurusGenerator {
     // --------------------------------------------------------------------------
     constructor({ dataModel, pluginOptions, siteConfig, pluginActions = undefined }) {
@@ -27,7 +26,8 @@ export class DocusaurusGenerator {
     async generate() {
         console.log();
         await this.prepareOutputFolder();
-        await this.generateConfigurationFile();
+        // No longer used with CommonMarkdown output.
+        // await this.generateConfigurationFile()
         await this.generateSidebarFile();
         await this.generateMenuDropdownFile();
         console.log();
@@ -148,19 +148,19 @@ export class DocusaurusGenerator {
     // --------------------------------------------------------------------------
     async generatePages() {
         if (this.workspace.pluginOptions.verbose) {
-            console.log('Writing Docusaurus .mdx pages (object -> url)...');
+            console.log('Writing Docusaurus .md pages (object -> url)...');
         }
         else {
-            console.log('Writing Docusaurus .mdx pages...');
+            console.log('Writing Docusaurus .md pages...');
         }
         for (const [compoundId, compound] of this.workspace.compoundsById) {
-            if (compound instanceof Page && compound.id === 'indexpage') {
-                // This is the @mainpage. We diverge from Doxygen and generate
-                // the API main page differently, with the list of topics and
-                // this page detailed description. Therefore it is not generated
-                // as a regular page and must be skipped at this stage.
-                continue;
-            }
+            // if (compound instanceof Page && compound.id === 'indexpage') {
+            //   // This is the @mainpage. We diverge from Doxygen and generate
+            //   // the API main page differently, with the list of topics and
+            //   // this page detailed description. Therefore it is not generated
+            //   // as a regular page and must be skipped at this stage.
+            //   continue
+            // }
             this.workspace.currentCompound = compound;
             const permalink = compound.relativePermalink;
             const docusaurusId = compound.docusaurusId;
@@ -174,7 +174,7 @@ export class DocusaurusGenerator {
             if (this.workspace.pluginOptions.verbose) {
                 console.log(`${compound.kind}: ${compound.compoundName.replaceAll(/[ ]*/g, '')}`, '->', `${this.workspace.absoluteBaseUrl}${permalink}...`);
             }
-            const fileName = `${docusaurusId}.mdx`;
+            const fileName = `${docusaurusId}.md`;
             // console.log('fileName:', fileName)
             const filePath = `${this.workspace.outputFolderPath}${fileName}`;
             const slug = `${this.workspace.slugBaseUrl}${permalink}`;
@@ -185,7 +185,7 @@ export class DocusaurusGenerator {
                 custom_edit_url: null,
                 keywords: ['doxygen', 'reference', `${compound.kind}`]
             };
-            const bodyLines = compound.renderToMdxLines(frontMatter);
+            const bodyLines = compound.renderToLines(frontMatter);
             const pagePermalink = `${this.workspace.pageBaseUrl}${compound.relativePermalink}`;
             await this.workspace.writeMdxFile({
                 filePath,

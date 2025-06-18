@@ -14,7 +14,7 @@ import * as util from 'node:util';
 import { AbstractDataModelBase } from '../types.js';
 import { RefTextDataModel } from './reftexttype-dm.js';
 import { VariableListDataModel } from './docvarlistentrytype-dm.js';
-import { DocBookOnlyDataModel, HtmlOnlyDataModel, LatexOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel } from './compounddef-dm.js';
+import { DocBookOnlyDataModel, HtmlOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel } from './compounddef-dm.js';
 import { TocListDataModel } from './tableofcontentstype-dm.js';
 // ----------------------------------------------------------------------------
 // A bit unusual, since string values should be stored as object properties.
@@ -976,19 +976,23 @@ export function parseDocTitleCmdGroup(xml, element, elementName) {
         children.push(new HtmlOnlyDataModel(xml, element));
     }
     else if (xml.hasInnerElement(element, 'manonly')) {
+        // Skipped, no Man output.
         children.push(new ManOnlyDataModel(xml, element));
     }
     else if (xml.hasInnerElement(element, 'xmlonly')) {
         children.push(new XmlOnlyDataModel(xml, element));
     }
     else if (xml.hasInnerElement(element, 'rtfonly')) {
-        children.push(new RtfOnlyDataModel(xml, element));
+        // Skipped, no RTF output.
+        // children.push(new RtfOnlyDataModel(xml, element))
     }
     else if (xml.hasInnerElement(element, 'latexonly')) {
-        children.push(new LatexOnlyDataModel(xml, element));
+        // Skipped, no LaTeX output.
+        // children.push(new LatexOnlyDataModel(xml, element))
     }
     else if (xml.hasInnerElement(element, 'docbookonly')) {
-        children.push(new DocBookOnlyDataModel(xml, element));
+        // Skipped, no DocBook output.
+        // children.push(new DocBookOnlyDataModel(xml, element))
     }
     else if (xml.hasInnerElement(element, 'image')) {
         children.push(new ImageDataModel(xml, element));
@@ -1878,18 +1882,22 @@ function parseDocCmdGroup(xml, element, elementName) {
         children.push(new HtmlOnlyDataModel(xml, element));
     }
     else if (xml.hasInnerElement(element, 'manonly')) {
+        // Skipped, no Man output.
         children.push(new ManOnlyDataModel(xml, element));
     }
     else if (xml.hasInnerElement(element, 'xmlonly')) {
         children.push(new XmlOnlyDataModel(xml, element));
     }
     else if (xml.hasInnerElement(element, 'rtfonly')) {
+        // Skipped, no RTF output.
         children.push(new RtfOnlyDataModel(xml, element));
     }
     else if (xml.hasInnerElement(element, 'latexonly')) {
-        children.push(new LatexOnlyDataModel(xml, element));
+        // Skipped, no LaTeX output.
+        // children.push(new LatexOnlyDataModel(xml, element))
     }
     else if (xml.hasInnerElement(element, 'docbookonly')) {
+        // Skipped, no DocBook output.
         children.push(new DocBookOnlyDataModel(xml, element));
     }
     else if (xml.hasInnerElement(element, 'image')) {
@@ -2714,7 +2722,8 @@ function parseDocCmdGroup(xml, element, elementName) {
         // javadoccode
     }
     else if (xml.hasInnerElement(element, 'indexentry')) {
-        children.push(new IndexEntryDataModel(xml, element));
+        // Skipped, no index rendered.
+        // children.push(new IndexEntryDataModel(xml, element))
     }
     else if (xml.hasInnerElement(element, 'orderedlist')) {
         children.push(new OrderedListDataModel(xml, element));

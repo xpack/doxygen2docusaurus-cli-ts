@@ -16,5 +16,5 @@ export declare class Groups extends CollectionBase {
 }
 export declare class Group extends CompoundBase {
     constructor(collection: Groups, compoundDef: CompoundDefDataModel);
-    renderToMdxLines(frontMatter: FrontMatter): string[];
+    renderToLines(frontMatter: FrontMatter): string[];
 }

@@ -8,11 +8,11 @@
  * If a copy of the license was not distributed with this file, it can
  * be obtained from https://opensource.org/licenses/MIT.
  */
-import { ElementTextRendererBase } from './element-renderer-base.js';
+import { ElementStringRendererBase } from './element-renderer-base.js';
 import { escapeMdx } from '../utils.js';
 // ----------------------------------------------------------------------------
-export class RefTextTypeTextRenderer extends ElementTextRendererBase {
-    renderToMdxText(element) {
+export class RefTextTypeStringRenderer extends ElementStringRendererBase {
+    renderToString(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         if (element.external !== undefined) {
             console.error(element.elementName, 'attribute external not yet rendered in', this.constructor.name);

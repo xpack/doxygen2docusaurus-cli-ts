@@ -216,14 +216,14 @@ export class Classes extends CollectionBase {
     lines.push('The classes, structs, union and interfaces used by this project are:')
 
     lines.push('')
-    lines.push('<TreeTable>')
+    lines.push('<table class="doxyTreeTable">')
 
     for (const classs of this.topLevelClasses) {
       lines.push(...this.generateIndexMdxFileRecursively(classs, 1))
     }
 
     lines.push('')
-    lines.push('</TreeTable>')
+    lines.push('</table>')
 
     console.log(`Writing classes index file ${filePath}...`)
     await this.workspace.writeMdxFile({
@@ -255,18 +255,19 @@ export class Classes extends CollectionBase {
 
     const label = escapeMdx(classs.unqualifiedName)
 
-    lines.push('')
-    lines.push('<TreeTableRow')
-    lines.push(`  itemIconLetter="${iconLetter}"`)
-    lines.push(`  itemLabel="${label}"`)
-    lines.push(`  itemLink="${permalink}"`)
-    lines.push(`  depth = "${depth}" >`)
-
+    let description: string = ''
     if (classs.briefDescriptionMdxText !== undefined && classs.briefDescriptionMdxText.length > 0) {
-      lines.push(classs.briefDescriptionMdxText.replace(/[.]$/, ''))
+      description = classs.briefDescriptionMdxText.replace(/[.]$/, '')
     }
 
-    lines.push('</TreeTableRow>')
+    lines.push('')
+    lines.push(...this.workspace.renderTreeTableRowToLines({
+      itemIconLetter: iconLetter,
+      itemLabel: label,
+      itemLink: permalink,
+      depth,
+      description
+    }))
 
     if (classs.children.length > 0) {
       for (const childClass of classs.children) {
@@ -670,15 +671,14 @@ export class Class extends CompoundBase {
 
     // const classFullName = this.classFullNameMdxText
 
+    // This generates <pre><code>...</code></pre> and the copy button.
+    lines.push('')
+    lines.push('<div class="doxyDeclaration">')
     if (this.templateMdxText !== undefined) {
-      lines.push('')
-      // Intentionally on two lines.
-      lines.push(`<CodeBlock>template ${this.templateMdxText}`)
-      lines.push(`${this.kind} ${this.classFullNameMdxText}</CodeBlock>`)
-    } else {
-      lines.push('')
-      lines.push(`<CodeBlock>${this.kind} ${this.classFullNameMdxText}</CodeBlock>`)
+      lines.push(`template ${this.templateMdxText}<br/>`)
     }
+    lines.push(`${this.kind} ${this.classFullNameMdxText}`)
+    lines.push('</div>')
 
     lines.push(...this.renderIncludesIndexToMdxLines())
 
@@ -698,7 +698,7 @@ export class Class extends CompoundBase {
           lines.push(`## Base ${this.kind}`)
         }
         lines.push('')
-        lines.push('<MembersIndex>')
+        lines.push('<table class="doxyMembersIndex">')
 
         for (const baseCompoundRef of baseCompoundRefs.values()) {
           // console.log(util.inspect(baseCompoundRef, { compact: false, depth: 999 }))
@@ -712,14 +712,15 @@ export class Class extends CompoundBase {
           }
           const itemName = escapeMdx(baseCompoundRef.text)
           lines.push('')
-          lines.push('<MembersIndexItem')
-          lines.push(`  type="${this.kind}"`)
-          lines.push(`  name={<>${itemName}</>}>`)
-          lines.push('</MembersIndexItem>')
+
+          lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
+            type: this.kind,
+            name: itemName
+          }))
         }
 
         lines.push('')
-        lines.push('</MembersIndex>')
+        lines.push('</table>')
       } else if ('baseClassIds' in classs && classs.baseClassIds.size > 0) {
         lines.push('')
         if (classs.baseClassIds.size > 1) {
@@ -729,7 +730,7 @@ export class Class extends CompoundBase {
         }
 
         lines.push('')
-        lines.push('<MembersIndex>')
+        lines.push('<table class="doxyMembersIndex">')
 
         for (const baseClassId of classs.baseClassIds) {
           const baseClass = (this.collection as Classes).collectionCompoundsById.get(baseClassId) as Class
@@ -740,7 +741,7 @@ export class Class extends CompoundBase {
         }
 
         lines.push('')
-        lines.push('</MembersIndex>')
+        lines.push('</table>')
       }
 
       if (this.derivedCompoundRefs !== undefined) {
@@ -748,7 +749,7 @@ export class Class extends CompoundBase {
         lines.push(`## Derived ${kindsPlurals[this.kind]}`)
 
         lines.push('')
-        lines.push('<MembersIndex>')
+        lines.push('<table class="doxyMembersIndex">')
 
         for (const derivedCompoundRef of this.derivedCompoundRefs) {
           // console.log(util.inspect(derivedCompoundRef, { compact: false, depth: 999 }))
@@ -764,29 +765,29 @@ export class Class extends CompoundBase {
 
               const itemName = escapeMdx(derivedCompoundRef.text.trim())
               lines.push('')
-              lines.push('<MembersIndexItem')
-              lines.push(`  type="${this.kind}"`)
-              lines.push(`  name={<>${itemName}</>}>`)
-              lines.push('</MembersIndexItem>')
+              lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
+                type: this.kind,
+                name: itemName
+              }))
             }
           } else {
             const itemName = escapeMdx(derivedCompoundRef.text.trim())
             lines.push('')
-            lines.push('<MembersIndexItem')
-            lines.push(`  type="${this.kind}"`)
-            lines.push(`  name={<>${itemName}</>}>`)
-            lines.push('</MembersIndexItem>')
+            lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
+              type: this.kind,
+              name: itemName
+            }))
           }
         }
 
         lines.push('')
-        lines.push('</MembersIndex>')
+        lines.push('</table>')
       } else if ('derivedClassIds' in classs && classs.childrenIds.length > 0) {
         lines.push('')
         lines.push(`## Derived ${kindsPlurals[this.kind]}`)
 
         lines.push('')
-        lines.push('<MembersIndex>')
+        lines.push('<table class="doxyMembersIndex">')
 
         for (const derivedClassId of classs.childrenIds) {
           const derivedClass = (this.collection as Classes).collectionCompoundsById.get(derivedClassId) as Class
@@ -799,7 +800,7 @@ export class Class extends CompoundBase {
         }
 
         lines.push('')
-        lines.push('</MembersIndex>')
+        lines.push('</table>')
       }
     }
 
@@ -840,24 +841,22 @@ export class Class extends CompoundBase {
     const itemName = `<a href="${permalink}">${escapeMdx(this.indexName)}</a>`
 
     lines.push('')
-    lines.push('<MembersIndexItem')
-    lines.push(`  type="${itemType}"`)
-    if (itemName.includes('<') || itemName.includes('&')) {
-      lines.push(`  name={<>${itemName}</>}>`)
-    } else {
-      lines.push(`  name="${itemName}">`)
-    }
 
+    const childrenLines: string[] = []
     const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined
     const briefDescriptionMdxText: string | undefined = this.briefDescriptionMdxText
     if ((briefDescriptionMdxText ?? '').length > 0) {
-      lines.push(this.renderBriefDescriptionToMdxText({
+      childrenLines.push(this.renderBriefDescriptionToMdxText({
         briefDescriptionMdxText,
         morePermalink
       }))
     }
 
-    lines.push('</MembersIndexItem>')
+    lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
+      type: itemType,
+      name: itemName,
+      childrenLines
+    }))
 
     return lines
   }

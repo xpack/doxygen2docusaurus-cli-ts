@@ -1,9 +1,9 @@
-import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js';
+import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js';
 import { Workspace } from '../workspace.js';
 export declare class Renderers {
     elementLinesRenderers: Map<string, ElementLinesRendererBase>;
-    elementTextRenderers: Map<string, ElementTextRendererBase>;
+    elementStringRenderers: Map<string, ElementStringRendererBase>;
     constructor(workspace: Workspace);
     getElementLinesRenderer(element: Object): ElementLinesRendererBase | undefined;
-    getElementTextRenderer(element: Object): ElementTextRendererBase | undefined;
+    getElementTextRenderer(element: Object): ElementStringRendererBase | undefined;
 }

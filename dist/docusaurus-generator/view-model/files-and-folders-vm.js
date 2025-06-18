@@ -221,7 +221,10 @@ export class FilesAndFolders extends CollectionBase {
     }
     // --------------------------------------------------------------------------
     async generateIndexDotMdxFile() {
-        const filePath = `${this.workspace.outputFolderPath}files/index.mdx`;
+        if (this.topLevelFolders.length === 0 && this.topLevelFiles.length === 0) {
+            return;
+        }
+        const filePath = `${this.workspace.outputFolderPath}files/index.md`;
         const permalink = 'files';
         const frontMatter = {
             title: 'The Files & Folders Reference',
@@ -233,7 +236,7 @@ export class FilesAndFolders extends CollectionBase {
         const lines = [];
         lines.push('The files & folders that contributed content to this site are:');
         lines.push('');
-        lines.push('<TreeTable>');
+        lines.push('<table class="doxyTreeTable">');
         for (const folder of this.topLevelFolders) {
             lines.push(...this.generateIndexMdxFileRecursively(folder, 0));
         }
@@ -241,7 +244,7 @@ export class FilesAndFolders extends CollectionBase {
             lines.push(...this.generateFileIndexMdx(file, 1));
         }
         lines.push('');
-        lines.push('</TreeTable>');
+        lines.push('</table>');
         console.log(`Writing files index file ${filePath}...`);
         await this.workspace.writeMdxFile({
             filePath,
@@ -255,16 +258,18 @@ export class FilesAndFolders extends CollectionBase {
         const label = escapeMdx(folder.compoundName);
         const permalink = this.workspace.getPagePermalink(folder.id);
         assert(permalink !== undefined && permalink.length > 1);
-        lines.push('');
-        lines.push('<TreeTableRow');
-        lines.push('  itemIconClass="doxyIconFolder"');
-        lines.push(`  itemLabel="${label}"`);
-        lines.push(`  itemLink="${permalink}"`);
-        lines.push(`  depth="${depth}">`);
+        let description = '';
         if (folder.briefDescriptionMdxText !== undefined && folder.briefDescriptionMdxText.length > 0) {
-            lines.push(folder.briefDescriptionMdxText.replace(/[.]$/, ''));
+            description = folder.briefDescriptionMdxText.replace(/[.]$/, '');
         }
-        lines.push('</TreeTableRow>');
+        lines.push('');
+        lines.push(...this.workspace.renderTreeTableRowToLines({
+            itemIconClass: 'doxyIconFolder',
+            itemLabel: label,
+            itemLink: permalink,
+            depth,
+            description
+        }));
         if (folder.children.length > 0) {
             for (const childFileOrFolder of folder.children) {
                 if (childFileOrFolder instanceof Folder) {
@@ -285,16 +290,18 @@ export class FilesAndFolders extends CollectionBase {
         const label = escapeMdx(file.compoundName);
         const permalink = this.workspace.getPagePermalink(file.id);
         assert(permalink !== undefined && permalink.length > 1);
-        lines.push('');
-        lines.push('<TreeTableRow');
-        lines.push('  itemIconClass="doxyIconFile"');
-        lines.push(`  itemLabel="${label}"`);
-        lines.push(`  itemLink="${permalink}"`);
-        lines.push(`  depth="${depth}">`);
+        let description = '';
         if (file.briefDescriptionMdxText !== undefined && file.briefDescriptionMdxText.length > 0) {
-            lines.push(file.briefDescriptionMdxText.replace(/[.]$/, ''));
+            description = file.briefDescriptionMdxText.replace(/[.]$/, '');
         }
-        lines.push('</TreeTableRow>');
+        lines.push('');
+        lines.push(...this.workspace.renderTreeTableRowToLines({
+            itemIconClass: 'doxyIconFile',
+            itemLabel: label,
+            itemLink: permalink,
+            depth,
+            description
+        }));
         return lines;
     }
 }
@@ -331,7 +338,7 @@ export class Folder extends CompoundBase {
         this.createSections();
     }
     // --------------------------------------------------------------------------
-    renderToMdxLines(frontMatter) {
+    renderToLines(frontMatter) {
         const lines = [];
         const descriptionTodo = `@dir ${escapeMdx(this.relativePath)}`;
         const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined;
@@ -385,7 +392,7 @@ export class File extends CompoundBase {
         }
     }
     // --------------------------------------------------------------------------
-    renderToMdxLines(frontMatter) {
+    renderToLines(frontMatter) {
         const lines = [];
         const descriptionTodo = `@file ${escapeMdx(this.relativePath)}`;
         const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined;
@@ -412,7 +419,7 @@ export class File extends CompoundBase {
             lines.push('## File Listing');
             lines.push('');
             lines.push('The file content with the documentation metadata removed is:');
-            lines.push(...this.collection.workspace.renderElementToMdxLines(this.programListing));
+            lines.push(...this.collection.workspace.renderElementToLines(this.programListing, 'mdx'));
         }
         return lines;
     }

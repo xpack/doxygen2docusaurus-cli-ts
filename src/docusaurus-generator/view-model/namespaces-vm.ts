@@ -168,14 +168,14 @@ export class Namespaces extends CollectionBase {
     lines.push('The namespaces used by this project are:')
 
     lines.push('')
-    lines.push('<TreeTable>')
+    lines.push('<table class="doxyTreeTable">')
 
     for (const namespace of this.topLevelNamespaces) {
       lines.push(...this.generateIndexMdxFileRecursively(namespace, 1))
     }
 
     lines.push('')
-    lines.push('</TreeTable>')
+    lines.push('</table>')
 
     console.log(`Writing namespaces index file ${filePath}...`)
     await this.workspace.writeMdxFile({
@@ -198,18 +198,19 @@ export class Namespaces extends CollectionBase {
     }
     assert(permalink !== undefined && permalink.length > 1)
 
-    lines.push('')
-    lines.push('<TreeTableRow')
-    lines.push('  itemIconLetter="N"')
-    lines.push(`  itemLabel="${label}"`)
-    lines.push(`  itemLink="${permalink}"`)
-    lines.push(`  depth="${depth}">`)
-
+    let description: string = ''
     if (namespace.briefDescriptionMdxText !== undefined && namespace.briefDescriptionMdxText.length > 0) {
-      lines.push(namespace.briefDescriptionMdxText.replace(/[.]$/, ''))
+      description = namespace.briefDescriptionMdxText.replace(/[.]$/, '')
     }
 
-    lines.push('</TreeTableRow>')
+    lines.push('')
+    lines.push(...this.workspace.renderTreeTableRowToLines({
+      itemIconLetter: 'N',
+      itemLabel: label,
+      itemLink: permalink,
+      depth,
+      description
+    }))
 
     if (namespace.children.length > 0) {
       for (const childNamespace of namespace.children) {
@@ -332,14 +333,16 @@ export class Namespace extends CompoundBase {
 
     lines.push('')
     lines.push('## Definition')
-    lines.push('')
 
+    lines.push('')
+    lines.push('<div class="doxyDefinition">')
     const dots = escapeHtml('{ ... }')
     if (this.compoundName.startsWith('anonymous_namespace{')) {
-      lines.push(`<CodeBlock>namespace ${dots}</CodeBlock>`)
+      lines.push(`namespace ${dots}`)
     } else {
-      lines.push(`<CodeBlock>namespace ${escapeMdx(this.compoundName)} ${dots}</CodeBlock>`)
+      lines.push(`namespace ${escapeMdx(this.compoundName)} ${dots}`)
     }
+    lines.push('</div>')
 
     lines.push(...this.renderInnerIndicesToMdxLines({
       suffixes: ['Namespaces', 'Classes']

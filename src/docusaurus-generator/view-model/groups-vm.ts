@@ -195,14 +195,14 @@ export class Groups extends CollectionBase {
     if (useCollapsibleTable) {
       lines.push('<CollapsibleTreeTable rows={tableData} />')
     } else {
-      lines.push('<TreeTable>')
+      lines.push('<table class="doxyTreeTable">')
 
       for (const group of this.topLevelGroups) {
         lines.push(...this.generateIndexMdxFileRecursively(group, 1))
       }
 
       lines.push('')
-      lines.push('</TreeTable>')
+      lines.push('</table>')
     }
 
     const pages = this.workspace.viewModel.get('pages') as Pages
@@ -220,7 +220,7 @@ export class Groups extends CollectionBase {
 
     lines.push('')
     lines.push(':::note')
-    lines.push('For comparison, the original Doxygen html pages, styled with the [doxygen-awesome-css](https://jothepro.github.io/doxygen-awesome-css/) plugin, continue to be available via the <Link to="pathname:///doxygen/topics.html">/doxygen/*</Link> URLs.')
+    lines.push('For comparison, the original Doxygen html pages, styled with the <a href="https://jothepro.github.io/doxygen-awesome-css/">doxygen-awesome-css</a> plugin, continue to be available via the <a href="pathname:///doxygen/topics.html"><code>.../doxygen/*.html</b></code> URLs.')
     lines.push(':::')
 
     console.log(`Writing groups index file ${filePath}...`)
@@ -276,17 +276,18 @@ export class Groups extends CollectionBase {
     const permalink = this.workspace.getPagePermalink(group.id)
     assert(permalink !== undefined && permalink.length > 1)
 
-    lines.push('')
-    lines.push('<TreeTableRow')
-    lines.push(`  itemLabel="${label}"`)
-    lines.push(`  itemLink="${permalink}"`)
-    lines.push(`  depth="${depth}">`)
-
+    let description: string = ''
     if (group.briefDescriptionMdxText !== undefined && group.briefDescriptionMdxText.length > 0) {
-      lines.push(group.briefDescriptionMdxText.replace(/[.]$/, ''))
+      description = group.briefDescriptionMdxText.replace(/[.]$/, '')
     }
 
-    lines.push('</TreeTableRow>')
+    lines.push('')
+    lines.push(...this.workspace.renderTreeTableRowToLines({
+      itemLabel: label,
+      itemLink: permalink,
+      depth,
+      description
+    }))
 
     if (group.children.length > 0) {
       for (const childGroup of group.children) {

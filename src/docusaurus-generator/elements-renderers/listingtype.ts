@@ -13,6 +13,7 @@
 
 import assert from 'assert'
 import util from 'util'
+
 import { AbstractCodeLineType, CodeLineDataModel, AbstractHighlightType, HighlightDataModel, AbstractListingType } from '../../data-model/compounds/descriptiontype-dm.js'
 import { ElementLinesRendererBase } from './element-renderer-base.js'
 
@@ -24,21 +25,14 @@ export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
 
     const lines: string[] = []
 
-    let text = ''
-    text += '\n'
-    text += '<ProgramListing'
-    if (element.filename !== undefined && element.filename.length > 0) {
-      const extension = element.filename.replace('.', '')
-      text += ` extension="${extension}"`
-    }
-    text += '>'
-    lines.push(text)
+    lines.push('')
+    lines.push('<div class="doxyProgramListing">')
 
     lines.push('')
     lines.push(...this.workspace.renderElementsArrayToLines(element.codelines, type))
 
     lines.push('')
-    lines.push('</ProgramListing>')
+    lines.push('</div>')
     lines.push('')
 
     return lines
@@ -66,21 +60,26 @@ export class CodeLineTypeLinesRenderer extends ElementLinesRendererBase {
 
     if (element.lineno !== undefined) {
       const anchor = `l${element.lineno.toString().padStart(5, '0')}`
-      text += `<a id="${anchor}" />`
+      text += `<a id="${anchor}"></a>`
     }
 
-    text += '<CodeLine'
+    text += '<div class="doxyCodeLine">'
     if (element.lineno !== undefined) {
-      text += ` lineNumber="${element.lineno.toString()}"`
+      text += '<span class="doxyLineNumber">'
+      if (permalink !== undefined) {
+        text += `<a href="${permalink}">${element.lineno.toString()}</a>`
+      } else {
+        text += element.lineno.toString()
+      }
+      text += '</span>'
+    } else {
+      text += '<span class="doxyNoLineNumber">&nbsp;</span>'
     }
-    if (permalink !== undefined) {
-      text += ` lineLink="${permalink}"`
-    }
-    text += '>'
 
+    text += '<span class="doxyLineContent">'
     text += this.workspace.renderElementsArrayToString(element.highlights, type)
-
-    text += '</CodeLine>'
+    text += '</span>'
+    text += '</div>'
 
     return [text]
   }

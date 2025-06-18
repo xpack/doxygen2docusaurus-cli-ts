@@ -44,9 +44,12 @@ export class VariableListPairLinesRenderer extends ElementLinesRendererBase {
     const title = this.workspace.renderElementToString(element.varlistentry.term, type).trim()
 
     lines.push('')
-    lines.push(`<Reference title={<>${title}</>}>`)
+    lines.push('<dl class="doxyReference">')
+    lines.push(`<dt class="doxyReferenceTerm">${title}</dt>`)
+    lines.push('<dd class="doxyReferenceDescription">')
     lines.push(this.workspace.renderElementsArrayToString(element.listitem.paras, type).trim())
-    lines.push('</Reference>')
+    lines.push('</dd>')
+    lines.push('</dl>')
     lines.push('')
 
     return lines

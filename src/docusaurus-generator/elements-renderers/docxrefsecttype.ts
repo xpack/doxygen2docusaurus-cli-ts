@@ -14,28 +14,33 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { ElementStringRendererBase } from './element-renderer-base.js'
+import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js'
 import { AbstractDocXRefSectType } from '../../data-model/compounds/descriptiontype-dm.js'
 import { escapeMdx } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
-export class DocXRefSectTextRenderer extends ElementStringRendererBase {
-  renderToString (element: AbstractDocXRefSectType, type: string): string {
+export class DocXRefSectLinesRenderer extends ElementLinesRendererBase {
+  renderToLines (element: AbstractDocXRefSectType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     const lines: string[] = []
 
-    lines.push('')
-    lines.push('<XrefSect')
-    lines.push(`  title="${escapeMdx(element.xreftitle ?? '?')}"`)
+    const title = escapeMdx(element.xreftitle ?? '?')
     const permalink: string = this.workspace.getXrefPermalink(element.id)
-    lines.push(`  permalink="${permalink}">`)
-    lines.push(this.workspace.renderElementToString(element.xrefdescription, type))
-    // lines.push('')
-    lines.push('</XrefSect>')
 
-    return lines.join('\n')
+    lines.push('')
+    lines.push('<div class="doxyXrefSect">')
+    lines.push('<dl class="doxyXrefSectList">')
+    lines.push(`<dt class="doxyXrefSectTitle"><a href=${permalink}>${title}</a></dt>`)
+    lines.push('<dd class="doxyXrefSectDescription">')
+
+    lines.push(this.workspace.renderElementToString(element.xrefdescription, type))
+    lines.push('</dd>')
+    lines.push('</dl>')
+    lines.push('</div>')
+
+    return lines
   }
 }
 

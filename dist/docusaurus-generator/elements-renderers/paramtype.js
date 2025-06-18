@@ -24,7 +24,7 @@ import { ElementLinesRendererBase } from './element-renderer-base.js';
 //   </xsd:sequence>
 // </xsd:complexType>
 export class ParamTypeLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element) {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         if (element.attributes !== undefined) {
             console.error(util.inspect(element, { compact: false, depth: 999 }));
@@ -43,14 +43,14 @@ export class ParamTypeLinesRenderer extends ElementLinesRendererBase {
             console.error(element.elementName, 'property briefdescription not yet rendered in', this.constructor.name);
         }
         let text = '';
-        text += this.workspace.renderElementToMdxText(element.type);
+        text += this.workspace.renderElementToString(element.type, type);
         if (element.declname !== undefined) {
             text += ` ${element.declname}`;
             if (element.array !== undefined) {
                 text += `=${element.array}`;
             }
             if (element.defval !== undefined) {
-                text += `=${this.workspace.renderElementToMdxText(element.defval)}`;
+                text += `=${this.workspace.renderElementToString(element.defval, type)}`;
             }
         }
         return [text];

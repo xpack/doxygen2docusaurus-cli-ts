@@ -1,12 +1,12 @@
 import { AbstractCodeLineType, AbstractHighlightType, AbstractListingType } from '../../data-model/compounds/descriptiontype-dm.js';
 import { ElementLinesRendererBase } from './element-renderer-base.js';
 export declare class ListingTypeLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element: AbstractListingType): string[];
+    renderToLines(element: AbstractListingType, type: string): string[];
 }
 export declare class CodeLineTypeLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element: AbstractCodeLineType): string[];
+    renderToLines(element: AbstractCodeLineType, type: string): string[];
 }
 export declare class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
     knownClasses: Record<string, string>;
-    renderToMdxLines(element: AbstractHighlightType): string[];
+    renderToLines(element: AbstractHighlightType, type: string): string[];
 }

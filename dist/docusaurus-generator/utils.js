@@ -36,6 +36,7 @@ export function escapeMdx(text) {
         .replaceAll(/}/g, '&#125;')
         .replaceAll(/\[/g, '&#91;')
         .replaceAll(/\]/g, '&#93;')
+        .replaceAll(/~/g, '&#126;')
         .replaceAll(/[\\]/g, '\\\\')
         .replaceAll(/\*/g, '&#42;') // Markdown for bold
         .replaceAll(/_/g, '&#95;'); // Markdown for italics
@@ -62,6 +63,21 @@ export function escapeHtml(text) {
 export function escapeQuotes(text) {
     return text
         .replaceAll(/"/g, '&quot;');
+}
+// type='html'
+export function escapeHtml2(text) {
+    return text
+        .replaceAll(/&/g, '&amp;')
+        .replaceAll(/</g, '&lt;')
+        .replaceAll(/>/g, '&gt;')
+        .replaceAll(/{/g, '&#123;') // MDX
+        .replaceAll(/}/g, '&#125;'); // MDX
+}
+// type='plain-html'
+export function escapeBraces(text) {
+    return text
+        .replaceAll(/{/g, '&#123;') // MDX
+        .replaceAll(/}/g, '&#125;'); // MDX
 }
 // Preserve '/' too.
 export function sanitizeHierarchicalPath(text) {

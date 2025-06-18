@@ -14,5 +14,5 @@ export declare class Pages extends CollectionBase {
 }
 export declare class Page extends CompoundBase {
     constructor(collection: Pages, compoundDef: CompoundDefDataModel);
-    renderToMdxLines(frontMatter: FrontMatter): string[];
+    renderToLines(frontMatter: FrontMatter): string[];
 }

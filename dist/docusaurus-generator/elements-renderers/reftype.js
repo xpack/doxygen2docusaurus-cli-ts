@@ -14,7 +14,7 @@ import { ElementLinesRendererBase } from './element-renderer-base.js';
 import { escapeMdx } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class RefTypeLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element) {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         if (element.prot !== undefined) {
             console.error(element.elementName, 'attribute prot not yet rendered in', this.constructor.name);

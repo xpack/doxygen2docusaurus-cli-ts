@@ -1,11 +1,11 @@
 import { Workspace } from '../workspace.js';
-export declare abstract class ElementTextRendererBase {
+export declare abstract class ElementStringRendererBase {
     workspace: Workspace;
     constructor(workspace: Workspace);
-    abstract renderToMdxText(element: Object): string;
+    abstract renderToString(element: Object, type: string): string;
 }
 export declare abstract class ElementLinesRendererBase {
     workspace: Workspace;
     constructor(workspace: Workspace);
-    abstract renderToMdxLines(element: Object): string[];
+    abstract renderToLines(element: Object, type: string): string[];
 }

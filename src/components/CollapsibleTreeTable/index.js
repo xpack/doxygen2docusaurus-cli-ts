@@ -15,9 +15,6 @@ import styles from './styles.module.css'
 import React, { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 
-import TreeTable from '../TreeTable/index.js'
-import TreeTableRow from '../TreeTableRow/index.js'
-
 // ----------------------------------------------------------------------------
 
 // Work in progress, not yet collapsible, it needs the button.

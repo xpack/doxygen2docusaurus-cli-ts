@@ -16,7 +16,6 @@ import * as util from 'util'
 
 import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js'
 import { AbstractDocCaptionType, AbstractDocEntryType, AbstractDocRowType, AbstractDocTableType } from '../../data-model/compounds/descriptiontype-dm.js'
-import { escapeHtml, escapeHtml2 } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -71,7 +70,7 @@ export class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
 
 export class DocEntryTypeStringRenderer extends ElementStringRendererBase {
   renderToString (element: AbstractDocEntryType, type: string): string {
-    console.log(util.inspect(element, { compact: false, depth: 999 }))
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text: string = ''
 

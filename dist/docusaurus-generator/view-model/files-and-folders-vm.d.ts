@@ -30,7 +30,7 @@ export declare class Folder extends CompoundBase {
     childrenFolders: Folder[];
     relativePath: string;
     constructor(collection: FilesAndFolders, compoundDef: CompoundDefDataModel);
-    renderToMdxLines(frontMatter: FrontMatter): string[];
+    renderToLines(frontMatter: FrontMatter): string[];
 }
 export declare class File extends CompoundBase {
     relativePath: string;
@@ -38,5 +38,5 @@ export declare class File extends CompoundBase {
     programListing: ProgramListingDataModel | undefined;
     constructor(collection: FilesAndFolders, compoundDef: CompoundDefDataModel);
     initializeLate(): void;
-    renderToMdxLines(frontMatter: FrontMatter): string[];
+    renderToLines(frontMatter: FrontMatter): string[];
 }

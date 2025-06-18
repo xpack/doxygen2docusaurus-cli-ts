@@ -13,6 +13,7 @@
 
 import assert from 'assert'
 import * as util from 'util'
+
 import { ElementStringRendererBase } from './element-renderer-base.js'
 import { SubstringDocMarkupType } from '../../data-model/compounds/descriptiontype-dm.js'
 

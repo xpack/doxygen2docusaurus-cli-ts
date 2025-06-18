@@ -122,7 +122,10 @@ export class Namespaces extends CollectionBase {
     }
     // --------------------------------------------------------------------------
     async generateIndexDotMdxFile() {
-        const filePath = `${this.workspace.outputFolderPath}namespaces/index.mdx`;
+        if (this.topLevelNamespaces.length === 0) {
+            return;
+        }
+        const filePath = `${this.workspace.outputFolderPath}namespaces/index.md`;
         const permalink = 'namespaces';
         const frontMatter = {
             title: 'The Namespaces Reference',
@@ -134,12 +137,12 @@ export class Namespaces extends CollectionBase {
         const lines = [];
         lines.push('The namespaces used by this project are:');
         lines.push('');
-        lines.push('<TreeTable>');
+        lines.push('<table class="doxyTreeTable">');
         for (const namespace of this.topLevelNamespaces) {
             lines.push(...this.generateIndexMdxFileRecursively(namespace, 1));
         }
         lines.push('');
-        lines.push('</TreeTable>');
+        lines.push('</table>');
         console.log(`Writing namespaces index file ${filePath}...`);
         await this.workspace.writeMdxFile({
             filePath,
@@ -156,16 +159,18 @@ export class Namespaces extends CollectionBase {
             console.log(namespace);
         }
         assert(permalink !== undefined && permalink.length > 1);
-        lines.push('');
-        lines.push('<TreeTableRow');
-        lines.push('  itemIconLetter="N"');
-        lines.push(`  itemLabel="${label}"`);
-        lines.push(`  itemLink="${permalink}"`);
-        lines.push(`  depth="${depth}">`);
+        let description = '';
         if (namespace.briefDescriptionMdxText !== undefined && namespace.briefDescriptionMdxText.length > 0) {
-            lines.push(namespace.briefDescriptionMdxText.replace(/[.]$/, ''));
+            description = namespace.briefDescriptionMdxText.replace(/[.]$/, '');
         }
-        lines.push('</TreeTableRow>');
+        lines.push('');
+        lines.push(...this.workspace.renderTreeTableRowToLines({
+            itemIconLetter: 'N',
+            itemLabel: label,
+            itemLink: permalink,
+            depth,
+            description
+        }));
         if (namespace.children.length > 0) {
             for (const childNamespace of namespace.children) {
                 lines.push(...this.generateIndexMdxFileRecursively(childNamespace, depth + 1));
@@ -251,7 +256,7 @@ export class Namespace extends CompoundBase {
         // console.log()
     }
     // --------------------------------------------------------------------------
-    renderToMdxLines(frontMatter) {
+    renderToLines(frontMatter) {
         const lines = [];
         const descriptionTodo = `@namespace ${escapeMdx(this.compoundName)}`;
         const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined;
@@ -263,13 +268,15 @@ export class Namespace extends CompoundBase {
         lines.push('');
         lines.push('## Definition');
         lines.push('');
+        lines.push('<div class="doxyDefinition">');
         const dots = escapeHtml('{ ... }');
         if (this.compoundName.startsWith('anonymous_namespace{')) {
-            lines.push(`<CodeBlock>namespace ${dots}</CodeBlock>`);
+            lines.push(`namespace ${dots}`);
         }
         else {
-            lines.push(`<CodeBlock>namespace ${escapeMdx(this.compoundName)} ${dots}</CodeBlock>`);
+            lines.push(`namespace ${escapeMdx(this.compoundName)} ${dots}`);
         }
+        lines.push('</div>');
         lines.push(...this.renderInnerIndicesToMdxLines({
             suffixes: ['Namespaces', 'Classes']
         }));

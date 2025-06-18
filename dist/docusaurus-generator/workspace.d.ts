@@ -51,10 +51,25 @@ export declare class Workspace {
         title?: string;
         pagePermalink?: string;
     }): Promise<void>;
-    renderElementsToMdxLines(elements: Object[] | undefined): string[];
-    renderElementToMdxLines(element: Object | undefined): string[];
-    renderElementsToMdxText(elements: Object[] | undefined): string;
-    renderElementToMdxText(element: Object | undefined): string;
+    private renderString;
+    renderElementsArrayToLines(elements: Object[] | undefined, type: string): string[];
+    renderElementToLines(element: Object | undefined, type: string): string[];
+    renderElementsArrayToString(elements: Object[] | undefined, type: string): string;
+    renderElementToString(element: Object | undefined, type: string): string;
+    renderMembersIndexItemToLines({ template, type, name, childrenLines }: {
+        template?: string | undefined;
+        type?: string | undefined;
+        name: string;
+        childrenLines?: string[] | undefined;
+    }): string[];
+    renderTreeTableRowToLines({ itemIconLetter, itemIconClass, itemLabel, itemLink, depth, description }: {
+        itemIconLetter?: string;
+        itemIconClass?: string;
+        itemLabel: string;
+        itemLink: string;
+        depth: number;
+        description: string;
+    }): string[];
     getPermalink({ refid, kindref }: {
         refid: string;
         kindref: string;

@@ -11,7 +11,7 @@
 import { ElementLinesRendererBase } from './element-renderer-base.js';
 // ----------------------------------------------------------------------------
 export class IncTypeLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element) {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
         let permalink = '';
@@ -19,10 +19,20 @@ export class IncTypeLinesRenderer extends ElementLinesRendererBase {
             permalink = this.workspace.getPagePermalink(element.refId);
             // May be undefined.
         }
-        lines.push('<IncludesListItem');
-        lines.push(`  filePath="${element.text}"`);
-        lines.push(`  permalink="${permalink}"`);
-        lines.push(`  isLocal="${element.local.toString()}" />`);
+        let text = '';
+        // text += '<code>#include '
+        text += '#include ';
+        text += element.local ? '"' : '&lt;';
+        if (permalink !== undefined && permalink.length > 0) {
+            text += `<a href="${permalink}">${element.text}</a>`;
+        }
+        else {
+            text += element.text;
+        }
+        text += element.local ? '"' : '&gt;';
+        // text += '</code>'
+        lines.push(text);
+        lines.push('<br/>');
         return lines;
     }
 }

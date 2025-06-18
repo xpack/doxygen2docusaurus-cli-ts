@@ -1,41 +1,54 @@
-import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js';
-import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractSpType, AbstractVerbatimType } from '../../data-model/compounds/descriptiontype-dm.js';
-export declare class DescriptionTypeTextRenderer extends ElementTextRendererBase {
-    renderToMdxText(element: AbstractDescriptionType): string;
+import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js';
+import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocHeadingType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractEmojiType, AbstractSpType, AbstractVerbatimType } from '../../data-model/compounds/descriptiontype-dm.js';
+import { AbstractDocHtmlOnlyType } from '../../data-model/compounds/compounddef-dm.js';
+export declare class DescriptionTypeStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractDescriptionType, type: string): string;
 }
-export declare class DocParaTypeTextRenderer extends ElementTextRendererBase {
-    renderToMdxText(element: AbstractDocParaType): string;
+export declare class DocParaTypeStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractDocParaType, type: string): string;
 }
-export declare class DocURLLinkTextRenderer extends ElementTextRendererBase {
-    renderToMdxText(element: AbstractDocURLLink): string;
+export declare class DocURLLinkStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractDocURLLink, type: string): string;
 }
-export declare class DocMarkupTypeTextRenderer extends ElementTextRendererBase {
-    renderToMdxText(element: AbstractDocMarkupType): string;
+export declare class DocMarkupTypeStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractDocMarkupType, type: string): string;
 }
-export declare class DocRefTextTypeTextRenderer extends ElementTextRendererBase {
-    renderToMdxText(element: AbstractDocRefTextType): string;
+export declare class ComputerOutputDataModelStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractDocMarkupType, type: string): string;
 }
-export declare class DocSimpleSectTypeTextRenderer extends ElementTextRendererBase {
-    renderToMdxText(element: AbstractDocSimpleSectType): string;
+export declare class DocRefTextTypeStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractDocRefTextType, type: string): string;
 }
-export declare class SpTypeTextRenderer extends ElementTextRendererBase {
-    renderToMdxText(element: AbstractSpType): string;
+export declare class DocSimpleSectTypeStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractDocSimpleSectType, type: string): string;
 }
-export declare class DocEmptyTypeLinesRenderer extends ElementTextRendererBase {
-    renderToMdxText(element: AbstractDocEmptyType): string;
+export declare class SpTypeStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractSpType, type: string): string;
 }
-export declare class DocParamListTypeTextRenderer extends ElementTextRendererBase {
-    renderToMdxText(element: AbstractDocParamListType): string;
+export declare class DocEmptyTypeStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractDocEmptyType, type: string): string;
+}
+export declare class DocParamListTypeStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractDocParamListType, type: string): string;
 }
 export declare class DocAnchorTypeLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element: AbstractDocAnchorType): string[];
+    renderToLines(element: AbstractDocAnchorType, type: string): string[];
 }
-export declare class VerbatimRenderer extends ElementTextRendererBase {
-    renderToMdxText(element: AbstractVerbatimType): string;
+export declare class VerbatimStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractVerbatimType, type: string): string;
 }
-export declare class FormulaRenderer extends ElementTextRendererBase {
-    renderToMdxText(element: AbstractDocFormulaType): string;
+export declare class FormulaStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractDocFormulaType, type: string): string;
 }
-export declare class ImageRenderer extends ElementTextRendererBase {
-    renderToMdxText(element: AbstractDocImageType): string;
+export declare class ImageStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractDocImageType, type: string): string;
+}
+export declare class HtmlOnlyStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractDocHtmlOnlyType, type: string): string;
+}
+export declare class HeadingStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractDocHeadingType, type: string): string;
+}
+export declare class EmojiStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractEmojiType, type: string): string;
 }

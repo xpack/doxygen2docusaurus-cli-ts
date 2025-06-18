@@ -10,7 +10,7 @@
  */
 import assert from 'node:assert';
 import path from 'node:path';
-import { Sect1DataModel } from '../../data-model/compounds/descriptiontype-dm.js';
+import { ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
 import { InnerClassDataModel } from '../../data-model/compounds/reftype-dm.js';
 import { escapeHtml, escapeMdx } from '../utils.js';
 import { Section } from './members-vm.js';
@@ -178,16 +178,24 @@ export class CompoundBase {
         const compoundDef = this._private._compoundDef;
         assert(compoundDef !== undefined);
         if (compoundDef.briefDescription !== undefined) {
-            this.briefDescriptionMdxText = workspace.renderElementToMdxText(compoundDef.briefDescription);
+            // console.log(compoundDef.briefDescription)
+            if (compoundDef.briefDescription.children.length > 1) {
+                assert(compoundDef.briefDescription.children[1] instanceof ParaDataModel);
+                this.briefDescriptionMdxText = workspace.renderElementsArrayToString(compoundDef.briefDescription.children[1].children, 'mdx').trim();
+            }
+            else {
+                this.briefDescriptionMdxText = workspace.renderElementToString(compoundDef.briefDescription, 'mdx').trim();
+            }
         }
         if (compoundDef.detailedDescription !== undefined) {
-            this.detailedDescriptionMdxText = workspace.renderElementToMdxText(compoundDef.detailedDescription);
-            for (const child of compoundDef.detailedDescription.children) {
-                if (child instanceof Sect1DataModel) {
-                    this.hasSect1InDescription = true;
-                    break;
-                }
-            }
+            // console.log(compoundDef.detailedDescription)
+            this.detailedDescriptionMdxText = workspace.renderElementToString(compoundDef.detailedDescription, 'mdx').trim();
+            // for (const child of compoundDef.detailedDescription.children) {
+            //   if (child instanceof Sect1DataModel) {
+            //     this.hasSect1InDescription = true
+            //     break
+            //   }
+            // }
         }
         if (this.kind === 'page') {
             // The location for pages is not usable.
@@ -244,12 +252,14 @@ export class CompoundBase {
             return '';
         }
         if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
+            text += '<p>';
             text += briefDescriptionMdxText;
             if (morePermalink !== undefined && morePermalink.length > 0) {
                 text += ` <a href="${morePermalink}">`;
                 text += 'More...';
                 text += '</a>';
             }
+            text += '</p>';
         }
         else if (todo.length > 0) {
             text += `TODO: add <code>@brief</code> to <code>${todo}</code>`;
@@ -275,13 +285,13 @@ export class CompoundBase {
                 lines.push('');
             }
             if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
-                lines.push(briefDescriptionMdxText);
+                lines.push(`<p>${briefDescriptionMdxText}</p>`);
             }
             else if (todo.length > 0) {
                 lines.push(`TODO: add <code>@brief</code> to <code>${todo}</code>`);
             }
         }
-        // console.log(util.inspect(compoundDef.detailedDescription, { compact: false, depth: 999 }))
+        // console.log(util.inspect(detailedDescriptionMdxText, { compact: false, depth: 999 }))
         if (detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) {
             lines.push('');
             lines.push(detailedDescriptionMdxText);
@@ -318,7 +328,7 @@ export class CompoundBase {
                 lines.push('');
                 lines.push(`## ${suffix === 'Dirs' ? 'Folders' : (suffix === 'Groups' ? 'Topics' : suffix)} Index`);
                 lines.push('');
-                lines.push('<MembersIndex>');
+                lines.push('<table class="doxyMembersIndex">');
                 for (const innerObject of innerObjects) {
                     // console.log(util.inspect(innerObject, { compact: false, depth: 999 }))
                     const innerDataObject = workspace.compoundsById.get(innerObject.refid);
@@ -328,29 +338,28 @@ export class CompoundBase {
                         const permalink = workspace.getPagePermalink(innerObject.refid);
                         const itemName = `<a href="${permalink}">${escapeHtml(innerDataObject.indexName)}</a>`;
                         lines.push('');
-                        lines.push('<MembersIndexItem');
-                        lines.push(`  type="${itemType}"`);
-                        if (itemName.includes('<') || itemName.includes('&')) {
-                            lines.push(`  name={<>${itemName}</>}>`);
-                        }
-                        else {
-                            lines.push(`  name="${itemName}">`);
-                        }
+                        const childrenLines = [];
                         const morePermalink = innerDataObject.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined;
                         if (innerDataObject.briefDescriptionMdxText !== undefined && innerDataObject.briefDescriptionMdxText.length > 0) {
-                            lines.push(this.renderBriefDescriptionToMdxText({
+                            childrenLines.push(this.renderBriefDescriptionToMdxText({
                                 briefDescriptionMdxText: innerDataObject.briefDescriptionMdxText,
                                 morePermalink
                             }));
                         }
-                        lines.push('</MembersIndexItem>');
+                        lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
+                            type: itemType,
+                            name: itemName,
+                            childrenLines
+                        }));
                     }
                     else if (innerObject instanceof InnerClassDataModel) {
+                        const itemType = 'class';
+                        const itemName = escapeHtml(innerObject.text);
                         lines.push('');
-                        lines.push('<MembersIndexItem');
-                        lines.push('  type="class"');
-                        lines.push(`  name="${escapeHtml(innerObject.text)}">`);
-                        lines.push('</MembersIndexItem>');
+                        lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
+                            type: itemType,
+                            name: itemName
+                        }));
                     }
                     else {
                         if (this.collection.workspace.pluginOptions.debug) {
@@ -362,7 +371,7 @@ export class CompoundBase {
                     }
                 }
                 lines.push('');
-                lines.push('</MembersIndex>');
+                lines.push('</table>');
             }
         }
         return lines;
@@ -386,11 +395,11 @@ export class CompoundBase {
             lines.push('');
             lines.push('## Included Headers');
             lines.push('');
-            lines.push('<IncludesList>');
+            lines.push('<div class="doxyIncludesList">');
             for (const include of this.includes) {
-                lines.push(workspace.renderElementToMdxText(include));
+                lines.push(workspace.renderElementToString(include, 'mdx'));
             }
-            lines.push('</IncludesList>');
+            lines.push('</div>');
         }
         return lines;
     }
@@ -399,7 +408,7 @@ export class CompoundBase {
         const lines = [];
         if (this.sections !== undefined) {
             for (const section of this.sections) {
-                lines.push(...section.renderToMdxLines());
+                lines.push(...section.renderToLines());
             }
         }
         return lines;

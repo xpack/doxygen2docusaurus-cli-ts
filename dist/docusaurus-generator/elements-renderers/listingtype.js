@@ -15,28 +15,21 @@ import { CodeLineDataModel, HighlightDataModel } from '../../data-model/compound
 import { ElementLinesRendererBase } from './element-renderer-base.js';
 // ----------------------------------------------------------------------------
 export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element) {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        let text = '';
-        text += '\n';
-        text += '<ProgramListing';
-        if (element.filename !== undefined && element.filename.length > 0) {
-            const extension = element.filename.replace('.', '');
-            text += ` extension="${extension}"`;
-        }
-        text += '>';
-        lines.push(text);
         lines.push('');
-        lines.push(...this.workspace.renderElementsToMdxLines(element.codelines));
+        lines.push('<div class="doxyProgramListing">');
         lines.push('');
-        lines.push('</ProgramListing>');
+        lines.push(...this.workspace.renderElementsArrayToLines(element.codelines, type));
+        lines.push('');
+        lines.push('</div>');
         lines.push('');
         return lines;
     }
 }
 export class CodeLineTypeLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element) {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         assert(element instanceof CodeLineDataModel);
         if (element.external !== undefined) {
@@ -52,18 +45,26 @@ export class CodeLineTypeLinesRenderer extends ElementLinesRendererBase {
         let text = '';
         if (element.lineno !== undefined) {
             const anchor = `l${element.lineno.toString().padStart(5, '0')}`;
-            text += `<Link id="${anchor}" />`;
+            text += `<a id="${anchor}"></a>`;
         }
-        text += '<CodeLine';
+        text += '<div class="doxyCodeLine">';
         if (element.lineno !== undefined) {
-            text += ` lineNumber="${element.lineno.toString()}"`;
+            text += '<span class="doxyLineNumber">';
+            if (permalink !== undefined) {
+                text += `<a href="${permalink}">${element.lineno.toString()}</a>`;
+            }
+            else {
+                text += element.lineno.toString();
+            }
+            text += '</span>';
         }
-        if (permalink !== undefined) {
-            text += ` lineLink="${permalink}"`;
+        else {
+            text += '<span class="doxyNoLineNumber">&nbsp;</span>';
         }
-        text += '>';
-        text += this.workspace.renderElementsToMdxText(element.highlights);
-        text += '</CodeLine>';
+        text += '<span class="doxyLineContent">';
+        text += this.workspace.renderElementsArrayToString(element.highlights, type);
+        text += '</span>';
+        text += '</div>';
         return [text];
     }
 }
@@ -84,7 +85,7 @@ export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
             charliteral: 'doxyHighlightCharLiteral'
         };
     }
-    renderToMdxLines(element) {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         assert(element instanceof HighlightDataModel);
         let spanClass = this.knownClasses[element.classs];
@@ -96,7 +97,7 @@ export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
         let text = '';
         if (element.children.length > 0) {
             text += `<span class="${spanClass}">`;
-            text += this.workspace.renderElementsToMdxText(element.children);
+            text += this.workspace.renderElementsArrayToString(element.children, type);
             text += '</span>';
         }
         return [text];

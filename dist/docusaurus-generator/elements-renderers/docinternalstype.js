@@ -10,100 +10,90 @@
  */
 import { ElementLinesRendererBase } from './element-renderer-base.js';
 // ----------------------------------------------------------------------------
+// Sections are entered with @sect, @subsect, etc and in Docusaurus
+// start wih H2. The markdown syntax is used to make the titles appear
+// in the table of contents.
 export class DocS1TypeLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element) {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        // Ignore the H1 header, it is generated automatically by Docusaurus.
-        // const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '')
-        // if (title.length > 0) {
-        //   lines.push('')
-        //   lines.push(`## ${title} {#details}`)
-        // } else {
-        //   lines.push('')
-        //   lines.push('<Link id="details" />')
-        // }
-        if (element.title !== undefined && this.workspace.pluginOptions.verbose) {
-            // console.log(element)
-            // Note that `.md` files have the sections promoted one level,
-            // so `## RTOS` is generated as `sect1`.
-            console.warn('H1 header', this.workspace.renderElementToMdxText(element.title), 'ignored');
-        }
-        // Add the anchor referred by the 'More...' link.
-        // TODO: investigate why this does not work.
-        lines.push('<Link id="details" />');
-        lines.push('');
-        lines.push(...this.workspace.renderElementsToMdxLines(element.children));
-        return lines;
-    }
-}
-export class DocS2TypeLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element) {
-        // console.log(util.inspect(element, { compact: false, depth: 999 }))
-        const lines = [];
-        const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
+        const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
             lines.push(`## ${title}`);
         }
         lines.push('');
-        lines.push(...this.workspace.renderElementsToMdxLines(element.children));
+        lines.push(...this.workspace.renderElementsArrayToLines(element.children, type));
         return lines;
     }
 }
-export class DocS3TypeLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element) {
+export class DocS2TypeLinesRenderer extends ElementLinesRendererBase {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
+        const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
             lines.push(`### ${title}`);
         }
         lines.push('');
-        lines.push(...this.workspace.renderElementsToMdxLines(element.children));
+        lines.push(...this.workspace.renderElementsArrayToLines(element.children, type));
         return lines;
     }
 }
-export class DocS4TypeLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element) {
+export class DocS3TypeLinesRenderer extends ElementLinesRendererBase {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
+        const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
             lines.push(`#### ${title}`);
         }
         lines.push('');
-        lines.push(...this.workspace.renderElementsToMdxLines(element.children));
+        lines.push(...this.workspace.renderElementsArrayToLines(element.children, type));
         return lines;
     }
 }
-export class DocS5TypeLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element) {
+export class DocS4TypeLinesRenderer extends ElementLinesRendererBase {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
+        const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
             lines.push(`##### ${title}`);
         }
         lines.push('');
-        lines.push(...this.workspace.renderElementsToMdxLines(element.children));
+        lines.push(...this.workspace.renderElementsArrayToLines(element.children, type));
         return lines;
     }
 }
-export class DocS6TypeLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element) {
+export class DocS5TypeLinesRenderer extends ElementLinesRendererBase {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        const title = this.workspace.renderElementToMdxText(element.title).trim().replace(/\.$/, '');
+        const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
             lines.push(`###### ${title}`);
         }
         lines.push('');
-        lines.push(...this.workspace.renderElementsToMdxLines(element.children));
+        lines.push(...this.workspace.renderElementsArrayToLines(element.children, type));
+        return lines;
+    }
+}
+export class DocS6TypeLinesRenderer extends ElementLinesRendererBase {
+    renderToLines(element, type) {
+        // console.log(util.inspect(element, { compact: false, depth: 999 }))
+        const lines = [];
+        const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '');
+        if (title.length > 0) {
+            lines.push('');
+            lines.push(`####### ${title}`);
+        }
+        lines.push('');
+        lines.push(...this.workspace.renderElementsArrayToLines(element.children, type));
         return lines;
     }
 }

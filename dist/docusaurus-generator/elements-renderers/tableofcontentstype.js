@@ -9,25 +9,22 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 import { ElementLinesRendererBase } from './element-renderer-base.js';
-import { escapeMdx } from '../utils.js';
 // ----------------------------------------------------------------------------
-export class DocXRefSectLinesRenderer extends ElementLinesRendererBase {
+export class TocListLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        const title = escapeMdx(element.xreftitle ?? '?');
-        const permalink = this.workspace.getXrefPermalink(element.id);
         lines.push('');
-        lines.push('<div class="doxyXrefSect">');
-        lines.push('<dl class="doxyXrefSectList">');
-        lines.push(`<dt class="doxyXrefSectTitle"><a href=${permalink}>${title}</a></dt>`);
-        lines.push('<dd class="doxyXrefSectDescription">');
-        lines.push(this.workspace.renderElementToString(element.xrefdescription, type));
-        lines.push('</dd>');
-        lines.push('</dl>');
-        lines.push('</div>');
+        lines.push('');
+        lines.push('<ul class="doxyTocList">');
+        if (element.tocItems !== undefined) {
+            for (const tocItem of element.tocItems) {
+                lines.push(`<li><a class="doxyTocListItem" href="#${tocItem.id}">${this.workspace.renderElementsArrayToString(tocItem.children, 'html').trim()}</a></li>`);
+            }
+        }
+        lines.push('</ul>');
         return lines;
     }
 }
 // ----------------------------------------------------------------------------
-//# sourceMappingURL=docxrefsecttype.js.map
+//# sourceMappingURL=tableofcontentstype.js.map

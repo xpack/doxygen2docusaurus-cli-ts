@@ -17,7 +17,7 @@ import path from 'node:path'
 
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { FrontMatter } from '../types.js'
-import { Sect1DataModel } from '../../data-model/compounds/descriptiontype-dm.js'
+import { ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { CollectionBase } from './collection-base.js'
 import { AbstractRefType, InnerClassDataModel } from '../../data-model/compounds/reftype-dm.js'
 import { escapeHtml, escapeMdx } from '../utils.js'
@@ -277,11 +277,18 @@ export abstract class CompoundBase {
     assert(compoundDef !== undefined)
 
     if (compoundDef.briefDescription !== undefined) {
-      this.briefDescriptionMdxText = workspace.renderElementToString(compoundDef.briefDescription, 'mdx')
+      // console.log(compoundDef.briefDescription)
+      if (compoundDef.briefDescription.children.length > 1) {
+        assert(compoundDef.briefDescription.children[1] instanceof ParaDataModel)
+        this.briefDescriptionMdxText = workspace.renderElementsArrayToString(compoundDef.briefDescription.children[1].children, 'mdx').trim()
+      } else {
+        this.briefDescriptionMdxText = workspace.renderElementToString(compoundDef.briefDescription, 'mdx').trim()
+      }
     }
 
     if (compoundDef.detailedDescription !== undefined) {
-      this.detailedDescriptionMdxText = workspace.renderElementToString(compoundDef.detailedDescription, 'mdx')
+      // console.log(compoundDef.detailedDescription)
+      this.detailedDescriptionMdxText = workspace.renderElementToString(compoundDef.detailedDescription, 'mdx').trim()
 
       // for (const child of compoundDef.detailedDescription.children) {
       //   if (child instanceof Sect1DataModel) {
@@ -365,12 +372,14 @@ export abstract class CompoundBase {
     }
 
     if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
+      text += '<p>'
       text += briefDescriptionMdxText
       if (morePermalink !== undefined && morePermalink.length > 0) {
         text += ` <a href="${morePermalink}">`
         text += 'More...'
         text += '</a>'
       }
+      text += '</p>'
     } else if (todo.length > 0) {
       text += `TODO: add <code>@brief</code> to <code>${todo}</code>`
     }
@@ -412,13 +421,13 @@ export abstract class CompoundBase {
         lines.push('')
       }
       if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
-        lines.push(briefDescriptionMdxText)
+        lines.push(`<p>${briefDescriptionMdxText}</p>`)
       } else if (todo.length > 0) {
         lines.push(`TODO: add <code>@brief</code> to <code>${todo}</code>`)
       }
     }
 
-    // console.log(util.inspect(compoundDef.detailedDescription, { compact: false, depth: 999 }))
+    // console.log(util.inspect(detailedDescriptionMdxText, { compact: false, depth: 999 }))
     if (detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) {
       lines.push('')
       lines.push(detailedDescriptionMdxText)
@@ -467,7 +476,7 @@ export abstract class CompoundBase {
         lines.push(`## ${suffix === 'Dirs' ? 'Folders' : (suffix === 'Groups' ? 'Topics' : suffix)} Index`)
 
         lines.push('')
-        lines.push('<MembersIndex>')
+        lines.push('<table class="doxyMembersIndex">')
 
         for (const innerObject of innerObjects) {
           // console.log(util.inspect(innerObject, { compact: false, depth: 999 }))
@@ -480,29 +489,29 @@ export abstract class CompoundBase {
             const itemName = `<a href="${permalink}">${escapeHtml(innerDataObject.indexName)}</a>`
 
             lines.push('')
-            lines.push('<MembersIndexItem')
-            lines.push(`  type="${itemType}"`)
-            if (itemName.includes('<') || itemName.includes('&')) {
-              lines.push(`  name={<>${itemName}</>}>`)
-            } else {
-              lines.push(`  name="${itemName}">`)
-            }
 
+            const childrenLines: string[] = []
             const morePermalink = innerDataObject.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined
             if (innerDataObject.briefDescriptionMdxText !== undefined && innerDataObject.briefDescriptionMdxText.length > 0) {
-              lines.push(this.renderBriefDescriptionToMdxText({
+              childrenLines.push(this.renderBriefDescriptionToMdxText({
                 briefDescriptionMdxText: innerDataObject.briefDescriptionMdxText,
                 morePermalink
               }))
             }
 
-            lines.push('</MembersIndexItem>')
+            lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
+              type: itemType,
+              name: itemName,
+              childrenLines
+            }))
           } else if (innerObject instanceof InnerClassDataModel) {
+            const itemType = 'class'
+            const itemName = escapeHtml(innerObject.text)
             lines.push('')
-            lines.push('<MembersIndexItem')
-            lines.push('  type="class"')
-            lines.push(`  name="${escapeHtml(innerObject.text)}">`)
-            lines.push('</MembersIndexItem>')
+            lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
+              type: itemType,
+              name: itemName
+            }))
           } else {
             if (this.collection.workspace.pluginOptions.debug) {
               console.warn(innerObject)
@@ -514,7 +523,7 @@ export abstract class CompoundBase {
         }
 
         lines.push('')
-        lines.push('</MembersIndex>')
+        lines.push('</table>')
       }
     }
 
@@ -548,13 +557,13 @@ export abstract class CompoundBase {
       lines.push('## Included Headers')
 
       lines.push('')
-      lines.push('<IncludesList>')
+      lines.push('<div class="doxyIncludesList">')
 
       for (const include of this.includes) {
         lines.push(workspace.renderElementToString(include, 'mdx'))
       }
 
-      lines.push('</IncludesList>')
+      lines.push('</div>')
     }
 
     return lines

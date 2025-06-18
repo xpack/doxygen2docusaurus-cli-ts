@@ -8,10 +8,10 @@
  * If a copy of the license was not distributed with this file, it can
  * be obtained from https://opensource.org/licenses/MIT.
  */
-import { ElementTextRendererBase } from './element-renderer-base.js';
+import { ElementStringRendererBase } from './element-renderer-base.js';
 // ----------------------------------------------------------------------------
-export class SubstringDocMarkupTypeRenderer extends ElementTextRendererBase {
-    renderToMdxText(element) {
+export class SubstringDocMarkupTypeRenderer extends ElementStringRendererBase {
+    renderToString(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         return element.substring;
     }

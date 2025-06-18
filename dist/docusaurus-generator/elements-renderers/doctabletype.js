@@ -8,39 +8,74 @@
  * If a copy of the license was not distributed with this file, it can
  * be obtained from https://opensource.org/licenses/MIT.
  */
-import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js';
-import { escapeHtml } from '../utils.js';
+import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js';
 // ----------------------------------------------------------------------------
 export class DocTableTypeLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element) {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        lines.push('<table class="markdownTable">');
-        lines.push(...this.workspace.renderElementsToMdxLines(element.rows));
+        lines.push('<table class="doxyTable">');
+        if (element.caption !== undefined) {
+            lines.push(this.workspace.renderElementToString(element.caption, 'html'));
+        }
+        lines.push(...this.workspace.renderElementsArrayToLines(element.rows, 'html'));
         lines.push('</table>');
         return lines;
     }
 }
+export class DocCaptionLinesRenderer extends ElementLinesRendererBase {
+    renderToLines(element, type) {
+        // console.log(util.inspect(element, { compact: false, depth: 999 }))
+        let text = '';
+        let attributes = '';
+        if (element.id.length > 0) {
+            attributes += ` id="${element.id}"`;
+        }
+        text += `<caption${attributes}>`;
+        text += this.workspace.renderElementsArrayToString(element.children, 'html').trim();
+        text += '</caption>';
+        return [text];
+    }
+}
 export class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element) {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        lines.push('  <tr class="markdownTableRow">');
-        lines.push(...this.workspace.renderElementsToMdxLines(element.entries));
-        lines.push('  </tr>');
+        lines.push('<tr>');
+        lines.push(...this.workspace.renderElementsArrayToLines(element.entries, type));
+        lines.push('</tr>');
         return lines;
     }
 }
-export class DocEntryTypeTextRenderer extends ElementTextRendererBase {
-    renderToMdxText(element) {
+export class DocEntryTypeStringRenderer extends ElementStringRendererBase {
+    renderToString(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         let text = '';
-        const entry = escapeHtml(this.workspace.renderElementsToMdxText(element.paras).trim());
+        let attributes = '';
+        if (element.colspan !== undefined) {
+            attributes += ` colspan="${element.colspan.valueOf()}"`;
+        }
+        if (element.rowspan !== undefined) {
+            attributes += ` rowspan="${element.rowspan.valueOf()}"`;
+        }
+        if (element.align !== undefined) {
+            attributes += ` align="${element.align}"`;
+        }
+        if (element.valign !== undefined) {
+            attributes += ` valign="${element.valign}"`;
+        }
+        if (element.width !== undefined) {
+            attributes += ` width="${element.width}"`;
+        }
+        if (element.classs !== undefined) {
+            attributes += ` class="${element.classs}"`;
+        }
+        const entry = this.workspace.renderElementsArrayToString(element.paras, 'html').trim();
         if (element.thead) {
-            text += `    <th class="markdownTableColumn">${entry}</th>`;
+            text += `<th${attributes}>${entry}</th>`;
         }
         else {
-            text += `    <td class="markdownTableColumn">${entry}</td>`;
+            text += `<td${attributes}>${entry}</td>`;
         }
         return text;
     }

@@ -16,11 +16,10 @@ import path from 'node:path';
 import { Groups } from './view-model/groups-vm.js';
 import { Classes } from './view-model/classes-vm.js';
 import { DoxygenFileOptions } from './view-model/options.js';
-import { escapeMdx, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js';
+import { escapeBraces, escapeHtml2, escapeMdx, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js';
 import { Namespaces } from './view-model/namespaces-vm.js';
 import { FilesAndFolders } from './view-model/files-and-folders-vm.js';
 import { Pages } from './view-model/pages-vm.js';
-import { pluginName } from '../plugin/docusaurus.js';
 import { Member } from './view-model/members-vm.js';
 import { Renderers } from './elements-renderers/renderers.js';
 // ----------------------------------------------------------------------------
@@ -290,11 +289,13 @@ export class Workspace {
     async writeMdxFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title, pagePermalink }) {
         const lines = [];
         lines.push('');
-        lines.push('<DoxygenPage pluginConfig={pluginConfig}>');
+        lines.push('<div class="doxyPage">');
         lines.push('');
         lines.push(...bodyLines);
         lines.push('');
-        lines.push('</DoxygenPage>');
+        lines.push(`<p class="doxyGeneratedBy">Generated via <a href="https://github.com/xpack/docusaurus-plugin-doxygen">docusaurus-plugin-doxygen</a> by <a href="https://www.doxygen.nl">Doxygen</a> ${this.dataModel.doxygenindex?.version}.</p>`);
+        lines.push('');
+        lines.push('</div>');
         lines.push('');
         // Hack to prevent Docusaurus replace legit content with emojis.
         let text = lines.join('\n');
@@ -330,53 +331,50 @@ export class Workspace {
         // frontMatterText += '\n'
         frontMatterLines.push('---');
         frontMatterLines.push('');
-        if (text.includes('<Link')) {
-            frontMatterLines.push('import Link from \'@docusaurus/Link\'');
-        }
-        // Theme components.
-        if (text.includes('<CodeBlock')) {
-            frontMatterLines.push('import CodeBlock from \'@theme/CodeBlock\'');
-        }
-        if (text.includes('<Admonition')) {
-            frontMatterLines.push('import Admonition from \'@theme/Admonition\'');
-        }
-        frontMatterLines.push('');
-        const componentNames = [
-            'CodeLine',
-            'CollapsibleTreeTable',
-            'DoxygenPage',
-            'EnumerationList',
-            'EnumerationListItem',
-            'GeneratedByDoxygen',
-            'IncludesList',
-            'IncludesListItem',
-            'MemberDefinition',
-            'MembersIndex',
-            'MembersIndexItem',
-            'ParametersList',
-            'ParametersListItem',
-            'ProgramListing',
-            'Reference',
-            'SectionDefinition',
-            'SectionUser',
-            'TreeTable',
-            'TreeTableRow',
-            'XrefSect'
-        ];
-        // Add includes for the plugin components.
-        for (const componentName of componentNames) {
-            if (text.includes(`<${componentName}`)) {
-                frontMatterLines.push(`import ${componentName} from '${pluginName}/components/${componentName}'`);
-            }
-        }
+        // if (text.includes('<Link')) {
+        //   frontMatterLines.push('import Link from \'@docusaurus/Link\'')
+        // }
+        // // Theme components.
+        // if (text.includes('<CodeBlock')) {
+        //   frontMatterLines.push('import CodeBlock from \'@theme/CodeBlock\'')
+        // }
+        // if (text.includes('<Admonition')) {
+        //   frontMatterLines.push('import Admonition from \'@theme/Admonition\'')
+        // }
+        // const componentNames = [
+        //   'CodeLine',
+        //   'CollapsibleTreeTable',
+        //   'DoxygenPage',
+        //   'EnumerationList',
+        //   'EnumerationListItem',
+        //   'GeneratedByDoxygen',
+        //   'IncludesList',
+        //   'IncludesListItem',
+        //   'MemberDefinition',
+        //   'MembersIndex',
+        //   'MembersIndexItem',
+        //   'ParametersList',
+        //   'ParametersListItem',
+        //   'ProgramListing',
+        //   'Reference',
+        //   'SectionDefinition',
+        //   'SectionUser',
+        //   'TreeTable',
+        //   'TreeTableRow',
+        //   'XrefSect'
+        // ]
+        // // Add includes for the plugin components.
+        // for (const componentName of componentNames) {
+        //   if (text.includes(`<${componentName}`)) {
+        //     frontMatterLines.push(`import ${componentName} from '${pluginName}/components/${componentName}'`)
+        //   }
+        // }
         if (frontMatterCodeLines !== undefined && frontMatterCodeLines.length > 0) {
             frontMatterLines.push('');
             for (const line of frontMatterCodeLines) {
                 frontMatterLines.push(line);
             }
         }
-        frontMatterLines.push('');
-        frontMatterLines.push('import pluginConfig from \'@site/docusaurus-plugin-doxygen-config.json\'');
         frontMatterLines.push('');
         if (frontMatter.title === undefined && title !== undefined) {
             frontMatterLines.push(`# ${title}`);
@@ -390,78 +388,148 @@ export class Workspace {
         this.writtenMdxFilesCounter += 1;
     }
     // --------------------------------------------------------------------------
-    renderElementsToMdxLines(elements) {
+    renderString(element, type) {
+        if (type === 'unchanged') {
+            return element;
+        }
+        else if (type === 'plain-html') {
+            return escapeBraces(element);
+        }
+        else if (type === 'html') {
+            return escapeHtml2(element);
+        }
+        else {
+            return escapeMdx(element);
+        }
+    }
+    renderElementsArrayToLines(elements, type) {
         if (!Array.isArray(elements)) {
             return [];
         }
         const lines = [];
         for (const element of elements) {
-            lines.push(...this.renderElementToMdxLines(element));
+            lines.push(...this.renderElementToLines(element, type));
         }
         return lines;
     }
-    renderElementToMdxLines(element) {
+    renderElementToLines(element, type) {
         if (element === undefined) {
             return [];
         }
         if (typeof element === 'string') {
-            return [escapeMdx(element)];
+            return [this.renderString(element, type)];
         }
         if (Array.isArray(element)) {
             const lines = [];
             for (const elementOfArray of element) {
-                lines.push(...this.renderElementToMdxLines(elementOfArray));
+                lines.push(...this.renderElementToLines(elementOfArray, type));
             }
             return lines;
         }
         const linesRenderer = this.elementRenderers.getElementLinesRenderer(element);
         if (linesRenderer !== undefined) {
-            return linesRenderer.renderToMdxLines(element);
+            return linesRenderer.renderToLines(element, type);
         }
         const textRenderer = this.elementRenderers.getElementTextRenderer(element);
         if (textRenderer !== undefined) {
-            return [textRenderer.renderToMdxText(element)];
+            return [textRenderer.renderToString(element, type)];
         }
         console.error(util.inspect(element, { compact: false, depth: 999 }));
-        console.error('no element lines renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToMdxLines');
+        console.error('no element lines renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToLines');
         assert(false);
     }
-    renderElementsToMdxText(elements) {
+    renderElementsArrayToString(elements, type) {
         if (elements === undefined) {
             return '';
         }
         let text = '';
         for (const element of elements) {
-            text += this.renderElementToMdxText(element);
+            text += this.renderElementToString(element, type);
         }
         return text;
     }
-    renderElementToMdxText(element) {
+    renderElementToString(element, type) {
         if (element === undefined) {
             return '';
         }
         if (typeof element === 'string') {
-            return escapeMdx(element);
+            return this.renderString(element, type);
         }
         if (Array.isArray(element)) {
             let text = '';
             for (const elementOfArray of element) {
-                text += this.renderElementToMdxText(elementOfArray);
+                text += this.renderElementToString(elementOfArray, type);
             }
             return text;
         }
         const textRenderer = this.elementRenderers.getElementTextRenderer(element);
         if (textRenderer !== undefined) {
-            return textRenderer.renderToMdxText(element);
+            return textRenderer.renderToString(element, type);
         }
-        // console.warn('trying element lines renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToMdxText')
+        // console.warn('trying element lines renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToString')
         const linesRenderer = this.elementRenderers.getElementLinesRenderer(element);
         if (linesRenderer !== undefined) {
-            return linesRenderer.renderToMdxLines(element).join('\n');
+            return linesRenderer.renderToLines(element, type).join('\n');
         }
         console.error(util.inspect(element, { compact: false, depth: 999 }));
-        console.error('no element text renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToMdxText');
+        console.error('no element text renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToString');
         return '';
+    }
+    renderMembersIndexItemToLines({ template, type, name, childrenLines }) {
+        const lines = [];
+        if (template !== undefined && template.length > 0) {
+            lines.push('<tr class="doxyMemberIndexTemplate">');
+            lines.push(`<td class="doxyMemberIndexTemplate" colspan="2"><div>${template}</div></td>`);
+            lines.push('</tr>');
+            lines.push('<tr class="doxyMemberIndexItem">');
+            if (type !== undefined && type.length > 0) {
+                lines.push(`<td class="doxyMemberIndexItemTypeTemplate" align="left" valign="top">${type}</td>`);
+                lines.push(`<td class="doxyMemberIndexItemNameTemplate" align="left" valign="top">${name}</td>`);
+            }
+            else {
+                lines.push(`<td class="doxyMemberIndexItemNoTypeNameTemplate" colspan="2" align="left" valign="top">${name}</td>`);
+            }
+            lines.push('</tr>');
+        }
+        else {
+            lines.push('<tr class="doxyMemberIndexItem">');
+            lines.push(`<td class="doxyMemberIndexItemType" align="right" valign="top">${type}</td>`);
+            lines.push(`<td class="doxyMemberIndexItemName" align="left" valign="top">${name}</td>`);
+            lines.push('</tr>');
+        }
+        if (childrenLines !== undefined) {
+            lines.push('<tr class="doxyMemberIndexDescription">');
+            lines.push('<td class="doxyMemberIndexDescriptionLeft"></td>');
+            lines.push('<td class="doxyMemberIndexDescriptionRight">');
+            lines.push(...childrenLines);
+            lines.push('</td>');
+            lines.push('</tr>');
+        }
+        lines.push('<tr class="doxyMemberIndexSeparator">');
+        lines.push('<td class="doxyMemberIndexSeparator" colspan="2"></td>');
+        lines.push('</tr>');
+        return lines;
+    }
+    renderTreeTableRowToLines({ itemIconLetter, itemIconClass, itemLabel, itemLink, depth, description }) {
+        const lines = [];
+        lines.push('<tr class="doxyTreeItem">');
+        lines.push('<td class="doxyTreeItemLeft" align="left" valign="top">');
+        lines.push(`<span style="width: ${depth * 12}px; display: inline-block;"></span>`);
+        if (itemIconLetter !== undefined && itemIconLetter.length > 0) {
+            lines.push(`<span class="doxyTreeIconBox"><span class="doxyTreeIcon">${itemIconLetter}</span></span>`);
+        }
+        if (itemIconClass !== undefined && itemIconClass.length > 0) {
+            lines.push(`<a href="${itemLink}"><span class="${itemIconClass}">${itemLabel}</span></a>`);
+        }
+        else {
+            lines.push(`<a href="${itemLink}">${itemLabel}</a>`);
+        }
+        lines.push('</td>');
+        lines.push('<td class="doxyTreeItemRight" align="left" valign="top">');
+        lines.push(description);
+        lines.push('</td>');
+        lines.push('</tr>');
+        return lines;
     }
     // --------------------------------------------------------------------------
     getPermalink({ refid, kindref }) {

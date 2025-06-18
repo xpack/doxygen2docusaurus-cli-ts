@@ -60,7 +60,7 @@ export declare abstract class CompoundBase {
     private adjustSectionKind;
     initializeLate(): void;
     isOperator(name: string): boolean;
-    abstract renderToMdxLines(frontMatter: FrontMatter): string[];
+    abstract renderToLines(frontMatter: FrontMatter): string[];
     renderBriefDescriptionToMdxText({ briefDescriptionMdxText, todo, morePermalink }: {
         briefDescriptionMdxText: string | undefined;
         todo?: string;

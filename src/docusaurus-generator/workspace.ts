@@ -23,13 +23,12 @@ import { CollectionBase } from './view-model/collection-base.js'
 import { Classes } from './view-model/classes-vm.js'
 import { DoxygenFileOptions } from './view-model/options.js'
 import { ElementLinesRendererBase, ElementStringRendererBase } from './elements-renderers/element-renderer-base.js'
-import { escapeBraces, escapeHtml, escapeHtml2, escapeMdx, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js'
+import { escapeBraces, escapeHtml2, escapeMdx, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js'
 import { CompoundBase } from './view-model/compound-base-vm.js'
 import { Namespaces } from './view-model/namespaces-vm.js'
 import { FilesAndFolders } from './view-model/files-and-folders-vm.js'
 import { Pages } from './view-model/pages-vm.js'
 import { FrontMatter } from './types.js'
-import { pluginName } from '../plugin/docusaurus.js'
 import { Member } from './view-model/members-vm.js'
 import { Renderers } from './elements-renderers/renderers.js'
 
@@ -412,11 +411,13 @@ export class Workspace {
     const lines: string[] = []
 
     lines.push('')
-    lines.push('<DoxygenPage pluginConfig={pluginConfig}>')
+    lines.push('<div class="doxyPage">')
     lines.push('')
     lines.push(...bodyLines)
     lines.push('')
-    lines.push('</DoxygenPage>')
+    lines.push(`<p class="doxyGeneratedBy">Generated via <a href="https://github.com/xpack/docusaurus-plugin-doxygen">docusaurus-plugin-doxygen</a> by <a href="https://www.doxygen.nl">Doxygen</a> ${this.dataModel.doxygenindex?.version}.</p>`)
+    lines.push('')
+    lines.push('</div>')
     lines.push('')
 
     // Hack to prevent Docusaurus replace legit content with emojis.
@@ -455,49 +456,47 @@ export class Workspace {
     frontMatterLines.push('---')
     frontMatterLines.push('')
 
-    if (text.includes('<Link')) {
-      frontMatterLines.push('import Link from \'@docusaurus/Link\'')
-    }
+    // if (text.includes('<Link')) {
+    //   frontMatterLines.push('import Link from \'@docusaurus/Link\'')
+    // }
 
-    // Theme components.
-    if (text.includes('<CodeBlock')) {
-      frontMatterLines.push('import CodeBlock from \'@theme/CodeBlock\'')
-    }
-    if (text.includes('<Admonition')) {
-      frontMatterLines.push('import Admonition from \'@theme/Admonition\'')
-    }
+    // // Theme components.
+    // if (text.includes('<CodeBlock')) {
+    //   frontMatterLines.push('import CodeBlock from \'@theme/CodeBlock\'')
+    // }
+    // if (text.includes('<Admonition')) {
+    //   frontMatterLines.push('import Admonition from \'@theme/Admonition\'')
+    // }
 
-    frontMatterLines.push('')
+    // const componentNames = [
+    //   'CodeLine',
+    //   'CollapsibleTreeTable',
+    //   'DoxygenPage',
+    //   'EnumerationList',
+    //   'EnumerationListItem',
+    //   'GeneratedByDoxygen',
+    //   'IncludesList',
+    //   'IncludesListItem',
+    //   'MemberDefinition',
+    //   'MembersIndex',
+    //   'MembersIndexItem',
+    //   'ParametersList',
+    //   'ParametersListItem',
+    //   'ProgramListing',
+    //   'Reference',
+    //   'SectionDefinition',
+    //   'SectionUser',
+    //   'TreeTable',
+    //   'TreeTableRow',
+    //   'XrefSect'
+    // ]
 
-    const componentNames = [
-      'CodeLine',
-      'CollapsibleTreeTable',
-      'DoxygenPage',
-      'EnumerationList',
-      'EnumerationListItem',
-      'GeneratedByDoxygen',
-      'IncludesList',
-      'IncludesListItem',
-      'MemberDefinition',
-      'MembersIndex',
-      'MembersIndexItem',
-      'ParametersList',
-      'ParametersListItem',
-      'ProgramListing',
-      'Reference',
-      'SectionDefinition',
-      'SectionUser',
-      'TreeTable',
-      'TreeTableRow',
-      'XrefSect'
-    ]
-
-    // Add includes for the plugin components.
-    for (const componentName of componentNames) {
-      if (text.includes(`<${componentName}`)) {
-        frontMatterLines.push(`import ${componentName} from '${pluginName}/components/${componentName}'`)
-      }
-    }
+    // // Add includes for the plugin components.
+    // for (const componentName of componentNames) {
+    //   if (text.includes(`<${componentName}`)) {
+    //     frontMatterLines.push(`import ${componentName} from '${pluginName}/components/${componentName}'`)
+    //   }
+    // }
 
     if (frontMatterCodeLines !== undefined && frontMatterCodeLines.length > 0) {
       frontMatterLines.push('')
@@ -505,9 +504,6 @@ export class Workspace {
         frontMatterLines.push(line)
       }
     }
-
-    frontMatterLines.push('')
-    frontMatterLines.push('import pluginConfig from \'@site/docusaurus-plugin-doxygen-config.json\'')
 
     frontMatterLines.push('')
     if (frontMatter.title === undefined && title !== undefined) {
@@ -632,6 +628,91 @@ export class Workspace {
     return ''
   }
 
+  renderMembersIndexItemToLines ({
+    template,
+    type,
+    name,
+    childrenLines
+  }: {
+    template?: string | undefined
+    type?: string | undefined
+    name: string
+    childrenLines?: string[] | undefined
+  }): string[] {
+    const lines: string[] = []
+
+    if (template !== undefined && template.length > 0) {
+      lines.push('<tr class="doxyMemberIndexTemplate">')
+      lines.push(`<td class="doxyMemberIndexTemplate" colspan="2"><div>${template}</div></td>`)
+      lines.push('</tr>')
+
+      lines.push('<tr class="doxyMemberIndexItem">')
+      if (type !== undefined && type.length > 0) {
+        lines.push(`<td class="doxyMemberIndexItemTypeTemplate" align="left" valign="top">${type}</td>`)
+        lines.push(`<td class="doxyMemberIndexItemNameTemplate" align="left" valign="top">${name}</td>`)
+      } else {
+        lines.push(`<td class="doxyMemberIndexItemNoTypeNameTemplate" colspan="2" align="left" valign="top">${name}</td>`)
+      }
+      lines.push('</tr>')
+    } else {
+      lines.push('<tr class="doxyMemberIndexItem">')
+      lines.push(`<td class="doxyMemberIndexItemType" align="right" valign="top">${type}</td>`)
+      lines.push(`<td class="doxyMemberIndexItemName" align="left" valign="top">${name}</td>`)
+      lines.push('</tr>')
+    }
+
+    if (childrenLines !== undefined) {
+      lines.push('<tr class="doxyMemberIndexDescription">')
+      lines.push('<td class="doxyMemberIndexDescriptionLeft"></td>')
+      lines.push('<td class="doxyMemberIndexDescriptionRight">')
+      lines.push(...childrenLines)
+      lines.push('</td>')
+      lines.push('</tr>')
+    }
+
+    lines.push('<tr class="doxyMemberIndexSeparator">')
+    lines.push('<td class="doxyMemberIndexSeparator" colspan="2"></td>')
+    lines.push('</tr>')
+
+    return lines
+  }
+
+  renderTreeTableRowToLines ({
+    itemIconLetter,
+    itemIconClass,
+    itemLabel,
+    itemLink,
+    depth,
+    description
+  }: {
+    itemIconLetter?: string
+    itemIconClass?: string
+    itemLabel: string
+    itemLink: string
+    depth: number
+    description: string
+  }): string[] {
+    const lines: string[] = []
+
+    lines.push('<tr class="doxyTreeItem">')
+    lines.push('<td class="doxyTreeItemLeft" align="left" valign="top">')
+    lines.push(`<span style="width: ${depth * 12}px; display: inline-block;"></span>`)
+    if (itemIconLetter !== undefined && itemIconLetter.length > 0) {
+      lines.push(`<span class="doxyTreeIconBox"><span class="doxyTreeIcon">${itemIconLetter}</span></span>`)
+    }
+    if (itemIconClass !== undefined && itemIconClass.length > 0) {
+      lines.push(`<a href="${itemLink}"><span class="${itemIconClass}">${itemLabel}</span></a>`)
+    } else {
+      lines.push(`<a href="${itemLink}">${itemLabel}</a>`)
+    }
+    lines.push('</td>')
+    lines.push('<td class="doxyTreeItemRight" align="left" valign="top">')
+    lines.push(description)
+    lines.push('</td>')
+    lines.push('</tr>')
+
+    return lines
+  }
   // --------------------------------------------------------------------------
 
   getPermalink ({

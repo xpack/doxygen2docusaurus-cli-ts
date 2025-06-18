@@ -20,7 +20,6 @@ import { Workspace } from './workspace.js'
 import { DataModel } from '../data-model/types.js'
 import { PluginOptions } from '../plugin/options.js'
 import { MenuDropdown, SidebarCategory } from '../plugin/types.js'
-import { Page } from './view-model/pages-vm.js'
 import { FrontMatter } from './types.js'
 
 export class DocusaurusGenerator {
@@ -53,7 +52,8 @@ export class DocusaurusGenerator {
     console.log()
 
     await this.prepareOutputFolder()
-    await this.generateConfigurationFile()
+    // No longer used with CommonMarkdown output.
+    // await this.generateConfigurationFile()
 
     await this.generateSidebarFile()
     await this.generateMenuDropdownFile()

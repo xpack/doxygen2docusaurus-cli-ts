@@ -9,7 +9,7 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 // ----------------------------------------------------------------------------
-export class ElementTextRendererBase {
+export class ElementStringRendererBase {
     constructor(workspace) {
         this.workspace = workspace;
     }

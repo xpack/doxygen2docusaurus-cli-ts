@@ -12,6 +12,7 @@
 import * as util from 'node:util';
 import assert from 'node:assert';
 import { escapeHtml, escapeMdx, getPermalinkAnchor } from '../utils.js';
+import { ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
 // ----------------------------------------------------------------------------
 export const sectionHeaders = {
     typedef: ['Typedefs', 100], // DoxMemberKind too
@@ -117,7 +118,7 @@ export class Section {
         assert(this._private._sectionDef !== undefined);
         const sectionDef = this._private._sectionDef;
         if (sectionDef.description !== undefined) {
-            this.descriptionMdxText = workspace.renderElementToMdxText(sectionDef.description);
+            this.descriptionMdxText = workspace.renderElementToString(sectionDef.description, 'mdx');
             // console.log(this.indexMembers, this.descriptionMdxText)
         }
     }
@@ -202,7 +203,7 @@ export class Section {
             lines.push('');
             lines.push(`## ${escapeMdx(this.headerName)} Index`);
             lines.push('');
-            lines.push('<MembersIndex>');
+            lines.push('<table class="doxyMembersIndex">');
             for (const member of this.indexMembers) {
                 if (member instanceof Member) {
                     lines.push(...member.renderIndexToMdxLines());
@@ -214,19 +215,19 @@ export class Section {
                 }
             }
             lines.push('');
-            lines.push('</MembersIndex>');
+            lines.push('</table>');
         }
         return lines;
     }
     // --------------------------------------------------------------------------
-    renderToMdxLines() {
+    renderToLines() {
         const lines = [];
         if (!this.hasDefinitionMembers()) {
             return lines;
         }
         // TODO: filter out members defined in other compounds.
         lines.push('');
-        lines.push('<SectionDefinition>');
+        lines.push('<div class="doxySectionDef">');
         lines.push('');
         lines.push(`## ${escapeMdx(this.headerName)}`);
         if (this.descriptionMdxText !== undefined) {
@@ -237,10 +238,10 @@ export class Section {
             }));
         }
         for (const member of this.definitionMembers) {
-            lines.push(...member.renderToMdxLines());
+            lines.push(...member.renderToLines());
         }
         lines.push('');
-        lines.push('</SectionDefinition>');
+        lines.push('</div>');
         return lines;
     }
 }
@@ -272,17 +273,24 @@ export class Member extends MemberBase {
         assert(memberDef !== undefined);
         const workspace = this.section.compound.collection.workspace;
         if (memberDef.briefDescription !== undefined) {
-            this.briefDescriptionMdxText = workspace.renderElementToMdxText(memberDef.briefDescription);
+            // console.log(memberDef.briefDescription)
+            if (memberDef.briefDescription.children.length > 1) {
+                assert(memberDef.briefDescription.children[1] instanceof ParaDataModel);
+                this.briefDescriptionMdxText = workspace.renderElementsArrayToString(memberDef.briefDescription.children[1].children, 'mdx').trim();
+            }
+            else {
+                this.briefDescriptionMdxText = workspace.renderElementToString(memberDef.briefDescription, 'mdx').trim();
+            }
         }
         if (memberDef.detailedDescription !== undefined) {
-            this.detailedDescriptionMdxText = workspace.renderElementToMdxText(memberDef.detailedDescription);
+            this.detailedDescriptionMdxText = workspace.renderElementToString(memberDef.detailedDescription, 'mdx').trim();
         }
         this.argsstring = memberDef.argsstring;
         if (memberDef.type !== undefined) {
-            this.typeMdxText = workspace.renderElementToMdxText(memberDef.type).trim();
+            this.typeMdxText = workspace.renderElementToString(memberDef.type, 'mdx').trim();
         }
         if (memberDef.initializer !== undefined) {
-            this.initializerMdxText = workspace.renderElementToMdxText(memberDef.initializer);
+            this.initializerMdxText = workspace.renderElementToString(memberDef.initializer, 'mdx');
         }
         if (memberDef.location !== undefined) {
             this.locationMdxText = this.section.compound.renderLocationToMdxText(memberDef.location);
@@ -339,7 +347,7 @@ export class Member extends MemberBase {
         if (memberDef.params !== undefined) {
             const parameters = [];
             for (const param of memberDef.params) {
-                parameters.push(workspace.renderElementToMdxText(param));
+                parameters.push(workspace.renderElementToString(param, 'mdx'));
             }
             this.parameters = parameters.join(', ');
         }
@@ -473,45 +481,28 @@ export class Member extends MemberBase {
                 console.error('member kind', this.kind, 'not implemented yet in', this.constructor.name, 'renderIndexToMdxLines');
         }
         lines.push('');
-        lines.push('<MembersIndexItem');
-        if (itemTemplate.length > 0) {
-            if (itemTemplate.includes('<') || itemTemplate.includes('&')) {
-                lines.push(`  template={<>${itemTemplate}</>}`);
-            }
-            else {
-                lines.push(`  template="${itemTemplate}"`);
-            }
-        }
-        if (itemType.length > 0) {
-            if (itemType.includes('<') || itemType.includes('&')) {
-                lines.push(`  type={<>${itemType}</>}`);
-            }
-            else {
-                lines.push(`  type="${itemType}"`);
-            }
-        }
         if (itemName.length === 0) {
             console.log(this);
             console.warn('empty name in', this.id);
         }
-        if (itemName.includes('<') || itemName.includes('&')) {
-            lines.push(`  name={<>${itemName}</>}>`);
-        }
-        else {
-            lines.push(`  name="${itemName}">`);
-        }
+        const childrenLines = [];
         const briefDescriptionMdxText = this.briefDescriptionMdxText;
         if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
-            lines.push(this.section.compound.renderBriefDescriptionToMdxText({
+            childrenLines.push(this.section.compound.renderBriefDescriptionToMdxText({
                 briefDescriptionMdxText,
                 morePermalink: `${permalink}` // No #details, it is already an anchor.
             }));
         }
-        lines.push('</MembersIndexItem>');
+        lines.push(...workspace.renderMembersIndexItemToLines({
+            template: itemTemplate,
+            type: itemType,
+            name: itemName,
+            childrenLines
+        }));
         return lines;
     }
     // --------------------------------------------------------------------------
-    renderToMdxLines() {
+    renderToLines() {
         const lines = [];
         const isFunction = this.section.kind.startsWith('func') || this.section.kind.endsWith('func') || this.section.kind.endsWith('constructorr') || this.section.kind.endsWith('destructor') || this.section.kind.endsWith('operator');
         const id = getPermalinkAnchor(this.id);
@@ -544,22 +535,13 @@ export class Member extends MemberBase {
                         prototype += ' const';
                     }
                     lines.push('');
-                    lines.push('<MemberDefinition');
+                    let template;
                     if (this.templateParametersMdxText !== undefined && this.templateParametersMdxText.length > 0) {
-                        const template = escapeMdx(`template ${this.templateParametersMdxText}`);
-                        lines.push(`  template={<>${template}</>}`);
+                        template = escapeMdx(`template ${this.templateParametersMdxText}`);
                     }
-                    if (prototype.includes('<') || prototype.includes('&')) {
-                        lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`);
-                    }
-                    else {
-                        lines.push(`  prototype="${prototype}"${this.labels.length === 0 ? '>' : ''}`);
-                    }
-                    if (this.labels.length > 0) {
-                        lines.push(`  labels = {["${this.labels.join('", "')}"]}>`);
-                    }
+                    const childrenLines = [];
                     if (this.detailedDescriptionMdxText !== undefined) {
-                        lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+                        childrenLines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
                             briefDescriptionMdxText: this.briefDescriptionMdxText,
                             detailedDescriptionMdxText: this.detailedDescriptionMdxText,
                             showHeader: false,
@@ -567,9 +549,14 @@ export class Member extends MemberBase {
                         }));
                     }
                     if (this.locationMdxText !== undefined) {
-                        lines.push(this.locationMdxText);
+                        childrenLines.push(this.locationMdxText);
                     }
-                    lines.push('</MemberDefinition>');
+                    lines.push(...this.renderMemberDefinitionToLines({
+                        template,
+                        prototype,
+                        labels: this.labels,
+                        childrenLines
+                    }));
                 }
                 break;
             case 'enum':
@@ -593,33 +580,28 @@ export class Member extends MemberBase {
                         prototype += `: ${this.typeMdxText}`;
                     }
                     lines.push('');
-                    lines.push('<MemberDefinition');
-                    if (prototype.includes('<') || prototype.includes('&')) {
-                        lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`);
-                    }
-                    else {
-                        lines.push(`  prototype="${prototype}"${this.labels.length === 0 ? '>' : ''}`);
-                    }
-                    if (this.labels.length > 0) {
-                        lines.push(` labels = {["${this.labels.join('", "')}"]}>`);
-                    }
+                    const childrenLines = [];
                     if (this.briefDescriptionMdxText !== undefined && this.briefDescriptionMdxText.length > 0) {
-                        lines.push(this.section.compound.renderBriefDescriptionToMdxText({
+                        childrenLines.push(this.section.compound.renderBriefDescriptionToMdxText({
                             briefDescriptionMdxText: this.briefDescriptionMdxText
                         }));
                     }
                     assert(this.enumMdxLines !== undefined);
-                    lines.push(...this.enumMdxLines);
+                    childrenLines.push(...this.enumMdxLines);
                     if (this.detailedDescriptionMdxText !== undefined) {
-                        lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+                        childrenLines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
                             detailedDescriptionMdxText: this.detailedDescriptionMdxText,
                             showHeader: false
                         }));
                     }
                     if (this.locationMdxText !== undefined) {
-                        lines.push(this.locationMdxText);
+                        childrenLines.push(this.locationMdxText);
                     }
-                    lines.push('</MemberDefinition>');
+                    lines.push(...this.renderMemberDefinitionToLines({
+                        prototype,
+                        labels: this.labels,
+                        childrenLines
+                    }));
                 }
                 break;
             case 'friend':
@@ -627,18 +609,9 @@ export class Member extends MemberBase {
                     // console.log(this)
                     const prototype = `friend ${this.typeMdxText} ${this.parameters}`;
                     lines.push('');
-                    lines.push('<MemberDefinition');
-                    if (prototype.includes('<') || prototype.includes('&')) {
-                        lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`);
-                    }
-                    else {
-                        lines.push(`  prototype="${prototype}"${this.labels.length === 0 ? '>' : ''}`);
-                    }
-                    if (this.labels.length > 0) {
-                        lines.push(`  labels = {["${this.labels.join('", "')}"]}>`);
-                    }
+                    const childrenLines = [];
                     if (this.detailedDescriptionMdxText !== undefined) {
-                        lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+                        childrenLines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
                             briefDescriptionMdxText: this.briefDescriptionMdxText,
                             detailedDescriptionMdxText: this.detailedDescriptionMdxText,
                             showHeader: false,
@@ -646,9 +619,13 @@ export class Member extends MemberBase {
                         }));
                     }
                     if (this.locationMdxText !== undefined) {
-                        lines.push(this.locationMdxText);
+                        childrenLines.push(this.locationMdxText);
                     }
-                    lines.push('</MemberDefinition>');
+                    lines.push(...this.renderMemberDefinitionToLines({
+                        prototype,
+                        labels: this.labels,
+                        childrenLines
+                    }));
                 }
                 break;
             case 'define':
@@ -660,32 +637,65 @@ export class Member extends MemberBase {
                         prototype += this.initializerMdxText;
                     }
                     lines.push('');
-                    lines.push('<MemberDefinition');
-                    if (prototype.includes('<') || prototype.includes('&')) {
-                        lines.push(`  prototype={<>${prototype}</>}${this.labels.length === 0 ? '>' : ''}`);
-                    }
-                    else {
-                        lines.push(`  prototype="${prototype}"${this.labels.length === 0 ? '>' : ''}`);
-                    }
-                    if (this.labels.length > 0) {
-                        lines.push(`  labels = {["${this.labels.join('", "')}"]}>`);
-                    }
-                    lines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
+                    const childrenLines = [];
+                    childrenLines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
                         briefDescriptionMdxText: this.briefDescriptionMdxText,
                         detailedDescriptionMdxText: this.detailedDescriptionMdxText,
                         showHeader: false,
                         showBrief: true
                     }));
                     if (this.locationMdxText !== undefined) {
-                        lines.push(this.locationMdxText);
+                        childrenLines.push(this.locationMdxText);
                     }
-                    lines.push('</MemberDefinition>');
+                    lines.push(...this.renderMemberDefinitionToLines({
+                        prototype,
+                        labels: this.labels,
+                        childrenLines
+                    }));
                 }
                 break;
             default:
                 lines.push('');
-                console.warn('memberDef', this.kind, this.name, 'not implemented yet in', this.constructor.name, 'renderToMdxLines');
+                console.warn('memberDef', this.kind, this.name, 'not implemented yet in', this.constructor.name, 'renderToLines');
         }
+        return lines;
+    }
+    renderMemberDefinitionToLines({ template, prototype, labels, childrenLines }) {
+        const lines = [];
+        lines.push('<div class="doxyMemberItem">');
+        lines.push('<div class="doxyMemberProto">');
+        if (template !== undefined && template.length > 0) {
+            lines.push(`<div class="doxyMemberTemplate">${template}</div>`);
+        }
+        lines.push('<table class="doxyMemberLabels">');
+        lines.push('<tbody>');
+        lines.push('<tr class="doxyMemberLabels">');
+        lines.push('<td class="doxyMemberLabelsLeft">');
+        lines.push('<table class="doxyMemberName">');
+        lines.push('<tbody>');
+        lines.push('<tr>');
+        lines.push(`<td class="doxyMemberName">${prototype}</td>`);
+        lines.push('</tr>');
+        lines.push('</tbody>');
+        lines.push('</table>');
+        lines.push('</td>');
+        if (labels.length > 0) {
+            lines.push('<td class="doxyMemberLabelsRight">');
+            lines.push('<span class="doxyMemberLabels">');
+            for (const label of labels) {
+                lines.push(`<span class="doxyMemberLabel ${label}">${label}</span>`);
+            }
+            lines.push('</span>');
+            lines.push('</td>');
+        }
+        lines.push('</tr>');
+        lines.push('</tbody>');
+        lines.push('</table>');
+        lines.push('</div>');
+        lines.push('<div class="doxyMemberDoc">');
+        lines.push(...childrenLines);
+        lines.push('</div>');
+        lines.push('</div>');
         return lines;
     }
     // --------------------------------------------------------------------------
@@ -693,24 +703,30 @@ export class Member extends MemberBase {
         const lines = [];
         const workspace = this.section.compound.collection.workspace;
         lines.push('');
-        lines.push('<EnumerationList title="Enumeration values">');
+        lines.push('<dl class="doxyEnumList">');
+        lines.push('<dt class="doxyEnumTableTitle">Enumeration values</dt>');
+        lines.push('<dd>');
+        lines.push('<table class="doxyEnumTable">');
         if (memberDef.enumvalues !== undefined) {
             for (const enumValue of memberDef.enumvalues) {
-                let enumBriefDescription = workspace.renderElementToMdxText(enumValue.briefDescription).replace(/[.]$/, '');
+                let enumBriefDescription = workspace.renderElementToString(enumValue.briefDescription, 'mdx').replace(/[.]$/, '');
                 const anchor = getPermalinkAnchor(enumValue.id);
-                const value = workspace.renderElementToMdxText(enumValue.initializer);
+                const value = workspace.renderElementToString(enumValue.initializer, 'mdx');
                 if (value.length > 0) {
                     enumBriefDescription += ` (${value})`;
                 }
                 lines.push('');
-                lines.push(`<Link id="${anchor}" />`);
-                lines.push(`<EnumerationListItem name="${enumValue.name.trim()}">`);
-                lines.push(`${enumBriefDescription}`);
-                lines.push('</EnumerationListItem>');
+                // lines.push(`<a id="${anchor}"></a>`)
+                lines.push('<tr class="doxyEnumItem">');
+                lines.push(`<td class="doxyEnumItemName">${enumValue.name.trim()}<a id="${anchor}"></a></td>`);
+                lines.push(`<td class="doxyEnumItemDescription">${enumBriefDescription}</td>`);
+                lines.push('</tr>');
             }
         }
         lines.push('');
-        lines.push('</EnumerationList>');
+        lines.push('</table>');
+        lines.push('</dd>');
+        lines.push('</dl>');
         return lines;
     }
 }

@@ -11,14 +11,14 @@
 import { ElementLinesRendererBase } from './element-renderer-base.js';
 // ----------------------------------------------------------------------------
 export class DocListTypeLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element) {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
         lines.push('');
         lines.push('<ul>');
         for (const listItem of element.listItems) {
             if (listItem.paras !== undefined) {
-                lines.push(`<li>${this.workspace.renderElementsToMdxText(listItem.paras).trim()}</li>`);
+                lines.push(`<li>${this.workspace.renderElementsArrayToString(listItem.paras, type).trim()}</li>`);
             }
         }
         lines.push('</ul>');

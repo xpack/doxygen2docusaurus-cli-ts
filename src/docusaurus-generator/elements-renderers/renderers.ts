@@ -15,13 +15,13 @@ import * as util from 'node:util'
 import assert from 'node:assert'
 
 import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js'
-import { DescriptionTypeStringRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeStringRenderer, DocMarkupTypeStringRenderer, DocParamListTypeStringRenderer, DocParaTypeStringRenderer, DocRefTextTypeStringRenderer, DocSimpleSectTypeStringRenderer, DocURLLinkStringRenderer, EmojiStringRenderer, FormulaStringRenderer, HeadingStringRenderer, HtmlOnlyStringRenderer, ImageStringRenderer, SpTypeStringRenderer, VerbatimStringRenderer } from './descriptiontype.js'
+import { ComputerOutputDataModelStringRenderer, DescriptionTypeStringRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeStringRenderer, DocMarkupTypeStringRenderer, DocParamListTypeStringRenderer, DocParaTypeStringRenderer, DocRefTextTypeStringRenderer, DocSimpleSectTypeStringRenderer, DocURLLinkStringRenderer, EmojiStringRenderer, FormulaStringRenderer, HeadingStringRenderer, HtmlOnlyStringRenderer, ImageStringRenderer, SpTypeStringRenderer, VerbatimStringRenderer } from './descriptiontype.js'
 import { ListingTypeLinesRenderer, CodeLineTypeLinesRenderer, HighlightTypeLinesRenderer } from './listingtype.js'
 import { DocListTypeLinesRenderer } from './doclisttype.js'
 import { DocS1TypeLinesRenderer, DocS2TypeLinesRenderer, DocS3TypeLinesRenderer, DocS4TypeLinesRenderer, DocS5TypeLinesRenderer, DocS6TypeLinesRenderer } from './docinternalstype.js'
 import { DocTitleTypeLinesRenderer } from './doctitletype.js'
 import { DocVariableListTypeStringRenderer, VariableListPairLinesRenderer } from './docvariablelisttype.js'
-import { DocXRefSectTextRenderer as DocXRefSectStringRenderer } from './docxrefsecttype.js'
+import { DocXRefSectLinesRenderer as DocXRefSectStringRenderer } from './docxrefsecttype.js'
 import { IncTypeLinesRenderer } from './inctype.js'
 import { LinkedTextTypeStringRenderer } from './linkedtexttype.js'
 import { ParamTypeLinesRenderer } from './paramtype.js'
@@ -55,6 +55,7 @@ export class Renderers {
     this.elementLinesRenderers.set('AbstractDocTableType', new DocTableTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocTitleType', new DocTitleTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocTocListType', new TocListLinesRenderer(workspace))
+    this.elementLinesRenderers.set('AbstractDocXRefSectType', new DocXRefSectStringRenderer(workspace))
     this.elementLinesRenderers.set('AbstractHighlightType', new HighlightTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractIncType', new IncTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractListingType', new ListingTypeLinesRenderer(workspace))
@@ -63,6 +64,8 @@ export class Renderers {
     this.elementLinesRenderers.set('AbstractRefType', new RefTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('VariableListPairDataModel', new VariableListPairLinesRenderer(workspace))
     // console.log(this.elementGenerators.size, 'element generators')
+
+    this.elementStringRenderers.set('ComputerOutputDataModel', new ComputerOutputDataModelStringRenderer(workspace))
 
     this.elementStringRenderers.set('AbstractDescriptionType', new DescriptionTypeStringRenderer(workspace))
     this.elementStringRenderers.set('AbstractDocEmptyType', new DocEmptyTypeStringRenderer(workspace))
@@ -79,7 +82,6 @@ export class Renderers {
     this.elementStringRenderers.set('AbstractDocSimpleSectType', new DocSimpleSectTypeStringRenderer(workspace))
     this.elementStringRenderers.set('AbstractDocURLLink', new DocURLLinkStringRenderer(workspace))
     this.elementStringRenderers.set('AbstractDocVariableListType', new DocVariableListTypeStringRenderer(workspace))
-    this.elementStringRenderers.set('AbstractDocXRefSectType', new DocXRefSectStringRenderer(workspace))
     this.elementStringRenderers.set('AbstractLinkedTextType', new LinkedTextTypeStringRenderer(workspace))
     this.elementStringRenderers.set('AbstractRefTextType', new RefTextTypeStringRenderer(workspace))
     this.elementStringRenderers.set('AbstractSpType', new SpTypeStringRenderer(workspace))

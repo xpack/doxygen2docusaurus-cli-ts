@@ -111,11 +111,14 @@ export class Groups extends CollectionBase {
     }
     // --------------------------------------------------------------------------
     async generateIndexDotMdxFile() {
+        if (this.topLevelGroups.length === 0) {
+            return;
+        }
         // Home page for the API reference.
         // It diverts from Doxygen, since it renders the list of topics and
         // the main page.
         const outputFolderPath = this.workspace.outputFolderPath;
-        const filePath = `${outputFolderPath}index.mdx`;
+        const filePath = `${outputFolderPath}index.md`;
         const jsonFileName = 'index-table.json';
         if (useCollapsibleTable) {
             const jsonFilePath = `${outputFolderPath}${jsonFileName}`;
@@ -132,7 +135,7 @@ export class Groups extends CollectionBase {
         }
         const projectBrief = this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF');
         const permalink = ''; // The root of the API sub-site.
-        // This is the top index.mdx file (@mainpage)
+        // This is the top index.md file (@mainpage)
         const frontMatter = {
             title: `${projectBrief} API Reference`,
             slug: `${this.workspace.slugBaseUrl}${permalink}`,
@@ -150,12 +153,12 @@ export class Groups extends CollectionBase {
             lines.push('<CollapsibleTreeTable rows={tableData} />');
         }
         else {
-            lines.push('<TreeTable>');
+            lines.push('<table class="doxyTreeTable">');
             for (const group of this.topLevelGroups) {
                 lines.push(...this.generateIndexMdxFileRecursively(group, 1));
             }
             lines.push('');
-            lines.push('</TreeTable>');
+            lines.push('</table>');
         }
         const pages = this.workspace.viewModel.get('pages');
         const detailedDescriptionMdxText = pages.mainPage?.detailedDescriptionMdxText;
@@ -171,7 +174,7 @@ export class Groups extends CollectionBase {
         }
         lines.push('');
         lines.push(':::note');
-        lines.push('For comparison, the original Doxygen html pages, styled with the [doxygen-awesome-css](https://jothepro.github.io/doxygen-awesome-css/) plugin, continue to be available via the <Link to="pathname:///doxygen/topics.html">/doxygen/*</Link> URLs.');
+        lines.push('For comparison, the original Doxygen html pages, styled with the <a href="https://jothepro.github.io/doxygen-awesome-css/">doxygen-awesome-css</a> plugin, continue to be available via the <a href="pathname:///doxygen/topics.html"><code>.../doxygen/*.html</b></code> URLs.');
         lines.push(':::');
         console.log(`Writing groups index file ${filePath}...`);
         if (useCollapsibleTable) {
@@ -216,15 +219,17 @@ export class Groups extends CollectionBase {
         const label = group.titleMdxText ?? '?';
         const permalink = this.workspace.getPagePermalink(group.id);
         assert(permalink !== undefined && permalink.length > 1);
-        lines.push('');
-        lines.push('<TreeTableRow');
-        lines.push(`  itemLabel="${label}"`);
-        lines.push(`  itemLink="${permalink}"`);
-        lines.push(`  depth="${depth}">`);
+        let description = '';
         if (group.briefDescriptionMdxText !== undefined && group.briefDescriptionMdxText.length > 0) {
-            lines.push(group.briefDescriptionMdxText.replace(/[.]$/, ''));
+            description = group.briefDescriptionMdxText.replace(/[.]$/, '');
         }
-        lines.push('</TreeTableRow>');
+        lines.push('');
+        lines.push(...this.workspace.renderTreeTableRowToLines({
+            itemLabel: label,
+            itemLink: permalink,
+            depth,
+            description
+        }));
         if (group.children.length > 0) {
             for (const childGroup of group.children) {
                 lines.push(...this.generateIndexMdxFileRecursively(childGroup, depth + 1));
@@ -261,7 +266,7 @@ export class Group extends CompoundBase {
         // console.log()
     }
     // --------------------------------------------------------------------------
-    renderToMdxLines(frontMatter) {
+    renderToLines(frontMatter) {
         const lines = [];
         const descriptionTodo = `@defgroup ${escapeMdx(this.compoundName)}`;
         const hasIndices = (this.renderDetailedDescriptionToMdxLines !== undefined || this.hasSect1InDescription) && (this.hasInnerIndices() || this.hasSections());

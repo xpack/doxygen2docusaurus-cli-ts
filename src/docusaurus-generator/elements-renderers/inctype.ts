@@ -31,10 +31,20 @@ export class IncTypeLinesRenderer extends ElementLinesRendererBase {
       // May be undefined.
     }
 
-    lines.push('<IncludesListItem')
-    lines.push(`  filePath="${element.text}"`)
-    lines.push(`  permalink="${permalink}"`)
-    lines.push(`  isLocal="${element.local.toString()}" />`)
+    let text = ''
+    // text += '<code>#include '
+    text += '#include '
+    text += element.local ? '"' : '&lt;'
+    if (permalink !== undefined && permalink.length > 0) {
+      text += `<a href="${permalink}">${element.text}</a>`
+    } else {
+      text += element.text
+    }
+    text += element.local ? '"' : '&gt;'
+    // text += '</code>'
+
+    lines.push(text)
+    lines.push('<br/>')
 
     return lines
   }

@@ -1,5 +1,5 @@
-import { ElementTextRendererBase } from './element-renderer-base.js';
+import { ElementStringRendererBase } from './element-renderer-base.js';
 import { AbstractLinkedTextType } from '../../data-model/compounds/linkedtexttype-dm.js';
-export declare class LinkedTextTypeTextRenderer extends ElementTextRendererBase {
-    renderToMdxText(element: AbstractLinkedTextType): string;
+export declare class LinkedTextTypeStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractLinkedTextType, type: string): string;
 }

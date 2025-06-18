@@ -8,28 +8,31 @@
  * If a copy of the license was not distributed with this file, it can
  * be obtained from https://opensource.org/licenses/MIT.
  */
-import { ElementLinesRendererBase, ElementTextRendererBase } from './element-renderer-base.js';
+import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js';
 // ----------------------------------------------------------------------------
-export class DocVariableListTypeTextRenderer extends ElementTextRendererBase {
-    renderToMdxText(element) {
+export class DocVariableListTypeStringRenderer extends ElementStringRendererBase {
+    renderToString(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         let text = '';
-        text += this.workspace.renderElementsToMdxText(element.children);
+        text += this.workspace.renderElementsArrayToString(element.children, type);
         return text;
     }
 }
 export class VariableListPairLinesRenderer extends ElementLinesRendererBase {
-    renderToMdxLines(element) {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
         // console.log(element.varlistentry.term)
         // console.log(element.listitem.paras)
         // WARNING: the title includes <b></b>
-        const title = this.workspace.renderElementToMdxText(element.varlistentry.term).trim();
+        const title = this.workspace.renderElementToString(element.varlistentry.term, type).trim();
         lines.push('');
-        lines.push(`<Reference title={<>${title}</>}>`);
-        lines.push(this.workspace.renderElementsToMdxText(element.listitem.paras).trim());
-        lines.push('</Reference>');
+        lines.push('<dl class="doxyReference">');
+        lines.push(`<dt class="doxyReferenceTerm">${title}</dt>`);
+        lines.push('<dd class="doxyReferenceDescription">');
+        lines.push(this.workspace.renderElementsArrayToString(element.listitem.paras, type).trim());
+        lines.push('</dd>');
+        lines.push('</dl>');
         lines.push('');
         return lines;
     }

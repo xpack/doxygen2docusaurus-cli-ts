@@ -6,6 +6,8 @@ export declare function formatDate(date: Date): string;
 export declare function escapeMdx(text: string): string;
 export declare function escapeHtml(text: string): string;
 export declare function escapeQuotes(text: string): string;
+export declare function escapeHtml2(text: string): string;
+export declare function escapeBraces(text: string): string;
 export declare function sanitizeHierarchicalPath(text: string): string;
 export declare function flattenPath(text: string): string;
 export declare function stripPermalinkAnchor(refid: string): string;

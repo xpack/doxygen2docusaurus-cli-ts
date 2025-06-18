@@ -61,6 +61,7 @@
   margin-right: 2px;
 }
 
+/*
 :global(.doxyIconFile::before) {
   content: '';
   width: 24px;
@@ -80,5 +81,6 @@
   padding-right: 0.4em;
   background: url("img/folder-svgrepo-com.svg") no-repeat;
 }
+*/
 
 /* --- End CollapsibleTreeTable/styles.module.css --- */

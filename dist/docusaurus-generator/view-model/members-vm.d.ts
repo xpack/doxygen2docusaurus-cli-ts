@@ -19,7 +19,7 @@ export declare class Section {
     getHeaderNameByKind(sectionDef: SectionDefDataModel): string;
     getSectionOrderByKind(): number;
     renderIndexToMdxLines(): string[];
-    renderToMdxLines(): string[];
+    renderToLines(): string[];
 }
 declare class MemberBase {
     section: Section;
@@ -52,7 +52,8 @@ export declare class Member extends MemberBase {
     constructor(section: Section, memberDef: MemberDefDataModel);
     initializeLate(): void;
     renderIndexToMdxLines(): string[];
-    renderToMdxLines(): string[];
+    renderToLines(): string[];
+    private renderMemberDefinitionToLines;
     renderEnumToMdxLines(memberDef: MemberDefDataModel): string[];
 }
 export declare class MemberRef extends MemberBase {
