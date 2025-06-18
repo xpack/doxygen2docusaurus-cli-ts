@@ -556,7 +556,11 @@ export class Workspace {
     }
 
     if (typeof element === 'string') {
-      return [this.renderString(element, type)]
+      if (element.startsWith('\n')) {
+        return []
+      } else {
+        return [this.renderString(element, type)]
+      }
     }
 
     if (Array.isArray(element)) {
