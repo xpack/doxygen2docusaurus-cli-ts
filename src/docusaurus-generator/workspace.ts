@@ -412,6 +412,12 @@ export class Workspace {
 
     lines.push('')
     lines.push('<div class="doxyPage">')
+
+    if (frontMatter.title === undefined && title !== undefined) {
+      lines.push('')
+      lines.push(`# ${title}`)
+    }
+
     lines.push('')
     lines.push(...bodyLines)
     lines.push('')
@@ -503,12 +509,6 @@ export class Workspace {
       for (const line of frontMatterCodeLines) {
         frontMatterLines.push(line)
       }
-    }
-
-    frontMatterLines.push('')
-    if (frontMatter.title === undefined && title !== undefined) {
-      frontMatterLines.push(`# ${title}`)
-      frontMatterLines.push('')
     }
 
     await fs.mkdir(path.dirname(filePath), { recursive: true })
