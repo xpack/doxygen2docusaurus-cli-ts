@@ -73,6 +73,22 @@ To run the conversion, use:
 npm run generate-doxygen
 ```
 
+## CSS
+
+The plugin generates a file with custom CSS definitions.
+
+To add it to Docusaurus, edit the `docusaurus-config.ts` file; add the
+second line to the theme configuration:
+
+```ts
+  theme: {
+    customCss: [
+      './src/css/custom.css',
+      './src/css/custom-docusaurus-plugin-doxygen.css'
+    ],
+  },
+```
+
 ## Sidebar
 
 The plugin generates a separate sidebar for the Doxygen pages.
@@ -81,7 +97,7 @@ To add it to Docusaurus, edit the `sidebars.ts` file; add the
 following line in the header part to import the generated file:
 
 ```ts
-import doxygenSidebarItems from './sidebar-category-doxygen.json';
+import doxygenSidebarItems from './sidebar-category-docusaurus-plugin-doxygen.json';
 ```
 
 Add a new property in the `sidebars` object:
@@ -107,7 +123,7 @@ To add it to Docusaurus, edit the `docusaurus-config.ts` file; add the
 following line in the header part to import the generated file:
 
 ```ts
-import doxygenApiMenu from './docusaurus-config-doxygen-menu-dropdown.json'
+import doxygenApiMenu from './docusaurus-config-menu-docusaurus-plugin-doxygen.json'
 ```
 
 Add the `doxygenApiMenu` to the `navbar.items`.
