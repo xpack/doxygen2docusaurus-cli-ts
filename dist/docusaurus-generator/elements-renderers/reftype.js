@@ -11,7 +11,7 @@
 // ----------------------------------------------------------------------------
 import assert from 'assert';
 import { ElementLinesRendererBase } from './element-renderer-base.js';
-import { escapeMdx } from '../utils.js';
+import { escapeHtml } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class RefTypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
@@ -25,7 +25,7 @@ export class RefTypeLinesRenderer extends ElementLinesRendererBase {
         const lines = [];
         const permalink = this.workspace.getPagePermalink(element.refid);
         assert(permalink !== undefined && permalink.length > 1);
-        lines.push(`<a href="${permalink}">${escapeMdx(element.text)}</a>`); // trim?
+        lines.push(`<a href="${permalink}">${escapeHtml(element.text)}</a>`); // trim?
         return lines;
     }
 }

@@ -12,34 +12,114 @@
 import assert from 'assert';
 import util from 'util';
 import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js';
-import { ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
+import { AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocRefTextType, AbstractDocURLLink, AbstractEmojiType, HrulerDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js';
 import { escapeHtml, escapeQuotes, getPermalinkAnchor } from '../utils.js';
+import { AbstractDocHtmlOnlyType, LatexOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel } from '../../data-model/compounds/compounddef-dm.js';
 // ----------------------------------------------------------------------------
-export class DescriptionTypeStringRenderer extends ElementStringRendererBase {
-    renderToString(element, type) {
+export class DescriptionTypeLinesRenderer extends ElementLinesRendererBase {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         if (element.title !== undefined && element.title.length > 0) {
             console.error('title ignored in', element.constructor.name);
         }
-        let text = '';
-        text += this.workspace.renderElementsArrayToString(element.children, type).trim();
-        // console.log(result)
-        return text;
+        const lines = [];
+        lines.push(...this.workspace.renderElementsArrayToLines(element.children, type));
+        return lines;
     }
 }
 // ----------------------------------------------------------------------------
-export class DocParaTypeStringRenderer extends ElementStringRendererBase {
-    renderToString(element, type) {
+export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         // console.log(element)
+        const lines = [];
+        let inParagraph = false;
         let text = '';
-        // TODO skip complex objects.
-        text += '<p>';
-        text += this.workspace.renderElementsArrayToString(element.children, type).trim();
-        text += '</p>';
-        text += '\n';
-        return text;
+        for (const child of element.children) {
+            // console.log(child)
+            if (this.isParagraph(child)) {
+                inParagraph = true;
+                text += this.workspace.renderElementToString(child, type);
+            }
+            else {
+                if (inParagraph) {
+                    text = text.trim();
+                    // console.log(text)
+                    if (text.length > 0) {
+                        lines.push('');
+                        lines.push(`<p>${text}</p>`);
+                    }
+                    inParagraph = false;
+                    text = '';
+                }
+                lines.push(...this.workspace.renderElementToLines(child, type));
+            }
+        }
+        if (inParagraph) {
+            text = text.trim();
+            // console.log(text)
+            if (text.length > 0) {
+                lines.push('');
+                lines.push(`<p>${text}</p>`);
+            }
+        }
+        // console.log(lines)
+        return lines;
+    }
+    // docCmdGroup: 2109
+    isParagraph(element) {
+        if (typeof element === 'string') {
+            return true;
+        }
+        else if (element instanceof HrulerDataModel) {
+            return false; // Explicitly not inside a paragraph.
+        }
+        else if (element instanceof AbstractDocHtmlOnlyType) {
+            return false; // Explicitly not inside a paragraph.
+        }
+        else if (element instanceof ManOnlyDataModel) {
+            return false; // Explicitly not inside a paragraph.
+        }
+        else if (element instanceof XmlOnlyDataModel) {
+            return false; // Explicitly not inside a paragraph.
+        }
+        else if (element instanceof RtfOnlyDataModel) {
+            return false; // Explicitly not inside a paragraph.
+        }
+        else if (element instanceof LatexOnlyDataModel) {
+            return false; // Explicitly not inside a paragraph.
+        }
+        else if (element instanceof AbstractDocURLLink) {
+            return true;
+        }
+        else if (element instanceof AbstractDocMarkupType) {
+            return true;
+        }
+        else if (element instanceof AbstractDocImageType) {
+            return true;
+            // Not defined yet.
+            //  <xsd:element name="dot" type="docDotMscType" />
+            //  <xsd:element name="msc" type="docDotMscType" />
+            //  <xsd:element name="plantuml" type="docPlantumlType" />
+        }
+        else if (element instanceof AbstractDocAnchorType) {
+            return true;
+        }
+        else if (element instanceof AbstractDocFormulaType) {
+            return true;
+        }
+        else if (element instanceof AbstractDocRefTextType) {
+            return true;
+        }
+        else if (element instanceof AbstractEmojiType) {
+            return true;
+        }
+        else if (element instanceof AbstractDocEmptyType) {
+            return true;
+        }
+        // The rest, from "programlisting" on, are not paragraphs.
+        return false;
     }
 }
 // ----------------------------------------------------------------------------
@@ -134,8 +214,8 @@ export class DocRefTextTypeStringRenderer extends ElementStringRendererBase {
 //     <xsd:enumeration value="rcs" />
 //   </xsd:restriction>
 // </xsd:simpleType>
-export class DocSimpleSectTypeStringRenderer extends ElementStringRendererBase {
-    renderToString(element, type) {
+export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
         // doxygen.git/src/translator_en.h
@@ -162,21 +242,33 @@ export class DocSimpleSectTypeStringRenderer extends ElementStringRendererBase {
         lines.push('');
         if (DoxSimpleSectKind[element.kind] !== undefined) {
             const title = DoxSimpleSectKind[element.kind];
-            lines.push('<dl class="doxySectionUser"');
+            const body = this.workspace.renderElementsArrayToString(element.children, type).trim();
+            lines.push('<dl class="doxySectionUser">');
             lines.push(`<dt><b>${title}</b></dt>`);
-            lines.push('<dd>');
-            lines.push(this.workspace.renderElementsArrayToString(element.children, type).trim());
-            lines.push('</dd>');
+            if (body.length === 0) {
+                lines.push('<dd></dd>');
+            }
+            else {
+                lines.push('<dd>');
+                lines.push(body);
+                lines.push('</dd>');
+            }
             lines.push('</dl>');
         }
         else if (element.kind === 'par') {
             assert(element.title !== undefined);
             const title = element.title.replace(/\.$/, '');
-            lines.push('<dl class="doxySectionUser"');
+            const body = this.workspace.renderElementsArrayToString(element.children, type).trim();
+            lines.push('<dl class="doxySectionUser">');
             lines.push(`<dt><b>${title}</b></dt>`);
-            lines.push('<dd>');
-            lines.push(this.workspace.renderElementsArrayToString(element.children, type).trim());
-            lines.push('</dd>');
+            if (body.length === 0) {
+                lines.push('<dd></dd>');
+            }
+            else {
+                lines.push('<dd>');
+                lines.push(body);
+                lines.push('</dd>');
+            }
             lines.push('</dl>');
         }
         else if (element.kind === 'note') {
@@ -187,7 +279,7 @@ export class DocSimpleSectTypeStringRenderer extends ElementStringRendererBase {
         }
         else if (element.kind === 'warning') {
             lines.push(':::warning');
-            console.log(util.inspect(element, { compact: false, depth: 999 }));
+            // console.log(util.inspect(element, { compact: false, depth: 999 }))
             lines.push(this.workspace.renderElementToString(element.children, type).trim());
             lines.push(':::');
         }
@@ -206,7 +298,7 @@ export class DocSimpleSectTypeStringRenderer extends ElementStringRendererBase {
             console.error(element.constructor.name, 'kind', element.kind, 'not yet rendered in', this.constructor.name);
         }
         lines.push('');
-        return lines.join('\n');
+        return lines;
     }
 }
 // ----------------------------------------------------------------------------
@@ -249,8 +341,8 @@ export class DocEmptyTypeStringRenderer extends ElementStringRendererBase {
     }
 }
 // ----------------------------------------------------------------------------
-export class DocParamListTypeStringRenderer extends ElementStringRendererBase {
-    renderToString(element, type) {
+export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
         if (element.parameterItems !== undefined) {
@@ -309,7 +401,7 @@ export class DocParamListTypeStringRenderer extends ElementStringRendererBase {
                                 }
                             }
                         }
-                        const parameters = this.workspace.renderElementToString(parameterItem.parameterDescription, type);
+                        const parameters = this.workspace.renderElementToString(parameterItem.parameterDescription, type).trim();
                         const escapedName = escapeQuotes(names.join(', '));
                         lines.push('<tr class="doxyParamItem">');
                         lines.push(`<td class="doxyParamItemName">${escapedName}</td>`);
@@ -325,7 +417,7 @@ export class DocParamListTypeStringRenderer extends ElementStringRendererBase {
                     console.error(element.constructor.name, 'not yet rendered in', this.constructor.name);
             }
         }
-        return lines.join('\n');
+        return lines;
     }
 }
 // ----------------------------------------------------------------------------
@@ -415,20 +507,22 @@ export class HtmlOnlyStringRenderer extends ElementStringRendererBase {
     }
 }
 // ----------------------------------------------------------------------------
-export class HeadingStringRenderer extends ElementStringRendererBase {
-    renderToString(element, type) {
+export class HeadingLinesRenderer extends ElementLinesRendererBase {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
-        let text = '';
+        const lines = [];
         if (element.level === 1) {
             if (this.workspace.pluginOptions.verbose) {
                 console.warn('Level 1 Heading interferes with Docusaurus pages');
             }
         }
-        text += '\n';
+        lines.push('');
+        let text = '';
         text += '#'.repeat(element.level);
         text += ' ';
         text += this.workspace.renderElementsArrayToString(element.children, type);
-        return text;
+        lines.push(text);
+        return lines;
     }
 }
 // ----------------------------------------------------------------------------

@@ -12,7 +12,7 @@ import assert from 'node:assert';
 import crypto from 'node:crypto';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
-import { escapeHtml, escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
+import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
 import { IndexEntry } from './indices-vm.js';
 // ----------------------------------------------------------------------------
 const kindsPlurals = {
@@ -76,17 +76,13 @@ export class Classes extends CollectionBase {
                 id: `${this.workspace.sidebarBaseId}classes/index`
             },
             collapsed: true,
-            items: []
-        };
-        classesCategory.items.push({
-            type: 'category',
-            label: '#Index',
-            link: {
-                type: 'doc',
-                id: `${this.workspace.sidebarBaseId}index/classes/all`
-            },
-            collapsed: true,
             items: [
+                {
+                    type: 'category',
+                    label: 'Hierarchy',
+                    collapsed: true,
+                    items: []
+                },
                 {
                     type: 'doc',
                     label: 'All',
@@ -113,11 +109,11 @@ export class Classes extends CollectionBase {
                     id: `${this.workspace.sidebarBaseId}index/classes/typedefs`
                 }
             ]
-        });
+        };
         for (const classs of this.topLevelClasses) {
             const item = this.createSidebarItemRecursively(classs);
             if (item !== undefined) {
-                classesCategory.items.push(item);
+                classesCategory.items[0].items.push(item);
             }
         }
         return [classesCategory];
@@ -177,7 +173,7 @@ export class Classes extends CollectionBase {
             keywords: ['doxygen', 'classes', 'reference']
         };
         const lines = [];
-        lines.push('The classes, structs, union and interfaces used by this project are:');
+        lines.push('<p>The classes, structs, union and interfaces used by this project are:</p>');
         lines.push('');
         lines.push('<table class="doxyTreeTable">');
         for (const classs of this.topLevelClasses) {
@@ -207,10 +203,10 @@ export class Classes extends CollectionBase {
             console.error('Icon kind', classs.kind, 'not supported yet in', this.constructor.name, '(using ?)');
             iconLetter = '?';
         }
-        const label = escapeMdx(classs.unqualifiedName);
+        const label = escapeHtml(classs.unqualifiedName);
         let description = '';
-        if (classs.briefDescriptionMdxText !== undefined && classs.briefDescriptionMdxText.length > 0) {
-            description = classs.briefDescriptionMdxText.replace(/[.]$/, '');
+        if (classs.briefDescriptionString !== undefined && classs.briefDescriptionString.length > 0) {
+            description = classs.briefDescriptionString.replace(/[.]$/, '');
         }
         lines.push('');
         lines.push(...this.workspace.renderTreeTableRowToLines({
@@ -255,7 +251,7 @@ export class Classes extends CollectionBase {
                 keywords: ['doxygen', 'classes', 'index']
             };
             const lines = [];
-            lines.push('The classes, structs, union interfaces and their members, variables, types used by this project are:');
+            lines.push('<p>The classes, structs, union interfaces and their members, variables, types used by this project are:</p>');
             const orderedEntriesMap = this.orderPerInitials(allUnorderedEntriesMap);
             lines.push(...this.outputEntries(orderedEntriesMap));
             console.log(`Writing index file ${filePath}...`);
@@ -305,7 +301,7 @@ export class Classes extends CollectionBase {
                 keywords: ['doxygen', 'classes', 'index']
             };
             const lines = [];
-            lines.push('The class member functions used by this project are:');
+            lines.push('<p>The class member functions used by this project are:</p>');
             const classesUnorderedMap = new Map();
             for (const [id, entry] of allUnorderedEntriesMap) {
                 if (entry.kind === 'function') {
@@ -333,7 +329,7 @@ export class Classes extends CollectionBase {
                 keywords: ['doxygen', 'classes', 'index']
             };
             const lines = [];
-            lines.push('The class member variables used by this project are:');
+            lines.push('<p>The class member variables used by this project are:</p>');
             const classesUnorderedMap = new Map();
             for (const [id, entry] of allUnorderedEntriesMap) {
                 if (entry.kind === 'variable') {
@@ -361,7 +357,7 @@ export class Classes extends CollectionBase {
                 keywords: ['doxygen', 'classes', 'index']
             };
             const lines = [];
-            lines.push('The class member type definitions used by this project are:');
+            lines.push('<p>The class member type definitions used by this project are:</p>');
             const classesUnorderedMap = new Map();
             for (const [id, entry] of allUnorderedEntriesMap) {
                 if (entry.kind === 'typedef') {
@@ -411,7 +407,7 @@ export class Classes extends CollectionBase {
         const lines = [];
         for (const initial of entriesPerInitialsMap.keys()) {
             lines.push('');
-            lines.push(`## - ${escapeMdx(initial)} -`);
+            lines.push(`## - ${initial} -`);
             lines.push('');
             const mapArray = entriesPerInitialsMap.get(initial);
             assert(mapArray !== undefined);
@@ -421,10 +417,10 @@ export class Classes extends CollectionBase {
                     kind = `${entry.kind} `;
                 }
                 if (entry.permalink !== undefined && entry.permalink.length > 0) {
-                    lines.push(`- ${escapeMdx(entry.name)}: <a href="${entry.permalink}">${kind}${escapeMdx(entry.longName)}</a>`);
+                    lines.push(`- ${escapeHtml(entry.name)}: <a href="${entry.permalink}">${kind}${escapeHtml(entry.longName)}</a>`);
                 }
                 else {
-                    lines.push(`- ${escapeMdx(entry.name)}: ${kind}${escapeMdx(entry.longName)}`);
+                    lines.push(`- ${escapeHtml(entry.name)}: ${kind}${escapeHtml(entry.longName)}`);
                 }
             }
         }
@@ -501,14 +497,14 @@ export class Class extends CompoundBase {
         assert(compoundDef !== undefined);
         let classFullName = this.fullyQualifiedName;
         if (this.templateParameters.length > 0) {
-            classFullName += escapeMdx(this.templateParameters);
+            classFullName += escapeHtml(this.templateParameters);
         }
         else {
-            classFullName += escapeMdx(this.renderTemplateParameterNamesToMdxText(compoundDef.templateParamList));
+            classFullName += escapeHtml(this.renderTemplateParameterNamesToMdxText(compoundDef.templateParamList));
         }
         this.classFullNameMdxText = classFullName;
         if (compoundDef.templateParamList?.params !== undefined) {
-            this.templateMdxText = escapeMdx(this.renderTemplateParametersToMdxText({
+            this.templateMdxText = escapeHtml(this.renderTemplateParametersToMdxText({
                 templateParamList: compoundDef.templateParamList,
                 withDefaults: true
             }));
@@ -521,10 +517,10 @@ export class Class extends CompoundBase {
     renderToLines(frontMatter) {
         const lines = [];
         frontMatter.toc_max_heading_level = 3;
-        const descriptionTodo = `@${this.kind} ${escapeMdx(this.compoundName)}`;
-        const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined;
-        lines.push(this.renderBriefDescriptionToMdxText({
-            briefDescriptionMdxText: this.briefDescriptionMdxText,
+        const descriptionTodo = `@${this.kind} ${escapeHtml(this.compoundName)}`;
+        const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
+        lines.push(this.renderBriefDescriptionToString({
+            briefDescriptionString: this.briefDescriptionString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -568,7 +564,7 @@ export class Class extends CompoundBase {
                             continue;
                         }
                     }
-                    const itemName = escapeMdx(baseCompoundRef.text);
+                    const itemName = escapeHtml(baseCompoundRef.text);
                     lines.push('');
                     lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
                         type: this.kind,
@@ -614,7 +610,7 @@ export class Class extends CompoundBase {
                             if (this.collection.workspace.pluginOptions.verbose) {
                                 console.warn('Derived class id', derivedCompoundRef.refid, 'not a defined class');
                             }
-                            const itemName = escapeMdx(derivedCompoundRef.text.trim());
+                            const itemName = escapeHtml(derivedCompoundRef.text.trim());
                             lines.push('');
                             lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
                                 type: this.kind,
@@ -623,7 +619,7 @@ export class Class extends CompoundBase {
                         }
                     }
                     else {
-                        const itemName = escapeMdx(derivedCompoundRef.text.trim());
+                        const itemName = escapeHtml(derivedCompoundRef.text.trim());
                         lines.push('');
                         lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
                             type: this.kind,
@@ -657,15 +653,15 @@ export class Class extends CompoundBase {
             suffixes: []
         }));
         lines.push(...this.renderSectionIndicesToMdxLines());
-        lines.push(...this.renderDetailedDescriptionToMdxLines({
-            briefDescriptionMdxText: this.briefDescriptionMdxText,
-            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+        lines.push(...this.renderDetailedDescriptionToLines({
+            briefDescriptionString: this.briefDescriptionString,
+            detailedDescriptionLines: this.detailedDescriptionLines,
             todo: descriptionTodo,
             showHeader: true,
             showBrief: !this.hasSect1InDescription
         }));
-        if (this.locationMdxText !== undefined) {
-            lines.push(this.locationMdxText);
+        if (this.locationLines !== undefined) {
+            lines.push(...this.locationLines);
         }
         lines.push(...this.renderSectionsToMdxLines());
         lines.push(...this.renderGeneratedFromToMdxLines());
@@ -677,14 +673,14 @@ export class Class extends CompoundBase {
         const workspace = this.collection.workspace;
         const permalink = workspace.getPagePermalink(this.id);
         const itemType = this.kind;
-        const itemName = `<a href="${permalink}">${escapeMdx(this.indexName)}</a>`;
+        const itemName = `<a href="${permalink}">${escapeHtml(this.indexName)}</a>`;
         lines.push('');
         const childrenLines = [];
-        const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined;
-        const briefDescriptionMdxText = this.briefDescriptionMdxText;
-        if ((briefDescriptionMdxText ?? '').length > 0) {
-            childrenLines.push(this.renderBriefDescriptionToMdxText({
-                briefDescriptionMdxText,
+        const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? `${permalink}/#details` : undefined;
+        const briefDescriptionString = this.briefDescriptionString;
+        if ((briefDescriptionString ?? '').length > 0) {
+            childrenLines.push(this.renderBriefDescriptionToString({
+                briefDescriptionString,
                 morePermalink
             }));
         }

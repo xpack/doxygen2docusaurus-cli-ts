@@ -43,10 +43,10 @@ export declare abstract class CompoundBase {
     indexName: string;
     /** The name shown in the page title. */
     pageTitle: string;
-    briefDescriptionMdxText: string | undefined;
-    detailedDescriptionMdxText: string | undefined;
+    briefDescriptionString: string | undefined;
+    detailedDescriptionLines: string[] | undefined;
     hasSect1InDescription: boolean;
-    locationMdxText: string | undefined;
+    locationLines: string[] | undefined;
     sections: Section[];
     locationSet: Set<string>;
     includes: IncludesDataModel[] | undefined;
@@ -61,14 +61,14 @@ export declare abstract class CompoundBase {
     initializeLate(): void;
     isOperator(name: string): boolean;
     abstract renderToLines(frontMatter: FrontMatter): string[];
-    renderBriefDescriptionToMdxText({ briefDescriptionMdxText, todo, morePermalink }: {
-        briefDescriptionMdxText: string | undefined;
+    renderBriefDescriptionToString({ briefDescriptionString, todo, morePermalink }: {
+        briefDescriptionString: string | undefined;
         todo?: string;
         morePermalink?: string | undefined;
     }): string;
-    renderDetailedDescriptionToMdxLines({ briefDescriptionMdxText, detailedDescriptionMdxText, todo, showHeader, showBrief }: {
-        briefDescriptionMdxText?: string | undefined;
-        detailedDescriptionMdxText: string | undefined;
+    renderDetailedDescriptionToLines({ briefDescriptionString, detailedDescriptionLines, todo, showHeader, showBrief }: {
+        briefDescriptionString?: string | undefined;
+        detailedDescriptionLines: string[] | undefined;
         todo?: string;
         showHeader: boolean;
         showBrief?: boolean;
@@ -81,7 +81,7 @@ export declare abstract class CompoundBase {
     renderSectionIndicesToMdxLines(): string[];
     renderIncludesIndexToMdxLines(): string[];
     renderSectionsToMdxLines(): string[];
-    renderLocationToMdxText(location: LocationDataModel | undefined): string;
+    renderLocationToMdxText(location: LocationDataModel | undefined): string[];
     renderGeneratedFromToMdxLines(): string[];
     /**
      * Return an array of types, like `class T`, or `class U = T`, or `N T::* MP`

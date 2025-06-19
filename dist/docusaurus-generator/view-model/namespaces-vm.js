@@ -12,7 +12,7 @@ import assert from 'node:assert';
 import path from 'node:path';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
-import { escapeHtml, escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
+import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class Namespaces extends CollectionBase {
     constructor() {
@@ -135,7 +135,7 @@ export class Namespaces extends CollectionBase {
             keywords: ['doxygen', 'namespaces', 'reference']
         };
         const lines = [];
-        lines.push('The namespaces used by this project are:');
+        lines.push('<p>The namespaces used by this project are:</p>');
         lines.push('');
         lines.push('<table class="doxyTreeTable">');
         for (const namespace of this.topLevelNamespaces) {
@@ -153,15 +153,15 @@ export class Namespaces extends CollectionBase {
     generateIndexMdxFileRecursively(namespace, depth) {
         // console.log(util.inspect(namespace, { compact: false, depth: 999 }))
         const lines = [];
-        const label = escapeMdx(namespace.unqualifiedName);
+        const label = escapeHtml(namespace.unqualifiedName);
         const permalink = this.workspace.getPagePermalink(namespace.id);
         if (permalink === undefined || permalink.length === 0) {
             console.log(namespace);
         }
         assert(permalink !== undefined && permalink.length > 1);
         let description = '';
-        if (namespace.briefDescriptionMdxText !== undefined && namespace.briefDescriptionMdxText.length > 0) {
-            description = namespace.briefDescriptionMdxText.replace(/[.]$/, '');
+        if (namespace.briefDescriptionString !== undefined && namespace.briefDescriptionString.length > 0) {
+            description = namespace.briefDescriptionString.replace(/[.]$/, '');
         }
         lines.push('');
         lines.push(...this.workspace.renderTreeTableRowToLines({
@@ -258,10 +258,10 @@ export class Namespace extends CompoundBase {
     // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
         const lines = [];
-        const descriptionTodo = `@namespace ${escapeMdx(this.compoundName)}`;
-        const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined;
-        lines.push(this.renderBriefDescriptionToMdxText({
-            briefDescriptionMdxText: this.briefDescriptionMdxText,
+        const descriptionTodo = `@namespace ${escapeHtml(this.compoundName)}`;
+        const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
+        lines.push(this.renderBriefDescriptionToString({
+            briefDescriptionString: this.briefDescriptionString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -274,16 +274,16 @@ export class Namespace extends CompoundBase {
             lines.push(`namespace ${dots}`);
         }
         else {
-            lines.push(`namespace ${escapeMdx(this.compoundName)} ${dots}`);
+            lines.push(`namespace ${escapeHtml(this.compoundName)} ${dots}`);
         }
         lines.push('</div>');
         lines.push(...this.renderInnerIndicesToMdxLines({
             suffixes: ['Namespaces', 'Classes']
         }));
         lines.push(...this.renderSectionIndicesToMdxLines());
-        lines.push(...this.renderDetailedDescriptionToMdxLines({
-            briefDescriptionMdxText: this.briefDescriptionMdxText,
-            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+        lines.push(...this.renderDetailedDescriptionToLines({
+            briefDescriptionString: this.briefDescriptionString,
+            detailedDescriptionLines: this.detailedDescriptionLines,
             todo: descriptionTodo,
             showHeader: true,
             showBrief: !this.hasSect1InDescription

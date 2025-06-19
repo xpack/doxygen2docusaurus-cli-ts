@@ -7,7 +7,7 @@ export declare class Section {
     compound: CompoundBase;
     kind: string;
     headerName: string;
-    descriptionMdxText: string | undefined;
+    descriptionLines: string[] | undefined;
     indexMembers: Array<MemberRef | Member>;
     definitionMembers: Member[];
     _private: {
@@ -30,14 +30,14 @@ declare class MemberBase {
 export declare class Member extends MemberBase {
     id: string;
     kind: string;
-    briefDescriptionMdxText: string | undefined;
-    detailedDescriptionMdxText: string | undefined;
+    briefDescriptionString: string | undefined;
+    detailedDescriptionLines: string[] | undefined;
     argsstring: string | undefined;
     qualifiedName: string | undefined;
     definition: string | undefined;
     typeMdxText: string | undefined;
     initializerMdxText: string | undefined;
-    locationMdxText: string | undefined;
+    locationLines: string[] | undefined;
     templateParametersMdxText: string | undefined;
     enumMdxLines: string[] | undefined;
     parameters: string | undefined;

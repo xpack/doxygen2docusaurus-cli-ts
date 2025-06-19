@@ -11,7 +11,7 @@
 import assert from 'node:assert';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
-import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
+import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class FilesAndFolders extends CollectionBase {
     // folders: Folders
@@ -234,7 +234,7 @@ export class FilesAndFolders extends CollectionBase {
             keywords: ['doxygen', 'files', 'folders', 'reference']
         };
         const lines = [];
-        lines.push('The files & folders that contributed content to this site are:');
+        lines.push('<p>The files & folders that contributed content to this site are:</p>');
         lines.push('');
         lines.push('<table class="doxyTreeTable">');
         for (const folder of this.topLevelFolders) {
@@ -255,12 +255,12 @@ export class FilesAndFolders extends CollectionBase {
     generateIndexMdxFileRecursively(folder, depth) {
         // console.log(util.inspect(folder, { compact: false, depth: 999 }))
         const lines = [];
-        const label = escapeMdx(folder.compoundName);
+        const label = escapeHtml(folder.compoundName);
         const permalink = this.workspace.getPagePermalink(folder.id);
         assert(permalink !== undefined && permalink.length > 1);
         let description = '';
-        if (folder.briefDescriptionMdxText !== undefined && folder.briefDescriptionMdxText.length > 0) {
-            description = folder.briefDescriptionMdxText.replace(/[.]$/, '');
+        if (folder.briefDescriptionString !== undefined && folder.briefDescriptionString.length > 0) {
+            description = folder.briefDescriptionString.replace(/[.]$/, '');
         }
         lines.push('');
         lines.push(...this.workspace.renderTreeTableRowToLines({
@@ -287,12 +287,12 @@ export class FilesAndFolders extends CollectionBase {
     generateFileIndexMdx(file, depth) {
         // console.log(util.inspect(file, { compact: false, depth: 999 }))
         const lines = [];
-        const label = escapeMdx(file.compoundName);
+        const label = escapeHtml(file.compoundName);
         const permalink = this.workspace.getPagePermalink(file.id);
         assert(permalink !== undefined && permalink.length > 1);
         let description = '';
-        if (file.briefDescriptionMdxText !== undefined && file.briefDescriptionMdxText.length > 0) {
-            description = file.briefDescriptionMdxText.replace(/[.]$/, '');
+        if (file.briefDescriptionString !== undefined && file.briefDescriptionString.length > 0) {
+            description = file.briefDescriptionString.replace(/[.]$/, '');
         }
         lines.push('');
         lines.push(...this.workspace.renderTreeTableRowToLines({
@@ -340,10 +340,10 @@ export class Folder extends CompoundBase {
     // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
         const lines = [];
-        const descriptionTodo = `@dir ${escapeMdx(this.relativePath)}`;
-        const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined;
-        lines.push(this.renderBriefDescriptionToMdxText({
-            briefDescriptionMdxText: this.briefDescriptionMdxText,
+        const descriptionTodo = `@dir ${escapeHtml(this.relativePath)}`;
+        const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
+        lines.push(this.renderBriefDescriptionToString({
+            briefDescriptionString: this.briefDescriptionString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -351,9 +351,9 @@ export class Folder extends CompoundBase {
             suffixes: ['Dirs', 'Files']
         }));
         lines.push(...this.renderSectionIndicesToMdxLines());
-        lines.push(...this.renderDetailedDescriptionToMdxLines({
-            briefDescriptionMdxText: this.briefDescriptionMdxText,
-            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+        lines.push(...this.renderDetailedDescriptionToLines({
+            briefDescriptionString: this.briefDescriptionString,
+            detailedDescriptionLines: this.detailedDescriptionLines,
             todo: descriptionTodo,
             showHeader: true,
             showBrief: !this.hasSect1InDescription
@@ -394,10 +394,10 @@ export class File extends CompoundBase {
     // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
         const lines = [];
-        const descriptionTodo = `@file ${escapeMdx(this.relativePath)}`;
-        const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined;
-        lines.push(this.renderBriefDescriptionToMdxText({
-            briefDescriptionMdxText: this.briefDescriptionMdxText,
+        const descriptionTodo = `@file ${escapeHtml(this.relativePath)}`;
+        const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
+        lines.push(this.renderBriefDescriptionToString({
+            briefDescriptionString: this.briefDescriptionString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -406,9 +406,9 @@ export class File extends CompoundBase {
             suffixes: ['Namespaces', 'Classes']
         }));
         lines.push(...this.renderSectionIndicesToMdxLines());
-        lines.push(...this.renderDetailedDescriptionToMdxLines({
-            briefDescriptionMdxText: this.briefDescriptionMdxText,
-            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+        lines.push(...this.renderDetailedDescriptionToLines({
+            briefDescriptionString: this.briefDescriptionString,
+            detailedDescriptionLines: this.detailedDescriptionLines,
             todo: descriptionTodo,
             showHeader: true,
             showBrief: !this.hasSect1InDescription
@@ -418,8 +418,8 @@ export class File extends CompoundBase {
             lines.push('');
             lines.push('## File Listing');
             lines.push('');
-            lines.push('The file content with the documentation metadata removed is:');
-            lines.push(...this.collection.workspace.renderElementToLines(this.programListing, 'mdx'));
+            lines.push('<p>The file content with the documentation metadata removed is:</p>');
+            lines.push(...this.collection.workspace.renderElementToLines(this.programListing, 'html'));
         }
         return lines;
     }

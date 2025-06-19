@@ -19,4 +19,5 @@ export declare class DocusaurusGenerator {
     generatePages(): Promise<void>;
     generateRedirectFiles(): Promise<void>;
     private generateRedirectFile;
+    copyFiles(): Promise<void>;
 }

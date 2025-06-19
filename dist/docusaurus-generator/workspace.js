@@ -16,12 +16,13 @@ import path from 'node:path';
 import { Groups } from './view-model/groups-vm.js';
 import { Classes } from './view-model/classes-vm.js';
 import { DoxygenFileOptions } from './view-model/options.js';
-import { escapeBraces, escapeHtml2, escapeMdx, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js';
+import { escapeBraces, escapeHtml, escapeMarkdown, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js';
 import { Namespaces } from './view-model/namespaces-vm.js';
 import { FilesAndFolders } from './view-model/files-and-folders-vm.js';
 import { Pages } from './view-model/pages-vm.js';
 import { Member } from './view-model/members-vm.js';
 import { Renderers } from './elements-renderers/renderers.js';
+import { fileURLToPath } from 'node:url';
 // ----------------------------------------------------------------------------
 // <xsd:simpleType name="DoxCompoundKind">
 //   <xsd:restriction base="xsd:string">
@@ -77,6 +78,8 @@ export class Workspace {
         this.writtenMdxFilesCounter = 0;
         this.writtenHtmlFilesCounter = 0;
         console.log();
+        const __dirname = path.dirname(fileURLToPath(import.meta.url));
+        this.projectPath = path.dirname(path.dirname(__dirname));
         this.dataModel = dataModel;
         this.pluginOptions = pluginOptions;
         this.siteConfig = siteConfig;
@@ -290,6 +293,10 @@ export class Workspace {
         const lines = [];
         lines.push('');
         lines.push('<div class="doxyPage">');
+        if (frontMatter.title === undefined && title !== undefined) {
+            lines.push('');
+            lines.push(`# ${title}`);
+        }
         lines.push('');
         lines.push(...bodyLines);
         lines.push('');
@@ -375,11 +382,6 @@ export class Workspace {
                 frontMatterLines.push(line);
             }
         }
-        frontMatterLines.push('');
-        if (frontMatter.title === undefined && title !== undefined) {
-            frontMatterLines.push(`# ${title}`);
-            frontMatterLines.push('');
-        }
         await fs.mkdir(path.dirname(filePath), { recursive: true });
         const fileHandle = await fs.open(filePath, 'ax');
         await fileHandle.write(frontMatterLines.join('\n'));
@@ -395,11 +397,11 @@ export class Workspace {
         else if (type === 'plain-html') {
             return escapeBraces(element);
         }
-        else if (type === 'html') {
-            return escapeHtml2(element);
+        else if (type === 'markdown') {
+            return escapeMarkdown(element);
         }
         else {
-            return escapeMdx(element);
+            return escapeHtml(element);
         }
     }
     renderElementsArrayToLines(elements, type) {
@@ -417,7 +419,12 @@ export class Workspace {
             return [];
         }
         if (typeof element === 'string') {
-            return [this.renderString(element, type)];
+            if (element.startsWith('\n')) {
+                return [];
+            }
+            else {
+                return [this.renderString(element, type)];
+            }
         }
         if (Array.isArray(element)) {
             const lines = [];

@@ -12,7 +12,7 @@ import assert from 'node:assert';
 import path from 'node:path';
 import { ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
 import { InnerClassDataModel } from '../../data-model/compounds/reftype-dm.js';
-import { escapeHtml, escapeMdx } from '../utils.js';
+import { escapeHtml } from '../utils.js';
 import { Section } from './members-vm.js';
 import { RefTextDataModel } from '../../data-model/compounds/reftexttype-dm.js';
 import { SectionDefByKindDataModel } from '../../data-model/compounds/sectiondeftype-dm.js';
@@ -42,7 +42,7 @@ export class CompoundBase {
         this.compoundName = compoundDef.compoundName;
         this.id = compoundDef.id;
         if (compoundDef.title !== undefined) {
-            this.titleMdxText = escapeMdx(compoundDef.title);
+            this.titleMdxText = escapeHtml(compoundDef.title);
         }
         if (compoundDef?.location?.file !== undefined) {
             this.locationFilePath = compoundDef.location.file;
@@ -181,15 +181,15 @@ export class CompoundBase {
             // console.log(compoundDef.briefDescription)
             if (compoundDef.briefDescription.children.length > 1) {
                 assert(compoundDef.briefDescription.children[1] instanceof ParaDataModel);
-                this.briefDescriptionMdxText = workspace.renderElementsArrayToString(compoundDef.briefDescription.children[1].children, 'mdx').trim();
+                this.briefDescriptionString = workspace.renderElementsArrayToString(compoundDef.briefDescription.children[1].children, 'html').trim();
             }
             else {
-                this.briefDescriptionMdxText = workspace.renderElementToString(compoundDef.briefDescription, 'mdx').trim();
+                this.briefDescriptionString = workspace.renderElementToString(compoundDef.briefDescription, 'html').trim();
             }
         }
         if (compoundDef.detailedDescription !== undefined) {
             // console.log(compoundDef.detailedDescription)
-            this.detailedDescriptionMdxText = workspace.renderElementToString(compoundDef.detailedDescription, 'mdx').trim();
+            this.detailedDescriptionLines = workspace.renderElementToLines(compoundDef.detailedDescription, 'html');
             // for (const child of compoundDef.detailedDescription.children) {
             //   if (child instanceof Sect1DataModel) {
             //     this.hasSect1InDescription = true
@@ -205,7 +205,7 @@ export class CompoundBase {
         }
         else {
             if (compoundDef.location !== undefined) {
-                this.locationMdxText = this.renderLocationToMdxText(compoundDef.location);
+                this.locationLines = this.renderLocationToMdxText(compoundDef.location);
             }
         }
         if (compoundDef.sectionDefs !== undefined) {
@@ -243,17 +243,17 @@ export class CompoundBase {
         return false;
     }
     // --------------------------------------------------------------------------
-    renderBriefDescriptionToMdxText({ briefDescriptionMdxText, todo = '', morePermalink }) {
+    renderBriefDescriptionToString({ briefDescriptionString, todo = '', morePermalink }) {
         let text = '';
         if (!this.collection.workspace.pluginOptions.suggestToDoDescriptions) {
             todo = '';
         }
-        if (briefDescriptionMdxText === undefined && todo.length === 0) {
+        if (briefDescriptionString === undefined && todo.length === 0) {
             return '';
         }
-        if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
+        if (briefDescriptionString !== undefined && briefDescriptionString.length > 0) {
             text += '<p>';
-            text += briefDescriptionMdxText;
+            text += briefDescriptionString;
             if (morePermalink !== undefined && morePermalink.length > 0) {
                 text += ` <a href="${morePermalink}">`;
                 text += 'More...';
@@ -266,16 +266,16 @@ export class CompoundBase {
         }
         return text;
     }
-    renderDetailedDescriptionToMdxLines({ briefDescriptionMdxText, detailedDescriptionMdxText, todo = '', showHeader, showBrief = false }) {
+    renderDetailedDescriptionToLines({ briefDescriptionString, detailedDescriptionLines, todo = '', showHeader, showBrief = false }) {
         const lines = [];
         if (!this.collection.workspace.pluginOptions.suggestToDoDescriptions) {
             todo = '';
         }
         // const workspace = this.collection.workspace
         if (showHeader) {
-            if ((detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) ||
+            if ((detailedDescriptionLines !== undefined && detailedDescriptionLines.length > 0) ||
                 todo.length > 0 ||
-                (showBrief && briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0)) {
+                (showBrief && briefDescriptionString !== undefined && briefDescriptionString.length > 0)) {
                 lines.push('');
                 lines.push('## Description {#details}');
             }
@@ -284,17 +284,17 @@ export class CompoundBase {
             if (showHeader) {
                 lines.push('');
             }
-            if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
-                lines.push(`<p>${briefDescriptionMdxText}</p>`);
+            if (briefDescriptionString !== undefined && briefDescriptionString.length > 0) {
+                lines.push(`<p>${briefDescriptionString}</p>`);
             }
             else if (todo.length > 0) {
                 lines.push(`TODO: add <code>@brief</code> to <code>${todo}</code>`);
             }
         }
         // console.log(util.inspect(detailedDescriptionMdxText, { compact: false, depth: 999 }))
-        if (detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) {
+        if (detailedDescriptionLines !== undefined && detailedDescriptionLines.length > 0) {
             lines.push('');
-            lines.push(detailedDescriptionMdxText);
+            lines.push(...detailedDescriptionLines);
         }
         else if (todo.length > 0) {
             lines.push('');
@@ -339,10 +339,10 @@ export class CompoundBase {
                         const itemName = `<a href="${permalink}">${escapeHtml(innerDataObject.indexName)}</a>`;
                         lines.push('');
                         const childrenLines = [];
-                        const morePermalink = innerDataObject.renderDetailedDescriptionToMdxLines !== undefined ? `${permalink}/#details` : undefined;
-                        if (innerDataObject.briefDescriptionMdxText !== undefined && innerDataObject.briefDescriptionMdxText.length > 0) {
-                            childrenLines.push(this.renderBriefDescriptionToMdxText({
-                                briefDescriptionMdxText: innerDataObject.briefDescriptionMdxText,
+                        const morePermalink = innerDataObject.renderDetailedDescriptionToLines !== undefined ? `${permalink}/#details` : undefined;
+                        if (innerDataObject.briefDescriptionString !== undefined && innerDataObject.briefDescriptionString.length > 0) {
+                            childrenLines.push(this.renderBriefDescriptionToString({
+                                briefDescriptionString: innerDataObject.briefDescriptionString,
                                 morePermalink
                             }));
                         }
@@ -397,7 +397,7 @@ export class CompoundBase {
             lines.push('');
             lines.push('<div class="doxyIncludesList">');
             for (const include of this.includes) {
-                lines.push(workspace.renderElementToString(include, 'mdx'));
+                lines.push(workspace.renderElementToString(include, 'html'));
             }
             lines.push('</div>');
         }
@@ -414,13 +414,14 @@ export class CompoundBase {
         return lines;
     }
     renderLocationToMdxText(location) {
+        const lines = [];
         let text = '';
         const workspace = this.collection.workspace;
         if (location !== undefined) {
             // console.log('location.file:', location.file)
             if (location.file.includes('[')) {
                 // Ignore cases like `[generated]`, encountered in llvm.
-                return text;
+                return lines;
             }
             const files = workspace.viewModel.get('files');
             assert(files !== undefined);
@@ -428,7 +429,6 @@ export class CompoundBase {
             const file = files.filesByPath.get(location.file);
             if (file !== undefined) {
                 const permalink = workspace.getPagePermalink(file.id);
-                text += '\n';
                 if (location.bodyfile !== undefined && location.file !== location.bodyfile) {
                     text += 'Declaration ';
                     if (location.line !== undefined) {
@@ -438,14 +438,14 @@ export class CompoundBase {
                             text += location.line?.toString();
                         }
                         else {
-                            text += `<a href="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</a>`;
+                            text += `<a href="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</a>`;
                         }
                         text += ' of file ';
                     }
                     else {
                         text += ' in file ';
                     }
-                    text += `<a href="${permalink}">${escapeMdx(path.basename(location.file))}</a>`;
+                    text += `<a href="${permalink}">${escapeHtml(path.basename(location.file))}</a>`;
                     const definitionFile = files.filesByPath.get(location.bodyfile);
                     if (definitionFile !== undefined) {
                         const definitionPermalink = workspace.getPagePermalink(definitionFile.id);
@@ -457,14 +457,14 @@ export class CompoundBase {
                                 text += location.bodystart?.toString();
                             }
                             else {
-                                text += `<a href="${definitionPermalink}/#${lineStart}">${escapeMdx(location.bodystart?.toString() ?? '?')}</a>`;
+                                text += `<a href="${definitionPermalink}/#${lineStart}">${escapeHtml(location.bodystart?.toString() ?? '?')}</a>`;
                             }
                             text += ' of file ';
                         }
                         else {
                             text += ' in file ';
                         }
-                        text += `<a href="${definitionPermalink}">${escapeMdx(path.basename(location.bodyfile))}</a>`;
+                        text += `<a href="${definitionPermalink}">${escapeHtml(path.basename(location.bodyfile))}</a>`;
                     }
                     else {
                         if (this.collection.workspace.pluginOptions.verbose) {
@@ -482,14 +482,14 @@ export class CompoundBase {
                             text += location.line?.toString();
                         }
                         else {
-                            text += `<a href="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</a>`;
+                            text += `<a href="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</a>`;
                         }
                         text += ' of file ';
                     }
                     else {
                         text += ' in file ';
                     }
-                    text += `<a href="${permalink}">${escapeMdx(path.basename(location.file))}</a>`;
+                    text += `<a href="${permalink}">${escapeHtml(path.basename(location.file))}</a>`;
                     text += '.';
                 }
             }
@@ -499,7 +499,11 @@ export class CompoundBase {
                 }
             }
         }
-        return text;
+        if (text.length > 0) {
+            lines.push('');
+            lines.push(`<p>${text}</p>`);
+        }
+        return lines;
     }
     renderGeneratedFromToMdxLines() {
         const lines = [];
@@ -507,7 +511,7 @@ export class CompoundBase {
             lines.push('');
             lines.push('<hr/>');
             lines.push('');
-            lines.push(`The documentation for this ${this.kind} was generated from the following file${this.locationSet.size > 1 ? 's' : ''}:`);
+            lines.push(`<p>The documentation for this ${this.kind} was generated from the following file${this.locationSet.size > 1 ? 's' : ''}:</p>`);
             lines.push('');
             lines.push('<ul>');
             const workspace = this.collection.workspace;

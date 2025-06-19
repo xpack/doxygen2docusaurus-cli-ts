@@ -8,14 +8,14 @@
  * If a copy of the license was not distributed with this file, it can
  * be obtained from https://opensource.org/licenses/MIT.
  */
-import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js';
+import { ElementLinesRendererBase } from './element-renderer-base.js';
 // ----------------------------------------------------------------------------
-export class DocVariableListTypeStringRenderer extends ElementStringRendererBase {
-    renderToString(element, type) {
+export class DocVariableListTypeLinesRenderer extends ElementLinesRendererBase {
+    renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
-        let text = '';
-        text += this.workspace.renderElementsArrayToString(element.children, type);
-        return text;
+        const lines = [];
+        lines.push(...this.workspace.renderElementsArrayToLines(element.children, type));
+        return lines;
     }
 }
 export class VariableListPairLinesRenderer extends ElementLinesRendererBase {

@@ -12,6 +12,7 @@ import assert from 'node:assert';
 import path from 'node:path';
 import * as fs from 'node:fs/promises';
 import { Workspace } from './workspace.js';
+import { folderExists } from './utils.js';
 export class DocusaurusGenerator {
     // --------------------------------------------------------------------------
     constructor({ dataModel, pluginOptions, siteConfig, pluginActions = undefined }) {
@@ -36,9 +37,10 @@ export class DocusaurusGenerator {
         await this.generateIndexDotMdxFiles();
         await this.generatePerInitialsIndexMdxFiles();
         if (this.workspace.pluginOptions.verbose) {
-            console.log(this.workspace.writtenMdxFilesCounter, 'mdx files written');
+            console.log(this.workspace.writtenMdxFilesCounter, 'md files written');
         }
         await this.generateRedirectFiles();
+        await this.copyFiles();
     }
     // --------------------------------------------------------------------------
     // https://nodejs.org/en/learn/manipulating-files/working-with-folders-in-nodejs
@@ -281,6 +283,25 @@ export class DocusaurusGenerator {
         await fileHandle.write(lines.join('\n'));
         await fileHandle.close();
         this.workspace.writtenHtmlFilesCounter += 1;
+    }
+    async copyFiles() {
+        const destImgFolderPath = path.join('static', 'img', 'docusaurus-plugin-doxygen');
+        await fs.mkdir(destImgFolderPath, { recursive: true });
+        let fromFilePath = path.join(this.workspace.projectPath, 'template', 'img', 'document-svgrepo-com.svg');
+        let toFilePath = path.join(destImgFolderPath, 'document-svgrepo-com.svg');
+        console.log('Writing image file', toFilePath);
+        await fs.copyFile(fromFilePath, toFilePath);
+        fromFilePath = path.join(this.workspace.projectPath, 'template', 'img', 'folder-svgrepo-com.svg');
+        toFilePath = path.join(destImgFolderPath, 'folder-svgrepo-com.svg');
+        console.log('Writing image file', toFilePath);
+        await fs.copyFile(fromFilePath, toFilePath);
+        fromFilePath = path.join(this.workspace.projectPath, 'template', 'css', 'custom.css');
+        toFilePath = this.workspace.pluginOptions.customCssFilePath;
+        if (!await folderExists(path.dirname(toFilePath))) {
+            await fs.mkdir(path.dirname(toFilePath), { recursive: true });
+        }
+        console.log('Writing css file', toFilePath);
+        await fs.copyFile(fromFilePath, toFilePath);
     }
 }
 // ----------------------------------------------------------------------------

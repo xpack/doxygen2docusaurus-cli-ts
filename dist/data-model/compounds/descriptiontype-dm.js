@@ -14,7 +14,7 @@ import * as util from 'node:util';
 import { AbstractDataModelBase } from '../types.js';
 import { RefTextDataModel } from './reftexttype-dm.js';
 import { VariableListDataModel } from './docvarlistentrytype-dm.js';
-import { DocBookOnlyDataModel, HtmlOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel } from './compounddef-dm.js';
+import { DocBookOnlyDataModel, HtmlOnlyDataModel } from './compounddef-dm.js';
 import { TocListDataModel } from './tableofcontentstype-dm.js';
 // ----------------------------------------------------------------------------
 // A bit unusual, since string values should be stored as object properties.
@@ -977,10 +977,10 @@ export function parseDocTitleCmdGroup(xml, element, elementName) {
     }
     else if (xml.hasInnerElement(element, 'manonly')) {
         // Skipped, no Man output.
-        children.push(new ManOnlyDataModel(xml, element));
+        // children.push(new ManOnlyDataModel(xml, element))
     }
     else if (xml.hasInnerElement(element, 'xmlonly')) {
-        children.push(new XmlOnlyDataModel(xml, element));
+        // children.push(new XmlOnlyDataModel(xml, element))
     }
     else if (xml.hasInnerElement(element, 'rtfonly')) {
         // Skipped, no RTF output.
@@ -1883,14 +1883,14 @@ function parseDocCmdGroup(xml, element, elementName) {
     }
     else if (xml.hasInnerElement(element, 'manonly')) {
         // Skipped, no Man output.
-        children.push(new ManOnlyDataModel(xml, element));
+        // children.push(new ManOnlyDataModel(xml, element))
     }
     else if (xml.hasInnerElement(element, 'xmlonly')) {
-        children.push(new XmlOnlyDataModel(xml, element));
+        // children.push(new XmlOnlyDataModel(xml, element))
     }
     else if (xml.hasInnerElement(element, 'rtfonly')) {
         // Skipped, no RTF output.
-        children.push(new RtfOnlyDataModel(xml, element));
+        // children.push(new RtfOnlyDataModel(xml, element))
     }
     else if (xml.hasInnerElement(element, 'latexonly')) {
         // Skipped, no LaTeX output.

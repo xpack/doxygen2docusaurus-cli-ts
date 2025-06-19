@@ -12,7 +12,7 @@ import assert from 'node:assert';
 import * as fs from 'node:fs/promises';
 import path from 'node:path';
 import { CompoundBase } from './compound-base-vm.js';
-import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
+import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
 import { CollectionBase } from './collection-base.js';
 // Support for collapsible tables is experimental.
 const useCollapsibleTable = false;
@@ -147,7 +147,7 @@ export class Groups extends CollectionBase {
         // assert(docusaurusGenerator !== undefined)
         // const bodyText = await docusaurusGenerator.renderIndexMdx()
         const lines = [];
-        lines.push(`${projectBrief} topics with brief descriptions are:`);
+        lines.push(`<p>${projectBrief} topics with brief descriptions are:</p>`);
         lines.push('');
         if (useCollapsibleTable) {
             lines.push('<CollapsibleTreeTable rows={tableData} />');
@@ -161,13 +161,13 @@ export class Groups extends CollectionBase {
             lines.push('</table>');
         }
         const pages = this.workspace.viewModel.get('pages');
-        const detailedDescriptionMdxText = pages.mainPage?.detailedDescriptionMdxText;
+        const detailedDescriptionMdxText = pages.mainPage?.detailedDescriptionLines;
         if (detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) {
             lines.push('');
             assert(pages.mainPage !== undefined);
-            lines.push(...pages.mainPage?.renderDetailedDescriptionToMdxLines({
-                briefDescriptionMdxText: pages.mainPage?.briefDescriptionMdxText,
-                detailedDescriptionMdxText: pages.mainPage?.detailedDescriptionMdxText,
+            lines.push(...pages.mainPage?.renderDetailedDescriptionToLines({
+                briefDescriptionString: pages.mainPage?.briefDescriptionString,
+                detailedDescriptionLines: pages.mainPage?.detailedDescriptionLines,
                 showHeader: true,
                 showBrief: !pages.mainPage?.hasSect1InDescription
             }));
@@ -199,7 +199,7 @@ export class Groups extends CollectionBase {
         const label = group.titleMdxText ?? '?';
         const permalink = this.workspace.getPagePermalink(group.id);
         assert(permalink !== undefined && permalink.length > 1);
-        const description = group.briefDescriptionMdxText?.replace(/[.]$/, '') ?? '';
+        const description = group.briefDescriptionString?.replace(/[.]$/, '') ?? '';
         const tableRow = {
             id: group.id,
             label,
@@ -220,8 +220,8 @@ export class Groups extends CollectionBase {
         const permalink = this.workspace.getPagePermalink(group.id);
         assert(permalink !== undefined && permalink.length > 1);
         let description = '';
-        if (group.briefDescriptionMdxText !== undefined && group.briefDescriptionMdxText.length > 0) {
-            description = group.briefDescriptionMdxText.replace(/[.]$/, '');
+        if (group.briefDescriptionString !== undefined && group.briefDescriptionString.length > 0) {
+            description = group.briefDescriptionString.replace(/[.]$/, '');
         }
         lines.push('');
         lines.push(...this.workspace.renderTreeTableRowToLines({
@@ -268,11 +268,11 @@ export class Group extends CompoundBase {
     // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
         const lines = [];
-        const descriptionTodo = `@defgroup ${escapeMdx(this.compoundName)}`;
-        const hasIndices = (this.renderDetailedDescriptionToMdxLines !== undefined || this.hasSect1InDescription) && (this.hasInnerIndices() || this.hasSections());
+        const descriptionTodo = `@defgroup ${escapeHtml(this.compoundName)}`;
+        const hasIndices = (this.renderDetailedDescriptionToLines !== undefined || this.hasSect1InDescription) && (this.hasInnerIndices() || this.hasSections());
         const morePermalink = hasIndices ? '#details' : undefined;
-        lines.push(this.renderBriefDescriptionToMdxText({
-            briefDescriptionMdxText: this.briefDescriptionMdxText,
+        lines.push(this.renderBriefDescriptionToString({
+            briefDescriptionString: this.briefDescriptionString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -280,9 +280,9 @@ export class Group extends CompoundBase {
             suffixes: ['Groups', 'Classes']
         }));
         lines.push(...this.renderSectionIndicesToMdxLines());
-        lines.push(...this.renderDetailedDescriptionToMdxLines({
-            briefDescriptionMdxText: this.briefDescriptionMdxText,
-            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+        lines.push(...this.renderDetailedDescriptionToLines({
+            briefDescriptionString: this.briefDescriptionString,
+            detailedDescriptionLines: this.detailedDescriptionLines,
             todo: descriptionTodo,
             showHeader: !this.hasSect1InDescription,
             showBrief: !this.hasSect1InDescription

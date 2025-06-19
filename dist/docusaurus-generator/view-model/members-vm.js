@@ -11,7 +11,7 @@
 // ----------------------------------------------------------------------------
 import * as util from 'node:util';
 import assert from 'node:assert';
-import { escapeHtml, escapeMdx, getPermalinkAnchor } from '../utils.js';
+import { escapeHtml, getPermalinkAnchor } from '../utils.js';
 import { ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
 // ----------------------------------------------------------------------------
 export const sectionHeaders = {
@@ -118,7 +118,7 @@ export class Section {
         assert(this._private._sectionDef !== undefined);
         const sectionDef = this._private._sectionDef;
         if (sectionDef.description !== undefined) {
-            this.descriptionMdxText = workspace.renderElementToString(sectionDef.description, 'mdx');
+            this.descriptionLines = workspace.renderElementToLines(sectionDef.description, 'html');
             // console.log(this.indexMembers, this.descriptionMdxText)
         }
     }
@@ -201,7 +201,7 @@ export class Section {
         // console.log(sectionDef)
         if (this.indexMembers.length > 0) {
             lines.push('');
-            lines.push(`## ${escapeMdx(this.headerName)} Index`);
+            lines.push(`## ${this.headerName} Index`);
             lines.push('');
             lines.push('<table class="doxyMembersIndex">');
             for (const member of this.indexMembers) {
@@ -229,11 +229,11 @@ export class Section {
         lines.push('');
         lines.push('<div class="doxySectionDef">');
         lines.push('');
-        lines.push(`## ${escapeMdx(this.headerName)}`);
-        if (this.descriptionMdxText !== undefined) {
+        lines.push(`## ${this.headerName}`);
+        if (this.descriptionLines !== undefined) {
             lines.push('');
-            lines.push(...this.compound.renderDetailedDescriptionToMdxLines({
-                detailedDescriptionMdxText: this.descriptionMdxText,
+            lines.push(...this.compound.renderDetailedDescriptionToLines({
+                detailedDescriptionLines: this.descriptionLines,
                 showHeader: false
             }));
         }
@@ -276,24 +276,24 @@ export class Member extends MemberBase {
             // console.log(memberDef.briefDescription)
             if (memberDef.briefDescription.children.length > 1) {
                 assert(memberDef.briefDescription.children[1] instanceof ParaDataModel);
-                this.briefDescriptionMdxText = workspace.renderElementsArrayToString(memberDef.briefDescription.children[1].children, 'mdx').trim();
+                this.briefDescriptionString = workspace.renderElementsArrayToString(memberDef.briefDescription.children[1].children, 'html').trim();
             }
             else {
-                this.briefDescriptionMdxText = workspace.renderElementToString(memberDef.briefDescription, 'mdx').trim();
+                this.briefDescriptionString = workspace.renderElementToString(memberDef.briefDescription, 'html').trim();
             }
         }
         if (memberDef.detailedDescription !== undefined) {
-            this.detailedDescriptionMdxText = workspace.renderElementToString(memberDef.detailedDescription, 'mdx').trim();
+            this.detailedDescriptionLines = workspace.renderElementToLines(memberDef.detailedDescription, 'html');
         }
         this.argsstring = memberDef.argsstring;
         if (memberDef.type !== undefined) {
-            this.typeMdxText = workspace.renderElementToString(memberDef.type, 'mdx').trim();
+            this.typeMdxText = workspace.renderElementToString(memberDef.type, 'html').trim();
         }
         if (memberDef.initializer !== undefined) {
-            this.initializerMdxText = workspace.renderElementToString(memberDef.initializer, 'mdx');
+            this.initializerMdxText = workspace.renderElementToString(memberDef.initializer, 'html');
         }
         if (memberDef.location !== undefined) {
-            this.locationMdxText = this.section.compound.renderLocationToMdxText(memberDef.location);
+            this.locationLines = this.section.compound.renderLocationToMdxText(memberDef.location);
         }
         const labels = [];
         if (memberDef.inline?.valueOf()) {
@@ -347,7 +347,7 @@ export class Member extends MemberBase {
         if (memberDef.params !== undefined) {
             const parameters = [];
             for (const param of memberDef.params) {
-                parameters.push(workspace.renderElementToString(param, 'mdx'));
+                parameters.push(workspace.renderElementToString(param, 'html'));
             }
             this.parameters = parameters.join(', ');
         }
@@ -375,16 +375,16 @@ export class Member extends MemberBase {
         const workspace = this.section.compound.collection.workspace;
         const permalink = workspace.getPermalink({ refid: this.id, kindref: 'member' });
         assert(permalink !== undefined && permalink.length > 1);
-        const name = escapeMdx(this.name);
+        const name = escapeHtml(this.name);
         let itemTemplate = '';
         let itemType = '';
         let itemName = `<a href="${permalink}">${name}</a>`;
         if (this.templateParametersMdxText !== undefined && this.templateParametersMdxText.length > 0) {
             if (this.templateParametersMdxText.length < 64) {
-                itemTemplate = escapeMdx(`template ${this.templateParametersMdxText}`);
+                itemTemplate = escapeHtml(`template ${this.templateParametersMdxText}`);
             }
             else {
-                itemTemplate = escapeMdx('template < ... >');
+                itemTemplate = escapeHtml('template < ... >');
             }
         }
         switch (this.kind) {
@@ -415,14 +415,14 @@ export class Member extends MemberBase {
                     }
                     if (this.argsstring !== undefined) {
                         itemName += ' ';
-                        itemName += escapeMdx(this.argsstring);
+                        itemName += escapeHtml(this.argsstring);
                     }
                     if (this.isTrailingType) {
                         if (!itemType.includes('auto')) {
                             itemType += 'auto ';
                         }
                         // WARNING: Doxygen shows this, but the resulting line is too long.
-                        itemName += escapeMdx(' -> ');
+                        itemName += escapeHtml(' -> ');
                         itemName += type;
                     }
                     else {
@@ -437,10 +437,10 @@ export class Member extends MemberBase {
             case 'variable':
                 itemType += this.typeMdxText;
                 if (this.definition?.startsWith('struct ')) {
-                    itemType = escapeMdx('struct { ... }');
+                    itemType = escapeHtml('struct { ... }');
                 }
                 else if (this.definition?.startsWith('class ')) {
-                    itemType = escapeMdx('class { ... }');
+                    itemType = escapeHtml('class { ... }');
                 }
                 if (this.initializerMdxText !== undefined) {
                     itemName += ' ';
@@ -486,10 +486,10 @@ export class Member extends MemberBase {
             console.warn('empty name in', this.id);
         }
         const childrenLines = [];
-        const briefDescriptionMdxText = this.briefDescriptionMdxText;
-        if (briefDescriptionMdxText !== undefined && briefDescriptionMdxText.length > 0) {
-            childrenLines.push(this.section.compound.renderBriefDescriptionToMdxText({
-                briefDescriptionMdxText,
+        const briefDescriptionString = this.briefDescriptionString;
+        if (briefDescriptionString !== undefined && briefDescriptionString.length > 0) {
+            childrenLines.push(this.section.compound.renderBriefDescriptionToString({
+                briefDescriptionString,
                 morePermalink: `${permalink}` // No #details, it is already an anchor.
             }));
         }
@@ -509,7 +509,7 @@ export class Member extends MemberBase {
         const name = this.name + (isFunction ? '()' : '');
         lines.push('');
         if (this.kind !== 'enum') {
-            lines.push(`### ${escapeMdx(name)} {#${id}}`);
+            lines.push(`### ${name} {#${id}}`);
         }
         // console.log(memberDef.kind)
         switch (this.kind) {
@@ -520,7 +520,7 @@ export class Member extends MemberBase {
                     // WARNING: the rule to decide which type is trailing is not in XMLs.
                     // TODO: improve.
                     assert(this.definition !== undefined);
-                    let prototype = escapeMdx(this.definition);
+                    let prototype = escapeHtml(this.definition);
                     if (this.kind === 'function') {
                         prototype += ' (';
                         if (this.parameters !== undefined) {
@@ -537,19 +537,19 @@ export class Member extends MemberBase {
                     lines.push('');
                     let template;
                     if (this.templateParametersMdxText !== undefined && this.templateParametersMdxText.length > 0) {
-                        template = escapeMdx(`template ${this.templateParametersMdxText}`);
+                        template = escapeHtml(`template ${this.templateParametersMdxText}`);
                     }
                     const childrenLines = [];
-                    if (this.detailedDescriptionMdxText !== undefined) {
-                        childrenLines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
-                            briefDescriptionMdxText: this.briefDescriptionMdxText,
-                            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+                    if (this.detailedDescriptionLines !== undefined) {
+                        childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
+                            briefDescriptionString: this.briefDescriptionString,
+                            detailedDescriptionLines: this.detailedDescriptionLines,
                             showHeader: false,
                             showBrief: true
                         }));
                     }
-                    if (this.locationMdxText !== undefined) {
-                        childrenLines.push(this.locationMdxText);
+                    if (this.locationLines !== undefined) {
+                        childrenLines.push(...this.locationLines);
                     }
                     lines.push(...this.renderMemberDefinitionToLines({
                         template,
@@ -581,21 +581,21 @@ export class Member extends MemberBase {
                     }
                     lines.push('');
                     const childrenLines = [];
-                    if (this.briefDescriptionMdxText !== undefined && this.briefDescriptionMdxText.length > 0) {
-                        childrenLines.push(this.section.compound.renderBriefDescriptionToMdxText({
-                            briefDescriptionMdxText: this.briefDescriptionMdxText
+                    if (this.briefDescriptionString !== undefined && this.briefDescriptionString.length > 0) {
+                        childrenLines.push(this.section.compound.renderBriefDescriptionToString({
+                            briefDescriptionString: this.briefDescriptionString
                         }));
                     }
                     assert(this.enumMdxLines !== undefined);
                     childrenLines.push(...this.enumMdxLines);
-                    if (this.detailedDescriptionMdxText !== undefined) {
-                        childrenLines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
-                            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+                    if (this.detailedDescriptionLines !== undefined) {
+                        childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
+                            detailedDescriptionLines: this.detailedDescriptionLines,
                             showHeader: false
                         }));
                     }
-                    if (this.locationMdxText !== undefined) {
-                        childrenLines.push(this.locationMdxText);
+                    if (this.locationLines !== undefined) {
+                        childrenLines.push(...this.locationLines);
                     }
                     lines.push(...this.renderMemberDefinitionToLines({
                         prototype,
@@ -610,16 +610,16 @@ export class Member extends MemberBase {
                     const prototype = `friend ${this.typeMdxText} ${this.parameters}`;
                     lines.push('');
                     const childrenLines = [];
-                    if (this.detailedDescriptionMdxText !== undefined) {
-                        childrenLines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
-                            briefDescriptionMdxText: this.briefDescriptionMdxText,
-                            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+                    if (this.detailedDescriptionLines !== undefined) {
+                        childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
+                            briefDescriptionString: this.briefDescriptionString,
+                            detailedDescriptionLines: this.detailedDescriptionLines,
                             showHeader: false,
                             showBrief: true
                         }));
                     }
-                    if (this.locationMdxText !== undefined) {
-                        childrenLines.push(this.locationMdxText);
+                    if (this.locationLines !== undefined) {
+                        childrenLines.push(...this.locationLines);
                     }
                     lines.push(...this.renderMemberDefinitionToLines({
                         prototype,
@@ -631,21 +631,21 @@ export class Member extends MemberBase {
             case 'define':
                 {
                     // console.log(this)
-                    let prototype = `#define ${escapeMdx(name)}`;
+                    let prototype = `#define ${name}`;
                     if (this.initializerMdxText !== undefined) {
                         prototype += '&nbsp;&nbsp;&nbsp;';
                         prototype += this.initializerMdxText;
                     }
                     lines.push('');
                     const childrenLines = [];
-                    childrenLines.push(...this.section.compound.renderDetailedDescriptionToMdxLines({
-                        briefDescriptionMdxText: this.briefDescriptionMdxText,
-                        detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+                    childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
+                        briefDescriptionString: this.briefDescriptionString,
+                        detailedDescriptionLines: this.detailedDescriptionLines,
                         showHeader: false,
                         showBrief: true
                     }));
-                    if (this.locationMdxText !== undefined) {
-                        childrenLines.push(this.locationMdxText);
+                    if (this.locationLines !== undefined) {
+                        childrenLines.push(...this.locationLines);
                     }
                     lines.push(...this.renderMemberDefinitionToLines({
                         prototype,
@@ -668,15 +668,12 @@ export class Member extends MemberBase {
             lines.push(`<div class="doxyMemberTemplate">${template}</div>`);
         }
         lines.push('<table class="doxyMemberLabels">');
-        lines.push('<tbody>');
         lines.push('<tr class="doxyMemberLabels">');
         lines.push('<td class="doxyMemberLabelsLeft">');
         lines.push('<table class="doxyMemberName">');
-        lines.push('<tbody>');
         lines.push('<tr>');
         lines.push(`<td class="doxyMemberName">${prototype}</td>`);
         lines.push('</tr>');
-        lines.push('</tbody>');
         lines.push('</table>');
         lines.push('</td>');
         if (labels.length > 0) {
@@ -689,7 +686,6 @@ export class Member extends MemberBase {
             lines.push('</td>');
         }
         lines.push('</tr>');
-        lines.push('</tbody>');
         lines.push('</table>');
         lines.push('</div>');
         lines.push('<div class="doxyMemberDoc">');
@@ -709,9 +705,9 @@ export class Member extends MemberBase {
         lines.push('<table class="doxyEnumTable">');
         if (memberDef.enumvalues !== undefined) {
             for (const enumValue of memberDef.enumvalues) {
-                let enumBriefDescription = workspace.renderElementToString(enumValue.briefDescription, 'mdx').replace(/[.]$/, '');
+                let enumBriefDescription = workspace.renderElementToString(enumValue.briefDescription, 'html').replace(/[.]$/, '');
                 const anchor = getPermalinkAnchor(enumValue.id);
-                const value = workspace.renderElementToString(enumValue.initializer, 'mdx');
+                const value = workspace.renderElementToString(enumValue.initializer, 'html');
                 if (value.length > 0) {
                     enumBriefDescription += ` (${value})`;
                 }

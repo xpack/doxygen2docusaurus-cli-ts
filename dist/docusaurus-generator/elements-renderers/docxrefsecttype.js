@@ -9,20 +9,20 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 import { ElementLinesRendererBase } from './element-renderer-base.js';
-import { escapeMdx } from '../utils.js';
+import { escapeHtml } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class DocXRefSectLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        const title = escapeMdx(element.xreftitle ?? '?');
+        const title = escapeHtml(element.xreftitle ?? '?');
         const permalink = this.workspace.getXrefPermalink(element.id);
         lines.push('');
         lines.push('<div class="doxyXrefSect">');
         lines.push('<dl class="doxyXrefSectList">');
         lines.push(`<dt class="doxyXrefSectTitle"><a href=${permalink}>${title}</a></dt>`);
         lines.push('<dd class="doxyXrefSectDescription">');
-        lines.push(this.workspace.renderElementToString(element.xrefdescription, type));
+        lines.push(this.workspace.renderElementToString(element.xrefdescription, type).trim());
         lines.push('</dd>');
         lines.push('</dl>');
         lines.push('</div>');

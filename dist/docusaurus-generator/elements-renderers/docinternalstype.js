@@ -17,7 +17,7 @@ export class DocS1TypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '');
+        const title = this.workspace.renderElementToString(element.title, 'markdown').trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
             lines.push(`## ${title}`);
@@ -31,7 +31,7 @@ export class DocS2TypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '');
+        const title = this.workspace.renderElementToString(element.title, 'markdown').trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
             lines.push(`### ${title}`);
@@ -45,7 +45,7 @@ export class DocS3TypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '');
+        const title = this.workspace.renderElementToString(element.title, 'markdown').trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
             lines.push(`#### ${title}`);
@@ -59,7 +59,7 @@ export class DocS4TypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '');
+        const title = this.workspace.renderElementToString(element.title, 'markdown').trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
             lines.push(`##### ${title}`);
@@ -73,7 +73,7 @@ export class DocS5TypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '');
+        const title = this.workspace.renderElementToString(element.title, 'markdown').trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
             lines.push(`###### ${title}`);
@@ -87,7 +87,7 @@ export class DocS6TypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        const title = this.workspace.renderElementToString(element.title, type).trim().replace(/\.$/, '');
+        const title = this.workspace.renderElementToString(element.title, 'markdown').trim().replace(/\.$/, '');
         if (title.length > 0) {
             lines.push('');
             lines.push(`####### ${title}`);

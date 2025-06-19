@@ -9,6 +9,7 @@ export interface PluginConfigurationOptions {
     sidebarCategoryLabel?: string;
     menuDropdownFilePath?: string;
     menuDropdownLabel?: string;
+    customCssFilePath?: string;
     verbose?: boolean;
     debug?: boolean;
     runOnStart?: boolean;
@@ -36,6 +37,8 @@ export interface PluginOptions {
     menuDropdownFilePath: string;
     /** Short text to be displayed in the menu. */
     menuDropdownLabel: string;
+    /** Relative to the current website folder, default `src/css/custom-doxygen.css` */
+    customCssFilePath: string;
     /** Boolean to control verbosity. */
     verbose: boolean;
     /** Boolean to control debug verbosity. */

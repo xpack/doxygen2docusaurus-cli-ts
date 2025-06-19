@@ -7,6 +7,7 @@ import { FrontMatter } from './types.js';
 import { Member } from './view-model/members-vm.js';
 import { Renderers } from './elements-renderers/renderers.js';
 export declare class Workspace {
+    projectPath: string;
     dataModel: DataModel;
     pluginOptions: PluginOptions;
     siteConfig: any;

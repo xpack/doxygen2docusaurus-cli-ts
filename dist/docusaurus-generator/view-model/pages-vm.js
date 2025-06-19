@@ -104,16 +104,16 @@ export class Page extends CompoundBase {
     // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
         const lines = [];
-        const morePermalink = this.renderDetailedDescriptionToMdxLines !== undefined ? '#details' : undefined;
-        lines.push(this.renderBriefDescriptionToMdxText({
-            briefDescriptionMdxText: this.briefDescriptionMdxText,
+        const morePermalink = this.detailedDescriptionLines !== undefined ? '#details' : undefined;
+        lines.push(this.renderBriefDescriptionToString({
+            briefDescriptionString: this.briefDescriptionString,
             morePermalink
         }));
         lines.push(...this.renderInnerIndicesToMdxLines({}));
         lines.push(...this.renderSectionIndicesToMdxLines());
-        lines.push(...this.renderDetailedDescriptionToMdxLines({
-            briefDescriptionMdxText: this.briefDescriptionMdxText,
-            detailedDescriptionMdxText: this.detailedDescriptionMdxText,
+        lines.push(...this.renderDetailedDescriptionToLines({
+            briefDescriptionString: this.briefDescriptionString,
+            detailedDescriptionLines: this.detailedDescriptionLines,
             showHeader: false
         }));
         lines.push(...this.renderSectionsToMdxLines());
