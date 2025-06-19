@@ -11,6 +11,10 @@
 
 // ----------------------------------------------------------------------------
 
+import * as fs from 'node:fs'
+
+// ----------------------------------------------------------------------------
+
 export function formatDate (date: Date): string {
   // Custom format: YYYY-MM-DD HH:mm:ss
   const year = date.getUTCFullYear()
@@ -129,4 +133,12 @@ export function getPermalinkAnchor (refid: string): string {
   return refid.replace(/^.*_1/, '')
 }
 
+export async function folderExists (folderPath: string): Promise<boolean> {
+  try {
+    const stat = await fs.promises.stat(folderPath)
+    return stat.isDirectory()
+  } catch {
+    return false
+  }
+}
 // ----------------------------------------------------------------------------
