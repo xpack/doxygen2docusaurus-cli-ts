@@ -18,7 +18,7 @@ import path from 'node:path'
 
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
-import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
+import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { CollectionBase } from './collection-base.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { collapsibleTableRow, FrontMatter } from '../types.js'
@@ -342,7 +342,7 @@ export class Group extends CompoundBase {
   override renderToLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    const descriptionTodo = `@defgroup ${escapeMdx(this.compoundName)}`
+    const descriptionTodo = `@defgroup ${escapeHtml(this.compoundName)}`
 
     const hasIndices = (this.renderDetailedDescriptionToLines !== undefined || this.hasSect1InDescription) && (this.hasInnerIndices() || this.hasSections())
     const morePermalink = hasIndices ? '#details' : undefined

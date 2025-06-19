@@ -20,7 +20,7 @@ import { FrontMatter } from '../types.js'
 import { ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { CollectionBase } from './collection-base.js'
 import { AbstractRefType, InnerClassDataModel } from '../../data-model/compounds/reftype-dm.js'
-import { escapeHtml, escapeMdx } from '../utils.js'
+import { escapeHtml } from '../utils.js'
 import { Section } from './members-vm.js'
 import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js'
 import { RefTextDataModel } from '../../data-model/compounds/reftexttype-dm.js'
@@ -123,7 +123,7 @@ export abstract class CompoundBase {
     this.id = compoundDef.id
 
     if (compoundDef.title !== undefined) {
-      this.titleMdxText = escapeMdx(compoundDef.title)
+      this.titleMdxText = escapeHtml(compoundDef.title)
     }
 
     if (compoundDef?.location?.file !== undefined) {
@@ -280,15 +280,15 @@ export abstract class CompoundBase {
       // console.log(compoundDef.briefDescription)
       if (compoundDef.briefDescription.children.length > 1) {
         assert(compoundDef.briefDescription.children[1] instanceof ParaDataModel)
-        this.briefDescriptionString = workspace.renderElementsArrayToString(compoundDef.briefDescription.children[1].children, 'mdx').trim()
+        this.briefDescriptionString = workspace.renderElementsArrayToString(compoundDef.briefDescription.children[1].children, 'html').trim()
       } else {
-        this.briefDescriptionString = workspace.renderElementToString(compoundDef.briefDescription, 'mdx').trim()
+        this.briefDescriptionString = workspace.renderElementToString(compoundDef.briefDescription, 'html').trim()
       }
     }
 
     if (compoundDef.detailedDescription !== undefined) {
       // console.log(compoundDef.detailedDescription)
-      this.detailedDescriptionLines = workspace.renderElementToLines(compoundDef.detailedDescription, 'mdx')
+      this.detailedDescriptionLines = workspace.renderElementToLines(compoundDef.detailedDescription, 'html')
 
       // for (const child of compoundDef.detailedDescription.children) {
       //   if (child instanceof Sect1DataModel) {
@@ -560,7 +560,7 @@ export abstract class CompoundBase {
       lines.push('<div class="doxyIncludesList">')
 
       for (const include of this.includes) {
-        lines.push(workspace.renderElementToString(include, 'mdx'))
+        lines.push(workspace.renderElementToString(include, 'html'))
       }
 
       lines.push('</div>')
@@ -611,13 +611,13 @@ export abstract class CompoundBase {
             if (!file.listingLineNumbers.has(location.line)) {
               text += location.line?.toString()
             } else {
-              text += `<a href="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</a>`
+              text += `<a href="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</a>`
             }
             text += ' of file '
           } else {
             text += ' in file '
           }
-          text += `<a href="${permalink}">${escapeMdx(path.basename(location.file) as string)}</a>`
+          text += `<a href="${permalink}">${escapeHtml(path.basename(location.file) as string)}</a>`
 
           const definitionFile = files.filesByPath.get(location.bodyfile)
           if (definitionFile !== undefined) {
@@ -630,13 +630,13 @@ export abstract class CompoundBase {
               if (!definitionFile.listingLineNumbers.has(location.bodystart)) {
                 text += location.bodystart?.toString()
               } else {
-                text += `<a href="${definitionPermalink}/#${lineStart}">${escapeMdx(location.bodystart?.toString() ?? '?')}</a>`
+                text += `<a href="${definitionPermalink}/#${lineStart}">${escapeHtml(location.bodystart?.toString() ?? '?')}</a>`
               }
               text += ' of file '
             } else {
               text += ' in file '
             }
-            text += `<a href="${definitionPermalink}">${escapeMdx(path.basename(location.bodyfile) as string)}</a>`
+            text += `<a href="${definitionPermalink}">${escapeHtml(path.basename(location.bodyfile) as string)}</a>`
           } else {
             if (this.collection.workspace.pluginOptions.verbose) {
               console.warn('File', location.bodyfile, 'not a location.')
@@ -651,13 +651,13 @@ export abstract class CompoundBase {
             if (!file.listingLineNumbers.has(location.line)) {
               text += location.line?.toString()
             } else {
-              text += `<a href="${permalink}/#${lineAttribute}">${escapeMdx(location.line?.toString() ?? '?')}</a>`
+              text += `<a href="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</a>`
             }
             text += ' of file '
           } else {
             text += ' in file '
           }
-          text += `<a href="${permalink}">${escapeMdx(path.basename(location.file) as string)}</a>`
+          text += `<a href="${permalink}">${escapeHtml(path.basename(location.file) as string)}</a>`
           text += '.'
         }
       } else {

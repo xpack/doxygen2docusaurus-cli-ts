@@ -16,7 +16,7 @@ import * as util from 'util'
 
 import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js'
 import { AbstractDocXRefSectType } from '../../data-model/compounds/descriptiontype-dm.js'
-import { escapeMdx } from '../utils.js'
+import { escapeHtml } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -26,7 +26,7 @@ export class DocXRefSectLinesRenderer extends ElementLinesRendererBase {
 
     const lines: string[] = []
 
-    const title = escapeMdx(element.xreftitle ?? '?')
+    const title = escapeHtml(element.xreftitle ?? '?')
     const permalink: string = this.workspace.getXrefPermalink(element.id)
 
     lines.push('')

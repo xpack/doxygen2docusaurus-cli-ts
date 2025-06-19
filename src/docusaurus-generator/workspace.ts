@@ -23,7 +23,7 @@ import { CollectionBase } from './view-model/collection-base.js'
 import { Classes } from './view-model/classes-vm.js'
 import { DoxygenFileOptions } from './view-model/options.js'
 import { ElementLinesRendererBase, ElementStringRendererBase } from './elements-renderers/element-renderer-base.js'
-import { escapeBraces, escapeHtml2, escapeMdx, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js'
+import { escapeBraces, escapeHtml, escapeMarkdown, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js'
 import { CompoundBase } from './view-model/compound-base-vm.js'
 import { Namespaces } from './view-model/namespaces-vm.js'
 import { FilesAndFolders } from './view-model/files-and-folders-vm.js'
@@ -536,10 +536,10 @@ export class Workspace {
       return element
     } else if (type === 'plain-html') {
       return escapeBraces(element)
-    } else if (type === 'html') {
-      return escapeHtml2(element)
+    } else if (type === 'markdown') {
+      return escapeMarkdown(element)
     } else {
-      return escapeMdx(element)
+      return escapeHtml(element)
     }
   }
 

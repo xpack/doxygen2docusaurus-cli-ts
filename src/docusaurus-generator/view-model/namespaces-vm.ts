@@ -19,7 +19,7 @@ import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
-import { escapeHtml, escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
+import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { FrontMatter } from '../types.js'
 
 // ----------------------------------------------------------------------------
@@ -190,7 +190,7 @@ export class Namespaces extends CollectionBase {
 
     const lines: string[] = []
 
-    const label = escapeMdx(namespace.unqualifiedName)
+    const label = escapeHtml(namespace.unqualifiedName)
 
     const permalink = this.workspace.getPagePermalink(namespace.id)
     if (permalink === undefined || permalink.length === 0) {
@@ -322,7 +322,7 @@ export class Namespace extends CompoundBase {
   override renderToLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    const descriptionTodo = `@namespace ${escapeMdx(this.compoundName)}`
+    const descriptionTodo = `@namespace ${escapeHtml(this.compoundName)}`
 
     const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToString({
@@ -340,7 +340,7 @@ export class Namespace extends CompoundBase {
     if (this.compoundName.startsWith('anonymous_namespace{')) {
       lines.push(`namespace ${dots}`)
     } else {
-      lines.push(`namespace ${escapeMdx(this.compoundName)} ${dots}`)
+      lines.push(`namespace ${escapeHtml(this.compoundName)} ${dots}`)
     }
     lines.push('</div>')
 

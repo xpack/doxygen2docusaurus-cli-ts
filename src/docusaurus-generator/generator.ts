@@ -67,7 +67,7 @@ export class DocusaurusGenerator {
     await this.generatePerInitialsIndexMdxFiles()
 
     if (this.workspace.pluginOptions.verbose) {
-      console.log(this.workspace.writtenMdxFilesCounter, 'mdx files written')
+      console.log(this.workspace.writtenMdxFilesCounter, 'md files written')
     }
 
     await this.generateRedirectFiles()

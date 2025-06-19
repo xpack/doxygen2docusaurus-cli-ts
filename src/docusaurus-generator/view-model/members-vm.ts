@@ -18,7 +18,7 @@ import { MemberDefDataModel } from '../../data-model/compounds/memberdeftype-dm.
 import { MemberDataModel } from '../../data-model/compounds/membertype-dm.js'
 import { SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-dm.js'
 import { CompoundBase } from './compound-base-vm.js'
-import { escapeHtml, escapeMdx, getPermalinkAnchor } from '../utils.js'
+import { escapeHtml, escapeMarkdown, getPermalinkAnchor } from '../utils.js'
 import { Class } from './classes-vm.js'
 import { ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 
@@ -166,7 +166,7 @@ export class Section {
     assert(this._private._sectionDef !== undefined)
     const sectionDef = this._private._sectionDef
     if (sectionDef.description !== undefined) {
-      this.descriptionLines = workspace.renderElementToLines(sectionDef.description, 'mdx')
+      this.descriptionLines = workspace.renderElementToLines(sectionDef.description, 'html')
       // console.log(this.indexMembers, this.descriptionMdxText)
     }
   }
@@ -264,7 +264,7 @@ export class Section {
     // console.log(sectionDef)
     if (this.indexMembers.length > 0) {
       lines.push('')
-      lines.push(`## ${escapeMdx(this.headerName)} Index`)
+      lines.push(`## ${this.headerName} Index`)
 
       lines.push('')
       lines.push('<table class="doxyMembersIndex">')
@@ -300,7 +300,7 @@ export class Section {
     lines.push('<div class="doxySectionDef">')
 
     lines.push('')
-    lines.push(`## ${escapeMdx(this.headerName)}`)
+    lines.push(`## ${this.headerName}`)
 
     if (this.descriptionLines !== undefined) {
       lines.push('')
@@ -386,24 +386,24 @@ export class Member extends MemberBase {
       // console.log(memberDef.briefDescription)
       if (memberDef.briefDescription.children.length > 1) {
         assert(memberDef.briefDescription.children[1] instanceof ParaDataModel)
-        this.briefDescriptionString = workspace.renderElementsArrayToString(memberDef.briefDescription.children[1].children, 'mdx').trim()
+        this.briefDescriptionString = workspace.renderElementsArrayToString(memberDef.briefDescription.children[1].children, 'html').trim()
       } else {
-        this.briefDescriptionString = workspace.renderElementToString(memberDef.briefDescription, 'mdx').trim()
+        this.briefDescriptionString = workspace.renderElementToString(memberDef.briefDescription, 'html').trim()
       }
     }
 
     if (memberDef.detailedDescription !== undefined) {
-      this.detailedDescriptionLines = workspace.renderElementToLines(memberDef.detailedDescription, 'mdx')
+      this.detailedDescriptionLines = workspace.renderElementToLines(memberDef.detailedDescription, 'html')
     }
 
     this.argsstring = memberDef.argsstring
 
     if (memberDef.type !== undefined) {
-      this.typeMdxText = workspace.renderElementToString(memberDef.type, 'mdx').trim()
+      this.typeMdxText = workspace.renderElementToString(memberDef.type, 'html').trim()
     }
 
     if (memberDef.initializer !== undefined) {
-      this.initializerMdxText = workspace.renderElementToString(memberDef.initializer, 'mdx')
+      this.initializerMdxText = workspace.renderElementToString(memberDef.initializer, 'html')
     }
 
     if (memberDef.location !== undefined) {
@@ -470,7 +470,7 @@ export class Member extends MemberBase {
     if (memberDef.params !== undefined) {
       const parameters: string[] = []
       for (const param of memberDef.params) {
-        parameters.push(workspace.renderElementToString(param, 'mdx'))
+        parameters.push(workspace.renderElementToString(param, 'html'))
       }
       this.parameters = parameters.join(', ')
     }
@@ -509,7 +509,7 @@ export class Member extends MemberBase {
     const permalink = workspace.getPermalink({ refid: this.id, kindref: 'member' })
     assert(permalink !== undefined && permalink.length > 1)
 
-    const name = escapeMdx(this.name)
+    const name = escapeHtml(this.name)
 
     let itemTemplate = ''
     let itemType = ''
@@ -517,9 +517,9 @@ export class Member extends MemberBase {
 
     if (this.templateParametersMdxText !== undefined && this.templateParametersMdxText.length > 0) {
       if (this.templateParametersMdxText.length < 64) {
-        itemTemplate = escapeMdx(`template ${this.templateParametersMdxText}`)
+        itemTemplate = escapeHtml(`template ${this.templateParametersMdxText}`)
       } else {
-        itemTemplate = escapeMdx('template < ... >')
+        itemTemplate = escapeHtml('template < ... >')
       }
     }
     switch (this.kind) {
@@ -552,7 +552,7 @@ export class Member extends MemberBase {
 
           if (this.argsstring !== undefined) {
             itemName += ' '
-            itemName += escapeMdx(this.argsstring)
+            itemName += escapeHtml(this.argsstring)
           }
 
           if (this.isTrailingType) {
@@ -560,7 +560,7 @@ export class Member extends MemberBase {
               itemType += 'auto '
             }
             // WARNING: Doxygen shows this, but the resulting line is too long.
-            itemName += escapeMdx(' -> ')
+            itemName += escapeHtml(' -> ')
             itemName += type
           } else {
             itemType += type
@@ -576,9 +576,9 @@ export class Member extends MemberBase {
       case 'variable':
         itemType += this.typeMdxText
         if (this.definition?.startsWith('struct ')) {
-          itemType = escapeMdx('struct { ... }')
+          itemType = escapeHtml('struct { ... }')
         } else if (this.definition?.startsWith('class ')) {
-          itemType = escapeMdx('class { ... }')
+          itemType = escapeHtml('class { ... }')
         }
         if (this.initializerMdxText !== undefined) {
           itemName += ' '
@@ -665,7 +665,7 @@ export class Member extends MemberBase {
 
     lines.push('')
     if (this.kind !== 'enum') {
-      lines.push(`### ${escapeMdx(name)} {#${id}}`)
+      lines.push(`### ${name} {#${id}}`)
     }
 
     // console.log(memberDef.kind)
@@ -677,7 +677,7 @@ export class Member extends MemberBase {
           // WARNING: the rule to decide which type is trailing is not in XMLs.
           // TODO: improve.
           assert(this.definition !== undefined)
-          let prototype = escapeMdx(this.definition)
+          let prototype = escapeHtml(this.definition)
           if (this.kind === 'function') {
             prototype += ' ('
 
@@ -701,7 +701,7 @@ export class Member extends MemberBase {
           let template
 
           if (this.templateParametersMdxText !== undefined && this.templateParametersMdxText.length > 0) {
-            template = escapeMdx(`template ${this.templateParametersMdxText}`)
+            template = escapeHtml(`template ${this.templateParametersMdxText}`)
           }
 
           const childrenLines: string[] = []
@@ -811,7 +811,7 @@ export class Member extends MemberBase {
       case 'define':
         {
           // console.log(this)
-          let prototype = `#define ${escapeMdx(name)}`
+          let prototype = `#define ${name}`
           if (this.initializerMdxText !== undefined) {
             prototype += '&nbsp;&nbsp;&nbsp;'
             prototype += this.initializerMdxText
@@ -908,9 +908,9 @@ export class Member extends MemberBase {
 
     if (memberDef.enumvalues !== undefined) {
       for (const enumValue of memberDef.enumvalues) {
-        let enumBriefDescription: string = workspace.renderElementToString(enumValue.briefDescription, 'mdx').replace(/[.]$/, '')
+        let enumBriefDescription: string = workspace.renderElementToString(enumValue.briefDescription, 'html').replace(/[.]$/, '')
         const anchor = getPermalinkAnchor(enumValue.id)
-        const value = workspace.renderElementToString(enumValue.initializer, 'mdx')
+        const value = workspace.renderElementToString(enumValue.initializer, 'html')
         if (value.length > 0) {
           enumBriefDescription += ` (${value})`
         }

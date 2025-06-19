@@ -33,23 +33,23 @@ export function formatDate (date: Date): string {
  * Escape characters that are problematic in MDX/JSX context.
  * This includes HTML special chars and MDX/JSX delimiters.
  */
-export function escapeMdx (text: string): string {
-  return text
-    .replaceAll(/[&]/g, '&amp;')
-    .replaceAll(/[<]/g, '&lt;')
-    .replaceAll(/[>]/g, '&gt;')
-    .replaceAll(/["]/g, '&quot;')
-    .replaceAll(/[']/g, '&#39;')
-    .replaceAll(/[`]/g, '&#96;')
-    .replaceAll(/{/g, '&#123;')
-    .replaceAll(/}/g, '&#125;')
-    .replaceAll(/\[/g, '&#91;')
-    .replaceAll(/\]/g, '&#93;')
-    .replaceAll(/~/g, '&#126;')
-    .replaceAll(/[\\]/g, '\\\\')
-    .replaceAll(/\*/g, '&#42;') // Markdown for bold
-    .replaceAll(/_/g, '&#95;') // Markdown for italics
-}
+// export function escapeMdx (text: string): string {
+//   return text
+//     .replaceAll(/[&]/g, '&amp;')
+//     .replaceAll(/[<]/g, '&lt;')
+//     .replaceAll(/[>]/g, '&gt;')
+//     .replaceAll(/["]/g, '&quot;')
+//     .replaceAll(/[']/g, '&#39;')
+//     .replaceAll(/[`]/g, '&#96;')
+//     .replaceAll(/{/g, '&#123;')
+//     .replaceAll(/}/g, '&#125;')
+//     .replaceAll(/\[/g, '&#91;')
+//     .replaceAll(/\]/g, '&#93;')
+//     .replaceAll(/~/g, '&#126;')
+//     .replaceAll(/[\\]/g, '\\\\')
+//     .replaceAll(/\*/g, '&#42;') // Markdown for bold
+//     .replaceAll(/_/g, '&#95;') // Markdown for italics
+// }
 
 // export function encodeUrl (text: string): string {
 //   return text
@@ -61,30 +61,29 @@ export function escapeMdx (text: string): string {
 //     .replaceAll(/[*]/g, '%2A')
 // }
 
+/**
+ * Escape characters that are problematic in a markdown context.
+ * This includes HTML special chars and markdown delimiters.
+ */
+export function escapeMarkdown (text: string): string {
+  return text
+    .replaceAll(/&/g, '&amp;')
+    .replaceAll(/</g, '&lt;')
+    .replaceAll(/>/g, '&gt;')
+    .replaceAll(/\*/g, '&#42;') // Markdown for bold
+    .replaceAll(/_/g, '&#95;') // Markdown for italics
+}
+
 export function escapeHtml (text: string): string {
   return text
     .replaceAll(/&/g, '&amp;')
     .replaceAll(/</g, '&lt;')
     .replaceAll(/>/g, '&gt;')
-    .replaceAll(/"/g, '&quot;')
-    .replaceAll(/'/g, '&#39;')
-    .replaceAll(/{/g, '&#123;') // MDX
-    .replaceAll(/}/g, '&#125;') // MDX
 }
 
 export function escapeQuotes (text: string): string {
   return text
     .replaceAll(/"/g, '&quot;')
-}
-
-// type='html'
-export function escapeHtml2 (text: string): string {
-  return text
-    .replaceAll(/&/g, '&amp;')
-    .replaceAll(/</g, '&lt;')
-    .replaceAll(/>/g, '&gt;')
-    .replaceAll(/{/g, '&#123;') // MDX
-    .replaceAll(/}/g, '&#125;') // MDX
 }
 
 // type='plain-html'
@@ -106,19 +105,6 @@ export function sanitizeHierarchicalPath (text: string): string {
     .replaceAll(/\)/g, '29')
     .replaceAll(/[^a-zA-Z0-9/-]/g, '-')
 }
-
-// export function sanitizeName (text: string): string {
-//   return text.toLowerCase()
-//     .replaceAll(/[ ]*/g, '')
-//     .replaceAll(/\*/g, '2a')
-//     .replaceAll(/&/g, '26')
-//     .replaceAll(/\./g, '2e')
-//     .replaceAll(/</g, '3c')
-//     .replaceAll(/>/g, '3e')
-//     .replaceAll(/\(/g, '28')
-//     .replaceAll(/\)/g, '29')
-//     .replaceAll(/[^a-zA-Z0-9-]/g, '-')
-// }
 
 export function flattenPath (text: string): string {
   return text.replaceAll('/', '-')

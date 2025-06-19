@@ -19,7 +19,7 @@ import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.
 import { CollectionBase } from './collection-base.js'
 import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { Workspace } from '../workspace.js'
-import { escapeMdx, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
+import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { FrontMatter } from '../types.js'
 import { ProgramListingDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 
@@ -324,7 +324,7 @@ export class FilesAndFolders extends CollectionBase {
 
     const lines: string[] = []
 
-    const label = escapeMdx(folder.compoundName)
+    const label = escapeHtml(folder.compoundName)
 
     const permalink = this.workspace.getPagePermalink(folder.id)
     assert(permalink !== undefined && permalink.length > 1)
@@ -364,7 +364,7 @@ export class FilesAndFolders extends CollectionBase {
     // console.log(util.inspect(file, { compact: false, depth: 999 }))
     const lines: string[] = []
 
-    const label = escapeMdx(file.compoundName)
+    const label = escapeHtml(file.compoundName)
 
     const permalink = this.workspace.getPagePermalink(file.id)
     assert(permalink !== undefined && permalink.length > 1)
@@ -438,7 +438,7 @@ export class Folder extends CompoundBase {
   override renderToLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    const descriptionTodo = `@dir ${escapeMdx(this.relativePath)}`
+    const descriptionTodo = `@dir ${escapeHtml(this.relativePath)}`
 
     const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToString({
@@ -516,7 +516,7 @@ export class File extends CompoundBase {
   override renderToLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    const descriptionTodo = `@file ${escapeMdx(this.relativePath)}`
+    const descriptionTodo = `@file ${escapeHtml(this.relativePath)}`
 
     const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToString({
@@ -550,7 +550,7 @@ export class File extends CompoundBase {
       lines.push('')
       lines.push('<p>The file content with the documentation metadata removed is:</p>')
 
-      lines.push(...this.collection.workspace.renderElementToLines(this.programListing, 'mdx'))
+      lines.push(...this.collection.workspace.renderElementToLines(this.programListing, 'html'))
     }
 
     return lines
