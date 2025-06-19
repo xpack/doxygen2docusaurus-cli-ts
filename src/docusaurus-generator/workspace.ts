@@ -31,6 +31,7 @@ import { Pages } from './view-model/pages-vm.js'
 import { FrontMatter } from './types.js'
 import { Member } from './view-model/members-vm.js'
 import { Renderers } from './elements-renderers/renderers.js'
+import { fileURLToPath } from 'node:url'
 
 // ----------------------------------------------------------------------------
 
@@ -60,6 +61,9 @@ import { Renderers } from './elements-renderers/renderers.js'
 // ----------------------------------------------------------------------------
 
 export class Workspace {
+  // The docusaurus-plugin-doxygen project path.
+  projectPath: string
+
   // The data parsed from the Doxygen XML files.
   dataModel: DataModel
   // From the project docusaurus.config.ts or defaults.
@@ -146,6 +150,9 @@ export class Workspace {
     pluginActions?: any
   }) {
     console.log()
+
+    const __dirname = path.dirname(fileURLToPath(import.meta.url))
+    this.projectPath = path.dirname(path.dirname(__dirname))
 
     this.dataModel = dataModel
     this.pluginOptions = pluginOptions
