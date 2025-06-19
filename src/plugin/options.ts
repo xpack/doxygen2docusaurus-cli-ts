@@ -22,6 +22,7 @@ export interface PluginConfigurationOptions {
   sidebarCategoryLabel?: string
   menuDropdownFilePath?: string
   menuDropdownLabel?: string
+  customCssFilePath?: string
   verbose?: boolean
   debug?: boolean
   runOnStart?: boolean
@@ -60,6 +61,9 @@ export interface PluginOptions {
   /** Short text to be displayed in the menu. */
   menuDropdownLabel: string
 
+  /** Relative to the current website folder, default `src/css/custom-doxygen.css` */
+  customCssFilePath: string
+
   /** Boolean to control verbosity. */
   verbose: boolean
 
@@ -86,6 +90,7 @@ export const defaultOptions: PluginConfigurationOptions = {
   sidebarCategoryLabel: 'API Reference (Doxygen)',
   menuDropdownFilePath: 'docusaurus-config-menu-docusaurus-plugin-doxygen.json',
   menuDropdownLabel: 'Reference',
+  customCssFilePath: 'src/css/custom-docusaurus-plugin-doxygen.css',
   verbose: false,
   debug: false,
   runOnStart: false,
