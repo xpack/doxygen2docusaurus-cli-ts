@@ -102,10 +102,6 @@ export class Classes extends CollectionBase {
         {
           type: 'category',
           label: 'Hierarchy',
-          // link: {
-          //   type: 'doc',
-          //   id: `${this.workspace.sidebarBaseId}classes/index`
-          // },
           collapsed: true,
           items: []
         },
@@ -212,7 +208,7 @@ export class Classes extends CollectionBase {
 
     const lines: string[] = []
 
-    lines.push('The classes, structs, union and interfaces used by this project are:')
+    lines.push('<p>The classes, structs, union and interfaces used by this project are:</p>')
 
     lines.push('')
     lines.push('<table class="doxyTreeTable">')
@@ -312,7 +308,7 @@ export class Classes extends CollectionBase {
 
       const lines: string[] = []
 
-      lines.push('The classes, structs, union interfaces and their members, variables, types used by this project are:')
+      lines.push('<p>The classes, structs, union interfaces and their members, variables, types used by this project are:</p>')
 
       const orderedEntriesMap = this.orderPerInitials(allUnorderedEntriesMap)
 
@@ -378,7 +374,7 @@ export class Classes extends CollectionBase {
 
       const lines: string[] = []
 
-      lines.push('The class member functions used by this project are:')
+      lines.push('<p>The class member functions used by this project are:</p>')
 
       const classesUnorderedMap: Map<string, IndexEntry> = new Map()
       for (const [id, entry] of allUnorderedEntriesMap) {
@@ -414,7 +410,7 @@ export class Classes extends CollectionBase {
 
       const lines: string[] = []
 
-      lines.push('The class member variables used by this project are:')
+      lines.push('<p>The class member variables used by this project are:</p>')
 
       const classesUnorderedMap: Map<string, IndexEntry> = new Map()
       for (const [id, entry] of allUnorderedEntriesMap) {
@@ -450,7 +446,7 @@ export class Classes extends CollectionBase {
 
       const lines: string[] = []
 
-      lines.push('The class member type definitions used by this project are:')
+      lines.push('<p>The class member type definitions used by this project are:</p>')
 
       const classesUnorderedMap: Map<string, IndexEntry> = new Map()
       for (const [id, entry] of allUnorderedEntriesMap) {

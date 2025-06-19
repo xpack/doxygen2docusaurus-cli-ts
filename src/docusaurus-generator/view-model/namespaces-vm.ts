@@ -165,7 +165,7 @@ export class Namespaces extends CollectionBase {
 
     const lines: string[] = []
 
-    lines.push('The namespaces used by this project are:')
+    lines.push('<p>The namespaces used by this project are:</p>')
 
     lines.push('')
     lines.push('<table class="doxyTreeTable">')

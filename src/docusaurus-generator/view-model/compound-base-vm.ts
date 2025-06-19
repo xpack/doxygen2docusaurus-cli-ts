@@ -682,7 +682,7 @@ export abstract class CompoundBase {
       lines.push('')
       lines.push('<hr/>')
       lines.push('')
-      lines.push(`The documentation for this ${this.kind} was generated from the following file${this.locationSet.size > 1 ? 's' : ''}:`)
+      lines.push(`<p>The documentation for this ${this.kind} was generated from the following file${this.locationSet.size > 1 ? 's' : ''}:</p>`)
       lines.push('')
 
       lines.push('<ul>')

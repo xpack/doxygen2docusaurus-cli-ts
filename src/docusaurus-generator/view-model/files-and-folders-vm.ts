@@ -295,7 +295,7 @@ export class FilesAndFolders extends CollectionBase {
 
     const lines: string[] = []
 
-    lines.push('The files & folders that contributed content to this site are:')
+    lines.push('<p>The files & folders that contributed content to this site are:</p>')
 
     lines.push('')
     lines.push('<table class="doxyTreeTable">')
@@ -548,7 +548,7 @@ export class File extends CompoundBase {
       lines.push('## File Listing')
 
       lines.push('')
-      lines.push('The file content with the documentation metadata removed is:')
+      lines.push('<p>The file content with the documentation metadata removed is:</p>')
 
       lines.push(...this.collection.workspace.renderElementToLines(this.programListing, 'mdx'))
     }

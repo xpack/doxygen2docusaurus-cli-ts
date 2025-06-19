@@ -189,7 +189,7 @@ export class Groups extends CollectionBase {
 
     const lines: string[] = []
 
-    lines.push(`${projectBrief} topics with brief descriptions are:`)
+    lines.push(`<p>${projectBrief} topics with brief descriptions are:</p>`)
 
     lines.push('')
     if (useCollapsibleTable) {
