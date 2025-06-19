@@ -10,7 +10,7 @@ export declare abstract class CompoundBase {
     compoundName: string;
     id: string;
     collection: CollectionBase;
-    titleMdxText: string | undefined;
+    title: string | undefined;
     locationFilePath: string | undefined;
     parent?: CompoundBase;
     childrenIds: string[];
@@ -36,7 +36,7 @@ export declare abstract class CompoundBase {
      *
      * No leading slash.
      *
-     * If undefined, the MDX file for the compound must not be generated.
+     * If undefined, the MD file for the compound must not be generated.
      */
     relativePermalink: string | undefined;
     /** The name shown in the index section. */
@@ -74,15 +74,15 @@ export declare abstract class CompoundBase {
         showBrief?: boolean;
     }): string[];
     hasInnerIndices(): boolean;
-    renderInnerIndicesToMdxLines({ suffixes }: {
+    renderInnerIndicesToLines({ suffixes }: {
         suffixes?: string[];
     }): string[];
     hasSections(): boolean;
-    renderSectionIndicesToMdxLines(): string[];
-    renderIncludesIndexToMdxLines(): string[];
-    renderSectionsToMdxLines(): string[];
-    renderLocationToMdxText(location: LocationDataModel | undefined): string[];
-    renderGeneratedFromToMdxLines(): string[];
+    renderSectionIndicesToLines(): string[];
+    renderIncludesIndexToLines(): string[];
+    renderSectionsToLines(): string[];
+    renderLocationToLines(location: LocationDataModel | undefined): string[];
+    renderGeneratedFromToLines(): string[];
     /**
      * Return an array of types, like `class T`, or `class U = T`, or `N T::* MP`
      * @param templateParamList
@@ -94,9 +94,9 @@ export declare abstract class CompoundBase {
     }): string[];
     isTemplate(templateParamList: TemplateParamListDataModel | undefined): boolean;
     collectTemplateParameterNames(templateParamList: TemplateParamListDataModel): string[];
-    renderTemplateParametersToMdxText({ templateParamList, withDefaults }: {
+    renderTemplateParametersToString({ templateParamList, withDefaults }: {
         templateParamList: TemplateParamListDataModel | undefined;
         withDefaults?: boolean;
     }): string;
-    renderTemplateParameterNamesToMdxText(templateParamList: TemplateParamListDataModel | undefined): string;
+    renderTemplateParameterNamesToString(templateParamList: TemplateParamListDataModel | undefined): string;
 }

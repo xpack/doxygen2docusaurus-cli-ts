@@ -26,7 +26,7 @@ export declare class Workspace {
     membersById: Map<String, Member>;
     currentCompound: CompoundBase | undefined;
     elementRenderers: Renderers;
-    writtenMdxFilesCounter: number;
+    writtenMdFilesCounter: number;
     writtenHtmlFilesCounter: number;
     constructor({ dataModel, pluginOptions, siteConfig, pluginActions }: {
         dataModel: DataModel;
@@ -44,7 +44,7 @@ export declare class Workspace {
      */
     validatePermalinks(): void;
     cleanups(): void;
-    writeMdxFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title, pagePermalink }: {
+    writeMdFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title, pagePermalink }: {
         filePath: string;
         bodyLines: string[];
         frontMatter: FrontMatter;

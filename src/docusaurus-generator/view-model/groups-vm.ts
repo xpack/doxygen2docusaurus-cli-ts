@@ -140,7 +140,7 @@ export class Groups extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override async generateIndexDotMdxFile (): Promise<void> {
+  override async generateIndexDotMdFile (): Promise<void> {
     if (this.topLevelGroups.length === 0) {
       return
     }
@@ -185,7 +185,7 @@ export class Groups extends CollectionBase {
 
     // const docusaurusGenerator = this.pageGenerators.get('group')
     // assert(docusaurusGenerator !== undefined)
-    // const bodyText = await docusaurusGenerator.renderIndexMdx()
+    // const bodyText = await docusaurusGenerator.renderIndexMd()
 
     const lines: string[] = []
 
@@ -198,7 +198,7 @@ export class Groups extends CollectionBase {
       lines.push('<table class="doxyTreeTable">')
 
       for (const group of this.topLevelGroups) {
-        lines.push(...this.generateIndexMdxFileRecursively(group, 1))
+        lines.push(...this.generateIndexMdFileRecursively(group, 1))
       }
 
       lines.push('')
@@ -206,8 +206,8 @@ export class Groups extends CollectionBase {
     }
 
     const pages = this.workspace.viewModel.get('pages') as Pages
-    const detailedDescriptionMdxText = pages.mainPage?.detailedDescriptionLines
-    if (detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) {
+    const detailedDescriptionLines = pages.mainPage?.detailedDescriptionLines
+    if (detailedDescriptionLines !== undefined && detailedDescriptionLines.length > 0) {
       lines.push('')
       assert(pages.mainPage !== undefined)
       lines.push(...pages.mainPage?.renderDetailedDescriptionToLines({
@@ -226,7 +226,7 @@ export class Groups extends CollectionBase {
     console.log(`Writing groups index file ${filePath}...`)
 
     if (useCollapsibleTable) {
-      await this.workspace.writeMdxFile({
+      await this.workspace.writeMdFile({
         filePath,
         frontMatter,
         frontMatterCodeLines: [
@@ -235,7 +235,7 @@ export class Groups extends CollectionBase {
         bodyLines: lines
       })
     } else {
-      await this.workspace.writeMdxFile({
+      await this.workspace.writeMdFile({
         filePath,
         frontMatter,
         bodyLines: lines
@@ -244,7 +244,7 @@ export class Groups extends CollectionBase {
   }
 
   private generateTableRowRecursively (group: Group): collapsibleTableRow {
-    const label = group.titleMdxText ?? '?'
+    const label = group.title ?? '?'
 
     const permalink = this.workspace.getPagePermalink(group.id)
     assert(permalink !== undefined && permalink.length > 1)
@@ -268,10 +268,10 @@ export class Groups extends CollectionBase {
     return tableRow
   }
 
-  private generateIndexMdxFileRecursively (group: Group, depth: number): string[] {
+  private generateIndexMdFileRecursively (group: Group, depth: number): string[] {
     const lines: string[] = []
 
-    const label = group.titleMdxText ?? '?'
+    const label = group.title ?? '?'
 
     const permalink = this.workspace.getPagePermalink(group.id)
     assert(permalink !== undefined && permalink.length > 1)
@@ -291,7 +291,7 @@ export class Groups extends CollectionBase {
 
     if (group.children.length > 0) {
       for (const childGroup of group.children) {
-        lines.push(...this.generateIndexMdxFileRecursively(childGroup as Group, depth + 1))
+        lines.push(...this.generateIndexMdFileRecursively(childGroup as Group, depth + 1))
       }
     }
 
@@ -329,7 +329,7 @@ export class Group extends CompoundBase {
     this.createSections()
 
     // console.log('0', this.id)
-    // console.log('1', this.compoundName, this.titleMdxText)
+    // console.log('1', this.compoundName, this.titleMdText)
     // console.log('2', this.relativePermalink)
     // console.log('3', this.docusaurusId)
     // console.log('4', this.sidebarLabel)
@@ -353,11 +353,11 @@ export class Group extends CompoundBase {
       morePermalink
     }))
 
-    lines.push(...this.renderInnerIndicesToMdxLines({
+    lines.push(...this.renderInnerIndicesToLines({
       suffixes: ['Groups', 'Classes']
     }))
 
-    lines.push(...this.renderSectionIndicesToMdxLines())
+    lines.push(...this.renderSectionIndicesToLines())
 
     lines.push(...this.renderDetailedDescriptionToLines({
       briefDescriptionString: this.briefDescriptionString,
@@ -367,7 +367,7 @@ export class Group extends CompoundBase {
       showBrief: !this.hasSect1InDescription
     }))
 
-    lines.push(...this.renderSectionsToMdxLines())
+    lines.push(...this.renderSectionsToLines())
 
     return lines
   }

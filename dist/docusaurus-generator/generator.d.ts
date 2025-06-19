@@ -14,8 +14,8 @@ export declare class DocusaurusGenerator {
     generateConfigurationFile(): Promise<void>;
     generateSidebarFile(): Promise<void>;
     generateMenuDropdownFile(): Promise<void>;
-    generateIndexDotMdxFiles(): Promise<void>;
-    generatePerInitialsIndexMdxFiles(): Promise<void>;
+    generateIndexDotMdFiles(): Promise<void>;
+    generatePerInitialsIndexMdFiles(): Promise<void>;
     generatePages(): Promise<void>;
     generateRedirectFiles(): Promise<void>;
     private generateRedirectFile;

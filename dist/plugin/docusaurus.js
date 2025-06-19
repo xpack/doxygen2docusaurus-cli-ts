@@ -10,7 +10,7 @@
  */
 import { generateDoxygen } from './cli/generate.js';
 import { defaultOptions } from './options.js';
-import { generateDocusaurusMdx, parseDoxygen } from './main.js';
+import { generateDocusaurusMd, parseDoxygen } from './main.js';
 // ----------------------------------------------------------------------------
 // The Docusaurus plugin entry point.
 export const pluginName = '@xpack/docusaurus-plugin-doxygen';
@@ -36,7 +36,7 @@ export default async function pluginDocusaurus(context, options // The user opti
         async loadContent() {
             if (actualOptions.runOnStart) {
                 const dataModel = await parseDoxygen({ options: actualOptions });
-                await generateDocusaurusMdx({
+                await generateDocusaurusMd({
                     dataModel,
                     options: actualOptions,
                     siteConfig: context.siteConfig

@@ -5,13 +5,13 @@
 This project is inspired by
 [`docusaurus-plugin-typedoc-api`](https://github.com/milesj/docusaurus-plugin-typedoc-api/),
 but does not go that far to reimplement the `content-docs` functionality of
-processing the MDX files.
+processing the MD files.
 
 The initial plan was to use `loadContent()` to parse the input XML files,
-and generate the MDX files, but this proved not realistic with the current
+and generate the MD files, but this proved not realistic with the current
 Docusaurus policy
 to run all plugins initialisation code in parallel, since this plugin must run
-before the `content-docs` plugin, that parses the MDX files.
+before the `content-docs` plugin, that parses the MD files.
 
 Therefore, for now, it is recommended to invoke the plugin via the CLI command.
 

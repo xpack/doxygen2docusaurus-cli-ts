@@ -15,7 +15,7 @@ import assert from 'node:assert'
 import * as util from 'node:util'
 
 import { DataModel } from '../../data-model/types.js'
-import { generateDocusaurusMdx, parseDoxygen } from '../main.js'
+import { generateDocusaurusMd, parseDoxygen } from '../main.js'
 import { PluginOptions } from '../options.js'
 import { pluginName } from '../docusaurus.js'
 
@@ -50,7 +50,7 @@ export async function generateDoxygen (context: any, pluginOptions: PluginOption
 
   const dataModel: DataModel = await parseDoxygen({ options })
 
-  const exitCode = await generateDocusaurusMdx({
+  const exitCode = await generateDocusaurusMd({
     dataModel,
     options,
     siteConfig: context.siteConfig

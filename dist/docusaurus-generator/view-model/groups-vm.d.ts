@@ -10,9 +10,9 @@ export declare class Groups extends CollectionBase {
     createSidebarItems(): SidebarItem[];
     private createSidebarItemRecursively;
     createMenuItems(): MenuItem[];
-    generateIndexDotMdxFile(): Promise<void>;
+    generateIndexDotMdFile(): Promise<void>;
     private generateTableRowRecursively;
-    private generateIndexMdxFileRecursively;
+    private generateIndexMdFileRecursively;
 }
 export declare class Group extends CompoundBase {
     constructor(collection: Groups, compoundDef: CompoundDefDataModel);

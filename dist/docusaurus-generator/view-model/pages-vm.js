@@ -75,7 +75,7 @@ export class Pages extends CollectionBase {
         return [];
     }
     // --------------------------------------------------------------------------
-    async generateIndexDotMdxFile() {
+    async generateIndexDotMdFile() {
         // There is no pages index.
     }
 }
@@ -109,14 +109,14 @@ export class Page extends CompoundBase {
             briefDescriptionString: this.briefDescriptionString,
             morePermalink
         }));
-        lines.push(...this.renderInnerIndicesToMdxLines({}));
-        lines.push(...this.renderSectionIndicesToMdxLines());
+        lines.push(...this.renderInnerIndicesToLines({}));
+        lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToLines({
             briefDescriptionString: this.briefDescriptionString,
             detailedDescriptionLines: this.detailedDescriptionLines,
             showHeader: false
         }));
-        lines.push(...this.renderSectionsToMdxLines());
+        lines.push(...this.renderSectionsToLines());
         return lines;
     }
 }

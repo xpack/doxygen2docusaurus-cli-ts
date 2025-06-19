@@ -18,7 +18,7 @@ export declare class Section {
     hasDefinitionMembers(): boolean;
     getHeaderNameByKind(sectionDef: SectionDefDataModel): string;
     getSectionOrderByKind(): number;
-    renderIndexToMdxLines(): string[];
+    renderIndexToLines(): string[];
     renderToLines(): string[];
 }
 declare class MemberBase {
@@ -35,11 +35,11 @@ export declare class Member extends MemberBase {
     argsstring: string | undefined;
     qualifiedName: string | undefined;
     definition: string | undefined;
-    typeMdxText: string | undefined;
-    initializerMdxText: string | undefined;
+    type: string | undefined;
+    initializer: string | undefined;
     locationLines: string[] | undefined;
-    templateParametersMdxText: string | undefined;
-    enumMdxLines: string[] | undefined;
+    templateParameters: string | undefined;
+    enumLines: string[] | undefined;
     parameters: string | undefined;
     labels: string[];
     isTrailingType: boolean;
@@ -51,10 +51,10 @@ export declare class Member extends MemberBase {
     };
     constructor(section: Section, memberDef: MemberDefDataModel);
     initializeLate(): void;
-    renderIndexToMdxLines(): string[];
+    renderIndexToLines(): string[];
     renderToLines(): string[];
     private renderMemberDefinitionToLines;
-    renderEnumToMdxLines(memberDef: MemberDefDataModel): string[];
+    renderEnumToLines(memberDef: MemberDefDataModel): string[];
 }
 export declare class MemberRef extends MemberBase {
     refid: string;

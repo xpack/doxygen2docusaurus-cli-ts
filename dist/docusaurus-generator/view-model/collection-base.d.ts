@@ -10,7 +10,7 @@ export declare abstract class CollectionBase {
     abstract createCompoundsHierarchies(): void;
     abstract createSidebarItems(): SidebarItem[];
     abstract createMenuItems(): MenuItem[];
-    abstract generateIndexDotMdxFile(): Promise<void>;
-    generatePerInitialsIndexMdxFiles(): Promise<void>;
+    abstract generateIndexDotMdFile(): Promise<void>;
+    generatePerInitialsIndexMdFiles(): Promise<void>;
     hasCompounds(): boolean;
 }

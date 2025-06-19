@@ -32,7 +32,6 @@ export class CompoundBase {
         /** The name shown in the page title. */
         this.pageTitle = '';
         this.hasSect1InDescription = false;
-        // detailedDescriptionMdxLines: string[] | undefined
         this.sections = [];
         this.locationSet = new Set();
         this._private = {};
@@ -42,7 +41,7 @@ export class CompoundBase {
         this.compoundName = compoundDef.compoundName;
         this.id = compoundDef.id;
         if (compoundDef.title !== undefined) {
-            this.titleMdxText = escapeHtml(compoundDef.title);
+            this.title = escapeHtml(compoundDef.title);
         }
         if (compoundDef?.location?.file !== undefined) {
             this.locationFilePath = compoundDef.location.file;
@@ -205,7 +204,7 @@ export class CompoundBase {
         }
         else {
             if (compoundDef.location !== undefined) {
-                this.locationLines = this.renderLocationToMdxText(compoundDef.location);
+                this.locationLines = this.renderLocationToLines(compoundDef.location);
             }
         }
         if (compoundDef.sectionDefs !== undefined) {
@@ -291,7 +290,7 @@ export class CompoundBase {
                 lines.push(`TODO: add <code>@brief</code> to <code>${todo}</code>`);
             }
         }
-        // console.log(util.inspect(detailedDescriptionMdxText, { compact: false, depth: 999 }))
+        // console.log(util.inspect(detailedDescriptionLines, { compact: false, depth: 999 }))
         if (detailedDescriptionLines !== undefined && detailedDescriptionLines.length > 0) {
             lines.push('');
             lines.push(...detailedDescriptionLines);
@@ -306,14 +305,14 @@ export class CompoundBase {
     hasInnerIndices() {
         return (this.innerCompounds !== undefined) && (this.innerCompounds.size > 0);
     }
-    renderInnerIndicesToMdxLines({ suffixes = [] }) {
+    renderInnerIndicesToLines({ suffixes = [] }) {
         const lines = [];
         if (this.innerCompounds !== undefined) {
             for (const innerKey of Object.keys(this.innerCompounds)) {
                 if (innerKey.startsWith('inner')) {
                     const suffix = innerKey.substring(5);
                     if (!suffixes.includes(suffix)) {
-                        console.warn(innerKey, 'not processed for', this.compoundName, 'in renderInnerIndicesMdx');
+                        console.warn(innerKey, 'not processed for', this.compoundName, 'in renderInnerIndicesToLines');
                         continue;
                     }
                 }
@@ -366,7 +365,7 @@ export class CompoundBase {
                             console.warn(innerObject);
                         }
                         if (this.collection.workspace.pluginOptions.verbose) {
-                            console.warn('Object not rendered in renderInnerIndicesToMdxLines()');
+                            console.warn('Object not rendered in renderInnerIndicesToLines()');
                         }
                     }
                 }
@@ -379,16 +378,16 @@ export class CompoundBase {
     hasSections() {
         return (this.sections !== undefined) && (this.sections.length > 0);
     }
-    renderSectionIndicesToMdxLines() {
+    renderSectionIndicesToLines() {
         const lines = [];
         for (const section of this.sections) {
             // console.log(sectionDef)
-            lines.push(...section.renderIndexToMdxLines());
+            lines.push(...section.renderIndexToLines());
         }
         return lines;
     }
     // --------------------------------------------------------------------------
-    renderIncludesIndexToMdxLines() {
+    renderIncludesIndexToLines() {
         const lines = [];
         const workspace = this.collection.workspace;
         if (this.includes !== undefined) {
@@ -404,7 +403,7 @@ export class CompoundBase {
         return lines;
     }
     // --------------------------------------------------------------------------
-    renderSectionsToMdxLines() {
+    renderSectionsToLines() {
         const lines = [];
         if (this.sections !== undefined) {
             for (const section of this.sections) {
@@ -413,7 +412,7 @@ export class CompoundBase {
         }
         return lines;
     }
-    renderLocationToMdxText(location) {
+    renderLocationToLines(location) {
         const lines = [];
         let text = '';
         const workspace = this.collection.workspace;
@@ -425,7 +424,7 @@ export class CompoundBase {
             }
             const files = workspace.viewModel.get('files');
             assert(files !== undefined);
-            // console.log('renderLocationToMdxText', this.kind, this.compoundName, this.id)
+            // console.log('renderLocationToLines', this.kind, this.compoundName, this.id)
             const file = files.filesByPath.get(location.file);
             if (file !== undefined) {
                 const permalink = workspace.getPagePermalink(file.id);
@@ -505,7 +504,7 @@ export class CompoundBase {
         }
         return lines;
     }
-    renderGeneratedFromToMdxLines() {
+    renderGeneratedFromToLines() {
         const lines = [];
         if (this.locationSet.size > 0) {
             lines.push('');
@@ -613,7 +612,7 @@ export class CompoundBase {
         }
         return templateParameterNames;
     }
-    renderTemplateParametersToMdxText({ templateParamList, withDefaults = false }) {
+    renderTemplateParametersToString({ templateParamList, withDefaults = false }) {
         let text = '';
         if (templateParamList?.params !== undefined) {
             const templateParameters = this.collectTemplateParameters({
@@ -626,7 +625,7 @@ export class CompoundBase {
         }
         return text;
     }
-    renderTemplateParameterNamesToMdxText(templateParamList) {
+    renderTemplateParameterNamesToString(templateParamList) {
         let text = '';
         if (templateParamList?.params !== undefined) {
             const templateParameterNames = this.collectTemplateParameterNames(templateParamList);

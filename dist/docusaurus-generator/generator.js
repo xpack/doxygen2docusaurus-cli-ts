@@ -34,10 +34,10 @@ export class DocusaurusGenerator {
         console.log();
         await this.generatePages();
         console.log();
-        await this.generateIndexDotMdxFiles();
-        await this.generatePerInitialsIndexMdxFiles();
+        await this.generateIndexDotMdFiles();
+        await this.generatePerInitialsIndexMdFiles();
         if (this.workspace.pluginOptions.verbose) {
-            console.log(this.workspace.writtenMdxFilesCounter, 'md files written');
+            console.log(this.workspace.writtenMdFilesCounter, 'md files written');
         }
         await this.generateRedirectFiles();
         await this.copyFiles();
@@ -132,18 +132,18 @@ export class DocusaurusGenerator {
         await fs.writeFile(absoluteFilePath, jsonString, 'utf8');
     }
     // --------------------------------------------------------------------------
-    async generateIndexDotMdxFiles() {
+    async generateIndexDotMdFiles() {
         for (const [collectionName, collection] of this.workspace.viewModel) {
             // console.log(collectionName)
-            await collection.generateIndexDotMdxFile();
+            await collection.generateIndexDotMdFile();
         }
         // TODO: parallelize
     }
     // --------------------------------------------------------------------------
-    async generatePerInitialsIndexMdxFiles() {
+    async generatePerInitialsIndexMdFiles() {
         for (const [collectionName, collection] of this.workspace.viewModel) {
             // console.log(collectionName)
-            await collection.generatePerInitialsIndexMdxFiles();
+            await collection.generatePerInitialsIndexMdFiles();
         }
         // TODO: parallelize
     }
@@ -189,7 +189,7 @@ export class DocusaurusGenerator {
             };
             const bodyLines = compound.renderToLines(frontMatter);
             const pagePermalink = `${this.workspace.pageBaseUrl}${compound.relativePermalink}`;
-            await this.workspace.writeMdxFile({
+            await this.workspace.writeMdFile({
                 filePath,
                 frontMatter,
                 bodyLines,

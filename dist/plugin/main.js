@@ -37,7 +37,7 @@ export async function parseDoxygen({ options }) {
     // console.log('doxygenData:', util.inspect(doxygenData))
     return dataModel;
 }
-export async function generateDocusaurusMdx({ dataModel, options, siteConfig, pluginActions = undefined }) {
+export async function generateDocusaurusMd({ dataModel, options, siteConfig, pluginActions = undefined }) {
     const docs = new DocusaurusGenerator({
         dataModel,
         pluginOptions: options,

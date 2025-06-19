@@ -110,7 +110,7 @@ export class Groups extends CollectionBase {
         return menuItems;
     }
     // --------------------------------------------------------------------------
-    async generateIndexDotMdxFile() {
+    async generateIndexDotMdFile() {
         if (this.topLevelGroups.length === 0) {
             return;
         }
@@ -145,7 +145,7 @@ export class Groups extends CollectionBase {
         };
         // const docusaurusGenerator = this.pageGenerators.get('group')
         // assert(docusaurusGenerator !== undefined)
-        // const bodyText = await docusaurusGenerator.renderIndexMdx()
+        // const bodyText = await docusaurusGenerator.renderIndexMd()
         const lines = [];
         lines.push(`<p>${projectBrief} topics with brief descriptions are:</p>`);
         lines.push('');
@@ -155,14 +155,14 @@ export class Groups extends CollectionBase {
         else {
             lines.push('<table class="doxyTreeTable">');
             for (const group of this.topLevelGroups) {
-                lines.push(...this.generateIndexMdxFileRecursively(group, 1));
+                lines.push(...this.generateIndexMdFileRecursively(group, 1));
             }
             lines.push('');
             lines.push('</table>');
         }
         const pages = this.workspace.viewModel.get('pages');
-        const detailedDescriptionMdxText = pages.mainPage?.detailedDescriptionLines;
-        if (detailedDescriptionMdxText !== undefined && detailedDescriptionMdxText.length > 0) {
+        const detailedDescriptionLines = pages.mainPage?.detailedDescriptionLines;
+        if (detailedDescriptionLines !== undefined && detailedDescriptionLines.length > 0) {
             lines.push('');
             assert(pages.mainPage !== undefined);
             lines.push(...pages.mainPage?.renderDetailedDescriptionToLines({
@@ -178,7 +178,7 @@ export class Groups extends CollectionBase {
         lines.push(':::');
         console.log(`Writing groups index file ${filePath}...`);
         if (useCollapsibleTable) {
-            await this.workspace.writeMdxFile({
+            await this.workspace.writeMdFile({
                 filePath,
                 frontMatter,
                 frontMatterCodeLines: [
@@ -188,7 +188,7 @@ export class Groups extends CollectionBase {
             });
         }
         else {
-            await this.workspace.writeMdxFile({
+            await this.workspace.writeMdFile({
                 filePath,
                 frontMatter,
                 bodyLines: lines
@@ -196,7 +196,7 @@ export class Groups extends CollectionBase {
         }
     }
     generateTableRowRecursively(group) {
-        const label = group.titleMdxText ?? '?';
+        const label = group.title ?? '?';
         const permalink = this.workspace.getPagePermalink(group.id);
         assert(permalink !== undefined && permalink.length > 1);
         const description = group.briefDescriptionString?.replace(/[.]$/, '') ?? '';
@@ -214,9 +214,9 @@ export class Groups extends CollectionBase {
         }
         return tableRow;
     }
-    generateIndexMdxFileRecursively(group, depth) {
+    generateIndexMdFileRecursively(group, depth) {
         const lines = [];
-        const label = group.titleMdxText ?? '?';
+        const label = group.title ?? '?';
         const permalink = this.workspace.getPagePermalink(group.id);
         assert(permalink !== undefined && permalink.length > 1);
         let description = '';
@@ -232,7 +232,7 @@ export class Groups extends CollectionBase {
         }));
         if (group.children.length > 0) {
             for (const childGroup of group.children) {
-                lines.push(...this.generateIndexMdxFileRecursively(childGroup, depth + 1));
+                lines.push(...this.generateIndexMdFileRecursively(childGroup, depth + 1));
             }
         }
         return lines;
@@ -258,7 +258,7 @@ export class Group extends CompoundBase {
         this.docusaurusId = `groups/${flattenPath(sanitizedPath)}`;
         this.createSections();
         // console.log('0', this.id)
-        // console.log('1', this.compoundName, this.titleMdxText)
+        // console.log('1', this.compoundName, this.titleMdText)
         // console.log('2', this.relativePermalink)
         // console.log('3', this.docusaurusId)
         // console.log('4', this.sidebarLabel)
@@ -276,10 +276,10 @@ export class Group extends CompoundBase {
             todo: descriptionTodo,
             morePermalink
         }));
-        lines.push(...this.renderInnerIndicesToMdxLines({
+        lines.push(...this.renderInnerIndicesToLines({
             suffixes: ['Groups', 'Classes']
         }));
-        lines.push(...this.renderSectionIndicesToMdxLines());
+        lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToLines({
             briefDescriptionString: this.briefDescriptionString,
             detailedDescriptionLines: this.detailedDescriptionLines,
@@ -287,7 +287,7 @@ export class Group extends CompoundBase {
             showHeader: !this.hasSect1InDescription,
             showBrief: !this.hasSect1InDescription
         }));
-        lines.push(...this.renderSectionsToMdxLines());
+        lines.push(...this.renderSectionsToLines());
         return lines;
     }
 }

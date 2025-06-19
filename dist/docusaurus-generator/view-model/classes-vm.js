@@ -159,7 +159,7 @@ export class Classes extends CollectionBase {
         return [menuItem];
     }
     // --------------------------------------------------------------------------
-    async generateIndexDotMdxFile() {
+    async generateIndexDotMdFile() {
         if (this.topLevelClasses.length === 0) {
             return;
         }
@@ -177,18 +177,18 @@ export class Classes extends CollectionBase {
         lines.push('');
         lines.push('<table class="doxyTreeTable">');
         for (const classs of this.topLevelClasses) {
-            lines.push(...this.generateIndexMdxFileRecursively(classs, 1));
+            lines.push(...this.generateIndexMdFileRecursively(classs, 1));
         }
         lines.push('');
         lines.push('</table>');
         console.log(`Writing classes index file ${filePath}...`);
-        await this.workspace.writeMdxFile({
+        await this.workspace.writeMdFile({
             filePath,
             frontMatter,
             bodyLines: lines
         });
     }
-    generateIndexMdxFileRecursively(classs, depth) {
+    generateIndexMdFileRecursively(classs, depth) {
         // console.log(util.inspect(classs, { compact: false, depth: 999 }))
         const lines = [];
         const permalink = this.workspace.getPagePermalink(classs.id);
@@ -218,12 +218,12 @@ export class Classes extends CollectionBase {
         }));
         if (classs.children.length > 0) {
             for (const childClass of classs.children) {
-                lines.push(...this.generateIndexMdxFileRecursively(childClass, depth + 1));
+                lines.push(...this.generateIndexMdFileRecursively(childClass, depth + 1));
             }
         }
         return lines;
     }
-    async generatePerInitialsIndexMdxFiles() {
+    async generatePerInitialsIndexMdFiles() {
         if (this.topLevelClasses.length === 0) {
             return;
         }
@@ -255,7 +255,7 @@ export class Classes extends CollectionBase {
             const orderedEntriesMap = this.orderPerInitials(allUnorderedEntriesMap);
             lines.push(...this.outputEntries(orderedEntriesMap));
             console.log(`Writing index file ${filePath}...`);
-            await this.workspace.writeMdxFile({
+            await this.workspace.writeMdFile({
                 filePath,
                 frontMatter,
                 bodyLines: lines
@@ -283,7 +283,7 @@ export class Classes extends CollectionBase {
             const orderedEntries = this.orderPerInitials(classesUnorderedMap);
             lines.push(...this.outputEntries(orderedEntries));
             console.log(`Writing index file ${filePath}...`);
-            await this.workspace.writeMdxFile({
+            await this.workspace.writeMdFile({
                 filePath,
                 frontMatter,
                 bodyLines: lines
@@ -311,7 +311,7 @@ export class Classes extends CollectionBase {
             const orderedEntries = this.orderPerInitials(classesUnorderedMap);
             lines.push(...this.outputEntries(orderedEntries));
             console.log(`Writing index file ${filePath}...`);
-            await this.workspace.writeMdxFile({
+            await this.workspace.writeMdFile({
                 filePath,
                 frontMatter,
                 bodyLines: lines
@@ -339,7 +339,7 @@ export class Classes extends CollectionBase {
             const orderedEntries = this.orderPerInitials(classesUnorderedMap);
             lines.push(...this.outputEntries(orderedEntries));
             console.log(`Writing index file ${filePath}...`);
-            await this.workspace.writeMdxFile({
+            await this.workspace.writeMdFile({
                 filePath,
                 frontMatter,
                 bodyLines: lines
@@ -367,7 +367,7 @@ export class Classes extends CollectionBase {
             const orderedEntries = this.orderPerInitials(classesUnorderedMap);
             lines.push(...this.outputEntries(orderedEntries));
             console.log(`Writing index file ${filePath}...`);
-            await this.workspace.writeMdxFile({
+            await this.workspace.writeMdFile({
                 filePath,
                 frontMatter,
                 bodyLines: lines
@@ -438,7 +438,7 @@ export class Class extends CompoundBase {
         this.fullyQualifiedName = '?';
         this.unqualifiedName = '?';
         this.templateParameters = '';
-        this.classFullNameMdxText = '?';
+        this.classFullName = '?';
         // console.log('Class.constructor', util.inspect(compoundDef))
         if (Array.isArray(compoundDef.baseCompoundRefs)) {
             for (const ref of compoundDef.baseCompoundRefs) {
@@ -459,7 +459,7 @@ export class Class extends CompoundBase {
             this.templateParameters = indexNameTemplateParameters;
         }
         else if (compoundDef.templateParamList !== undefined) {
-            indexNameTemplateParameters = this.renderTemplateParameterNamesToMdxText(compoundDef.templateParamList);
+            indexNameTemplateParameters = this.renderTemplateParameterNamesToString(compoundDef.templateParamList);
         }
         this.sidebarLabel = this.unqualifiedName;
         this.indexName = `${this.unqualifiedName}${indexNameTemplateParameters}`;
@@ -500,11 +500,11 @@ export class Class extends CompoundBase {
             classFullName += escapeHtml(this.templateParameters);
         }
         else {
-            classFullName += escapeHtml(this.renderTemplateParameterNamesToMdxText(compoundDef.templateParamList));
+            classFullName += escapeHtml(this.renderTemplateParameterNamesToString(compoundDef.templateParamList));
         }
-        this.classFullNameMdxText = classFullName;
+        this.classFullName = classFullName;
         if (compoundDef.templateParamList?.params !== undefined) {
-            this.templateMdxText = escapeHtml(this.renderTemplateParametersToMdxText({
+            this.template = escapeHtml(this.renderTemplateParametersToString({
                 templateParamList: compoundDef.templateParamList,
                 withDefaults: true
             }));
@@ -528,16 +528,16 @@ export class Class extends CompoundBase {
         lines.push('## Declaration');
         const classs = this.collection.collectionCompoundsById.get(this.id);
         assert(classs !== undefined);
-        // const classFullName = this.classFullNameMdxText
+        // const classFullName = this.classFullName
         // This generates <pre><code>...</code></pre> and the copy button.
         lines.push('');
         lines.push('<div class="doxyDeclaration">');
-        if (this.templateMdxText !== undefined) {
-            lines.push(`template ${this.templateMdxText}<br/>`);
+        if (this.template !== undefined) {
+            lines.push(`template ${this.template}<br/>`);
         }
-        lines.push(`${this.kind} ${this.classFullNameMdxText}`);
+        lines.push(`${this.kind} ${this.classFullName}`);
         lines.push('</div>');
-        lines.push(...this.renderIncludesIndexToMdxLines());
+        lines.push(...this.renderIncludesIndexToLines());
         if (this.kind === 'class' || this.kind === 'struct') {
             if (this.baseCompoundRefs !== undefined) {
                 const baseCompoundRefs = new Map();
@@ -560,7 +560,7 @@ export class Class extends CompoundBase {
                     if (baseCompoundRef.refid !== undefined) {
                         const baseClass = this.collection.collectionCompoundsById.get(baseCompoundRef.refid);
                         if (baseClass !== undefined) {
-                            lines.push(...baseClass.renderIndexToMdxLines());
+                            lines.push(...baseClass.renderIndexToLines());
                             continue;
                         }
                     }
@@ -588,7 +588,7 @@ export class Class extends CompoundBase {
                     const baseClass = this.collection.collectionCompoundsById.get(baseClassId);
                     if (baseClass !== undefined) {
                         // console.log(util.inspect(derivedCompoundDef, { compact: false, depth: 999 }))
-                        lines.push(...baseClass.renderIndexToMdxLines());
+                        lines.push(...baseClass.renderIndexToLines());
                     }
                 }
                 lines.push('');
@@ -604,7 +604,7 @@ export class Class extends CompoundBase {
                     if (derivedCompoundRef.refid !== undefined) {
                         const derivedClass = this.collection.collectionCompoundsById.get(derivedCompoundRef.refid);
                         if (derivedClass !== undefined) {
-                            lines.push(...derivedClass.renderIndexToMdxLines());
+                            lines.push(...derivedClass.renderIndexToLines());
                         }
                         else {
                             if (this.collection.workspace.pluginOptions.verbose) {
@@ -639,7 +639,7 @@ export class Class extends CompoundBase {
                     const derivedClass = this.collection.collectionCompoundsById.get(derivedClassId);
                     if (derivedClass !== undefined) {
                         // console.log(util.inspect(derivedCompoundDef, { compact: false, depth: 999 }))
-                        lines.push(...derivedClass.renderIndexToMdxLines());
+                        lines.push(...derivedClass.renderIndexToLines());
                     }
                     else {
                         console.warn('Derived class id', derivedClassId, 'not a class');
@@ -649,10 +649,10 @@ export class Class extends CompoundBase {
                 lines.push('</table>');
             }
         }
-        lines.push(...this.renderInnerIndicesToMdxLines({
+        lines.push(...this.renderInnerIndicesToLines({
             suffixes: []
         }));
-        lines.push(...this.renderSectionIndicesToMdxLines());
+        lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToLines({
             briefDescriptionString: this.briefDescriptionString,
             detailedDescriptionLines: this.detailedDescriptionLines,
@@ -663,11 +663,11 @@ export class Class extends CompoundBase {
         if (this.locationLines !== undefined) {
             lines.push(...this.locationLines);
         }
-        lines.push(...this.renderSectionsToMdxLines());
-        lines.push(...this.renderGeneratedFromToMdxLines());
+        lines.push(...this.renderSectionsToLines());
+        lines.push(...this.renderGeneratedFromToLines());
         return lines;
     }
-    renderIndexToMdxLines() {
+    renderIndexToLines() {
         // console.log(util.inspect(this, { compact: false, depth: 999 }))
         const lines = [];
         const workspace = this.collection.workspace;

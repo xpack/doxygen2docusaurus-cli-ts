@@ -107,7 +107,7 @@ export class Pages extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override async generateIndexDotMdxFile (): Promise<void> {
+  override async generateIndexDotMdFile (): Promise<void> {
     // There is no pages index.
   }
 }
@@ -154,9 +154,9 @@ export class Page extends CompoundBase {
       morePermalink
     }))
 
-    lines.push(...this.renderInnerIndicesToMdxLines({}))
+    lines.push(...this.renderInnerIndicesToLines({}))
 
-    lines.push(...this.renderSectionIndicesToMdxLines())
+    lines.push(...this.renderSectionIndicesToLines())
 
     lines.push(...this.renderDetailedDescriptionToLines({
       briefDescriptionString: this.briefDescriptionString,
@@ -164,7 +164,7 @@ export class Page extends CompoundBase {
       showHeader: false
     }))
 
-    lines.push(...this.renderSectionsToMdxLines())
+    lines.push(...this.renderSectionsToLines())
 
     return lines
   }

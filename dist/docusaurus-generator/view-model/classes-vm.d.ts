@@ -13,9 +13,9 @@ export declare class Classes extends CollectionBase {
     createSidebarItems(): SidebarItem[];
     private createSidebarItemRecursively;
     createMenuItems(): MenuItem[];
-    generateIndexDotMdxFile(): Promise<void>;
-    private generateIndexMdxFileRecursively;
-    generatePerInitialsIndexMdxFiles(): Promise<void>;
+    generateIndexDotMdFile(): Promise<void>;
+    private generateIndexMdFileRecursively;
+    generatePerInitialsIndexMdFiles(): Promise<void>;
     orderPerInitials(entriesMap: Map<string, IndexEntry>): Map<string, IndexEntry[]>;
     outputEntries(entriesPerInitialsMap: Map<string, IndexEntry[]>): string[];
 }
@@ -25,13 +25,13 @@ export declare class Class extends CompoundBase {
     fullyQualifiedName: string;
     unqualifiedName: string;
     templateParameters: string;
-    classFullNameMdxText: string;
-    templateMdxText: string | undefined;
+    classFullName: string;
+    template: string | undefined;
     baseCompoundRefs: BaseCompoundRefDataModel[] | undefined;
     derivedCompoundRefs: DerivedCompoundRefDataModel[] | undefined;
     templateParamList: TemplateParamListDataModel | undefined;
     constructor(collection: Classes, compoundDef: CompoundDefDataModel);
     initializeLate(): void;
     renderToLines(frontMatter: FrontMatter): string[];
-    renderIndexToMdxLines(): string[];
+    renderIndexToLines(): string[];
 }

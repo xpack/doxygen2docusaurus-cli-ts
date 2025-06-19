@@ -19,9 +19,9 @@ export declare class FilesAndFolders extends CollectionBase {
     private createFolderSidebarItemRecursively;
     private createFileSidebarItem;
     createMenuItems(): MenuItem[];
-    generateIndexDotMdxFile(): Promise<void>;
-    private generateIndexMdxFileRecursively;
-    private generateFileIndexMdx;
+    generateIndexDotMdFile(): Promise<void>;
+    private generateIndexMdFileRecursively;
+    private generateFileIndexMd;
 }
 export declare class Folder extends CompoundBase {
     childrenFileIds: string[];

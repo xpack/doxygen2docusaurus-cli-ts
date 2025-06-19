@@ -1,9 +1,5 @@
 export declare function formatDate(date: Date): string;
 /**
- * Escape characters that are problematic in MDX/JSX context.
- * This includes HTML special chars and MDX/JSX delimiters.
- */
-/**
  * Escape characters that are problematic in a markdown context.
  * This includes HTML special chars and markdown delimiters.
  */

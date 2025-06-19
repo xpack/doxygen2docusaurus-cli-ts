@@ -39,9 +39,9 @@ export abstract class CollectionBase {
   // It must return an array since groups can have multiple top pages.
   abstract createSidebarItems (): SidebarItem[]
   abstract createMenuItems (): MenuItem[]
-  abstract generateIndexDotMdxFile (): Promise<void>
+  abstract generateIndexDotMdFile (): Promise<void>
 
-  async generatePerInitialsIndexMdxFiles (): Promise<void> {
+  async generatePerInitialsIndexMdFiles (): Promise<void> {
     // Nothing at this level. Override it where needed.
   }
 

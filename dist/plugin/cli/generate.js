@@ -8,7 +8,7 @@
  * If a copy of the license was not distributed with this file, it can
  * be obtained from https://opensource.org/licenses/MIT.
  */
-import { generateDocusaurusMdx, parseDoxygen } from '../main.js';
+import { generateDocusaurusMd, parseDoxygen } from '../main.js';
 import { pluginName } from '../docusaurus.js';
 // ----------------------------------------------------------------------------
 export async function generateDoxygen(context, pluginOptions, cliOptions) {
@@ -36,7 +36,7 @@ export async function generateDoxygen(context, pluginOptions, cliOptions) {
         }
     }
     const dataModel = await parseDoxygen({ options });
-    const exitCode = await generateDocusaurusMdx({
+    const exitCode = await generateDocusaurusMd({
         dataModel,
         options,
         siteConfig: context.siteConfig

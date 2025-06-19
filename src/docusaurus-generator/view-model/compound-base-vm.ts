@@ -42,7 +42,7 @@ export abstract class CompoundBase {
   // The collection this compound is part of.
   collection: CollectionBase
 
-  titleMdxText: string | undefined
+  title: string | undefined
 
   locationFilePath: string | undefined
 
@@ -80,7 +80,7 @@ export abstract class CompoundBase {
    *
    * No leading slash.
    *
-   * If undefined, the MDX file for the compound must not be generated.
+   * If undefined, the MD file for the compound must not be generated.
    */
   relativePermalink: string | undefined
 
@@ -94,10 +94,7 @@ export abstract class CompoundBase {
   detailedDescriptionLines: string[] | undefined
   hasSect1InDescription: boolean = false
 
-  // labelMdxText: string | undefined
   locationLines: string[] | undefined
-
-  // detailedDescriptionMdxLines: string[] | undefined
 
   sections: Section[] = []
   locationSet: Set<string> = new Set()
@@ -123,7 +120,7 @@ export abstract class CompoundBase {
     this.id = compoundDef.id
 
     if (compoundDef.title !== undefined) {
-      this.titleMdxText = escapeHtml(compoundDef.title)
+      this.title = escapeHtml(compoundDef.title)
     }
 
     if (compoundDef?.location?.file !== undefined) {
@@ -304,7 +301,7 @@ export abstract class CompoundBase {
       // The location for folders is not used.
     } else {
       if (compoundDef.location !== undefined) {
-        this.locationLines = this.renderLocationToMdxText(compoundDef.location)
+        this.locationLines = this.renderLocationToLines(compoundDef.location)
       }
     }
 
@@ -427,7 +424,7 @@ export abstract class CompoundBase {
       }
     }
 
-    // console.log(util.inspect(detailedDescriptionMdxText, { compact: false, depth: 999 }))
+    // console.log(util.inspect(detailedDescriptionLines, { compact: false, depth: 999 }))
     if (detailedDescriptionLines !== undefined && detailedDescriptionLines.length > 0) {
       lines.push('')
       lines.push(...detailedDescriptionLines)
@@ -445,7 +442,7 @@ export abstract class CompoundBase {
     return (this.innerCompounds !== undefined) && (this.innerCompounds.size > 0)
   }
 
-  renderInnerIndicesToMdxLines ({
+  renderInnerIndicesToLines ({
     suffixes = []
   }: {
     suffixes?: string[]
@@ -457,7 +454,7 @@ export abstract class CompoundBase {
         if (innerKey.startsWith('inner')) {
           const suffix = innerKey.substring(5)
           if (!suffixes.includes(suffix)) {
-            console.warn(innerKey, 'not processed for', this.compoundName, 'in renderInnerIndicesMdx')
+            console.warn(innerKey, 'not processed for', this.compoundName, 'in renderInnerIndicesToLines')
             continue
           }
         }
@@ -517,7 +514,7 @@ export abstract class CompoundBase {
               console.warn(innerObject)
             }
             if (this.collection.workspace.pluginOptions.verbose) {
-              console.warn('Object not rendered in renderInnerIndicesToMdxLines()')
+              console.warn('Object not rendered in renderInnerIndicesToLines()')
             }
           }
         }
@@ -534,12 +531,12 @@ export abstract class CompoundBase {
     return (this.sections !== undefined) && (this.sections.length > 0)
   }
 
-  renderSectionIndicesToMdxLines (): string[] {
+  renderSectionIndicesToLines (): string[] {
     const lines: string[] = []
 
     for (const section of this.sections) {
       // console.log(sectionDef)
-      lines.push(...section.renderIndexToMdxLines())
+      lines.push(...section.renderIndexToLines())
     }
 
     return lines
@@ -547,7 +544,7 @@ export abstract class CompoundBase {
 
   // --------------------------------------------------------------------------
 
-  renderIncludesIndexToMdxLines (): string[] {
+  renderIncludesIndexToLines (): string[] {
     const lines: string[] = []
 
     const workspace = this.collection.workspace
@@ -571,7 +568,7 @@ export abstract class CompoundBase {
 
   // --------------------------------------------------------------------------
 
-  renderSectionsToMdxLines (): string[] {
+  renderSectionsToLines (): string[] {
     const lines: string[] = []
 
     if (this.sections !== undefined) {
@@ -583,7 +580,7 @@ export abstract class CompoundBase {
     return lines
   }
 
-  renderLocationToMdxText (location: LocationDataModel | undefined): string[] {
+  renderLocationToLines (location: LocationDataModel | undefined): string[] {
     const lines: string[] = []
     let text: string = ''
 
@@ -598,7 +595,7 @@ export abstract class CompoundBase {
       const files: FilesAndFolders = workspace.viewModel.get('files') as FilesAndFolders
       assert(files !== undefined)
 
-      // console.log('renderLocationToMdxText', this.kind, this.compoundName, this.id)
+      // console.log('renderLocationToLines', this.kind, this.compoundName, this.id)
       const file = files.filesByPath.get(location.file)
       if (file !== undefined) {
         const permalink = workspace.getPagePermalink(file.id)
@@ -675,7 +672,7 @@ export abstract class CompoundBase {
     return lines
   }
 
-  renderGeneratedFromToMdxLines (): string[] {
+  renderGeneratedFromToLines (): string[] {
     const lines: string[] = []
 
     if (this.locationSet.size > 0) {
@@ -805,7 +802,7 @@ export abstract class CompoundBase {
     return templateParameterNames
   }
 
-  renderTemplateParametersToMdxText ({
+  renderTemplateParametersToString ({
     templateParamList,
     withDefaults = false
   }: {
@@ -826,7 +823,7 @@ export abstract class CompoundBase {
     return text
   }
 
-  renderTemplateParameterNamesToMdxText (templateParamList: TemplateParamListDataModel | undefined): string {
+  renderTemplateParameterNamesToString (templateParamList: TemplateParamListDataModel | undefined): string {
     let text = ''
 
     if (templateParamList?.params !== undefined) {

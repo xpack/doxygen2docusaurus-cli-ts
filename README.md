@@ -3,8 +3,10 @@
 A Docusaurus plugin to integrate the Doxygen reference pages into Docusaurus documentation sites.
 
 This project relies on the ability of Doxygen to also generate the output in XML.
-The plugin parses these XML files and generates MDX files
-in the `/docs/api/` folder.
+The plugin parses these XML files and generates MD files
+in the `/docs/api/` folder. For an accurate control on the aesthetics,
+the generated code is actually HTML, only the section headers use the
+markdown syntax, since they must be part of the Table Of Contents.
 
 ## Doxygen configuration
 

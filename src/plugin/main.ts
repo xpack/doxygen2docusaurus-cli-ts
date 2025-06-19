@@ -57,7 +57,7 @@ export async function parseDoxygen ({
   return dataModel
 }
 
-export async function generateDocusaurusMdx ({
+export async function generateDocusaurusMd ({
   dataModel,
   options,
   siteConfig,

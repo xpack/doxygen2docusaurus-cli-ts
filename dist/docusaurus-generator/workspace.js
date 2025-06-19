@@ -75,7 +75,7 @@ export class Workspace {
         // View model objects.
         this.compoundsById = new Map();
         this.membersById = new Map();
-        this.writtenMdxFilesCounter = 0;
+        this.writtenMdFilesCounter = 0;
         this.writtenHtmlFilesCounter = 0;
         console.log();
         const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -289,7 +289,7 @@ export class Workspace {
         }
     }
     // --------------------------------------------------------------------------
-    async writeMdxFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title, pagePermalink }) {
+    async writeMdFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title, pagePermalink }) {
         const lines = [];
         lines.push('');
         lines.push('<div class="doxyPage">');
@@ -387,7 +387,7 @@ export class Workspace {
         await fileHandle.write(frontMatterLines.join('\n'));
         await fileHandle.write(text);
         await fileHandle.close();
-        this.writtenMdxFilesCounter += 1;
+        this.writtenMdFilesCounter += 1;
     }
     // --------------------------------------------------------------------------
     renderString(element, type) {

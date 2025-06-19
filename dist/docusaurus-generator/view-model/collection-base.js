@@ -14,7 +14,7 @@ export class CollectionBase {
         this.workspace = workspace;
         this.collectionCompoundsById = new Map();
     }
-    async generatePerInitialsIndexMdxFiles() {
+    async generatePerInitialsIndexMdFiles() {
         // Nothing at this level. Override it where needed.
     }
     hasCompounds() {

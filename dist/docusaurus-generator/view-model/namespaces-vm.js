@@ -121,7 +121,7 @@ export class Namespaces extends CollectionBase {
         return [menuItem];
     }
     // --------------------------------------------------------------------------
-    async generateIndexDotMdxFile() {
+    async generateIndexDotMdFile() {
         if (this.topLevelNamespaces.length === 0) {
             return;
         }
@@ -139,18 +139,18 @@ export class Namespaces extends CollectionBase {
         lines.push('');
         lines.push('<table class="doxyTreeTable">');
         for (const namespace of this.topLevelNamespaces) {
-            lines.push(...this.generateIndexMdxFileRecursively(namespace, 1));
+            lines.push(...this.generateIndexMdFileRecursively(namespace, 1));
         }
         lines.push('');
         lines.push('</table>');
         console.log(`Writing namespaces index file ${filePath}...`);
-        await this.workspace.writeMdxFile({
+        await this.workspace.writeMdFile({
             filePath,
             frontMatter,
             bodyLines: lines
         });
     }
-    generateIndexMdxFileRecursively(namespace, depth) {
+    generateIndexMdFileRecursively(namespace, depth) {
         // console.log(util.inspect(namespace, { compact: false, depth: 999 }))
         const lines = [];
         const label = escapeHtml(namespace.unqualifiedName);
@@ -173,7 +173,7 @@ export class Namespaces extends CollectionBase {
         }));
         if (namespace.children.length > 0) {
             for (const childNamespace of namespace.children) {
-                lines.push(...this.generateIndexMdxFileRecursively(childNamespace, depth + 1));
+                lines.push(...this.generateIndexMdFileRecursively(childNamespace, depth + 1));
             }
         }
         return lines;
@@ -277,10 +277,10 @@ export class Namespace extends CompoundBase {
             lines.push(`namespace ${escapeHtml(this.compoundName)} ${dots}`);
         }
         lines.push('</div>');
-        lines.push(...this.renderInnerIndicesToMdxLines({
+        lines.push(...this.renderInnerIndicesToLines({
             suffixes: ['Namespaces', 'Classes']
         }));
-        lines.push(...this.renderSectionIndicesToMdxLines());
+        lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToLines({
             briefDescriptionString: this.briefDescriptionString,
             detailedDescriptionLines: this.detailedDescriptionLines,
@@ -288,8 +288,8 @@ export class Namespace extends CompoundBase {
             showHeader: true,
             showBrief: !this.hasSect1InDescription
         }));
-        lines.push(...this.renderSectionsToMdxLines());
-        lines.push(...this.renderGeneratedFromToMdxLines());
+        lines.push(...this.renderSectionsToLines());
+        lines.push(...this.renderGeneratedFromToLines());
         return lines;
     }
 }

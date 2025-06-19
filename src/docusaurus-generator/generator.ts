@@ -63,11 +63,11 @@ export class DocusaurusGenerator {
     await this.generatePages()
 
     console.log()
-    await this.generateIndexDotMdxFiles()
-    await this.generatePerInitialsIndexMdxFiles()
+    await this.generateIndexDotMdFiles()
+    await this.generatePerInitialsIndexMdFiles()
 
     if (this.workspace.pluginOptions.verbose) {
-      console.log(this.workspace.writtenMdxFilesCounter, 'md files written')
+      console.log(this.workspace.writtenMdFilesCounter, 'md files written')
     }
 
     await this.generateRedirectFiles()
@@ -188,20 +188,20 @@ export class DocusaurusGenerator {
 
   // --------------------------------------------------------------------------
 
-  async generateIndexDotMdxFiles (): Promise<void> {
+  async generateIndexDotMdFiles (): Promise<void> {
     for (const [collectionName, collection] of this.workspace.viewModel) {
       // console.log(collectionName)
-      await collection.generateIndexDotMdxFile()
+      await collection.generateIndexDotMdFile()
     }
     // TODO: parallelize
   }
 
   // --------------------------------------------------------------------------
 
-  async generatePerInitialsIndexMdxFiles (): Promise<void> {
+  async generatePerInitialsIndexMdFiles (): Promise<void> {
     for (const [collectionName, collection] of this.workspace.viewModel) {
       // console.log(collectionName)
-      await collection.generatePerInitialsIndexMdxFiles()
+      await collection.generatePerInitialsIndexMdFiles()
     }
     // TODO: parallelize
   }
@@ -256,7 +256,7 @@ export class DocusaurusGenerator {
       const bodyLines = compound.renderToLines(frontMatter)
       const pagePermalink = `${this.workspace.pageBaseUrl}${compound.relativePermalink}`
 
-      await this.workspace.writeMdxFile({
+      await this.workspace.writeMdFile({
         filePath,
         frontMatter,
         bodyLines,

@@ -10,7 +10,7 @@ export declare class Pages extends CollectionBase {
     createCompoundsHierarchies(): void;
     createSidebarItems(): SidebarItem[];
     createMenuItems(): MenuItem[];
-    generateIndexDotMdxFile(): Promise<void>;
+    generateIndexDotMdFile(): Promise<void>;
 }
 export declare class Page extends CompoundBase {
     constructor(collection: Pages, compoundDef: CompoundDefDataModel);

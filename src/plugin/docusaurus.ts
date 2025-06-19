@@ -17,7 +17,7 @@ import * as util from 'node:util'
 import { DataModel } from '../data-model/types.js'
 import { generateDoxygen } from './cli/generate.js'
 import { defaultOptions, PluginOptions } from './options.js'
-import { generateDocusaurusMdx, parseDoxygen } from './main.js'
+import { generateDocusaurusMd, parseDoxygen } from './main.js'
 import type { LoadContext } from '@docusaurus/types'
 
 // ----------------------------------------------------------------------------
@@ -54,7 +54,7 @@ export default async function pluginDocusaurus (
       if (actualOptions.runOnStart) {
         const dataModel: DataModel = await parseDoxygen({ options: actualOptions })
 
-        await generateDocusaurusMdx({
+        await generateDocusaurusMd({
           dataModel,
           options: actualOptions,
           siteConfig: context.siteConfig

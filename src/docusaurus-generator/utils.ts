@@ -29,10 +29,10 @@ export function formatDate (date: Date): string {
 
 // ----------------------------------------------------------------------------
 
-/**
- * Escape characters that are problematic in MDX/JSX context.
- * This includes HTML special chars and MDX/JSX delimiters.
- */
+// /**
+//  * Escape characters that are problematic in MDX/JSX context.
+//  * This includes HTML special chars and MDX/JSX delimiters.
+//  */
 // export function escapeMdx (text: string): string {
 //   return text
 //     .replaceAll(/[&]/g, '&amp;')
@@ -89,8 +89,8 @@ export function escapeQuotes (text: string): string {
 // type='plain-html'
 export function escapeBraces (text: string): string {
   return text
-    .replaceAll(/{/g, '&#123;') // MDX
-    .replaceAll(/}/g, '&#125;') // MDX
+    .replaceAll(/{/g, '&#123;') // MD
+    .replaceAll(/}/g, '&#125;') // MD
 }
 
 // Preserve '/' too.

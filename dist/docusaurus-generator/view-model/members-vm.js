@@ -119,7 +119,7 @@ export class Section {
         const sectionDef = this._private._sectionDef;
         if (sectionDef.description !== undefined) {
             this.descriptionLines = workspace.renderElementToLines(sectionDef.description, 'html');
-            // console.log(this.indexMembers, this.descriptionMdxText)
+            // console.log(this.indexMembers, this.descriptionLines)
         }
     }
     hasDefinitionMembers() {
@@ -196,7 +196,7 @@ export class Section {
         return header[1];
     }
     // --------------------------------------------------------------------------
-    renderIndexToMdxLines() {
+    renderIndexToLines() {
         const lines = [];
         // console.log(sectionDef)
         if (this.indexMembers.length > 0) {
@@ -206,12 +206,12 @@ export class Section {
             lines.push('<table class="doxyMembersIndex">');
             for (const member of this.indexMembers) {
                 if (member instanceof Member) {
-                    lines.push(...member.renderIndexToMdxLines());
+                    lines.push(...member.renderIndexToLines());
                 }
                 else if (member instanceof MemberRef) {
                     const referredMember = this.compound.collection.workspace.membersById.get(member.refid);
                     assert(referredMember !== undefined);
-                    lines.push(...referredMember.renderIndexToMdxLines());
+                    lines.push(...referredMember.renderIndexToLines());
                 }
             }
             lines.push('');
@@ -287,13 +287,13 @@ export class Member extends MemberBase {
         }
         this.argsstring = memberDef.argsstring;
         if (memberDef.type !== undefined) {
-            this.typeMdxText = workspace.renderElementToString(memberDef.type, 'html').trim();
+            this.type = workspace.renderElementToString(memberDef.type, 'html').trim();
         }
         if (memberDef.initializer !== undefined) {
-            this.initializerMdxText = workspace.renderElementToString(memberDef.initializer, 'html');
+            this.initializer = workspace.renderElementToString(memberDef.initializer, 'html');
         }
         if (memberDef.location !== undefined) {
-            this.locationLines = this.section.compound.renderLocationToMdxText(memberDef.location);
+            this.locationLines = this.section.compound.renderLocationToLines(memberDef.location);
         }
         const labels = [];
         if (memberDef.inline?.valueOf()) {
@@ -336,14 +336,14 @@ export class Member extends MemberBase {
         }
         // WARNING: could not find how to generate 'inherited'.
         this.labels = labels;
-        const type = this.typeMdxText ?? '';
+        const type = this.type ?? '';
         const templateParamList = memberDef.templateparamlist ?? this.section.compound.templateParamList;
         if ((this.section.compound.isTemplate(templateParamList) &&
             (type.includes('decltype(') ||
                 (type.includes('&lt;') && type.includes('&gt;'))))) {
             this.isTrailingType = true;
         }
-        this.templateParametersMdxText = this.section.compound.renderTemplateParametersToMdxText({ templateParamList, withDefaults: true });
+        this.templateParameters = this.section.compound.renderTemplateParametersToString({ templateParamList, withDefaults: true });
         if (memberDef.params !== undefined) {
             const parameters = [];
             for (const param of memberDef.params) {
@@ -352,7 +352,7 @@ export class Member extends MemberBase {
             this.parameters = parameters.join(', ');
         }
         if (this.kind === 'enum') {
-            this.enumMdxLines = this.renderEnumToMdxLines(memberDef);
+            this.enumLines = this.renderEnumToLines(memberDef);
         }
         if (memberDef.qualifiedName !== undefined) {
             this.qualifiedName = memberDef.qualifiedName;
@@ -369,7 +369,7 @@ export class Member extends MemberBase {
         this._private._memberDef = undefined;
     }
     // --------------------------------------------------------------------------
-    renderIndexToMdxLines() {
+    renderIndexToLines() {
         // console.log(util.inspect(this, { compact: false, depth: 999 }))
         const lines = [];
         const workspace = this.section.compound.collection.workspace;
@@ -379,9 +379,9 @@ export class Member extends MemberBase {
         let itemTemplate = '';
         let itemType = '';
         let itemName = `<a href="${permalink}">${name}</a>`;
-        if (this.templateParametersMdxText !== undefined && this.templateParametersMdxText.length > 0) {
-            if (this.templateParametersMdxText.length < 64) {
-                itemTemplate = escapeHtml(`template ${this.templateParametersMdxText}`);
+        if (this.templateParameters !== undefined && this.templateParameters.length > 0) {
+            if (this.templateParameters.length < 64) {
+                itemTemplate = escapeHtml(`template ${this.templateParameters}`);
             }
             else {
                 itemTemplate = escapeHtml('template < ... >');
@@ -391,13 +391,13 @@ export class Member extends MemberBase {
             case 'typedef':
                 if (this.definition?.startsWith('typedef')) {
                     itemType = 'typedef';
-                    itemName = `${this.typeMdxText} ${itemName}${this.argsstring}`;
+                    itemName = `${this.type} ${itemName}${this.argsstring}`;
                 }
                 else if (this.definition?.startsWith('using')) {
                     itemType = 'using';
-                    if (this.typeMdxText !== undefined) {
+                    if (this.type !== undefined) {
                         itemName += ' = ';
-                        itemName += this.typeMdxText;
+                        itemName += this.type;
                     }
                 }
                 else {
@@ -409,7 +409,7 @@ export class Member extends MemberBase {
                     // WARNING: the rule to decide which type is trailing is not in the XMLs.
                     // https://github.com/doxygen/doxygen/discussions/11568
                     // TODO: improve.
-                    const type = this.typeMdxText ?? '';
+                    const type = this.type ?? '';
                     if (this.isConstexpr) {
                         itemType += 'constexpr ';
                     }
@@ -428,23 +428,23 @@ export class Member extends MemberBase {
                     else {
                         itemType += type;
                     }
-                    if (this.initializerMdxText !== undefined) {
+                    if (this.initializer !== undefined) {
                         itemName += ' ';
-                        itemName += this.initializerMdxText;
+                        itemName += this.initializer;
                     }
                 }
                 break;
             case 'variable':
-                itemType += this.typeMdxText;
+                itemType += this.type;
                 if (this.definition?.startsWith('struct ')) {
                     itemType = escapeHtml('struct { ... }');
                 }
                 else if (this.definition?.startsWith('class ')) {
                     itemType = escapeHtml('class { ... }');
                 }
-                if (this.initializerMdxText !== undefined) {
+                if (this.initializer !== undefined) {
                     itemName += ' ';
-                    itemName += this.initializerMdxText;
+                    itemName += this.initializer;
                 }
                 break;
             case 'enum':
@@ -458,8 +458,8 @@ export class Member extends MemberBase {
                     itemType += ' class';
                 }
                 itemName = '';
-                if (this.typeMdxText !== undefined) {
-                    itemName += `: ${this.typeMdxText} `;
+                if (this.type !== undefined) {
+                    itemName += `: ${this.type} `;
                 }
                 itemName += escapeHtml('{ ');
                 itemName += `<a href="${permalink}">...</a>`;
@@ -467,18 +467,18 @@ export class Member extends MemberBase {
                 break;
             case 'friend':
                 // console.log(this)
-                itemType = this.typeMdxText ?? 'class';
+                itemType = this.type ?? 'class';
                 break;
             case 'define':
                 // console.log(this)
                 itemType = '#define';
-                if (this.initializerMdxText !== undefined) {
+                if (this.initializer !== undefined) {
                     itemName += '&nbsp;&nbsp;&nbsp;';
-                    itemName += this.initializerMdxText;
+                    itemName += this.initializer;
                 }
                 break;
             default:
-                console.error('member kind', this.kind, 'not implemented yet in', this.constructor.name, 'renderIndexToMdxLines');
+                console.error('member kind', this.kind, 'not implemented yet in', this.constructor.name, 'renderIndexToLines');
         }
         lines.push('');
         if (itemName.length === 0) {
@@ -528,16 +528,16 @@ export class Member extends MemberBase {
                         }
                         prototype += ')';
                     }
-                    if (this.initializerMdxText !== undefined) {
-                        prototype += ` ${this.initializerMdxText}`;
+                    if (this.initializer !== undefined) {
+                        prototype += ` ${this.initializer}`;
                     }
                     if (this.isConst) {
                         prototype += ' const';
                     }
                     lines.push('');
                     let template;
-                    if (this.templateParametersMdxText !== undefined && this.templateParametersMdxText.length > 0) {
-                        template = escapeHtml(`template ${this.templateParametersMdxText}`);
+                    if (this.templateParameters !== undefined && this.templateParameters.length > 0) {
+                        template = escapeHtml(`template ${this.templateParameters}`);
                     }
                     const childrenLines = [];
                     if (this.detailedDescriptionLines !== undefined) {
@@ -576,8 +576,8 @@ export class Member extends MemberBase {
                     else if (this.name.length > 0) {
                         prototype += `${escapeHtml(this.name)} `;
                     }
-                    if (this.typeMdxText !== undefined && this.typeMdxText.length > 0) {
-                        prototype += `: ${this.typeMdxText}`;
+                    if (this.type !== undefined && this.type.length > 0) {
+                        prototype += `: ${this.type}`;
                     }
                     lines.push('');
                     const childrenLines = [];
@@ -586,8 +586,8 @@ export class Member extends MemberBase {
                             briefDescriptionString: this.briefDescriptionString
                         }));
                     }
-                    assert(this.enumMdxLines !== undefined);
-                    childrenLines.push(...this.enumMdxLines);
+                    assert(this.enumLines !== undefined);
+                    childrenLines.push(...this.enumLines);
                     if (this.detailedDescriptionLines !== undefined) {
                         childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
                             detailedDescriptionLines: this.detailedDescriptionLines,
@@ -607,7 +607,7 @@ export class Member extends MemberBase {
             case 'friend':
                 {
                     // console.log(this)
-                    const prototype = `friend ${this.typeMdxText} ${this.parameters}`;
+                    const prototype = `friend ${this.type} ${this.parameters}`;
                     lines.push('');
                     const childrenLines = [];
                     if (this.detailedDescriptionLines !== undefined) {
@@ -632,9 +632,9 @@ export class Member extends MemberBase {
                 {
                     // console.log(this)
                     let prototype = `#define ${name}`;
-                    if (this.initializerMdxText !== undefined) {
+                    if (this.initializer !== undefined) {
                         prototype += '&nbsp;&nbsp;&nbsp;';
-                        prototype += this.initializerMdxText;
+                        prototype += this.initializer;
                     }
                     lines.push('');
                     const childrenLines = [];
@@ -695,7 +695,7 @@ export class Member extends MemberBase {
         return lines;
     }
     // --------------------------------------------------------------------------
-    renderEnumToMdxLines(memberDef) {
+    renderEnumToLines(memberDef) {
         const lines = [];
         const workspace = this.section.compound.collection.workspace;
         lines.push('');

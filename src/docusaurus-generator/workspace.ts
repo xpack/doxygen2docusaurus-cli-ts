@@ -133,7 +133,7 @@ export class Workspace {
 
   elementRenderers: Renderers
 
-  writtenMdxFilesCounter: number = 0
+  writtenMdFilesCounter: number = 0
   writtenHtmlFilesCounter: number = 0
 
   // --------------------------------------------------------------------------
@@ -400,7 +400,7 @@ export class Workspace {
 
   // --------------------------------------------------------------------------
 
-  async writeMdxFile ({
+  async writeMdFile ({
     filePath,
     bodyLines,
     frontMatter,
@@ -526,7 +526,7 @@ export class Workspace {
 
     await fileHandle.close()
 
-    this.writtenMdxFilesCounter += 1
+    this.writtenMdFilesCounter += 1
   }
 
   // --------------------------------------------------------------------------

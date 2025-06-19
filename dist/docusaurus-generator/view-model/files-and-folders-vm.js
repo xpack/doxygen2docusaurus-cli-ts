@@ -220,7 +220,7 @@ export class FilesAndFolders extends CollectionBase {
         return [menuItem];
     }
     // --------------------------------------------------------------------------
-    async generateIndexDotMdxFile() {
+    async generateIndexDotMdFile() {
         if (this.topLevelFolders.length === 0 && this.topLevelFiles.length === 0) {
             return;
         }
@@ -238,21 +238,21 @@ export class FilesAndFolders extends CollectionBase {
         lines.push('');
         lines.push('<table class="doxyTreeTable">');
         for (const folder of this.topLevelFolders) {
-            lines.push(...this.generateIndexMdxFileRecursively(folder, 0));
+            lines.push(...this.generateIndexMdFileRecursively(folder, 0));
         }
         for (const file of this.topLevelFiles) {
-            lines.push(...this.generateFileIndexMdx(file, 1));
+            lines.push(...this.generateFileIndexMd(file, 1));
         }
         lines.push('');
         lines.push('</table>');
         console.log(`Writing files index file ${filePath}...`);
-        await this.workspace.writeMdxFile({
+        await this.workspace.writeMdFile({
             filePath,
             frontMatter,
             bodyLines: lines
         });
     }
-    generateIndexMdxFileRecursively(folder, depth) {
+    generateIndexMdFileRecursively(folder, depth) {
         // console.log(util.inspect(folder, { compact: false, depth: 999 }))
         const lines = [];
         const label = escapeHtml(folder.compoundName);
@@ -273,18 +273,18 @@ export class FilesAndFolders extends CollectionBase {
         if (folder.children.length > 0) {
             for (const childFileOrFolder of folder.children) {
                 if (childFileOrFolder instanceof Folder) {
-                    lines.push(...this.generateIndexMdxFileRecursively(childFileOrFolder, depth + 1));
+                    lines.push(...this.generateIndexMdFileRecursively(childFileOrFolder, depth + 1));
                 }
             }
             for (const childFileOrFolder of folder.children) {
                 if (childFileOrFolder instanceof File) {
-                    lines.push(...this.generateFileIndexMdx(childFileOrFolder, depth + 1));
+                    lines.push(...this.generateFileIndexMd(childFileOrFolder, depth + 1));
                 }
             }
         }
         return lines;
     }
-    generateFileIndexMdx(file, depth) {
+    generateFileIndexMd(file, depth) {
         // console.log(util.inspect(file, { compact: false, depth: 999 }))
         const lines = [];
         const label = escapeHtml(file.compoundName);
@@ -347,10 +347,10 @@ export class Folder extends CompoundBase {
             todo: descriptionTodo,
             morePermalink
         }));
-        lines.push(...this.renderInnerIndicesToMdxLines({
+        lines.push(...this.renderInnerIndicesToLines({
             suffixes: ['Dirs', 'Files']
         }));
-        lines.push(...this.renderSectionIndicesToMdxLines());
+        lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToLines({
             briefDescriptionString: this.briefDescriptionString,
             detailedDescriptionLines: this.detailedDescriptionLines,
@@ -358,7 +358,7 @@ export class Folder extends CompoundBase {
             showHeader: true,
             showBrief: !this.hasSect1InDescription
         }));
-        lines.push(...this.renderSectionsToMdxLines());
+        lines.push(...this.renderSectionsToLines());
         return lines;
     }
 }
@@ -401,11 +401,11 @@ export class File extends CompoundBase {
             todo: descriptionTodo,
             morePermalink
         }));
-        lines.push(...this.renderIncludesIndexToMdxLines());
-        lines.push(...this.renderInnerIndicesToMdxLines({
+        lines.push(...this.renderIncludesIndexToLines());
+        lines.push(...this.renderInnerIndicesToLines({
             suffixes: ['Namespaces', 'Classes']
         }));
-        lines.push(...this.renderSectionIndicesToMdxLines());
+        lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToLines({
             briefDescriptionString: this.briefDescriptionString,
             detailedDescriptionLines: this.detailedDescriptionLines,
@@ -413,7 +413,7 @@ export class File extends CompoundBase {
             showHeader: true,
             showBrief: !this.hasSect1InDescription
         }));
-        lines.push(...this.renderSectionsToMdxLines());
+        lines.push(...this.renderSectionsToLines());
         if (this.programListing !== undefined) {
             lines.push('');
             lines.push('## File Listing');

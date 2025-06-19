@@ -10,8 +10,8 @@ export declare class Namespaces extends CollectionBase {
     createSidebarItems(): SidebarItem[];
     private createNamespaceItemRecursively;
     createMenuItems(): MenuItem[];
-    generateIndexDotMdxFile(): Promise<void>;
-    private generateIndexMdxFileRecursively;
+    generateIndexDotMdFile(): Promise<void>;
+    private generateIndexMdFileRecursively;
 }
 export declare class Namespace extends CompoundBase {
     unqualifiedName: string;

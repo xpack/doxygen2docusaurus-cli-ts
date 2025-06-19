@@ -277,7 +277,7 @@ export class FilesAndFolders extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override async generateIndexDotMdxFile (): Promise<void> {
+  override async generateIndexDotMdFile (): Promise<void> {
     if (this.topLevelFolders.length === 0 && this.topLevelFiles.length === 0) {
       return
     }
@@ -301,25 +301,25 @@ export class FilesAndFolders extends CollectionBase {
     lines.push('<table class="doxyTreeTable">')
 
     for (const folder of this.topLevelFolders) {
-      lines.push(...this.generateIndexMdxFileRecursively(folder, 0))
+      lines.push(...this.generateIndexMdFileRecursively(folder, 0))
     }
 
     for (const file of this.topLevelFiles) {
-      lines.push(...this.generateFileIndexMdx(file, 1))
+      lines.push(...this.generateFileIndexMd(file, 1))
     }
 
     lines.push('')
     lines.push('</table>')
 
     console.log(`Writing files index file ${filePath}...`)
-    await this.workspace.writeMdxFile({
+    await this.workspace.writeMdFile({
       filePath,
       frontMatter,
       bodyLines: lines
     })
   }
 
-  private generateIndexMdxFileRecursively (folder: Folder, depth: number): string[] {
+  private generateIndexMdFileRecursively (folder: Folder, depth: number): string[] {
     // console.log(util.inspect(folder, { compact: false, depth: 999 }))
 
     const lines: string[] = []
@@ -346,13 +346,13 @@ export class FilesAndFolders extends CollectionBase {
     if (folder.children.length > 0) {
       for (const childFileOrFolder of folder.children) {
         if (childFileOrFolder instanceof Folder) {
-          lines.push(...this.generateIndexMdxFileRecursively(childFileOrFolder, depth + 1))
+          lines.push(...this.generateIndexMdFileRecursively(childFileOrFolder, depth + 1))
         }
       }
 
       for (const childFileOrFolder of folder.children) {
         if (childFileOrFolder instanceof File) {
-          lines.push(...this.generateFileIndexMdx(childFileOrFolder, depth + 1))
+          lines.push(...this.generateFileIndexMd(childFileOrFolder, depth + 1))
         }
       }
     }
@@ -360,7 +360,7 @@ export class FilesAndFolders extends CollectionBase {
     return lines
   }
 
-  private generateFileIndexMdx (file: File, depth: number): string[] {
+  private generateFileIndexMd (file: File, depth: number): string[] {
     // console.log(util.inspect(file, { compact: false, depth: 999 }))
     const lines: string[] = []
 
@@ -447,11 +447,11 @@ export class Folder extends CompoundBase {
       morePermalink
     }))
 
-    lines.push(...this.renderInnerIndicesToMdxLines({
+    lines.push(...this.renderInnerIndicesToLines({
       suffixes: ['Dirs', 'Files']
     }))
 
-    lines.push(...this.renderSectionIndicesToMdxLines())
+    lines.push(...this.renderSectionIndicesToLines())
 
     lines.push(...this.renderDetailedDescriptionToLines({
       briefDescriptionString: this.briefDescriptionString,
@@ -461,7 +461,7 @@ export class Folder extends CompoundBase {
       showBrief: !this.hasSect1InDescription
     }))
 
-    lines.push(...this.renderSectionsToMdxLines())
+    lines.push(...this.renderSectionsToLines())
 
     return lines
   }
@@ -525,13 +525,13 @@ export class File extends CompoundBase {
       morePermalink
     }))
 
-    lines.push(...this.renderIncludesIndexToMdxLines())
+    lines.push(...this.renderIncludesIndexToLines())
 
-    lines.push(...this.renderInnerIndicesToMdxLines({
+    lines.push(...this.renderInnerIndicesToLines({
       suffixes: ['Namespaces', 'Classes']
     }))
 
-    lines.push(...this.renderSectionIndicesToMdxLines())
+    lines.push(...this.renderSectionIndicesToLines())
 
     lines.push(...this.renderDetailedDescriptionToLines({
       briefDescriptionString: this.briefDescriptionString,
@@ -541,7 +541,7 @@ export class File extends CompoundBase {
       showBrief: !this.hasSect1InDescription
     }))
 
-    lines.push(...this.renderSectionsToMdxLines())
+    lines.push(...this.renderSectionsToLines())
 
     if (this.programListing !== undefined) {
       lines.push('')
