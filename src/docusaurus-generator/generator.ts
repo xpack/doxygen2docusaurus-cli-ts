@@ -21,6 +21,7 @@ import { DataModel } from '../data-model/types.js'
 import { PluginOptions } from '../plugin/options.js'
 import { MenuDropdown, SidebarCategory } from '../plugin/types.js'
 import { FrontMatter } from './types.js'
+import { folderExists } from './utils.js'
 
 export class DocusaurusGenerator {
   workspace: Workspace
@@ -70,6 +71,8 @@ export class DocusaurusGenerator {
     }
 
     await this.generateRedirectFiles()
+
+    await this.copyFiles()
   }
 
   // --------------------------------------------------------------------------
@@ -374,6 +377,29 @@ export class DocusaurusGenerator {
     await fileHandle.close()
 
     this.workspace.writtenHtmlFilesCounter += 1
+  }
+
+  async copyFiles (): Promise<void> {
+    const destImgFolderPath = path.join('static', 'img', 'docusaurus-plugin-doxygen')
+    await fs.mkdir(destImgFolderPath, { recursive: true })
+
+    let fromFilePath = path.join(this.workspace.projectPath, 'template', 'img', 'document-svgrepo-com.svg')
+    let toFilePath = path.join(destImgFolderPath, 'document-svgrepo-com.svg')
+    console.log('Writing image file', toFilePath)
+    await fs.copyFile(fromFilePath, toFilePath)
+
+    fromFilePath = path.join(this.workspace.projectPath, 'template', 'img', 'folder-svgrepo-com.svg')
+    toFilePath = path.join(destImgFolderPath, 'folder-svgrepo-com.svg')
+    console.log('Writing image file', toFilePath)
+    await fs.copyFile(fromFilePath, toFilePath)
+
+    fromFilePath = path.join(this.workspace.projectPath, 'template', 'css', 'custom.css')
+    toFilePath = this.workspace.pluginOptions.customCssFilePath
+    if (!await folderExists(path.dirname(toFilePath))) {
+      await fs.mkdir(path.dirname(toFilePath), { recursive: true })
+    }
+    console.log('Writing css file', toFilePath)
+    await fs.copyFile(fromFilePath, toFilePath)
   }
 }
 
