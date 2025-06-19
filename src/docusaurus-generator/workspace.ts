@@ -439,7 +439,9 @@ export class Workspace {
       // Strip local page permalink from anchors.
       text = text.replaceAll(`"${pagePermalink}/#`, '"#')
     }
-    text = text.replaceAll(':thread:', "{':thread:'}").replaceAll(':flags:', "{':flags:'}")
+
+    // No longer needed for `.md`.
+    // text = text.replaceAll(':thread:', "{':thread:'}").replaceAll(':flags:', "{':flags:'}")
 
     // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
     const frontMatterLines: string[] = []
