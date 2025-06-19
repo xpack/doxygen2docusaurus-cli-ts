@@ -27,7 +27,8 @@
   },
   "files": [
     "dist/",
-    "src/components/"
+    "src/components/",
+    "template"
   ],
   "keywords": [
     "docusaurus",
