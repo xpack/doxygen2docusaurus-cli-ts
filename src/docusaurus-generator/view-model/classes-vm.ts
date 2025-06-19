@@ -655,7 +655,7 @@ export class Class extends CompoundBase {
 
     const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToString({
-      briefDescriptionString: this.briefDescriptionString,
+      briefDescriptionNoParaString: this.briefDescriptionString,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -808,7 +808,7 @@ export class Class extends CompoundBase {
     lines.push(...this.renderSectionIndicesToLines())
 
     lines.push(...this.renderDetailedDescriptionToLines({
-      briefDescriptionString: this.briefDescriptionString,
+      briefDescriptionNoParaString: this.briefDescriptionString,
       detailedDescriptionLines: this.detailedDescriptionLines,
       todo: descriptionTodo,
       showHeader: true,
@@ -844,7 +844,7 @@ export class Class extends CompoundBase {
     const briefDescriptionString: string | undefined = this.briefDescriptionString
     if ((briefDescriptionString ?? '').length > 0) {
       childrenLines.push(this.renderBriefDescriptionToString({
-        briefDescriptionString,
+        briefDescriptionNoParaString: briefDescriptionString,
         morePermalink
       }))
     }

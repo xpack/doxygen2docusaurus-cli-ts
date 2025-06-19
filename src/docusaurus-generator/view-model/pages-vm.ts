@@ -150,7 +150,7 @@ export class Page extends CompoundBase {
 
     const morePermalink = this.detailedDescriptionLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToString({
-      briefDescriptionString: this.briefDescriptionString,
+      briefDescriptionNoParaString: this.briefDescriptionString,
       morePermalink
     }))
 
@@ -159,7 +159,7 @@ export class Page extends CompoundBase {
     lines.push(...this.renderSectionIndicesToLines())
 
     lines.push(...this.renderDetailedDescriptionToLines({
-      briefDescriptionString: this.briefDescriptionString,
+      briefDescriptionNoParaString: this.briefDescriptionString,
       detailedDescriptionLines: this.detailedDescriptionLines,
       showHeader: false
     }))

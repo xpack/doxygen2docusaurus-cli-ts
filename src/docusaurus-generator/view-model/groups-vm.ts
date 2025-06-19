@@ -211,7 +211,7 @@ export class Groups extends CollectionBase {
       lines.push('')
       assert(pages.mainPage !== undefined)
       lines.push(...pages.mainPage?.renderDetailedDescriptionToLines({
-        briefDescriptionString: pages.mainPage?.briefDescriptionString,
+        briefDescriptionNoParaString: pages.mainPage?.briefDescriptionString,
         detailedDescriptionLines: pages.mainPage?.detailedDescriptionLines,
         showHeader: true,
         showBrief: !pages.mainPage?.hasSect1InDescription
@@ -348,7 +348,7 @@ export class Group extends CompoundBase {
     const morePermalink = hasIndices ? '#details' : undefined
 
     lines.push(this.renderBriefDescriptionToString({
-      briefDescriptionString: this.briefDescriptionString,
+      briefDescriptionNoParaString: this.briefDescriptionString,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -360,7 +360,7 @@ export class Group extends CompoundBase {
     lines.push(...this.renderSectionIndicesToLines())
 
     lines.push(...this.renderDetailedDescriptionToLines({
-      briefDescriptionString: this.briefDescriptionString,
+      briefDescriptionNoParaString: this.briefDescriptionString,
       detailedDescriptionLines: this.detailedDescriptionLines,
       todo: descriptionTodo,
       showHeader: !this.hasSect1InDescription,

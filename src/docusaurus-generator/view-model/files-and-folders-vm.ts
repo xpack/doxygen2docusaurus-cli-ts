@@ -442,7 +442,7 @@ export class Folder extends CompoundBase {
 
     const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToString({
-      briefDescriptionString: this.briefDescriptionString,
+      briefDescriptionNoParaString: this.briefDescriptionString,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -454,7 +454,7 @@ export class Folder extends CompoundBase {
     lines.push(...this.renderSectionIndicesToLines())
 
     lines.push(...this.renderDetailedDescriptionToLines({
-      briefDescriptionString: this.briefDescriptionString,
+      briefDescriptionNoParaString: this.briefDescriptionString,
       detailedDescriptionLines: this.detailedDescriptionLines,
       todo: descriptionTodo,
       showHeader: true,
@@ -520,7 +520,7 @@ export class File extends CompoundBase {
 
     const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToString({
-      briefDescriptionString: this.briefDescriptionString,
+      briefDescriptionNoParaString: this.briefDescriptionString,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -534,7 +534,7 @@ export class File extends CompoundBase {
     lines.push(...this.renderSectionIndicesToLines())
 
     lines.push(...this.renderDetailedDescriptionToLines({
-      briefDescriptionString: this.briefDescriptionString,
+      briefDescriptionNoParaString: this.briefDescriptionString,
       detailedDescriptionLines: this.detailedDescriptionLines,
       todo: descriptionTodo,
       showHeader: true,

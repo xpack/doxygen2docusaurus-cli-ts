@@ -341,7 +341,7 @@ export class Member extends MemberBase {
 
   kind: string
 
-  briefDescriptionString: string | undefined
+  briefDescriptionNoParaString: string | undefined
   detailedDescriptionLines: string[] | undefined
 
   argsstring: string | undefined
@@ -638,10 +638,10 @@ export class Member extends MemberBase {
     }
 
     const childrenLines: string[] = []
-    const briefDescriptionString = this.briefDescriptionString
-    if (briefDescriptionString !== undefined && briefDescriptionString.length > 0) {
+    const briefDescriptionNoParaString = this.briefDescriptionNoParaString
+    if (briefDescriptionNoParaString !== undefined && briefDescriptionNoParaString.length > 0) {
       childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-        briefDescriptionString,
+        briefDescriptionNoParaString,
         morePermalink: `${permalink}` // No #details, it is already an anchor.
       }))
     }
@@ -710,7 +710,7 @@ export class Member extends MemberBase {
           const childrenLines: string[] = []
           if (this.detailedDescriptionLines !== undefined) {
             childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-              briefDescriptionString: this.briefDescriptionString,
+              briefDescriptionNoParaString: this.briefDescriptionNoParaString,
               detailedDescriptionLines: this.detailedDescriptionLines,
               showHeader: false,
               showBrief: true
@@ -754,9 +754,9 @@ export class Member extends MemberBase {
           lines.push('')
 
           const childrenLines: string[] = []
-          if (this.briefDescriptionString !== undefined && this.briefDescriptionString.length > 0) {
+          if (this.briefDescriptionNoParaString !== undefined && this.briefDescriptionNoParaString.length > 0) {
             childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-              briefDescriptionString: this.briefDescriptionString
+              briefDescriptionNoParaString: this.briefDescriptionNoParaString
             }))
           }
 
@@ -792,7 +792,7 @@ export class Member extends MemberBase {
           const childrenLines: string[] = []
           if (this.detailedDescriptionLines !== undefined) {
             childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-              briefDescriptionString: this.briefDescriptionString,
+              briefDescriptionNoParaString: this.briefDescriptionNoParaString,
               detailedDescriptionLines: this.detailedDescriptionLines,
               showHeader: false,
               showBrief: true
@@ -824,7 +824,7 @@ export class Member extends MemberBase {
 
           const childrenLines: string[] = []
           childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-            briefDescriptionString: this.briefDescriptionString,
+            briefDescriptionNoParaString: this.briefDescriptionNoParaString,
             detailedDescriptionLines: this.detailedDescriptionLines,
             showHeader: false,
             showBrief: true
