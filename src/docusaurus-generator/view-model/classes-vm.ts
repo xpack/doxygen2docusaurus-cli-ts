@@ -508,6 +508,7 @@ export class Classes extends CollectionBase {
       lines.push('')
       lines.push(`## - ${initial} -`)
       lines.push('')
+      lines.push('<ul>')
       const mapArray = entriesPerInitialsMap.get(initial)
       assert(mapArray !== undefined)
       for (const entry of mapArray) {
@@ -516,11 +517,12 @@ export class Classes extends CollectionBase {
           kind = `${entry.kind} `
         }
         if (entry.permalink !== undefined && entry.permalink.length > 0) {
-          lines.push(`- ${escapeHtml(entry.name)}: <a href="${entry.permalink}">${kind}${escapeHtml(entry.longName)}</a>`)
+          lines.push(`<li>${escapeHtml(entry.name)}: <a href="${entry.permalink}">${kind}${escapeHtml(entry.longName)}</a></li>`)
         } else {
-          lines.push(`- ${escapeHtml(entry.name)}: ${kind}${escapeHtml(entry.longName)}`)
+          lines.push(`<li>${escapeHtml(entry.name)}: ${kind}${escapeHtml(entry.longName)}</li>`)
         }
       }
+      lines.push('</ul>')
     }
 
     return lines
