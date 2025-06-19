@@ -58,14 +58,11 @@ export class CodeLineTypeLinesRenderer extends ElementLinesRendererBase {
 
     let text = ''
 
-    if (element.lineno !== undefined) {
-      const anchor = `l${element.lineno.toString().padStart(5, '0')}`
-      text += `<a id="${anchor}"></a>`
-    }
-
     text += '<div class="doxyCodeLine">'
     if (element.lineno !== undefined) {
       text += '<span class="doxyLineNumber">'
+      const anchor = `l${element.lineno.toString().padStart(5, '0')}`
+      text += `<a id="${anchor}"></a>`
       if (permalink !== undefined) {
         text += `<a href="${permalink}">${element.lineno.toString()}</a>`
       } else {
@@ -76,9 +73,10 @@ export class CodeLineTypeLinesRenderer extends ElementLinesRendererBase {
       text += '<span class="doxyNoLineNumber">&nbsp;</span>'
     }
 
-    text += '<span class="doxyLineContent">'
-    text += this.workspace.renderElementsArrayToString(element.highlights, type)
-    text += '</span>'
+    const content = this.workspace.renderElementsArrayToString(element.highlights, type)
+    if (content.length > 0) {
+      text += `<span class="doxyLineContent">${content}</span>`
+    }
     text += '</div>'
 
     return [text]
