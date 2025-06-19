@@ -29,7 +29,10 @@ export class DocListTypeLinesRenderer extends ElementLinesRendererBase {
     lines.push('<ul>')
     for (const listItem of element.listItems) {
       if (listItem.paras !== undefined) {
-        lines.push(`<li>${this.workspace.renderElementsArrayToString(listItem.paras, type).trim()}</li>`)
+        // console.log(listItem.paras)
+        assert(listItem.paras.length === 1)
+        assert(listItem.paras[0] !== undefined)
+        lines.push(`<li>${this.workspace.renderElementsArrayToString(listItem.paras[0].children, type).trim()}</li>`)
       }
     }
     lines.push('</ul>')
