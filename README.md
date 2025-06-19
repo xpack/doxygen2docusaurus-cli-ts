@@ -75,6 +75,20 @@ To run the conversion, use:
 npm run generate-doxygen
 ```
 
+## Common Markdown
+
+Because the MDX syntax is very strict and does not support any HTML
+content, the output is Common Markdown.
+
+To configure Docusaurus to parse `.md` files as Common Markdown, add
+the following to the `docusaurus-config.ts` file:
+
+```ts
+  markdown: {
+    format: 'detect'
+  },
+```
+
 ## CSS
 
 The plugin generates a file with custom CSS definitions.
