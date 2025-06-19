@@ -59,7 +59,11 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
           // console.log(text)
           if (text.length > 0) {
             lines.push('')
-            lines.push(`<p>${text}</p>`)
+            if (element.skipPara) {
+              lines.push(text)
+            } else {
+              lines.push(`<p>${text}</p>`)
+            }
           }
           inParagraph = false
           text = ''
@@ -73,7 +77,11 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
       // console.log(text)
       if (text.length > 0) {
         lines.push('')
-        lines.push(`<p>${text}</p>`)
+        if (element.skipPara) {
+          lines.push(text)
+        } else {
+          lines.push(`<p>${text}</p>`)
+        }
       }
     }
 

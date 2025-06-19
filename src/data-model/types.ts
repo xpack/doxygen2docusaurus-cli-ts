@@ -64,6 +64,7 @@ export interface XmlNameElement {
 
 export abstract class AbstractDataModelBase {
   elementName: string
+  skipPara?: boolean
 
   constructor (elementName: string) {
     this.elementName = elementName

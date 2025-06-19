@@ -384,12 +384,15 @@ export class Member extends MemberBase {
 
     if (memberDef.briefDescription !== undefined) {
       // console.log(memberDef.briefDescription)
-      if (memberDef.briefDescription.children.length > 1) {
-        assert(memberDef.briefDescription.children[1] instanceof ParaDataModel)
-        this.briefDescriptionString = workspace.renderElementsArrayToString(memberDef.briefDescription.children[1].children, 'html').trim()
-      } else {
-        this.briefDescriptionString = workspace.renderElementToString(memberDef.briefDescription, 'html').trim()
+      if (memberDef.briefDescription !== undefined) {
+        for (const child of memberDef.briefDescription.children) {
+          if (child instanceof ParaDataModel) {
+            child.skipPara = true
+          }
+        }
       }
+
+      this.briefDescriptionNoParaString = workspace.renderElementToString(memberDef.briefDescription, 'html').trim()
     }
 
     if (memberDef.detailedDescription !== undefined) {
@@ -908,7 +911,16 @@ export class Member extends MemberBase {
 
     if (memberDef.enumvalues !== undefined) {
       for (const enumValue of memberDef.enumvalues) {
-        let enumBriefDescription: string = workspace.renderElementToString(enumValue.briefDescription, 'html').replace(/[.]$/, '')
+        // console.log(enumValue.briefDescription)
+        if (enumValue.briefDescription !== undefined) {
+          for (const child of enumValue.briefDescription.children) {
+            if (child instanceof ParaDataModel) {
+              child.skipPara = true
+            }
+          }
+        }
+        let enumBriefDescription: string = workspace.renderElementToString(enumValue.briefDescription, 'html').trim().replace(/[.]$/, '')
+        // console.log(`|${enumBriefDescription}|`)
         const anchor = getPermalinkAnchor(enumValue.id)
         const value = workspace.renderElementToString(enumValue.initializer, 'html')
         if (value.length > 0) {
@@ -919,7 +931,7 @@ export class Member extends MemberBase {
         // lines.push(`<a id="${anchor}"></a>`)
         lines.push('<tr class="doxyEnumItem">')
         lines.push(`<td class="doxyEnumItemName">${enumValue.name.trim()}<a id="${anchor}"></a></td>`)
-        lines.push(`<td class="doxyEnumItemDescription">${enumBriefDescription}</td>`)
+        lines.push(`<td class="doxyEnumItemDescription"><p>${enumBriefDescription}</p></td>`)
         lines.push('</tr>')
       }
     }
