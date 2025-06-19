@@ -98,18 +98,17 @@ export class Classes extends CollectionBase {
         id: `${this.workspace.sidebarBaseId}classes/index`
       },
       collapsed: true,
-      items: []
-    }
-
-    classesCategory.items.push({
-      type: 'category',
-      label: '#Index',
-      link: {
-        type: 'doc',
-        id: `${this.workspace.sidebarBaseId}index/classes/all`
-      },
-      collapsed: true,
       items: [
+        {
+          type: 'category',
+          label: 'Hierarchy',
+          // link: {
+          //   type: 'doc',
+          //   id: `${this.workspace.sidebarBaseId}classes/index`
+          // },
+          collapsed: true,
+          items: []
+        },
         {
           type: 'doc',
           label: 'All',
@@ -136,12 +135,12 @@ export class Classes extends CollectionBase {
           id: `${this.workspace.sidebarBaseId}index/classes/typedefs`
         }
       ]
-    })
+    }
 
     for (const classs of this.topLevelClasses) {
       const item = this.createSidebarItemRecursively(classs)
       if (item !== undefined) {
-        classesCategory.items.push(item)
+        (classesCategory.items[0] as SidebarCategoryItem).items.push(item)
       }
     }
 
