@@ -41,115 +41,6 @@ div.doxyPage pre code {
 
 /* --- End DoxygenPage/styles.module.css --- */
 
-/* --- Begin CodeLine/styles.module.css --- */
-
-span.doxyLineNumber {
-  width: 5em;
-  text-align: right;
-  padding-right: 1em;
-  display: inline-block;
-  border-right: 1px solid var(--ifm-table-border-color);
-  background-color: var(--ifm-doxy-listing-line-background);
-}
-
-div.doxyCodeLine:nth-child(2) span.doxyLineNumber {
-  padding-top: 8px;
-}
-
-div.doxyCodeLine:last-child span.doxyLineNumber {
-  padding-bottom: 8px;
-}
-
-span.doxyNoLineNumber {
-  width: 1em;
-  text-align: right;
-  padding-right: 1em;
-  display: inline-block;
-}
-
-div.doxyCodeLine:first-child span.doxyNoLineNumber {
-  padding-top: 8px;
-}
-
-div.doxyCodeLine:last-child span.doxyNoLineNumber {
-  padding-bottom: 8px;
-}
-
-span.doxyLineContent {
-  padding-left: 4px;
-}
-
-div.doxyCodeLine {
-  overflow-wrap: normal;
-  padding-left: 2px;
-  overflow: hidden;
-  white-space: nowrap; /* Prevent wrapping */
-  text-overflow: ellipsis; /* Add "..." when clipped */
-}
-
-/* --- Highlights --- */
-
-:root {
---doxy-highlight-keyword: #bb6bb2;
---doxy-highlight-keywordtype: #8258b3;
---doxy-highlight-keywordflow: #d67c3b;
---doxy-highlight-token: #438a59;
---doxy-highlight-comment: #969696;
---doxy-highlight-link: #5383d6;
---doxy-highlight-preprocessor: #46aaa5;
---doxy-highlight-link: #5383D6;
-}
-
-span.doxyHighlight {
-  white-space: pre;
-}
-
-span.doxyHighlightComment {
-  color: var(--doxy-highlight-comment);
-  white-space: pre;
-}
-
-span.doxyHighlightPreprocessor {
-  color: var(--doxy-highlight-preprocessor);
-  white-space: pre;
-}
-
-span.doxyHighlightKeyword {
-  color: var(--doxy-highlight-keyword);
-  white-space: pre;
-}
-
-span.doxyHighlightKeywordType {
-  color: var(--doxy-highlight-keywordtype);
-  white-space: pre;
-}
-
-span.doxyHighlightKeywordFlow {
-  color: var(--doxy-highlight-keywordflow);
-  white-space: pre;
-}
-
-span.doxyHighlightToken {
-  color: var(--doxy-highlight-token);
-  white-space: pre;
-}
-
-span.doxyHighlightStringLiteral {
-  color: var(--doxy-highlight-token); /* #002080 */
-  white-space: pre;
-}
-
-span.doxyHighlightCharLiteral {
-  color: #002080;
-  white-space: pre;
-}
-
-span.doxyHighlight a {
-  color: var(--doxy-highlight-link);
-}
-
-/* --- End CodeLine/styles.module.css --- */
-
 /* --- Begin EnumerationList/styles.module.css --- */
 
 table.doxyEnumTable {
@@ -635,30 +526,6 @@ td.doxyParamItemName {
 
 /* --- End ParametersListItem/styles.module.css --- */
 
-/* --- Begin ProgramListing/styles.module.css --- */
-
-:root {
-  --ifm-doxy-listing-background: rgb(250, 251, 252);
-  --ifm-doxy-listing-line-background: rgb(246, 247, 248);
-}
-
-[data-theme="dark"] {
-  --ifm-doxy-listing-background: rgb(36, 35, 34);
-  --ifm-doxy-listing-line-background: rgba(255, 255, 255, 0.05);;
-}
-
-div.doxyProgramListing {
-  font-family: var(--ifm-font-family-monospace);
-  font-size: var(--ifm-code-font-size);
-  background: var(--ifm-doxy-listing-background);
-  white-space: pre;
-  border: 1px solid var(--ifm-table-border-color);
-  border-radius: var(--ifm-global-radius);
-  margin-bottom: 20px;
-}
-
-/* --- End ProgramListing/styles.module.css --- */
-
 /* --- Begin SectionDefinition/styles.module.css --- */
 
 div.doxySectionDef h3 {
@@ -747,6 +614,138 @@ div.doxyIncludesList, div.doxyDeclaration, div.doxyDefinition {
 }
 
 /* --- End IncludesList/styles.module.css --- */
+
+/* --- Begin ProgramListing/styles.module.css --- */
+
+:root {
+  --ifm-doxy-listing-background: rgb(250, 251, 252);
+  --ifm-doxy-listing-line-background: rgb(246, 247, 248);
+}
+
+[data-theme="dark"] {
+  --ifm-doxy-listing-background: rgb(36, 35, 34);
+  --ifm-doxy-listing-line-background: rgba(255, 255, 255, 0.05);;
+}
+
+div.doxyProgramListing {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  background: var(--ifm-doxy-listing-background);
+  border: 1px solid var(--ifm-table-border-color);
+  border-radius: var(--ifm-global-radius);
+  margin-bottom: 20px;
+}
+
+/* --- End ProgramListing/styles.module.css --- */
+
+/* --- Begin CodeLine/styles.module.css --- */
+
+span.doxyLineNumber {
+  width: 5em;
+  text-align: right;
+  padding-right: 1em;
+  display: inline-block;
+  border-right: 1px solid var(--ifm-table-border-color);
+  background-color: var(--ifm-doxy-listing-line-background);
+}
+
+div.doxyCodeLine:nth-child(2) span.doxyLineNumber {
+  padding-top: 0px;
+}
+
+div.doxyCodeLine:last-child span.doxyLineNumber {
+  padding-bottom: 8px;
+}
+
+span.doxyNoLineNumber {
+  width: 1em;
+  text-align: right;
+  padding-right: 1em;
+  display: inline-block;
+}
+
+div.doxyCodeLine:first-child span.doxyNoLineNumber {
+  padding-top: 8px;
+}
+
+div.doxyCodeLine:last-child span.doxyNoLineNumber {
+  padding-bottom: 8px;
+}
+
+span.doxyLineContent {
+  padding-left: 4px;
+}
+
+div.doxyCodeLine {
+  overflow-wrap: normal;
+  padding-left: 2px;
+  overflow: hidden;
+  white-space: nowrap; /* Prevent wrapping */
+  text-overflow: ellipsis; /* Add "..." when clipped */
+}
+
+/* --- Highlights --- */
+
+:root {
+--doxy-highlight-keyword: #bb6bb2;
+--doxy-highlight-keywordtype: #8258b3;
+--doxy-highlight-keywordflow: #d67c3b;
+--doxy-highlight-token: #438a59;
+--doxy-highlight-comment: #969696;
+--doxy-highlight-link: #5383d6;
+--doxy-highlight-preprocessor: #46aaa5;
+--doxy-highlight-link: #5383D6;
+}
+
+span.doxyHighlight {
+  white-space: pre;
+}
+
+span.doxyHighlightComment {
+  color: var(--doxy-highlight-comment);
+  white-space: pre;
+}
+
+span.doxyHighlightPreprocessor {
+  color: var(--doxy-highlight-preprocessor);
+  white-space: pre;
+}
+
+span.doxyHighlightKeyword {
+  color: var(--doxy-highlight-keyword);
+  white-space: pre;
+}
+
+span.doxyHighlightKeywordType {
+  color: var(--doxy-highlight-keywordtype);
+  white-space: pre;
+}
+
+span.doxyHighlightKeywordFlow {
+  color: var(--doxy-highlight-keywordflow);
+  white-space: pre;
+}
+
+span.doxyHighlightToken {
+  color: var(--doxy-highlight-token);
+  white-space: pre;
+}
+
+span.doxyHighlightStringLiteral {
+  color: var(--doxy-highlight-token); /* #002080 */
+  white-space: pre;
+}
+
+span.doxyHighlightCharLiteral {
+  color: #002080;
+  white-space: pre;
+}
+
+span.doxyHighlight a {
+  color: var(--doxy-highlight-link);
+}
+
+/* --- End CodeLine/styles.module.css --- */
 
 /* Copied from code, horizontal padding doubled. */
 span.doxyComputerOutput {
