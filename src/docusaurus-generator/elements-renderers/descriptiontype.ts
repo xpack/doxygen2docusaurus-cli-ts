@@ -15,7 +15,7 @@ import assert from 'assert'
 import util from 'util'
 
 import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js'
-import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocHeadingType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractEmojiType, AbstractSpType, AbstractVerbatimType, HrulerDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
+import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocBlockQuoteType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocHeadingType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractEmojiType, AbstractSpType, AbstractVerbatimType, HrulerDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
 import { escapeHtml, escapeQuotes, getPermalinkAnchor } from '../utils.js'
 import { AbstractDocHtmlOnlyType, LatexOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel } from '../../data-model/compounds/compounddef-dm.js'
@@ -610,6 +610,21 @@ export class EmojiStringRenderer extends ElementStringRendererBase {
     text += `<span class="doxyEmoji">${element.unicode}</span>}`
 
     return text
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+export class BlockquoteLinesRenderer extends ElementLinesRendererBase {
+  renderToLines (element: AbstractDocBlockQuoteType, type: string): string[] {
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
+
+    const lines: string[] = []
+    lines.push('<blockquote class="doxyBlockQuote">')
+    lines.push(...this.workspace.renderElementsArrayToLines(element.children, type))
+    lines.push('</blockquote>')
+
+    return lines
   }
 }
 
