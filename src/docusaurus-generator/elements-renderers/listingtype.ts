@@ -88,6 +88,7 @@ export class CodeLineTypeLinesRenderer extends ElementLinesRendererBase {
 export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
   knownClasses: Record<string, string> = {
     normal: 'doxyHighlight',
+    charliteral: 'doxyHighlightCharLiteral',
     comment: 'doxyHighlightComment',
     preprocessor: 'doxyHighlightPreprocessor',
     keyword: 'doxyHighlightKeyword',
@@ -95,7 +96,9 @@ export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
     keywordflow: 'doxyHighlightKeywordFlow',
     token: 'doxyHighlightToken',
     stringliteral: 'doxyHighlightStringLiteral',
-    charliteral: 'doxyHighlightCharLiteral'
+    vhdlchar: 'doxyHighlightVhdlChar',
+    vhdlkeyword: 'doxyHighlightVhdlKeyword',
+    vhdllogic: 'doxyHighlightVhdlLogic'
   }
 
   override renderToLines (element: AbstractHighlightType, type: string): string[] {

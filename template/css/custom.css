@@ -695,9 +695,17 @@ div.doxyCodeLine {
 --doxy-highlight-link: #5383d6;
 --doxy-highlight-preprocessor: #46aaa5;
 --doxy-highlight-link: #5383D6;
+--doxy-highlight-vhdlchar: #000000;
+--doxy-highlight-vhdlkeyword: #E08000;
+--doxy-highlight-vhdllogic: #FF0000;
 }
 
 span.doxyHighlight {
+  white-space: pre;
+}
+
+span.doxyHighlightCharLiteral {
+  color: #002080;
   white-space: pre;
 }
 
@@ -736,8 +744,18 @@ span.doxyHighlightStringLiteral {
   white-space: pre;
 }
 
-span.doxyHighlightCharLiteral {
-  color: #002080;
+span.doxyHighlightVhdlChar {
+  color: var(--doxy-highlight-vhdlchar);
+  white-space: pre;
+}
+
+span.doxyHighlightVhdlKeyword {
+  color: var(--doxy-highlight-vhdlkeyword);
+  white-space: pre;
+}
+
+span.doxyHighlightVhdlLogic {
+  color: var(--doxy-highlight-vhdllogic);
   white-space: pre;
 }
 
