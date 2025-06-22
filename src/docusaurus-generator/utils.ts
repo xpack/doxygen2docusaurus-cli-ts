@@ -70,6 +70,8 @@ export function escapeMarkdown (text: string): string {
     .replaceAll(/&/g, '&amp;')
     .replaceAll(/</g, '&lt;')
     .replaceAll(/>/g, '&gt;')
+    .replaceAll(/\[/g, '&#91;')
+    .replaceAll(/\]/g, '&#93;')
     .replaceAll(/\*/g, '&#42;') // Markdown for bold
     .replaceAll(/_/g, '&#95;') // Markdown for italics
 }
