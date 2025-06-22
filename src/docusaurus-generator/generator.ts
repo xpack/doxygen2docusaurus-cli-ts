@@ -23,6 +23,7 @@ import { MenuDropdown, SidebarCategory } from '../plugin/types.js'
 import { FrontMatter } from './types.js'
 import { folderExists } from './utils.js'
 import { Pages } from './view-model/pages-vm.js'
+import { Groups } from './view-model/groups-vm.js'
 
 export class DocusaurusGenerator {
   workspace: Workspace
@@ -237,9 +238,19 @@ export class DocusaurusGenerator {
 
     const lines: string[] = []
 
+    const groups = this.workspace.viewModel.get('groups') as Groups
+
+    const topicsLines = groups.generateTopicsTable()
+    lines.push(...topicsLines)
+
     const mainPage = this.workspace.mainPage
 
     if (mainPage !== undefined) {
+      if (topicsLines.length > 0) {
+        lines.push('')
+        lines.push('## Description')
+      }
+
       const detailedDescriptionLines = mainPage.detailedDescriptionLines
 
       if (detailedDescriptionLines !== undefined && detailedDescriptionLines.length > 0) {
