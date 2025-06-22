@@ -98,24 +98,6 @@ export class DocusaurusGenerator {
 
   // --------------------------------------------------------------------------
 
-  async generateConfigurationFile (): Promise<void> {
-    const jsonFileName = 'docusaurus-plugin-doxygen-config.json'
-    const jsonFilePath = `${jsonFileName}`
-
-    const configurationData = {
-      doxygenVersion: this.workspace.dataModel.doxygenindex?.version
-    }
-
-    const jsonString = JSON.stringify(configurationData, null, 2)
-
-    console.log(`Writing configuration file ${jsonFilePath}...`)
-
-    await fs.mkdir(path.dirname(jsonFilePath), { recursive: true })
-    await fs.writeFile(jsonFilePath, jsonString, 'utf8')
-  }
-
-  // --------------------------------------------------------------------------
-
   async generateSidebarFile (): Promise<void> {
     const sidebarCategory: SidebarCategory = {
       type: 'category',
