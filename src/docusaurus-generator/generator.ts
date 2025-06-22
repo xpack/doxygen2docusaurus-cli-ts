@@ -22,6 +22,7 @@ import { PluginOptions } from '../plugin/options.js'
 import { MenuDropdown, SidebarCategory } from '../plugin/types.js'
 import { FrontMatter } from './types.js'
 import { folderExists } from './utils.js'
+import { Pages } from './view-model/pages-vm.js'
 
 export class DocusaurusGenerator {
   workspace: Workspace
@@ -63,7 +64,8 @@ export class DocusaurusGenerator {
     await this.generatePages()
 
     console.log()
-    await this.generateIndexDotMdFiles()
+    await this.generateTopIndexDotMdFile()
+    await this.generateCollectionsIndexDotMdFiles()
     await this.generatePerInitialsIndexMdFiles()
 
     if (this.workspace.pluginOptions.verbose) {
@@ -192,12 +194,63 @@ export class DocusaurusGenerator {
 
   // --------------------------------------------------------------------------
 
-  async generateIndexDotMdFiles (): Promise<void> {
+  async generateCollectionsIndexDotMdFiles (): Promise<void> {
     for (const [collectionName, collection] of this.workspace.viewModel) {
       // console.log(collectionName)
       await collection.generateIndexDotMdFile()
     }
     // TODO: parallelize
+  }
+
+  // --------------------------------------------------------------------------
+
+  async generateTopIndexDotMdFile (): Promise<void> {
+    const outputFolderPath = this.workspace.outputFolderPath
+    const filePath = `${outputFolderPath}index.md`
+
+    const projectBrief = this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF')
+    const permalink = '' // The root of the API sub-site.
+
+    // This is the top index.md file (@mainpage)
+    const frontMatter: FrontMatter = {
+      // title: `${projectBrief} API Reference`,
+      title: 'Doxygen',
+      slug: `${this.workspace.slugBaseUrl}${permalink}`,
+      // description: '...', // TODO
+      custom_edit_url: null,
+      keywords: ['doxygen', 'reference']
+    }
+
+    const lines: string[] = []
+
+    const mainPage = this.workspace.mainPage
+
+    if (mainPage !== undefined) {
+      const detailedDescriptionLines = mainPage.detailedDescriptionLines
+
+      if (detailedDescriptionLines !== undefined && detailedDescriptionLines.length > 0) {
+        lines.push('')
+        lines.push(...mainPage.renderDetailedDescriptionToLines({
+          briefDescriptionNoParaString: mainPage.briefDescriptionString,
+          detailedDescriptionLines: mainPage.detailedDescriptionLines,
+          showHeader: false,
+          showBrief: false
+        }))
+      }
+    }
+
+    lines.push('')
+    lines.push(':::note')
+    lines.push('For comparison, the original Doxygen html pages, styled with the <a href="https://jothepro.github.io/doxygen-awesome-css/">doxygen-awesome-css</a> plugin, continue to be available via the <a href="pathname:///doxygen/topics.html"><code>.../doxygen/*.html</b></code> URLs.')
+    lines.push(':::')
+
+    console.log(`Writing top index file ${filePath}...`)
+
+    await this.workspace.writeMdFile({
+      filePath,
+      frontMatter,
+      bodyLines: lines
+    })
   }
 
   // --------------------------------------------------------------------------

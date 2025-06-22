@@ -25,7 +25,6 @@ import { FrontMatter } from '../types.js'
 
 export class Pages extends CollectionBase {
   // compoundsById: Map<string, Page>
-  mainPage: Page | undefined
 
   // --------------------------------------------------------------------------
 
@@ -42,18 +41,9 @@ export class Pages extends CollectionBase {
     this.collectionCompoundsById.set(page.id, page)
 
     if (page.id === 'indexpage') {
-      this.mainPage = page
+      this.workspace.mainPage = page
     }
     return page
-  }
-
-  override hasCompounds (): boolean {
-    for (const compoundId of this.collectionCompoundsById.keys()) {
-      if (compoundId !== 'indexpage') {
-        return true
-      }
-    }
-    return false
   }
 
   // --------------------------------------------------------------------------

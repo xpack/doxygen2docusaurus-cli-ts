@@ -27,7 +27,7 @@ import { escapeBraces, escapeHtml, escapeMarkdown, getPermalinkAnchor, stripPerm
 import { CompoundBase } from './view-model/compound-base-vm.js'
 import { Namespaces } from './view-model/namespaces-vm.js'
 import { FilesAndFolders } from './view-model/files-and-folders-vm.js'
-import { Pages } from './view-model/pages-vm.js'
+import { Page, Pages } from './view-model/pages-vm.js'
 import { FrontMatter } from './types.js'
 import { Member } from './view-model/members-vm.js'
 import { Renderers } from './elements-renderers/renderers.js'
@@ -135,6 +135,8 @@ export class Workspace {
 
   writtenMdFilesCounter: number = 0
   writtenHtmlFilesCounter: number = 0
+
+  mainPage: Page | undefined
 
   // --------------------------------------------------------------------------
 
