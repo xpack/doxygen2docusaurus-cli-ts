@@ -171,12 +171,15 @@ export class Workspace {
     this.sidebarBaseId = `${apiFolderPath}/`
 
     const docsBaseUrl = this.pluginOptions.docsBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '')
-    const apiBaseUrl = this.pluginOptions.apiBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '')
+    let apiBaseUrl = this.pluginOptions.apiBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '')
+    if (apiBaseUrl.length > 0) {
+      apiBaseUrl += '/'
+    }
 
-    this.absoluteBaseUrl = `${this.siteConfig.baseUrl}${docsBaseUrl}/${apiBaseUrl}/`
-    this.pageBaseUrl = `${this.siteConfig.baseUrl}${docsBaseUrl}/${apiBaseUrl}/`
-    this.slugBaseUrl = `/${apiBaseUrl}/`
-    this.menuBaseUrl = `/${docsBaseUrl}/${apiBaseUrl}/`
+    this.absoluteBaseUrl = `${this.siteConfig.baseUrl}${docsBaseUrl}/${apiBaseUrl}`
+    this.pageBaseUrl = `${this.siteConfig.baseUrl}${docsBaseUrl}/${apiBaseUrl}`
+    this.slugBaseUrl = `/${apiBaseUrl}`
+    this.menuBaseUrl = `/${docsBaseUrl}/${apiBaseUrl}`
     // console.log('absoluteBaseUrl:', this.absoluteBaseUrl)
 
     // Create the view-model objects.

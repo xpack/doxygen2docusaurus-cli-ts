@@ -41,7 +41,7 @@ export async function parseDoxygen ({
   assert(options.apiFolderPath.length > 0, 'apiFolderPath is required')
 
   assert(options.docsBaseUrl.length > 0, 'docsBaseUrl is required')
-  assert(options.apiBaseUrl.length > 0, 'apiBaseUrl is required')
+  // assert(options.apiBaseUrl.length > 0, 'apiBaseUrl is required')
 
   assert(options.sidebarCategoryFilePath.length > 0, 'sidebarCategoryFilePath is required')
   assert(options.menuDropdownFilePath.length > 0, 'menuDropdownFilePath is required')
