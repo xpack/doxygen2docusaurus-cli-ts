@@ -603,7 +603,7 @@ span.doxyTreeIcon {
 
 /* --- Begin IncludesList/styles.module.css --- */
 
-div.doxyIncludesList, div.doxyDeclaration, div.doxyDefinition {
+div.doxyIncludesList {
     background-color: var(--ifm-code-background);
     border: .1rem solid #0000001a;
     border-radius: var(--ifm-code-border-radius);
@@ -782,6 +782,16 @@ div.doxyPage h1 code {
 
 div.doxyPage code {
     padding: var(--ifm-code-padding-vertical) calc(var(--ifm-code-padding-horizontal) * 2);
+}
+
+div.doxyDeclaration, div.doxyDefinition, div.doxyVerbatim {
+    background-color: var(--ifm-code-background);
+    border: .1rem solid #0000001a;
+    border-radius: var(--ifm-code-border-radius);
+    font-family: var(--ifm-font-family-monospace);
+    font-size: var(--ifm-code-font-size);
+    padding: 6px 12px;
+    vertical-align: initial;
 }
 
 /* --- */

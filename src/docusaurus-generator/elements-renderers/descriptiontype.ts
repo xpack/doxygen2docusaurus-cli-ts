@@ -15,7 +15,7 @@ import assert from 'assert'
 import util from 'util'
 
 import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js'
-import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocBlockQuoteType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocHeadingType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractEmojiType, AbstractSpType, AbstractVerbatimType, HrulerDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
+import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocBlockQuoteType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocHeadingType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractEmojiType, AbstractSpType, AbstractVerbatimType, HrulerDataModel, LineBreakDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
 import { escapeHtml, escapeQuotes, getPermalinkAnchor } from '../utils.js'
 import { AbstractDocHtmlOnlyType, LatexOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel } from '../../data-model/compounds/compounddef-dm.js'
@@ -94,6 +94,8 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
     if (typeof element === 'string') {
       return true
     } else if (element instanceof HrulerDataModel) {
+      return false // Explicitly not inside a paragraph.
+    } else if (element instanceof LineBreakDataModel) {
       return false // Explicitly not inside a paragraph.
     } else if (element instanceof AbstractDocHtmlOnlyType) {
       return false // Explicitly not inside a paragraph.
@@ -367,6 +369,7 @@ export class DocEmptyTypeStringRenderer extends ElementStringRendererBase {
         break
 
       case 'LineBreakDataModel':
+        text += '\n'
         text += '<br/>'
         break
 
@@ -492,12 +495,15 @@ export class VerbatimStringRenderer extends ElementStringRendererBase {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''
-    // text += '\n' // This is to end the previous line
-    // text += '\n' // This is an empty line for aesthetics.
-    text += '<pre class="doxyVerbatim">\n'
+
+    text += '\n'
+
+    // Docusaurus adds the copy button.
+    // The content must be on the same line.
+    text += '<pre><code>'
     text += this.workspace.renderElementToString(element.text, 'html')
     // text += '\n'
-    text += '</pre>'
+    text += '</code></pre>'
 
     return text
   }
@@ -510,10 +516,14 @@ export class FormulaStringRenderer extends ElementStringRendererBase {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''
-    text += '<code>'
+
+    const formula = this.workspace.renderElementToString(element.text, 'html')
+    if (this.workspace.pluginOptions.verbose) {
+      console.warn('LaTeX formula', formula, 'not rendered properly')
+    }
+
     // element.id is ignored.
-    text += this.workspace.renderElementToString(element.text, 'plain-html')
-    text += '</code>'
+    text += `<code>${formula}</code>`
 
     return text
   }
