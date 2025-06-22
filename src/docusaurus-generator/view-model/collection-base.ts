@@ -16,7 +16,7 @@ import assert from 'node:assert'
 
 import { Workspace } from '../workspace.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
-import { MenuItem, SidebarItem } from '../../plugin/types.js'
+import { MenuItem, SidebarCategory } from '../../plugin/types.js'
 import { CompoundBase } from './compound-base-vm.js'
 
 export abstract class CollectionBase {
@@ -37,7 +37,7 @@ export abstract class CollectionBase {
   abstract addChild (compoundDef: CompoundDefDataModel): CompoundBase
   abstract createCompoundsHierarchies (): void
   // It must return an array since groups can have multiple top pages.
-  abstract createSidebarItems (): SidebarItem[]
+  abstract createSidebarItems (sidebarCategory: SidebarCategory): void
   abstract createMenuItems (): MenuItem[]
   abstract generateIndexDotMdFile (): Promise<void>
 

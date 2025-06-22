@@ -17,7 +17,7 @@ import assert from 'node:assert'
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
-import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
+import { MenuItem, SidebarCategory, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { Workspace } from '../workspace.js'
 import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { FrontMatter } from '../types.js'
@@ -184,7 +184,7 @@ export class FilesAndFolders extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createSidebarItems (): SidebarItem[] {
+  override createSidebarItems (sidebarCategory: SidebarCategory): void {
     // Add folders & files to the sidebar.
     // Top level folders & files are added below a Files category
     const filesCategory: SidebarCategoryItem = {
@@ -212,7 +212,7 @@ export class FilesAndFolders extends CollectionBase {
       }
     }
 
-    return [filesCategory]
+    sidebarCategory.items.push(filesCategory)
   }
 
   private createFolderSidebarItemRecursively (folder: Folder): SidebarItem | undefined {

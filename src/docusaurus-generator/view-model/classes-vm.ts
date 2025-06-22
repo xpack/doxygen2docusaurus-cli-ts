@@ -18,8 +18,8 @@ import crypto from 'node:crypto'
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
-import { escapeHtml, escapeMarkdown, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
-import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
+import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
+import { MenuItem, SidebarCategory, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { FrontMatter } from '../types.js'
 import { BaseCompoundRefDataModel, DerivedCompoundRefDataModel } from '../../data-model/compounds/compoundreftype-dm.js'
 import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js'
@@ -87,7 +87,7 @@ export class Classes extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createSidebarItems (): SidebarItem[] {
+  override createSidebarItems (sidebarCategory: SidebarCategory): void {
     // Add classes to the sidebar.
     // Top level classes are added below a Class category
     const classesCategory: SidebarCategoryItem = {
@@ -140,7 +140,7 @@ export class Classes extends CollectionBase {
       }
     }
 
-    return [classesCategory]
+    sidebarCategory.items.push(classesCategory)
   }
 
   private createSidebarItemRecursively (classs: Class): SidebarItem | undefined {

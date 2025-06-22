@@ -18,7 +18,7 @@ import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { CollectionBase } from './collection-base.js'
-import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
+import { MenuItem, SidebarCategory, SidebarCategoryItem, SidebarDocItem } from '../../plugin/types.js'
 import { FrontMatter } from '../types.js'
 
 // ----------------------------------------------------------------------------
@@ -64,7 +64,7 @@ export class Pages extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createSidebarItems (): SidebarItem[] {
+  override createSidebarItems (sidebarCategory: SidebarCategory): void {
     // Add pages to the sidebar.
     // They are organised as a flat list, no hierarchies.
     const pagesCategory: SidebarCategoryItem = {
@@ -76,7 +76,34 @@ export class Pages extends CollectionBase {
     }
 
     for (const [pageId, page] of this.collectionCompoundsById) {
-      if (pageId === 'indexpage') {
+      if (pageId === 'deprecated' || pageId === 'todo') {
+        const label = page.sidebarLabel
+        if (label === undefined) {
+          continue
+        }
+
+        const id: string = `${this.workspace.sidebarBaseId}${page.docusaurusId as string}`
+        const docItem: SidebarDocItem = {
+          type: 'doc',
+          label,
+          id
+        }
+
+        pagesCategory.items.push(docItem)
+      }
+    }
+
+    if (pagesCategory.items.length > 0) {
+      sidebarCategory.items.push(pagesCategory)
+    }
+  }
+
+  createTopPagesSidebarItems (sidebarCategory: SidebarCategory): void {
+    // Add pages to the sidebar.
+
+    for (const [pageId, page] of this.collectionCompoundsById) {
+      // Skip special pages.
+      if (pageId === 'indexpage' || pageId === 'deprecated' || pageId === 'todo') {
         continue
       }
 
@@ -92,10 +119,8 @@ export class Pages extends CollectionBase {
         id
       }
 
-      pagesCategory.items.push(docItem)
+      sidebarCategory.items.push(docItem)
     }
-
-    return [pagesCategory]
   }
 
   // --------------------------------------------------------------------------

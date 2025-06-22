@@ -18,7 +18,7 @@ import path from 'node:path'
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
-import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
+import { MenuItem, SidebarCategory, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { FrontMatter } from '../types.js'
 
@@ -76,7 +76,7 @@ export class Namespaces extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createSidebarItems (): SidebarItem[] {
+  override createSidebarItems (sidebarCategory: SidebarCategory): void {
     // Add namespaces to the sidebar.
     // Top level namespaces are added below a Namespaces category.
     const namespacesCategory: SidebarCategoryItem = {
@@ -97,7 +97,7 @@ export class Namespaces extends CollectionBase {
       }
     }
 
-    return [namespacesCategory]
+    sidebarCategory.items.push(namespacesCategory)
   }
 
   private createNamespaceItemRecursively (namespace: Namespace): SidebarItem | undefined {

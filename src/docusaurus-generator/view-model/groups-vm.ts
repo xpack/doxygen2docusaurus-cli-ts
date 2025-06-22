@@ -20,7 +20,7 @@ import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { CollectionBase } from './collection-base.js'
-import { MenuItem, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
+import { MenuItem, SidebarCategory, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { collapsibleTableRow, FrontMatter } from '../types.js'
 import { Pages } from './pages-vm.js'
 
@@ -75,7 +75,7 @@ export class Groups extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createSidebarItems (): SidebarItem[] {
+  override createSidebarItems (sidebarCategory: SidebarCategory): void {
     const sidebarItems: SidebarItem[] = []
 
     for (const topLevelGroup of this.topLevelGroups) {
@@ -85,7 +85,7 @@ export class Groups extends CollectionBase {
       }
     }
 
-    return sidebarItems
+    sidebarCategory.items.push(...sidebarItems)
   }
 
   private createSidebarItemRecursively (group: Group): SidebarItem | undefined {
