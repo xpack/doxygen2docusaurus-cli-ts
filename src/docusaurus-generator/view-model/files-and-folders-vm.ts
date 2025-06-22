@@ -385,6 +385,15 @@ export class FilesAndFolders extends CollectionBase {
 
     return lines
   }
+
+  override hasCompounds (): boolean {
+    for (const [compoundId, compound] of this.collectionCompoundsById) {
+      if ((compound as File).children.length > 0) {
+        return true
+      }
+    }
+    return false
+  }
 }
 
 // ----------------------------------------------------------------------------
