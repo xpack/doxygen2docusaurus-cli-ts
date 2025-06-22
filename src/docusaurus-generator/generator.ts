@@ -223,12 +223,12 @@ export class DocusaurusGenerator {
     const filePath = `${outputFolderPath}index.md`
 
     const projectBrief = this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF')
+    const title = this.workspace.pluginOptions.mainPageTitle ?? `${projectBrief} API Reference`
     const permalink = '' // The root of the API sub-site.
 
     // This is the top index.md file (@mainpage)
     const frontMatter: FrontMatter = {
-      // title: `${projectBrief} API Reference`,
-      title: 'Doxygen',
+      title,
       slug: `${this.workspace.slugBaseUrl}${permalink}`,
       // description: '...', // TODO
       custom_edit_url: null,

@@ -19,6 +19,7 @@ export interface PluginConfigurationOptions {
   apiBaseUrl?: string
   imagesFolderPath?: string
   redirectsOutputFolderPath?: string
+  mainPageTitle?: string
   sidebarCategoryFilePath?: string
   sidebarCategoryLabel?: string
   menuDropdownFilePath?: string
@@ -52,6 +53,9 @@ export interface PluginOptions {
 
   /**  Relative to the current website folder, like `reference`. */
   redirectsOutputFolderPath?: string | undefined
+
+  /** The title to be displayed on th main page. Default:`${projectBrief} API Reference`. */
+  mainPageTitle: string
 
   /** Relative to the current website folder, default `sidebar-category-doxygen.json`. */
   sidebarCategoryFilePath: string
