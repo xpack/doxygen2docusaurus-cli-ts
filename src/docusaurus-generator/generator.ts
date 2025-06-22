@@ -58,7 +58,7 @@ export class DocusaurusGenerator {
     // await this.generateConfigurationFile()
 
     await this.generateSidebarFile()
-    await this.generateMenuDropdownFile()
+    await this.generateMenuFile()
 
     console.log()
     await this.generatePages()
@@ -155,13 +155,13 @@ export class DocusaurusGenerator {
 
   // --------------------------------------------------------------------------
 
-  async generateMenuDropdownFile (): Promise<void> {
+  async generateMenuFile (): Promise<void> {
     const pluginOptions = this.workspace.pluginOptions
     if (pluginOptions.menuDropdownFilePath?.trim().length === 0) {
       return
     }
 
-    const menuDropdown: MenuDropdown = {
+    let navbarEntry: MenuDropdown = {
       type: 'dropdown',
       label: pluginOptions.menuDropdownLabel,
       to: `${this.workspace.menuBaseUrl}`,
@@ -169,17 +169,31 @@ export class DocusaurusGenerator {
       items: []
     }
 
+    let hasItems = false
     // This is the order of items in the sidebar.
     for (const collectionName of this.workspace.sidebarCollectionNames) {
       // console.log(collectionName)
       const collection = this.workspace.viewModel.get(collectionName)
       if (collection?.hasCompounds()) {
-        menuDropdown.items.push(...collection.createMenuItems())
+        assert(navbarEntry.items !== undefined)
+        const items = collection.createMenuItems()
+        if (items.length > 0) {
+          navbarEntry.items.push(...collection.createMenuItems())
+          hasItems = true
+        }
+      }
+    }
+
+    if (!hasItems) {
+      navbarEntry = {
+        label: pluginOptions.menuDropdownLabel,
+        to: `${this.workspace.menuBaseUrl}`,
+        position: 'left'
       }
     }
 
     // console.log('sidebarItems:', util.inspect(sidebarItems, { compact: false, depth: 999 }))
-    const jsonString = JSON.stringify(menuDropdown, null, 2)
+    const jsonString = JSON.stringify(navbarEntry, null, 2)
 
     assert(pluginOptions.menuDropdownFilePath)
     const relativeFilePath = pluginOptions.menuDropdownFilePath
@@ -188,7 +202,7 @@ export class DocusaurusGenerator {
     // Superfluous if done after prepareOutputFolder()
     await fs.mkdir(path.dirname(absoluteFilePath), { recursive: true })
 
-    console.log(`Writing menu dropdown file ${relativeFilePath}...`)
+    console.log(`Writing menu file ${relativeFilePath}...`)
     await fs.writeFile(absoluteFilePath, jsonString, 'utf8')
   }
 
