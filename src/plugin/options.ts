@@ -17,6 +17,7 @@ export interface PluginConfigurationOptions {
   apiFolderPath?: string
   docsBaseUrl?: string
   apiBaseUrl?: string
+  imagesFolderPath?: string
   redirectsOutputFolderPath?: string
   sidebarCategoryFilePath?: string
   sidebarCategoryLabel?: string
@@ -45,6 +46,9 @@ export interface PluginOptions {
 
   /** Relative to the docs home, like `api`, without initial/final slashes. */
   apiBaseUrl: string
+
+  /** Relative to `static` */
+  imagesFolderPath: string
 
   /**  Relative to the current website folder, like `reference`. */
   redirectsOutputFolderPath?: string | undefined
@@ -86,6 +90,7 @@ export const defaultOptions: PluginConfigurationOptions = {
   apiFolderPath: 'api',
   docsBaseUrl: 'docs',
   apiBaseUrl: 'api',
+  imagesFolderPath: 'img/doxygen',
   sidebarCategoryFilePath: 'sidebar-category-docusaurus-plugin-doxygen.json',
   sidebarCategoryLabel: 'API Reference (Doxygen)',
   menuDropdownFilePath: 'docusaurus-config-menu-docusaurus-plugin-doxygen.json',

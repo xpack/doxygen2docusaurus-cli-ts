@@ -5922,6 +5922,14 @@ export abstract class AbstractDocImageType extends AbstractDataModelBase {
 
     // ------------------------------------------------------------------------
 
+    // Keep track of html images, to copy them to the output.
+    if (this.type === 'html') {
+      if (xml.dataModel.images === undefined) {
+        xml.dataModel.images = []
+      }
+      xml.dataModel.images.push(this)
+    }
+
     // console.log(util.inspect(this, { compact: false, depth: 999 }))
   }
 }

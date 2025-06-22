@@ -73,6 +73,7 @@ export class DocusaurusGenerator {
     await this.generateRedirectFiles()
 
     await this.copyFiles()
+    await this.copyImageFiles()
   }
 
   // --------------------------------------------------------------------------
@@ -400,6 +401,33 @@ export class DocusaurusGenerator {
     }
     console.log('Writing css file', toFilePath)
     await fs.copyFile(fromFilePath, toFilePath)
+  }
+
+  async copyImageFiles (): Promise<void> {
+    if (this.workspace.dataModel.images === undefined) {
+      return
+    }
+
+    if (!this.workspace.pluginOptions.verbose) {
+      console.log('Copying', this.workspace.dataModel.images.length, 'image files...')
+    }
+
+    const destImgFolderPath = path.join('static', ...this.workspace.pluginOptions.imagesFolderPath.split('/'))
+    await fs.mkdir(destImgFolderPath, { recursive: true })
+
+    let fromFilePath
+    let toFilePath
+    const uniqueNames = Array.from(new Set(this.workspace.dataModel.images.map(obj => obj.name))).sort()
+
+    for (const name of uniqueNames) {
+      assert(name !== undefined)
+      fromFilePath = path.join(this.workspace.pluginOptions.doxygenXmlInputFolderPath, name)
+      toFilePath = path.join(destImgFolderPath, name)
+      if (this.workspace.pluginOptions.verbose) {
+        console.log('Copying image file', toFilePath)
+      }
+      await fs.copyFile(fromFilePath, toFilePath)
+    }
   }
 }
 
