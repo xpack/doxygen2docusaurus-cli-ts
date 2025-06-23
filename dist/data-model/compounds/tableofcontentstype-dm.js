@@ -134,7 +134,7 @@ export class AbstractTocDocItemType extends AbstractDataModelBase {
     constructor(xml, element, elementName) {
         super(elementName);
         // Any sequence of them.
-        this.children = [];
+        // children: Array<string | DocTitleCmdGroup> = []
         // Mandatory attributes.
         this.id = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -142,6 +142,7 @@ export class AbstractTocDocItemType extends AbstractDataModelBase {
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));

@@ -67,7 +67,7 @@ export abstract class AbstractDescriptionType extends AbstractDataModelBase {
   title?: string | undefined // Only one.
 
   // Any sequence of them.
-  children: Array<string | ParaDataModel | InternalDataModel | Sect1DataModel> = []
+  // children: Array<string | ParaDataModel | InternalDataModel | Sect1DataModel> = []
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -79,6 +79,8 @@ export abstract class AbstractDescriptionType extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -290,7 +292,7 @@ export type DoxHighlightClass = 'comment' | 'normal' | 'preprocessor' | 'keyword
 
 export abstract class AbstractHighlightType extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | SpDataModel | RefTextDataModel> = []
+  // children: Array<string | SpDataModel | RefTextDataModel> = []
 
   // Mandatory attributes.
   classs: string = ''
@@ -302,6 +304,8 @@ export abstract class AbstractHighlightType extends AbstractDataModelBase {
 
     // ------------------------------------------------------------------------
     // Process elements.
+
+    this.children = []
 
     const innerElements = xml.getInnerElements(element, elementName)
     if (innerElements.length > 0) {
@@ -414,15 +418,21 @@ export class SpDataModel extends AbstractSpType {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
-export abstract class AbstractDocSect1Type extends AbstractDataModelBase {
+export abstract class AbstractDocSectType extends AbstractDataModelBase {
   title?: TitleDataModel | undefined
 
   // Any sequence of them.
-  children: Array<string | ParaDataModel | InternalS1DataModel | Sect2DataModel> = []
+  // children: Array<string | ParaDataModel | InternalS1DataModel | Sect2DataModel> = []
 
   // Optional attribute.
   id: string | undefined
 
+  // constructor (elementName: string) {
+  //   super(elementName)
+  // }
+}
+
+export abstract class AbstractDocSect1Type extends AbstractDocSectType {
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
@@ -433,6 +443,8 @@ export abstract class AbstractDocSect1Type extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -487,15 +499,7 @@ export abstract class AbstractDocSect1Type extends AbstractDataModelBase {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
-export abstract class AbstractDocSect2Type extends AbstractDataModelBase {
-  title?: TitleDataModel | undefined
-
-  // Any sequence of them.
-  children: Array<string | ParaDataModel | InternalS2DataModel | Sect3DataModel> = []
-
-  // Optional attribute.
-  id: string | undefined
-
+export abstract class AbstractDocSect2Type extends AbstractDocSectType {
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
@@ -506,6 +510,8 @@ export abstract class AbstractDocSect2Type extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -560,15 +566,7 @@ export abstract class AbstractDocSect2Type extends AbstractDataModelBase {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
-export abstract class AbstractDocSect3Type extends AbstractDataModelBase {
-  title?: TitleDataModel | undefined
-
-  // Any sequence of them.
-  children: Array<string | ParaDataModel | InternalS3DataModel | Sect4DataModel> = []
-
-  // Optional attribute.
-  id: string | undefined
-
+export abstract class AbstractDocSect3Type extends AbstractDocSectType {
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
@@ -579,6 +577,8 @@ export abstract class AbstractDocSect3Type extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -633,15 +633,7 @@ export abstract class AbstractDocSect3Type extends AbstractDataModelBase {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
-export abstract class AbstractDocSect4Type extends AbstractDataModelBase {
-  title?: TitleDataModel | undefined
-
-  // Any sequence of them.
-  children: Array<string | ParaDataModel | InternalS4DataModel | Sect5DataModel> = []
-
-  // Optional attribute.
-  id: string | undefined
-
+export abstract class AbstractDocSect4Type extends AbstractDocSectType {
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
@@ -652,6 +644,8 @@ export abstract class AbstractDocSect4Type extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -706,15 +700,7 @@ export abstract class AbstractDocSect4Type extends AbstractDataModelBase {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
-export abstract class AbstractDocSect5Type extends AbstractDataModelBase {
-  title?: TitleDataModel | undefined
-
-  // Any sequence of them.
-  children: Array<string | ParaDataModel | InternalS5DataModel | Sect6DataModel> = []
-
-  // Optional attribute.
-  id: string | undefined
-
+export abstract class AbstractDocSect5Type extends AbstractDocSectType {
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
@@ -725,6 +711,8 @@ export abstract class AbstractDocSect5Type extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -778,15 +766,7 @@ export abstract class AbstractDocSect5Type extends AbstractDataModelBase {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
-export abstract class AbstractDocSect6Type extends AbstractDataModelBase {
-  title?: TitleDataModel | undefined
-
-  // Any sequence of them.
-  children: Array<string | ParaDataModel | InternalS6DataModel> = []
-
-  // Optional attribute.
-  id: string | undefined
-
+export abstract class AbstractDocSect6Type extends AbstractDocSectType {
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
@@ -797,6 +777,8 @@ export abstract class AbstractDocSect6Type extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -846,7 +828,7 @@ export abstract class AbstractDocSect6Type extends AbstractDataModelBase {
 
 export abstract class AbstractDocInternalType extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | ParaDataModel | Sect1DataModel> = []
+  // children: Array<string | ParaDataModel | Sect1DataModel> = []
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -858,6 +840,8 @@ export abstract class AbstractDocInternalType extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -894,7 +878,7 @@ export abstract class AbstractDocInternalType extends AbstractDataModelBase {
 
 export abstract class AbstractDocInternalS1Type extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | ParaDataModel | Sect2DataModel> = []
+  // children: Array<string | ParaDataModel | Sect2DataModel> = []
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -906,6 +890,8 @@ export abstract class AbstractDocInternalS1Type extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -942,7 +928,7 @@ export abstract class AbstractDocInternalS1Type extends AbstractDataModelBase {
 
 export abstract class AbstractDocInternalS2Type extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | ParaDataModel | Sect3DataModel> = []
+  // children: Array<string | ParaDataModel | Sect3DataModel> = []
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -954,6 +940,8 @@ export abstract class AbstractDocInternalS2Type extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -990,7 +978,7 @@ export abstract class AbstractDocInternalS2Type extends AbstractDataModelBase {
 
 export abstract class AbstractDocInternalS3Type extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | ParaDataModel | Sect4DataModel> = []
+  // children: Array<string | ParaDataModel | Sect4DataModel> = []
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -1002,6 +990,8 @@ export abstract class AbstractDocInternalS3Type extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -1038,7 +1028,7 @@ export abstract class AbstractDocInternalS3Type extends AbstractDataModelBase {
 
 export abstract class AbstractDocInternalS4Type extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | ParaDataModel | Sect5DataModel> = []
+  // children: Array<string | ParaDataModel | Sect5DataModel> = []
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -1050,6 +1040,8 @@ export abstract class AbstractDocInternalS4Type extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -1088,7 +1080,7 @@ export abstract class AbstractDocInternalS4Type extends AbstractDataModelBase {
 
 export abstract class AbstractDocInternalS5Type extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | ParaDataModel | Sect6DataModel> = []
+  // children: Array<string | ParaDataModel | Sect6DataModel> = []
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -1100,6 +1092,8 @@ export abstract class AbstractDocInternalS5Type extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -1135,7 +1129,7 @@ export abstract class AbstractDocInternalS5Type extends AbstractDataModelBase {
 
 export abstract class AbstractDocInternalS6Type extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | ParaDataModel> = []
+  // children: Array<string | ParaDataModel> = []
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -1147,6 +1141,8 @@ export abstract class AbstractDocInternalS6Type extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -2066,7 +2062,7 @@ export function parseDocTitleCmdGroup (
 
 export class AbstractDocTitleType extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | DocTitleCmdGroup> = []
+  // children: Array<string | DocTitleCmdGroup> = []
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -2078,6 +2074,8 @@ export class AbstractDocTitleType extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -3080,7 +3078,7 @@ function parseDocCmdGroup (
 // </xsd:complexType>
 
 export abstract class AbstractDocParaType extends AbstractDataModelBase {
-  children: Array<string | DocCmdGroup> = []
+  // children: Array<string | DocCmdGroup> = []
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -3091,8 +3089,9 @@ export abstract class AbstractDocParaType extends AbstractDataModelBase {
     // Process elements.
 
     const innerElements = xml.getInnerElements(element, elementName)
-
     // May be empty. Do not check children.length.
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -3121,7 +3120,7 @@ export abstract class AbstractDocParaType extends AbstractDataModelBase {
 
 export class AbstractDocMarkupType extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | DocCmdGroup> = []
+  // children: Array<string | DocCmdGroup> = []
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -3134,6 +3133,8 @@ export class AbstractDocMarkupType extends AbstractDataModelBase {
     const innerElements = xml.getInnerElements(element, elementName)
     // SubstringDocMarkupType has no inner elments
     // assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -4917,7 +4918,7 @@ export class RsquoDocMarkupDataModel extends SubstringDocMarkupType {
 // </xsd:complexType>
 
 export class AbstractDocURLLink extends AbstractDataModelBase {
-  children: Array<string | DocTitleCmdGroup> = []
+  // children: Array<string | DocTitleCmdGroup> = []
 
   // Mandatory attributes.
   url: string = ''
@@ -4932,6 +4933,8 @@ export class AbstractDocURLLink extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -4979,7 +4982,7 @@ export class UlinkDataModel extends AbstractDocURLLink {
 // </xsd:complexType>
 
 export class AbstractDocAnchorType extends AbstractDataModelBase {
-  children: string[] = []
+  // children: string[] = []
 
   // Mandatory attributes.
   id: string = ''
@@ -4994,6 +4997,8 @@ export class AbstractDocAnchorType extends AbstractDataModelBase {
 
     // Usually empty `<anchor id="deprecated_1_deprecated000014"/>`
     const innerElements = xml.getInnerElements(element, elementName)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -5320,7 +5325,7 @@ export abstract class AbstractDocSimpleSectType extends AbstractDataModelBase {
   title?: string | undefined // Only one.
 
   // Any sequence of them.
-  children: Array<string | ParaDataModel> = []
+  // children: Array<string | ParaDataModel> = []
 
   // Mandatory attributes.
   kind: string = ''
@@ -5335,6 +5340,8 @@ export abstract class AbstractDocSimpleSectType extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -5401,7 +5408,7 @@ export abstract class AbstractDocSimpleSectType extends AbstractDataModelBase {
 
 export abstract class AbstractDocRefTextType extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | DocTitleCmdGroup> = []
+  // children: Array<string | DocTitleCmdGroup> = []
 
   // Mandatory attributes.
   refid: string = ''
@@ -5420,6 +5427,8 @@ export abstract class AbstractDocRefTextType extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -5499,6 +5508,8 @@ export abstract class AbstractDocTableType extends AbstractDataModelBase {
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
 
+    this.children = []
+
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts.
@@ -5509,7 +5520,9 @@ export abstract class AbstractDocTableType extends AbstractDataModelBase {
         if (this.rows === undefined) {
           this.rows = []
         }
-        this.rows.push(new DocRowDataModel(xml, innerElement))
+        const docRow = new DocRowDataModel(xml, innerElement)
+        this.rows.push(docRow)
+        this.children.push(docRow)
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
@@ -5576,6 +5589,8 @@ export abstract class AbstractDocRowType extends AbstractDataModelBase {
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
 
+    this.children = []
+
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts.
@@ -5583,7 +5598,9 @@ export abstract class AbstractDocRowType extends AbstractDataModelBase {
         if (this.entries === undefined) {
           this.entries = []
         }
-        this.entries.push(new DocEntryDataModel(xml, innerElement))
+        const docEntry = new DocEntryDataModel(xml, innerElement)
+        this.entries.push(docEntry)
+        this.children.push(docEntry)
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
@@ -5647,6 +5664,8 @@ export abstract class AbstractDocEntryType extends AbstractDataModelBase {
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
 
+    this.children = []
+
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts.
@@ -5654,7 +5673,9 @@ export abstract class AbstractDocEntryType extends AbstractDataModelBase {
         if (this.paras === undefined) {
           this.paras = []
         }
-        this.paras.push(new ParaDataModel(xml, innerElement))
+        const para = new ParaDataModel(xml, innerElement)
+        this.paras.push(para)
+        this.children.push(para)
       } else {
         console.error(util.inspect(innerElement))
         console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name)
@@ -5714,7 +5735,7 @@ export class DocEntryDataModel extends AbstractDocEntryType {
 
 export abstract class AbstractDocCaptionType extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | DocTitleCmdGroup> = []
+  // children: Array<string | DocTitleCmdGroup> = []
 
   // Mandatory attributes.
   id: string = ''
@@ -5729,6 +5750,8 @@ export abstract class AbstractDocCaptionType extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -5786,7 +5809,7 @@ export class DocCaptionDataModel extends AbstractDocCaptionType {
 
 export class AbstractDocHeadingType extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | DocTitleCmdGroup> = []
+  // children: Array<string | DocTitleCmdGroup> = []
 
   // Mandatory attributes.
   level: number = NaN
@@ -5801,6 +5824,8 @@ export class AbstractDocHeadingType extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -5864,7 +5889,7 @@ export class HeadingDataModel extends AbstractDocHeadingType {
 
 export abstract class AbstractDocImageType extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | DocTitleCmdGroup> = []
+  // children: Array<string | DocTitleCmdGroup> = []
 
   // Optional attributes.
   type?: string | undefined
@@ -5884,6 +5909,8 @@ export abstract class AbstractDocImageType extends AbstractDataModelBase {
     // Process elements.
 
     const innerElements = xml.getInnerElements(element, elementName)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -6132,7 +6159,7 @@ export class ParameterItemDataModel extends AbstractDocParamListItem {
 
 export class AbstractDocParamNameList extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<ParameterTypeDataModel | ParameterNameDataModel> = []
+  // children: Array<ParameterTypeDataModel | ParameterNameDataModel> = []
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -6144,6 +6171,8 @@ export class AbstractDocParamNameList extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -6185,7 +6214,7 @@ export class ParameterNamelistDataModel extends AbstractDocParamNameList {
 
 export class AbstractDocParamType extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | RefTextDataModel> = []
+  // children: Array<string | RefTextDataModel> = []
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -6197,6 +6226,8 @@ export class AbstractDocParamType extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -6237,7 +6268,7 @@ export class ParameterTypeDataModel extends AbstractDocParamType {
 
 export class AbstractDocParamName extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | RefTextDataModel> = []
+  // children: Array<string | RefTextDataModel> = []
 
   // Optional attributes.
   direction: string | undefined
@@ -6252,6 +6283,8 @@ export class AbstractDocParamName extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {
@@ -6395,7 +6428,7 @@ export class XrefSectDataModel extends AbstractDocXRefSectType {
 
 export class AbstractDocBlockQuoteType extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | ParaDataModel> = []
+  // children: Array<string | ParaDataModel> = []
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -6408,6 +6441,8 @@ export class AbstractDocBlockQuoteType extends AbstractDataModelBase {
     const innerElements = xml.getInnerElements(element, elementName)
     // SubstringDocMarkupType has no inner elments
     // assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {

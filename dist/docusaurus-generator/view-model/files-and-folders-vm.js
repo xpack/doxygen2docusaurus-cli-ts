@@ -141,7 +141,7 @@ export class FilesAndFolders extends CollectionBase {
         return `${parentPath}${folder.compoundName}`;
     }
     // --------------------------------------------------------------------------
-    createSidebarItems() {
+    createSidebarItems(sidebarCategory) {
         // Add folders & files to the sidebar.
         // Top level folders & files are added below a Files category
         const filesCategory = {
@@ -166,7 +166,7 @@ export class FilesAndFolders extends CollectionBase {
                 filesCategory.items.push(item);
             }
         }
-        return [filesCategory];
+        sidebarCategory.items.push(filesCategory);
     }
     createFolderSidebarItemRecursively(folder) {
         if (folder.sidebarLabel === undefined) {
@@ -304,6 +304,14 @@ export class FilesAndFolders extends CollectionBase {
         }));
         return lines;
     }
+    hasCompounds() {
+        for (const [compoundId, compound] of this.collectionCompoundsById) {
+            if (compound.children.length > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 // ----------------------------------------------------------------------------
 export class Folder extends CompoundBase {
@@ -343,7 +351,7 @@ export class Folder extends CompoundBase {
         const descriptionTodo = `@dir ${escapeHtml(this.relativePath)}`;
         const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({
-            briefDescriptionString: this.briefDescriptionString,
+            briefDescriptionNoParaString: this.briefDescriptionString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -352,7 +360,7 @@ export class Folder extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToLines({
-            briefDescriptionString: this.briefDescriptionString,
+            briefDescriptionNoParaString: this.briefDescriptionString,
             detailedDescriptionLines: this.detailedDescriptionLines,
             todo: descriptionTodo,
             showHeader: true,
@@ -397,7 +405,7 @@ export class File extends CompoundBase {
         const descriptionTodo = `@file ${escapeHtml(this.relativePath)}`;
         const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({
-            briefDescriptionString: this.briefDescriptionString,
+            briefDescriptionNoParaString: this.briefDescriptionString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -407,7 +415,7 @@ export class File extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToLines({
-            briefDescriptionString: this.briefDescriptionString,
+            briefDescriptionNoParaString: this.briefDescriptionString,
             detailedDescriptionLines: this.detailedDescriptionLines,
             todo: descriptionTodo,
             showHeader: true,

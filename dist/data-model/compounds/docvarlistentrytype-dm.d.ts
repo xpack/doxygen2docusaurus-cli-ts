@@ -14,7 +14,6 @@ export declare class VariableListPairDataModel extends AbstractDataModelBase {
     constructor(varlistentry: VarListEntryDataModel, listitem: ListItemDataModel);
 }
 export declare abstract class AbstractDocVariableListType extends AbstractDataModelBase {
-    children: VariableListPairDataModel[];
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
 export declare class VariableListDataModel extends AbstractDocVariableListType {

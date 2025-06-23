@@ -46,15 +46,16 @@ export class AbstractStringType extends AbstractDataModelBase {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDescriptionType extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | ParaDataModel | InternalDataModel | Sect1DataModel> = []
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -208,12 +209,13 @@ export class AbstractHighlightType extends AbstractDataModelBase {
     constructor(xml, element, elementName) {
         super(elementName);
         // Any sequence of them.
-        this.children = [];
+        // children: Array<string | SpDataModel | RefTextDataModel> = []
         // Mandatory attributes.
         this.classs = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
+        this.children = [];
         const innerElements = xml.getInnerElements(element, elementName);
         if (innerElements.length > 0) {
             for (const innerElement of innerElements) {
@@ -304,16 +306,17 @@ export class SpDataModel extends AbstractSpType {
 //   </xsd:sequence>
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
-export class AbstractDocSect1Type extends AbstractDataModelBase {
+export class AbstractDocSectType extends AbstractDataModelBase {
+}
+export class AbstractDocSect1Type extends AbstractDocSectType {
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -366,16 +369,15 @@ export class AbstractDocSect1Type extends AbstractDataModelBase {
 //   </xsd:sequence>
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
-export class AbstractDocSect2Type extends AbstractDataModelBase {
+export class AbstractDocSect2Type extends AbstractDocSectType {
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -428,16 +430,15 @@ export class AbstractDocSect2Type extends AbstractDataModelBase {
 //   </xsd:sequence>
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
-export class AbstractDocSect3Type extends AbstractDataModelBase {
+export class AbstractDocSect3Type extends AbstractDocSectType {
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -490,16 +491,15 @@ export class AbstractDocSect3Type extends AbstractDataModelBase {
 //   </xsd:sequence>
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
-export class AbstractDocSect4Type extends AbstractDataModelBase {
+export class AbstractDocSect4Type extends AbstractDocSectType {
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -552,16 +552,15 @@ export class AbstractDocSect4Type extends AbstractDataModelBase {
 //   </xsd:sequence>
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
-export class AbstractDocSect5Type extends AbstractDataModelBase {
+export class AbstractDocSect5Type extends AbstractDocSectType {
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -613,16 +612,15 @@ export class AbstractDocSect5Type extends AbstractDataModelBase {
 //   </xsd:sequence>
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
-export class AbstractDocSect6Type extends AbstractDataModelBase {
+export class AbstractDocSect6Type extends AbstractDocSectType {
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -668,15 +666,16 @@ export class AbstractDocSect6Type extends AbstractDataModelBase {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDocInternalType extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | ParaDataModel | Sect1DataModel> = []
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -707,15 +706,16 @@ export class AbstractDocInternalType extends AbstractDataModelBase {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDocInternalS1Type extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | ParaDataModel | Sect2DataModel> = []
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -746,15 +746,16 @@ export class AbstractDocInternalS1Type extends AbstractDataModelBase {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDocInternalS2Type extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | ParaDataModel | Sect3DataModel> = []
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -785,15 +786,16 @@ export class AbstractDocInternalS2Type extends AbstractDataModelBase {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDocInternalS3Type extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | ParaDataModel | Sect4DataModel> = []
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -824,15 +826,16 @@ export class AbstractDocInternalS3Type extends AbstractDataModelBase {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDocInternalS4Type extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | ParaDataModel | Sect5DataModel> = []
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -864,15 +867,16 @@ export class AbstractDocInternalS4Type extends AbstractDataModelBase {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDocInternalS5Type extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | ParaDataModel | Sect6DataModel> = []
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -902,15 +906,16 @@ export class AbstractDocInternalS5Type extends AbstractDataModelBase {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDocInternalS6Type extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | ParaDataModel> = []
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -1810,15 +1815,16 @@ export function parseDocTitleCmdGroup(xml, element, elementName) {
 //   <xsd:group ref="docTitleCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 // </xsd:complexType>
 export class AbstractDocTitleType extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | DocTitleCmdGroup> = []
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -2779,14 +2785,15 @@ function parseDocCmdGroup(xml, element, elementName) {
 //   <xsd:group ref="docCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 // </xsd:complexType>
 export class AbstractDocParaType extends AbstractDataModelBase {
+    // children: Array<string | DocCmdGroup> = []
     constructor(xml, element, elementName) {
         super(elementName);
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         // May be empty. Do not check children.length.
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -2807,16 +2814,17 @@ export class AbstractDocParaType extends AbstractDataModelBase {
 //   <xsd:group ref="docCmdGroup" minOccurs="0" maxOccurs="unbounded" />
 // </xsd:complexType>
 export class AbstractDocMarkupType extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | DocCmdGroup> = []
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         // SubstringDocMarkupType has no inner elments
         // assert(innerElements.length > 0)
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -4343,7 +4351,7 @@ export class RsquoDocMarkupDataModel extends SubstringDocMarkupType {
 export class AbstractDocURLLink extends AbstractDataModelBase {
     constructor(xml, element, elementName) {
         super(elementName);
-        this.children = [];
+        // children: Array<string | DocTitleCmdGroup> = []
         // Mandatory attributes.
         this.url = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -4351,6 +4359,7 @@ export class AbstractDocURLLink extends AbstractDataModelBase {
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -4390,7 +4399,7 @@ export class UlinkDataModel extends AbstractDocURLLink {
 export class AbstractDocAnchorType extends AbstractDataModelBase {
     constructor(xml, element, elementName) {
         super(elementName);
-        this.children = [];
+        // children: string[] = []
         // Mandatory attributes.
         this.id = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -4398,6 +4407,7 @@ export class AbstractDocAnchorType extends AbstractDataModelBase {
         // Process elements.
         // Usually empty `<anchor id="deprecated_1_deprecated000014"/>`
         const innerElements = xml.getInnerElements(element, elementName);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -4656,7 +4666,7 @@ export class AbstractDocSimpleSectType extends AbstractDataModelBase {
     constructor(xml, element, elementName) {
         super(elementName);
         // Any sequence of them.
-        this.children = [];
+        // children: Array<string | ParaDataModel> = []
         // Mandatory attributes.
         this.kind = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -4664,6 +4674,7 @@ export class AbstractDocSimpleSectType extends AbstractDataModelBase {
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -4724,7 +4735,7 @@ export class AbstractDocRefTextType extends AbstractDataModelBase {
     constructor(xml, element, elementName) {
         super(elementName);
         // Any sequence of them.
-        this.children = [];
+        // children: Array<string | DocTitleCmdGroup> = []
         // Mandatory attributes.
         this.refid = '';
         this.kindref = ''; // DoxRefKind
@@ -4733,6 +4744,7 @@ export class AbstractDocRefTextType extends AbstractDataModelBase {
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -4795,6 +4807,7 @@ export class AbstractDocTableType extends AbstractDataModelBase {
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 // Ignore texts.
@@ -4807,7 +4820,9 @@ export class AbstractDocTableType extends AbstractDataModelBase {
                 if (this.rows === undefined) {
                     this.rows = [];
                 }
-                this.rows.push(new DocRowDataModel(xml, innerElement));
+                const docRow = new DocRowDataModel(xml, innerElement);
+                this.rows.push(docRow);
+                this.children.push(docRow);
             }
             else {
                 console.error(util.inspect(innerElement));
@@ -4861,6 +4876,7 @@ export class AbstractDocRowType extends AbstractDataModelBase {
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 // Ignore texts.
@@ -4869,7 +4885,9 @@ export class AbstractDocRowType extends AbstractDataModelBase {
                 if (this.entries === undefined) {
                     this.entries = [];
                 }
-                this.entries.push(new DocEntryDataModel(xml, innerElement));
+                const docEntry = new DocEntryDataModel(xml, innerElement);
+                this.entries.push(docEntry);
+                this.children.push(docEntry);
             }
             else {
                 console.error(util.inspect(innerElement));
@@ -4912,6 +4930,7 @@ export class AbstractDocEntryType extends AbstractDataModelBase {
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 // Ignore texts.
@@ -4920,7 +4939,9 @@ export class AbstractDocEntryType extends AbstractDataModelBase {
                 if (this.paras === undefined) {
                     this.paras = [];
                 }
-                this.paras.push(new ParaDataModel(xml, innerElement));
+                const para = new ParaDataModel(xml, innerElement);
+                this.paras.push(para);
+                this.children.push(para);
             }
             else {
                 console.error(util.inspect(innerElement));
@@ -4982,7 +5003,7 @@ export class AbstractDocCaptionType extends AbstractDataModelBase {
     constructor(xml, element, elementName) {
         super(elementName);
         // Any sequence of them.
-        this.children = [];
+        // children: Array<string | DocTitleCmdGroup> = []
         // Mandatory attributes.
         this.id = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -4990,6 +5011,7 @@ export class AbstractDocCaptionType extends AbstractDataModelBase {
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -5038,7 +5060,7 @@ export class AbstractDocHeadingType extends AbstractDataModelBase {
     constructor(xml, element, elementName) {
         super(elementName);
         // Any sequence of them.
-        this.children = [];
+        // children: Array<string | DocTitleCmdGroup> = []
         // Mandatory attributes.
         this.level = NaN;
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -5046,6 +5068,7 @@ export class AbstractDocHeadingType extends AbstractDataModelBase {
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -5101,12 +5124,11 @@ export class HeadingDataModel extends AbstractDocHeadingType {
 export class AbstractDocImageType extends AbstractDataModelBase {
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -5147,6 +5169,13 @@ export class AbstractDocImageType extends AbstractDataModelBase {
             }
         }
         // ------------------------------------------------------------------------
+        // Keep track of html images, to copy them to the output.
+        if (this.type === 'html') {
+            if (xml.dataModel.images === undefined) {
+                xml.dataModel.images = [];
+            }
+            xml.dataModel.images.push(this);
+        }
         // console.log(util.inspect(this, { compact: false, depth: 999 }))
     }
 }
@@ -5306,15 +5335,16 @@ export class ParameterItemDataModel extends AbstractDocParamListItem {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDocParamNameList extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<ParameterTypeDataModel | ParameterNameDataModel> = []
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 // Ignore texts.
@@ -5349,15 +5379,16 @@ export class ParameterNamelistDataModel extends AbstractDocParamNameList {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDocParamType extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | RefTextDataModel> = []
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -5392,13 +5423,12 @@ export class ParameterTypeDataModel extends AbstractDocParamType {
 export class AbstractDocParamName extends AbstractDataModelBase {
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));
@@ -5514,16 +5544,17 @@ export class XrefSectDataModel extends AbstractDocXRefSectType {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDocBlockQuoteType extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | ParaDataModel> = []
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         // SubstringDocMarkupType has no inner elments
         // assert(innerElements.length > 0)
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));

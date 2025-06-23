@@ -24,6 +24,8 @@ import { TableOfContentsDataModel } from './tableofcontentstype-dm.js';
 // ----------------------------------------------------------------------------
 // Template, to be used for creating new objects.
 export class AbstractXyzType extends AbstractDataModelBase {
+    // ------------------------------------------
+    // children: Array<string | ParaDataModel | Sect5DataModel> = []
     constructor(xml, element, elementName) {
         super(elementName);
         // If the object has a text.
@@ -36,8 +38,6 @@ export class AbstractXyzType extends AbstractDataModelBase {
         this.id = '';
         this.rowsCount = NaN;
         this.thead = false;
-        // ------------------------------------------
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -73,6 +73,7 @@ export class AbstractXyzType extends AbstractDataModelBase {
         // If the object has to keep trak of the order of mixed type children.
         // const innerElements = xml.getInnerElements(element, elementName)
         // assert(innerElements.length > 0)
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));

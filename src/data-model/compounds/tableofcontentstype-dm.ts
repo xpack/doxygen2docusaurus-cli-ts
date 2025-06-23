@@ -164,7 +164,7 @@ export class TocSectDataModel extends AbstractTableOfContentsKindType {
 
 export abstract class AbstractTocDocItemType extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | DocTitleCmdGroup> = []
+  // children: Array<string | DocTitleCmdGroup> = []
 
   // Mandatory attributes.
   id: string = ''
@@ -179,6 +179,8 @@ export abstract class AbstractTocDocItemType extends AbstractDataModelBase {
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {

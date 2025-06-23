@@ -22,6 +22,9 @@ export class DoxygenXmlParser {
     constructor({ verbose = false }) {
         this.verbose = false;
         this.parsedFilesCounter = 0;
+        this.dataModel = {
+            compoundDefs: []
+        };
         this.verbose = verbose;
     }
     async parse({ folderPath }) {
@@ -49,7 +52,6 @@ export class DoxygenXmlParser {
         // console.log(util.inspect(parsedIndex))
         // console.log(util.inspect(parsedIndex[0]['?xml']))
         // console.log(JSON.stringify(parsedIndex, null, '  '))
-        let doxygenindex;
         for (const element of parsedIndexElements) {
             if (this.hasInnerElement(element, '?xml')) {
                 // Ignore the top xml prologue.
@@ -58,19 +60,18 @@ export class DoxygenXmlParser {
                 // Ignore top texts.
             }
             else if (this.hasInnerElement(element, 'doxygenindex')) {
-                doxygenindex = new DoxygenIndexDataModel(this, element);
+                this.dataModel.doxygenindex = new DoxygenIndexDataModel(this, element);
             }
             else {
                 console.error(util.inspect(element, { compact: false, depth: 999 }));
                 console.error('index.xml element:', Object.keys(element), 'not implemented yet in', this.constructor.name);
             }
         }
-        assert(doxygenindex !== undefined);
+        assert(this.dataModel.doxygenindex !== undefined);
         // ------------------------------------------------------------------------
         // Parse all compound *.xml files mentioned in the index.
-        const compoundDefs = [];
-        if (Array.isArray(doxygenindex.compounds)) {
-            for (const compound of doxygenindex.compounds) {
+        if (Array.isArray(this.dataModel.doxygenindex.compounds)) {
+            for (const compound of this.dataModel.doxygenindex.compounds) {
                 const parsedDoxygenElements = await this.parseFile({ fileName: `${compound.refid}.xml`, folderPath, xmlParser });
                 // console.log(util.inspect(parsedDoxygen))
                 // console.log(JSON.stringify(parsedDoxygen, null, '  '))
@@ -84,7 +85,7 @@ export class DoxygenXmlParser {
                     else if (this.hasInnerElement(element, 'doxygen')) {
                         const doxygen = new DoxygenDataModel(this, element);
                         if (Array.isArray(doxygen.compoundDefs)) {
-                            compoundDefs.push(...doxygen.compoundDefs);
+                            this.dataModel.compoundDefs.push(...doxygen.compoundDefs);
                         }
                     }
                     else {
@@ -94,7 +95,7 @@ export class DoxygenXmlParser {
                 }
             }
             const memberDefsById = new Map();
-            for (const compoundDef of compoundDefs) {
+            for (const compoundDef of this.dataModel.compoundDefs) {
                 if (compoundDef.sectionDefs !== undefined) {
                     for (const sectionDef of compoundDef.sectionDefs) {
                         if (sectionDef.memberDefs !== undefined) {
@@ -120,7 +121,6 @@ export class DoxygenXmlParser {
         const parsedDoxyfileElements = await this.parseFile({ fileName: 'Doxyfile.xml', folderPath, xmlParser });
         // console.log(util.inspect(parsedDoxyfile))
         // console.log(JSON.stringify(parsedDoxyfile, null, '  '))
-        let doxyfile;
         for (const element of parsedDoxyfileElements) {
             if (this.hasInnerElement(element, '?xml')) {
                 // Ignore the top xml prologue.
@@ -129,23 +129,22 @@ export class DoxygenXmlParser {
                 // Ignore top texts.
             }
             else if (this.hasInnerElement(element, 'doxyfile')) {
-                doxyfile = new DoxygenFileDataModel(this, element);
+                this.dataModel.doxyfile = new DoxygenFileDataModel(this, element);
             }
             else {
                 console.error(util.inspect(element, { compact: false, depth: 999 }));
                 console.error('Doxyfile.xml element:', Object.keys(element), 'not implemented yet in', this.constructor.name);
             }
         }
-        assert(doxyfile);
+        assert(this.dataModel.doxyfile);
         if (this.verbose) {
             console.log(this.parsedFilesCounter, 'xml files parsed');
+            if (this.dataModel.images !== undefined) {
+                console.log(this.dataModel.images.length, 'images identified');
+            }
         }
         // ------------------------------------------------------------------------
-        return {
-            doxygenindex,
-            compoundDefs,
-            doxyfile
-        };
+        return this.dataModel;
     }
     // --------------------------------------------------------------------------
     // Support methods.

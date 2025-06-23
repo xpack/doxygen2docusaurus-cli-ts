@@ -28,7 +28,7 @@ import { AbstractDataModelBase } from '../types.js'
 
 export abstract class AbstractLinkedTextType extends AbstractDataModelBase {
   // Any sequence of them.
-  children: Array<string | AbstractRefTextType> = []
+  // children: Array<string | AbstractRefTextType> = []
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -39,6 +39,8 @@ export abstract class AbstractLinkedTextType extends AbstractDataModelBase {
     // Process elements.
 
     const innerElements = xml.getInnerElements(element, elementName)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {

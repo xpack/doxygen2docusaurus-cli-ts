@@ -79,14 +79,15 @@ export class VariableListPairDataModel extends AbstractDataModelBase {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDocVariableListType extends AbstractDataModelBase {
+    // children: VariableListPairDataModel[] = []
     constructor(xml, element, elementName) {
         super(elementName);
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
+        this.children = [];
         let varlistentry;
         for (const innerElement of innerElements) {
             // console.log('innerElement:', innerElement)

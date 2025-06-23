@@ -13,6 +13,7 @@ import * as util from 'node:util';
 import assert from 'node:assert';
 import * as fs from 'node:fs/promises';
 import path from 'node:path';
+import { AbstractDataModelBase } from '../data-model/types.js';
 import { Groups } from './view-model/groups-vm.js';
 import { Classes } from './view-model/classes-vm.js';
 import { DoxygenFileOptions } from './view-model/options.js';
@@ -23,33 +24,14 @@ import { Pages } from './view-model/pages-vm.js';
 import { Member } from './view-model/members-vm.js';
 import { Renderers } from './elements-renderers/renderers.js';
 import { fileURLToPath } from 'node:url';
-// ----------------------------------------------------------------------------
-// <xsd:simpleType name="DoxCompoundKind">
-//   <xsd:restriction base="xsd:string">
-//     <xsd:enumeration value="class" />
-//     <xsd:enumeration value="struct" />
-//     <xsd:enumeration value="union" />
-//     <xsd:enumeration value="interface" />
-//     <xsd:enumeration value="protocol" />
-//     <xsd:enumeration value="category" />
-//     <xsd:enumeration value="exception" />
-//     <xsd:enumeration value="service" />
-//     <xsd:enumeration value="singleton" />
-//     <xsd:enumeration value="module" />
-//     <xsd:enumeration value="type" />
-//     <xsd:enumeration value="file" />
-//     <xsd:enumeration value="namespace" />
-//     <xsd:enumeration value="group" />
-//     <xsd:enumeration value="page" />
-//     <xsd:enumeration value="example" />
-//     <xsd:enumeration value="dir" />
-//     <xsd:enumeration value="concept" />
-//   </xsd:restriction>
-// </xsd:simpleType>
+import { TocItemDataModel, TocListDataModel } from '../data-model/compounds/tableofcontentstype-dm.js';
+import { AbstractCompoundDefType } from '../data-model/compounds/compounddef-dm.js';
+import { DescriptionTocItem, DescriptionTocList, DescriptionAnchor } from './view-model/description-anchors.js';
+import { AbstractDocAnchorType, AbstractDocSectType } from '../data-model/compounds/descriptiontype-dm.js';
 // ----------------------------------------------------------------------------
 export class Workspace {
     // --------------------------------------------------------------------------
-    constructor({ dataModel, pluginOptions, siteConfig, pluginActions = undefined }) {
+    constructor({ dataModel, pluginOptions, siteConfig = { baseUrl: '' }, pluginActions = undefined }) {
         this.collectionNamesByKind = {
             class: 'classes',
             struct: 'classes',
@@ -75,6 +57,9 @@ export class Workspace {
         // View model objects.
         this.compoundsById = new Map();
         this.membersById = new Map();
+        this.descriptionTocLists = [];
+        this.descriptionTocItemsById = new Map();
+        this.descriptionAnchorsById = new Map();
         this.writtenMdFilesCounter = 0;
         this.writtenHtmlFilesCounter = 0;
         console.log();
@@ -90,11 +75,14 @@ export class Workspace {
         this.outputFolderPath = `${docsFolderPath}/${apiFolderPath}/`;
         this.sidebarBaseId = `${apiFolderPath}/`;
         const docsBaseUrl = this.pluginOptions.docsBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '');
-        const apiBaseUrl = this.pluginOptions.apiBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '');
-        this.absoluteBaseUrl = `${this.siteConfig.baseUrl}${docsBaseUrl}/${apiBaseUrl}/`;
-        this.pageBaseUrl = `${this.siteConfig.baseUrl}${docsBaseUrl}/${apiBaseUrl}/`;
-        this.slugBaseUrl = `/${apiBaseUrl}/`;
-        this.menuBaseUrl = `/${docsBaseUrl}/${apiBaseUrl}/`;
+        let apiBaseUrl = this.pluginOptions.apiBaseUrl.replace(/^[/]/, '').replace(/[/]$/, '');
+        if (apiBaseUrl.length > 0) {
+            apiBaseUrl += '/';
+        }
+        this.absoluteBaseUrl = `${this.siteConfig.baseUrl}${docsBaseUrl}/${apiBaseUrl}`;
+        this.pageBaseUrl = `${this.siteConfig.baseUrl}${docsBaseUrl}/${apiBaseUrl}`;
+        this.slugBaseUrl = `/${apiBaseUrl}`;
+        this.menuBaseUrl = `/${docsBaseUrl}/${apiBaseUrl}`;
         // console.log('absoluteBaseUrl:', this.absoluteBaseUrl)
         // Create the view-model objects.
         this.viewModel = new Map();
@@ -116,27 +104,73 @@ export class Workspace {
     createVieModelObjects() {
         console.log('Creating view model objects...');
         for (const compoundDefDataModel of this.dataModel.compoundDefs) {
-            let added = false;
+            let compound;
             const collectionName = this.collectionNamesByKind[compoundDefDataModel.kind];
             if (collectionName !== undefined) {
                 const collection = this.viewModel.get(collectionName);
                 if (collection !== undefined) {
                     // Create the compound object and add it to the parent collection.
                     // console.log(compoundDefDataModel.kind, compoundDefDataModel.compoundName)
-                    const compound = collection.addChild(compoundDefDataModel);
+                    compound = collection.addChild(compoundDefDataModel);
                     // Also add it to the global compounds map.
                     this.compoundsById.set(compound.id, compound);
                     // console.log('compoundsById.set', compound.kind, compound.id)
-                    added = true;
                 }
             }
-            if (!added) {
+            if (compound !== undefined) {
+                if (compoundDefDataModel instanceof AbstractCompoundDefType && compoundDefDataModel.detailedDescription !== undefined) {
+                    this.findDescriptionIdsRecursively(compound, compoundDefDataModel.detailedDescription);
+                }
+            }
+            else {
                 // console.error(util.inspect(compoundDefDataModel, { compact: false, depth: 999 }))
                 console.error('compoundDefDataModel', compoundDefDataModel.kind, 'not implemented yet in', this.constructor.name);
             }
         }
         if (this.pluginOptions.verbose) {
             console.log(this.compoundsById.size, 'compound definitions');
+        }
+        console.log(this.descriptionTocLists);
+    }
+    findDescriptionIdsRecursively(compound, element) {
+        // console.log(compound.id, typeof element)
+        if (element.children === undefined) {
+            return;
+        }
+        for (const childDataModel of element.children) {
+            if (childDataModel instanceof TocListDataModel) {
+                const tocList = new DescriptionTocList(compound);
+                // console.log(elementChild)
+                assert(childDataModel.tocItems !== undefined);
+                for (const tocItemDataModel of childDataModel.tocItems) {
+                    if (tocItemDataModel instanceof TocItemDataModel) {
+                        const tocItem = new DescriptionTocItem(tocItemDataModel.id, tocList);
+                        tocList.tocItems.push(tocItem);
+                        this.descriptionTocItemsById.set(tocItem.id, tocItem);
+                    }
+                }
+                this.descriptionTocLists.push(tocList);
+            }
+            else if (childDataModel instanceof AbstractDocSectType) {
+                if (childDataModel.id !== undefined) {
+                    const anchor = new DescriptionAnchor(compound, childDataModel.id);
+                    this.descriptionAnchorsById.set(anchor.id, anchor);
+                }
+                this.findDescriptionIdsRecursively(compound, childDataModel);
+            }
+            else if (childDataModel instanceof AbstractDocAnchorType) {
+                // console.log(childDataModel)
+                if (childDataModel.id !== undefined) {
+                    const section = new DescriptionAnchor(compound, childDataModel.id);
+                    this.descriptionAnchorsById.set(section.id, section);
+                }
+            }
+            else if (childDataModel instanceof AbstractDataModelBase) {
+                // if (childDataModel instanceof AbstractDocEntryType) {
+                //   console.log(childDataModel)
+                // }
+                this.findDescriptionIdsRecursively(compound, childDataModel);
+            }
         }
     }
     // --------------------------------------------------------------------------
@@ -310,7 +344,8 @@ export class Workspace {
             // Strip local page permalink from anchors.
             text = text.replaceAll(`"${pagePermalink}/#`, '"#');
         }
-        text = text.replaceAll(':thread:', "{':thread:'}").replaceAll(':flags:', "{':flags:'}");
+        // No longer needed for `.md`.
+        // text = text.replaceAll(':thread:', "{':thread:'}").replaceAll(':flags:', "{':flags:'}")
         // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
         const frontMatterLines = [];
         frontMatterLines.push('---');
@@ -541,34 +576,58 @@ export class Workspace {
     // --------------------------------------------------------------------------
     getPermalink({ refid, kindref }) {
         // console.log(refid, kindref)
-        // if (refid.endsWith('ga45942bdeee4fb61db5a7dc3747cb7193')) {
-        //   console.log(refid, kindref)
-        // }
         let permalink;
         if (kindref === 'compound') {
             permalink = this.getPagePermalink(refid);
         }
         else if (kindref === 'member') {
+            const anchor = getPermalinkAnchor(refid);
             const compoundId = stripPermalinkAnchor(refid);
-            // console.log('compoundId:', compoundId)
-            // if (this.currentCompound !== undefined && compoundId === this.currentCompound.id) {
-            //   permalink = `#${getPermalinkAnchor(refid)}`
-            // } else {
-            permalink = `${this.getPagePermalink(compoundId)}/#${getPermalinkAnchor(refid)}`;
+            // console.log('refid:', refid, 'compoundId:', compoundId, 'anchor:', anchor)
+            permalink = this.getPagePermalink(compoundId, true);
+            if (permalink !== undefined) {
+                permalink += `/#${anchor}`;
+            }
+            else {
+                const tocItem = this.descriptionTocItemsById.get(refid);
+                if (tocItem !== undefined) {
+                    const tocList = tocItem.tocList;
+                    permalink = this.getPagePermalink(tocList.compound.id);
+                    if (permalink !== undefined) {
+                        permalink += `/#${anchor}`;
+                    }
+                    else {
+                        console.error('Unknown permalink of', tocList.compound.id, 'for', refid, 'in', this.constructor.name, 'getPermalink');
+                    }
+                }
+                else {
+                    const descriptionSection = this.descriptionAnchorsById.get(refid);
+                    if (descriptionSection !== undefined) {
+                        permalink = this.getPagePermalink(descriptionSection.compound.id);
+                        if (permalink !== undefined) {
+                            permalink += `/#${anchor}`;
+                        }
+                        else {
+                            console.error('Unknown permalink of', descriptionSection.compound.id, 'for', refid, 'in', this.constructor.name, 'getPermalink');
+                        }
+                    }
+                    else {
+                        console.error('Unknown permalink for', refid, 'in', this.constructor.name, 'getPermalink');
+                    }
+                }
+            }
+            // console.log(permalink)
             // }
         }
         else {
             console.error('Unsupported kindref', kindref, 'for', refid, 'in', this.constructor.name, 'getPermalink');
         }
-        // if (refid.endsWith('ga45942bdeee4fb61db5a7dc3747cb7193')) {
-        //   console.log(permalink)
-        // }
         return permalink;
     }
-    getPagePermalink(refid) {
+    getPagePermalink(refid, noWarn = false) {
         const dataObject = this.compoundsById.get(refid);
         if (dataObject === undefined) {
-            if (this.pluginOptions.debug) {
+            if (this.pluginOptions.debug && !noWarn) {
                 console.warn('refid', refid, 'is not a known compound, no permalink');
             }
             return undefined;

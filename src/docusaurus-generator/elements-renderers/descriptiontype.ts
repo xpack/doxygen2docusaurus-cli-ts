@@ -19,6 +19,7 @@ import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocBlockQuoteTy
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
 import { escapeHtml, escapeQuotes, getPermalinkAnchor } from '../utils.js'
 import { AbstractDocHtmlOnlyType, LatexOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel } from '../../data-model/compounds/compounddef-dm.js'
+import { AbstractDataModelBase } from '../../data-model/types.js'
 
 // ----------------------------------------------------------------------------
 
@@ -48,6 +49,7 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
 
     let inParagraph = false
     let text: string = ''
+    assert(element.children !== undefined)
     for (const child of element.children) {
       // console.log(child)
       if (this.isParagraph(child)) {
@@ -90,7 +92,7 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
   }
 
   // docCmdGroup: 2109
-  isParagraph (element: AbstractDocParaType['children'][0]): boolean {
+  isParagraph (element: string | AbstractDataModelBase): boolean {
     if (typeof element === 'string') {
       return true
     } else if (element instanceof HrulerDataModel) {
@@ -423,7 +425,10 @@ export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
             if (parameterItem.parameterNameList !== undefined) {
               for (const parameterName of parameterItem.parameterNameList) {
                 // console.log(util.inspect(parameterName.children, { compact: false, depth: 999 }))
+                assert(parameterName.children !== undefined)
                 for (const child of parameterName.children) {
+                  assert(child instanceof AbstractDataModelBase)
+                  assert(child.children !== undefined)
                   for (const subChild of child.children) {
                     if (typeof subChild === 'string') {
                       if (child instanceof ParameterNameDataModel) {

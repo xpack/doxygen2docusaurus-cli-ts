@@ -14,6 +14,7 @@ import { flattenPath, sanitizeHierarchicalPath } from '../utils.js';
 import { CollectionBase } from './collection-base.js';
 // ----------------------------------------------------------------------------
 export class Pages extends CollectionBase {
+    // compoundsById: Map<string, Page>
     // --------------------------------------------------------------------------
     // constructor (workspace: Workspace) {
     //   super(workspace)
@@ -24,24 +25,16 @@ export class Pages extends CollectionBase {
         const page = new Page(this, compoundDef);
         this.collectionCompoundsById.set(page.id, page);
         if (page.id === 'indexpage') {
-            this.mainPage = page;
+            this.workspace.mainPage = page;
         }
         return page;
-    }
-    hasCompounds() {
-        for (const compoundId of this.collectionCompoundsById.keys()) {
-            if (compoundId !== 'indexpage') {
-                return true;
-            }
-        }
-        return false;
     }
     // --------------------------------------------------------------------------
     createCompoundsHierarchies() {
         // There are no pages hierarchies.
     }
     // --------------------------------------------------------------------------
-    createSidebarItems() {
+    createSidebarItems(sidebarCategory) {
         // Add pages to the sidebar.
         // They are organised as a flat list, no hierarchies.
         const pagesCategory = {
@@ -52,7 +45,29 @@ export class Pages extends CollectionBase {
             items: []
         };
         for (const [pageId, page] of this.collectionCompoundsById) {
-            if (pageId === 'indexpage') {
+            if (pageId === 'deprecated' || pageId === 'todo') {
+                const label = page.sidebarLabel;
+                if (label === undefined) {
+                    continue;
+                }
+                const id = `${this.workspace.sidebarBaseId}${page.docusaurusId}`;
+                const docItem = {
+                    type: 'doc',
+                    label,
+                    id
+                };
+                pagesCategory.items.push(docItem);
+            }
+        }
+        if (pagesCategory.items.length > 0) {
+            sidebarCategory.items.push(pagesCategory);
+        }
+    }
+    createTopPagesSidebarItems(sidebarCategory) {
+        // Add pages to the sidebar.
+        for (const [pageId, page] of this.collectionCompoundsById) {
+            // Skip special pages.
+            if (pageId === 'indexpage' || pageId === 'deprecated' || pageId === 'todo') {
                 continue;
             }
             const label = page.sidebarLabel;
@@ -65,9 +80,8 @@ export class Pages extends CollectionBase {
                 label,
                 id
             };
-            pagesCategory.items.push(docItem);
+            sidebarCategory.items.push(docItem);
         }
-        return [pagesCategory];
     }
     // --------------------------------------------------------------------------
     createMenuItems() {
@@ -106,13 +120,13 @@ export class Page extends CompoundBase {
         const lines = [];
         const morePermalink = this.detailedDescriptionLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({
-            briefDescriptionString: this.briefDescriptionString,
+            briefDescriptionNoParaString: this.briefDescriptionString,
             morePermalink
         }));
         lines.push(...this.renderInnerIndicesToLines({}));
         lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToLines({
-            briefDescriptionString: this.briefDescriptionString,
+            briefDescriptionNoParaString: this.briefDescriptionString,
             detailedDescriptionLines: this.detailedDescriptionLines,
             showHeader: false
         }));

@@ -3,6 +3,7 @@ import { XmlElement, DataModel } from './types.js';
 export declare class DoxygenXmlParser {
     verbose: boolean;
     parsedFilesCounter: number;
+    dataModel: DataModel;
     constructor({ verbose }: {
         verbose: boolean;
     });

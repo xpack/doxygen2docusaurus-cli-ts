@@ -108,7 +108,7 @@ export class VariableListPairDataModel extends AbstractDataModelBase {
 // </xsd:complexType>
 
 export abstract class AbstractDocVariableListType extends AbstractDataModelBase {
-  children: VariableListPairDataModel[] = []
+  // children: VariableListPairDataModel[] = []
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -120,6 +120,8 @@ export abstract class AbstractDocVariableListType extends AbstractDataModelBase 
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
+
+    this.children = []
 
     let varlistentry: VarListEntryDataModel | undefined
     for (const innerElement of innerElements) {

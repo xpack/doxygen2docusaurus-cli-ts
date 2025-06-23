@@ -20,14 +20,15 @@ import { AbstractDataModelBase } from '../types.js';
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractLinkedTextType extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | AbstractRefTextType> = []
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        this.children = [];
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
+        this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
                 this.children.push(xml.getInnerText(innerElement));

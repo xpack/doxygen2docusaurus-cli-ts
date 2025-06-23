@@ -74,6 +74,7 @@ export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
         super(...arguments);
         this.knownClasses = {
             normal: 'doxyHighlight',
+            charliteral: 'doxyHighlightCharLiteral',
             comment: 'doxyHighlightComment',
             preprocessor: 'doxyHighlightPreprocessor',
             keyword: 'doxyHighlightKeyword',
@@ -81,7 +82,9 @@ export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
             keywordflow: 'doxyHighlightKeywordFlow',
             token: 'doxyHighlightToken',
             stringliteral: 'doxyHighlightStringLiteral',
-            charliteral: 'doxyHighlightCharLiteral'
+            vhdlchar: 'doxyHighlightVhdlChar',
+            vhdlkeyword: 'doxyHighlightVhdlKeyword',
+            vhdllogic: 'doxyHighlightVhdlLogic'
         };
     }
     renderToLines(element, type) {
@@ -94,6 +97,7 @@ export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
             spanClass = 'doxyHighlight';
         }
         let text = '';
+        assert(element.children !== undefined);
         if (element.children.length > 0) {
             text += `<span class="${spanClass}">`;
             text += this.workspace.renderElementsArrayToString(element.children, type);

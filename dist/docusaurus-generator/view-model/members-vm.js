@@ -274,13 +274,15 @@ export class Member extends MemberBase {
         const workspace = this.section.compound.collection.workspace;
         if (memberDef.briefDescription !== undefined) {
             // console.log(memberDef.briefDescription)
-            if (memberDef.briefDescription.children.length > 1) {
-                assert(memberDef.briefDescription.children[1] instanceof ParaDataModel);
-                this.briefDescriptionString = workspace.renderElementsArrayToString(memberDef.briefDescription.children[1].children, 'html').trim();
+            if (memberDef.briefDescription !== undefined) {
+                assert(memberDef.briefDescription.children !== undefined);
+                for (const child of memberDef.briefDescription.children) {
+                    if (child instanceof ParaDataModel) {
+                        child.skipPara = true;
+                    }
+                }
             }
-            else {
-                this.briefDescriptionString = workspace.renderElementToString(memberDef.briefDescription, 'html').trim();
-            }
+            this.briefDescriptionNoParaString = workspace.renderElementToString(memberDef.briefDescription, 'html').trim();
         }
         if (memberDef.detailedDescription !== undefined) {
             this.detailedDescriptionLines = workspace.renderElementToLines(memberDef.detailedDescription, 'html');
@@ -486,10 +488,10 @@ export class Member extends MemberBase {
             console.warn('empty name in', this.id);
         }
         const childrenLines = [];
-        const briefDescriptionString = this.briefDescriptionString;
-        if (briefDescriptionString !== undefined && briefDescriptionString.length > 0) {
+        const briefDescriptionNoParaString = this.briefDescriptionNoParaString;
+        if (briefDescriptionNoParaString !== undefined && briefDescriptionNoParaString.length > 0) {
             childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-                briefDescriptionString,
+                briefDescriptionNoParaString,
                 morePermalink: `${permalink}` // No #details, it is already an anchor.
             }));
         }
@@ -542,7 +544,7 @@ export class Member extends MemberBase {
                     const childrenLines = [];
                     if (this.detailedDescriptionLines !== undefined) {
                         childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-                            briefDescriptionString: this.briefDescriptionString,
+                            briefDescriptionNoParaString: this.briefDescriptionNoParaString,
                             detailedDescriptionLines: this.detailedDescriptionLines,
                             showHeader: false,
                             showBrief: true
@@ -581,9 +583,9 @@ export class Member extends MemberBase {
                     }
                     lines.push('');
                     const childrenLines = [];
-                    if (this.briefDescriptionString !== undefined && this.briefDescriptionString.length > 0) {
+                    if (this.briefDescriptionNoParaString !== undefined && this.briefDescriptionNoParaString.length > 0) {
                         childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-                            briefDescriptionString: this.briefDescriptionString
+                            briefDescriptionNoParaString: this.briefDescriptionNoParaString
                         }));
                     }
                     assert(this.enumLines !== undefined);
@@ -612,7 +614,7 @@ export class Member extends MemberBase {
                     const childrenLines = [];
                     if (this.detailedDescriptionLines !== undefined) {
                         childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-                            briefDescriptionString: this.briefDescriptionString,
+                            briefDescriptionNoParaString: this.briefDescriptionNoParaString,
                             detailedDescriptionLines: this.detailedDescriptionLines,
                             showHeader: false,
                             showBrief: true
@@ -639,7 +641,7 @@ export class Member extends MemberBase {
                     lines.push('');
                     const childrenLines = [];
                     childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-                        briefDescriptionString: this.briefDescriptionString,
+                        briefDescriptionNoParaString: this.briefDescriptionNoParaString,
                         detailedDescriptionLines: this.detailedDescriptionLines,
                         showHeader: false,
                         showBrief: true
@@ -705,7 +707,17 @@ export class Member extends MemberBase {
         lines.push('<table class="doxyEnumTable">');
         if (memberDef.enumvalues !== undefined) {
             for (const enumValue of memberDef.enumvalues) {
-                let enumBriefDescription = workspace.renderElementToString(enumValue.briefDescription, 'html').replace(/[.]$/, '');
+                // console.log(enumValue.briefDescription)
+                if (enumValue.briefDescription !== undefined) {
+                    assert(enumValue.briefDescription.children);
+                    for (const child of enumValue.briefDescription.children) {
+                        if (child instanceof ParaDataModel) {
+                            child.skipPara = true;
+                        }
+                    }
+                }
+                let enumBriefDescription = workspace.renderElementToString(enumValue.briefDescription, 'html').trim().replace(/[.]$/, '');
+                // console.log(`|${enumBriefDescription}|`)
                 const anchor = getPermalinkAnchor(enumValue.id);
                 const value = workspace.renderElementToString(enumValue.initializer, 'html');
                 if (value.length > 0) {
@@ -715,7 +727,7 @@ export class Member extends MemberBase {
                 // lines.push(`<a id="${anchor}"></a>`)
                 lines.push('<tr class="doxyEnumItem">');
                 lines.push(`<td class="doxyEnumItemName">${enumValue.name.trim()}<a id="${anchor}"></a></td>`);
-                lines.push(`<td class="doxyEnumItemDescription">${enumBriefDescription}</td>`);
+                lines.push(`<td class="doxyEnumItemDescription"><p>${enumBriefDescription}</p></td>`);
                 lines.push('</tr>');
             }
         }

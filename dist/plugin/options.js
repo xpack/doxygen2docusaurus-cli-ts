@@ -14,6 +14,7 @@ export const defaultOptions = {
     apiFolderPath: 'api',
     docsBaseUrl: 'docs',
     apiBaseUrl: 'api',
+    imagesFolderPath: 'img/doxygen',
     sidebarCategoryFilePath: 'sidebar-category-docusaurus-plugin-doxygen.json',
     sidebarCategoryLabel: 'API Reference (Doxygen)',
     menuDropdownFilePath: 'docusaurus-config-menu-docusaurus-plugin-doxygen.json',

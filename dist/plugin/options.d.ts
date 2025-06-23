@@ -4,7 +4,9 @@ export interface PluginConfigurationOptions {
     apiFolderPath?: string;
     docsBaseUrl?: string;
     apiBaseUrl?: string;
+    imagesFolderPath?: string;
     redirectsOutputFolderPath?: string;
+    mainPageTitle?: string;
     sidebarCategoryFilePath?: string;
     sidebarCategoryLabel?: string;
     menuDropdownFilePath?: string;
@@ -27,8 +29,12 @@ export interface PluginOptions {
     docsBaseUrl: string;
     /** Relative to the docs home, like `api`, without initial/final slashes. */
     apiBaseUrl: string;
+    /** Relative to `static` */
+    imagesFolderPath: string;
     /**  Relative to the current website folder, like `reference`. */
     redirectsOutputFolderPath?: string | undefined;
+    /** The title to be displayed on th main page. Default:`${projectBrief} API Reference`. */
+    mainPageTitle: string;
     /** Relative to the current website folder, default `sidebar-category-doxygen.json`. */
     sidebarCategoryFilePath: string;
     /** Short text to be displayed in the sidebar. */

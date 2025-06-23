@@ -1,12 +1,13 @@
 import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js';
-import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocHeadingType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractEmojiType, AbstractSpType, AbstractVerbatimType } from '../../data-model/compounds/descriptiontype-dm.js';
+import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocBlockQuoteType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocHeadingType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractEmojiType, AbstractSpType, AbstractVerbatimType } from '../../data-model/compounds/descriptiontype-dm.js';
 import { AbstractDocHtmlOnlyType } from '../../data-model/compounds/compounddef-dm.js';
+import { AbstractDataModelBase } from '../../data-model/types.js';
 export declare class DescriptionTypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element: AbstractDescriptionType, type: string): string[];
 }
 export declare class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element: AbstractDocParaType, type: string): string[];
-    isParagraph(element: AbstractDocParaType['children'][0]): boolean;
+    isParagraph(element: string | AbstractDataModelBase): boolean;
 }
 export declare class DocURLLinkStringRenderer extends ElementStringRendererBase {
     renderToString(element: AbstractDocURLLink, type: string): string;
@@ -52,4 +53,7 @@ export declare class HeadingLinesRenderer extends ElementLinesRendererBase {
 }
 export declare class EmojiStringRenderer extends ElementStringRendererBase {
     renderToString(element: AbstractEmojiType, type: string): string;
+}
+export declare class BlockquoteLinesRenderer extends ElementLinesRendererBase {
+    renderToLines(element: AbstractDocBlockQuoteType, type: string): string[];
 }

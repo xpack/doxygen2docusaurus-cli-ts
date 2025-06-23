@@ -3,7 +3,7 @@ import { BaseCompoundRefDataModel, DerivedCompoundRefDataModel } from './compoun
 import { TemplateParamListDataModel } from './templateparamlisttype-dm.js';
 import { SectionDefDataModel } from './sectiondeftype-dm.js';
 import { ListOfAllMembersDataModel } from './listofallmemberstype-dm.js';
-import { AbstractStringType, BriefDescriptionDataModel, DetailedDescriptionDataModel, ParaDataModel, ProgramListingDataModel, Sect5DataModel } from './descriptiontype-dm.js';
+import { AbstractStringType, BriefDescriptionDataModel, DetailedDescriptionDataModel, ProgramListingDataModel } from './descriptiontype-dm.js';
 import { InnerClassDataModel, InnerDirDataModel, InnerFileDataModel, InnerGroupDataModel, InnerNamespaceDataModel, InnerPageDataModel } from './reftype-dm.js';
 import { LocationDataModel } from './locationtype-dm.js';
 import { AbstractDataModelBase } from '../types.js';
@@ -26,7 +26,6 @@ export declare abstract class AbstractXyzType extends AbstractDataModelBase {
     final?: Boolean | undefined;
     lineno?: Number | undefined;
     attr23?: string[] | undefined;
-    children: Array<string | ParaDataModel | Sect5DataModel>;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
 export declare class XyzDataModel extends AbstractXyzType {

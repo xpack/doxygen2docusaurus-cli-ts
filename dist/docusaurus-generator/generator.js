@@ -13,6 +13,7 @@ import path from 'node:path';
 import * as fs from 'node:fs/promises';
 import { Workspace } from './workspace.js';
 import { folderExists } from './utils.js';
+import { Page } from './view-model/pages-vm.js';
 export class DocusaurusGenerator {
     // --------------------------------------------------------------------------
     constructor({ dataModel, pluginOptions, siteConfig, pluginActions = undefined }) {
@@ -30,17 +31,19 @@ export class DocusaurusGenerator {
         // No longer used with CommonMarkdown output.
         // await this.generateConfigurationFile()
         await this.generateSidebarFile();
-        await this.generateMenuDropdownFile();
+        await this.generateMenuFile();
         console.log();
         await this.generatePages();
         console.log();
-        await this.generateIndexDotMdFiles();
+        await this.generateTopIndexDotMdFile();
+        await this.generateCollectionsIndexDotMdFiles();
         await this.generatePerInitialsIndexMdFiles();
         if (this.workspace.pluginOptions.verbose) {
             console.log(this.workspace.writtenMdFilesCounter, 'md files written');
         }
-        await this.generateRedirectFiles();
+        await this.generateCompatibilityRedirectFiles();
         await this.copyFiles();
+        await this.copyImageFiles();
     }
     // --------------------------------------------------------------------------
     // https://nodejs.org/en/learn/manipulating-files/working-with-folders-in-nodejs
@@ -59,18 +62,6 @@ export class DocusaurusGenerator {
         await fs.mkdir(outputFolderPath, { recursive: true });
     }
     // --------------------------------------------------------------------------
-    async generateConfigurationFile() {
-        const jsonFileName = 'docusaurus-plugin-doxygen-config.json';
-        const jsonFilePath = `${jsonFileName}`;
-        const configurationData = {
-            doxygenVersion: this.workspace.dataModel.doxygenindex?.version
-        };
-        const jsonString = JSON.stringify(configurationData, null, 2);
-        console.log(`Writing configuration file ${jsonFilePath}...`);
-        await fs.mkdir(path.dirname(jsonFilePath), { recursive: true });
-        await fs.writeFile(jsonFilePath, jsonString, 'utf8');
-    }
-    // --------------------------------------------------------------------------
     async generateSidebarFile() {
         const sidebarCategory = {
             type: 'category',
@@ -82,12 +73,14 @@ export class DocusaurusGenerator {
             collapsed: false,
             items: []
         };
+        const pages = this.workspace.viewModel.get('pages');
+        pages.createTopPagesSidebarItems(sidebarCategory);
         // This is the order of items in the sidebar.
         for (const collectionName of this.workspace.sidebarCollectionNames) {
             // console.log(collectionName)
             const collection = this.workspace.viewModel.get(collectionName);
             if (collection?.hasCompounds()) {
-                sidebarCategory.items.push(...collection.createSidebarItems());
+                collection.createSidebarItems(sidebarCategory);
             }
         }
         // console.log('sidebar:', util.inspect(sidebar, { compact: false, depth: 999 }))
@@ -101,43 +94,103 @@ export class DocusaurusGenerator {
         await fs.writeFile(absoluteFilePath, jsonString, 'utf8');
     }
     // --------------------------------------------------------------------------
-    async generateMenuDropdownFile() {
+    async generateMenuFile() {
         const pluginOptions = this.workspace.pluginOptions;
         if (pluginOptions.menuDropdownFilePath?.trim().length === 0) {
             return;
         }
-        const menuDropdown = {
+        let navbarEntry = {
             type: 'dropdown',
             label: pluginOptions.menuDropdownLabel,
             to: `${this.workspace.menuBaseUrl}`,
             position: 'left',
             items: []
         };
+        let hasItems = false;
         // This is the order of items in the sidebar.
         for (const collectionName of this.workspace.sidebarCollectionNames) {
             // console.log(collectionName)
             const collection = this.workspace.viewModel.get(collectionName);
             if (collection?.hasCompounds()) {
-                menuDropdown.items.push(...collection.createMenuItems());
+                assert(navbarEntry.items !== undefined);
+                const items = collection.createMenuItems();
+                if (items.length > 0) {
+                    navbarEntry.items.push(...collection.createMenuItems());
+                    hasItems = true;
+                }
             }
         }
+        if (!hasItems) {
+            navbarEntry = {
+                label: pluginOptions.menuDropdownLabel,
+                to: `${this.workspace.menuBaseUrl}`,
+                position: 'left'
+            };
+        }
         // console.log('sidebarItems:', util.inspect(sidebarItems, { compact: false, depth: 999 }))
-        const jsonString = JSON.stringify(menuDropdown, null, 2);
+        const jsonString = JSON.stringify(navbarEntry, null, 2);
         assert(pluginOptions.menuDropdownFilePath);
         const relativeFilePath = pluginOptions.menuDropdownFilePath;
         const absoluteFilePath = path.resolve(relativeFilePath);
         // Superfluous if done after prepareOutputFolder()
         await fs.mkdir(path.dirname(absoluteFilePath), { recursive: true });
-        console.log(`Writing menu dropdown file ${relativeFilePath}...`);
+        console.log(`Writing menu file ${relativeFilePath}...`);
         await fs.writeFile(absoluteFilePath, jsonString, 'utf8');
     }
     // --------------------------------------------------------------------------
-    async generateIndexDotMdFiles() {
+    async generateCollectionsIndexDotMdFiles() {
         for (const [collectionName, collection] of this.workspace.viewModel) {
             // console.log(collectionName)
             await collection.generateIndexDotMdFile();
         }
         // TODO: parallelize
+    }
+    // --------------------------------------------------------------------------
+    async generateTopIndexDotMdFile() {
+        const outputFolderPath = this.workspace.outputFolderPath;
+        const filePath = `${outputFolderPath}index.md`;
+        const projectBrief = this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF');
+        const title = this.workspace.pluginOptions.mainPageTitle ?? `${projectBrief} API Reference`;
+        const permalink = ''; // The root of the API sub-site.
+        // This is the top index.md file (@mainpage)
+        const frontMatter = {
+            title,
+            slug: `${this.workspace.slugBaseUrl}${permalink}`,
+            // description: '...', // TODO
+            custom_edit_url: null,
+            keywords: ['doxygen', 'reference']
+        };
+        const lines = [];
+        const groups = this.workspace.viewModel.get('groups');
+        const topicsLines = groups.generateTopicsTable();
+        lines.push(...topicsLines);
+        const mainPage = this.workspace.mainPage;
+        if (mainPage !== undefined) {
+            if (topicsLines.length > 0) {
+                lines.push('');
+                lines.push('## Description');
+            }
+            const detailedDescriptionLines = mainPage.detailedDescriptionLines;
+            if (detailedDescriptionLines !== undefined && detailedDescriptionLines.length > 0) {
+                lines.push('');
+                lines.push(...mainPage.renderDetailedDescriptionToLines({
+                    briefDescriptionNoParaString: mainPage.briefDescriptionString,
+                    detailedDescriptionLines: mainPage.detailedDescriptionLines,
+                    showHeader: false,
+                    showBrief: false
+                }));
+            }
+        }
+        lines.push('');
+        lines.push(':::note');
+        lines.push('For comparison, the original Doxygen html pages, styled with the <a href="https://jothepro.github.io/doxygen-awesome-css/">doxygen-awesome-css</a> plugin, continue to be available via the <a href="pathname:///doxygen/topics.html"><code>.../doxygen/*.html</b></code> URLs.');
+        lines.push(':::');
+        console.log(`Writing top index file ${filePath}...`);
+        await this.workspace.writeMdFile({
+            filePath,
+            frontMatter,
+            bodyLines: lines
+        });
     }
     // --------------------------------------------------------------------------
     async generatePerInitialsIndexMdFiles() {
@@ -156,13 +209,13 @@ export class DocusaurusGenerator {
             console.log('Writing Docusaurus .md pages...');
         }
         for (const [compoundId, compound] of this.workspace.compoundsById) {
-            // if (compound instanceof Page && compound.id === 'indexpage') {
-            //   // This is the @mainpage. We diverge from Doxygen and generate
-            //   // the API main page differently, with the list of topics and
-            //   // this page detailed description. Therefore it is not generated
-            //   // as a regular page and must be skipped at this stage.
-            //   continue
-            // }
+            if (compound instanceof Page && compound.id === 'indexpage') {
+                // This is the @mainpage. We diverge from Doxygen and generate
+                // the API main page differently, with the list of topics and
+                // this page detailed description. Therefore it is not generated
+                // as a regular page and must be skipped at this stage.
+                continue;
+            }
             this.workspace.currentCompound = compound;
             const permalink = compound.relativePermalink;
             const docusaurusId = compound.docusaurusId;
@@ -200,7 +253,7 @@ export class DocusaurusGenerator {
         }
     }
     // --------------------------------------------------------------------------
-    async generateRedirectFiles() {
+    async generateCompatibilityRedirectFiles() {
         const redirectsOutputFolderPath = this.workspace.pluginOptions.redirectsOutputFolderPath;
         if (redirectsOutputFolderPath === undefined) {
             return;
@@ -302,6 +355,28 @@ export class DocusaurusGenerator {
         }
         console.log('Writing css file', toFilePath);
         await fs.copyFile(fromFilePath, toFilePath);
+    }
+    async copyImageFiles() {
+        if (this.workspace.dataModel.images === undefined) {
+            return;
+        }
+        if (!this.workspace.pluginOptions.verbose) {
+            console.log('Copying', this.workspace.dataModel.images.length, 'image files...');
+        }
+        const destImgFolderPath = path.join('static', ...this.workspace.pluginOptions.imagesFolderPath.split('/'));
+        await fs.mkdir(destImgFolderPath, { recursive: true });
+        let fromFilePath;
+        let toFilePath;
+        const uniqueNames = Array.from(new Set(this.workspace.dataModel.images.map(obj => obj.name))).sort();
+        for (const name of uniqueNames) {
+            assert(name !== undefined);
+            fromFilePath = path.join(this.workspace.pluginOptions.doxygenXmlInputFolderPath, name);
+            toFilePath = path.join(destImgFolderPath, name);
+            if (this.workspace.pluginOptions.verbose) {
+                console.log('Copying image file', toFilePath);
+            }
+            await fs.copyFile(fromFilePath, toFilePath);
+        }
     }
 }
 // ----------------------------------------------------------------------------

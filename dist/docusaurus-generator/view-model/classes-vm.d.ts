@@ -1,7 +1,7 @@
 import { CompoundBase } from './compound-base-vm.js';
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js';
 import { CollectionBase } from './collection-base.js';
-import { MenuItem, SidebarItem } from '../../plugin/types.js';
+import { MenuItem, SidebarCategory } from '../../plugin/types.js';
 import { FrontMatter } from '../types.js';
 import { BaseCompoundRefDataModel, DerivedCompoundRefDataModel } from '../../data-model/compounds/compoundreftype-dm.js';
 import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js';
@@ -10,7 +10,7 @@ export declare class Classes extends CollectionBase {
     topLevelClasses: Class[];
     addChild(compoundDef: CompoundDefDataModel): CompoundBase;
     createCompoundsHierarchies(): void;
-    createSidebarItems(): SidebarItem[];
+    createSidebarItems(sidebarCategory: SidebarCategory): void;
     private createSidebarItemRecursively;
     createMenuItems(): MenuItem[];
     generateIndexDotMdFile(): Promise<void>;

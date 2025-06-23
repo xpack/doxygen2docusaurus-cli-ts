@@ -275,6 +275,7 @@ export abstract class CompoundBase {
 
     if (compoundDef.briefDescription !== undefined) {
       // console.log(compoundDef.briefDescription)
+      assert(compoundDef.briefDescription.children !== undefined)
       if (compoundDef.briefDescription.children.length > 1) {
         assert(compoundDef.briefDescription.children[1] instanceof ParaDataModel)
         this.briefDescriptionString = workspace.renderElementsArrayToString(compoundDef.briefDescription.children[1].children, 'html').trim()
@@ -733,6 +734,7 @@ export abstract class CompoundBase {
       assert(param.type !== undefined)
 
       let paramString = ''
+      assert(param.type.children !== undefined)
       for (const child of param.type.children) {
         if (typeof child === 'string') {
           paramString += child
@@ -749,6 +751,7 @@ export abstract class CompoundBase {
         if (param.defval !== undefined) {
           const defval: DefValDataModel = param.defval
           paramString += ' = '
+          assert(defval.children !== undefined)
           for (const child of defval.children) {
             if (typeof child === 'string') {
               paramString += child
@@ -786,6 +789,7 @@ export abstract class CompoundBase {
       if (param.declname !== undefined) {
         paramString += param.declname
       } else {
+        assert(param.type.children !== undefined)
         for (const child of param.type.children) {
           if (typeof child === 'string') {
             // Extract the parameter name, passed as `class T`.

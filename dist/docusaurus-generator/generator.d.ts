@@ -11,13 +11,14 @@ export declare class DocusaurusGenerator {
     });
     generate(): Promise<void>;
     prepareOutputFolder(): Promise<void>;
-    generateConfigurationFile(): Promise<void>;
     generateSidebarFile(): Promise<void>;
-    generateMenuDropdownFile(): Promise<void>;
-    generateIndexDotMdFiles(): Promise<void>;
+    generateMenuFile(): Promise<void>;
+    generateCollectionsIndexDotMdFiles(): Promise<void>;
+    generateTopIndexDotMdFile(): Promise<void>;
     generatePerInitialsIndexMdFiles(): Promise<void>;
     generatePages(): Promise<void>;
-    generateRedirectFiles(): Promise<void>;
+    generateCompatibilityRedirectFiles(): Promise<void>;
     private generateRedirectFile;
     copyFiles(): Promise<void>;
+    copyImageFiles(): Promise<void>;
 }

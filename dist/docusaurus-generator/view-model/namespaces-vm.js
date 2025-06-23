@@ -59,7 +59,7 @@ export class Namespaces extends CollectionBase {
         }
     }
     // --------------------------------------------------------------------------
-    createSidebarItems() {
+    createSidebarItems(sidebarCategory) {
         // Add namespaces to the sidebar.
         // Top level namespaces are added below a Namespaces category.
         const namespacesCategory = {
@@ -78,7 +78,7 @@ export class Namespaces extends CollectionBase {
                 namespacesCategory.items.push(item);
             }
         }
-        return [namespacesCategory];
+        sidebarCategory.items.push(namespacesCategory);
     }
     createNamespaceItemRecursively(namespace) {
         if (namespace.sidebarLabel === undefined) {
@@ -261,7 +261,7 @@ export class Namespace extends CompoundBase {
         const descriptionTodo = `@namespace ${escapeHtml(this.compoundName)}`;
         const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({
-            briefDescriptionString: this.briefDescriptionString,
+            briefDescriptionNoParaString: this.briefDescriptionString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -282,7 +282,7 @@ export class Namespace extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToLines({
-            briefDescriptionString: this.briefDescriptionString,
+            briefDescriptionNoParaString: this.briefDescriptionString,
             detailedDescriptionLines: this.detailedDescriptionLines,
             todo: descriptionTodo,
             showHeader: true,

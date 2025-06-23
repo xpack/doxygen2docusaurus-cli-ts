@@ -61,13 +61,13 @@ export declare abstract class CompoundBase {
     initializeLate(): void;
     isOperator(name: string): boolean;
     abstract renderToLines(frontMatter: FrontMatter): string[];
-    renderBriefDescriptionToString({ briefDescriptionString, todo, morePermalink }: {
-        briefDescriptionString: string | undefined;
+    renderBriefDescriptionToString({ briefDescriptionNoParaString, todo, morePermalink }: {
+        briefDescriptionNoParaString: string | undefined;
         todo?: string;
         morePermalink?: string | undefined;
     }): string;
-    renderDetailedDescriptionToLines({ briefDescriptionString, detailedDescriptionLines, todo, showHeader, showBrief }: {
-        briefDescriptionString?: string | undefined;
+    renderDetailedDescriptionToLines({ briefDescriptionNoParaString, detailedDescriptionLines, todo, showHeader, showBrief }: {
+        briefDescriptionNoParaString?: string | undefined;
         detailedDescriptionLines: string[] | undefined;
         todo?: string;
         showHeader: boolean;

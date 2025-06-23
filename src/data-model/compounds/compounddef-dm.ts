@@ -59,7 +59,7 @@ export abstract class AbstractXyzType extends AbstractDataModelBase {
 
   // ------------------------------------------
 
-  children: Array<string | ParaDataModel | Sect5DataModel> = []
+  // children: Array<string | ParaDataModel | Sect5DataModel> = []
 
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -102,6 +102,8 @@ export abstract class AbstractXyzType extends AbstractDataModelBase {
     // If the object has to keep trak of the order of mixed type children.
     // const innerElements = xml.getInnerElements(element, elementName)
     // assert(innerElements.length > 0)
+
+    this.children = []
 
     for (const innerElement of innerElements) {
       if (xml.hasInnerText(innerElement)) {

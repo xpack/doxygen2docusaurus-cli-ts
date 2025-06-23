@@ -114,6 +114,7 @@ export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
 
     let text = ''
 
+    assert(element.children !== undefined)
     if (element.children.length > 0) {
       text += `<span class="${spanClass}">`
       text += this.workspace.renderElementsArrayToString(element.children, type)

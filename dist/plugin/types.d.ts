@@ -25,11 +25,11 @@ export interface SidebarCategoryItem {
 }
 export type SidebarItem = SidebarDocItem | SidebarCategoryItem;
 export interface MenuDropdown {
-    type: 'dropdown';
+    type?: 'dropdown';
     label: string;
     to: string;
     position: 'left' | 'right';
-    items: MenuItem[];
+    items?: MenuItem[];
 }
 export interface MenuItem {
     label: string;

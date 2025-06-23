@@ -385,6 +385,7 @@ export class Member extends MemberBase {
     if (memberDef.briefDescription !== undefined) {
       // console.log(memberDef.briefDescription)
       if (memberDef.briefDescription !== undefined) {
+        assert(memberDef.briefDescription.children !== undefined)
         for (const child of memberDef.briefDescription.children) {
           if (child instanceof ParaDataModel) {
             child.skipPara = true
@@ -913,6 +914,7 @@ export class Member extends MemberBase {
       for (const enumValue of memberDef.enumvalues) {
         // console.log(enumValue.briefDescription)
         if (enumValue.briefDescription !== undefined) {
+          assert(enumValue.briefDescription.children)
           for (const child of enumValue.briefDescription.children) {
             if (child instanceof ParaDataModel) {
               child.skipPara = true

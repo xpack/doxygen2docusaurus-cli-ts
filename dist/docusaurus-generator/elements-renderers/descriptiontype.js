@@ -12,10 +12,11 @@
 import assert from 'assert';
 import util from 'util';
 import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js';
-import { AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocRefTextType, AbstractDocURLLink, AbstractEmojiType, HrulerDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
+import { AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocRefTextType, AbstractDocURLLink, AbstractEmojiType, HrulerDataModel, LineBreakDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js';
 import { escapeHtml, escapeQuotes, getPermalinkAnchor } from '../utils.js';
 import { AbstractDocHtmlOnlyType, LatexOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel } from '../../data-model/compounds/compounddef-dm.js';
+import { AbstractDataModelBase } from '../../data-model/types.js';
 // ----------------------------------------------------------------------------
 export class DescriptionTypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
@@ -36,6 +37,7 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
         const lines = [];
         let inParagraph = false;
         let text = '';
+        assert(element.children !== undefined);
         for (const child of element.children) {
             // console.log(child)
             if (this.isParagraph(child)) {
@@ -48,7 +50,12 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
                     // console.log(text)
                     if (text.length > 0) {
                         lines.push('');
-                        lines.push(`<p>${text}</p>`);
+                        if (element.skipPara) {
+                            lines.push(text);
+                        }
+                        else {
+                            lines.push(`<p>${text}</p>`);
+                        }
                     }
                     inParagraph = false;
                     text = '';
@@ -61,7 +68,12 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
             // console.log(text)
             if (text.length > 0) {
                 lines.push('');
-                lines.push(`<p>${text}</p>`);
+                if (element.skipPara) {
+                    lines.push(text);
+                }
+                else {
+                    lines.push(`<p>${text}</p>`);
+                }
             }
         }
         // console.log(lines)
@@ -73,6 +85,9 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
             return true;
         }
         else if (element instanceof HrulerDataModel) {
+            return false; // Explicitly not inside a paragraph.
+        }
+        else if (element instanceof LineBreakDataModel) {
             return false; // Explicitly not inside a paragraph.
         }
         else if (element instanceof AbstractDocHtmlOnlyType) {
@@ -328,6 +343,7 @@ export class DocEmptyTypeStringRenderer extends ElementStringRendererBase {
                 text += '\n';
                 break;
             case 'LineBreakDataModel':
+                text += '\n';
                 text += '<br/>';
                 break;
             case 'NonBreakableSpaceDataModel':
@@ -370,7 +386,10 @@ export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
                         if (parameterItem.parameterNameList !== undefined) {
                             for (const parameterName of parameterItem.parameterNameList) {
                                 // console.log(util.inspect(parameterName.children, { compact: false, depth: 999 }))
+                                assert(parameterName.children !== undefined);
                                 for (const child of parameterName.children) {
+                                    assert(child instanceof AbstractDataModelBase);
+                                    assert(child.children !== undefined);
                                     for (const subChild of child.children) {
                                         if (typeof subChild === 'string') {
                                             if (child instanceof ParameterNameDataModel) {
@@ -435,12 +454,13 @@ export class VerbatimStringRenderer extends ElementStringRendererBase {
     renderToString(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         let text = '';
-        // text += '\n' // This is to end the previous line
-        // text += '\n' // This is an empty line for aesthetics.
-        text += '<pre class="doxyVerbatim">\n';
+        text += '\n';
+        // Docusaurus adds the copy button.
+        // The content must be on the same line.
+        text += '<pre><code>';
         text += this.workspace.renderElementToString(element.text, 'html');
         // text += '\n'
-        text += '</pre>';
+        text += '</code></pre>';
         return text;
     }
 }
@@ -449,10 +469,12 @@ export class FormulaStringRenderer extends ElementStringRendererBase {
     renderToString(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         let text = '';
-        text += '<code>';
+        const formula = this.workspace.renderElementToString(element.text, 'html');
+        if (this.workspace.pluginOptions.verbose) {
+            console.warn('LaTeX formula', formula, 'not rendered properly');
+        }
         // element.id is ignored.
-        text += this.workspace.renderElementToString(element.text, 'plain-html');
-        text += '</code>';
+        text += `<code>${formula}</code>`;
         return text;
     }
 }
@@ -466,7 +488,7 @@ export class ImageStringRenderer extends ElementStringRendererBase {
             text += '<figure>';
             text += '  <img';
             if (element.name !== undefined) {
-                text += ` src="${element.name}"`;
+                text += ` src="/${this.workspace.pluginOptions.imagesFolderPath}/${element.name}"`;
             }
             if (element.width !== undefined) {
                 text += ` width="${element.width}"`;
@@ -533,6 +555,17 @@ export class EmojiStringRenderer extends ElementStringRendererBase {
         // <span class="emoji">&#x1f604;</span>
         text += `<span class="doxyEmoji">${element.unicode}</span>}`;
         return text;
+    }
+}
+// ----------------------------------------------------------------------------
+export class BlockquoteLinesRenderer extends ElementLinesRendererBase {
+    renderToLines(element, type) {
+        // console.log(util.inspect(element, { compact: false, depth: 999 }))
+        const lines = [];
+        lines.push('<blockquote class="doxyBlockQuote">');
+        lines.push(...this.workspace.renderElementsArrayToLines(element.children, type));
+        lines.push('</blockquote>');
+        return lines;
     }
 }
 // ----------------------------------------------------------------------------

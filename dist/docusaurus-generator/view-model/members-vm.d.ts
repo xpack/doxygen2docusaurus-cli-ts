@@ -30,7 +30,7 @@ declare class MemberBase {
 export declare class Member extends MemberBase {
     id: string;
     kind: string;
-    briefDescriptionString: string | undefined;
+    briefDescriptionNoParaString: string | undefined;
     detailedDescriptionLines: string[] | undefined;
     argsstring: string | undefined;
     qualifiedName: string | undefined;

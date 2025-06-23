@@ -21,9 +21,13 @@ export class DocListTypeLinesRenderer extends ElementLinesRendererBase {
         for (const listItem of element.listItems) {
             if (listItem.paras !== undefined) {
                 // console.log(listItem.paras)
-                assert(listItem.paras.length === 1);
-                assert(listItem.paras[0] !== undefined);
-                lines.push(`<li>${this.workspace.renderElementsArrayToString(listItem.paras[0].children, type).trim()}</li>`);
+                if (listItem.paras.length === 1) {
+                    assert(listItem.paras[0] !== undefined);
+                    lines.push(`<li>${this.workspace.renderElementsArrayToString(listItem.paras[0].children, type).trim()}</li>`);
+                }
+                else {
+                    lines.push(`<li>${this.workspace.renderElementsArrayToString(listItem.paras, type)}</li>`);
+                }
             }
         }
         lines.push('</ul>');

@@ -65,7 +65,7 @@ export class Classes extends CollectionBase {
         }
     }
     // --------------------------------------------------------------------------
-    createSidebarItems() {
+    createSidebarItems(sidebarCategory) {
         // Add classes to the sidebar.
         // Top level classes are added below a Class category
         const classesCategory = {
@@ -116,7 +116,7 @@ export class Classes extends CollectionBase {
                 classesCategory.items[0].items.push(item);
             }
         }
-        return [classesCategory];
+        sidebarCategory.items.push(classesCategory);
     }
     createSidebarItemRecursively(classs) {
         if (classs.sidebarLabel === undefined) {
@@ -409,6 +409,7 @@ export class Classes extends CollectionBase {
             lines.push('');
             lines.push(`## - ${initial} -`);
             lines.push('');
+            lines.push('<ul>');
             const mapArray = entriesPerInitialsMap.get(initial);
             assert(mapArray !== undefined);
             for (const entry of mapArray) {
@@ -417,12 +418,13 @@ export class Classes extends CollectionBase {
                     kind = `${entry.kind} `;
                 }
                 if (entry.permalink !== undefined && entry.permalink.length > 0) {
-                    lines.push(`- ${escapeHtml(entry.name)}: <a href="${entry.permalink}">${kind}${escapeHtml(entry.longName)}</a>`);
+                    lines.push(`<li>${escapeHtml(entry.name)}: <a href="${entry.permalink}">${kind}${escapeHtml(entry.longName)}</a></li>`);
                 }
                 else {
-                    lines.push(`- ${escapeHtml(entry.name)}: ${kind}${escapeHtml(entry.longName)}`);
+                    lines.push(`<li>${escapeHtml(entry.name)}: ${kind}${escapeHtml(entry.longName)}</li>`);
                 }
             }
+            lines.push('</ul>');
         }
         return lines;
     }
@@ -520,7 +522,7 @@ export class Class extends CompoundBase {
         const descriptionTodo = `@${this.kind} ${escapeHtml(this.compoundName)}`;
         const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({
-            briefDescriptionString: this.briefDescriptionString,
+            briefDescriptionNoParaString: this.briefDescriptionString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -654,7 +656,7 @@ export class Class extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToLines({
-            briefDescriptionString: this.briefDescriptionString,
+            briefDescriptionNoParaString: this.briefDescriptionString,
             detailedDescriptionLines: this.detailedDescriptionLines,
             todo: descriptionTodo,
             showHeader: true,
@@ -680,7 +682,7 @@ export class Class extends CompoundBase {
         const briefDescriptionString = this.briefDescriptionString;
         if ((briefDescriptionString ?? '').length > 0) {
             childrenLines.push(this.renderBriefDescriptionToString({
-                briefDescriptionString,
+                briefDescriptionNoParaString: briefDescriptionString,
                 morePermalink
             }));
         }

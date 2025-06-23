@@ -20,10 +20,8 @@ import { XMLParser } from 'fast-xml-parser'
 import { XmlElement, DataModel } from './types.js'
 import { DoxygenIndexDataModel } from './index/indexdoxygentype-dm.js'
 import { DoxygenFileDataModel } from './doxyfile/doxyfiletype-dm.js'
-import { CompoundDefDataModel } from './compounds/compounddef-dm.js'
 import { DoxygenDataModel } from './compounds/doxygentype-dm.js'
 import { MemberDefDataModel } from './compounds/memberdeftype-dm.js'
-import { AbstractDocImageType } from './compounds/descriptiontype-dm.js'
 
 // ----------------------------------------------------------------------------
 

@@ -9,13 +9,11 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 import assert from 'node:assert';
-import * as fs from 'node:fs/promises';
-import path from 'node:path';
 import { CompoundBase } from './compound-base-vm.js';
 import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
 import { CollectionBase } from './collection-base.js';
 // Support for collapsible tables is experimental.
-const useCollapsibleTable = false;
+// const useCollapsibleTable = false
 // ----------------------------------------------------------------------------
 export class Groups extends CollectionBase {
     constructor() {
@@ -55,7 +53,7 @@ export class Groups extends CollectionBase {
         }
     }
     // --------------------------------------------------------------------------
-    createSidebarItems() {
+    createSidebarItems(sidebarCategory) {
         const sidebarItems = [];
         for (const topLevelGroup of this.topLevelGroups) {
             const item = this.createSidebarItemRecursively(topLevelGroup);
@@ -63,7 +61,7 @@ export class Groups extends CollectionBase {
                 sidebarItems.push(item);
             }
         }
-        return sidebarItems;
+        sidebarCategory.items.push(...sidebarItems);
     }
     createSidebarItemRecursively(group) {
         if (group.sidebarLabel === undefined) {
@@ -111,109 +109,85 @@ export class Groups extends CollectionBase {
     }
     // --------------------------------------------------------------------------
     async generateIndexDotMdFile() {
+    }
+    // if (useCollapsibleTable) {
+    //   const jsonFilePath = `${outputFolderPath}${jsonFileName}`
+    //   const tableData: collapsibleTableRow[] = []
+    //   for (const group of this.topLevelGroups) {
+    //     tableData.push(this.generateTableRowRecursively(group))
+    //   }
+    //   const jsonString = JSON.stringify(tableData, null, 2)
+    //   console.log(`Writing groups index table file ${jsonFilePath}...`)
+    //   await fs.mkdir(path.dirname(jsonFilePath), { recursive: true })
+    //   const fileHandle = await fs.open(jsonFilePath, 'ax')
+    //   await fileHandle.write(jsonString)
+    //   await fileHandle.close()
+    // }
+    // const lines: string[] = []
+    // lines.push(`<p>${projectBrief} topics with brief descriptions are:</p>`)
+    // lines.push('')
+    // if (useCollapsibleTable) {
+    //   lines.push('<CollapsibleTreeTable rows={tableData} />')
+    // } else {
+    //   lines.push('<table class="doxyTreeTable">')
+    //   for (const group of this.topLevelGroups) {
+    //     lines.push(...this.generateIndexMdFileRecursively(group, 1))
+    //   }
+    //   lines.push('')
+    //   lines.push('</table>')
+    // }
+    // console.log(`Writing groups index file ${filePath}...`)
+    // if (useCollapsibleTable) {
+    //   await this.workspace.writeMdFile({
+    //     filePath,
+    //     frontMatter,
+    //     frontMatterCodeLines: [
+    //       `import tableData from './${jsonFileName}'`
+    //     ],
+    //     bodyLines: lines
+    //   })
+    // } else {
+    //   await this.workspace.writeMdFile({
+    //     filePath,
+    //     frontMatter,
+    //     bodyLines: lines
+    //   })
+    // }
+    generateTopicsTable() {
         if (this.topLevelGroups.length === 0) {
-            return;
+            return [];
         }
-        // Home page for the API reference.
-        // It diverts from Doxygen, since it renders the list of topics and
-        // the main page.
-        const outputFolderPath = this.workspace.outputFolderPath;
-        const filePath = `${outputFolderPath}index.md`;
-        const jsonFileName = 'index-table.json';
-        if (useCollapsibleTable) {
-            const jsonFilePath = `${outputFolderPath}${jsonFileName}`;
-            const tableData = [];
-            for (const group of this.topLevelGroups) {
-                tableData.push(this.generateTableRowRecursively(group));
-            }
-            const jsonString = JSON.stringify(tableData, null, 2);
-            console.log(`Writing groups index table file ${jsonFilePath}...`);
-            await fs.mkdir(path.dirname(jsonFilePath), { recursive: true });
-            const fileHandle = await fs.open(jsonFilePath, 'ax');
-            await fileHandle.write(jsonString);
-            await fileHandle.close();
-        }
-        const projectBrief = this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF');
-        const permalink = ''; // The root of the API sub-site.
-        // This is the top index.md file (@mainpage)
-        const frontMatter = {
-            title: `${projectBrief} API Reference`,
-            slug: `${this.workspace.slugBaseUrl}${permalink}`,
-            // description: '...', // TODO
-            custom_edit_url: null,
-            keywords: ['doxygen', 'reference']
-        };
-        // const docusaurusGenerator = this.pageGenerators.get('group')
-        // assert(docusaurusGenerator !== undefined)
-        // const bodyText = await docusaurusGenerator.renderIndexMd()
         const lines = [];
+        const projectBrief = this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF');
         lines.push(`<p>${projectBrief} topics with brief descriptions are:</p>`);
         lines.push('');
-        if (useCollapsibleTable) {
-            lines.push('<CollapsibleTreeTable rows={tableData} />');
-        }
-        else {
-            lines.push('<table class="doxyTreeTable">');
-            for (const group of this.topLevelGroups) {
-                lines.push(...this.generateIndexMdFileRecursively(group, 1));
-            }
-            lines.push('');
-            lines.push('</table>');
-        }
-        const pages = this.workspace.viewModel.get('pages');
-        const detailedDescriptionLines = pages.mainPage?.detailedDescriptionLines;
-        if (detailedDescriptionLines !== undefined && detailedDescriptionLines.length > 0) {
-            lines.push('');
-            assert(pages.mainPage !== undefined);
-            lines.push(...pages.mainPage?.renderDetailedDescriptionToLines({
-                briefDescriptionString: pages.mainPage?.briefDescriptionString,
-                detailedDescriptionLines: pages.mainPage?.detailedDescriptionLines,
-                showHeader: true,
-                showBrief: !pages.mainPage?.hasSect1InDescription
-            }));
+        lines.push('<table class="doxyTreeTable">');
+        for (const group of this.topLevelGroups) {
+            lines.push(...this.generateIndexMdFileRecursively(group, 1));
         }
         lines.push('');
-        lines.push(':::note');
-        lines.push('For comparison, the original Doxygen html pages, styled with the <a href="https://jothepro.github.io/doxygen-awesome-css/">doxygen-awesome-css</a> plugin, continue to be available via the <a href="pathname:///doxygen/topics.html"><code>.../doxygen/*.html</b></code> URLs.');
-        lines.push(':::');
-        console.log(`Writing groups index file ${filePath}...`);
-        if (useCollapsibleTable) {
-            await this.workspace.writeMdFile({
-                filePath,
-                frontMatter,
-                frontMatterCodeLines: [
-                    `import tableData from './${jsonFileName}'`
-                ],
-                bodyLines: lines
-            });
-        }
-        else {
-            await this.workspace.writeMdFile({
-                filePath,
-                frontMatter,
-                bodyLines: lines
-            });
-        }
+        lines.push('</table>');
+        return lines;
     }
-    generateTableRowRecursively(group) {
-        const label = group.title ?? '?';
-        const permalink = this.workspace.getPagePermalink(group.id);
-        assert(permalink !== undefined && permalink.length > 1);
-        const description = group.briefDescriptionString?.replace(/[.]$/, '') ?? '';
-        const tableRow = {
-            id: group.id,
-            label,
-            link: permalink,
-            description
-        };
-        if (group.children.length > 0) {
-            tableRow.children = [];
-            for (const childGroup of group.children) {
-                tableRow.children.push(this.generateTableRowRecursively(childGroup));
-            }
-        }
-        return tableRow;
-    }
+    // private generateTableRowRecursively (group: Group): collapsibleTableRow {
+    //   const label = group.title ?? '?'
+    //   const permalink = this.workspace.getPagePermalink(group.id)
+    //   assert(permalink !== undefined && permalink.length > 1)
+    //   const description: string = group.briefDescriptionString?.replace(/[.]$/, '') ?? ''
+    //   const tableRow: collapsibleTableRow = {
+    //     id: group.id,
+    //     label,
+    //     link: permalink,
+    //     description
+    //   }
+    //   if (group.children.length > 0) {
+    //     tableRow.children = []
+    //     for (const childGroup of group.children) {
+    //       tableRow.children.push(this.generateTableRowRecursively(childGroup as Group))
+    //     }
+    //   }
+    //   return tableRow
+    // }
     generateIndexMdFileRecursively(group, depth) {
         const lines = [];
         const label = group.title ?? '?';
@@ -272,7 +246,7 @@ export class Group extends CompoundBase {
         const hasIndices = (this.renderDetailedDescriptionToLines !== undefined || this.hasSect1InDescription) && (this.hasInnerIndices() || this.hasSections());
         const morePermalink = hasIndices ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({
-            briefDescriptionString: this.briefDescriptionString,
+            briefDescriptionNoParaString: this.briefDescriptionString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -281,7 +255,7 @@ export class Group extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToLines({
-            briefDescriptionString: this.briefDescriptionString,
+            briefDescriptionNoParaString: this.briefDescriptionString,
             detailedDescriptionLines: this.detailedDescriptionLines,
             todo: descriptionTodo,
             showHeader: !this.hasSect1InDescription,

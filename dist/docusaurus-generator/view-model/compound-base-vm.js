@@ -178,6 +178,7 @@ export class CompoundBase {
         assert(compoundDef !== undefined);
         if (compoundDef.briefDescription !== undefined) {
             // console.log(compoundDef.briefDescription)
+            assert(compoundDef.briefDescription.children !== undefined);
             if (compoundDef.briefDescription.children.length > 1) {
                 assert(compoundDef.briefDescription.children[1] instanceof ParaDataModel);
                 this.briefDescriptionString = workspace.renderElementsArrayToString(compoundDef.briefDescription.children[1].children, 'html').trim();
@@ -242,17 +243,17 @@ export class CompoundBase {
         return false;
     }
     // --------------------------------------------------------------------------
-    renderBriefDescriptionToString({ briefDescriptionString, todo = '', morePermalink }) {
+    renderBriefDescriptionToString({ briefDescriptionNoParaString, todo = '', morePermalink }) {
         let text = '';
         if (!this.collection.workspace.pluginOptions.suggestToDoDescriptions) {
             todo = '';
         }
-        if (briefDescriptionString === undefined && todo.length === 0) {
+        if (briefDescriptionNoParaString === undefined && todo.length === 0) {
             return '';
         }
-        if (briefDescriptionString !== undefined && briefDescriptionString.length > 0) {
+        if (briefDescriptionNoParaString !== undefined && briefDescriptionNoParaString.length > 0) {
             text += '<p>';
-            text += briefDescriptionString;
+            text += briefDescriptionNoParaString;
             if (morePermalink !== undefined && morePermalink.length > 0) {
                 text += ` <a href="${morePermalink}">`;
                 text += 'More...';
@@ -265,7 +266,7 @@ export class CompoundBase {
         }
         return text;
     }
-    renderDetailedDescriptionToLines({ briefDescriptionString, detailedDescriptionLines, todo = '', showHeader, showBrief = false }) {
+    renderDetailedDescriptionToLines({ briefDescriptionNoParaString, detailedDescriptionLines, todo = '', showHeader, showBrief = false }) {
         const lines = [];
         if (!this.collection.workspace.pluginOptions.suggestToDoDescriptions) {
             todo = '';
@@ -274,7 +275,7 @@ export class CompoundBase {
         if (showHeader) {
             if ((detailedDescriptionLines !== undefined && detailedDescriptionLines.length > 0) ||
                 todo.length > 0 ||
-                (showBrief && briefDescriptionString !== undefined && briefDescriptionString.length > 0)) {
+                (showBrief && briefDescriptionNoParaString !== undefined && briefDescriptionNoParaString.length > 0)) {
                 lines.push('');
                 lines.push('## Description {#details}');
             }
@@ -283,8 +284,8 @@ export class CompoundBase {
             if (showHeader) {
                 lines.push('');
             }
-            if (briefDescriptionString !== undefined && briefDescriptionString.length > 0) {
-                lines.push(`<p>${briefDescriptionString}</p>`);
+            if (briefDescriptionNoParaString !== undefined && briefDescriptionNoParaString.length > 0) {
+                lines.push(`<p>${briefDescriptionNoParaString}</p>`);
             }
             else if (todo.length > 0) {
                 lines.push(`TODO: add <code>@brief</code> to <code>${todo}</code>`);
@@ -341,7 +342,7 @@ export class CompoundBase {
                         const morePermalink = innerDataObject.renderDetailedDescriptionToLines !== undefined ? `${permalink}/#details` : undefined;
                         if (innerDataObject.briefDescriptionString !== undefined && innerDataObject.briefDescriptionString.length > 0) {
                             childrenLines.push(this.renderBriefDescriptionToString({
-                                briefDescriptionString: innerDataObject.briefDescriptionString,
+                                briefDescriptionNoParaString: innerDataObject.briefDescriptionString,
                                 morePermalink
                             }));
                         }
@@ -551,6 +552,7 @@ export class CompoundBase {
             // console.log(util.inspect(param, { compact: false, depth: 999 }))
             assert(param.type !== undefined);
             let paramString = '';
+            assert(param.type.children !== undefined);
             for (const child of param.type.children) {
                 if (typeof child === 'string') {
                     paramString += child;
@@ -566,6 +568,7 @@ export class CompoundBase {
                 if (param.defval !== undefined) {
                     const defval = param.defval;
                     paramString += ' = ';
+                    assert(defval.children !== undefined);
                     for (const child of defval.children) {
                         if (typeof child === 'string') {
                             paramString += child;
@@ -597,6 +600,7 @@ export class CompoundBase {
                 paramString += param.declname;
             }
             else {
+                assert(param.type.children !== undefined);
                 for (const child of param.type.children) {
                     if (typeof child === 'string') {
                         // Extract the parameter name, passed as `class T`.
