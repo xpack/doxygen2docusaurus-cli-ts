@@ -251,7 +251,7 @@ export class Workspace {
     if (this.pluginOptions.verbose) {
       console.log(this.compoundsById.size, 'compound definitions')
     }
-    console.log(this.descriptionTocLists)
+    // console.log(this.descriptionTocLists)
   }
 
   findDescriptionIdsRecursively (compound: CompoundBase, element: AbstractDataModelBase): void {
