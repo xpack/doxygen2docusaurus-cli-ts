@@ -60,6 +60,12 @@ import { fileURLToPath } from 'node:url'
 
 // ----------------------------------------------------------------------------
 
+interface SiteConfig {
+  baseUrl: string
+}
+
+// ----------------------------------------------------------------------------
+
 export class Workspace {
   // The docusaurus-plugin-doxygen project path.
   projectPath: string
@@ -70,7 +76,7 @@ export class Workspace {
   pluginOptions: PluginOptions
 
   // Docusaurus site configuration
-  siteConfig: any
+  siteConfig: SiteConfig
 
   // The actions object passed from the plugin.
   pluginActions: any
@@ -143,12 +149,12 @@ export class Workspace {
   constructor ({
     dataModel,
     pluginOptions,
-    siteConfig,
+    siteConfig = { baseUrl: '' },
     pluginActions = undefined
   }: {
     dataModel: DataModel
     pluginOptions: PluginOptions
-    siteConfig: any
+    siteConfig?: SiteConfig
     pluginActions?: any
   }) {
     console.log()
