@@ -260,6 +260,12 @@ export abstract class AbstractDocTocListType extends AbstractDataModelBase {
 
     // ------------------------------------------------------------------------
 
+    // Keep track of TOCs, to add the IDs to the members map.
+    if (xml.dataModel.tocLists === undefined) {
+      xml.dataModel.tocLists = []
+    }
+    xml.dataModel.tocLists.push(this)
+
     // console.log(util.inspect(this, { compact: false, depth: 999 }))
   }
 }

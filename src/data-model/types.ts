@@ -13,6 +13,7 @@
 
 import { CompoundDefDataModel } from './compounds/compounddef-dm.js'
 import { AbstractDocImageType } from './compounds/descriptiontype-dm.js'
+import { AbstractDocTocListType } from './compounds/tableofcontentstype-dm.js'
 import { DoxygenFileDataModel } from './doxyfile/doxyfiletype-dm.js'
 import { DoxygenIndexDataModel } from './index/indexdoxygentype-dm.js'
 
@@ -82,6 +83,7 @@ export interface DataModel {
   doxyfile?: DoxygenFileDataModel // from Doxyfile.xml
 
   images?: AbstractDocImageType[]
+  tocLists?: AbstractDocTocListType[]
 }
 
 // ----------------------------------------------------------------------------
