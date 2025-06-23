@@ -16,7 +16,7 @@ import assert from 'node:assert'
 import * as fs from 'node:fs/promises'
 import path from 'node:path'
 
-import { DataModel } from '../data-model/types.js'
+import { AbstractDataModelBase, DataModel } from '../data-model/types.js'
 import { PluginOptions } from '../plugin/options.js'
 import { Groups } from './view-model/groups-vm.js'
 import { CollectionBase } from './view-model/collection-base.js'
@@ -29,9 +29,13 @@ import { Namespaces } from './view-model/namespaces-vm.js'
 import { FilesAndFolders } from './view-model/files-and-folders-vm.js'
 import { Page, Pages } from './view-model/pages-vm.js'
 import { FrontMatter } from './types.js'
-import { Member } from './view-model/members-vm.js'
+import { Member, Section } from './view-model/members-vm.js'
 import { Renderers } from './elements-renderers/renderers.js'
 import { fileURLToPath } from 'node:url'
+import { TocItemDataModel, TocListDataModel } from '../data-model/compounds/tableofcontentstype-dm.js'
+import { AbstractCompoundDefType } from '../data-model/compounds/compounddef-dm.js'
+import { DescriptionTocItem, DescriptionTocList, DescriptionAnchor } from './view-model/description-anchors.js'
+import { AbstractDocAnchorType, AbstractDocEntryType, AbstractDocSectType } from '../data-model/compounds/descriptiontype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -135,6 +139,11 @@ export class Workspace {
 
   membersById: Map<String, Member> = new Map()
 
+  descriptionTocLists: DescriptionTocList[] = []
+  descriptionTocItemsById: Map<String, DescriptionTocItem> = new Map()
+
+  descriptionAnchorsById: Map<string, DescriptionAnchor> = new Map()
+
   currentCompound: CompoundBase | undefined
 
   elementRenderers: Renderers
@@ -217,27 +226,72 @@ export class Workspace {
   createVieModelObjects (): void {
     console.log('Creating view model objects...')
     for (const compoundDefDataModel of this.dataModel.compoundDefs) {
-      let added = false
+      let compound
       const collectionName = this.collectionNamesByKind[compoundDefDataModel.kind]
       if (collectionName !== undefined) {
         const collection = this.viewModel.get(collectionName)
         if (collection !== undefined) {
           // Create the compound object and add it to the parent collection.
           // console.log(compoundDefDataModel.kind, compoundDefDataModel.compoundName)
-          const compound = collection.addChild(compoundDefDataModel)
+          compound = collection.addChild(compoundDefDataModel)
           // Also add it to the global compounds map.
           this.compoundsById.set(compound.id, compound)
           // console.log('compoundsById.set', compound.kind, compound.id)
-          added = true
         }
       }
-      if (!added) {
+      if (compound !== undefined) {
+        if (compoundDefDataModel instanceof AbstractCompoundDefType && compoundDefDataModel.detailedDescription !== undefined) {
+          this.findDescriptionIdsRecursively(compound, compoundDefDataModel.detailedDescription)
+        }
+      } else {
         // console.error(util.inspect(compoundDefDataModel, { compact: false, depth: 999 }))
         console.error('compoundDefDataModel', compoundDefDataModel.kind, 'not implemented yet in', this.constructor.name)
       }
     }
     if (this.pluginOptions.verbose) {
       console.log(this.compoundsById.size, 'compound definitions')
+    }
+    console.log(this.descriptionTocLists)
+  }
+
+  findDescriptionIdsRecursively (compound: CompoundBase, element: AbstractDataModelBase): void {
+    // console.log(compound.id, typeof element)
+
+    if (element.children === undefined) {
+      return
+    }
+
+    for (const childDataModel of element.children) {
+      if (childDataModel instanceof TocListDataModel) {
+        const tocList = new DescriptionTocList(compound)
+        // console.log(elementChild)
+        assert(childDataModel.tocItems !== undefined)
+        for (const tocItemDataModel of childDataModel.tocItems) {
+          if (tocItemDataModel instanceof TocItemDataModel) {
+            const tocItem = new DescriptionTocItem(tocItemDataModel.id, tocList)
+            tocList.tocItems.push(tocItem)
+            this.descriptionTocItemsById.set(tocItem.id, tocItem)
+          }
+        }
+        this.descriptionTocLists.push(tocList)
+      } else if (childDataModel instanceof AbstractDocSectType) {
+        if (childDataModel.id !== undefined) {
+          const anchor = new DescriptionAnchor(compound, childDataModel.id)
+          this.descriptionAnchorsById.set(anchor.id, anchor)
+        }
+        this.findDescriptionIdsRecursively(compound, childDataModel)
+      } else if (childDataModel instanceof AbstractDocAnchorType) {
+        // console.log(childDataModel)
+        if (childDataModel.id !== undefined) {
+          const section = new DescriptionAnchor(compound, childDataModel.id)
+          this.descriptionAnchorsById.set(section.id, section)
+        }
+      } else if (childDataModel instanceof AbstractDataModelBase) {
+        // if (childDataModel instanceof AbstractDocEntryType) {
+        //   console.log(childDataModel)
+        // }
+        this.findDescriptionIdsRecursively(compound, childDataModel)
+      }
     }
   }
 
@@ -747,34 +801,53 @@ export class Workspace {
     kindref: string // 'compound', 'member'
   }): string | undefined {
     // console.log(refid, kindref)
-    // if (refid.endsWith('ga45942bdeee4fb61db5a7dc3747cb7193')) {
-    //   console.log(refid, kindref)
-    // }
     let permalink: string | undefined
     if (kindref === 'compound') {
       permalink = this.getPagePermalink(refid)
     } else if (kindref === 'member') {
+      const anchor = getPermalinkAnchor(refid)
       const compoundId = stripPermalinkAnchor(refid)
-      // console.log('compoundId:', compoundId)
-      // if (this.currentCompound !== undefined && compoundId === this.currentCompound.id) {
-      //   permalink = `#${getPermalinkAnchor(refid)}`
-      // } else {
-      permalink = `${this.getPagePermalink(compoundId)}/#${getPermalinkAnchor(refid)}`
+      // console.log('refid:', refid, 'compoundId:', compoundId, 'anchor:', anchor)
+      permalink = this.getPagePermalink(compoundId, true)
+      if (permalink !== undefined) {
+        permalink += `/#${anchor}`
+      } else {
+        const tocItem = this.descriptionTocItemsById.get(refid)
+        if (tocItem !== undefined) {
+          const tocList = tocItem.tocList
+          permalink = this.getPagePermalink(tocList.compound.id)
+          if (permalink !== undefined) {
+            permalink += `/#${anchor}`
+          } else {
+            console.error('Unknown permalink of', tocList.compound.id, 'for', refid, 'in', this.constructor.name, 'getPermalink')
+          }
+        } else {
+          const descriptionSection = this.descriptionAnchorsById.get(refid)
+          if (descriptionSection !== undefined) {
+            permalink = this.getPagePermalink(descriptionSection.compound.id)
+            if (permalink !== undefined) {
+              permalink += `/#${anchor}`
+            } else {
+              console.error('Unknown permalink of', descriptionSection.compound.id, 'for', refid, 'in', this.constructor.name, 'getPermalink')
+            }
+          } else {
+            console.error('Unknown permalink for', refid, 'in', this.constructor.name, 'getPermalink')
+          }
+        }
+      }
+      // console.log(permalink)
       // }
     } else {
       console.error('Unsupported kindref', kindref, 'for', refid, 'in', this.constructor.name, 'getPermalink')
     }
 
-    // if (refid.endsWith('ga45942bdeee4fb61db5a7dc3747cb7193')) {
-    //   console.log(permalink)
-    // }
     return permalink
   }
 
-  getPagePermalink (refid: string): string | undefined {
+  getPagePermalink (refid: string, noWarn: boolean = false): string | undefined {
     const dataObject: CompoundBase | undefined = this.compoundsById.get(refid)
     if (dataObject === undefined) {
-      if (this.pluginOptions.debug) {
+      if (this.pluginOptions.debug && !noWarn) {
         console.warn('refid', refid, 'is not a known compound, no permalink')
       }
       return undefined
