@@ -156,7 +156,9 @@ export class DocURLLinkStringRenderer extends ElementStringRendererBase {
 const htmlElements: { [key: string]: string } = {
   BoldDataModel: 'b',
   EmphasisDataModel: 'em',
-  UnderlineDataModel: 'u'
+  UnderlineDataModel: 'u',
+  SubscriptDataModel: 'sub',
+  SuperscriptDataModel: 'sup'
 }
 
 export class DocMarkupTypeStringRenderer extends ElementStringRendererBase {
