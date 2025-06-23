@@ -73,7 +73,8 @@ export class DocusaurusGenerator {
       console.log(this.workspace.writtenMdFilesCounter, 'md files written')
     }
 
-    await this.generateRedirectFiles()
+    // await this.generateManualRedirectFiles()
+    await this.generateCompatibilityRedirectFiles()
 
     await this.copyFiles()
     await this.copyImageFiles()
@@ -334,8 +335,8 @@ export class DocusaurusGenerator {
 
   // --------------------------------------------------------------------------
 
-  async generateRedirectFiles (): Promise<void> {
-    const redirectsOutputFolderPath = this.workspace.pluginOptions.redirectsOutputFolderPath
+  async generateCompatibilityRedirectFiles (): Promise<void> {
+    const redirectsOutputFolderPath = this.workspace.pluginOptions.compatibilityRedirectsOutputFolderPath
     if (redirectsOutputFolderPath === undefined) {
       return
     }
@@ -393,7 +394,7 @@ export class DocusaurusGenerator {
     // namespacemembers, _enum, _func, type, _vars
 
     for (const [from, to] of indexFilesMap) {
-      const filePath = `static/${redirectsOutputFolderPath}/${from as string}`
+      const filePath = path.join('static', redirectsOutputFolderPath, from as string)
       const permalink = `${this.workspace.absoluteBaseUrl}${to as string}/`
 
       await this.generateRedirectFile({
@@ -406,6 +407,29 @@ export class DocusaurusGenerator {
       console.log(this.workspace.writtenHtmlFilesCounter, 'html files written')
     }
   }
+
+  // async generateManualRedirectFiles(): Promise<void> {
+  //   if (this.workspace.pluginOptions.redirects === undefined) {
+  //     return
+  //   }
+
+  //   const redirectsOutputFolderPath = path.join('static')
+
+  //   for (const entry of this.workspace.pluginOptions.redirects) {
+  //     const fromArray = Array.isArray(entry.from) ? entry.from : [entry.from]
+  //     for (const from of fromArray) {
+  //       const filePath = path.join(redirectsOutputFolderPath, from)
+  //       const permalink = `${this.workspace.siteConfig.baseUrl}${entry.to}/`
+
+  //       await this.generateRedirectFile({
+  //         filePath,
+  //         permalink
+  //       })
+  //     }
+  //   }
+  // }
+
+  // --------------------------------------------------------------------------
 
   // If `trailingSlash` is true, Docusaurus redirects do not generate .html files,
   // therefore we have to do it manually.
@@ -434,7 +458,7 @@ export class DocusaurusGenerator {
     lines.push('')
 
     await fs.mkdir(path.dirname(filePath), { recursive: true })
-    const fileHandle = await fs.open(filePath, 'ax')
+    const fileHandle = await fs.open(filePath, 'w')
 
     await fileHandle.write(lines.join('\n'))
 
@@ -442,6 +466,8 @@ export class DocusaurusGenerator {
 
     this.workspace.writtenHtmlFilesCounter += 1
   }
+
+  // --------------------------------------------------------------------------
 
   async copyFiles (): Promise<void> {
     const destImgFolderPath = path.join('static', 'img', 'docusaurus-plugin-doxygen')
@@ -465,6 +491,8 @@ export class DocusaurusGenerator {
     console.log('Writing css file', toFilePath)
     await fs.copyFile(fromFilePath, toFilePath)
   }
+
+  // --------------------------------------------------------------------------
 
   async copyImageFiles (): Promise<void> {
     if (this.workspace.dataModel.images === undefined) {

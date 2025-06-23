@@ -11,6 +11,11 @@
 
 // ----------------------------------------------------------------------------
 
+export interface Redirects {
+  from: string | string[]
+  to: string
+}
+
 export interface PluginConfigurationOptions {
   doxygenXmlInputFolderPath?: string
   docsFolderPath?: string
@@ -18,7 +23,7 @@ export interface PluginConfigurationOptions {
   docsBaseUrl?: string
   apiBaseUrl?: string
   imagesFolderPath?: string
-  redirectsOutputFolderPath?: string
+  compatibilityRedirectsOutputFolderPath?: string
   mainPageTitle?: string
   sidebarCategoryFilePath?: string
   sidebarCategoryLabel?: string
@@ -29,6 +34,7 @@ export interface PluginConfigurationOptions {
   debug?: boolean
   runOnStart?: boolean
   suggestToDoDescriptions?: boolean
+  // redirects?: Redirects[]
   id?: string
 }
 
@@ -51,8 +57,8 @@ export interface PluginOptions {
   /** Relative to `static` */
   imagesFolderPath: string
 
-  /**  Relative to the current website folder, like `reference`. */
-  redirectsOutputFolderPath?: string | undefined
+  /**  Relative to the current `website/static` folder, like `reference`. */
+  compatibilityRedirectsOutputFolderPath?: string | undefined
 
   /** The title to be displayed on th main page. Default:`${projectBrief} API Reference`. */
   mainPageTitle: string
@@ -83,6 +89,9 @@ export interface PluginOptions {
 
   /** Boolean to control if the TODO suggestions are shown. */
   suggestToDoDescriptions: boolean
+
+  // /** Array of redirect records, in case the Doxygen uses them in `htmlonly`. */
+  // redirects: Redirects[]
 
   /** String identifier in case of multiple instances. */
   id: string
