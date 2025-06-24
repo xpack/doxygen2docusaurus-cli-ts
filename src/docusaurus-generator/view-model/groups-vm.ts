@@ -209,7 +209,6 @@ export class Groups extends CollectionBase {
     lines.push(`<p>${projectBrief} topics with brief descriptions are:</p>`)
 
     lines.push('')
-
     lines.push('<table class="doxyTreeTable">')
 
     for (const group of this.topLevelGroups) {
