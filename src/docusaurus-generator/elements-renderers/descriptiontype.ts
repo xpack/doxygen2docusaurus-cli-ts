@@ -285,7 +285,7 @@ export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
       const title = DoxSimpleSectKind[element.kind]
       const body = this.workspace.renderElementsArrayToString(element.children, type).trim()
       lines.push('<dl class="doxySectionUser">')
-      lines.push(`<dt><b>${title}</b></dt>`)
+      lines.push(`<dt>${title}</dt>`)
       if (body.length === 0) {
         lines.push('<dd></dd>')
       } else {
@@ -299,7 +299,7 @@ export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
       const title = element.title.replace(/\.$/, '')
       const body = this.workspace.renderElementsArrayToString(element.children, type).trim()
       lines.push('<dl class="doxySectionUser">')
-      lines.push(`<dt><b>${title}</b></dt>`)
+      lines.push(`<dt>${title}</dt>`)
       if (body.length === 0) {
         lines.push('<dd></dd>')
       } else {
