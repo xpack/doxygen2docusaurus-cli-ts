@@ -317,6 +317,7 @@ export class DocusaurusGenerator {
         slug,
         // description: '...', // TODO
         custom_edit_url: null,
+        toc_max_heading_level: 4,
         keywords: ['doxygen', 'reference', `${compound.kind as string}`]
       }
 
