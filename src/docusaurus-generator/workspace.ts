@@ -492,6 +492,7 @@ export class Workspace {
 
     lines.push('')
     lines.push(...bodyLines)
+    lines.push('')
     lines.push('<hr/>')
     lines.push('')
     lines.push(`<p class="doxyGeneratedBy">Generated via <a href="https://github.com/xpack/docusaurus-plugin-doxygen">docusaurus-plugin-doxygen</a> by <a href="https://www.doxygen.nl">Doxygen</a> ${this.dataModel.doxygenindex?.version}.</p>`)
