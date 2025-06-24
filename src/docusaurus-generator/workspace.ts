@@ -29,13 +29,13 @@ import { Namespaces } from './view-model/namespaces-vm.js'
 import { FilesAndFolders } from './view-model/files-and-folders-vm.js'
 import { Page, Pages } from './view-model/pages-vm.js'
 import { FrontMatter } from './types.js'
-import { Member, Section } from './view-model/members-vm.js'
+import { Member } from './view-model/members-vm.js'
 import { Renderers } from './elements-renderers/renderers.js'
 import { fileURLToPath } from 'node:url'
 import { TocItemDataModel, TocListDataModel } from '../data-model/compounds/tableofcontentstype-dm.js'
 import { AbstractCompoundDefType } from '../data-model/compounds/compounddef-dm.js'
 import { DescriptionTocItem, DescriptionTocList, DescriptionAnchor } from './view-model/description-anchors.js'
-import { AbstractDocAnchorType, AbstractDocEntryType, AbstractDocSectType } from '../data-model/compounds/descriptiontype-dm.js'
+import { AbstractDocAnchorType, AbstractDocSectType, ParaDataModel } from '../data-model/compounds/descriptiontype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -792,6 +792,21 @@ export class Workspace {
 
     return lines
   }
+
+  // --------------------------------------------------------------------------
+
+  skipElementsPara (elements: AbstractDataModelBase[] | undefined): void {
+    if (elements === undefined) {
+      return
+    }
+
+    for (const child of elements) {
+      if (child instanceof ParaDataModel) {
+        child.skipPara = true
+      }
+    }
+  }
+
   // --------------------------------------------------------------------------
 
   getPermalink ({
