@@ -5176,6 +5176,16 @@ export class IndexEntryDataModel extends AbstractDocIndexEntryType {
 //   <xsd:attribute name="start" type="xsd:integer" />
 // </xsd:complexType>
 
+// <xsd:simpleType name="DoxOlType">
+//   <xsd:restriction base="xsd:string">
+//     <xsd:enumeration value="1" />
+//     <xsd:enumeration value="a" />
+//     <xsd:enumeration value="A" />
+//     <xsd:enumeration value="i" />
+//     <xsd:enumeration value="I" />
+//   </xsd:restriction>
+// </xsd:simpleType>
+
 export abstract class AbstractDocListType extends AbstractDataModelBase {
   // Mandatory elements.
   listItems: ListItemDataModel[] = []
