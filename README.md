@@ -1,16 +1,18 @@
 # docusaurus-plugin-doxygen
 
-A Docusaurus plugin to integrate the Doxygen reference pages into Docusaurus documentation sites.
+A Docusaurus plugin to integrate the Doxygen reference pages into
+Docusaurus documentation sites.
 
 This project relies on the ability of Doxygen to also generate the output in XML.
 The plugin parses these XML files and generates MD files
 in the `/docs/api/` folder. For an accurate control on the aesthetics,
-the generated code is actually HTML, only the section headers use the
-markdown syntax, since they must be part of the Table Of Contents.
+the generated code is actually HTML.
+Since Docusaurus parses only the markdown section headers to automatically
+create the Table Of Contents, the plugin generates them in markdown.
 
 ## Doxygen configuration
 
-To enable Doxygen to generate the XML files, enable it in the Doxygen
+To configure Doxygen to generate the XML files, enable it in the Doxygen
 configuration file:
 
 ```txt
@@ -47,8 +49,7 @@ const config: Config = {
       '@xpack/docusaurus-plugin-doxygen',
       {
         doxygenXmlInputFolderPath: 'doxygen/xml',
-        verbose: false,
-        suggestToDoDescriptions: false
+        verbose: false
       },
     ],
   ],
@@ -65,6 +66,7 @@ To ease running the conversion, add a npm script to `package.json`:
     "docusaurus": "docusaurus",
     "generate-doxygen": "docusaurus generate-doxygen",
     "start": "docusaurus start",
+    "build": "docusaurus build",
     ...
   }
 ```
@@ -77,7 +79,7 @@ npm run generate-doxygen
 
 ## Common Markdown
 
-Because the MDX syntax is very strict and does not support any HTML
+Because the MDX syntax is very strict and does not support all possible HTML
 content, the output is Common Markdown.
 
 To configure Docusaurus to parse `.md` files as Common Markdown, add
@@ -110,7 +112,7 @@ second line to the theme configuration:
 The plugin generates a separate sidebar for the Doxygen pages.
 
 To add it to Docusaurus, edit the `sidebars.ts` file; add the
-following line in the header part to import the generated file:
+following line in the header part, to import the generated file:
 
 ```ts
 import doxygenSidebarItems from './sidebar-category-docusaurus-plugin-doxygen.json';
@@ -133,7 +135,7 @@ const sidebars: SidebarsConfig = {
 
 ## Top menu
 
-The plugin also generates a dropdown menu to be used in the top bar.
+The plugin also generates a dropdown menu to be used in the top navigation bar.
 
 To add it to Docusaurus, edit the `docusaurus-config.ts` file; add the
 following line in the header part to import the generated file:
@@ -153,3 +155,12 @@ To increase the heap and/or the stack, invoke docusaurus via a command like:
 ```sh
 node --max-old-space-size=8192 --stack-size=2048 ./node_modules/.bin/docusaurus generate-doxygen
 ```
+
+Same for start and build, if needed.
+
+## Caveats
+
+Some reference sites can be quite large, with tens of thousands of pages.
+Docusaurus can handle relatively large sites, but it requires a lot of memory
+and the build process may take a lot of time.
+
