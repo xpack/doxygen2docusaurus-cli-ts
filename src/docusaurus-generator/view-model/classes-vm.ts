@@ -649,8 +649,6 @@ export class Class extends CompoundBase {
   override renderToLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    frontMatter.toc_max_heading_level = 3
-
     const descriptionTodo = `@${this.kind} ${escapeHtml(this.compoundName)}`
 
     const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
