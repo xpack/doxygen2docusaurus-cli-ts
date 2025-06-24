@@ -25,6 +25,7 @@ export class DocTableTypeLinesRenderer extends ElementLinesRendererBase {
 
     const lines: string[] = []
 
+    lines.push('')
     lines.push('<table class="doxyTable">')
     if (element.caption !== undefined) {
       lines.push(this.workspace.renderElementToString(element.caption, 'html'))
@@ -93,6 +94,8 @@ export class DocEntryTypeStringRenderer extends ElementStringRendererBase {
     if (element.classs !== undefined) {
       attributes += ` class="${element.classs}"`
     }
+
+    this.workspace.skipElementsPara(element.paras)
     const entry = this.workspace.renderElementsArrayToString(element.paras, 'html').trim()
     if (element.thead) {
       text += `<th${attributes}>${entry}</th>`
