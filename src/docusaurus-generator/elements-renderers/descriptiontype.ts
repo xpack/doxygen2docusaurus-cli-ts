@@ -507,10 +507,12 @@ export class VerbatimStringRenderer extends ElementStringRendererBase {
 
     // Docusaurus adds the copy button.
     // The content must be on the same line.
+    text += '\n'
     text += '<pre><code>'
-    text += this.workspace.renderElementToString(element.text, 'html')
-    // text += '\n'
+    text += this.workspace.renderElementToString(element.text, 'html').trim()
+    text += '\n'
     text += '</code></pre>'
+    text += '\n'
 
     return text
   }
