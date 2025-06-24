@@ -547,7 +547,7 @@ export class ImageStringRenderer extends ElementStringRendererBase {
     let text = ''
     if (element.type === 'html') {
       text += '\n'
-      text += '<figure>'
+      text += '<figure>\n'
       text += '  <img'
       if (element.name !== undefined) {
         text += ` src="/${this.workspace.pluginOptions.imagesFolderPath}/${element.name}"`
@@ -568,6 +568,12 @@ export class ImageStringRenderer extends ElementStringRendererBase {
       if (element.caption !== undefined) {
         text += '\n'
         text += `  <figcaption>${escapeHtml(element.caption)}</figcaption>`
+      } else if (element.children !== undefined) {
+        const caption = this.workspace.renderElementsArrayToString(element.children, 'html').trim()
+        if (caption.length > 0) {
+          text += '\n'
+          text += `  <figcaption>${caption}</figcaption>`
+        }
       }
       text += '\n'
       text += '</figure>'
