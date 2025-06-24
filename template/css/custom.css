@@ -780,8 +780,22 @@ div.doxyPage h1 code {
     padding: var(--ifm-code-padding-vertical) calc(var(--ifm-code-padding-horizontal) * 2);
 }
 
-div.doxyPage code {
+/* div.doxyPage code {
     padding: var(--ifm-code-padding-vertical) calc(var(--ifm-code-padding-horizontal) * 2);
+} */
+
+div.doxyPage div.theme-code-block {
+  margin: 12px 0px;
+}
+
+div.doxyPage div.theme-code-block pre code {
+    background-color: var(--ifm-code-background);
+    border: .1rem solid #0000001a;
+    border-radius: var(--ifm-code-border-radius);
+    font-family: var(--ifm-font-family-monospace);
+    font-size: var(--ifm-code-font-size);
+    padding: 10px 16px;
+    vertical-align: initial;
 }
 
 div.doxyDeclaration, div.doxyDefinition, div.doxyVerbatim {
@@ -792,6 +806,23 @@ div.doxyDeclaration, div.doxyDefinition, div.doxyVerbatim {
     font-size: var(--ifm-code-font-size);
     padding: 6px 12px;
     vertical-align: initial;
+}
+
+div.doxyPage table.doxyTable caption, div.doxyPage figcaption{
+  font-weight: bold;
+  font-size: 95%;
+  text-align: center;
+}
+
+dl.doxySectionUser dt {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+ul.doxyTocList {
+  column-gap: 1em;
+  column-count: 2;
+  list-style-type: none;
 }
 
 /* --- */
