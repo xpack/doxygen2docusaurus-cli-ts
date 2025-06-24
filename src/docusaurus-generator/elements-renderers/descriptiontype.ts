@@ -97,8 +97,8 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
       return true
     } else if (element instanceof HrulerDataModel) {
       return false // Explicitly not inside a paragraph.
-    } else if (element instanceof LineBreakDataModel) {
-      return false // Explicitly not inside a paragraph.
+    // } else if (element instanceof LineBreakDataModel) {
+    //   return false // Explicitly not inside a paragraph.
     } else if (element instanceof AbstractDocHtmlOnlyType) {
       return false // Explicitly not inside a paragraph.
     } else if (element instanceof ManOnlyDataModel) {
