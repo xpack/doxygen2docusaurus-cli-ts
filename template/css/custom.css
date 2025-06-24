@@ -50,6 +50,7 @@ table.doxyEnumTable {
 
 dt.doxyEnumTableTitle {
   font-weight: bold;
+  margin-bottom: 6px;
 }
 
 /* Undo the Docusaurus configuration. */
@@ -491,6 +492,7 @@ table.doxyParamsTable {
 
 dt.doxyParamsTableTitle {
   font-weight: bold;
+  margin-bottom: 6px;
 }
 
 /* Undo the Docusaurus configuration. */
@@ -816,7 +818,7 @@ div.doxyPage table.doxyTable caption, div.doxyPage figcaption{
 
 dl.doxySectionUser dt {
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 ul.doxyTocList {
