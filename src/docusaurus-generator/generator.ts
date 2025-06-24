@@ -247,10 +247,12 @@ export class DocusaurusGenerator {
       }
     }
 
-    lines.push('')
-    lines.push(':::note')
-    lines.push('For comparison, the original Doxygen html pages, styled with the <a href="https://jothepro.github.io/doxygen-awesome-css/">doxygen-awesome-css</a> plugin, continue to be available via the <a href="pathname:///doxygen/topics.html"><code>.../doxygen/*.html</b></code> URLs.')
-    lines.push(':::')
+    if (this.workspace.pluginOptions.originalPagesNote !== undefined) {
+      lines.push('')
+      lines.push(':::note')
+      lines.push(this.workspace.pluginOptions.originalPagesNote)
+      lines.push(':::')
+    }
 
     console.log(`Writing top index file ${filePath}...`)
 

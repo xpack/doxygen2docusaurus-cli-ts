@@ -34,6 +34,7 @@ export interface PluginConfigurationOptions {
   debug?: boolean
   runOnStart?: boolean
   suggestToDoDescriptions?: boolean
+  originalPagesNote?: string
   // redirects?: Redirects[]
   id?: string
 }
@@ -89,6 +90,13 @@ export interface PluginOptions {
 
   /** Boolean to control if the TODO suggestions are shown. */
   suggestToDoDescriptions: boolean
+
+  /**
+   * Location of original Doxygen pages
+   *
+   * 'For comparison, the original Doxygen html pages, styled with the <a href="https://jothepro.github.io/doxygen-awesome-css/">doxygen-awesome-css</a> plugin, continue to be available via the <a href="pathname:///doxygen/topics.html"><code>.../doxygen/*.html</b></code> URLs.'
+   */
+  originalPagesNote?: string
 
   // /** Array of redirect records, in case the Doxygen uses them in `htmlonly`. */
   // redirects: Redirects[]
