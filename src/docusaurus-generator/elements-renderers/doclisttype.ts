@@ -15,30 +15,73 @@ import assert from 'assert'
 import * as util from 'util'
 
 import { ElementLinesRendererBase } from './element-renderer-base.js'
-import { AbstractDocListType } from '../../data-model/compounds/descriptiontype-dm.js'
+import { AbstractDocListType, ItemizedListDataModel, OrderedListDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 
 // ----------------------------------------------------------------------------
 
 export class DocListTypeLinesRenderer extends ElementLinesRendererBase {
   override renderToLines (element: AbstractDocListType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
+    // console.log(element)
+
+    let classCheck = ''
+    for (const listItem of element.listItems) {
+      if (listItem.override !== undefined) {
+        classCheck = ' class="check"'
+        break
+      }
+    }
 
     const lines: string[] = []
 
     lines.push('')
-    lines.push('<ul>')
+    if (element instanceof ItemizedListDataModel) {
+      lines.push(`<ul${classCheck}>`)
+    } else if (element instanceof OrderedListDataModel) {
+      if (element.type.length > 0) {
+        lines.push(`<ol type="${element.type}">`)
+      } else {
+        lines.push('<ol type="1">')
+      }
+    }
+
     for (const listItem of element.listItems) {
+      let classChecked = ''
+      if (listItem.override !== undefined) {
+        classChecked = ` class="${listItem.override}"`
+      }
+
       if (listItem.paras !== undefined) {
         // console.log(listItem.paras)
-        if (listItem.paras.length === 1) {
-          assert(listItem.paras[0] !== undefined)
-          lines.push(`<li>${this.workspace.renderElementsArrayToString(listItem.paras[0].children, type).trim()}</li>`)
-        } else {
-          lines.push(`<li>${this.workspace.renderElementsArrayToString(listItem.paras, type)}</li>`)
+        this.workspace.skipElementsPara(listItem.paras)
+        let text = ''
+        text += `<li${classChecked}>`
+        for (const para of listItem.paras) {
+          text += this.workspace.renderElementToString(para, type).trim()
+          text += '\n'
+          text += '\n'
+        }
+        text += '</li>'
+        lines.push(text)
+      }
+      if (listItem.value !== undefined) {
+        if (this.workspace.pluginOptions.verbose) {
+          console.warn('Value', listItem.value, 'ignored in', this.constructor.name)
         }
       }
     }
-    lines.push('</ul>')
+
+    if (element instanceof ItemizedListDataModel) {
+      lines.push('</ul>')
+    } else if (element instanceof OrderedListDataModel) {
+      lines.push('</ol>')
+    }
+
+    if (element.start !== undefined) {
+      if (this.workspace.pluginOptions.verbose) {
+        console.warn('Start', element.start, 'ignored in', this.constructor.name)
+      }
+    }
 
     return lines
   }
