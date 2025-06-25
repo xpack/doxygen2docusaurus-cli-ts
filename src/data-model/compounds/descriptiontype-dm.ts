@@ -2073,7 +2073,8 @@ export class AbstractDocTitleType extends AbstractDataModelBase {
     // Process elements.
 
     const innerElements = xml.getInnerElements(element, elementName)
-    assert(innerElements.length > 0)
+    // May be empty.
+    // assert(innerElements.length > 0)
 
     this.children = []
 
