@@ -16,7 +16,7 @@ import * as util from 'node:util'
 
 import { DataModel } from '../../data-model/types.js'
 import { generateDocusaurusMd, parseDoxygen } from '../main.js'
-import { PluginOptions } from '../options.js'
+import { getInstanceDefaultOptions, PluginOptions } from '../options.js'
 import { pluginName } from '../docusaurus.js'
 
 // ----------------------------------------------------------------------------
@@ -26,6 +26,7 @@ export async function generateDoxygen (context: any, pluginOptions: PluginOption
   // console.log('context:', util.inspect(context))
   // console.log('pluginOptions:', util.inspect(pluginOptions))
 
+  // For multi-instance plugins, this is not accurate,
   let options = pluginOptions
 
   if (cliOptions?.id !== undefined) {
@@ -34,8 +35,11 @@ export async function generateDoxygen (context: any, pluginOptions: PluginOption
       if (Array.isArray(plugin)) {
         if (plugin[0] === pluginName) {
           const configPluginOptions = plugin[1]
-          if (configPluginOptions.id === cliOptions?.id) {
-            options = configPluginOptions
+          if (configPluginOptions.id === cliOptions.id) {
+            options = {
+              ...getInstanceDefaultOptions(cliOptions.id),
+              ...configPluginOptions
+            }
             found = true
             break
           }
