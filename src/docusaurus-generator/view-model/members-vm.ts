@@ -407,7 +407,7 @@ export class Member extends MemberBase {
     }
 
     if (memberDef.initializer !== undefined) {
-      this.initializer = workspace.renderElementToString(memberDef.initializer, 'html')
+      this.initializer = workspace.renderElementToString(memberDef.initializer, 'markdown')
     }
 
     if (memberDef.location !== undefined) {
@@ -571,8 +571,11 @@ export class Member extends MemberBase {
           }
 
           if (this.initializer !== undefined) {
-            itemName += ' '
-            itemName += this.initializer
+            // Show only short initializers in the index.
+            if (!this.initializer.includes('\n')) {
+              itemName += ' '
+              itemName += this.initializer
+            }
           }
         }
         break
@@ -585,8 +588,11 @@ export class Member extends MemberBase {
           itemType = escapeHtml('class { ... }')
         }
         if (this.initializer !== undefined) {
-          itemName += ' '
-          itemName += this.initializer
+          // Show only short initializers in the index.
+          if (!this.initializer.includes('\n')) {
+            itemName += ' '
+            itemName += this.initializer
+          }
         }
         break
 
@@ -693,7 +699,9 @@ export class Member extends MemberBase {
           }
 
           if (this.initializer !== undefined) {
-            prototype += ` ${this.initializer}`
+            if (!this.initializer.includes('\n')) {
+              prototype += ` ${this.initializer}`
+            }
           }
 
           if (this.isConst) {
@@ -709,12 +717,31 @@ export class Member extends MemberBase {
           }
 
           const childrenLines: string[] = []
+
+          if (this.briefDescriptionNoParaString !== undefined) {
+            childrenLines.push(this.section.compound.renderBriefDescriptionToString({
+              briefDescriptionNoParaString: this.briefDescriptionNoParaString
+            }))
+          }
+
+          if (this.initializer?.includes('\n')) {
+            childrenLines.push('')
+            childrenLines.push('<dl class="doxySectionUser">')
+            childrenLines.push('<dt>Initial value</dt>')
+            childrenLines.push('<dd>')
+            // TODO make code
+            childrenLines.push(`<div class="doxyVerbatim">${this.initializer}`)
+            childrenLines.push('</div>')
+            childrenLines.push('</dd>')
+            childrenLines.push('</dl>')
+          }
+
           if (this.detailedDescriptionLines !== undefined) {
             childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
               briefDescriptionNoParaString: this.briefDescriptionNoParaString,
               detailedDescriptionLines: this.detailedDescriptionLines,
               showHeader: false,
-              showBrief: true
+              showBrief: false
             }))
           }
 
