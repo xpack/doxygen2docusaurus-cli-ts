@@ -15,7 +15,7 @@ import assert from 'assert'
 import util from 'util'
 
 import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js'
-import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocBlockQuoteType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocHeadingType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractEmojiType, AbstractSpType, AbstractVerbatimType, HrulerDataModel, LineBreakDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
+import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocBlockQuoteType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocHeadingType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractEmojiType, AbstractPreformattedType, AbstractSpType, AbstractVerbatimType, HrulerDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
 import { escapeHtml, escapeQuotes, getPermalinkAnchor } from '../utils.js'
 import { AbstractDocHtmlOnlyType, LatexOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel } from '../../data-model/compounds/compounddef-dm.js'
@@ -509,7 +509,28 @@ export class VerbatimStringRenderer extends ElementStringRendererBase {
     // The content must be on the same line.
     text += '\n'
     text += '<pre><code>'
-    text += this.workspace.renderElementToString(element.text, 'html').trim()
+    text += this.workspace.renderElementsArrayToString(element.children, 'html').trim()
+    text += '\n'
+    text += '</code></pre>'
+    text += '\n'
+
+    return text
+  }
+}
+
+export class PreformattedStringRenderer extends ElementStringRendererBase {
+  renderToString (element: AbstractPreformattedType, type: string): string {
+    // console.log(util.inspect(element, { compact: false, depth: 999 }))
+
+    let text = ''
+
+    text += '\n'
+
+    // Docusaurus adds the copy button.
+    // The content must be on the same line.
+    text += '\n'
+    text += '<pre><code>'
+    text += this.workspace.renderElementsArrayToString(element.children, 'html').trim()
     text += '\n'
     text += '</code></pre>'
     text += '\n'

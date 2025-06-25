@@ -6869,8 +6869,6 @@ export class ParaEmptyDataModel extends AbstractDocEmptyType {
 // ----------------------------------------------------------------------------
 
 export abstract class AbstractVerbatimType extends AbstractDataModelBase {
-  text: string = ''
-
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
@@ -6879,8 +6877,19 @@ export abstract class AbstractVerbatimType extends AbstractDataModelBase {
     // ------------------------------------------------------------------------
     // Process elements.
 
-    assert(xml.isInnerElementText(element, elementName))
-    this.text = xml.getInnerElementText(element, elementName)
+    // WARNING: not text only, ref encountered in Doxygen reference site.
+    const innerElements = xml.getInnerElements(element, elementName)
+    assert(innerElements.length > 0)
+
+    this.children = []
+
+    for (const innerElement of innerElements) {
+      if (xml.hasInnerText(innerElement)) {
+        this.children.push(xml.getInnerText(innerElement))
+      } else {
+        this.children.push(...parseDocTitleCmdGroup(xml, innerElement, elementName))
+      }
+    }
 
     // ------------------------------------------------------------------------
     // Process attributes.
@@ -6893,13 +6902,53 @@ export abstract class AbstractVerbatimType extends AbstractDataModelBase {
   }
 }
 
+// WARNING: not text only, ref encountered in Doxygen reference site.
+// <xsd:element name="verbatim" type="xsd:string" />
+
 export class VerbatimDataModel extends AbstractVerbatimType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     super(xml, element, 'verbatim')
   }
 }
 
-export class PreformattedDataModel extends AbstractVerbatimType {
+// ----------------------------------------------------------------------------
+
+export abstract class AbstractPreformattedType extends AbstractDataModelBase {
+  constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
+    super(elementName)
+
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+
+    // ------------------------------------------------------------------------
+    // Process elements.
+
+    const innerElements = xml.getInnerElements(element, elementName)
+    assert(innerElements.length > 0)
+
+    this.children = []
+
+    for (const innerElement of innerElements) {
+      if (xml.hasInnerText(innerElement)) {
+        this.children.push(xml.getInnerText(innerElement))
+      } else {
+        this.children.push(...parseDocTitleCmdGroup(xml, innerElement, elementName))
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // Process attributes.
+
+    assert(!xml.hasAttributes(element))
+
+    // ------------------------------------------------------------------------
+
+    // console.log(util.inspect(this, { compact: false, depth: 999 }))
+  }
+}
+
+// <xsd:element name="preformatted" type="docMarkupType" />
+
+export class PreformattedDataModel extends AbstractPreformattedType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     super(xml, element, 'preformatted')
   }
