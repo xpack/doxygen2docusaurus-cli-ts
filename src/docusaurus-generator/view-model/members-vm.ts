@@ -669,7 +669,7 @@ export class Member extends MemberBase {
 
     lines.push('')
     if (this.kind !== 'enum') {
-      lines.push(`### ${name} {#${id}}`)
+      lines.push(`### ${escapeMarkdown(name)} {#${id}}`)
     }
 
     // console.log(memberDef.kind)
@@ -741,16 +741,7 @@ export class Member extends MemberBase {
           if (this.isStrong) {
             prototype += 'class '
           }
-          lines.push(`### ${prototype} {#${id}}`)
-
-          if (this.name.length > 0 && this.qualifiedName !== undefined) {
-            prototype += `${escapeHtml(this.qualifiedName)} `
-          } else if (this.name.length > 0) {
-            prototype += `${escapeHtml(this.name)} `
-          }
-          if (this.type !== undefined && this.type.length > 0) {
-            prototype += `: ${this.type}`
-          }
+          lines.push(`### ${escapeMarkdown(prototype)} {#${id}}`)
 
           lines.push('')
 
@@ -773,6 +764,15 @@ export class Member extends MemberBase {
 
           if (this.locationLines !== undefined) {
             childrenLines.push(...this.locationLines)
+          }
+
+          if (this.name.length > 0 && this.qualifiedName !== undefined) {
+            prototype += `${escapeHtml(this.qualifiedName)} `
+          } else if (this.name.length > 0) {
+            prototype += `${escapeHtml(this.name)} `
+          }
+          if (this.type !== undefined && this.type.length > 0) {
+            prototype += `: ${this.type}`
           }
 
           lines.push(...this.renderMemberDefinitionToLines({
