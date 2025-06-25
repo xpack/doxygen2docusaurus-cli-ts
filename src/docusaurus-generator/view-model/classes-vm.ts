@@ -95,7 +95,7 @@ export class Classes extends CollectionBase {
       label: 'Classes',
       link: {
         type: 'doc',
-        id: `${this.workspace.sidebarBaseId}classes/index`
+        id: `${this.workspace.sidebarBaseId}index/classes/index`
       },
       collapsed: true,
       items: [
@@ -195,7 +195,7 @@ export class Classes extends CollectionBase {
       return
     }
 
-    const filePath = `${this.workspace.outputFolderPath}classes/index.md`
+    const filePath = `${this.workspace.outputFolderPath}index/classes/index.md`
     const permalink = 'classes'
 
     const frontMatter: FrontMatter = {
