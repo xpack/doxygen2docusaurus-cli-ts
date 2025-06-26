@@ -569,7 +569,7 @@ export class File extends CompoundBase {
 
     lines.push(...this.renderSectionsToLines())
 
-    if (this.programListing !== undefined) {
+    if (this.programListing !== undefined && this.collection.workspace.pluginOptions.renderProgramListing) {
       lines.push('')
       lines.push('## File Listing')
 
