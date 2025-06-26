@@ -727,7 +727,7 @@ export class Member extends MemberBase {
           if (this.initializer?.includes('\n')) {
             childrenLines.push('')
             childrenLines.push('<dl class="doxySectionUser">')
-            childrenLines.push('<dt>Initial value</dt>')
+            childrenLines.push('<dt>Initialiser</dt>')
             childrenLines.push('<dd>')
             // TODO make code
             childrenLines.push(`<div class="doxyVerbatim">${this.initializer}`)
