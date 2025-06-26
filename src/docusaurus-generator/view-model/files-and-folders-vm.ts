@@ -300,13 +300,20 @@ export class FilesAndFolders extends CollectionBase {
     lines.push('')
     lines.push('<table class="doxyTreeTable">')
 
+    const contentLines: string[] = []
     for (const folder of this.topLevelFolders) {
-      lines.push(...this.generateIndexMdFileRecursively(folder, 0))
+      contentLines.push(...this.generateIndexMdFileRecursively(folder, 0))
     }
 
     for (const file of this.topLevelFiles) {
-      lines.push(...this.generateFileIndexMd(file, 1))
+      contentLines.push(...this.generateFileIndexMd(file, 0))
     }
+
+    if (contentLines.length === 0) {
+      return
+    }
+
+    lines.push(...contentLines)
 
     lines.push('')
     lines.push('</table>')
@@ -366,8 +373,10 @@ export class FilesAndFolders extends CollectionBase {
 
     const label = escapeHtml(file.compoundName)
 
-    const permalink = this.workspace.getPagePermalink(file.id)
-    assert(permalink !== undefined && permalink.length > 1)
+    const permalink = this.workspace.getPagePermalink(file.id, true)
+    if (permalink === undefined) {
+      return []
+    }
 
     let description: string = ''
     if (file.briefDescriptionString !== undefined && file.briefDescriptionString.length > 0) {
@@ -517,6 +526,14 @@ export class File extends CompoundBase {
           this.listingLineNumbers.add(codeline.lineno)
         }
       }
+    }
+
+    // console.log(this)
+    if (!this.hasAnyContent()) {
+      // console.log('NO CONTENT', this.compoundName)
+      this.docusaurusId = undefined
+      this.sidebarLabel = undefined
+      this.relativePermalink = undefined
     }
   }
 
