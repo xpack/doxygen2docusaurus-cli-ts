@@ -639,6 +639,22 @@ export class CompoundBase {
         }
         return text;
     }
+    // Override it
+    hasAnyContent() {
+        if (this.briefDescriptionString !== undefined && this.briefDescriptionString.length > 0) {
+            return true;
+        }
+        if (this.detailedDescriptionLines !== undefined && this.detailedDescriptionLines.length > 0) {
+            return true;
+        }
+        if (this.sections.length > 0) {
+            return true;
+        }
+        if (this.includes !== undefined || this.innerCompounds !== undefined) {
+            return true;
+        }
+        return false;
+    }
 }
 // ----------------------------------------------------------------------------
 //# sourceMappingURL=compound-base-vm.js.map

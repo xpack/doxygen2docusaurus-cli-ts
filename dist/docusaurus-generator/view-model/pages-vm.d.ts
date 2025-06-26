@@ -13,5 +13,6 @@ export declare class Pages extends CollectionBase {
 }
 export declare class Page extends CompoundBase {
     constructor(collection: Pages, compoundDef: CompoundDefDataModel);
+    isTopPage(): boolean;
     renderToLines(frontMatter: FrontMatter): string[];
 }

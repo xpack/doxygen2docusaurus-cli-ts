@@ -27,7 +27,7 @@ import { fileURLToPath } from 'node:url';
 import { TocItemDataModel, TocListDataModel } from '../data-model/compounds/tableofcontentstype-dm.js';
 import { AbstractCompoundDefType } from '../data-model/compounds/compounddef-dm.js';
 import { DescriptionTocItem, DescriptionTocList, DescriptionAnchor } from './view-model/description-anchors.js';
-import { AbstractDocAnchorType, AbstractDocSectType } from '../data-model/compounds/descriptiontype-dm.js';
+import { AbstractDocAnchorType, AbstractDocSectType, ParaDataModel } from '../data-model/compounds/descriptiontype-dm.js';
 // ----------------------------------------------------------------------------
 export class Workspace {
     // --------------------------------------------------------------------------
@@ -130,7 +130,7 @@ export class Workspace {
         if (this.pluginOptions.verbose) {
             console.log(this.compoundsById.size, 'compound definitions');
         }
-        console.log(this.descriptionTocLists);
+        // console.log(this.descriptionTocLists)
     }
     findDescriptionIdsRecursively(compound, element) {
         // console.log(compound.id, typeof element)
@@ -333,6 +333,8 @@ export class Workspace {
         }
         lines.push('');
         lines.push(...bodyLines);
+        lines.push('');
+        lines.push('<hr/>');
         lines.push('');
         lines.push(`<p class="doxyGeneratedBy">Generated via <a href="https://github.com/xpack/docusaurus-plugin-doxygen">docusaurus-plugin-doxygen</a> by <a href="https://www.doxygen.nl">Doxygen</a> ${this.dataModel.doxygenindex?.version}.</p>`);
         lines.push('');
@@ -574,6 +576,17 @@ export class Workspace {
         return lines;
     }
     // --------------------------------------------------------------------------
+    skipElementsPara(elements) {
+        if (elements === undefined) {
+            return;
+        }
+        for (const child of elements) {
+            if (child instanceof ParaDataModel) {
+                child.skipPara = true;
+            }
+        }
+    }
+    // --------------------------------------------------------------------------
     getPermalink({ refid, kindref }) {
         // console.log(refid, kindref)
         let permalink;
@@ -634,7 +647,7 @@ export class Workspace {
         }
         const pagePermalink = dataObject.relativePermalink;
         if (pagePermalink === undefined) {
-            if (this.pluginOptions.verbose) {
+            if (this.pluginOptions.verbose && !noWarn) {
                 console.warn('refid', refid, 'has no permalink');
             }
             return undefined;

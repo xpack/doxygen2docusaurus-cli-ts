@@ -9,6 +9,7 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 import { ElementLinesRendererBase } from './element-renderer-base.js';
+import { getPermalinkAnchor } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class TocListLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
@@ -19,7 +20,8 @@ export class TocListLinesRenderer extends ElementLinesRendererBase {
         lines.push('<ul class="doxyTocList">');
         if (element.tocItems !== undefined) {
             for (const tocItem of element.tocItems) {
-                lines.push(`<li><a class="doxyTocListItem" href="#${tocItem.id}">${this.workspace.renderElementsArrayToString(tocItem.children, 'html').trim()}</a></li>`);
+                const permalink = getPermalinkAnchor(tocItem.id);
+                lines.push(`<li><a class="doxyTocListItem" href="#${permalink}">${this.workspace.renderElementsArrayToString(tocItem.children, 'html').trim()}</a></li>`);
             }
         }
         lines.push('</ul>');

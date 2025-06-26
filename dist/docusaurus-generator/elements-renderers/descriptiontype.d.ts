@@ -1,5 +1,5 @@
 import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js';
-import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocBlockQuoteType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocHeadingType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractEmojiType, AbstractSpType, AbstractVerbatimType } from '../../data-model/compounds/descriptiontype-dm.js';
+import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocBlockQuoteType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocHeadingType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractEmojiType, AbstractPreformattedType, AbstractSpType, AbstractVerbatimType } from '../../data-model/compounds/descriptiontype-dm.js';
 import { AbstractDocHtmlOnlyType } from '../../data-model/compounds/compounddef-dm.js';
 import { AbstractDataModelBase } from '../../data-model/types.js';
 export declare class DescriptionTypeLinesRenderer extends ElementLinesRendererBase {
@@ -38,6 +38,9 @@ export declare class DocAnchorTypeLinesRenderer extends ElementLinesRendererBase
 }
 export declare class VerbatimStringRenderer extends ElementStringRendererBase {
     renderToString(element: AbstractVerbatimType, type: string): string;
+}
+export declare class PreformattedStringRenderer extends ElementStringRendererBase {
+    renderToString(element: AbstractPreformattedType, type: string): string;
 }
 export declare class FormulaStringRenderer extends ElementStringRendererBase {
     renderToString(element: AbstractDocFormulaType, type: string): string;

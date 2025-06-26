@@ -67,7 +67,7 @@ export class Namespaces extends CollectionBase {
             label: 'Namespaces',
             link: {
                 type: 'doc',
-                id: `${this.workspace.sidebarBaseId}namespaces/index`
+                id: `${this.workspace.sidebarBaseId}index/namespaces/index`
             },
             collapsed: true,
             items: []
@@ -125,7 +125,7 @@ export class Namespaces extends CollectionBase {
         if (this.topLevelNamespaces.length === 0) {
             return;
         }
-        const filePath = `${this.workspace.outputFolderPath}namespaces/index.md`;
+        const filePath = `${this.workspace.outputFolderPath}index/namespaces/index.md`;
         const permalink = 'namespaces';
         const frontMatter = {
             title: 'The Namespaces Reference',

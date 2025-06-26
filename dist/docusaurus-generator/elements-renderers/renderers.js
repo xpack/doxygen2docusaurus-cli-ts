@@ -8,7 +8,7 @@
  * If a copy of the license was not distributed with this file, it can
  * be obtained from https://opensource.org/licenses/MIT.
  */
-import { BlockquoteLinesRenderer, ComputerOutputDataModelStringRenderer, DescriptionTypeLinesRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeStringRenderer, DocMarkupTypeStringRenderer, DocParamListTypeLinesRenderer, DocParaTypeLinesRenderer, DocRefTextTypeStringRenderer, DocSimpleSectTypeLinesRenderer, DocURLLinkStringRenderer, EmojiStringRenderer, FormulaStringRenderer, HeadingLinesRenderer, HtmlOnlyStringRenderer, ImageStringRenderer, SpTypeStringRenderer, VerbatimStringRenderer } from './descriptiontype.js';
+import { BlockquoteLinesRenderer, ComputerOutputDataModelStringRenderer, DescriptionTypeLinesRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeStringRenderer, DocMarkupTypeStringRenderer, DocParamListTypeLinesRenderer, DocParaTypeLinesRenderer, DocRefTextTypeStringRenderer, DocSimpleSectTypeLinesRenderer, DocURLLinkStringRenderer, EmojiStringRenderer, FormulaStringRenderer, HeadingLinesRenderer, HtmlOnlyStringRenderer, ImageStringRenderer, PreformattedStringRenderer, SpTypeStringRenderer, VerbatimStringRenderer } from './descriptiontype.js';
 import { ListingTypeLinesRenderer, CodeLineTypeLinesRenderer, HighlightTypeLinesRenderer } from './listingtype.js';
 import { DocListTypeLinesRenderer } from './doclisttype.js';
 import { DocS1TypeLinesRenderer, DocS2TypeLinesRenderer, DocS3TypeLinesRenderer, DocS4TypeLinesRenderer, DocS5TypeLinesRenderer, DocS6TypeLinesRenderer } from './docinternalstype.js';
@@ -70,6 +70,7 @@ export class Renderers {
         this.elementStringRenderers.set('AbstractDocRefTextType', new DocRefTextTypeStringRenderer(workspace));
         this.elementStringRenderers.set('AbstractDocURLLink', new DocURLLinkStringRenderer(workspace));
         this.elementStringRenderers.set('AbstractLinkedTextType', new LinkedTextTypeStringRenderer(workspace));
+        this.elementStringRenderers.set('AbstractPreformattedType', new PreformattedStringRenderer(workspace));
         this.elementStringRenderers.set('AbstractRefTextType', new RefTextTypeStringRenderer(workspace));
         this.elementStringRenderers.set('AbstractSpType', new SpTypeStringRenderer(workspace));
         this.elementStringRenderers.set('AbstractVerbatimType', new VerbatimStringRenderer(workspace));

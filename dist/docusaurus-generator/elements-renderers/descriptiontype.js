@@ -12,7 +12,7 @@
 import assert from 'assert';
 import util from 'util';
 import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js';
-import { AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocRefTextType, AbstractDocURLLink, AbstractEmojiType, HrulerDataModel, LineBreakDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
+import { AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocRefTextType, AbstractDocURLLink, AbstractEmojiType, HrulerDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js';
 import { escapeHtml, escapeQuotes, getPermalinkAnchor } from '../utils.js';
 import { AbstractDocHtmlOnlyType, LatexOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel } from '../../data-model/compounds/compounddef-dm.js';
@@ -86,9 +86,8 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
         }
         else if (element instanceof HrulerDataModel) {
             return false; // Explicitly not inside a paragraph.
-        }
-        else if (element instanceof LineBreakDataModel) {
-            return false; // Explicitly not inside a paragraph.
+            // } else if (element instanceof LineBreakDataModel) {
+            //   return false // Explicitly not inside a paragraph.
         }
         else if (element instanceof AbstractDocHtmlOnlyType) {
             return false; // Explicitly not inside a paragraph.
@@ -152,7 +151,9 @@ export class DocURLLinkStringRenderer extends ElementStringRendererBase {
 const htmlElements = {
     BoldDataModel: 'b',
     EmphasisDataModel: 'em',
-    UnderlineDataModel: 'u'
+    UnderlineDataModel: 'u',
+    SubscriptDataModel: 'sub',
+    SuperscriptDataModel: 'sup'
 };
 export class DocMarkupTypeStringRenderer extends ElementStringRendererBase {
     renderToString(element, type) {
@@ -259,7 +260,7 @@ export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
             const title = DoxSimpleSectKind[element.kind];
             const body = this.workspace.renderElementsArrayToString(element.children, type).trim();
             lines.push('<dl class="doxySectionUser">');
-            lines.push(`<dt><b>${title}</b></dt>`);
+            lines.push(`<dt>${title}</dt>`);
             if (body.length === 0) {
                 lines.push('<dd></dd>');
             }
@@ -275,7 +276,7 @@ export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
             const title = element.title.replace(/\.$/, '');
             const body = this.workspace.renderElementsArrayToString(element.children, type).trim();
             lines.push('<dl class="doxySectionUser">');
-            lines.push(`<dt><b>${title}</b></dt>`);
+            lines.push(`<dt>${title}</dt>`);
             if (body.length === 0) {
                 lines.push('<dd></dd>');
             }
@@ -457,10 +458,28 @@ export class VerbatimStringRenderer extends ElementStringRendererBase {
         text += '\n';
         // Docusaurus adds the copy button.
         // The content must be on the same line.
+        text += '\n';
         text += '<pre><code>';
-        text += this.workspace.renderElementToString(element.text, 'html');
-        // text += '\n'
+        text += this.workspace.renderElementsArrayToString(element.children, 'html').trim();
+        text += '\n';
         text += '</code></pre>';
+        text += '\n';
+        return text;
+    }
+}
+export class PreformattedStringRenderer extends ElementStringRendererBase {
+    renderToString(element, type) {
+        // console.log(util.inspect(element, { compact: false, depth: 999 }))
+        let text = '';
+        text += '\n';
+        // Docusaurus adds the copy button.
+        // The content must be on the same line.
+        text += '\n';
+        text += '<pre><code>';
+        text += this.workspace.renderElementsArrayToString(element.children, 'html').trim();
+        text += '\n';
+        text += '</code></pre>';
+        text += '\n';
         return text;
     }
 }
@@ -485,7 +504,7 @@ export class ImageStringRenderer extends ElementStringRendererBase {
         let text = '';
         if (element.type === 'html') {
             text += '\n';
-            text += '<figure>';
+            text += '<figure>\n';
             text += '  <img';
             if (element.name !== undefined) {
                 text += ` src="/${this.workspace.pluginOptions.imagesFolderPath}/${element.name}"`;
@@ -506,6 +525,13 @@ export class ImageStringRenderer extends ElementStringRendererBase {
             if (element.caption !== undefined) {
                 text += '\n';
                 text += `  <figcaption>${escapeHtml(element.caption)}</figcaption>`;
+            }
+            else if (element.children !== undefined) {
+                const caption = this.workspace.renderElementsArrayToString(element.children, 'html').trim();
+                if (caption.length > 0) {
+                    text += '\n';
+                    text += `  <figcaption>${caption}</figcaption>`;
+                }
             }
             text += '\n';
             text += '</figure>';

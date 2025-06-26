@@ -99,4 +99,5 @@ export declare abstract class CompoundBase {
         withDefaults?: boolean;
     }): string;
     renderTemplateParameterNamesToString(templateParamList: TemplateParamListDataModel | undefined): string;
+    hasAnyContent(): boolean;
 }

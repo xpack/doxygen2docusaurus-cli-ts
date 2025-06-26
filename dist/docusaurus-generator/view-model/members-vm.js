@@ -11,7 +11,7 @@
 // ----------------------------------------------------------------------------
 import * as util from 'node:util';
 import assert from 'node:assert';
-import { escapeHtml, getPermalinkAnchor } from '../utils.js';
+import { escapeHtml, escapeMarkdown, getPermalinkAnchor } from '../utils.js';
 import { ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
 // ----------------------------------------------------------------------------
 export const sectionHeaders = {
@@ -292,7 +292,7 @@ export class Member extends MemberBase {
             this.type = workspace.renderElementToString(memberDef.type, 'html').trim();
         }
         if (memberDef.initializer !== undefined) {
-            this.initializer = workspace.renderElementToString(memberDef.initializer, 'html');
+            this.initializer = workspace.renderElementToString(memberDef.initializer, 'markdown');
         }
         if (memberDef.location !== undefined) {
             this.locationLines = this.section.compound.renderLocationToLines(memberDef.location);
@@ -431,8 +431,11 @@ export class Member extends MemberBase {
                         itemType += type;
                     }
                     if (this.initializer !== undefined) {
-                        itemName += ' ';
-                        itemName += this.initializer;
+                        // Show only short initializers in the index.
+                        if (!this.initializer.includes('\n')) {
+                            itemName += ' ';
+                            itemName += this.initializer;
+                        }
                     }
                 }
                 break;
@@ -445,8 +448,11 @@ export class Member extends MemberBase {
                     itemType = escapeHtml('class { ... }');
                 }
                 if (this.initializer !== undefined) {
-                    itemName += ' ';
-                    itemName += this.initializer;
+                    // Show only short initializers in the index.
+                    if (!this.initializer.includes('\n')) {
+                        itemName += ' ';
+                        itemName += this.initializer;
+                    }
                 }
                 break;
             case 'enum':
@@ -511,7 +517,7 @@ export class Member extends MemberBase {
         const name = this.name + (isFunction ? '()' : '');
         lines.push('');
         if (this.kind !== 'enum') {
-            lines.push(`### ${name} {#${id}}`);
+            lines.push(`### ${escapeMarkdown(name)} {#${id}}`);
         }
         // console.log(memberDef.kind)
         switch (this.kind) {
@@ -531,7 +537,9 @@ export class Member extends MemberBase {
                         prototype += ')';
                     }
                     if (this.initializer !== undefined) {
-                        prototype += ` ${this.initializer}`;
+                        if (!this.initializer.includes('\n')) {
+                            prototype += ` ${this.initializer}`;
+                        }
                     }
                     if (this.isConst) {
                         prototype += ' const';
@@ -542,12 +550,28 @@ export class Member extends MemberBase {
                         template = escapeHtml(`template ${this.templateParameters}`);
                     }
                     const childrenLines = [];
+                    if (this.briefDescriptionNoParaString !== undefined) {
+                        childrenLines.push(this.section.compound.renderBriefDescriptionToString({
+                            briefDescriptionNoParaString: this.briefDescriptionNoParaString
+                        }));
+                    }
+                    if (this.initializer?.includes('\n')) {
+                        childrenLines.push('');
+                        childrenLines.push('<dl class="doxySectionUser">');
+                        childrenLines.push('<dt>Initialiser</dt>');
+                        childrenLines.push('<dd>');
+                        // TODO make code
+                        childrenLines.push(`<div class="doxyVerbatim">${this.initializer}`);
+                        childrenLines.push('</div>');
+                        childrenLines.push('</dd>');
+                        childrenLines.push('</dl>');
+                    }
                     if (this.detailedDescriptionLines !== undefined) {
                         childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
                             briefDescriptionNoParaString: this.briefDescriptionNoParaString,
                             detailedDescriptionLines: this.detailedDescriptionLines,
                             showHeader: false,
-                            showBrief: true
+                            showBrief: false
                         }));
                     }
                     if (this.locationLines !== undefined) {
@@ -571,16 +595,7 @@ export class Member extends MemberBase {
                     if (this.isStrong) {
                         prototype += 'class ';
                     }
-                    lines.push(`### ${prototype} {#${id}}`);
-                    if (this.name.length > 0 && this.qualifiedName !== undefined) {
-                        prototype += `${escapeHtml(this.qualifiedName)} `;
-                    }
-                    else if (this.name.length > 0) {
-                        prototype += `${escapeHtml(this.name)} `;
-                    }
-                    if (this.type !== undefined && this.type.length > 0) {
-                        prototype += `: ${this.type}`;
-                    }
+                    lines.push(`### ${escapeMarkdown(prototype)} {#${id}}`);
                     lines.push('');
                     const childrenLines = [];
                     if (this.briefDescriptionNoParaString !== undefined && this.briefDescriptionNoParaString.length > 0) {
@@ -598,6 +613,15 @@ export class Member extends MemberBase {
                     }
                     if (this.locationLines !== undefined) {
                         childrenLines.push(...this.locationLines);
+                    }
+                    if (this.name.length > 0 && this.qualifiedName !== undefined) {
+                        prototype += `${escapeHtml(this.qualifiedName)} `;
+                    }
+                    else if (this.name.length > 0) {
+                        prototype += `${escapeHtml(this.name)} `;
+                    }
+                    if (this.type !== undefined && this.type.length > 0) {
+                        prototype += `: ${this.type}`;
                     }
                     lines.push(...this.renderMemberDefinitionToLines({
                         prototype,

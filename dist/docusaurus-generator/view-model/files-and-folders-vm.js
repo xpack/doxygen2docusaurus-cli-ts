@@ -149,7 +149,7 @@ export class FilesAndFolders extends CollectionBase {
             label: 'Files',
             link: {
                 type: 'doc',
-                id: `${this.workspace.sidebarBaseId}files/index`
+                id: `${this.workspace.sidebarBaseId}index/files/index`
             },
             collapsed: true,
             items: []
@@ -224,7 +224,7 @@ export class FilesAndFolders extends CollectionBase {
         if (this.topLevelFolders.length === 0 && this.topLevelFiles.length === 0) {
             return;
         }
-        const filePath = `${this.workspace.outputFolderPath}files/index.md`;
+        const filePath = `${this.workspace.outputFolderPath}index/files/index.md`;
         const permalink = 'files';
         const frontMatter = {
             title: 'The Files & Folders Reference',
@@ -237,12 +237,17 @@ export class FilesAndFolders extends CollectionBase {
         lines.push('<p>The files & folders that contributed content to this site are:</p>');
         lines.push('');
         lines.push('<table class="doxyTreeTable">');
+        const contentLines = [];
         for (const folder of this.topLevelFolders) {
-            lines.push(...this.generateIndexMdFileRecursively(folder, 0));
+            contentLines.push(...this.generateIndexMdFileRecursively(folder, 0));
         }
         for (const file of this.topLevelFiles) {
-            lines.push(...this.generateFileIndexMd(file, 1));
+            contentLines.push(...this.generateFileIndexMd(file, 0));
         }
+        if (contentLines.length === 0) {
+            return;
+        }
+        lines.push(...contentLines);
         lines.push('');
         lines.push('</table>');
         console.log(`Writing files index file ${filePath}...`);
@@ -288,8 +293,10 @@ export class FilesAndFolders extends CollectionBase {
         // console.log(util.inspect(file, { compact: false, depth: 999 }))
         const lines = [];
         const label = escapeHtml(file.compoundName);
-        const permalink = this.workspace.getPagePermalink(file.id);
-        assert(permalink !== undefined && permalink.length > 1);
+        const permalink = this.workspace.getPagePermalink(file.id, true);
+        if (permalink === undefined) {
+            return [];
+        }
         let description = '';
         if (file.briefDescriptionString !== undefined && file.briefDescriptionString.length > 0) {
             description = file.briefDescriptionString.replace(/[.]$/, '');
@@ -397,6 +404,13 @@ export class File extends CompoundBase {
                     this.listingLineNumbers.add(codeline.lineno);
                 }
             }
+        }
+        // console.log(this)
+        if (!this.hasAnyContent()) {
+            // console.log('NO CONTENT', this.compoundName)
+            this.docusaurusId = undefined;
+            this.sidebarLabel = undefined;
+            this.relativePermalink = undefined;
         }
     }
     // --------------------------------------------------------------------------

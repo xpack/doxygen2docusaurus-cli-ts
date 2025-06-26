@@ -41,6 +41,7 @@ export class DocusaurusGenerator {
         if (this.workspace.pluginOptions.verbose) {
             console.log(this.workspace.writtenMdFilesCounter, 'md files written');
         }
+        // await this.generateManualRedirectFiles()
         await this.generateCompatibilityRedirectFiles();
         await this.copyFiles();
         await this.copyImageFiles();
@@ -181,10 +182,12 @@ export class DocusaurusGenerator {
                 }));
             }
         }
-        lines.push('');
-        lines.push(':::note');
-        lines.push('For comparison, the original Doxygen html pages, styled with the <a href="https://jothepro.github.io/doxygen-awesome-css/">doxygen-awesome-css</a> plugin, continue to be available via the <a href="pathname:///doxygen/topics.html"><code>.../doxygen/*.html</b></code> URLs.');
-        lines.push(':::');
+        if (this.workspace.pluginOptions.originalPagesNote !== undefined) {
+            lines.push('');
+            lines.push(':::note');
+            lines.push(this.workspace.pluginOptions.originalPagesNote);
+            lines.push(':::');
+        }
         console.log(`Writing top index file ${filePath}...`);
         await this.workspace.writeMdFile({
             filePath,
@@ -209,12 +212,14 @@ export class DocusaurusGenerator {
             console.log('Writing Docusaurus .md pages...');
         }
         for (const [compoundId, compound] of this.workspace.compoundsById) {
-            if (compound instanceof Page && compound.id === 'indexpage') {
-                // This is the @mainpage. We diverge from Doxygen and generate
-                // the API main page differently, with the list of topics and
-                // this page detailed description. Therefore it is not generated
-                // as a regular page and must be skipped at this stage.
-                continue;
+            if (compound instanceof Page) {
+                if (compound.id === 'indexpage') {
+                    // This is the @mainpage. We diverge from Doxygen and generate
+                    // the API main page differently, with the list of topics and
+                    // this page detailed description. Therefore it is not generated
+                    // as a regular page and must be skipped at this stage.
+                    continue;
+                }
             }
             this.workspace.currentCompound = compound;
             const permalink = compound.relativePermalink;
@@ -238,7 +243,8 @@ export class DocusaurusGenerator {
                 slug,
                 // description: '...', // TODO
                 custom_edit_url: null,
-                keywords: ['doxygen', 'reference', `${compound.kind}`]
+                keywords: ['doxygen', 'reference', `${compound.kind}`],
+                toc_max_heading_level: 4
             };
             const bodyLines = compound.renderToLines(frontMatter);
             const pagePermalink = `${this.workspace.pageBaseUrl}${compound.relativePermalink}`;
@@ -254,7 +260,7 @@ export class DocusaurusGenerator {
     }
     // --------------------------------------------------------------------------
     async generateCompatibilityRedirectFiles() {
-        const redirectsOutputFolderPath = this.workspace.pluginOptions.redirectsOutputFolderPath;
+        const redirectsOutputFolderPath = this.workspace.pluginOptions.compatibilityRedirectsOutputFolderPath;
         if (redirectsOutputFolderPath === undefined) {
             return;
         }
@@ -303,7 +309,7 @@ export class DocusaurusGenerator {
         // hierarchy
         // namespacemembers, _enum, _func, type, _vars
         for (const [from, to] of indexFilesMap) {
-            const filePath = `static/${redirectsOutputFolderPath}/${from}`;
+            const filePath = path.join('static', redirectsOutputFolderPath, from);
             const permalink = `${this.workspace.absoluteBaseUrl}${to}/`;
             await this.generateRedirectFile({
                 filePath,
@@ -314,6 +320,24 @@ export class DocusaurusGenerator {
             console.log(this.workspace.writtenHtmlFilesCounter, 'html files written');
         }
     }
+    // async generateManualRedirectFiles(): Promise<void> {
+    //   if (this.workspace.pluginOptions.redirects === undefined) {
+    //     return
+    //   }
+    //   const redirectsOutputFolderPath = path.join('static')
+    //   for (const entry of this.workspace.pluginOptions.redirects) {
+    //     const fromArray = Array.isArray(entry.from) ? entry.from : [entry.from]
+    //     for (const from of fromArray) {
+    //       const filePath = path.join(redirectsOutputFolderPath, from)
+    //       const permalink = `${this.workspace.siteConfig.baseUrl}${entry.to}/`
+    //       await this.generateRedirectFile({
+    //         filePath,
+    //         permalink
+    //       })
+    //     }
+    //   }
+    // }
+    // --------------------------------------------------------------------------
     // If `trailingSlash` is true, Docusaurus redirects do not generate .html files,
     // therefore we have to do it manually.
     async generateRedirectFile({ filePath, permalink }) {
@@ -332,11 +356,12 @@ export class DocusaurusGenerator {
         lines.push('</html>');
         lines.push('');
         await fs.mkdir(path.dirname(filePath), { recursive: true });
-        const fileHandle = await fs.open(filePath, 'ax');
+        const fileHandle = await fs.open(filePath, 'w');
         await fileHandle.write(lines.join('\n'));
         await fileHandle.close();
         this.workspace.writtenHtmlFilesCounter += 1;
     }
+    // --------------------------------------------------------------------------
     async copyFiles() {
         const destImgFolderPath = path.join('static', 'img', 'docusaurus-plugin-doxygen');
         await fs.mkdir(destImgFolderPath, { recursive: true });
@@ -356,6 +381,7 @@ export class DocusaurusGenerator {
         console.log('Writing css file', toFilePath);
         await fs.copyFile(fromFilePath, toFilePath);
     }
+    // --------------------------------------------------------------------------
     async copyImageFiles() {
         if (this.workspace.dataModel.images === undefined) {
             return;

@@ -73,7 +73,7 @@ export class Classes extends CollectionBase {
             label: 'Classes',
             link: {
                 type: 'doc',
-                id: `${this.workspace.sidebarBaseId}classes/index`
+                id: `${this.workspace.sidebarBaseId}index/classes/index`
             },
             collapsed: true,
             items: [
@@ -163,7 +163,7 @@ export class Classes extends CollectionBase {
         if (this.topLevelClasses.length === 0) {
             return;
         }
-        const filePath = `${this.workspace.outputFolderPath}classes/index.md`;
+        const filePath = `${this.workspace.outputFolderPath}index/classes/index.md`;
         const permalink = 'classes';
         const frontMatter = {
             title: 'The Classes Reference',
@@ -518,7 +518,6 @@ export class Class extends CompoundBase {
     // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
         const lines = [];
-        frontMatter.toc_max_heading_level = 3;
         const descriptionTodo = `@${this.kind} ${escapeHtml(this.compoundName)}`;
         const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({

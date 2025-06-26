@@ -81,6 +81,7 @@ export declare class Workspace {
         depth: number;
         description: string;
     }): string[];
+    skipElementsPara(elements: AbstractDataModelBase[] | undefined): void;
     getPermalink({ refid, kindref }: {
         refid: string;
         kindref: string;

@@ -1156,12 +1156,14 @@ export declare class ParaEmptyDataModel extends AbstractDocEmptyType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
 export declare abstract class AbstractVerbatimType extends AbstractDataModelBase {
-    text: string;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
 export declare class VerbatimDataModel extends AbstractVerbatimType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
-export declare class PreformattedDataModel extends AbstractVerbatimType {
+export declare abstract class AbstractPreformattedType extends AbstractDataModelBase {
+    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+}
+export declare class PreformattedDataModel extends AbstractPreformattedType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }

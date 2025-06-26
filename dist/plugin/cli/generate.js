@@ -9,12 +9,14 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 import { generateDocusaurusMd, parseDoxygen } from '../main.js';
+import { getInstanceDefaultOptions } from '../options.js';
 import { pluginName } from '../docusaurus.js';
 // ----------------------------------------------------------------------------
 export async function generateDoxygen(context, pluginOptions, cliOptions) {
     // console.log('generateDoxygen()')
     // console.log('context:', util.inspect(context))
     // console.log('pluginOptions:', util.inspect(pluginOptions))
+    // For multi-instance plugins, this is not accurate,
     let options = pluginOptions;
     if (cliOptions?.id !== undefined) {
         let found = false;
@@ -22,8 +24,11 @@ export async function generateDoxygen(context, pluginOptions, cliOptions) {
             if (Array.isArray(plugin)) {
                 if (plugin[0] === pluginName) {
                     const configPluginOptions = plugin[1];
-                    if (configPluginOptions.id === cliOptions?.id) {
-                        options = configPluginOptions;
+                    if (configPluginOptions.id === cliOptions.id) {
+                        options = {
+                            ...getInstanceDefaultOptions(cliOptions.id),
+                            ...configPluginOptions
+                        };
                         found = true;
                         break;
                     }

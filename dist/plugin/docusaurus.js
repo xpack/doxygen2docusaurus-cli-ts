@@ -9,7 +9,7 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 import { generateDoxygen } from './cli/generate.js';
-import { defaultOptions } from './options.js';
+import { getInstanceDefaultOptions } from './options.js';
 import { generateDocusaurusMd, parseDoxygen } from './main.js';
 // ----------------------------------------------------------------------------
 // The Docusaurus plugin entry point.
@@ -20,18 +20,19 @@ export default async function pluginDocusaurus(context, options // The user opti
     // Already merged with the defaults in validateOptions.
     const actualOptions = options;
     if (actualOptions.verbose) {
-        console.log();
         if (actualOptions.id !== undefined && actualOptions.id !== 'default') {
-            console.log(`${pluginName}: instance '${actualOptions.id}' starting...`);
+            console.log(`${pluginName}: initialising instance '${actualOptions.id}'...`);
         }
         else {
-            console.log(`${pluginName}: starting...`);
+            console.log(`${pluginName}: initialising...`);
         }
+        // console.log('options:', options)
     }
     // It is not possible to run the actions here, since this is executed even
     // for CLI commands, when it is not necessary.
     return {
         name: pluginName,
+        // Called for `start` and `build`, not CLI.
         // https://docusaurus.io/docs/api/plugin-methods/lifecycle-apis
         async loadContent() {
             if (actualOptions.runOnStart) {
@@ -72,6 +73,7 @@ function formatDuration(n) {
         return `${(n / 60000).toFixed(1)} min`;
     }
 }
+// The options are for the first instance. For multi-instance must be computed based on the id.
 export function extendCliGenerateDoxygen(cli, context, options) {
     let startTime;
     cli
@@ -80,20 +82,29 @@ export function extendCliGenerateDoxygen(cli, context, options) {
         .description('[@xpack/docusaurus-plugin-doxygen] Generate Doxygen docs independently of the Docusaurus build process.')
         .action(async (cliOptions) => {
         startTime = Date.now();
+        const commandLine = cliOptions.parent.args.join(' ');
         console.log();
-        console.log('Running \'docusaurus generate-doxygen\'...');
+        console.log(`Running '${commandLine}'...`);
+        // console.log('context:', context)
+        // console.log('options:', options)
+        // console.log('cliOptions:', cliOptions)
         const exitCode = await generateDoxygen(context, options, cliOptions);
         console.log();
         const durationString = formatDuration(Date.now() - startTime);
-        console.log(`Running 'docusaurus generate-doxygen' has completed successfully in ${durationString}.`);
+        console.log(`Running '${commandLine}' has completed successfully in ${durationString}.`);
         return exitCode;
     });
 }
+// Called before calling `pluginDocusaurus()` for each instance.
+// The returned object is passed as the options of that instance.
 export function validateOptions({ validate, options: userOptions }) {
+    // console.log(`validateOptions()`)
+    // console.log('userOptions:', userOptions)
+    // console.log('defaultOptions:', defaultOptions)
     // Currently only add defaults.
     // TODO: validate.
     return {
-        ...defaultOptions,
+        ...getInstanceDefaultOptions(userOptions.id),
         ...userOptions
     };
 }

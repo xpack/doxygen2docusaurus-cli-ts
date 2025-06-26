@@ -45,7 +45,7 @@ export class Pages extends CollectionBase {
             items: []
         };
         for (const [pageId, page] of this.collectionCompoundsById) {
-            if (pageId === 'deprecated' || pageId === 'todo') {
+            if (!this.workspace.pluginOptions.renderPagesAtTop || !page.isTopPage()) {
                 const label = page.sidebarLabel;
                 if (label === undefined) {
                     continue;
@@ -66,8 +66,12 @@ export class Pages extends CollectionBase {
     createTopPagesSidebarItems(sidebarCategory) {
         // Add pages to the sidebar.
         for (const [pageId, page] of this.collectionCompoundsById) {
+            if (!this.workspace.pluginOptions.renderPagesAtTop) {
+                // Do not show pages to the top.
+                continue;
+            }
             // Skip special pages.
-            if (pageId === 'indexpage' || pageId === 'deprecated' || pageId === 'todo') {
+            if (pageId === 'indexpage' || !page.isTopPage()) {
                 continue;
             }
             const label = page.sidebarLabel;
@@ -114,6 +118,13 @@ export class Page extends CompoundBase {
         // console.log('4', this.sidebarLabel)
         // console.log('5', this.indexName)
         // console.log()
+    }
+    // --------------------------------------------------------------------------
+    isTopPage() {
+        if (this.id === 'deprecated' || this.id === 'todo') {
+            return false;
+        }
+        return true;
     }
     // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
