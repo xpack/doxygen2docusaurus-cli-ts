@@ -66,7 +66,7 @@ export class Pages extends CollectionBase {
     }
 
     for (const [pageId, page] of this.collectionCompoundsById) {
-      if (pageId === 'deprecated' || pageId === 'todo') {
+      if (!this.workspace.pluginOptions.renderPagesAtTop || !(page as Page).isTopPage()) {
         const label = page.sidebarLabel
         if (label === undefined) {
           continue
@@ -92,8 +92,12 @@ export class Pages extends CollectionBase {
     // Add pages to the sidebar.
 
     for (const [pageId, page] of this.collectionCompoundsById) {
+      if (!this.workspace.pluginOptions.renderPagesAtTop) {
+        // Do not show pages to the top.
+        continue
+      }
       // Skip special pages.
-      if (pageId === 'indexpage' || pageId === 'deprecated' || pageId === 'todo') {
+      if (pageId === 'indexpage' || !(page as Page).isTopPage()) {
         continue
       }
 
@@ -156,6 +160,15 @@ export class Page extends CompoundBase {
     // console.log('4', this.sidebarLabel)
     // console.log('5', this.indexName)
     // console.log()
+  }
+
+  // --------------------------------------------------------------------------
+
+  isTopPage (): boolean {
+    if (this.id === 'deprecated' || this.id === 'todo') {
+      return false
+    }
+    return true
   }
 
   // --------------------------------------------------------------------------
