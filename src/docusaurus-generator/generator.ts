@@ -24,6 +24,7 @@ import { FrontMatter } from './types.js'
 import { folderExists } from './utils.js'
 import { Page, Pages } from './view-model/pages-vm.js'
 import { Groups } from './view-model/groups-vm.js'
+import { File } from './view-model/files-and-folders-vm.js'
 
 export class DocusaurusGenerator {
   workspace: Workspace
@@ -283,12 +284,14 @@ export class DocusaurusGenerator {
     }
 
     for (const [compoundId, compound] of this.workspace.compoundsById) {
-      if (compound instanceof Page && compound.id === 'indexpage') {
-        // This is the @mainpage. We diverge from Doxygen and generate
-        // the API main page differently, with the list of topics and
-        // this page detailed description. Therefore it is not generated
-        // as a regular page and must be skipped at this stage.
-        continue
+      if (compound instanceof Page) {
+        if (compound.id === 'indexpage') {
+          // This is the @mainpage. We diverge from Doxygen and generate
+          // the API main page differently, with the list of topics and
+          // this page detailed description. Therefore it is not generated
+          // as a regular page and must be skipped at this stage.
+          continue
+        }
       }
 
       this.workspace.currentCompound = compound
