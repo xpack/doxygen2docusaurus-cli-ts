@@ -34,6 +34,7 @@ export interface PluginConfigurationOptions {
   debug?: boolean
   runOnStart?: boolean
   suggestToDoDescriptions?: boolean
+  renderPagesAtTop?: boolean
   originalPagesNote?: string
   // redirects?: Redirects[]
   id?: string
@@ -91,6 +92,9 @@ export interface PluginOptions {
   /** Boolean to control if the TODO suggestions are shown. */
   suggestToDoDescriptions: boolean
 
+  /** Boolean to render the pages to the top. */
+  renderPagesAtTop: boolean
+
   /**
    * Location of original Doxygen pages
    *
@@ -121,6 +125,7 @@ export const defaultOptions: PluginConfigurationOptions = {
   debug: false,
   runOnStart: false,
   suggestToDoDescriptions: false,
+  renderPagesAtTop: true,
   id: 'default'
 }
 
