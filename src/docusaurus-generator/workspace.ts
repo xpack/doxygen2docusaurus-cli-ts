@@ -872,7 +872,7 @@ export class Workspace {
 
     const pagePermalink = dataObject.relativePermalink
     if (pagePermalink === undefined) {
-      if (this.pluginOptions.verbose) {
+      if (this.pluginOptions.verbose && !noWarn) {
         console.warn('refid', refid, 'has no permalink')
       }
       return undefined
