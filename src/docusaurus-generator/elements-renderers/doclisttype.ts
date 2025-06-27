@@ -19,6 +19,8 @@ import { AbstractDocListType, ItemizedListDataModel, OrderedListDataModel } from
 
 // ----------------------------------------------------------------------------
 
+// ItemizedListDataModel - regular unordered
+// OrderedListDataModel - regular ordered
 export class DocListTypeLinesRenderer extends ElementLinesRendererBase {
   override renderToLines (element: AbstractDocListType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
@@ -27,7 +29,7 @@ export class DocListTypeLinesRenderer extends ElementLinesRendererBase {
     let classCheck = ''
     for (const listItem of element.listItems) {
       if (listItem.override !== undefined) {
-        classCheck = ' class="check"'
+        classCheck = ' check'
         break
       }
     }
@@ -36,12 +38,12 @@ export class DocListTypeLinesRenderer extends ElementLinesRendererBase {
 
     lines.push('')
     if (element instanceof ItemizedListDataModel) {
-      lines.push(`<ul${classCheck}>`)
+      lines.push(`<ul class="doxyList ${classCheck}">`)
     } else if (element instanceof OrderedListDataModel) {
       if (element.type.length > 0) {
-        lines.push(`<ol type="${element.type}">`)
+        lines.push(`<ol class="doxyList" type="${element.type}">`)
       } else {
-        lines.push('<ol type="1">')
+        lines.push('<ol class="doxyList" type="1">')
       }
     }
 
@@ -54,15 +56,20 @@ export class DocListTypeLinesRenderer extends ElementLinesRendererBase {
       if (listItem.paras !== undefined) {
         // console.log(listItem.paras)
         this.workspace.skipElementsPara(listItem.paras)
-        let text = ''
-        text += `<li${classChecked}>`
-        for (const para of listItem.paras) {
-          text += this.workspace.renderElementToString(para, type).trim()
-          text += '\n'
-          text += '\n'
+
+        if (listItem.paras.length > 0) {
+          let text = ''
+          text += `<li${classChecked}>`
+
+          const paraLines: string[] = []
+          for (const para of listItem.paras) {
+            paraLines.push(this.workspace.renderElementToString(para, type).trim())
+          }
+          // Two \n to separate paragraphs when there is no <p>.
+          text += paraLines.join('\n\n')
+          text += '</li>'
+          lines.push(text)
         }
-        text += '</li>'
-        lines.push(text)
       }
       if (listItem.value !== undefined) {
         if (this.workspace.pluginOptions.verbose) {
