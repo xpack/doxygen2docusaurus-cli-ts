@@ -18,7 +18,7 @@ import crypto from 'node:crypto'
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
-import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
+import { escapeHtml, flattenPath, renderString, sanitizeHierarchicalPath } from '../utils.js'
 import { MenuItem, SidebarCategory, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { FrontMatter } from '../types.js'
 import { BaseCompoundRefDataModel, DerivedCompoundRefDataModel } from '../../data-model/compounds/compoundreftype-dm.js'
@@ -705,7 +705,7 @@ export class Class extends CompoundBase {
               continue
             }
           }
-          const itemName = escapeHtml(baseCompoundRef.text)
+          const itemName = renderString(baseCompoundRef.text, 'markdown')
           lines.push('')
 
           lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
@@ -758,7 +758,7 @@ export class Class extends CompoundBase {
                 console.warn('Derived class id', derivedCompoundRef.refid, 'not a defined class')
               }
 
-              const itemName = escapeHtml(derivedCompoundRef.text.trim())
+              const itemName = renderString(derivedCompoundRef.text.trim(), 'markdown')
               lines.push('')
               lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
                 type: this.kind,
@@ -766,7 +766,7 @@ export class Class extends CompoundBase {
               }))
             }
           } else {
-            const itemName = escapeHtml(derivedCompoundRef.text.trim())
+            const itemName = renderString(derivedCompoundRef.text.trim(), 'markdown')
             lines.push('')
             lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
               type: this.kind,

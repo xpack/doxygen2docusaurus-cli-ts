@@ -16,7 +16,7 @@ import * as util from 'util'
 
 import { ElementStringRendererBase } from './element-renderer-base.js'
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
-import { escapeHtml } from '../utils.js'
+import { renderString } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -39,9 +39,9 @@ export class RefTextTypeStringRenderer extends ElementStringRendererBase {
     })
 
     if (permalink !== undefined && permalink.length > 0) {
-      text += `<a href="${permalink}">${escapeHtml(element.text.trim())}</a>`
+      text += `<a href="${permalink}">${renderString(element.text.trim(), type)}</a>`
     } else {
-      text += `${escapeHtml(element.text.trim())}`
+      text += `${renderString(element.text.trim(), type)}`
     }
 
     return text

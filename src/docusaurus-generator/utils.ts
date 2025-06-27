@@ -108,6 +108,18 @@ export function sanitizeHierarchicalPath (text: string): string {
     .replaceAll(/[^a-zA-Z0-9/-]/g, '-')
 }
 
+export function renderString (element: string, type: string): string {
+  if (type === 'unchanged') {
+    return element
+  } else if (type === 'plain-html') {
+    return escapeBraces(element)
+  } else if (type === 'markdown') {
+    return escapeMarkdown(element)
+  } else {
+    return escapeHtml(element)
+  }
+}
+
 export function flattenPath (text: string): string {
   return text.replaceAll('/', '-')
 }
