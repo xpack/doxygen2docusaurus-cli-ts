@@ -211,10 +211,6 @@ tr.doxyMemberLabels {
   border: none;
 }
 
-td.doxyMemberLabelsLeft {
-  padding: 0px;
-}
-
 span.doxyMemberLabel {
   background: var(--ifm-color-primary);
   color: var(--ifm-color-content-inverse);
@@ -234,13 +230,15 @@ span.doxyMemberLabel:last-of-type {
 }
 
 td.doxyMemberLabelsLeft {
+  padding: 0px;
   border: 0;
-  width: auto;
+  width: 100%;
 }
 
 td.doxyMemberLabelsRight {
   border: none;
   padding: 0px;
+  white-space: nowrap;
 }
 
 table.doxyMemberName {
@@ -524,6 +522,7 @@ td.doxyParamItemName {
   padding-top: 0px;
   padding-bottom: 0px;
   padding-left: 0px;
+  vertical-align: top;
 }
 
 /* --- End ParametersListItem/styles.module.css --- */
@@ -613,6 +612,7 @@ div.doxyIncludesList {
     font-size: var(--ifm-code-font-size);
     padding: 6px 12px;
     vertical-align: initial;
+    white-space: pre;
 }
 
 /* --- End IncludesList/styles.module.css --- */
@@ -769,17 +769,17 @@ span.doxyHighlight a {
 
 /* Copied from code, horizontal padding doubled. */
 span.doxyComputerOutput {
-    background-color: var(--ifm-code-background);
-    border: .1rem solid #0000001a;
-    border-radius: var(--ifm-code-border-radius);
-    font-family: var(--ifm-font-family-monospace);
-    font-size: var(--ifm-code-font-size);
-    padding: var(--ifm-code-padding-vertical) calc(var(--ifm-code-padding-horizontal) * 2);
-    vertical-align: initial;
+  background-color: var(--ifm-code-background);
+  border: .1rem solid #0000001a;
+  border-radius: var(--ifm-code-border-radius);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  padding: var(--ifm-code-padding-vertical) calc(var(--ifm-code-padding-horizontal) * 2);
+  vertical-align: initial;
 }
 
 div.doxyPage h1 code {
-    padding: var(--ifm-code-padding-vertical) calc(var(--ifm-code-padding-horizontal) * 2);
+  padding: var(--ifm-code-padding-vertical) calc(var(--ifm-code-padding-horizontal) * 2);
 }
 
 /* div.doxyPage code {
@@ -791,23 +791,35 @@ div.doxyPage div.theme-code-block {
 }
 
 div.doxyPage div.theme-code-block pre code {
-    background-color: var(--ifm-code-background);
-    border: .1rem solid #0000001a;
-    border-radius: var(--ifm-code-border-radius);
-    font-family: var(--ifm-font-family-monospace);
-    font-size: var(--ifm-code-font-size);
-    padding: 10px 16px;
-    vertical-align: initial;
+  background-color: var(--ifm-code-background);
+  border: .1rem solid #0000001a;
+  border-radius: var(--ifm-code-border-radius);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  padding: 10px 16px;
+  vertical-align: initial;
 }
 
-div.doxyDeclaration, div.doxyDefinition, div.doxyVerbatim {
-    background-color: var(--ifm-code-background);
-    border: .1rem solid #0000001a;
-    border-radius: var(--ifm-code-border-radius);
-    font-family: var(--ifm-font-family-monospace);
-    font-size: var(--ifm-code-font-size);
-    padding: 6px 12px;
-    vertical-align: initial;
+div.doxyDeclaration, div.doxyDefinition {
+  background-color: var(--ifm-code-background);
+  border: .1rem solid #0000001a;
+  border-radius: var(--ifm-code-border-radius);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  padding: 6px 12px;
+  vertical-align: initial
+}
+
+div.doxyVerbatim {
+  background-color: var(--ifm-code-background);
+  border: .1rem solid #0000001a;
+  border-radius: var(--ifm-code-border-radius);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  padding: 6px 12px;
+  vertical-align: initial;
+  white-space: pre;
+  overflow-x: auto;
 }
 
 div.doxyPage table.doxyTable caption, div.doxyPage figcaption{
@@ -817,14 +829,18 @@ div.doxyPage table.doxyTable caption, div.doxyPage figcaption{
 }
 
 dl.doxySectionUser dt {
-    font-weight: bold;
-    margin-bottom: 6px;
+  font-weight: bold;
+  margin-bottom: 6px;
 }
 
 ul.doxyTocList {
   column-gap: 1em;
   column-count: 2;
   list-style-type: none;
+}
+
+dl.doxyVariableList dt {
+  font-weight: bold;
 }
 
 /* --- */
