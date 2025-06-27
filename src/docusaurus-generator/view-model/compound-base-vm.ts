@@ -20,7 +20,7 @@ import { FrontMatter } from '../types.js'
 import { ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { CollectionBase } from './collection-base.js'
 import { AbstractRefType, InnerClassDataModel } from '../../data-model/compounds/reftype-dm.js'
-import { escapeHtml, joinWithLast } from '../utils.js'
+import { escapeHtml, joinWithLast, renderString } from '../utils.js'
 import { Section } from './members-vm.js'
 import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js'
 import { RefTextDataModel } from '../../data-model/compounds/reftexttype-dm.js'
@@ -30,6 +30,7 @@ import { FilesAndFolders } from './files-and-folders-vm.js'
 import { IncludesDataModel } from '../../data-model/compounds/inctype-dm.js'
 import { SectionDefByKindDataModel, SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-dm.js'
 import { AbstractMemberBaseType } from '../../data-model/compounds/memberdeftype-dm.js'
+import { ReferenceDataModel, ReferencedByDataModel } from '../../data-model/compounds/referencetype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -484,11 +485,14 @@ export abstract class CompoundBase {
             const itemType = kind === 'dir' ? 'folder' : (kind === 'group' ? '&nbsp;' : kind)
 
             const permalink = workspace.getPagePermalink(innerObject.refid)
-            const itemName = `<a href="${permalink}">${escapeHtml(innerDataObject.indexName)}</a>`
 
-            lines.push('')
+            // Debatable. The compound name has the full namespace, the index has the template signature.
+            const name = innerDataObject.indexName
+
+            const itemName = `<a href="${permalink}">${renderString(name, 'markdown')}</a>`
 
             const childrenLines: string[] = []
+
             const morePermalink = innerDataObject.renderDetailedDescriptionToLines !== undefined ? `${permalink}/#details` : undefined
             if (innerDataObject.briefDescriptionString !== undefined && innerDataObject.briefDescriptionString.length > 0) {
               childrenLines.push(this.renderBriefDescriptionToString({
@@ -497,18 +501,12 @@ export abstract class CompoundBase {
               }))
             }
 
+            lines.push('')
+
             lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
               type: itemType,
               name: itemName,
               childrenLines
-            }))
-          } else if (innerObject instanceof InnerClassDataModel) {
-            const itemType = 'class'
-            const itemName = escapeHtml(innerObject.text)
-            lines.push('')
-            lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
-              type: itemType,
-              name: itemName
             }))
           } else {
             if (this.collection.workspace.pluginOptions.debug) {
@@ -551,14 +549,15 @@ export abstract class CompoundBase {
     const workspace = this.collection.workspace
 
     if (this.includes !== undefined) {
+      const includeLines = workspace.renderElementsArrayToLines(this.includes, 'html')
       lines.push('')
       lines.push('## Included Headers')
 
       lines.push('')
-      lines.push('<div class="doxyIncludesList">')
+      lines.push(`<div class="doxyIncludesList">${includeLines[0]}`)
 
-      for (const include of this.includes) {
-        lines.push(workspace.renderElementToString(include, 'html'))
+      for (const includeLine of includeLines.slice(1)) {
+        lines.push(includeLine)
       }
 
       lines.push('</div>')
@@ -709,6 +708,54 @@ export abstract class CompoundBase {
     return lines
   }
 
+  renderReferencesToString (references: ReferenceDataModel[] | undefined): string {
+    let text: string = ''
+
+    if (references === undefined || references.length === 0) {
+      return ''
+    }
+
+    const workspace = this.collection.workspace
+
+    const referenceLines: string[] = []
+
+    for (const reference of references) {
+      referenceLines.push(workspace.renderElementToString(reference, 'markdown'))
+    }
+
+    if (referenceLines.length === 1) {
+      text += 'Reference '
+    } else {
+      text += 'References '
+    }
+    text += joinWithLast(referenceLines, ', ', ' and ')
+    text += '.'
+
+    return text
+  }
+
+  renderReferencedByToString (referencedBy: ReferencedByDataModel[] | undefined): string {
+    let text: string = ''
+
+    if (referencedBy === undefined || referencedBy.length === 0) {
+      return ''
+    }
+
+    const workspace = this.collection.workspace
+
+    const referenceLines: string[] = []
+
+    for (const reference of referencedBy) {
+      referenceLines.push(workspace.renderElementToString(reference, 'markdown'))
+    }
+
+    text += 'Referenced by '
+    text += joinWithLast(referenceLines, ', ', ' and ')
+    text += '.'
+
+    return text
+  }
+
   // --------------------------------------------------------------------------
 
   /**
@@ -845,6 +892,12 @@ export abstract class CompoundBase {
       return true
     }
     if (this.detailedDescriptionLines !== undefined && this.detailedDescriptionLines.length > 0) {
+      return true
+    }
+    if (this.childrenIds.length > 0) {
+      return true
+    }
+    if (this.children.length > 0) {
       return true
     }
     if (this.sections.length > 0) {

@@ -353,17 +353,21 @@ export class Member extends MemberBase {
   definition: string | undefined
 
   type: string | undefined
-  initializer: string | undefined
+  initializerLines: string[] | undefined
   locationLines: string[] | undefined
   templateParameters: string | undefined
   enumLines: string[] | undefined
   parameters: string | undefined
+
+  referencedBy: string | undefined
+  references: string | undefined
 
   labels: string[] = []
   isTrailingType = false
   isConstexpr = false
   isStrong = false
   isConst = false
+  isStatic = false
 
   _private: {
     // Available only during the initializeLate().
@@ -411,11 +415,19 @@ export class Member extends MemberBase {
     }
 
     if (memberDef.initializer !== undefined) {
-      this.initializer = workspace.renderElementToString(memberDef.initializer, 'markdown')
+      this.initializerLines = workspace.renderElementToLines(memberDef.initializer, 'markdown')
     }
 
     if (memberDef.location !== undefined) {
       this.locationLines = this.section.compound.renderLocationToLines(memberDef.location)
+    }
+
+    if (memberDef.references !== undefined) {
+      this.references = this.section.compound.renderReferencesToString(memberDef.references)
+    }
+
+    if (memberDef.referencedBy !== undefined) {
+      this.referencedBy = this.section.compound.renderReferencedByToString(memberDef.referencedBy)
     }
 
     const labels: string[] = []
@@ -438,6 +450,7 @@ export class Member extends MemberBase {
       labels.push('protected')
     }
     if (memberDef.staticc?.valueOf()) {
+      this.isStatic = true
       labels.push('static')
     }
     if (memberDef.virt !== undefined && memberDef.virt === 'virtual') {
@@ -473,14 +486,18 @@ export class Member extends MemberBase {
       this.isTrailingType = true
     }
 
-    this.templateParameters = this.section.compound.renderTemplateParametersToString({ templateParamList, withDefaults: true })
+    if (templateParamList?.params !== undefined) {
+      this.templateParameters = this.section.compound.renderTemplateParametersToString({ templateParamList, withDefaults: true })
+    }
 
     if (memberDef.params !== undefined) {
       const parameters: string[] = []
       for (const param of memberDef.params) {
-        parameters.push(workspace.renderElementToString(param, 'html'))
+        parameters.push(workspace.renderElementToString(param, 'html').trim())
       }
-      this.parameters = parameters.join(', ')
+      if (parameters.length > 0) {
+        this.parameters = parameters.join(', ')
+      }
     }
 
     if (this.kind === 'enum') {
@@ -554,6 +571,10 @@ export class Member extends MemberBase {
 
           const type = this.type ?? ''
 
+          if (this.isStatic) {
+            itemType += 'static '
+          }
+
           if (this.isConstexpr) {
             itemType += 'constexpr '
           }
@@ -574,28 +595,45 @@ export class Member extends MemberBase {
             itemType += type
           }
 
-          if (this.initializer !== undefined) {
+          if (this.initializerLines !== undefined) {
             // Show only short initializers in the index.
-            if (!this.initializer.includes('\n')) {
-              itemName += ' '
-              itemName += this.initializer
+            itemName += ' '
+            if (this.initializerLines.length === 1) {
+              itemName += this.initializerLines[0]
+            } else {
+              itemName += '= ...'
             }
           }
         }
         break
 
       case 'variable':
+        if (this.isStatic) {
+          itemType += 'static '
+        }
+
+        if (this.isConstexpr) {
+          itemType += 'constexpr '
+        }
+
         itemType += this.type
         if (this.definition?.startsWith('struct ')) {
           itemType = escapeHtml('struct { ... }')
         } else if (this.definition?.startsWith('class ')) {
           itemType = escapeHtml('class { ... }')
         }
-        if (this.initializer !== undefined) {
+
+        if (this.argsstring !== undefined) {
+          itemName += this.argsstring
+        }
+
+        if (this.initializerLines !== undefined) {
           // Show only short initializers in the index.
-          if (!this.initializer.includes('\n')) {
-            itemName += ' '
-            itemName += this.initializer
+          itemName += ' '
+          if (this.initializerLines.length === 1) {
+            itemName += this.initializerLines[0]
+          } else {
+            itemName += '= ...'
           }
         }
         break
@@ -611,11 +649,11 @@ export class Member extends MemberBase {
           itemType += ' class'
         }
 
-        itemName = ''
-        if (this.type !== undefined) {
-          itemName += `: ${this.type} `
+        itemName = this.name
+        if (this.type !== undefined && this.type.length > 0) {
+          itemName += ` : ${this.type}`
         }
-        itemName += escapeHtml('{ ')
+        itemName += escapeHtml(' { ')
         itemName += `<a href="${permalink}">...</a>`
         itemName += escapeHtml(' }')
 
@@ -630,9 +668,18 @@ export class Member extends MemberBase {
       case 'define':
         // console.log(this)
         itemType = '#define'
-        if (this.initializer !== undefined) {
+
+        if (this.parameters !== undefined) {
+          itemName += `(${this.parameters})`
+        }
+
+        if (this.initializerLines !== undefined) {
           itemName += '&nbsp;&nbsp;&nbsp;'
-          itemName += this.initializer
+          if (this.initializerLines.length === 1) {
+            itemName += this.initializerLines[0]
+          } else {
+            itemName += '...'
+          }
         }
 
         break
@@ -682,201 +729,214 @@ export class Member extends MemberBase {
       lines.push(`### ${escapeMarkdown(name)} {#${id}}`)
     }
 
+    let template: string | undefined
+    let prototype: string | undefined
+    const labels = this.labels
+    const childrenLines: string[] = []
+
     // console.log(memberDef.kind)
     switch (this.kind) {
       case 'function':
       case 'typedef':
       case 'variable':
-        {
-          // WARNING: the rule to decide which type is trailing is not in XMLs.
-          // TODO: improve.
-          assert(this.definition !== undefined)
-          let prototype = escapeHtml(this.definition)
-          if (this.kind === 'function') {
-            prototype += ' ('
 
-            if (this.parameters !== undefined) {
-              prototype += this.parameters
-            }
+        // WARNING: the rule to decide which type is trailing is not in XMLs.
+        // TODO: improve.
+        assert(this.definition !== undefined)
+        prototype = escapeHtml(this.definition)
+        if (this.isStatic) {
+          // The html pages show `static` only as a label; strip it.
+          prototype = prototype.replace(/^static /, '')
+        }
 
-            prototype += ')'
+        if (this.kind === 'function') {
+          prototype += ' ('
+
+          if (this.parameters !== undefined) {
+            prototype += this.parameters
           }
 
-          if (this.initializer !== undefined) {
-            if (!this.initializer.includes('\n')) {
-              prototype += ` ${this.initializer}`
-            }
+          prototype += ')'
+        }
+
+        if (this.initializerLines !== undefined) {
+          if (this.initializerLines.length === 1) {
+            prototype += ` ${this.initializerLines[0]}`
           }
+        }
 
-          if (this.isConst) {
-            prototype += ' const'
-          }
+        if (this.templateParameters !== undefined && this.templateParameters.length > 0) {
+          template = escapeHtml(`template ${this.templateParameters}`)
+        }
 
-          lines.push('')
-
-          let template
-
-          if (this.templateParameters !== undefined && this.templateParameters.length > 0) {
-            template = escapeHtml(`template ${this.templateParameters}`)
-          }
-
-          const childrenLines: string[] = []
-
-          if (this.briefDescriptionNoParaString !== undefined) {
-            childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-              briefDescriptionNoParaString: this.briefDescriptionNoParaString
-            }))
-          }
-
-          if (this.initializer?.includes('\n')) {
-            childrenLines.push('')
-            childrenLines.push('<dl class="doxySectionUser">')
-            childrenLines.push('<dt>Initialiser</dt>')
-            childrenLines.push('<dd>')
-            // TODO make code
-            childrenLines.push(`<div class="doxyVerbatim">${this.initializer}`)
-            childrenLines.push('</div>')
-            childrenLines.push('</dd>')
-            childrenLines.push('</dl>')
-          }
-
-          if (this.detailedDescriptionLines !== undefined) {
-            childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-              briefDescriptionNoParaString: this.briefDescriptionNoParaString,
-              detailedDescriptionLines: this.detailedDescriptionLines,
-              showHeader: false,
-              showBrief: false
-            }))
-          }
-
-          if (this.locationLines !== undefined) {
-            childrenLines.push(...this.locationLines)
-          }
-
-          lines.push(...this.renderMemberDefinitionToLines({
-            template,
-            prototype,
-            labels: this.labels,
-            childrenLines
+        if (this.briefDescriptionNoParaString !== undefined) {
+          childrenLines.push(this.section.compound.renderBriefDescriptionToString({
+            briefDescriptionNoParaString: this.briefDescriptionNoParaString
           }))
         }
+
+        if (this.initializerLines !== undefined && this.initializerLines.length > 1) {
+          childrenLines.push('')
+          childrenLines.push('<dl class="doxySectionUser">')
+          childrenLines.push('<dt>Initialiser</dt>')
+          childrenLines.push('<dd>')
+          childrenLines.push(`<div class="doxyVerbatim">${this.initializerLines[0]}`)
+          for (const initializerLine of this.initializerLines.slice(1)) {
+            childrenLines.push(initializerLine)
+          }
+          childrenLines.push('</div>')
+          childrenLines.push('</dd>')
+          childrenLines.push('</dl>')
+        }
+
+        if (this.detailedDescriptionLines !== undefined) {
+          childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
+            briefDescriptionNoParaString: this.briefDescriptionNoParaString,
+            detailedDescriptionLines: this.detailedDescriptionLines,
+            showHeader: false,
+            showBrief: false
+          }))
+        }
+
         break
 
       case 'enum':
-        {
-          let prototype = ''
-          if (this.name.length === 0) {
-            prototype += 'anonymous '
-          }
-          prototype += 'enum '
-          if (this.isStrong) {
-            prototype += 'class '
-          }
-          lines.push(`### ${escapeMarkdown(prototype)} {#${id}}`)
 
-          lines.push('')
+        prototype = ''
+        if (this.name.length === 0) {
+          prototype += 'anonymous '
+        }
+        prototype += 'enum '
+        if (this.isStrong) {
+          prototype += 'class '
+        }
 
-          const childrenLines: string[] = []
-          if (this.briefDescriptionNoParaString !== undefined && this.briefDescriptionNoParaString.length > 0) {
-            childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-              briefDescriptionNoParaString: this.briefDescriptionNoParaString
-            }))
-          }
+        if (this.name.length > 0) {
+          lines.push(`### ${escapeMarkdown(name)} {#${id}}`)
+        } else {
+          lines.push(`### ${prototype} {#${id}}`)
+        }
 
-          assert(this.enumLines !== undefined)
-          childrenLines.push(...this.enumLines)
-
-          if (this.detailedDescriptionLines !== undefined) {
-            childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-              detailedDescriptionLines: this.detailedDescriptionLines,
-              showHeader: false
-            }))
-          }
-
-          if (this.locationLines !== undefined) {
-            childrenLines.push(...this.locationLines)
-          }
-
-          if (this.name.length > 0 && this.qualifiedName !== undefined) {
-            prototype += `${escapeHtml(this.qualifiedName)} `
-          } else if (this.name.length > 0) {
-            prototype += `${escapeHtml(this.name)} `
-          }
-          if (this.type !== undefined && this.type.length > 0) {
-            prototype += `: ${this.type}`
-          }
-
-          lines.push(...this.renderMemberDefinitionToLines({
-            prototype,
-            labels: this.labels,
-            childrenLines
+        if (this.briefDescriptionNoParaString !== undefined && this.briefDescriptionNoParaString.length > 0) {
+          childrenLines.push(this.section.compound.renderBriefDescriptionToString({
+            briefDescriptionNoParaString: this.briefDescriptionNoParaString
           }))
         }
+
+        assert(this.enumLines !== undefined)
+        childrenLines.push(...this.enumLines)
+
+        if (this.detailedDescriptionLines !== undefined) {
+          childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
+            detailedDescriptionLines: this.detailedDescriptionLines,
+            showHeader: false,
+            showBrief: false
+          }))
+        }
+
+        if (this.name.length > 0 && this.qualifiedName !== undefined) {
+          prototype += `${escapeHtml(this.qualifiedName)} `
+        } else if (this.name.length > 0) {
+          prototype += `${escapeHtml(this.name)} `
+        }
+        if (this.type !== undefined && this.type.length > 0) {
+          prototype += `: ${this.type}`
+        }
+
         break
 
       case 'friend':
-        {
-          // console.log(this)
-          const prototype = `friend ${this.type} ${this.parameters}`
 
-          lines.push('')
+        // console.log(this)
+        prototype = `friend ${this.type} ${this.parameters}`
 
-          const childrenLines: string[] = []
-          if (this.detailedDescriptionLines !== undefined) {
-            childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-              briefDescriptionNoParaString: this.briefDescriptionNoParaString,
-              detailedDescriptionLines: this.detailedDescriptionLines,
-              showHeader: false,
-              showBrief: true
-            }))
-          }
-
-          if (this.locationLines !== undefined) {
-            childrenLines.push(...this.locationLines)
-          }
-
-          lines.push(...this.renderMemberDefinitionToLines({
-            prototype,
-            labels: this.labels,
-            childrenLines
-          }))
-        }
-        break
-
-      case 'define':
-        {
-          // console.log(this)
-          let prototype = `#define ${name}`
-          if (this.initializer !== undefined) {
-            prototype += '&nbsp;&nbsp;&nbsp;'
-            prototype += this.initializer
-          }
-
-          lines.push('')
-
-          const childrenLines: string[] = []
+        if (this.detailedDescriptionLines !== undefined) {
           childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
             briefDescriptionNoParaString: this.briefDescriptionNoParaString,
             detailedDescriptionLines: this.detailedDescriptionLines,
             showHeader: false,
             showBrief: true
           }))
+        }
 
-          if (this.locationLines !== undefined) {
-            childrenLines.push(...this.locationLines)
+        break
+
+      case 'define':
+
+        // console.log(this)
+        prototype = `#define ${name}`
+
+        if (this.parameters !== undefined) {
+          prototype += `(${this.parameters})`
+        }
+
+        if (this.initializerLines !== undefined) {
+          prototype += '&nbsp;&nbsp;&nbsp;'
+          if (this.initializerLines.length === 1) {
+            prototype += this.initializerLines[0]
+          } else {
+            prototype += '...'
           }
+        }
 
-          lines.push(...this.renderMemberDefinitionToLines({
-            prototype,
-            labels: this.labels,
-            childrenLines
+        if (this.briefDescriptionNoParaString !== undefined) {
+          childrenLines.push(this.section.compound.renderBriefDescriptionToString({
+            briefDescriptionNoParaString: this.briefDescriptionNoParaString
           }))
         }
+
+        if (this.initializerLines !== undefined && this.initializerLines.length > 1) {
+          childrenLines.push('')
+          childrenLines.push('<dl class="doxySectionUser">')
+          childrenLines.push('<dt>Value</dt>')
+          childrenLines.push('<dd>')
+          // TODO make code
+          childrenLines.push(`<div class="doxyVerbatim">${this.initializerLines[0]}`)
+          for (const initializerLine of this.initializerLines.slice(1)) {
+            childrenLines.push(initializerLine)
+          }
+          childrenLines.push('</div>')
+          childrenLines.push('</dd>')
+          childrenLines.push('</dl>')
+        }
+
+        childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
+          briefDescriptionNoParaString: this.briefDescriptionNoParaString,
+          detailedDescriptionLines: this.detailedDescriptionLines,
+          showHeader: false,
+          showBrief: false
+        }))
+
         break
 
       default:
         lines.push('')
         console.warn('memberDef', this.kind, this.name, 'not implemented yet in', this.constructor.name, 'renderToLines')
+    }
+
+    if (this.locationLines !== undefined) {
+      childrenLines.push(...this.locationLines)
+    }
+
+    if (this.references !== undefined) {
+      childrenLines.push('')
+      childrenLines.push(this.references)
+    }
+
+    if (this.referencedBy !== undefined) {
+      childrenLines.push('')
+      childrenLines.push(this.referencedBy)
+    }
+
+    lines.push('')
+
+    if (prototype !== undefined) {
+      lines.push(...this.renderMemberDefinitionToLines({
+        template,
+        prototype,
+        labels,
+        childrenLines
+      }))
     }
 
     return lines
