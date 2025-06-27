@@ -92,7 +92,7 @@ export const sectionHeaders: Record<string, [string, number]> = {
   'private-slot': ['Private Slot', 720],
 
   related: ['Related', 800],
-  define: ['Defines', 810], // DoxMemberKind too
+  define: ['Macro Definitions', 810], // DoxMemberKind too
   prototype: ['Prototypes', 820], // DoxMemberKind too
 
   signal: ['Signals', 830], // DoxMemberKind too
