@@ -151,14 +151,18 @@ export class Section {
       }
     }
 
-    this.indexMembers = members.sort((a, b) => a.name.localeCompare(b.name))
+    // Original order.
+    this.indexMembers = members
 
-    // The array is already sorted.
+    const definitionMembers: Member[] = []
     for (const member of this.indexMembers) {
       if (member instanceof Member) {
-        this.definitionMembers.push(member)
+        definitionMembers.push(member)
       }
     }
+
+    // Sorted.
+    this.definitionMembers = definitionMembers.sort((a, b) => a.name.localeCompare(b.name))
   }
 
   initializeLate (): void {
