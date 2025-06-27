@@ -724,7 +724,7 @@ export class Workspace {
       lines.push('</tr>')
     } else {
       lines.push('<tr class="doxyMemberIndexItem">')
-      lines.push(`<td class="doxyMemberIndexItemType" align="right" valign="top">${type}</td>`)
+      lines.push(`<td class="doxyMemberIndexItemType" align="left" valign="top">${type}</td>`)
       lines.push(`<td class="doxyMemberIndexItemName" align="left" valign="top">${name}</td>`)
       lines.push('</tr>')
     }
