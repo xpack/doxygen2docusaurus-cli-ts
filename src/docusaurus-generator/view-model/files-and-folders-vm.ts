@@ -530,7 +530,10 @@ export class File extends CompoundBase {
 
     // console.log(this)
     if (!this.hasAnyContent()) {
-      // console.log('NO CONTENT', this.compoundName)
+      if (this.collection.workspace.pluginOptions.debug) {
+        console.log(this.kind, this.compoundName, 'has no content, not shown')
+      }
+
       this.docusaurusId = undefined
       this.sidebarLabel = undefined
       this.relativePermalink = undefined
