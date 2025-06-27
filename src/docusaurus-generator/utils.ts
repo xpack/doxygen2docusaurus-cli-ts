@@ -129,4 +129,11 @@ export async function folderExists (folderPath: string): Promise<boolean> {
     return false
   }
 }
+
+export function joinWithLast (arr: string[], delimiter: string, lastDelimiter: string): string {
+  if (arr.length === 0) return ''
+  if (arr.length === 1) return String(arr[0])
+  return arr.slice(0, -1).join(delimiter) + lastDelimiter + arr[arr.length - 1]
+}
+
 // ----------------------------------------------------------------------------
