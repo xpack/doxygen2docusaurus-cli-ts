@@ -15,7 +15,7 @@ import assert from 'assert'
 import * as util from 'util'
 
 import { ElementLinesRendererBase } from './element-renderer-base.js'
-import { AbstractDocTitleType, TitleDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
+import { AbstractDocTitleType, TermDataModel, TitleDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -27,10 +27,13 @@ export class DocTitleTypeLinesRenderer extends ElementLinesRendererBase {
 
     if (element instanceof TitleDataModel) {
       text += this.workspace.renderElementsArrayToString(element.children, type)
-    } else {
-      text += '<b>'
+    } else if (element instanceof TermDataModel) {
       text += this.workspace.renderElementsArrayToString(element.children, type)
-      text += '</b>'
+    } else {
+      console.error(element.constructor.name, 'not rendered in', this.constructor.name)
+      // text += '<b>'
+      // text += this.workspace.renderElementsArrayToString(element.children, type)
+      // text += '</b>'
     }
 
     return [text]
