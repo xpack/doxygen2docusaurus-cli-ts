@@ -170,9 +170,17 @@ export class Namespaces extends CollectionBase {
     lines.push('')
     lines.push('<table class="doxyTreeTable">')
 
+    const contentLines: string[] = []
+
     for (const namespace of this.topLevelNamespaces) {
-      lines.push(...this.generateIndexMdFileRecursively(namespace, 1))
+      contentLines.push(...this.generateIndexMdFileRecursively(namespace, 1))
     }
+
+    if (contentLines.length === 0) {
+      return
+    }
+
+    lines.push(...contentLines)
 
     lines.push('')
     lines.push('</table>')
@@ -194,9 +202,10 @@ export class Namespaces extends CollectionBase {
 
     const permalink = this.workspace.getPagePermalink(namespace.id)
     if (permalink === undefined || permalink.length === 0) {
-      console.log(namespace)
+      // console.log(namespace)
+      return []
     }
-    assert(permalink !== undefined && permalink.length > 1)
+    // assert(permalink !== undefined && permalink.length > 1)
 
     let description: string = ''
     if (namespace.briefDescriptionString !== undefined && namespace.briefDescriptionString.length > 0) {
@@ -315,6 +324,21 @@ export class Namespace extends CompoundBase {
     // console.log('4 sb', this.sidebarLabel)
     // console.log('5 ix', this.indexName)
     // console.log()
+  }
+
+  override initializeLate (): void {
+    super.initializeLate()
+
+    // console.log(this)
+    if (!this.hasAnyContent()) {
+      if (this.collection.workspace.pluginOptions.debug) {
+        console.log(this.kind, this.compoundName, 'has no content, not shown')
+      }
+
+      this.docusaurusId = undefined
+      this.sidebarLabel = undefined
+      this.relativePermalink = undefined
+    }
   }
 
   // --------------------------------------------------------------------------
