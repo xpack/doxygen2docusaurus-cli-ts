@@ -45,7 +45,6 @@ export class IncTypeLinesRenderer extends ElementLinesRendererBase {
     // text += '</code>'
 
     lines.push(text)
-    lines.push('<br/>')
 
     return lines
   }
