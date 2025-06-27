@@ -31,6 +31,7 @@ import { Workspace } from '../workspace.js'
 import { SubstringDocMarkupTypeRenderer } from './substringtype.js'
 import { DocCaptionLinesRenderer, DocEntryTypeStringRenderer, DocRowTypeLinesRenderer, DocTableTypeLinesRenderer } from './doctabletype.js'
 import { TocListLinesRenderer } from './tableofcontentstype.js'
+import { ReferenceTypeStringRenderer } from './referencetype.js'
 
 // ----------------------------------------------------------------------------
 
@@ -86,6 +87,7 @@ export class Renderers {
     this.elementStringRenderers.set('AbstractDocURLLink', new DocURLLinkStringRenderer(workspace))
     this.elementStringRenderers.set('AbstractLinkedTextType', new LinkedTextTypeStringRenderer(workspace))
     this.elementStringRenderers.set('AbstractPreformattedType', new PreformattedStringRenderer(workspace))
+    this.elementStringRenderers.set('AbstractReferenceType', new ReferenceTypeStringRenderer(workspace))
     this.elementStringRenderers.set('AbstractRefTextType', new RefTextTypeStringRenderer(workspace))
     this.elementStringRenderers.set('AbstractSpType', new SpTypeStringRenderer(workspace))
     this.elementStringRenderers.set('AbstractVerbatimType', new VerbatimStringRenderer(workspace))
