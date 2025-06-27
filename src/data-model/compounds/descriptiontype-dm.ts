@@ -3042,13 +3042,10 @@ function parseDocCmdGroup (
     // title
   } else if (xml.hasInnerElement(element, 'variablelist')) {
     children.push(new VariableListDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'variablelist')) {
-    children.push(new VariableListDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'table')) {
     children.push(new DocTableDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'heading')) {
     children.push(new HeadingDataModel(xml, element))
-    // heading
     // dotfile
     // mscfile
     // dialfile
