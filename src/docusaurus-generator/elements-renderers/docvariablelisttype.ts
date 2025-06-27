@@ -25,7 +25,10 @@ export class DocVariableListTypeLinesRenderer extends ElementLinesRendererBase {
 
     const lines: string[] = []
 
+    lines.push('')
+    lines.push('<dl class="doxyVariableList">')
     lines.push(...this.workspace.renderElementsArrayToLines(element.children, type))
+    lines.push('</dl>')
 
     return lines
   }
@@ -43,14 +46,11 @@ export class VariableListPairLinesRenderer extends ElementLinesRendererBase {
     // WARNING: the title includes <b></b>
     const title = this.workspace.renderElementToString(element.varlistentry.term, type).trim()
 
-    lines.push('')
-    lines.push('<dl class="doxyReference">')
-    lines.push(`<dt class="doxyReferenceTerm">${title}</dt>`)
-    lines.push('<dd class="doxyReferenceDescription">')
-    lines.push(this.workspace.renderElementsArrayToString(element.listitem.paras, type).trim())
-    lines.push('</dd>')
-    lines.push('</dl>')
-    lines.push('')
+    this.workspace.skipElementsPara(element.listitem.paras)
+    const description = this.workspace.renderElementsArrayToString(element.listitem.paras, type).trim()
+
+    lines.push(`<dt>${title}</dt>`)
+    lines.push(`<dd>${description}</dd>`)
 
     return lines
   }
