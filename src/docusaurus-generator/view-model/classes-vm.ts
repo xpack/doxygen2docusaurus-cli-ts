@@ -670,7 +670,7 @@ export class Class extends CompoundBase {
     lines.push('')
     lines.push('<div class="doxyDeclaration">')
     if (this.template !== undefined) {
-      lines.push(`template ${this.template}<br/>`)
+      lines.push(`template ${this.template}`)
     }
     lines.push(`${this.kind} ${this.classFullName}`)
     lines.push('</div>')
