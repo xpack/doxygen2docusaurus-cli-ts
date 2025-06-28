@@ -596,7 +596,7 @@ export abstract class CompoundBase {
       assert(files !== undefined)
 
       // console.log('renderLocationToLines', this.kind, this.compoundName, this.id)
-      const file = files.filesByPath.get(location.file)
+      const file = workspace.filesByPath.get(location.file)
       if (file !== undefined) {
         const permalink = workspace.getPagePermalink(file.id)
 
@@ -616,7 +616,7 @@ export abstract class CompoundBase {
           }
           text += `<a href="${permalink}">${escapeHtml(path.basename(location.file) as string)}</a>`
 
-          const definitionFile = files.filesByPath.get(location.bodyfile)
+          const definitionFile = workspace.filesByPath.get(location.bodyfile)
           if (definitionFile !== undefined) {
             const definitionPermalink = workspace.getPagePermalink(definitionFile.id)
 
@@ -685,12 +685,11 @@ export abstract class CompoundBase {
       lines.push('<ul>')
 
       const workspace = this.collection.workspace
-      const files: FilesAndFolders = workspace.viewModel.get('files') as FilesAndFolders
 
       const sortedFiles = [...this.locationSet].sort((a, b) => a.localeCompare(b))
       for (const fileName of sortedFiles) {
         // console.log('search', fileName)
-        const file = files.filesByPath.get(fileName)
+        const file = workspace.filesByPath.get(fileName)
         if (file !== undefined) {
           const permalink = workspace.getPagePermalink(file.id)
           if (permalink !== undefined && permalink.length > 0) {

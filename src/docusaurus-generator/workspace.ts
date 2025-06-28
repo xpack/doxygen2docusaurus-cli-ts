@@ -26,7 +26,7 @@ import { ElementLinesRendererBase, ElementStringRendererBase } from './elements-
 import { getPermalinkAnchor, renderString, stripPermalinkAnchor } from './utils.js'
 import { CompoundBase } from './view-model/compound-base-vm.js'
 import { Namespaces } from './view-model/namespaces-vm.js'
-import { FilesAndFolders } from './view-model/files-and-folders-vm.js'
+import { FilesAndFolders, File } from './view-model/files-and-folders-vm.js'
 import { Page, Pages } from './view-model/pages-vm.js'
 import { FrontMatter } from './types.js'
 import { Member } from './view-model/members-vm.js'
@@ -152,6 +152,8 @@ export class Workspace {
   writtenHtmlFilesCounter: number = 0
 
   mainPage: Page | undefined
+
+  filesByPath: Map<String, File> = new Map()
 
   // --------------------------------------------------------------------------
 

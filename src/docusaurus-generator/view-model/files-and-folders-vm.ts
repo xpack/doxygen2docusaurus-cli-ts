@@ -35,8 +35,6 @@ export class FilesAndFolders extends CollectionBase {
   topLevelFolders: Folder[] = []
   topLevelFiles: File[] = []
 
-  filesByPath: Map<String, File>
-
   // folders: Folders
 
   // --------------------------------------------------------------------------
@@ -47,8 +45,6 @@ export class FilesAndFolders extends CollectionBase {
     // this.compoundsById = new Map()
     this.compoundFoldersById = new Map()
     this.compoundFilesById = new Map()
-
-    this.filesByPath = new Map()
   }
 
   // --------------------------------------------------------------------------
@@ -119,7 +115,7 @@ export class FilesAndFolders extends CollectionBase {
 
       const path = file.locationFilePath
       assert(path !== undefined)
-      this.filesByPath.set(path, file)
+      this.workspace.filesByPath.set(path, file)
       if (this.workspace.pluginOptions.debug) {
         // console.log('filesByPath.set', path, file)
         console.log('filesByPath.set', path)
