@@ -636,6 +636,7 @@ div.doxyProgramListing {
   border: 1px solid var(--ifm-table-border-color);
   border-radius: var(--ifm-global-radius);
   margin-bottom: 20px;
+  overflow-x: auto;
 }
 
 /* --- End ProgramListing/styles.module.css --- */
@@ -685,7 +686,7 @@ span.doxyLineContent {
 div.doxyCodeLine {
   overflow-wrap: normal;
   padding-left: 2px;
-  overflow: hidden;
+  /* overflow: hidden; */
   white-space: nowrap; /* Prevent wrapping */
   text-overflow: ellipsis; /* Add "..." when clipped */
 }
