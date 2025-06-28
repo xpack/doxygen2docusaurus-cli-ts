@@ -536,7 +536,7 @@ export class Class extends CompoundBase {
         if (this.template !== undefined) {
             lines.push(`template ${this.template}`);
         }
-        lines.push(`${this.kind} ${this.classFullName}`);
+        lines.push(`${this.kind} ${this.classFullName} { ... }`);
         lines.push('</div>');
         lines.push(...this.renderIncludesIndexToLines());
         if (this.kind === 'class' || this.kind === 'struct') {

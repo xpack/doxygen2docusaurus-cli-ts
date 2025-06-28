@@ -507,7 +507,7 @@ export class ImageStringRenderer extends ElementStringRendererBase {
             text += '<figure>\n';
             text += '  <img';
             if (element.name !== undefined) {
-                text += ` src="/${this.workspace.pluginOptions.imagesFolderPath}/${element.name}"`;
+                text += ` src="${this.workspace.siteConfig.baseUrl}${this.workspace.pluginOptions.imagesFolderPath}/${element.name}"`;
             }
             if (element.width !== undefined) {
                 text += ` width="${element.width}"`;
