@@ -9,13 +9,18 @@ export declare abstract class AbstractDescriptionType extends AbstractDataModelB
     title?: string | undefined;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
-export declare abstract class AbstractListingType extends AbstractDataModelBase {
+export declare abstract class AbstractListingTypeBase extends AbstractDataModelBase {
     codelines?: CodeLineDataModel[] | undefined;
     filename?: string | undefined;
+}
+export declare abstract class AbstractListingType extends AbstractListingTypeBase {
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
 export declare class ProgramListingDataModel extends AbstractListingType {
     constructor(xml: DoxygenXmlParser, element: Object);
+}
+export declare class MemberProgramListingDataModel extends AbstractListingTypeBase {
+    constructor(programListing: ProgramListingDataModel, startLine: number, endLine: number);
 }
 export declare abstract class AbstractCodeLineType extends AbstractDataModelBase {
     highlights?: HighlightDataModel[] | undefined;

@@ -92,7 +92,9 @@ export class AbstractDescriptionType extends AbstractDataModelBase {
 // </xsd:sequence>
 // <xsd:attribute name="filename" type="xsd:string" use="optional"/>
 // </xsd:complexType>
-export class AbstractListingType extends AbstractDataModelBase {
+export class AbstractListingTypeBase extends AbstractDataModelBase {
+}
+export class AbstractListingType extends AbstractListingTypeBase {
     constructor(xml, element, elementName) {
         super(elementName);
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -137,6 +139,26 @@ export class AbstractListingType extends AbstractDataModelBase {
 export class ProgramListingDataModel extends AbstractListingType {
     constructor(xml, element) {
         super(xml, element, 'programlisting');
+    }
+}
+export class MemberProgramListingDataModel extends AbstractListingTypeBase {
+    constructor(programListing, startLine, endLine) {
+        super(programListing.elementName);
+        assert(startLine <= endLine);
+        if (programListing.codelines !== undefined) {
+            const filteredCodelines = [];
+            for (const codeline of programListing.codelines) {
+                if (codeline.lineno !== undefined) {
+                    const lineno = codeline.lineno.valueOf();
+                    if (startLine <= lineno && lineno <= endLine) {
+                        filteredCodelines.push(codeline);
+                    }
+                }
+            }
+            if (filteredCodelines.length > 0) {
+                this.codelines = filteredCodelines;
+            }
+        }
     }
 }
 // WARNING: attributes are all optional
@@ -2745,15 +2767,11 @@ function parseDocCmdGroup(xml, element, elementName) {
     else if (xml.hasInnerElement(element, 'variablelist')) {
         children.push(new VariableListDataModel(xml, element));
     }
-    else if (xml.hasInnerElement(element, 'variablelist')) {
-        children.push(new VariableListDataModel(xml, element));
-    }
     else if (xml.hasInnerElement(element, 'table')) {
         children.push(new DocTableDataModel(xml, element));
     }
     else if (xml.hasInnerElement(element, 'heading')) {
         children.push(new HeadingDataModel(xml, element));
-        // heading
         // dotfile
         // mscfile
         // dialfile

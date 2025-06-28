@@ -5,6 +5,7 @@ import { Section } from './members-vm.js';
 import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js';
 import { LocationDataModel } from '../../data-model/compounds/locationtype-dm.js';
 import { IncludesDataModel } from '../../data-model/compounds/inctype-dm.js';
+import { ReferenceDataModel, ReferencedByDataModel } from '../../data-model/compounds/referencetype-dm.js';
 export declare abstract class CompoundBase {
     kind: string;
     compoundName: string;
@@ -83,6 +84,8 @@ export declare abstract class CompoundBase {
     renderSectionsToLines(): string[];
     renderLocationToLines(location: LocationDataModel | undefined): string[];
     renderGeneratedFromToLines(): string[];
+    renderReferencesToString(references: ReferenceDataModel[] | undefined): string;
+    renderReferencedByToString(referencedBy: ReferencedByDataModel[] | undefined): string;
     /**
      * Return an array of types, like `class T`, or `class U = T`, or `N T::* MP`
      * @param templateParamList

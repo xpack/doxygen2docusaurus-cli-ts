@@ -12,7 +12,7 @@
 import * as util from 'node:util';
 import assert from 'node:assert';
 import { escapeHtml, escapeMarkdown, getPermalinkAnchor } from '../utils.js';
-import { ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
+import { MemberProgramListingDataModel, ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
 // ----------------------------------------------------------------------------
 export const sectionHeaders = {
     typedef: ['Typedefs', 100], // DoxMemberKind too
@@ -67,7 +67,7 @@ export const sectionHeaders = {
     'protected-slot': ['Protected Slot', 710],
     'private-slot': ['Private Slot', 720],
     related: ['Related', 800],
-    define: ['Defines', 810], // DoxMemberKind too
+    define: ['Macro Definitions', 810], // DoxMemberKind too
     prototype: ['Prototypes', 820], // DoxMemberKind too
     signal: ['Signals', 830], // DoxMemberKind too
     // 'dcop-func': ['DCOP Functions', 840],
@@ -105,13 +105,16 @@ export class Section {
                 members.push(new MemberRef(this, memberRef));
             }
         }
-        this.indexMembers = members.sort((a, b) => a.name.localeCompare(b.name));
-        // The array is already sorted.
+        // Original order.
+        this.indexMembers = members;
+        const definitionMembers = [];
         for (const member of this.indexMembers) {
             if (member instanceof Member) {
-                this.definitionMembers.push(member);
+                definitionMembers.push(member);
             }
         }
+        // Sorted.
+        this.definitionMembers = definitionMembers.sort((a, b) => a.name.localeCompare(b.name));
     }
     initializeLate() {
         const workspace = this.compound.collection.workspace;
@@ -262,6 +265,7 @@ export class Member extends MemberBase {
         this.isConstexpr = false;
         this.isStrong = false;
         this.isConst = false;
+        this.isStatic = false;
         this._private = {};
         this._private._memberDef = memberDef;
         this.id = memberDef.id;
@@ -292,10 +296,19 @@ export class Member extends MemberBase {
             this.type = workspace.renderElementToString(memberDef.type, 'html').trim();
         }
         if (memberDef.initializer !== undefined) {
-            this.initializer = workspace.renderElementToString(memberDef.initializer, 'markdown');
+            this.initializerLines = workspace.renderElementToLines(memberDef.initializer, 'markdown');
         }
         if (memberDef.location !== undefined) {
             this.locationLines = this.section.compound.renderLocationToLines(memberDef.location);
+            if (workspace.pluginOptions.renderProgramListingInline) {
+                this.programListing = this.filterProgramListingForLocation(memberDef.location);
+            }
+        }
+        if (memberDef.references !== undefined) {
+            this.references = this.section.compound.renderReferencesToString(memberDef.references);
+        }
+        if (memberDef.referencedBy !== undefined) {
+            this.referencedBy = this.section.compound.renderReferencedByToString(memberDef.referencedBy);
         }
         const labels = [];
         if (memberDef.inline?.valueOf()) {
@@ -317,6 +330,7 @@ export class Member extends MemberBase {
             labels.push('protected');
         }
         if (memberDef.staticc?.valueOf()) {
+            this.isStatic = true;
             labels.push('static');
         }
         if (memberDef.virt !== undefined && memberDef.virt === 'virtual') {
@@ -345,13 +359,17 @@ export class Member extends MemberBase {
                 (type.includes('&lt;') && type.includes('&gt;'))))) {
             this.isTrailingType = true;
         }
-        this.templateParameters = this.section.compound.renderTemplateParametersToString({ templateParamList, withDefaults: true });
+        if (templateParamList?.params !== undefined) {
+            this.templateParameters = this.section.compound.renderTemplateParametersToString({ templateParamList, withDefaults: true });
+        }
         if (memberDef.params !== undefined) {
             const parameters = [];
             for (const param of memberDef.params) {
-                parameters.push(workspace.renderElementToString(param, 'html'));
+                parameters.push(workspace.renderElementToString(param, 'html').trim());
             }
-            this.parameters = parameters.join(', ');
+            if (parameters.length > 0) {
+                this.parameters = parameters.join(', ');
+            }
         }
         if (this.kind === 'enum') {
             this.enumLines = this.renderEnumToLines(memberDef);
@@ -369,6 +387,64 @@ export class Member extends MemberBase {
         this.isConst = memberDef.constt?.valueOf() ?? false;
         // Clear the reference, it is no longer needed.
         this._private._memberDef = undefined;
+    }
+    filterProgramListingForLocation(location) {
+        // console.log(location)
+        const workspace = this.section.compound.collection.workspace;
+        if (location === undefined) {
+            return undefined;
+        }
+        let programListing;
+        let definitionFile;
+        let startLine = -1;
+        let endLine = -1;
+        if (location.bodyfile !== undefined) {
+            definitionFile = workspace.filesByPath.get(location.bodyfile);
+            if (definitionFile === undefined) {
+                console.log('no definition');
+                return undefined;
+            }
+            if (definitionFile.programListing === undefined) {
+                console.log('no listing');
+                return undefined;
+            }
+            if (location.bodystart !== undefined) {
+                startLine = location.bodystart.valueOf();
+                if (location.bodyend !== undefined) {
+                    endLine = location.bodyend.valueOf();
+                }
+                if (endLine === -1) {
+                    endLine = startLine;
+                }
+            }
+            else {
+                return undefined;
+            }
+            // console.log(definitionFile.indexName, startLine, endLine)
+            programListing = new MemberProgramListingDataModel(definitionFile.programListing, startLine, endLine);
+            // } else if (location.file !== undefined) {
+            //   definitionFile = workspace.filesByPath.get(location.file)
+            //   if (definitionFile === undefined) {
+            //     console.log('no definition')
+            //     return undefined
+            //   }
+            //   if (definitionFile.programListing === undefined) {
+            //     console.log('no listing')
+            //     return undefined
+            //   }
+            //   if (location.line !== undefined) {
+            //     startLine = location.line.valueOf()
+            //     endLine = startLine
+            //   } else {
+            //     return undefined
+            //   }
+        }
+        if (definitionFile?.programListing !== undefined) {
+            // console.log(definitionFile.indexName, startLine, endLine)
+            programListing = new MemberProgramListingDataModel(definitionFile.programListing, startLine, endLine);
+        }
+        // console.log(programListing)
+        return programListing;
     }
     // --------------------------------------------------------------------------
     renderIndexToLines() {
@@ -412,6 +488,9 @@ export class Member extends MemberBase {
                     // https://github.com/doxygen/doxygen/discussions/11568
                     // TODO: improve.
                     const type = this.type ?? '';
+                    if (this.isStatic) {
+                        itemType += 'static ';
+                    }
                     if (this.isConstexpr) {
                         itemType += 'constexpr ';
                     }
@@ -430,16 +509,25 @@ export class Member extends MemberBase {
                     else {
                         itemType += type;
                     }
-                    if (this.initializer !== undefined) {
+                    if (this.initializerLines !== undefined) {
                         // Show only short initializers in the index.
-                        if (!this.initializer.includes('\n')) {
-                            itemName += ' ';
-                            itemName += this.initializer;
+                        itemName += ' ';
+                        if (this.initializerLines.length === 1) {
+                            itemName += this.initializerLines[0];
+                        }
+                        else {
+                            itemName += '= ...';
                         }
                     }
                 }
                 break;
             case 'variable':
+                if (this.isStatic) {
+                    itemType += 'static ';
+                }
+                if (this.isConstexpr) {
+                    itemType += 'constexpr ';
+                }
                 itemType += this.type;
                 if (this.definition?.startsWith('struct ')) {
                     itemType = escapeHtml('struct { ... }');
@@ -447,11 +535,17 @@ export class Member extends MemberBase {
                 else if (this.definition?.startsWith('class ')) {
                     itemType = escapeHtml('class { ... }');
                 }
-                if (this.initializer !== undefined) {
+                if (this.argsstring !== undefined) {
+                    itemName += this.argsstring;
+                }
+                if (this.initializerLines !== undefined) {
                     // Show only short initializers in the index.
-                    if (!this.initializer.includes('\n')) {
-                        itemName += ' ';
-                        itemName += this.initializer;
+                    itemName += ' ';
+                    if (this.initializerLines.length === 1) {
+                        itemName += this.initializerLines[0];
+                    }
+                    else {
+                        itemName += '= ...';
                     }
                 }
                 break;
@@ -465,11 +559,11 @@ export class Member extends MemberBase {
                 if (this.isStrong) {
                     itemType += ' class';
                 }
-                itemName = '';
-                if (this.type !== undefined) {
-                    itemName += `: ${this.type} `;
+                itemName = this.name;
+                if (this.type !== undefined && this.type.length > 0) {
+                    itemName += ` : ${this.type}`;
                 }
-                itemName += escapeHtml('{ ');
+                itemName += escapeHtml(' { ');
                 itemName += `<a href="${permalink}">...</a>`;
                 itemName += escapeHtml(' }');
                 break;
@@ -480,9 +574,17 @@ export class Member extends MemberBase {
             case 'define':
                 // console.log(this)
                 itemType = '#define';
-                if (this.initializer !== undefined) {
+                if (this.parameters !== undefined) {
+                    itemName += `(${this.parameters})`;
+                }
+                if (this.initializerLines !== undefined) {
                     itemName += '&nbsp;&nbsp;&nbsp;';
-                    itemName += this.initializer;
+                    if (this.initializerLines.length === 1) {
+                        itemName += this.initializerLines[0];
+                    }
+                    else {
+                        itemName += '...';
+                    }
                 }
                 break;
             default:
@@ -519,170 +621,183 @@ export class Member extends MemberBase {
         if (this.kind !== 'enum') {
             lines.push(`### ${escapeMarkdown(name)} {#${id}}`);
         }
+        let template;
+        let prototype;
+        const labels = this.labels;
+        const childrenLines = [];
         // console.log(memberDef.kind)
         switch (this.kind) {
             case 'function':
             case 'typedef':
             case 'variable':
-                {
-                    // WARNING: the rule to decide which type is trailing is not in XMLs.
-                    // TODO: improve.
-                    assert(this.definition !== undefined);
-                    let prototype = escapeHtml(this.definition);
-                    if (this.kind === 'function') {
-                        prototype += ' (';
-                        if (this.parameters !== undefined) {
-                            prototype += this.parameters;
-                        }
-                        prototype += ')';
+                // WARNING: the rule to decide which type is trailing is not in XMLs.
+                // TODO: improve.
+                assert(this.definition !== undefined);
+                prototype = escapeHtml(this.definition);
+                if (this.isStatic) {
+                    // The html pages show `static` only as a label; strip it.
+                    prototype = prototype.replace(/^static /, '');
+                }
+                if (this.kind === 'function') {
+                    prototype += ' (';
+                    if (this.parameters !== undefined) {
+                        prototype += this.parameters;
                     }
-                    if (this.initializer !== undefined) {
-                        if (!this.initializer.includes('\n')) {
-                            prototype += ` ${this.initializer}`;
-                        }
+                    prototype += ')';
+                }
+                if (this.initializerLines !== undefined) {
+                    if (this.initializerLines.length === 1) {
+                        prototype += ` ${this.initializerLines[0]}`;
                     }
-                    if (this.isConst) {
-                        prototype += ' const';
+                }
+                if (this.templateParameters !== undefined && this.templateParameters.length > 0) {
+                    template = escapeHtml(`template ${this.templateParameters}`);
+                }
+                if (this.briefDescriptionNoParaString !== undefined) {
+                    childrenLines.push(this.section.compound.renderBriefDescriptionToString({
+                        briefDescriptionNoParaString: this.briefDescriptionNoParaString
+                    }));
+                }
+                if (this.initializerLines !== undefined && this.initializerLines.length > 1) {
+                    childrenLines.push('');
+                    childrenLines.push('<dl class="doxySectionUser">');
+                    childrenLines.push('<dt>Initialiser</dt>');
+                    childrenLines.push('<dd>');
+                    childrenLines.push(`<div class="doxyVerbatim">${this.initializerLines[0]}`);
+                    for (const initializerLine of this.initializerLines.slice(1)) {
+                        childrenLines.push(initializerLine);
                     }
-                    lines.push('');
-                    let template;
-                    if (this.templateParameters !== undefined && this.templateParameters.length > 0) {
-                        template = escapeHtml(`template ${this.templateParameters}`);
-                    }
-                    const childrenLines = [];
-                    if (this.briefDescriptionNoParaString !== undefined) {
-                        childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-                            briefDescriptionNoParaString: this.briefDescriptionNoParaString
-                        }));
-                    }
-                    if (this.initializer?.includes('\n')) {
-                        childrenLines.push('');
-                        childrenLines.push('<dl class="doxySectionUser">');
-                        childrenLines.push('<dt>Initialiser</dt>');
-                        childrenLines.push('<dd>');
-                        // TODO make code
-                        childrenLines.push(`<div class="doxyVerbatim">${this.initializer}`);
-                        childrenLines.push('</div>');
-                        childrenLines.push('</dd>');
-                        childrenLines.push('</dl>');
-                    }
-                    if (this.detailedDescriptionLines !== undefined) {
-                        childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-                            briefDescriptionNoParaString: this.briefDescriptionNoParaString,
-                            detailedDescriptionLines: this.detailedDescriptionLines,
-                            showHeader: false,
-                            showBrief: false
-                        }));
-                    }
-                    if (this.locationLines !== undefined) {
-                        childrenLines.push(...this.locationLines);
-                    }
-                    lines.push(...this.renderMemberDefinitionToLines({
-                        template,
-                        prototype,
-                        labels: this.labels,
-                        childrenLines
+                    childrenLines.push('</div>');
+                    childrenLines.push('</dd>');
+                    childrenLines.push('</dl>');
+                }
+                if (this.detailedDescriptionLines !== undefined) {
+                    childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
+                        briefDescriptionNoParaString: this.briefDescriptionNoParaString,
+                        detailedDescriptionLines: this.detailedDescriptionLines,
+                        showHeader: false,
+                        showBrief: false
                     }));
                 }
                 break;
             case 'enum':
-                {
-                    let prototype = '';
-                    if (this.name.length === 0) {
-                        prototype += 'anonymous ';
-                    }
-                    prototype += 'enum ';
-                    if (this.isStrong) {
-                        prototype += 'class ';
-                    }
-                    lines.push(`### ${escapeMarkdown(prototype)} {#${id}}`);
-                    lines.push('');
-                    const childrenLines = [];
-                    if (this.briefDescriptionNoParaString !== undefined && this.briefDescriptionNoParaString.length > 0) {
-                        childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-                            briefDescriptionNoParaString: this.briefDescriptionNoParaString
-                        }));
-                    }
-                    assert(this.enumLines !== undefined);
-                    childrenLines.push(...this.enumLines);
-                    if (this.detailedDescriptionLines !== undefined) {
-                        childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-                            detailedDescriptionLines: this.detailedDescriptionLines,
-                            showHeader: false
-                        }));
-                    }
-                    if (this.locationLines !== undefined) {
-                        childrenLines.push(...this.locationLines);
-                    }
-                    if (this.name.length > 0 && this.qualifiedName !== undefined) {
-                        prototype += `${escapeHtml(this.qualifiedName)} `;
-                    }
-                    else if (this.name.length > 0) {
-                        prototype += `${escapeHtml(this.name)} `;
-                    }
-                    if (this.type !== undefined && this.type.length > 0) {
-                        prototype += `: ${this.type}`;
-                    }
-                    lines.push(...this.renderMemberDefinitionToLines({
-                        prototype,
-                        labels: this.labels,
-                        childrenLines
+                prototype = '';
+                if (this.name.length === 0) {
+                    prototype += 'anonymous ';
+                }
+                prototype += 'enum ';
+                if (this.isStrong) {
+                    prototype += 'class ';
+                }
+                if (this.name.length > 0) {
+                    lines.push(`### ${escapeMarkdown(name)} {#${id}}`);
+                }
+                else {
+                    lines.push(`### ${prototype} {#${id}}`);
+                }
+                if (this.briefDescriptionNoParaString !== undefined && this.briefDescriptionNoParaString.length > 0) {
+                    childrenLines.push(this.section.compound.renderBriefDescriptionToString({
+                        briefDescriptionNoParaString: this.briefDescriptionNoParaString
                     }));
+                }
+                assert(this.enumLines !== undefined);
+                childrenLines.push(...this.enumLines);
+                if (this.detailedDescriptionLines !== undefined) {
+                    childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
+                        detailedDescriptionLines: this.detailedDescriptionLines,
+                        showHeader: false,
+                        showBrief: false
+                    }));
+                }
+                if (this.name.length > 0 && this.qualifiedName !== undefined) {
+                    prototype += `${escapeHtml(this.qualifiedName)} `;
+                }
+                else if (this.name.length > 0) {
+                    prototype += `${escapeHtml(this.name)} `;
+                }
+                if (this.type !== undefined && this.type.length > 0) {
+                    prototype += `: ${this.type}`;
                 }
                 break;
             case 'friend':
-                {
-                    // console.log(this)
-                    const prototype = `friend ${this.type} ${this.parameters}`;
-                    lines.push('');
-                    const childrenLines = [];
-                    if (this.detailedDescriptionLines !== undefined) {
-                        childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-                            briefDescriptionNoParaString: this.briefDescriptionNoParaString,
-                            detailedDescriptionLines: this.detailedDescriptionLines,
-                            showHeader: false,
-                            showBrief: true
-                        }));
-                    }
-                    if (this.locationLines !== undefined) {
-                        childrenLines.push(...this.locationLines);
-                    }
-                    lines.push(...this.renderMemberDefinitionToLines({
-                        prototype,
-                        labels: this.labels,
-                        childrenLines
-                    }));
-                }
-                break;
-            case 'define':
-                {
-                    // console.log(this)
-                    let prototype = `#define ${name}`;
-                    if (this.initializer !== undefined) {
-                        prototype += '&nbsp;&nbsp;&nbsp;';
-                        prototype += this.initializer;
-                    }
-                    lines.push('');
-                    const childrenLines = [];
+                // console.log(this)
+                prototype = `friend ${this.type} ${this.parameters}`;
+                if (this.detailedDescriptionLines !== undefined) {
                     childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
                         briefDescriptionNoParaString: this.briefDescriptionNoParaString,
                         detailedDescriptionLines: this.detailedDescriptionLines,
                         showHeader: false,
                         showBrief: true
                     }));
-                    if (this.locationLines !== undefined) {
-                        childrenLines.push(...this.locationLines);
+                }
+                break;
+            case 'define':
+                // console.log(this)
+                prototype = `#define ${name}`;
+                if (this.parameters !== undefined) {
+                    prototype += `(${this.parameters})`;
+                }
+                if (this.initializerLines !== undefined) {
+                    prototype += '&nbsp;&nbsp;&nbsp;';
+                    if (this.initializerLines.length === 1) {
+                        prototype += this.initializerLines[0];
                     }
-                    lines.push(...this.renderMemberDefinitionToLines({
-                        prototype,
-                        labels: this.labels,
-                        childrenLines
+                    else {
+                        prototype += '...';
+                    }
+                }
+                if (this.briefDescriptionNoParaString !== undefined) {
+                    childrenLines.push(this.section.compound.renderBriefDescriptionToString({
+                        briefDescriptionNoParaString: this.briefDescriptionNoParaString
                     }));
                 }
+                if (this.initializerLines !== undefined && this.initializerLines.length > 1) {
+                    childrenLines.push('');
+                    childrenLines.push('<dl class="doxySectionUser">');
+                    childrenLines.push('<dt>Value</dt>');
+                    childrenLines.push('<dd>');
+                    // TODO make code
+                    childrenLines.push(`<div class="doxyVerbatim">${this.initializerLines[0]}`);
+                    for (const initializerLine of this.initializerLines.slice(1)) {
+                        childrenLines.push(initializerLine);
+                    }
+                    childrenLines.push('</div>');
+                    childrenLines.push('</dd>');
+                    childrenLines.push('</dl>');
+                }
+                childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
+                    briefDescriptionNoParaString: this.briefDescriptionNoParaString,
+                    detailedDescriptionLines: this.detailedDescriptionLines,
+                    showHeader: false,
+                    showBrief: false
+                }));
                 break;
             default:
                 lines.push('');
                 console.warn('memberDef', this.kind, this.name, 'not implemented yet in', this.constructor.name, 'renderToLines');
+        }
+        if (this.locationLines !== undefined) {
+            childrenLines.push(...this.locationLines);
+        }
+        if (this.programListing !== undefined) {
+            childrenLines.push(...this.section.compound.collection.workspace.renderElementToLines(this.programListing, 'html'));
+        }
+        if (this.references !== undefined) {
+            childrenLines.push('');
+            childrenLines.push(this.references);
+        }
+        if (this.referencedBy !== undefined) {
+            childrenLines.push('');
+            childrenLines.push(this.referencedBy);
+        }
+        lines.push('');
+        if (prototype !== undefined) {
+            lines.push(...this.renderMemberDefinitionToLines({
+                template,
+                prototype,
+                labels,
+                childrenLines
+            }));
         }
         return lines;
     }

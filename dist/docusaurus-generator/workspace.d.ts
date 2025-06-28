@@ -3,6 +3,7 @@ import { PluginOptions } from '../plugin/options.js';
 import { CollectionBase } from './view-model/collection-base.js';
 import { DoxygenFileOptions } from './view-model/options.js';
 import { CompoundBase } from './view-model/compound-base-vm.js';
+import { File } from './view-model/files-and-folders-vm.js';
 import { Page } from './view-model/pages-vm.js';
 import { FrontMatter } from './types.js';
 import { Member } from './view-model/members-vm.js';
@@ -37,6 +38,7 @@ export declare class Workspace {
     writtenMdFilesCounter: number;
     writtenHtmlFilesCounter: number;
     mainPage: Page | undefined;
+    filesByPath: Map<String, File>;
     constructor({ dataModel, pluginOptions, siteConfig, pluginActions }: {
         dataModel: DataModel;
         pluginOptions: PluginOptions;
@@ -62,7 +64,6 @@ export declare class Workspace {
         title?: string;
         pagePermalink?: string;
     }): Promise<void>;
-    private renderString;
     renderElementsArrayToLines(elements: Object[] | undefined, type: string): string[];
     renderElementToLines(element: Object | undefined, type: string): string[];
     renderElementsArrayToString(elements: Object[] | undefined, type: string): string;

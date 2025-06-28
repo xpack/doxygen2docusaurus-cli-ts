@@ -2,6 +2,8 @@ import { MemberDefDataModel } from '../../data-model/compounds/memberdeftype-dm.
 import { MemberDataModel } from '../../data-model/compounds/membertype-dm.js';
 import { SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-dm.js';
 import { CompoundBase } from './compound-base-vm.js';
+import { MemberProgramListingDataModel, ProgramListingDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
+import { LocationDataModel } from '../../data-model/compounds/locationtype-dm.js';
 export declare const sectionHeaders: Record<string, [string, number]>;
 export declare class Section {
     compound: CompoundBase;
@@ -36,21 +38,26 @@ export declare class Member extends MemberBase {
     qualifiedName: string | undefined;
     definition: string | undefined;
     type: string | undefined;
-    initializer: string | undefined;
+    initializerLines: string[] | undefined;
     locationLines: string[] | undefined;
     templateParameters: string | undefined;
     enumLines: string[] | undefined;
     parameters: string | undefined;
+    programListing: ProgramListingDataModel | undefined;
+    referencedBy: string | undefined;
+    references: string | undefined;
     labels: string[];
     isTrailingType: boolean;
     isConstexpr: boolean;
     isStrong: boolean;
     isConst: boolean;
+    isStatic: boolean;
     _private: {
         _memberDef?: MemberDefDataModel;
     };
     constructor(section: Section, memberDef: MemberDefDataModel);
     initializeLate(): void;
+    filterProgramListingForLocation(location: LocationDataModel | undefined): MemberProgramListingDataModel | undefined;
     renderIndexToLines(): string[];
     renderToLines(): string[];
     private renderMemberDefinitionToLines;

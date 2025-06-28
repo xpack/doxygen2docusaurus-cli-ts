@@ -21,6 +21,8 @@ export interface PluginConfigurationOptions {
     runOnStart?: boolean;
     suggestToDoDescriptions?: boolean;
     renderPagesAtTop?: boolean;
+    renderProgramListing?: boolean;
+    renderProgramListingInline?: boolean;
     originalPagesNote?: string;
     id?: string;
 }
@@ -61,6 +63,10 @@ export interface PluginOptions {
     suggestToDoDescriptions: boolean;
     /** Boolean to render the pages to the top. */
     renderPagesAtTop: boolean;
+    /** Boolean to render the program listing in the File pages. */
+    renderProgramListing: boolean;
+    /** Boolean to render the program listing in the member definitions sections. */
+    renderProgramListingInline?: boolean;
     /**
      * Location of original Doxygen pages
      *

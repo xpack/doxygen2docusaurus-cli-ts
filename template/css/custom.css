@@ -651,6 +651,10 @@ span.doxyLineNumber {
   background-color: var(--ifm-doxy-listing-line-background);
 }
 
+div.doxyCodeLine:first-child span.doxyLineNumber {
+  padding-top: 8px;
+}
+
 div.doxyCodeLine:nth-child(2) span.doxyLineNumber {
   padding-top: 0px;
 }
@@ -841,6 +845,10 @@ ul.doxyTocList {
 
 dl.doxyVariableList dt {
   font-weight: bold;
+}
+
+dl.doxyVariableList dd {
+  padding-bottom: 8px;
 }
 
 /* --- */

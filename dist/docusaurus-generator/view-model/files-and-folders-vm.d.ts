@@ -10,7 +10,6 @@ export declare class FilesAndFolders extends CollectionBase {
     compoundFilesById: Map<string, File>;
     topLevelFolders: Folder[];
     topLevelFiles: File[];
-    filesByPath: Map<String, File>;
     constructor(workspace: Workspace);
     addChild(compoundDef: CompoundDefDataModel): CompoundBase;
     createCompoundsHierarchies(): void;

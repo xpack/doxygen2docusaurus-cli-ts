@@ -36,6 +36,7 @@ export interface PluginConfigurationOptions {
   suggestToDoDescriptions?: boolean
   renderPagesAtTop?: boolean
   renderProgramListing?: boolean
+  renderProgramListingInline?: boolean
   originalPagesNote?: string
   // redirects?: Redirects[]
   id?: string
@@ -99,6 +100,9 @@ export interface PluginOptions {
   /** Boolean to render the program listing in the File pages. */
   renderProgramListing: boolean
 
+  /** Boolean to render the program listing in the member definitions sections. */
+  renderProgramListingInline?: boolean
+
   /**
    * Location of original Doxygen pages
    *
@@ -131,6 +135,7 @@ export const defaultOptions: PluginConfigurationOptions = {
   suggestToDoDescriptions: false,
   renderPagesAtTop: true,
   renderProgramListing: true,
+  renderProgramListingInline: true,
   id: 'default'
 }
 

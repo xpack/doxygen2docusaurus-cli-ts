@@ -17,7 +17,7 @@ import { AbstractDataModelBase } from '../data-model/types.js';
 import { Groups } from './view-model/groups-vm.js';
 import { Classes } from './view-model/classes-vm.js';
 import { DoxygenFileOptions } from './view-model/options.js';
-import { escapeBraces, escapeHtml, escapeMarkdown, getPermalinkAnchor, stripPermalinkAnchor } from './utils.js';
+import { getPermalinkAnchor, renderString, stripPermalinkAnchor } from './utils.js';
 import { Namespaces } from './view-model/namespaces-vm.js';
 import { FilesAndFolders } from './view-model/files-and-folders-vm.js';
 import { Pages } from './view-model/pages-vm.js';
@@ -62,6 +62,7 @@ export class Workspace {
         this.descriptionAnchorsById = new Map();
         this.writtenMdFilesCounter = 0;
         this.writtenHtmlFilesCounter = 0;
+        this.filesByPath = new Map();
         console.log();
         const __dirname = path.dirname(fileURLToPath(import.meta.url));
         this.projectPath = path.dirname(path.dirname(__dirname));
@@ -427,20 +428,6 @@ export class Workspace {
         this.writtenMdFilesCounter += 1;
     }
     // --------------------------------------------------------------------------
-    renderString(element, type) {
-        if (type === 'unchanged') {
-            return element;
-        }
-        else if (type === 'plain-html') {
-            return escapeBraces(element);
-        }
-        else if (type === 'markdown') {
-            return escapeMarkdown(element);
-        }
-        else {
-            return escapeHtml(element);
-        }
-    }
     renderElementsArrayToLines(elements, type) {
         if (!Array.isArray(elements)) {
             return [];
@@ -460,7 +447,7 @@ export class Workspace {
                 return [];
             }
             else {
-                return [this.renderString(element, type)];
+                return [renderString(element, type)];
             }
         }
         if (Array.isArray(element)) {
@@ -476,7 +463,7 @@ export class Workspace {
         }
         const textRenderer = this.elementRenderers.getElementTextRenderer(element);
         if (textRenderer !== undefined) {
-            return [textRenderer.renderToString(element, type)];
+            return textRenderer.renderToString(element, type).split('\n');
         }
         console.error(util.inspect(element, { compact: false, depth: 999 }));
         console.error('no element lines renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToLines');
@@ -497,7 +484,7 @@ export class Workspace {
             return '';
         }
         if (typeof element === 'string') {
-            return this.renderString(element, type);
+            return renderString(element, type);
         }
         if (Array.isArray(element)) {
             let text = '';
@@ -537,7 +524,7 @@ export class Workspace {
         }
         else {
             lines.push('<tr class="doxyMemberIndexItem">');
-            lines.push(`<td class="doxyMemberIndexItemType" align="right" valign="top">${type}</td>`);
+            lines.push(`<td class="doxyMemberIndexItemType" align="left" valign="top">${type}</td>`);
             lines.push(`<td class="doxyMemberIndexItemName" align="left" valign="top">${name}</td>`);
             lines.push('</tr>');
         }

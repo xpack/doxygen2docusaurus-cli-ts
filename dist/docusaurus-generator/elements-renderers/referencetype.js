@@ -8,31 +8,29 @@
  * If a copy of the license was not distributed with this file, it can
  * be obtained from https://opensource.org/licenses/MIT.
  */
+// ----------------------------------------------------------------------------
+import assert from 'assert';
 import { ElementStringRendererBase } from './element-renderer-base.js';
+import { ReferenceDataModel, ReferencedByDataModel } from '../../data-model/compounds/referencetype-dm.js';
 import { renderString } from '../utils.js';
 // ----------------------------------------------------------------------------
-export class RefTextTypeStringRenderer extends ElementStringRendererBase {
+// ReferenceDataModel
+// ReferencedByDataModel
+export class ReferenceTypeStringRenderer extends ElementStringRendererBase {
     renderToString(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
-        if (element.external !== undefined) {
-            console.error(element.elementName, 'attribute external not yet rendered in', this.constructor.name);
-        }
-        if (element.tooltip !== undefined) {
-            console.error(element.elementName, 'attribute tooltip not yet rendered in', this.constructor.name);
-        }
         let text = '';
-        const permalink = this.workspace.getPermalink({
-            refid: element.refid,
-            kindref: element.kindref
-        });
-        if (permalink !== undefined && permalink.length > 0) {
-            text += `<a href="${permalink}">${renderString(element.text.trim(), type)}</a>`;
+        if (element instanceof ReferencedByDataModel || element instanceof ReferenceDataModel) {
+            const memberPermalink = this.workspace.getPermalink({ refid: element.refid, kindref: 'member' });
+            assert(memberPermalink !== undefined);
+            text += `<a href="${memberPermalink}">${renderString(element.text.trim(), type)}</a>`;
         }
         else {
-            text += `${renderString(element.text.trim(), type)}`;
+            console.error(element.constructor.name, 'not implemented by', this.constructor.name);
+            return '';
         }
         return text;
     }
 }
 // ----------------------------------------------------------------------------
-//# sourceMappingURL=reftexttype.js.map
+//# sourceMappingURL=referencetype.js.map

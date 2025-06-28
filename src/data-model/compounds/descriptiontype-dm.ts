@@ -120,13 +120,15 @@ export abstract class AbstractDescriptionType extends AbstractDataModelBase {
 // <xsd:attribute name="filename" type="xsd:string" use="optional"/>
 // </xsd:complexType>
 
-export abstract class AbstractListingType extends AbstractDataModelBase {
+export abstract class AbstractListingTypeBase extends AbstractDataModelBase {
   // Optional elements.
   codelines?: CodeLineDataModel[] | undefined
 
   // Optional attributes.
   filename?: string | undefined
+}
 
+export abstract class AbstractListingType extends AbstractListingTypeBase {
   constructor (xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
 
@@ -178,6 +180,28 @@ export abstract class AbstractListingType extends AbstractDataModelBase {
 export class ProgramListingDataModel extends AbstractListingType {
   constructor (xml: DoxygenXmlParser, element: Object) {
     super(xml, element, 'programlisting')
+  }
+}
+
+export class MemberProgramListingDataModel extends AbstractListingTypeBase {
+  constructor (programListing: ProgramListingDataModel, startLine: number, endLine: number) {
+    super(programListing.elementName)
+
+    assert(startLine <= endLine)
+    if (programListing.codelines !== undefined) {
+      const filteredCodelines: CodeLineDataModel[] = []
+      for (const codeline of programListing.codelines) {
+        if (codeline.lineno !== undefined) {
+          const lineno = codeline.lineno.valueOf()
+          if (startLine <= lineno && lineno <= endLine) {
+            filteredCodelines.push(codeline)
+          }
+        }
+      }
+      if (filteredCodelines.length > 0) {
+        this.codelines = filteredCodelines
+      }
+    }
   }
 }
 

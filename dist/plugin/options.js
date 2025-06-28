@@ -25,6 +25,8 @@ export const defaultOptions = {
     runOnStart: false,
     suggestToDoDescriptions: false,
     renderPagesAtTop: true,
+    renderProgramListing: true,
+    renderProgramListingInline: true,
     id: 'default'
 };
 export function getInstanceDefaultOptions(id) {

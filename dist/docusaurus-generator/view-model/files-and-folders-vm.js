@@ -23,7 +23,6 @@ export class FilesAndFolders extends CollectionBase {
         // this.compoundsById = new Map()
         this.compoundFoldersById = new Map();
         this.compoundFilesById = new Map();
-        this.filesByPath = new Map();
     }
     // --------------------------------------------------------------------------
     addChild(compoundDef) {
@@ -89,7 +88,7 @@ export class FilesAndFolders extends CollectionBase {
             }
             const path = file.locationFilePath;
             assert(path !== undefined);
-            this.filesByPath.set(path, file);
+            this.workspace.filesByPath.set(path, file);
             if (this.workspace.pluginOptions.debug) {
                 // console.log('filesByPath.set', path, file)
                 console.log('filesByPath.set', path);
@@ -407,7 +406,9 @@ export class File extends CompoundBase {
         }
         // console.log(this)
         if (!this.hasAnyContent()) {
-            // console.log('NO CONTENT', this.compoundName)
+            if (this.collection.workspace.pluginOptions.debug) {
+                console.log(this.kind, this.compoundName, 'has no content, not shown');
+            }
             this.docusaurusId = undefined;
             this.sidebarLabel = undefined;
             this.relativePermalink = undefined;
@@ -436,7 +437,7 @@ export class File extends CompoundBase {
             showBrief: !this.hasSect1InDescription
         }));
         lines.push(...this.renderSectionsToLines());
-        if (this.programListing !== undefined) {
+        if (this.programListing !== undefined && this.collection.workspace.pluginOptions.renderProgramListing) {
             lines.push('');
             lines.push('## File Listing');
             lines.push('');

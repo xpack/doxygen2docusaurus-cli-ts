@@ -94,6 +94,20 @@ export function sanitizeHierarchicalPath(text) {
         .replaceAll(/\)/g, '29')
         .replaceAll(/[^a-zA-Z0-9/-]/g, '-');
 }
+export function renderString(element, type) {
+    if (type === 'unchanged') {
+        return element;
+    }
+    else if (type === 'plain-html') {
+        return escapeBraces(element);
+    }
+    else if (type === 'markdown') {
+        return escapeMarkdown(element);
+    }
+    else {
+        return escapeHtml(element);
+    }
+}
 export function flattenPath(text) {
     return text.replaceAll('/', '-');
 }
@@ -112,6 +126,13 @@ export async function folderExists(folderPath) {
     catch {
         return false;
     }
+}
+export function joinWithLast(arr, delimiter, lastDelimiter) {
+    if (arr.length === 0)
+        return '';
+    if (arr.length === 1)
+        return String(arr[0]);
+    return arr.slice(0, -1).join(delimiter) + lastDelimiter + arr[arr.length - 1];
 }
 // ----------------------------------------------------------------------------
 //# sourceMappingURL=utils.js.map

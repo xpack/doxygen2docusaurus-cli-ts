@@ -20,7 +20,8 @@ import { SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-d
 import { CompoundBase } from './compound-base-vm.js'
 import { escapeHtml, escapeMarkdown, getPermalinkAnchor } from '../utils.js'
 import { Class } from './classes-vm.js'
-import { ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
+import { MemberProgramListingDataModel, ParaDataModel, ProgramListingDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
+import { LocationDataModel } from '../../data-model/compounds/locationtype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -359,6 +360,8 @@ export class Member extends MemberBase {
   enumLines: string[] | undefined
   parameters: string | undefined
 
+  programListing: ProgramListingDataModel | undefined
+
   referencedBy: string | undefined
   references: string | undefined
 
@@ -420,6 +423,10 @@ export class Member extends MemberBase {
 
     if (memberDef.location !== undefined) {
       this.locationLines = this.section.compound.renderLocationToLines(memberDef.location)
+
+      if (workspace.pluginOptions.renderProgramListingInline) {
+        this.programListing = this.filterProgramListingForLocation(memberDef.location)
+      }
     }
 
     if (memberDef.references !== undefined) {
@@ -521,6 +528,79 @@ export class Member extends MemberBase {
 
     // Clear the reference, it is no longer needed.
     this._private._memberDef = undefined
+  }
+
+  filterProgramListingForLocation (location: LocationDataModel | undefined): MemberProgramListingDataModel | undefined {
+    // console.log(location)
+
+    const workspace = this.section.compound.collection.workspace
+
+    if (location === undefined) {
+      return undefined
+    }
+
+    let programListing: MemberProgramListingDataModel | undefined
+
+    let definitionFile
+    let startLine: number = -1
+    let endLine: number = -1
+
+    if (location.bodyfile !== undefined) {
+      definitionFile = workspace.filesByPath.get(location.bodyfile)
+      if (definitionFile === undefined) {
+        console.log('no definition')
+        return undefined
+      }
+
+      if (definitionFile.programListing === undefined) {
+        console.log('no listing')
+        return undefined
+      }
+
+      if (location.bodystart !== undefined) {
+        startLine = location.bodystart.valueOf()
+
+        if (location.bodyend !== undefined) {
+          endLine = location.bodyend.valueOf()
+        }
+        if (endLine === -1) {
+          endLine = startLine
+        }
+      } else {
+        return undefined
+      }
+
+      // console.log(definitionFile.indexName, startLine, endLine)
+
+      programListing = new MemberProgramListingDataModel(definitionFile.programListing, startLine, endLine)
+      // } else if (location.file !== undefined) {
+      //   definitionFile = workspace.filesByPath.get(location.file)
+      //   if (definitionFile === undefined) {
+      //     console.log('no definition')
+      //     return undefined
+      //   }
+
+      //   if (definitionFile.programListing === undefined) {
+      //     console.log('no listing')
+      //     return undefined
+      //   }
+
+      //   if (location.line !== undefined) {
+      //     startLine = location.line.valueOf()
+      //     endLine = startLine
+      //   } else {
+      //     return undefined
+      //   }
+    }
+
+    if (definitionFile?.programListing !== undefined) {
+      // console.log(definitionFile.indexName, startLine, endLine)
+
+      programListing = new MemberProgramListingDataModel(definitionFile.programListing, startLine, endLine)
+    }
+
+    // console.log(programListing)
+    return programListing
   }
 
   // --------------------------------------------------------------------------
@@ -916,6 +996,10 @@ export class Member extends MemberBase {
 
     if (this.locationLines !== undefined) {
       childrenLines.push(...this.locationLines)
+    }
+
+    if (this.programListing !== undefined) {
+      childrenLines.push(...this.section.compound.collection.workspace.renderElementToLines(this.programListing, 'html'))
     }
 
     if (this.references !== undefined) {

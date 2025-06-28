@@ -14,7 +14,7 @@ import util from 'util';
 import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js';
 import { AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocRefTextType, AbstractDocURLLink, AbstractEmojiType, HrulerDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js';
-import { escapeHtml, escapeQuotes, getPermalinkAnchor } from '../utils.js';
+import { escapeHtml, escapeQuotes, getPermalinkAnchor, renderString } from '../utils.js';
 import { AbstractDocHtmlOnlyType, LatexOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel } from '../../data-model/compounds/compounddef-dm.js';
 import { AbstractDataModelBase } from '../../data-model/types.js';
 // ----------------------------------------------------------------------------
@@ -488,7 +488,7 @@ export class FormulaStringRenderer extends ElementStringRendererBase {
     renderToString(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         let text = '';
-        const formula = this.workspace.renderElementToString(element.text, 'html');
+        const formula = renderString(element.text, 'html');
         if (this.workspace.pluginOptions.verbose) {
             console.warn('LaTeX formula', formula, 'not rendered properly');
         }
@@ -550,7 +550,7 @@ export class HtmlOnlyStringRenderer extends ElementStringRendererBase {
     renderToString(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         let text = '';
-        text += this.workspace.renderElementToString(element.text, 'plain-html');
+        text += renderString(element.text, 'plain-html');
         return text;
     }
 }

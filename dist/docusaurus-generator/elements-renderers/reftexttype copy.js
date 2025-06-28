@@ -9,7 +9,7 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 import { ElementStringRendererBase } from './element-renderer-base.js';
-import { renderString } from '../utils.js';
+import { escapeHtml } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class RefTextTypeStringRenderer extends ElementStringRendererBase {
     renderToString(element, type) {
@@ -26,13 +26,13 @@ export class RefTextTypeStringRenderer extends ElementStringRendererBase {
             kindref: element.kindref
         });
         if (permalink !== undefined && permalink.length > 0) {
-            text += `<a href="${permalink}">${renderString(element.text.trim(), type)}</a>`;
+            text += `<a href="${permalink}">${escapeHtml(element.text.trim())}</a>`;
         }
         else {
-            text += `${renderString(element.text.trim(), type)}`;
+            text += `${escapeHtml(element.text.trim())}`;
         }
         return text;
     }
 }
 // ----------------------------------------------------------------------------
-//# sourceMappingURL=reftexttype.js.map
+//# sourceMappingURL=reftexttype%20copy.js.map

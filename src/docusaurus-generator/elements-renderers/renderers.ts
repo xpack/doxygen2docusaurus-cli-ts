@@ -16,7 +16,7 @@ import assert from 'node:assert'
 
 import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js'
 import { BlockquoteLinesRenderer, ComputerOutputDataModelStringRenderer, DescriptionTypeLinesRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeStringRenderer, DocMarkupTypeStringRenderer, DocParamListTypeLinesRenderer, DocParaTypeLinesRenderer, DocRefTextTypeStringRenderer, DocSimpleSectTypeLinesRenderer, DocURLLinkStringRenderer, EmojiStringRenderer, FormulaStringRenderer, HeadingLinesRenderer, HtmlOnlyStringRenderer, ImageStringRenderer, PreformattedStringRenderer, SpTypeStringRenderer, VerbatimStringRenderer } from './descriptiontype.js'
-import { ListingTypeLinesRenderer, CodeLineTypeLinesRenderer, HighlightTypeLinesRenderer } from './listingtype.js'
+import { ListingTypeLinesRenderer, HighlightTypeLinesRenderer } from './listingtype.js'
 import { DocListTypeLinesRenderer } from './doclisttype.js'
 import { DocS1TypeLinesRenderer, DocS2TypeLinesRenderer, DocS3TypeLinesRenderer, DocS4TypeLinesRenderer, DocS5TypeLinesRenderer, DocS6TypeLinesRenderer } from './docinternalstype.js'
 import { DocTitleTypeLinesRenderer } from './doctitletype.js'
@@ -44,7 +44,6 @@ export class Renderers {
 
     this.elementLinesRenderers.set('VariableListPairDataModel', new VariableListPairLinesRenderer(workspace))
 
-    this.elementLinesRenderers.set('AbstractCodeLineType', new CodeLineTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDescriptionType', new DescriptionTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocAnchorType', new DocAnchorTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractDocBlockQuoteType', new BlockquoteLinesRenderer(workspace))
@@ -68,7 +67,7 @@ export class Renderers {
     this.elementLinesRenderers.set('AbstractDocXRefSectType', new DocXRefSectStringRenderer(workspace))
     this.elementLinesRenderers.set('AbstractHighlightType', new HighlightTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractIncType', new IncTypeLinesRenderer(workspace))
-    this.elementLinesRenderers.set('AbstractListingType', new ListingTypeLinesRenderer(workspace))
+    this.elementLinesRenderers.set('AbstractListingTypeBase', new ListingTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractParamType', new ParamTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractProgramListingType', new ListingTypeLinesRenderer(workspace))
     this.elementLinesRenderers.set('AbstractRefType', new RefTypeLinesRenderer(workspace))

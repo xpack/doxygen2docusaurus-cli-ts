@@ -12,7 +12,7 @@ import assert from 'node:assert';
 import crypto from 'node:crypto';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
-import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
+import { escapeHtml, flattenPath, renderString, sanitizeHierarchicalPath } from '../utils.js';
 import { IndexEntry } from './indices-vm.js';
 // ----------------------------------------------------------------------------
 const kindsPlurals = {
@@ -534,7 +534,7 @@ export class Class extends CompoundBase {
         lines.push('');
         lines.push('<div class="doxyDeclaration">');
         if (this.template !== undefined) {
-            lines.push(`template ${this.template}<br/>`);
+            lines.push(`template ${this.template}`);
         }
         lines.push(`${this.kind} ${this.classFullName}`);
         lines.push('</div>');
@@ -565,7 +565,7 @@ export class Class extends CompoundBase {
                             continue;
                         }
                     }
-                    const itemName = escapeHtml(baseCompoundRef.text);
+                    const itemName = renderString(baseCompoundRef.text, 'markdown');
                     lines.push('');
                     lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
                         type: this.kind,
@@ -611,7 +611,7 @@ export class Class extends CompoundBase {
                             if (this.collection.workspace.pluginOptions.verbose) {
                                 console.warn('Derived class id', derivedCompoundRef.refid, 'not a defined class');
                             }
-                            const itemName = escapeHtml(derivedCompoundRef.text.trim());
+                            const itemName = renderString(derivedCompoundRef.text.trim(), 'markdown');
                             lines.push('');
                             lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
                                 type: this.kind,
@@ -620,7 +620,7 @@ export class Class extends CompoundBase {
                         }
                     }
                     else {
-                        const itemName = escapeHtml(derivedCompoundRef.text.trim());
+                        const itemName = renderString(derivedCompoundRef.text.trim(), 'markdown');
                         lines.push('');
                         lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
                             type: this.kind,

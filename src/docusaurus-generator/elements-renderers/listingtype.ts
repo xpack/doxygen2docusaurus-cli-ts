@@ -14,14 +14,24 @@
 import assert from 'assert'
 import util from 'util'
 
-import { AbstractCodeLineType, CodeLineDataModel, AbstractHighlightType, HighlightDataModel, AbstractListingType } from '../../data-model/compounds/descriptiontype-dm.js'
+import { AbstractCodeLineType, CodeLineDataModel, AbstractHighlightType, HighlightDataModel, AbstractListingTypeBase, MemberProgramListingDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { ElementLinesRendererBase } from './element-renderer-base.js'
+import { Workspace } from '../workspace.js'
 
 // ----------------------------------------------------------------------------
 
 export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
-  override renderToLines (element: AbstractListingType, type: string): string[] {
+  override renderToLines (element: AbstractListingTypeBase, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
+
+    if (element.codelines === undefined) {
+      return []
+    }
+
+    let showAnchor: boolean = true
+    if (element instanceof MemberProgramListingDataModel) {
+      showAnchor = false
+    }
 
     const lines: string[] = []
 
@@ -29,7 +39,9 @@ export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
     lines.push('<div class="doxyProgramListing">')
 
     lines.push('')
-    lines.push(...this.workspace.renderElementsArrayToLines(element.codelines, type))
+    for (const codeline of element.codelines) {
+      lines.push(renderCodeLinesToString(this.workspace, codeline, type, showAnchor))
+    }
 
     lines.push('')
     lines.push('</div>')
@@ -39,48 +51,48 @@ export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
   }
 }
 
-export class CodeLineTypeLinesRenderer extends ElementLinesRendererBase {
-  override renderToLines (element: AbstractCodeLineType, type: string): string[] {
-    // console.log(util.inspect(element, { compact: false, depth: 999 }))
-    assert(element instanceof CodeLineDataModel)
+function renderCodeLinesToString (workspace: Workspace, element: AbstractCodeLineType, type: string, showAnchor: boolean): string {
+  // console.log(util.inspect(element, { compact: false, depth: 999 }))
+  assert(element instanceof CodeLineDataModel)
 
-    if (element.external !== undefined) {
-      console.error('external ignored in', element.constructor.name)
-    }
-
-    let permalink: string | undefined
-    if (element.refid !== undefined && element.refkind !== undefined) {
-      permalink = this.workspace.getPermalink({
-        refid: element.refid,
-        kindref: element.refkind
-      })
-    }
-
-    let text = ''
-
-    text += '<div class="doxyCodeLine">'
-    if (element.lineno !== undefined) {
-      text += '<span class="doxyLineNumber">'
-      const anchor = `l${element.lineno.toString().padStart(5, '0')}`
-      text += `<a id="${anchor}"></a>`
-      if (permalink !== undefined) {
-        text += `<a href="${permalink}">${element.lineno.toString()}</a>`
-      } else {
-        text += element.lineno.toString()
-      }
-      text += '</span>'
-    } else {
-      text += '<span class="doxyNoLineNumber">&nbsp;</span>'
-    }
-
-    const content = this.workspace.renderElementsArrayToString(element.highlights, type)
-    if (content.length > 0) {
-      text += `<span class="doxyLineContent">${content}</span>`
-    }
-    text += '</div>'
-
-    return [text]
+  if (element.external !== undefined) {
+    console.error('external ignored in', element.constructor.name)
   }
+
+  let permalink: string | undefined
+  if (element.refid !== undefined && element.refkind !== undefined) {
+    permalink = workspace.getPermalink({
+      refid: element.refid,
+      kindref: element.refkind
+    })
+  }
+
+  let text = ''
+
+  text += '<div class="doxyCodeLine">'
+  if (element.lineno !== undefined) {
+    text += '<span class="doxyLineNumber">'
+    const anchor = `l${element.lineno.toString().padStart(5, '0')}`
+    if (showAnchor) {
+      text += `<a id="${anchor}"></a>`
+    }
+    if (permalink !== undefined) {
+      text += `<a href="${permalink}">${element.lineno.toString()}</a>`
+    } else {
+      text += element.lineno.toString()
+    }
+    text += '</span>'
+  } else {
+    text += '<span class="doxyNoLineNumber">&nbsp;</span>'
+  }
+
+  const content = workspace.renderElementsArrayToString(element.highlights, type)
+  if (content.length > 0) {
+    text += `<span class="doxyLineContent">${content}</span>`
+  }
+  text += '</div>'
+
+  return text
 }
 
 // Optimise this to directly generate plain html, to save the compiler/bundler
