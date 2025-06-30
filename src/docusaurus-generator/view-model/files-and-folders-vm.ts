@@ -459,7 +459,16 @@ export class Folder extends CompoundBase {
   }
 
   override hasAnyContent (): boolean {
-    return this.hasChildren()
+    // console.log('checking', this.compoundName)
+    if (this.hasChildren()) {
+      // console.log('has content children', this)
+      return true
+    }
+
+    // if (!super.hasAnyContent()) {
+    //   console.log('has no content', this)
+    // }
+    return super.hasAnyContent()
   }
 
   // --------------------------------------------------------------------------
@@ -566,6 +575,31 @@ export class File extends CompoundBase {
       this.sidebarLabel = undefined
       this.relativePermalink = undefined
     }
+  }
+
+  override hasAnyContent (): boolean {
+    // console.log('checking', this.compoundName)
+    if (this.childrenIds.length > 0) {
+      // console.log('has content childrenIds', this)
+      return true
+    }
+    if (this.children.length > 0) {
+      // console.log('has content children.length', this)
+      return true
+    }
+    if (this.innerCompounds !== undefined) {
+      // console.log('has content innerCompounds', this)
+      return true
+    }
+    if (this.includes !== undefined) {
+      // console.log('has content includes', this)
+      return true
+    }
+
+    // if (!super.hasAnyContent()) {
+    //   console.log('has no content', this)
+    // }
+    return super.hasAnyContent()
   }
 
   // --------------------------------------------------------------------------

@@ -644,6 +644,26 @@ export class Class extends CompoundBase {
     this.templateParamList = compoundDef.templateParamList
   }
 
+  override hasAnyContent (): boolean {
+    if (this.childrenIds.length > 0) {
+      return true
+    }
+    if (this.children.length > 0) {
+      return true
+    }
+    if (this.innerCompounds !== undefined) {
+      return true
+    }
+    if (this.sections.length > 0) {
+      return true
+    }
+    if (this.includes !== undefined) {
+      return true
+    }
+
+    return super.hasAnyContent()
+  }
+
   // --------------------------------------------------------------------------
 
   override renderToLines (frontMatter: FrontMatter): string[] {

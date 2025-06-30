@@ -888,21 +888,15 @@ export abstract class CompoundBase {
   // Override it
   hasAnyContent (): boolean {
     if (this.briefDescriptionString !== undefined && this.briefDescriptionString.length > 0) {
+      // console.log('has content brief', this.compoundName)
       return true
     }
     if (this.detailedDescriptionLines !== undefined && this.detailedDescriptionLines.length > 0) {
-      return true
-    }
-    if (this.childrenIds.length > 0) {
-      return true
-    }
-    if (this.children.length > 0) {
+      // console.log('has content details', this.compoundName)
       return true
     }
     if (this.sections.length > 0) {
-      return true
-    }
-    if (this.includes !== undefined || this.innerCompounds !== undefined) {
+      // console.log('has content sections.length', this)
       return true
     }
 
