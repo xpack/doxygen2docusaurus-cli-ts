@@ -337,7 +337,13 @@ export class CompoundBase {
                         const permalink = workspace.getPagePermalink(innerObject.refid);
                         // Debatable. The compound name has the full namespace, the index has the template signature.
                         const name = innerDataObject.indexName;
-                        const itemName = `<a href="${permalink}">${renderString(name, 'markdown')}</a>`;
+                        let itemName;
+                        if (permalink !== undefined && permalink.length > 0) {
+                            itemName = `<a href="${permalink}">${renderString(name, 'markdown')}</a>`;
+                        }
+                        else {
+                            itemName = `${renderString(name, 'markdown')}`;
+                        }
                         const childrenLines = [];
                         const morePermalink = innerDataObject.renderDetailedDescriptionToLines !== undefined ? `${permalink}/#details` : undefined;
                         if (innerDataObject.briefDescriptionString !== undefined && innerDataObject.briefDescriptionString.length > 0) {
@@ -422,23 +428,29 @@ export class CompoundBase {
             const file = workspace.filesByPath.get(location.file);
             if (file !== undefined) {
                 const permalink = workspace.getPagePermalink(file.id);
+                assert(permalink !== undefined && permalink.length > 0);
                 if (location.bodyfile !== undefined && location.file !== location.bodyfile) {
                     text += 'Declaration ';
                     if (location.line !== undefined) {
                         text += 'at line ';
                         const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`;
-                        if (!file.listingLineNumbers.has(location.line)) {
-                            text += location.line?.toString();
+                        if (permalink !== undefined && permalink.length > 0 && file.listingLineNumbers.has(location.line)) {
+                            text += `<a href="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</a>`;
                         }
                         else {
-                            text += `<a href="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</a>`;
+                            text += location.line?.toString();
                         }
                         text += ' of file ';
                     }
                     else {
                         text += ' in file ';
                     }
-                    text += `<a href="${permalink}">${escapeHtml(path.basename(location.file))}</a>`;
+                    if (permalink !== undefined && permalink.length > 0) {
+                        text += `<a href="${permalink}">${escapeHtml(path.basename(location.file))}</a>`;
+                    }
+                    else {
+                        text += `${escapeHtml(path.basename(location.file))}`;
+                    }
                     const definitionFile = workspace.filesByPath.get(location.bodyfile);
                     if (definitionFile !== undefined) {
                         const definitionPermalink = workspace.getPagePermalink(definitionFile.id);
@@ -446,18 +458,23 @@ export class CompoundBase {
                         if (location.bodystart !== undefined) {
                             text += 'at line ';
                             const lineStart = `l${location.bodystart?.toString().padStart(5, '0')}`;
-                            if (!definitionFile.listingLineNumbers.has(location.bodystart)) {
-                                text += location.bodystart?.toString();
+                            if (definitionPermalink !== undefined && definitionPermalink.length > 0 && definitionFile.listingLineNumbers.has(location.bodystart)) {
+                                text += `<a href="${definitionPermalink}/#${lineStart}">${escapeHtml(location.bodystart?.toString() ?? '?')}</a>`;
                             }
                             else {
-                                text += `<a href="${definitionPermalink}/#${lineStart}">${escapeHtml(location.bodystart?.toString() ?? '?')}</a>`;
+                                text += location.bodystart?.toString();
                             }
                             text += ' of file ';
                         }
                         else {
                             text += ' in file ';
                         }
-                        text += `<a href="${definitionPermalink}">${escapeHtml(path.basename(location.bodyfile))}</a>`;
+                        if (definitionPermalink !== undefined && definitionPermalink.length > 0) {
+                            text += `<a href="${definitionPermalink}">${escapeHtml(path.basename(location.bodyfile))}</a>`;
+                        }
+                        else {
+                            text += `${escapeHtml(path.basename(location.bodyfile))}`;
+                        }
                     }
                     else {
                         if (this.collection.workspace.pluginOptions.verbose) {
@@ -471,18 +488,23 @@ export class CompoundBase {
                     if (location.line !== undefined) {
                         text += 'at line ';
                         const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`;
-                        if (!file.listingLineNumbers.has(location.line)) {
-                            text += location.line?.toString();
+                        if (permalink !== undefined && permalink.length > 0 && file.listingLineNumbers.has(location.line)) {
+                            text += `<a href="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</a>`;
                         }
                         else {
-                            text += `<a href="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</a>`;
+                            text += location.line?.toString();
                         }
                         text += ' of file ';
                     }
                     else {
                         text += ' in file ';
                     }
-                    text += `<a href="${permalink}">${escapeHtml(path.basename(location.file))}</a>`;
+                    if (permalink !== undefined && permalink.length > 0) {
+                        text += `<a href="${permalink}">${escapeHtml(path.basename(location.file))}</a>`;
+                    }
+                    else {
+                        text += `<a href="${permalink}">${escapeHtml(path.basename(location.file))}</a>`;
+                    }
                     text += '.';
                 }
             }
@@ -669,21 +691,15 @@ export class CompoundBase {
     // Override it
     hasAnyContent() {
         if (this.briefDescriptionString !== undefined && this.briefDescriptionString.length > 0) {
+            // console.log('has content brief', this.compoundName)
             return true;
         }
         if (this.detailedDescriptionLines !== undefined && this.detailedDescriptionLines.length > 0) {
-            return true;
-        }
-        if (this.childrenIds.length > 0) {
-            return true;
-        }
-        if (this.children.length > 0) {
+            // console.log('has content details', this.compoundName)
             return true;
         }
         if (this.sections.length > 0) {
-            return true;
-        }
-        if (this.includes !== undefined || this.innerCompounds !== undefined) {
+            // console.log('has content sections.length', this)
             return true;
         }
         return false;

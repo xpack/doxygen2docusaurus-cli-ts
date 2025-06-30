@@ -261,7 +261,10 @@ export class FilesAndFolders extends CollectionBase {
         const lines = [];
         const label = escapeHtml(folder.compoundName);
         const permalink = this.workspace.getPagePermalink(folder.id);
-        assert(permalink !== undefined && permalink.length > 1);
+        if (permalink === undefined || permalink.length === 0) {
+            // console.log(namespace)
+            return [];
+        }
         let description = '';
         if (folder.briefDescriptionString !== undefined && folder.briefDescriptionString.length > 0) {
             description = folder.briefDescriptionString.replace(/[.]$/, '');
@@ -293,7 +296,7 @@ export class FilesAndFolders extends CollectionBase {
         const lines = [];
         const label = escapeHtml(file.compoundName);
         const permalink = this.workspace.getPagePermalink(file.id, true);
-        if (permalink === undefined) {
+        if (permalink === undefined || permalink.length === 0) {
             return [];
         }
         let description = '';
@@ -324,11 +327,8 @@ export class Folder extends CompoundBase {
     // --------------------------------------------------------------------------
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
-        // childrenIds & children - not used
         this.childrenFileIds = [];
-        this.childrenFiles = [];
         this.childrenFolderIds = [];
-        this.childrenFolders = [];
         this.relativePath = '';
         // console.log('folder:', util.inspect(compoundDef))
         // console.log('folder:', compoundDef.compoundName)
@@ -350,6 +350,28 @@ export class Folder extends CompoundBase {
         this.indexName = this.sidebarLabel;
         this.pageTitle = `The \`${this.sidebarLabel}\` Folder Reference`;
         this.createSections();
+    }
+    hasChildren() {
+        for (const child of this.children) {
+            if (child instanceof File) {
+                return true;
+            }
+            else if (child instanceof Folder && child.hasChildren()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    hasAnyContent() {
+        // console.log('checking', this.compoundName)
+        if (this.hasChildren()) {
+            // console.log('has content children', this)
+            return true;
+        }
+        // if (!super.hasAnyContent()) {
+        //   console.log('has no content', this)
+        // }
+        return super.hasAnyContent();
     }
     // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
@@ -375,6 +397,18 @@ export class Folder extends CompoundBase {
         lines.push(...this.renderSectionsToLines());
         return lines;
     }
+    initializeLate() {
+        super.initializeLate();
+        // console.log(this)
+        if (!this.hasAnyContent()) {
+            if (this.collection.workspace.pluginOptions.debug) {
+                console.log(this.kind, this.compoundName, 'has no content, not shown');
+            }
+            this.docusaurusId = undefined;
+            this.sidebarLabel = undefined;
+            this.relativePermalink = undefined;
+        }
+    }
 }
 // ----------------------------------------------------------------------------
 export class File extends CompoundBase {
@@ -395,12 +429,14 @@ export class File extends CompoundBase {
         const compoundDef = this._private._compoundDef;
         assert(compoundDef !== undefined);
         this.programListing = compoundDef.programListing;
-        // Keep track of line number, since not all lines referred exist and
-        // this might result in broken links.
-        if (this.programListing?.codelines !== undefined) {
-            for (const codeline of this.programListing?.codelines) {
-                if (codeline.lineno !== undefined) {
-                    this.listingLineNumbers.add(codeline.lineno);
+        if (this.collection.workspace.pluginOptions.renderProgramListing) {
+            // Keep track of line number, since not all lines referred exist and
+            // this might result in broken links.
+            if (this.programListing?.codelines !== undefined) {
+                for (const codeline of this.programListing?.codelines) {
+                    if (codeline.lineno !== undefined) {
+                        this.listingLineNumbers.add(codeline.lineno);
+                    }
                 }
             }
         }
@@ -413,6 +449,29 @@ export class File extends CompoundBase {
             this.sidebarLabel = undefined;
             this.relativePermalink = undefined;
         }
+    }
+    hasAnyContent() {
+        // console.log('checking', this.compoundName)
+        if (this.childrenIds.length > 0) {
+            // console.log('has content childrenIds', this)
+            return true;
+        }
+        if (this.children.length > 0) {
+            // console.log('has content children.length', this)
+            return true;
+        }
+        if (this.innerCompounds !== undefined) {
+            // console.log('has content innerCompounds', this)
+            return true;
+        }
+        if (this.includes !== undefined) {
+            // console.log('has content includes', this)
+            return true;
+        }
+        // if (!super.hasAnyContent()) {
+        //   console.log('has no content', this)
+        // }
+        return super.hasAnyContent();
     }
     // --------------------------------------------------------------------------
     renderToLines(frontMatter) {

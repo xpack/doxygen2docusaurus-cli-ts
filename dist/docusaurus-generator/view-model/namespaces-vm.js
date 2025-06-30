@@ -273,6 +273,33 @@ export class Namespace extends CompoundBase {
             this.relativePermalink = undefined;
         }
     }
+    hasAnyContent() {
+        // console.log('checking', this.compoundName)
+        for (const childNamespace of this.children) {
+            if (childNamespace.hasAnyContent()) {
+                // console.log('has content', this)
+                return true;
+            }
+        }
+        if (this.innerCompounds !== undefined) {
+            if (this.innerCompounds.has('innerNamespaces')) {
+                if (this.innerCompounds.size > 1) {
+                    // console.log('has content innerCompounds 1', this)
+                    return true;
+                }
+            }
+            else {
+                if (this.innerCompounds.size > 0) {
+                    // console.log('has content innerCompounds 2', this)
+                    return true;
+                }
+            }
+        }
+        // if (!super.hasAnyContent()) {
+        //   console.log('has no content', this)
+        // }
+        return super.hasAnyContent();
+    }
     // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
         const lines = [];

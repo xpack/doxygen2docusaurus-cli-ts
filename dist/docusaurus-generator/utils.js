@@ -111,9 +111,11 @@ export function renderString(element, type) {
 export function flattenPath(text) {
     return text.replaceAll('/', '-');
 }
-export function stripPermalinkAnchor(refid) {
-    // No idea why g is also used.
+export function stripPermalinkHexAnchor(refid) {
     return refid.replace(/_1[0-9a-fg]*$/, '');
+}
+export function stripPermalinkTextAnchor(refid) {
+    return refid.replace(/_1_[0-9a-z]*$/, '');
 }
 export function getPermalinkAnchor(refid) {
     return refid.replace(/^.*_1/, '');

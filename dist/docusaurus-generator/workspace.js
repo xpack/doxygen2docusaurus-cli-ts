@@ -17,7 +17,7 @@ import { AbstractDataModelBase } from '../data-model/types.js';
 import { Groups } from './view-model/groups-vm.js';
 import { Classes } from './view-model/classes-vm.js';
 import { DoxygenFileOptions } from './view-model/options.js';
-import { getPermalinkAnchor, renderString, stripPermalinkAnchor } from './utils.js';
+import { getPermalinkAnchor, renderString, stripPermalinkHexAnchor, stripPermalinkTextAnchor } from './utils.js';
 import { Namespaces } from './view-model/namespaces-vm.js';
 import { FilesAndFolders } from './view-model/files-and-folders-vm.js';
 import { Pages } from './view-model/pages-vm.js';
@@ -209,7 +209,7 @@ export class Workspace {
                         // console.log('  ', sectionDef.kind)
                         for (const member of section.indexMembers) {
                             if (member instanceof Member) {
-                                const memberCompoundId = stripPermalinkAnchor(member.id);
+                                const memberCompoundId = stripPermalinkHexAnchor(member.id);
                                 if (memberCompoundId !== compound.id) {
                                     // Skip member definitions from different compounds.
                                     // Hopefully they are defined properly there.
@@ -582,7 +582,7 @@ export class Workspace {
         }
         else if (kindref === 'member') {
             const anchor = getPermalinkAnchor(refid);
-            const compoundId = stripPermalinkAnchor(refid);
+            const compoundId = stripPermalinkHexAnchor(refid);
             // console.log('refid:', refid, 'compoundId:', compoundId, 'anchor:', anchor)
             permalink = this.getPagePermalink(compoundId, true);
             if (permalink !== undefined) {
@@ -615,6 +615,20 @@ export class Workspace {
                         console.error('Unknown permalink for', refid, 'in', this.constructor.name, 'getPermalink');
                     }
                 }
+            }
+            // console.log(permalink)
+            // }
+        }
+        else if (kindref === 'xrefsect') {
+            const anchor = getPermalinkAnchor(refid);
+            const compoundId = stripPermalinkTextAnchor(refid);
+            // console.log('refid:', refid, 'compoundId:', compoundId, 'anchor:', anchor)
+            permalink = this.getPagePermalink(compoundId, true);
+            if (permalink !== undefined) {
+                permalink += `/#${anchor}`;
+            }
+            else {
+                console.error('Unknown permalink for', refid, 'in', this.constructor.name, 'getPermalink');
             }
             // console.log(permalink)
             // }

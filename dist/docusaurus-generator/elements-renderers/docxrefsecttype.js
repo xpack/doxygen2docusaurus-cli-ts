@@ -8,6 +8,8 @@
  * If a copy of the license was not distributed with this file, it can
  * be obtained from https://opensource.org/licenses/MIT.
  */
+// ----------------------------------------------------------------------------
+import assert from 'assert';
 import { ElementLinesRendererBase } from './element-renderer-base.js';
 import { escapeHtml } from '../utils.js';
 // ----------------------------------------------------------------------------
@@ -16,7 +18,8 @@ export class DocXRefSectLinesRenderer extends ElementLinesRendererBase {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
         const title = escapeHtml(element.xreftitle ?? '?');
-        const permalink = this.workspace.getXrefPermalink(element.id);
+        const permalink = this.workspace.getPermalink({ refid: element.id, kindref: 'xrefsect' });
+        assert(permalink !== undefined);
         lines.push('');
         lines.push('<div class="doxyXrefSect">');
         lines.push('<dl class="doxyXrefSectList">');

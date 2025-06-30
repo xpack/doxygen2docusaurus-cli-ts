@@ -32,6 +32,7 @@ export declare class Class extends CompoundBase {
     templateParamList: TemplateParamListDataModel | undefined;
     constructor(collection: Classes, compoundDef: CompoundDefDataModel);
     initializeLate(): void;
+    hasAnyContent(): boolean;
     renderToLines(frontMatter: FrontMatter): string[];
     renderIndexToLines(): string[];
 }

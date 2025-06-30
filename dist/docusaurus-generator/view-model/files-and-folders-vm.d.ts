@@ -25,12 +25,13 @@ export declare class FilesAndFolders extends CollectionBase {
 }
 export declare class Folder extends CompoundBase {
     childrenFileIds: string[];
-    childrenFiles: File[];
     childrenFolderIds: string[];
-    childrenFolders: Folder[];
     relativePath: string;
     constructor(collection: FilesAndFolders, compoundDef: CompoundDefDataModel);
+    hasChildren(): boolean;
+    hasAnyContent(): boolean;
     renderToLines(frontMatter: FrontMatter): string[];
+    initializeLate(): void;
 }
 export declare class File extends CompoundBase {
     relativePath: string;
@@ -38,5 +39,6 @@ export declare class File extends CompoundBase {
     programListing: ProgramListingDataModel | undefined;
     constructor(collection: FilesAndFolders, compoundDef: CompoundDefDataModel);
     initializeLate(): void;
+    hasAnyContent(): boolean;
     renderToLines(frontMatter: FrontMatter): string[];
 }

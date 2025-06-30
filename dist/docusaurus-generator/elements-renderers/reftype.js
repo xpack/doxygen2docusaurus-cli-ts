@@ -8,8 +8,6 @@
  * If a copy of the license was not distributed with this file, it can
  * be obtained from https://opensource.org/licenses/MIT.
  */
-// ----------------------------------------------------------------------------
-import assert from 'assert';
 import { ElementLinesRendererBase } from './element-renderer-base.js';
 import { renderString } from '../utils.js';
 // ----------------------------------------------------------------------------
@@ -24,8 +22,12 @@ export class RefTypeLinesRenderer extends ElementLinesRendererBase {
         }
         const lines = [];
         const permalink = this.workspace.getPagePermalink(element.refid);
-        assert(permalink !== undefined && permalink.length > 1);
-        lines.push(`<a href="${permalink}">${renderString(element.text.trim(), type)}</a>`); // trim?
+        if (permalink !== undefined && permalink.length > 0) {
+            lines.push(`<a href="${permalink}">${renderString(element.text.trim(), type)}</a>`); // trim?
+        }
+        else {
+            lines.push(`${renderString(element.text.trim(), type)}`);
+        }
         return lines;
     }
 }

@@ -192,7 +192,7 @@ export class Classes extends CollectionBase {
         // console.log(util.inspect(classs, { compact: false, depth: 999 }))
         const lines = [];
         const permalink = this.workspace.getPagePermalink(classs.id);
-        assert(permalink !== undefined && permalink.length > 1);
+        assert(permalink !== undefined && permalink.length > 0);
         const iconLetters = {
             class: 'C',
             struct: 'S',
@@ -515,6 +515,24 @@ export class Class extends CompoundBase {
         this.derivedCompoundRefs = compoundDef.derivedCompoundRefs;
         this.templateParamList = compoundDef.templateParamList;
     }
+    hasAnyContent() {
+        if (this.childrenIds.length > 0) {
+            return true;
+        }
+        if (this.children.length > 0) {
+            return true;
+        }
+        if (this.innerCompounds !== undefined) {
+            return true;
+        }
+        if (this.sections.length > 0) {
+            return true;
+        }
+        if (this.includes !== undefined) {
+            return true;
+        }
+        return super.hasAnyContent();
+    }
     // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
         const lines = [];
@@ -674,7 +692,13 @@ export class Class extends CompoundBase {
         const workspace = this.collection.workspace;
         const permalink = workspace.getPagePermalink(this.id);
         const itemType = this.kind;
-        const itemName = `<a href="${permalink}">${escapeHtml(this.indexName)}</a>`;
+        let itemName;
+        if (permalink !== undefined && permalink.length > 0) {
+            itemName = `<a href="${permalink}">${escapeHtml(this.indexName)}</a>`;
+        }
+        else {
+            itemName = `${escapeHtml(this.indexName)}`;
+        }
         lines.push('');
         const childrenLines = [];
         const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? `${permalink}/#details` : undefined;
