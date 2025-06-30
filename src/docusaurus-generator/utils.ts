@@ -124,8 +124,7 @@ export function flattenPath (text: string): string {
   return text.replaceAll('/', '-')
 }
 
-export function stripPermalinkAnchor (refid: string): string {
-  // No idea why g is also used.
+export function stripPermalinkHexAnchor (refid: string): string {
   return refid.replace(/_1[0-9a-fg]*$/, '')
 }
 

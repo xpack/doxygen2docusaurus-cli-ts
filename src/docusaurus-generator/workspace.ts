@@ -23,7 +23,7 @@ import { CollectionBase } from './view-model/collection-base.js'
 import { Classes } from './view-model/classes-vm.js'
 import { DoxygenFileOptions } from './view-model/options.js'
 import { ElementLinesRendererBase, ElementStringRendererBase } from './elements-renderers/element-renderer-base.js'
-import { getPermalinkAnchor, renderString, stripPermalinkAnchor } from './utils.js'
+import { getPermalinkAnchor, renderString, stripPermalinkHexAnchor } from './utils.js'
 import { CompoundBase } from './view-model/compound-base-vm.js'
 import { Namespaces } from './view-model/namespaces-vm.js'
 import { FilesAndFolders, File } from './view-model/files-and-folders-vm.js'
@@ -339,7 +339,7 @@ export class Workspace {
             // console.log('  ', sectionDef.kind)
             for (const member of section.indexMembers) {
               if (member instanceof Member) {
-                const memberCompoundId = stripPermalinkAnchor(member.id)
+                const memberCompoundId = stripPermalinkHexAnchor(member.id)
                 if (memberCompoundId !== compound.id) {
                   // Skip member definitions from different compounds.
                   // Hopefully they are defined properly there.
@@ -813,7 +813,7 @@ export class Workspace {
       permalink = this.getPagePermalink(refid)
     } else if (kindref === 'member') {
       const anchor = getPermalinkAnchor(refid)
-      const compoundId = stripPermalinkAnchor(refid)
+      const compoundId = stripPermalinkHexAnchor(refid)
       // console.log('refid:', refid, 'compoundId:', compoundId, 'anchor:', anchor)
       permalink = this.getPagePermalink(compoundId, true)
       if (permalink !== undefined) {
