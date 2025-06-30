@@ -23,7 +23,7 @@ import { CollectionBase } from './view-model/collection-base.js'
 import { Classes } from './view-model/classes-vm.js'
 import { DoxygenFileOptions } from './view-model/options.js'
 import { ElementLinesRendererBase, ElementStringRendererBase } from './elements-renderers/element-renderer-base.js'
-import { getPermalinkAnchor, renderString, stripPermalinkHexAnchor } from './utils.js'
+import { getPermalinkAnchor, renderString, stripPermalinkHexAnchor, stripPermalinkTextAnchor } from './utils.js'
 import { CompoundBase } from './view-model/compound-base-vm.js'
 import { Namespaces } from './view-model/namespaces-vm.js'
 import { FilesAndFolders, File } from './view-model/files-and-folders-vm.js'
@@ -841,6 +841,18 @@ export class Workspace {
             console.error('Unknown permalink for', refid, 'in', this.constructor.name, 'getPermalink')
           }
         }
+      }
+      // console.log(permalink)
+      // }
+    } else if (kindref === 'xrefsect') {
+      const anchor = getPermalinkAnchor(refid)
+      const compoundId = stripPermalinkTextAnchor(refid)
+      // console.log('refid:', refid, 'compoundId:', compoundId, 'anchor:', anchor)
+      permalink = this.getPagePermalink(compoundId, true)
+      if (permalink !== undefined) {
+        permalink += `/#${anchor}`
+      } else {
+        console.error('Unknown permalink for', refid, 'in', this.constructor.name, 'getPermalink')
       }
       // console.log(permalink)
       // }

@@ -27,7 +27,8 @@ export class DocXRefSectLinesRenderer extends ElementLinesRendererBase {
     const lines: string[] = []
 
     const title = escapeHtml(element.xreftitle ?? '?')
-    const permalink: string = this.workspace.getXrefPermalink(element.id)
+    const permalink = this.workspace.getPermalink({ refid: element.id, kindref: 'xrefsect' })
+    assert(permalink !== undefined)
 
     lines.push('')
     lines.push('<div class="doxyXrefSect">')

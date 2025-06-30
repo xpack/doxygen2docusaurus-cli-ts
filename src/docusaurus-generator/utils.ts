@@ -128,6 +128,10 @@ export function stripPermalinkHexAnchor (refid: string): string {
   return refid.replace(/_1[0-9a-fg]*$/, '')
 }
 
+export function stripPermalinkTextAnchor (refid: string): string {
+  return refid.replace(/_1_[0-9a-z]*$/, '')
+}
+
 export function getPermalinkAnchor (refid: string): string {
   return refid.replace(/^.*_1/, '')
 }
