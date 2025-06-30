@@ -330,7 +330,10 @@ export class FilesAndFolders extends CollectionBase {
     const label = escapeHtml(folder.compoundName)
 
     const permalink = this.workspace.getPagePermalink(folder.id)
-    assert(permalink !== undefined && permalink.length > 1)
+    if (permalink === undefined || permalink.length === 0) {
+      // console.log(namespace)
+      return []
+    }
 
     let description: string = ''
     if (folder.briefDescriptionString !== undefined && folder.briefDescriptionString.length > 0) {
@@ -404,13 +407,9 @@ export class FilesAndFolders extends CollectionBase {
 // ----------------------------------------------------------------------------
 
 export class Folder extends CompoundBase {
-  // childrenIds & children - not used
-
   childrenFileIds: string[] = []
-  childrenFiles: File[] = []
 
   childrenFolderIds: string[] = []
-  childrenFolders: Folder[] = []
 
   relativePath: string = ''
 
@@ -447,6 +446,22 @@ export class Folder extends CompoundBase {
     this.createSections()
   }
 
+  hasChildren (): boolean {
+    for (const child of this.children) {
+      if (child instanceof File) {
+        return true
+      } else if (child instanceof Folder && child.hasChildren()) {
+        return true
+      }
+    }
+
+    return false
+  }
+
+  override hasAnyContent (): boolean {
+    return this.hasChildren()
+  }
+
   // --------------------------------------------------------------------------
 
   override renderToLines (frontMatter: FrontMatter): string[] {
@@ -478,6 +493,21 @@ export class Folder extends CompoundBase {
     lines.push(...this.renderSectionsToLines())
 
     return lines
+  }
+
+  override initializeLate (): void {
+    super.initializeLate()
+
+    // console.log(this)
+    if (!this.hasAnyContent()) {
+      if (this.collection.workspace.pluginOptions.debug) {
+        console.log(this.kind, this.compoundName, 'has no content, not shown')
+      }
+
+      this.docusaurusId = undefined
+      this.sidebarLabel = undefined
+      this.relativePermalink = undefined
+    }
   }
 }
 
@@ -514,12 +544,14 @@ export class File extends CompoundBase {
 
     this.programListing = compoundDef.programListing
 
-    // Keep track of line number, since not all lines referred exist and
-    // this might result in broken links.
-    if (this.programListing?.codelines !== undefined) {
-      for (const codeline of this.programListing?.codelines) {
-        if (codeline.lineno !== undefined) {
-          this.listingLineNumbers.add(codeline.lineno)
+    if (this.collection.workspace.pluginOptions.renderProgramListing) {
+      // Keep track of line number, since not all lines referred exist and
+      // this might result in broken links.
+      if (this.programListing?.codelines !== undefined) {
+        for (const codeline of this.programListing?.codelines) {
+          if (codeline.lineno !== undefined) {
+            this.listingLineNumbers.add(codeline.lineno)
+          }
         }
       }
     }
