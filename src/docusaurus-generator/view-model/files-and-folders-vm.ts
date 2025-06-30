@@ -373,7 +373,7 @@ export class FilesAndFolders extends CollectionBase {
     const label = escapeHtml(file.compoundName)
 
     const permalink = this.workspace.getPagePermalink(file.id, true)
-    if (permalink === undefined) {
+    if (permalink === undefined || permalink.length === 0) {
       return []
     }
 

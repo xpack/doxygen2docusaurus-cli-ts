@@ -252,7 +252,7 @@ export class Groups extends CollectionBase {
     const label = group.title ?? '?'
 
     const permalink = this.workspace.getPagePermalink(group.id)
-    assert(permalink !== undefined && permalink.length > 1)
+    assert(permalink !== undefined && permalink.length > 0)
 
     let description: string = ''
     if (group.briefDescriptionString !== undefined && group.briefDescriptionString.length > 0) {

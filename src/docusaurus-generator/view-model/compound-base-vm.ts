@@ -489,7 +489,12 @@ export abstract class CompoundBase {
             // Debatable. The compound name has the full namespace, the index has the template signature.
             const name = innerDataObject.indexName
 
-            const itemName = `<a href="${permalink}">${renderString(name, 'markdown')}</a>`
+            let itemName
+            if (permalink !== undefined && permalink.length > 0) {
+              itemName = `<a href="${permalink}">${renderString(name, 'markdown')}</a>`
+            } else {
+              itemName = `${renderString(name, 'markdown')}`
+            }
 
             const childrenLines: string[] = []
 
@@ -599,22 +604,27 @@ export abstract class CompoundBase {
       const file = workspace.filesByPath.get(location.file)
       if (file !== undefined) {
         const permalink = workspace.getPagePermalink(file.id)
+        assert(permalink !== undefined && permalink.length > 0)
 
         if (location.bodyfile !== undefined && location.file !== location.bodyfile) {
           text += 'Declaration '
           if (location.line !== undefined) {
             text += 'at line '
             const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
-            if (!file.listingLineNumbers.has(location.line)) {
-              text += location.line?.toString()
-            } else {
+            if (permalink !== undefined && permalink.length > 0 && file.listingLineNumbers.has(location.line)) {
               text += `<a href="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</a>`
+            } else {
+              text += location.line?.toString()
             }
             text += ' of file '
           } else {
             text += ' in file '
           }
-          text += `<a href="${permalink}">${escapeHtml(path.basename(location.file) as string)}</a>`
+          if (permalink !== undefined && permalink.length > 0) {
+            text += `<a href="${permalink}">${escapeHtml(path.basename(location.file) as string)}</a>`
+          } else {
+            text += `${escapeHtml(path.basename(location.file) as string)}`
+          }
 
           const definitionFile = workspace.filesByPath.get(location.bodyfile)
           if (definitionFile !== undefined) {
@@ -624,16 +634,20 @@ export abstract class CompoundBase {
             if (location.bodystart !== undefined) {
               text += 'at line '
               const lineStart = `l${location.bodystart?.toString().padStart(5, '0')}`
-              if (!definitionFile.listingLineNumbers.has(location.bodystart)) {
-                text += location.bodystart?.toString()
-              } else {
+              if (definitionPermalink !== undefined && definitionPermalink.length > 0 && definitionFile.listingLineNumbers.has(location.bodystart)) {
                 text += `<a href="${definitionPermalink}/#${lineStart}">${escapeHtml(location.bodystart?.toString() ?? '?')}</a>`
+              } else {
+                text += location.bodystart?.toString()
               }
               text += ' of file '
             } else {
               text += ' in file '
             }
-            text += `<a href="${definitionPermalink}">${escapeHtml(path.basename(location.bodyfile) as string)}</a>`
+            if (definitionPermalink !== undefined && definitionPermalink.length > 0) {
+              text += `<a href="${definitionPermalink}">${escapeHtml(path.basename(location.bodyfile) as string)}</a>`
+            } else {
+              text += `${escapeHtml(path.basename(location.bodyfile) as string)}`
+            }
           } else {
             if (this.collection.workspace.pluginOptions.verbose) {
               console.warn('File', location.bodyfile, 'not a location.')
@@ -645,16 +659,20 @@ export abstract class CompoundBase {
           if (location.line !== undefined) {
             text += 'at line '
             const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
-            if (!file.listingLineNumbers.has(location.line)) {
-              text += location.line?.toString()
-            } else {
+            if (permalink !== undefined && permalink.length > 0 && file.listingLineNumbers.has(location.line)) {
               text += `<a href="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</a>`
+            } else {
+              text += location.line?.toString()
             }
             text += ' of file '
           } else {
             text += ' in file '
           }
-          text += `<a href="${permalink}">${escapeHtml(path.basename(location.file) as string)}</a>`
+          if (permalink !== undefined && permalink.length > 0) {
+            text += `<a href="${permalink}">${escapeHtml(path.basename(location.file) as string)}</a>`
+          } else {
+            text += `<a href="${permalink}">${escapeHtml(path.basename(location.file) as string)}</a>`
+          }
           text += '.'
         }
       } else {

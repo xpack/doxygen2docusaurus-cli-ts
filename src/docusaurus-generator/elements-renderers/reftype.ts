@@ -34,9 +34,11 @@ export class RefTypeLinesRenderer extends ElementLinesRendererBase {
     const lines: string[] = []
 
     const permalink = this.workspace.getPagePermalink(element.refid)
-    assert(permalink !== undefined && permalink.length > 1)
-
-    lines.push(`<a href="${permalink}">${renderString(element.text.trim(), type)}</a>`) // trim?
+    if (permalink !== undefined && permalink.length > 0) {
+      lines.push(`<a href="${permalink}">${renderString(element.text.trim(), type)}</a>`) // trim?
+    } else {
+      lines.push(`${renderString(element.text.trim(), type)}`)
+    }
 
     return lines
   }

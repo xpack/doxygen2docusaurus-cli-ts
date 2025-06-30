@@ -234,7 +234,7 @@ export class Classes extends CollectionBase {
     const lines: string[] = []
 
     const permalink = this.workspace.getPagePermalink(classs.id)
-    assert(permalink !== undefined && permalink.length > 1)
+    assert(permalink !== undefined && permalink.length > 0)
 
     const iconLetters: Record<string, string> = {
       class: 'C',
@@ -853,7 +853,12 @@ export class Class extends CompoundBase {
     const permalink = workspace.getPagePermalink(this.id)
 
     const itemType = this.kind
-    const itemName = `<a href="${permalink}">${escapeHtml(this.indexName)}</a>`
+    let itemName
+    if (permalink !== undefined && permalink.length > 0) {
+      itemName = `<a href="${permalink}">${escapeHtml(this.indexName)}</a>`
+    } else {
+      itemName = `${escapeHtml(this.indexName)}`
+    }
 
     lines.push('')
 
