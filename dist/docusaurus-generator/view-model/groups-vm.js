@@ -159,7 +159,7 @@ export class Groups extends CollectionBase {
         }
         const lines = [];
         const projectBrief = this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF');
-        lines.push(`<p>${projectBrief} topics with brief descriptions are:</p>`);
+        lines.push(`${projectBrief} topics with brief descriptions are:`);
         lines.push('');
         lines.push('<table class="doxyTreeTable">');
         for (const group of this.topLevelGroups) {
@@ -190,12 +190,12 @@ export class Groups extends CollectionBase {
     // }
     generateIndexMdFileRecursively(group, depth) {
         const lines = [];
-        const label = group.title ?? '?';
+        const label = group.titleHtmlString ?? '?';
         const permalink = this.workspace.getPagePermalink(group.id);
         assert(permalink !== undefined && permalink.length > 0);
         let description = '';
-        if (group.briefDescriptionString !== undefined && group.briefDescriptionString.length > 0) {
-            description = group.briefDescriptionString.replace(/[.]$/, '');
+        if (group.briefDescriptionMarkdownString !== undefined && group.briefDescriptionMarkdownString.length > 0) {
+            description = group.briefDescriptionMarkdownString.replace(/[.]$/, '');
         }
         lines.push('');
         lines.push(...this.workspace.renderTreeTableRowToLines({
@@ -246,7 +246,7 @@ export class Group extends CompoundBase {
         const hasIndices = (this.renderDetailedDescriptionToLines !== undefined || this.hasSect1InDescription) && (this.hasInnerIndices() || this.hasSections());
         const morePermalink = hasIndices ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({
-            briefDescriptionNoParaString: this.briefDescriptionString,
+            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -255,8 +255,8 @@ export class Group extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToLines({
-            briefDescriptionNoParaString: this.briefDescriptionString,
-            detailedDescriptionLines: this.detailedDescriptionLines,
+            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+            detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
             todo: descriptionTodo,
             showHeader: !this.hasSect1InDescription,
             showBrief: !this.hasSect1InDescription

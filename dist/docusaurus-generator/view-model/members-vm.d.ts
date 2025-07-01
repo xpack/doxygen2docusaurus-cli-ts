@@ -32,20 +32,20 @@ declare class MemberBase {
 export declare class Member extends MemberBase {
     id: string;
     kind: string;
-    briefDescriptionNoParaString: string | undefined;
-    detailedDescriptionLines: string[] | undefined;
+    briefDescriptionMarkdownString: string | undefined;
+    detailedDescriptionMarkdownLines: string[] | undefined;
     argsstring: string | undefined;
     qualifiedName: string | undefined;
     definition: string | undefined;
     type: string | undefined;
-    initializerLines: string[] | undefined;
-    locationLines: string[] | undefined;
+    initializerMarkdownLines: string[] | undefined;
+    locationMarkdownLines: string[] | undefined;
     templateParameters: string | undefined;
-    enumLines: string[] | undefined;
-    parameters: string | undefined;
+    enumHtmlLines: string[] | undefined;
+    parametersHtmlString: string | undefined;
     programListing: ProgramListingDataModel | undefined;
-    referencedBy: string | undefined;
-    references: string | undefined;
+    referencedByMarkdownString: string | undefined;
+    referencesMarkdownString: string | undefined;
     labels: string[];
     isTrailingType: boolean;
     isConstexpr: boolean;

@@ -43,6 +43,20 @@ div.doxyPage pre code {
   border: 0.1rem solid var(--ifm-table-border-color);
 }
 
+table.doxyTable td, table.doxyTable th {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+blockquote.doxyBlockQuote {
+  background-color: var(--ifm-table-stripe-background);
+  border-radius: var(--ifm-global-radius);
+  border-left: calc(var(--ifm-blockquote-border-left-width) * 2) solid var(--ifm-blockquote-border-color);
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-left: 16px;
+}
+
 /* --- End DoxygenPage/styles.module.css --- */
 
 /* --- Begin EnumerationList/styles.module.css --- */
@@ -819,22 +833,34 @@ div.doxyDeclaration, div.doxyDefinition {
   vertical-align: initial
 }
 
-div.doxyVerbatim {
+div.doxyVerbatim, div.doxyPreformatted {
   background-color: var(--ifm-code-background);
   border: .1rem solid #0000001a;
   border-radius: var(--ifm-code-border-radius);
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--ifm-code-font-size);
   padding: 6px 12px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   vertical-align: initial;
   white-space: pre;
   overflow-x: auto;
 }
 
-div.doxyPage table.doxyTable caption, div.doxyPage figcaption{
+div.doxyVerbatim p:last-child, div.doxyPreformatted p:last-child {
+  margin-bottom: 0px;
+}
+
+div.doxyPage table.doxyTable caption, div.doxyPage figcaption {
   font-weight: bold;
   font-size: 95%;
   text-align: center;
+}
+
+div.doxyPage img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 dl.doxySectionUser dt {

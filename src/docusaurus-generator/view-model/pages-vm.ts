@@ -176,9 +176,9 @@ export class Page extends CompoundBase {
   override renderToLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    const morePermalink = this.detailedDescriptionLines !== undefined ? '#details' : undefined
+    const morePermalink = this.detailedDescriptionMarkdownLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToString({
-      briefDescriptionNoParaString: this.briefDescriptionString,
+      briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
       morePermalink
     }))
 
@@ -187,8 +187,8 @@ export class Page extends CompoundBase {
     lines.push(...this.renderSectionIndicesToLines())
 
     lines.push(...this.renderDetailedDescriptionToLines({
-      briefDescriptionNoParaString: this.briefDescriptionString,
-      detailedDescriptionLines: this.detailedDescriptionLines,
+      briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+      detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
       showHeader: false
     }))
 

@@ -165,7 +165,7 @@ export class Namespaces extends CollectionBase {
 
     const lines: string[] = []
 
-    lines.push('<p>The namespaces used by this project are:</p>')
+    lines.push('The namespaces used by this project are:')
 
     lines.push('')
     lines.push('<table class="doxyTreeTable">')
@@ -208,8 +208,8 @@ export class Namespaces extends CollectionBase {
     // assert(permalink !== undefined && permalink.length > 1)
 
     let description: string = ''
-    if (namespace.briefDescriptionString !== undefined && namespace.briefDescriptionString.length > 0) {
-      description = namespace.briefDescriptionString.replace(/[.]$/, '')
+    if (namespace.briefDescriptionMarkdownString !== undefined && namespace.briefDescriptionMarkdownString.length > 0) {
+      description = namespace.briefDescriptionMarkdownString.replace(/[.]$/, '')
     }
 
     lines.push('')
@@ -379,7 +379,7 @@ export class Namespace extends CompoundBase {
 
     const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToString({
-      briefDescriptionNoParaString: this.briefDescriptionString,
+      briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -404,8 +404,8 @@ export class Namespace extends CompoundBase {
     lines.push(...this.renderSectionIndicesToLines())
 
     lines.push(...this.renderDetailedDescriptionToLines({
-      briefDescriptionNoParaString: this.briefDescriptionString,
-      detailedDescriptionLines: this.detailedDescriptionLines,
+      briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+      detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
       todo: descriptionTodo,
       showHeader: true,
       showBrief: !this.hasSect1InDescription

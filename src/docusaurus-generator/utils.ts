@@ -70,12 +70,16 @@ export function escapeMarkdown (text: string): string {
     .replaceAll(/&/g, '&amp;')
     .replaceAll(/</g, '&lt;')
     .replaceAll(/>/g, '&gt;')
-    .replaceAll(/\[/g, '&#91;')
-    .replaceAll(/\]/g, '&#93;')
-    .replaceAll(/\*/g, '&#42;') // Markdown for bold
-    .replaceAll(/_/g, '&#95;') // Markdown for italics
+    .replaceAll(/\[/g, '\\[')
+    .replaceAll(/\]/g, '\\]')
+    .replaceAll(/\*/g, '\\*') // Markdown for bold
+    .replaceAll(/_/g, '\\_') // Markdown for italics
+    .replaceAll(/~/g, '\\~') // Markdown for strikethrough in GFM
 }
 
+/**
+ * In <code></code> only a few characters need to be escaped.
+ */
 export function escapeHtml (text: string): string {
   return text
     .replaceAll(/&/g, '&amp;')
@@ -109,14 +113,17 @@ export function sanitizeHierarchicalPath (text: string): string {
 }
 
 export function renderString (element: string, type: string): string {
-  if (type === 'unchanged') {
+  if (type === 'text') {
     return element
-  } else if (type === 'plain-html') {
-    return escapeBraces(element)
+  // } else if (type === 'plain-html') {
+  //   return escapeBraces(element)
   } else if (type === 'markdown') {
     return escapeMarkdown(element)
-  } else {
+  } else if (type === 'html') {
     return escapeHtml(element)
+  } else {
+    console.error('Unsupported type', type, 'in renderString')
+    return element
   }
 }
 
@@ -130,6 +137,18 @@ export function stripPermalinkHexAnchor (refid: string): string {
 
 export function stripPermalinkTextAnchor (refid: string): string {
   return refid.replace(/_1_[0-9a-z]*$/, '')
+}
+
+export function stripLeadingNewLines (text: string): string {
+  return text.replace(/^[\r\n]+/, '')
+}
+
+export function stripTrailingNewLines (text: string): string {
+  return text.replace(/[ \r\n]+$/, '')
+}
+
+export function stripLeadingAndTrailingNewLines (text: string): string {
+  return text.replace(/^[\r\n]+/, '').replace(/[ \r\n]+$/, '')
 }
 
 export function getPermalinkAnchor (refid: string): string {

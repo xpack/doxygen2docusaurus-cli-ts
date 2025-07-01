@@ -171,7 +171,7 @@ export class Section {
     assert(this._private._sectionDef !== undefined)
     const sectionDef = this._private._sectionDef
     if (sectionDef.description !== undefined) {
-      this.descriptionLines = workspace.renderElementToLines(sectionDef.description, 'html')
+      this.descriptionLines = workspace.renderElementToLines(sectionDef.description, 'markdown')
       // console.log(this.indexMembers, this.descriptionLines)
     }
   }
@@ -310,7 +310,7 @@ export class Section {
     if (this.descriptionLines !== undefined) {
       lines.push('')
       lines.push(...this.compound.renderDetailedDescriptionToLines({
-        detailedDescriptionLines: this.descriptionLines,
+        detailedDescriptionMarkdownLines: this.descriptionLines,
         showHeader: false
       }))
     }
@@ -346,24 +346,25 @@ export class Member extends MemberBase {
 
   kind: string
 
-  briefDescriptionNoParaString: string | undefined
-  detailedDescriptionLines: string[] | undefined
+  briefDescriptionMarkdownString: string | undefined
+  detailedDescriptionMarkdownLines: string[] | undefined
 
   argsstring: string | undefined
   qualifiedName: string | undefined
   definition: string | undefined
 
   type: string | undefined
-  initializerLines: string[] | undefined
-  locationLines: string[] | undefined
+  // Markdown, since it may include constructs like []().
+  initializerMarkdownLines: string[] | undefined
+  locationMarkdownLines: string[] | undefined
   templateParameters: string | undefined
-  enumLines: string[] | undefined
-  parameters: string | undefined
+  enumHtmlLines: string[] | undefined
+  parametersHtmlString: string | undefined
 
   programListing: ProgramListingDataModel | undefined
 
-  referencedBy: string | undefined
-  references: string | undefined
+  referencedByMarkdownString: string | undefined
+  referencesMarkdownString: string | undefined
 
   labels: string[] = []
   isTrailingType = false
@@ -404,11 +405,11 @@ export class Member extends MemberBase {
         }
       }
 
-      this.briefDescriptionNoParaString = workspace.renderElementToString(memberDef.briefDescription, 'html').trim()
+      this.briefDescriptionMarkdownString = workspace.renderElementToString(memberDef.briefDescription, 'markdown').trim()
     }
 
     if (memberDef.detailedDescription !== undefined) {
-      this.detailedDescriptionLines = workspace.renderElementToLines(memberDef.detailedDescription, 'html')
+      this.detailedDescriptionMarkdownLines = workspace.renderElementToLines(memberDef.detailedDescription, 'markdown')
     }
 
     this.argsstring = memberDef.argsstring
@@ -418,11 +419,11 @@ export class Member extends MemberBase {
     }
 
     if (memberDef.initializer !== undefined) {
-      this.initializerLines = workspace.renderElementToLines(memberDef.initializer, 'markdown')
+      this.initializerMarkdownLines = workspace.renderElementToLines(memberDef.initializer, 'markdown')
     }
 
     if (memberDef.location !== undefined) {
-      this.locationLines = this.section.compound.renderLocationToLines(memberDef.location)
+      this.locationMarkdownLines = this.section.compound.renderLocationToLines(memberDef.location)
 
       if (workspace.pluginOptions.renderProgramListingInline) {
         this.programListing = this.filterProgramListingForLocation(memberDef.location)
@@ -430,11 +431,11 @@ export class Member extends MemberBase {
     }
 
     if (memberDef.references !== undefined) {
-      this.references = this.section.compound.renderReferencesToString(memberDef.references)
+      this.referencesMarkdownString = this.section.compound.renderReferencesToString(memberDef.references)
     }
 
     if (memberDef.referencedBy !== undefined) {
-      this.referencedBy = this.section.compound.renderReferencedByToString(memberDef.referencedBy)
+      this.referencedByMarkdownString = this.section.compound.renderReferencedByToString(memberDef.referencedBy)
     }
 
     const labels: string[] = []
@@ -503,12 +504,12 @@ export class Member extends MemberBase {
         parameters.push(workspace.renderElementToString(param, 'html').trim())
       }
       if (parameters.length > 0) {
-        this.parameters = parameters.join(', ')
+        this.parametersHtmlString = parameters.join(', ')
       }
     }
 
     if (this.kind === 'enum') {
-      this.enumLines = this.renderEnumToLines(memberDef)
+      this.enumHtmlLines = this.renderEnumToLines(memberDef)
     }
 
     if (memberDef.qualifiedName !== undefined) {
@@ -675,11 +676,11 @@ export class Member extends MemberBase {
             itemType += type
           }
 
-          if (this.initializerLines !== undefined) {
+          if (this.initializerMarkdownLines !== undefined) {
             // Show only short initializers in the index.
             itemName += ' '
-            if (this.initializerLines.length === 1) {
-              itemName += this.initializerLines[0]
+            if (this.initializerMarkdownLines.length === 1) {
+              itemName += this.initializerMarkdownLines[0]
             } else {
               itemName += '= ...'
             }
@@ -707,11 +708,11 @@ export class Member extends MemberBase {
           itemName += this.argsstring
         }
 
-        if (this.initializerLines !== undefined) {
+        if (this.initializerMarkdownLines !== undefined) {
           // Show only short initializers in the index.
           itemName += ' '
-          if (this.initializerLines.length === 1) {
-            itemName += this.initializerLines[0]
+          if (this.initializerMarkdownLines.length === 1) {
+            itemName += this.initializerMarkdownLines[0]
           } else {
             itemName += '= ...'
           }
@@ -749,14 +750,14 @@ export class Member extends MemberBase {
         // console.log(this)
         itemType = '#define'
 
-        if (this.parameters !== undefined) {
-          itemName += `(${this.parameters})`
+        if (this.parametersHtmlString !== undefined) {
+          itemName += `(${this.parametersHtmlString})`
         }
 
-        if (this.initializerLines !== undefined) {
+        if (this.initializerMarkdownLines !== undefined) {
           itemName += '&nbsp;&nbsp;&nbsp;'
-          if (this.initializerLines.length === 1) {
-            itemName += this.initializerLines[0]
+          if (this.initializerMarkdownLines.length === 1) {
+            itemName += this.initializerMarkdownLines[0]
           } else {
             itemName += '...'
           }
@@ -776,10 +777,10 @@ export class Member extends MemberBase {
     }
 
     const childrenLines: string[] = []
-    const briefDescriptionNoParaString = this.briefDescriptionNoParaString
+    const briefDescriptionNoParaString = this.briefDescriptionMarkdownString
     if (briefDescriptionNoParaString !== undefined && briefDescriptionNoParaString.length > 0) {
       childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-        briefDescriptionNoParaString,
+        briefDescriptionMarkdownString: briefDescriptionNoParaString,
         morePermalink: `${permalink}` // No #details, it is already an anchor.
       }))
     }
@@ -832,16 +833,16 @@ export class Member extends MemberBase {
         if (this.kind === 'function') {
           prototype += ' ('
 
-          if (this.parameters !== undefined) {
-            prototype += this.parameters
+          if (this.parametersHtmlString !== undefined) {
+            prototype += this.parametersHtmlString
           }
 
           prototype += ')'
         }
 
-        if (this.initializerLines !== undefined) {
-          if (this.initializerLines.length === 1) {
-            prototype += ` ${this.initializerLines[0]}`
+        if (this.initializerMarkdownLines !== undefined) {
+          if (this.initializerMarkdownLines.length === 1) {
+            prototype += ` ${this.initializerMarkdownLines[0]}`
           }
         }
 
@@ -849,19 +850,19 @@ export class Member extends MemberBase {
           template = escapeHtml(`template ${this.templateParameters}`)
         }
 
-        if (this.briefDescriptionNoParaString !== undefined) {
+        if (this.briefDescriptionMarkdownString !== undefined) {
           childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-            briefDescriptionNoParaString: this.briefDescriptionNoParaString
+            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString
           }))
         }
 
-        if (this.initializerLines !== undefined && this.initializerLines.length > 1) {
+        if (this.initializerMarkdownLines !== undefined && this.initializerMarkdownLines.length > 1) {
           childrenLines.push('')
           childrenLines.push('<dl class="doxySectionUser">')
           childrenLines.push('<dt>Initialiser</dt>')
           childrenLines.push('<dd>')
-          childrenLines.push(`<div class="doxyVerbatim">${this.initializerLines[0]}`)
-          for (const initializerLine of this.initializerLines.slice(1)) {
+          childrenLines.push(`<div class="doxyVerbatim">${this.initializerMarkdownLines[0]}`)
+          for (const initializerLine of this.initializerMarkdownLines.slice(1)) {
             childrenLines.push(initializerLine)
           }
           childrenLines.push('</div>')
@@ -869,10 +870,10 @@ export class Member extends MemberBase {
           childrenLines.push('</dl>')
         }
 
-        if (this.detailedDescriptionLines !== undefined) {
+        if (this.detailedDescriptionMarkdownLines !== undefined) {
           childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-            briefDescriptionNoParaString: this.briefDescriptionNoParaString,
-            detailedDescriptionLines: this.detailedDescriptionLines,
+            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+            detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
             showHeader: false,
             showBrief: false
           }))
@@ -897,18 +898,18 @@ export class Member extends MemberBase {
           lines.push(`### ${prototype} {#${id}}`)
         }
 
-        if (this.briefDescriptionNoParaString !== undefined && this.briefDescriptionNoParaString.length > 0) {
+        if (this.briefDescriptionMarkdownString !== undefined && this.briefDescriptionMarkdownString.length > 0) {
           childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-            briefDescriptionNoParaString: this.briefDescriptionNoParaString
+            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString
           }))
         }
 
-        assert(this.enumLines !== undefined)
-        childrenLines.push(...this.enumLines)
+        assert(this.enumHtmlLines !== undefined)
+        childrenLines.push(...this.enumHtmlLines)
 
-        if (this.detailedDescriptionLines !== undefined) {
+        if (this.detailedDescriptionMarkdownLines !== undefined) {
           childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-            detailedDescriptionLines: this.detailedDescriptionLines,
+            detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
             showHeader: false,
             showBrief: false
           }))
@@ -928,12 +929,12 @@ export class Member extends MemberBase {
       case 'friend':
 
         // console.log(this)
-        prototype = `friend ${this.type} ${this.parameters}`
+        prototype = `friend ${this.type} ${this.parametersHtmlString}`
 
-        if (this.detailedDescriptionLines !== undefined) {
+        if (this.detailedDescriptionMarkdownLines !== undefined) {
           childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-            briefDescriptionNoParaString: this.briefDescriptionNoParaString,
-            detailedDescriptionLines: this.detailedDescriptionLines,
+            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+            detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
             showHeader: false,
             showBrief: true
           }))
@@ -946,33 +947,33 @@ export class Member extends MemberBase {
         // console.log(this)
         prototype = `#define ${name}`
 
-        if (this.parameters !== undefined) {
-          prototype += `(${this.parameters})`
+        if (this.parametersHtmlString !== undefined) {
+          prototype += `(${this.parametersHtmlString})`
         }
 
-        if (this.initializerLines !== undefined) {
+        if (this.initializerMarkdownLines !== undefined) {
           prototype += '&nbsp;&nbsp;&nbsp;'
-          if (this.initializerLines.length === 1) {
-            prototype += this.initializerLines[0]
+          if (this.initializerMarkdownLines.length === 1) {
+            prototype += this.initializerMarkdownLines[0]
           } else {
             prototype += '...'
           }
         }
 
-        if (this.briefDescriptionNoParaString !== undefined) {
+        if (this.briefDescriptionMarkdownString !== undefined) {
           childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-            briefDescriptionNoParaString: this.briefDescriptionNoParaString
+            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString
           }))
         }
 
-        if (this.initializerLines !== undefined && this.initializerLines.length > 1) {
+        if (this.initializerMarkdownLines !== undefined && this.initializerMarkdownLines.length > 1) {
           childrenLines.push('')
           childrenLines.push('<dl class="doxySectionUser">')
           childrenLines.push('<dt>Value</dt>')
           childrenLines.push('<dd>')
           // TODO make code
-          childrenLines.push(`<div class="doxyVerbatim">${this.initializerLines[0]}`)
-          for (const initializerLine of this.initializerLines.slice(1)) {
+          childrenLines.push(`<div class="doxyVerbatim">${this.initializerMarkdownLines[0]}`)
+          for (const initializerLine of this.initializerMarkdownLines.slice(1)) {
             childrenLines.push(initializerLine)
           }
           childrenLines.push('</div>')
@@ -981,8 +982,8 @@ export class Member extends MemberBase {
         }
 
         childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-          briefDescriptionNoParaString: this.briefDescriptionNoParaString,
-          detailedDescriptionLines: this.detailedDescriptionLines,
+          briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+          detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
           showHeader: false,
           showBrief: false
         }))
@@ -994,22 +995,22 @@ export class Member extends MemberBase {
         console.warn('memberDef', this.kind, this.name, 'not implemented yet in', this.constructor.name, 'renderToLines')
     }
 
-    if (this.locationLines !== undefined) {
-      childrenLines.push(...this.locationLines)
+    if (this.locationMarkdownLines !== undefined) {
+      childrenLines.push(...this.locationMarkdownLines)
     }
 
     if (this.programListing !== undefined) {
       childrenLines.push(...this.section.compound.collection.workspace.renderElementToLines(this.programListing, 'html'))
     }
 
-    if (this.references !== undefined) {
+    if (this.referencesMarkdownString !== undefined) {
       childrenLines.push('')
-      childrenLines.push(this.references)
+      childrenLines.push(this.referencesMarkdownString)
     }
 
-    if (this.referencedBy !== undefined) {
+    if (this.referencedByMarkdownString !== undefined) {
       childrenLines.push('')
-      childrenLines.push(this.referencedBy)
+      childrenLines.push(this.referencedByMarkdownString)
     }
 
     lines.push('')
@@ -1066,6 +1067,7 @@ export class Member extends MemberBase {
     lines.push('</table>')
     lines.push('</div>')
     lines.push('<div class="doxyMemberDoc">')
+    lines.push('') // Required to make the first line a separate paragraph.
     lines.push(...childrenLines)
     lines.push('</div>')
     lines.push('</div>')
@@ -1096,19 +1098,20 @@ export class Member extends MemberBase {
             }
           }
         }
-        let enumBriefDescription: string = workspace.renderElementToString(enumValue.briefDescription, 'html').trim().replace(/[.]$/, '')
+        let enumBriefDescriptionHtmlString: string = workspace.renderElementToString(enumValue.briefDescription, 'html').trim().replace(/[.]$/, '')
         // console.log(`|${enumBriefDescription}|`)
         const anchor = getPermalinkAnchor(enumValue.id)
         const value = workspace.renderElementToString(enumValue.initializer, 'html')
         if (value.length > 0) {
-          enumBriefDescription += ` (${value})`
+          enumBriefDescriptionHtmlString += ` (${value})`
         }
 
         lines.push('')
         // lines.push(`<a id="${anchor}"></a>`)
         lines.push('<tr class="doxyEnumItem">')
         lines.push(`<td class="doxyEnumItemName">${enumValue.name.trim()}<a id="${anchor}"></a></td>`)
-        lines.push(`<td class="doxyEnumItemDescription"><p>${enumBriefDescription}</p></td>`)
+        // lines.push(`<td class="doxyEnumItemDescription"><p>${enumBriefDescription}</p></td>`)
+        lines.push(`<td class="doxyEnumItemDescription">${enumBriefDescriptionHtmlString}</td>`)
         lines.push('</tr>')
       }
     }

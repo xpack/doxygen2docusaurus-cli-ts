@@ -17,7 +17,7 @@ import util from 'util'
 import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js'
 import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocBlockQuoteType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocHeadingType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractEmojiType, AbstractPreformattedType, AbstractSpType, AbstractVerbatimType, HrulerDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
-import { escapeHtml, escapeQuotes, getPermalinkAnchor, renderString } from '../utils.js'
+import { escapeHtml, getPermalinkAnchor, renderString, stripLeadingAndTrailingNewLines } from '../utils.js'
 import { AbstractDocHtmlOnlyType, LatexOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { AbstractDataModelBase } from '../../data-model/types.js'
 
@@ -61,11 +61,7 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
           // console.log(text)
           if (text.length > 0) {
             lines.push('')
-            if (element.skipPara) {
-              lines.push(text)
-            } else {
-              lines.push(`<p>${text}</p>`)
-            }
+            lines.push(text)
           }
           inParagraph = false
           text = ''
@@ -79,11 +75,7 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
       // console.log(text)
       if (text.length > 0) {
         lines.push('')
-        if (element.skipPara) {
-          lines.push(text)
-        } else {
-          lines.push(`<p>${text}</p>`)
-        }
+        lines.push(text)
       }
     }
 
@@ -283,7 +275,7 @@ export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
     lines.push('')
     if (DoxSimpleSectKind[element.kind] !== undefined) {
       const title = DoxSimpleSectKind[element.kind]
-      const body = this.workspace.renderElementsArrayToString(element.children, type).trim()
+      const body = this.workspace.renderElementsArrayToString(element.children, 'html').trim()
       lines.push('<dl class="doxySectionUser">')
       lines.push(`<dt>${title}</dt>`)
       if (body.length === 0) {
@@ -297,7 +289,7 @@ export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
     } else if (element.kind === 'par') {
       assert(element.title !== undefined)
       const title = element.title.replace(/\.$/, '')
-      const body = this.workspace.renderElementsArrayToString(element.children, type).trim()
+      const body = this.workspace.renderElementsArrayToString(element.children, 'html').trim()
       lines.push('<dl class="doxySectionUser">')
       lines.push(`<dt>${title}</dt>`)
       if (body.length === 0) {
@@ -458,7 +450,7 @@ export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
             }
 
             const parameters = this.workspace.renderElementToString(parameterItem.parameterDescription, type).trim()
-            const escapedName = escapeQuotes(names.join(', '))
+            const escapedName = escapeHtml(names.join(', '))
             lines.push('<tr class="doxyParamItem">')
             lines.push(`<td class="doxyParamItemName">${escapedName}</td>`)
             lines.push(`<td class="doxyParamItemDescription">${parameters}</td>`)
@@ -509,10 +501,11 @@ export class VerbatimStringRenderer extends ElementStringRendererBase {
     // The content must be on the same line.
     text += '\n'
     text += '<pre><code>'
-    text += this.workspace.renderElementsArrayToString(element.children, 'html').trim()
+    text += stripLeadingAndTrailingNewLines(this.workspace.renderElementsArrayToString(element.children, 'html'))
     text += '\n'
     text += '</code></pre>'
     text += '\n'
+    // text += '\n'
 
     return text
   }
@@ -530,10 +523,11 @@ export class PreformattedStringRenderer extends ElementStringRendererBase {
     // The content must be on the same line.
     text += '\n'
     text += '<pre><code>'
-    text += this.workspace.renderElementsArrayToString(element.children, 'html').trim()
+    text += stripLeadingAndTrailingNewLines(this.workspace.renderElementsArrayToString(element.children, 'html'))
     text += '\n'
     text += '</code></pre>'
     text += '\n'
+    // text += '\n'
 
     return text
   }
@@ -547,7 +541,7 @@ export class FormulaStringRenderer extends ElementStringRendererBase {
 
     let text = ''
 
-    const formula = renderString(element.text, 'html')
+    const formula = renderString(element.text, type)
     if (this.workspace.pluginOptions.verbose) {
       console.warn('LaTeX formula', formula, 'not rendered properly')
     }
@@ -590,7 +584,7 @@ export class ImageStringRenderer extends ElementStringRendererBase {
         text += '\n'
         text += `  <figcaption>${escapeHtml(element.caption)}</figcaption>`
       } else if (element.children !== undefined) {
-        const caption = this.workspace.renderElementsArrayToString(element.children, 'html').trim()
+        const caption = this.workspace.renderElementsArrayToString(element.children, type).trim()
         if (caption.length > 0) {
           text += '\n'
           text += `  <figcaption>${caption}</figcaption>`
@@ -614,7 +608,7 @@ export class HtmlOnlyStringRenderer extends ElementStringRendererBase {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''
-    text += renderString(element.text, 'plain-html')
+    text += renderString(element.text, 'text')
 
     return text
   }

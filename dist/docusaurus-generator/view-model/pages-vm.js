@@ -129,16 +129,16 @@ export class Page extends CompoundBase {
     // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
         const lines = [];
-        const morePermalink = this.detailedDescriptionLines !== undefined ? '#details' : undefined;
+        const morePermalink = this.detailedDescriptionMarkdownLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({
-            briefDescriptionNoParaString: this.briefDescriptionString,
+            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
             morePermalink
         }));
         lines.push(...this.renderInnerIndicesToLines({}));
         lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToLines({
-            briefDescriptionNoParaString: this.briefDescriptionString,
-            detailedDescriptionLines: this.detailedDescriptionLines,
+            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+            detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
             showHeader: false
         }));
         lines.push(...this.renderSectionsToLines());

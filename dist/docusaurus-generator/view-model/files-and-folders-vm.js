@@ -233,7 +233,7 @@ export class FilesAndFolders extends CollectionBase {
             keywords: ['doxygen', 'files', 'folders', 'reference']
         };
         const lines = [];
-        lines.push('<p>The files & folders that contributed content to this site are:</p>');
+        lines.push('The files & folders that contributed content to this site are:');
         lines.push('');
         lines.push('<table class="doxyTreeTable">');
         const contentLines = [];
@@ -266,8 +266,8 @@ export class FilesAndFolders extends CollectionBase {
             return [];
         }
         let description = '';
-        if (folder.briefDescriptionString !== undefined && folder.briefDescriptionString.length > 0) {
-            description = folder.briefDescriptionString.replace(/[.]$/, '');
+        if (folder.briefDescriptionMarkdownString !== undefined && folder.briefDescriptionMarkdownString.length > 0) {
+            description = folder.briefDescriptionMarkdownString.replace(/[.]$/, '');
         }
         lines.push('');
         lines.push(...this.workspace.renderTreeTableRowToLines({
@@ -300,8 +300,8 @@ export class FilesAndFolders extends CollectionBase {
             return [];
         }
         let description = '';
-        if (file.briefDescriptionString !== undefined && file.briefDescriptionString.length > 0) {
-            description = file.briefDescriptionString.replace(/[.]$/, '');
+        if (file.briefDescriptionMarkdownString !== undefined && file.briefDescriptionMarkdownString.length > 0) {
+            description = file.briefDescriptionMarkdownString.replace(/[.]$/, '');
         }
         lines.push('');
         lines.push(...this.workspace.renderTreeTableRowToLines({
@@ -379,7 +379,7 @@ export class Folder extends CompoundBase {
         const descriptionTodo = `@dir ${escapeHtml(this.relativePath)}`;
         const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({
-            briefDescriptionNoParaString: this.briefDescriptionString,
+            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -388,8 +388,8 @@ export class Folder extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToLines({
-            briefDescriptionNoParaString: this.briefDescriptionString,
-            detailedDescriptionLines: this.detailedDescriptionLines,
+            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+            detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
             todo: descriptionTodo,
             showHeader: true,
             showBrief: !this.hasSect1InDescription
@@ -479,7 +479,7 @@ export class File extends CompoundBase {
         const descriptionTodo = `@file ${escapeHtml(this.relativePath)}`;
         const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({
-            briefDescriptionNoParaString: this.briefDescriptionString,
+            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -489,8 +489,8 @@ export class File extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToLines({
-            briefDescriptionNoParaString: this.briefDescriptionString,
-            detailedDescriptionLines: this.detailedDescriptionLines,
+            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+            detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
             todo: descriptionTodo,
             showHeader: true,
             showBrief: !this.hasSect1InDescription
@@ -500,7 +500,7 @@ export class File extends CompoundBase {
             lines.push('');
             lines.push('## File Listing');
             lines.push('');
-            lines.push('<p>The file content with the documentation metadata removed is:</p>');
+            lines.push('The file content with the documentation metadata removed is:');
             lines.push(...this.collection.workspace.renderElementToLines(this.programListing, 'html'));
         }
         return lines;

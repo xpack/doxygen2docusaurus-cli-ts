@@ -14,7 +14,7 @@
 import assert from 'assert'
 import * as util from 'util'
 
-import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js'
+import { ElementLinesRendererBase } from './element-renderer-base.js'
 import { AbstractDocXRefSectType } from '../../data-model/compounds/descriptiontype-dm.js'
 import { escapeHtml } from '../utils.js'
 
@@ -36,7 +36,7 @@ export class DocXRefSectLinesRenderer extends ElementLinesRendererBase {
     lines.push(`<dt class="doxyXrefSectTitle"><a href=${permalink}>${title}</a></dt>`)
     lines.push('<dd class="doxyXrefSectDescription">')
 
-    lines.push(this.workspace.renderElementToString(element.xrefdescription, type).trim())
+    lines.push(this.workspace.renderElementToString(element.xrefdescription, 'html').trim())
     lines.push('</dd>')
     lines.push('</dl>')
     lines.push('</div>')

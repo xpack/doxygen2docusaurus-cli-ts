@@ -19,7 +19,7 @@ import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.
 import { FrontMatter } from '../types.js'
 import { ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { CollectionBase } from './collection-base.js'
-import { AbstractRefType, InnerClassDataModel } from '../../data-model/compounds/reftype-dm.js'
+import { AbstractRefType } from '../../data-model/compounds/reftype-dm.js'
 import { escapeHtml, joinWithLast, renderString } from '../utils.js'
 import { Section } from './members-vm.js'
 import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js'
@@ -43,7 +43,7 @@ export abstract class CompoundBase {
   // The collection this compound is part of.
   collection: CollectionBase
 
-  title: string | undefined
+  titleHtmlString: string | undefined
 
   locationFilePath: string | undefined
 
@@ -91,8 +91,8 @@ export abstract class CompoundBase {
   /** The name shown in the page title. */
   pageTitle: string = ''
 
-  briefDescriptionString: string | undefined
-  detailedDescriptionLines: string[] | undefined
+  briefDescriptionMarkdownString: string | undefined
+  detailedDescriptionMarkdownLines: string[] | undefined
   hasSect1InDescription: boolean = false
 
   locationLines: string[] | undefined
@@ -121,7 +121,7 @@ export abstract class CompoundBase {
     this.id = compoundDef.id
 
     if (compoundDef.title !== undefined) {
-      this.title = escapeHtml(compoundDef.title)
+      this.titleHtmlString = escapeHtml(compoundDef.title)
     }
 
     if (compoundDef?.location?.file !== undefined) {
@@ -279,15 +279,15 @@ export abstract class CompoundBase {
       assert(compoundDef.briefDescription.children !== undefined)
       if (compoundDef.briefDescription.children.length > 1) {
         assert(compoundDef.briefDescription.children[1] instanceof ParaDataModel)
-        this.briefDescriptionString = workspace.renderElementsArrayToString(compoundDef.briefDescription.children[1].children, 'html').trim()
+        this.briefDescriptionMarkdownString = workspace.renderElementsArrayToString(compoundDef.briefDescription.children[1].children, 'markdown').trim()
       } else {
-        this.briefDescriptionString = workspace.renderElementToString(compoundDef.briefDescription, 'html').trim()
+        this.briefDescriptionMarkdownString = workspace.renderElementToString(compoundDef.briefDescription, 'markdown').trim()
       }
     }
 
     if (compoundDef.detailedDescription !== undefined) {
       // console.log(compoundDef.detailedDescription)
-      this.detailedDescriptionLines = workspace.renderElementToLines(compoundDef.detailedDescription, 'html')
+      this.detailedDescriptionMarkdownLines = workspace.renderElementToLines(compoundDef.detailedDescription, 'markdown')
 
       // for (const child of compoundDef.detailedDescription.children) {
       //   if (child instanceof Sect1DataModel) {
@@ -352,11 +352,11 @@ export abstract class CompoundBase {
   // --------------------------------------------------------------------------
 
   renderBriefDescriptionToString ({
-    briefDescriptionNoParaString,
+    briefDescriptionMarkdownString,
     todo = '',
     morePermalink
   }: {
-    briefDescriptionNoParaString: string | undefined
+    briefDescriptionMarkdownString: string | undefined
     todo?: string
     morePermalink?: string | undefined
   }): string {
@@ -366,19 +366,19 @@ export abstract class CompoundBase {
       todo = ''
     }
 
-    if (briefDescriptionNoParaString === undefined && todo.length === 0) {
+    if (briefDescriptionMarkdownString === undefined && todo.length === 0) {
       return ''
     }
 
-    if (briefDescriptionNoParaString !== undefined && briefDescriptionNoParaString.length > 0) {
-      text += '<p>'
-      text += briefDescriptionNoParaString
+    if (briefDescriptionMarkdownString !== undefined && briefDescriptionMarkdownString.length > 0) {
+      // text += '<p>'
+      text += briefDescriptionMarkdownString
       if (morePermalink !== undefined && morePermalink.length > 0) {
         text += ` <a href="${morePermalink}">`
         text += 'More...'
         text += '</a>'
       }
-      text += '</p>'
+      // text += '</p>'
     } else if (todo.length > 0) {
       text += `TODO: add <code>@brief</code> to <code>${todo}</code>`
     }
@@ -387,14 +387,14 @@ export abstract class CompoundBase {
   }
 
   renderDetailedDescriptionToLines ({
-    briefDescriptionNoParaString,
-    detailedDescriptionLines,
+    briefDescriptionMarkdownString,
+    detailedDescriptionMarkdownLines,
     todo = '',
     showHeader,
     showBrief = false
   }: {
-    briefDescriptionNoParaString?: string | undefined
-    detailedDescriptionLines: string[] | undefined
+    briefDescriptionMarkdownString?: string | undefined
+    detailedDescriptionMarkdownLines: string[] | undefined
     todo?: string
     showHeader: boolean
     showBrief?: boolean
@@ -407,9 +407,9 @@ export abstract class CompoundBase {
 
     // const workspace = this.collection.workspace
     if (showHeader) {
-      if ((detailedDescriptionLines !== undefined && detailedDescriptionLines.length > 0) ||
+      if ((detailedDescriptionMarkdownLines !== undefined && detailedDescriptionMarkdownLines.length > 0) ||
         todo.length > 0 ||
-        (showBrief && briefDescriptionNoParaString !== undefined && briefDescriptionNoParaString.length > 0)) {
+        (showBrief && briefDescriptionMarkdownString !== undefined && briefDescriptionMarkdownString.length > 0)) {
         lines.push('')
         lines.push('## Description {#details}')
       }
@@ -419,17 +419,18 @@ export abstract class CompoundBase {
       if (showHeader) {
         lines.push('')
       }
-      if (briefDescriptionNoParaString !== undefined && briefDescriptionNoParaString.length > 0) {
-        lines.push(`<p>${briefDescriptionNoParaString}</p>`)
+      if (briefDescriptionMarkdownString !== undefined && briefDescriptionMarkdownString.length > 0) {
+        // lines.push(`<p>${briefDescriptionNoParaString}</p>`)
+        lines.push(`${briefDescriptionMarkdownString}`)
       } else if (todo.length > 0) {
         lines.push(`TODO: add <code>@brief</code> to <code>${todo}</code>`)
       }
     }
 
     // console.log(util.inspect(detailedDescriptionLines, { compact: false, depth: 999 }))
-    if (detailedDescriptionLines !== undefined && detailedDescriptionLines.length > 0) {
+    if (detailedDescriptionMarkdownLines !== undefined && detailedDescriptionMarkdownLines.length > 0) {
       lines.push('')
-      lines.push(...detailedDescriptionLines)
+      lines.push(...detailedDescriptionMarkdownLines)
     } else if (todo.length > 0) {
       lines.push('')
       lines.push(`TODO: add <code>@details</code> to <code>${todo}</code>`)
@@ -491,17 +492,17 @@ export abstract class CompoundBase {
 
             let itemName
             if (permalink !== undefined && permalink.length > 0) {
-              itemName = `<a href="${permalink}">${renderString(name, 'markdown')}</a>`
+              itemName = `<a href="${permalink}">${renderString(name, 'html')}</a>`
             } else {
-              itemName = `${renderString(name, 'markdown')}`
+              itemName = `${renderString(name, 'html')}`
             }
 
             const childrenLines: string[] = []
 
             const morePermalink = innerDataObject.renderDetailedDescriptionToLines !== undefined ? `${permalink}/#details` : undefined
-            if (innerDataObject.briefDescriptionString !== undefined && innerDataObject.briefDescriptionString.length > 0) {
+            if (innerDataObject.briefDescriptionMarkdownString !== undefined && innerDataObject.briefDescriptionMarkdownString.length > 0) {
               childrenLines.push(this.renderBriefDescriptionToString({
-                briefDescriptionNoParaString: innerDataObject.briefDescriptionString,
+                briefDescriptionMarkdownString: innerDataObject.briefDescriptionMarkdownString,
                 morePermalink
               }))
             }
@@ -684,7 +685,7 @@ export abstract class CompoundBase {
 
     if (text.length > 0) {
       lines.push('')
-      lines.push(`<p>${text}</p>`)
+      lines.push(`${text}`)
     }
 
     return lines
@@ -697,7 +698,7 @@ export abstract class CompoundBase {
       lines.push('')
       lines.push('<hr/>')
       lines.push('')
-      lines.push(`<p>The documentation for this ${this.kind} was generated from the following file${this.locationSet.size > 1 ? 's' : ''}:</p>`)
+      lines.push(`The documentation for this ${this.kind} was generated from the following file${this.locationSet.size > 1 ? 's' : ''}:`)
       lines.push('')
 
       lines.push('<ul>')
@@ -711,12 +712,12 @@ export abstract class CompoundBase {
         if (file !== undefined) {
           const permalink = workspace.getPagePermalink(file.id)
           if (permalink !== undefined && permalink.length > 0) {
-            lines.push(`<li><a href="${permalink}">${path.basename(fileName) as string}</a></li>`)
+            lines.push(`<li><a href="${permalink}">${escapeHtml(path.basename(fileName))}</a></li>`)
           } else {
-            lines.push(`<li>${path.basename(fileName) as string}</li>`)
+            lines.push(`<li>${escapeHtml(path.basename(fileName))}</li>`)
           }
         } else {
-          lines.push(`<li>${path.basename(fileName) as string}</li>`)
+          lines.push(`<li>${escapeHtml(path.basename(fileName))}</li>`)
         }
       }
       lines.push('</ul>')
@@ -905,11 +906,11 @@ export abstract class CompoundBase {
 
   // Override it
   hasAnyContent (): boolean {
-    if (this.briefDescriptionString !== undefined && this.briefDescriptionString.length > 0) {
+    if (this.briefDescriptionMarkdownString !== undefined && this.briefDescriptionMarkdownString.length > 0) {
       // console.log('has content brief', this.compoundName)
       return true
     }
-    if (this.detailedDescriptionLines !== undefined && this.detailedDescriptionLines.length > 0) {
+    if (this.detailedDescriptionMarkdownLines !== undefined && this.detailedDescriptionMarkdownLines.length > 0) {
       // console.log('has content details', this.compoundName)
       return true
     }

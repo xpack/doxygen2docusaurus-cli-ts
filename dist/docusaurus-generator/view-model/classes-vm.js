@@ -173,7 +173,7 @@ export class Classes extends CollectionBase {
             keywords: ['doxygen', 'classes', 'reference']
         };
         const lines = [];
-        lines.push('<p>The classes, structs, union and interfaces used by this project are:</p>');
+        lines.push('The classes, structs, union and interfaces used by this project are:');
         lines.push('');
         lines.push('<table class="doxyTreeTable">');
         for (const classs of this.topLevelClasses) {
@@ -205,8 +205,8 @@ export class Classes extends CollectionBase {
         }
         const label = escapeHtml(classs.unqualifiedName);
         let description = '';
-        if (classs.briefDescriptionString !== undefined && classs.briefDescriptionString.length > 0) {
-            description = classs.briefDescriptionString.replace(/[.]$/, '');
+        if (classs.briefDescriptionMarkdownString !== undefined && classs.briefDescriptionMarkdownString.length > 0) {
+            description = classs.briefDescriptionMarkdownString.replace(/[.]$/, '');
         }
         lines.push('');
         lines.push(...this.workspace.renderTreeTableRowToLines({
@@ -251,7 +251,7 @@ export class Classes extends CollectionBase {
                 keywords: ['doxygen', 'classes', 'index']
             };
             const lines = [];
-            lines.push('<p>The classes, structs, union interfaces and their members, variables, types used by this project are:</p>');
+            lines.push('The classes, structs, union interfaces and their members, variables, types used by this project are:');
             const orderedEntriesMap = this.orderPerInitials(allUnorderedEntriesMap);
             lines.push(...this.outputEntries(orderedEntriesMap));
             console.log(`Writing index file ${filePath}...`);
@@ -301,7 +301,7 @@ export class Classes extends CollectionBase {
                 keywords: ['doxygen', 'classes', 'index']
             };
             const lines = [];
-            lines.push('<p>The class member functions used by this project are:</p>');
+            lines.push('The class member functions used by this project are:');
             const classesUnorderedMap = new Map();
             for (const [id, entry] of allUnorderedEntriesMap) {
                 if (entry.kind === 'function') {
@@ -329,7 +329,7 @@ export class Classes extends CollectionBase {
                 keywords: ['doxygen', 'classes', 'index']
             };
             const lines = [];
-            lines.push('<p>The class member variables used by this project are:</p>');
+            lines.push('The class member variables used by this project are:');
             const classesUnorderedMap = new Map();
             for (const [id, entry] of allUnorderedEntriesMap) {
                 if (entry.kind === 'variable') {
@@ -357,7 +357,7 @@ export class Classes extends CollectionBase {
                 keywords: ['doxygen', 'classes', 'index']
             };
             const lines = [];
-            lines.push('<p>The class member type definitions used by this project are:</p>');
+            lines.push('The class member type definitions used by this project are:');
             const classesUnorderedMap = new Map();
             for (const [id, entry] of allUnorderedEntriesMap) {
                 if (entry.kind === 'typedef') {
@@ -539,7 +539,7 @@ export class Class extends CompoundBase {
         const descriptionTodo = `@${this.kind} ${escapeHtml(this.compoundName)}`;
         const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({
-            briefDescriptionNoParaString: this.briefDescriptionString,
+            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -547,8 +547,6 @@ export class Class extends CompoundBase {
         lines.push('## Declaration');
         const classs = this.collection.collectionCompoundsById.get(this.id);
         assert(classs !== undefined);
-        // const classFullName = this.classFullName
-        // This generates <pre><code>...</code></pre> and the copy button.
         lines.push('');
         lines.push('<div class="doxyDeclaration">');
         if (this.template !== undefined) {
@@ -583,7 +581,7 @@ export class Class extends CompoundBase {
                             continue;
                         }
                     }
-                    const itemName = renderString(baseCompoundRef.text, 'markdown');
+                    const itemName = renderString(baseCompoundRef.text, 'html');
                     lines.push('');
                     lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
                         type: this.kind,
@@ -629,7 +627,7 @@ export class Class extends CompoundBase {
                             if (this.collection.workspace.pluginOptions.verbose) {
                                 console.warn('Derived class id', derivedCompoundRef.refid, 'not a defined class');
                             }
-                            const itemName = renderString(derivedCompoundRef.text.trim(), 'markdown');
+                            const itemName = renderString(derivedCompoundRef.text.trim(), 'html');
                             lines.push('');
                             lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
                                 type: this.kind,
@@ -638,7 +636,7 @@ export class Class extends CompoundBase {
                         }
                     }
                     else {
-                        const itemName = renderString(derivedCompoundRef.text.trim(), 'markdown');
+                        const itemName = renderString(derivedCompoundRef.text.trim(), 'html');
                         lines.push('');
                         lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
                             type: this.kind,
@@ -673,8 +671,8 @@ export class Class extends CompoundBase {
         }));
         lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToLines({
-            briefDescriptionNoParaString: this.briefDescriptionString,
-            detailedDescriptionLines: this.detailedDescriptionLines,
+            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+            detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
             todo: descriptionTodo,
             showHeader: true,
             showBrief: !this.hasSect1InDescription
@@ -702,10 +700,10 @@ export class Class extends CompoundBase {
         lines.push('');
         const childrenLines = [];
         const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? `${permalink}/#details` : undefined;
-        const briefDescriptionString = this.briefDescriptionString;
+        const briefDescriptionString = this.briefDescriptionMarkdownString;
         if ((briefDescriptionString ?? '').length > 0) {
             childrenLines.push(this.renderBriefDescriptionToString({
-                briefDescriptionNoParaString: briefDescriptionString,
+                briefDescriptionMarkdownString: briefDescriptionString,
                 morePermalink
             }));
         }

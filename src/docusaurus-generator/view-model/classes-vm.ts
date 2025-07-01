@@ -208,7 +208,7 @@ export class Classes extends CollectionBase {
 
     const lines: string[] = []
 
-    lines.push('<p>The classes, structs, union and interfaces used by this project are:</p>')
+    lines.push('The classes, structs, union and interfaces used by this project are:')
 
     lines.push('')
     lines.push('<table class="doxyTreeTable">')
@@ -251,8 +251,8 @@ export class Classes extends CollectionBase {
     const label = escapeHtml(classs.unqualifiedName)
 
     let description: string = ''
-    if (classs.briefDescriptionString !== undefined && classs.briefDescriptionString.length > 0) {
-      description = classs.briefDescriptionString.replace(/[.]$/, '')
+    if (classs.briefDescriptionMarkdownString !== undefined && classs.briefDescriptionMarkdownString.length > 0) {
+      description = classs.briefDescriptionMarkdownString.replace(/[.]$/, '')
     }
 
     lines.push('')
@@ -308,7 +308,7 @@ export class Classes extends CollectionBase {
 
       const lines: string[] = []
 
-      lines.push('<p>The classes, structs, union interfaces and their members, variables, types used by this project are:</p>')
+      lines.push('The classes, structs, union interfaces and their members, variables, types used by this project are:')
 
       const orderedEntriesMap = this.orderPerInitials(allUnorderedEntriesMap)
 
@@ -374,7 +374,7 @@ export class Classes extends CollectionBase {
 
       const lines: string[] = []
 
-      lines.push('<p>The class member functions used by this project are:</p>')
+      lines.push('The class member functions used by this project are:')
 
       const classesUnorderedMap: Map<string, IndexEntry> = new Map()
       for (const [id, entry] of allUnorderedEntriesMap) {
@@ -410,7 +410,7 @@ export class Classes extends CollectionBase {
 
       const lines: string[] = []
 
-      lines.push('<p>The class member variables used by this project are:</p>')
+      lines.push('The class member variables used by this project are:')
 
       const classesUnorderedMap: Map<string, IndexEntry> = new Map()
       for (const [id, entry] of allUnorderedEntriesMap) {
@@ -446,7 +446,7 @@ export class Classes extends CollectionBase {
 
       const lines: string[] = []
 
-      lines.push('<p>The class member type definitions used by this project are:</p>')
+      lines.push('The class member type definitions used by this project are:')
 
       const classesUnorderedMap: Map<string, IndexEntry> = new Map()
       for (const [id, entry] of allUnorderedEntriesMap) {
@@ -549,6 +549,7 @@ export class Class extends CompoundBase {
   derivedCompoundRefs: DerivedCompoundRefDataModel[] | undefined
 
   templateParamList: TemplateParamListDataModel | undefined
+
   // --------------------------------------------------------------------------
 
   constructor (collection: Classes, compoundDef: CompoundDefDataModel) {
@@ -673,7 +674,7 @@ export class Class extends CompoundBase {
 
     const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToString({
-      briefDescriptionNoParaString: this.briefDescriptionString,
+      briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -684,9 +685,6 @@ export class Class extends CompoundBase {
     const classs = (this.collection as Classes).collectionCompoundsById.get(this.id) as Class
     assert(classs !== undefined)
 
-    // const classFullName = this.classFullName
-
-    // This generates <pre><code>...</code></pre> and the copy button.
     lines.push('')
     lines.push('<div class="doxyDeclaration">')
     if (this.template !== undefined) {
@@ -725,7 +723,7 @@ export class Class extends CompoundBase {
               continue
             }
           }
-          const itemName = renderString(baseCompoundRef.text, 'markdown')
+          const itemName = renderString(baseCompoundRef.text, 'html')
           lines.push('')
 
           lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
@@ -778,7 +776,7 @@ export class Class extends CompoundBase {
                 console.warn('Derived class id', derivedCompoundRef.refid, 'not a defined class')
               }
 
-              const itemName = renderString(derivedCompoundRef.text.trim(), 'markdown')
+              const itemName = renderString(derivedCompoundRef.text.trim(), 'html')
               lines.push('')
               lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
                 type: this.kind,
@@ -786,7 +784,7 @@ export class Class extends CompoundBase {
               }))
             }
           } else {
-            const itemName = renderString(derivedCompoundRef.text.trim(), 'markdown')
+            const itemName = renderString(derivedCompoundRef.text.trim(), 'html')
             lines.push('')
             lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
               type: this.kind,
@@ -826,8 +824,8 @@ export class Class extends CompoundBase {
     lines.push(...this.renderSectionIndicesToLines())
 
     lines.push(...this.renderDetailedDescriptionToLines({
-      briefDescriptionNoParaString: this.briefDescriptionString,
-      detailedDescriptionLines: this.detailedDescriptionLines,
+      briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+      detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
       todo: descriptionTodo,
       showHeader: true,
       showBrief: !this.hasSect1InDescription
@@ -864,10 +862,10 @@ export class Class extends CompoundBase {
 
     const childrenLines: string[] = []
     const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? `${permalink}/#details` : undefined
-    const briefDescriptionString: string | undefined = this.briefDescriptionString
+    const briefDescriptionString: string | undefined = this.briefDescriptionMarkdownString
     if ((briefDescriptionString ?? '').length > 0) {
       childrenLines.push(this.renderBriefDescriptionToString({
-        briefDescriptionNoParaString: briefDescriptionString,
+        briefDescriptionMarkdownString: briefDescriptionString,
         morePermalink
       }))
     }

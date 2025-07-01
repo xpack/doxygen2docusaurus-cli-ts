@@ -11,7 +11,7 @@ export declare abstract class CompoundBase {
     compoundName: string;
     id: string;
     collection: CollectionBase;
-    title: string | undefined;
+    titleHtmlString: string | undefined;
     locationFilePath: string | undefined;
     parent?: CompoundBase;
     childrenIds: string[];
@@ -44,8 +44,8 @@ export declare abstract class CompoundBase {
     indexName: string;
     /** The name shown in the page title. */
     pageTitle: string;
-    briefDescriptionString: string | undefined;
-    detailedDescriptionLines: string[] | undefined;
+    briefDescriptionMarkdownString: string | undefined;
+    detailedDescriptionMarkdownLines: string[] | undefined;
     hasSect1InDescription: boolean;
     locationLines: string[] | undefined;
     sections: Section[];
@@ -62,14 +62,14 @@ export declare abstract class CompoundBase {
     initializeLate(): void;
     isOperator(name: string): boolean;
     abstract renderToLines(frontMatter: FrontMatter): string[];
-    renderBriefDescriptionToString({ briefDescriptionNoParaString, todo, morePermalink }: {
-        briefDescriptionNoParaString: string | undefined;
+    renderBriefDescriptionToString({ briefDescriptionMarkdownString, todo, morePermalink }: {
+        briefDescriptionMarkdownString: string | undefined;
         todo?: string;
         morePermalink?: string | undefined;
     }): string;
-    renderDetailedDescriptionToLines({ briefDescriptionNoParaString, detailedDescriptionLines, todo, showHeader, showBrief }: {
-        briefDescriptionNoParaString?: string | undefined;
-        detailedDescriptionLines: string[] | undefined;
+    renderDetailedDescriptionToLines({ briefDescriptionMarkdownString, detailedDescriptionMarkdownLines, todo, showHeader, showBrief }: {
+        briefDescriptionMarkdownString?: string | undefined;
+        detailedDescriptionMarkdownLines: string[] | undefined;
         todo?: string;
         showHeader: boolean;
         showBrief?: boolean;
