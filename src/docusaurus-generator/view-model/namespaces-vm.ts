@@ -208,8 +208,8 @@ export class Namespaces extends CollectionBase {
     // assert(permalink !== undefined && permalink.length > 1)
 
     let description: string = ''
-    if (namespace.briefDescriptionMarkdownString !== undefined && namespace.briefDescriptionMarkdownString.length > 0) {
-      description = namespace.briefDescriptionMarkdownString.replace(/[.]$/, '')
+    if (namespace.briefDescriptionHtmlString !== undefined && namespace.briefDescriptionHtmlString.length > 0) {
+      description = namespace.briefDescriptionHtmlString.replace(/[.]$/, '')
     }
 
     lines.push('')
@@ -381,7 +381,7 @@ export class Namespace extends CompoundBase {
 
     const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToString({
-      briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+      briefDescriptionString: this.briefDescriptionMarkdownString,
       todo: descriptionTodo,
       morePermalink
     }))

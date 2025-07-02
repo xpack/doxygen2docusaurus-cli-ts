@@ -255,8 +255,8 @@ export class Groups extends CollectionBase {
     assert(permalink !== undefined && permalink.length > 0)
 
     let description: string = ''
-    if (group.briefDescriptionMarkdownString !== undefined && group.briefDescriptionMarkdownString.length > 0) {
-      description = group.briefDescriptionMarkdownString.replace(/[.]$/, '')
+    if (group.briefDescriptionHtmlString !== undefined && group.briefDescriptionHtmlString.length > 0) {
+      description = group.briefDescriptionHtmlString.replace(/[.]$/, '')
     }
 
     lines.push('')
@@ -326,7 +326,7 @@ export class Group extends CompoundBase {
     const morePermalink = hasIndices ? '#details' : undefined
 
     lines.push(this.renderBriefDescriptionToString({
-      briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+      briefDescriptionString: this.briefDescriptionMarkdownString,
       todo: descriptionTodo,
       morePermalink
     }))

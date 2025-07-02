@@ -336,8 +336,8 @@ export class FilesAndFolders extends CollectionBase {
     }
 
     let description: string = ''
-    if (folder.briefDescriptionMarkdownString !== undefined && folder.briefDescriptionMarkdownString.length > 0) {
-      description = folder.briefDescriptionMarkdownString.replace(/[.]$/, '')
+    if (folder.briefDescriptionHtmlString !== undefined && folder.briefDescriptionHtmlString.length > 0) {
+      description = folder.briefDescriptionHtmlString.replace(/[.]$/, '')
     }
 
     lines.push('')
@@ -378,8 +378,8 @@ export class FilesAndFolders extends CollectionBase {
     }
 
     let description: string = ''
-    if (file.briefDescriptionMarkdownString !== undefined && file.briefDescriptionMarkdownString.length > 0) {
-      description = file.briefDescriptionMarkdownString.replace(/[.]$/, '')
+    if (file.briefDescriptionHtmlString !== undefined && file.briefDescriptionHtmlString.length > 0) {
+      description = file.briefDescriptionHtmlString.replace(/[.]$/, '')
     }
 
     lines.push('')
@@ -480,7 +480,7 @@ export class Folder extends CompoundBase {
 
     const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToString({
-      briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+      briefDescriptionString: this.briefDescriptionMarkdownString,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -611,7 +611,7 @@ export class File extends CompoundBase {
 
     const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToString({
-      briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+      briefDescriptionString: this.briefDescriptionMarkdownString,
       todo: descriptionTodo,
       morePermalink
     }))

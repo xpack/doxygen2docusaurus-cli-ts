@@ -347,6 +347,7 @@ export class Member extends MemberBase {
   kind: string
 
   briefDescriptionMarkdownString: string | undefined
+  briefDescriptionHtmlString: string | undefined
   detailedDescriptionMarkdownLines: string[] | undefined
 
   argsstring: string | undefined
@@ -406,6 +407,12 @@ export class Member extends MemberBase {
       }
 
       this.briefDescriptionMarkdownString = workspace.renderElementToString(memberDef.briefDescription, 'markdown').trim()
+      const briefHtml = workspace.renderElementToString(memberDef.briefDescription, 'html').trim()
+      if (briefHtml !== this.briefDescriptionMarkdownString) {
+        this.briefDescriptionHtmlString = briefHtml
+      } else {
+        this.briefDescriptionHtmlString = this.briefDescriptionMarkdownString
+      }
     }
 
     if (memberDef.detailedDescription !== undefined) {
@@ -777,10 +784,10 @@ export class Member extends MemberBase {
     }
 
     const childrenLines: string[] = []
-    const briefDescriptionNoParaString = this.briefDescriptionMarkdownString
-    if (briefDescriptionNoParaString !== undefined && briefDescriptionNoParaString.length > 0) {
+    const briefDescriptionString = this.briefDescriptionHtmlString
+    if (briefDescriptionString !== undefined && briefDescriptionString.length > 0) {
       childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-        briefDescriptionMarkdownString: briefDescriptionNoParaString,
+        briefDescriptionString,
         morePermalink: `${permalink}` // No #details, it is already an anchor.
       }))
     }
@@ -854,7 +861,7 @@ export class Member extends MemberBase {
 
         if (this.briefDescriptionMarkdownString !== undefined) {
           childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString
+            briefDescriptionString: this.briefDescriptionMarkdownString
           }))
         }
 
@@ -906,7 +913,7 @@ export class Member extends MemberBase {
 
         if (this.briefDescriptionMarkdownString !== undefined && this.briefDescriptionMarkdownString.length > 0) {
           childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString
+            briefDescriptionString: this.briefDescriptionMarkdownString
           }))
         }
 
@@ -968,7 +975,7 @@ export class Member extends MemberBase {
 
         if (this.briefDescriptionMarkdownString !== undefined) {
           childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString
+            briefDescriptionString: this.briefDescriptionMarkdownString
           }))
         }
 

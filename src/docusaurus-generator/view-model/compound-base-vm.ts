@@ -92,6 +92,7 @@ export abstract class CompoundBase {
   pageTitle: string = ''
 
   briefDescriptionMarkdownString: string | undefined
+  briefDescriptionHtmlString: string | undefined
   detailedDescriptionMarkdownLines: string[] | undefined
   hasSect1InDescription: boolean = false
 
@@ -280,8 +281,20 @@ export abstract class CompoundBase {
       if (compoundDef.briefDescription.children.length > 1) {
         assert(compoundDef.briefDescription.children[1] instanceof ParaDataModel)
         this.briefDescriptionMarkdownString = workspace.renderElementsArrayToString(compoundDef.briefDescription.children[1].children, 'markdown').trim()
+        const briefHtml = workspace.renderElementsArrayToString(compoundDef.briefDescription.children[1].children, 'html').trim()
+        if (briefHtml !== this.briefDescriptionMarkdownString) {
+          this.briefDescriptionHtmlString = briefHtml
+        } else {
+          this.briefDescriptionHtmlString = this.briefDescriptionMarkdownString
+        }
       } else {
         this.briefDescriptionMarkdownString = workspace.renderElementToString(compoundDef.briefDescription, 'markdown').trim()
+        const briefHtml = workspace.renderElementToString(compoundDef.briefDescription, 'markdown').trim()
+        if (briefHtml !== this.briefDescriptionMarkdownString) {
+          this.briefDescriptionHtmlString = briefHtml
+        } else {
+          this.briefDescriptionHtmlString = this.briefDescriptionMarkdownString
+        }
       }
     }
 
@@ -352,11 +365,11 @@ export abstract class CompoundBase {
   // --------------------------------------------------------------------------
 
   renderBriefDescriptionToString ({
-    briefDescriptionMarkdownString,
+    briefDescriptionString,
     todo = '',
     morePermalink
   }: {
-    briefDescriptionMarkdownString: string | undefined
+    briefDescriptionString: string | undefined
     todo?: string
     morePermalink?: string | undefined
   }): string {
@@ -366,13 +379,13 @@ export abstract class CompoundBase {
       todo = ''
     }
 
-    if (briefDescriptionMarkdownString === undefined && todo.length === 0) {
+    if (briefDescriptionString === undefined && todo.length === 0) {
       return ''
     }
 
-    if (briefDescriptionMarkdownString !== undefined && briefDescriptionMarkdownString.length > 0) {
+    if (briefDescriptionString !== undefined && briefDescriptionString.length > 0) {
       // text += '<p>'
-      text += briefDescriptionMarkdownString
+      text += briefDescriptionString
       if (morePermalink !== undefined && morePermalink.length > 0) {
         text += ` <a href="${morePermalink}">`
         text += 'More...'
@@ -500,9 +513,9 @@ export abstract class CompoundBase {
             const childrenLines: string[] = []
 
             const morePermalink = innerDataObject.renderDetailedDescriptionToLines !== undefined ? `${permalink}/#details` : undefined
-            if (innerDataObject.briefDescriptionMarkdownString !== undefined && innerDataObject.briefDescriptionMarkdownString.length > 0) {
+            if (innerDataObject.briefDescriptionHtmlString !== undefined && innerDataObject.briefDescriptionHtmlString.length > 0) {
               childrenLines.push(this.renderBriefDescriptionToString({
-                briefDescriptionMarkdownString: innerDataObject.briefDescriptionMarkdownString,
+                briefDescriptionString: innerDataObject.briefDescriptionHtmlString,
                 morePermalink
               }))
             }

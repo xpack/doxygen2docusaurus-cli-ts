@@ -178,7 +178,7 @@ export class Page extends CompoundBase {
 
     const morePermalink = this.detailedDescriptionMarkdownLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToString({
-      briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+      briefDescriptionString: this.briefDescriptionMarkdownString,
       morePermalink
     }))
 
