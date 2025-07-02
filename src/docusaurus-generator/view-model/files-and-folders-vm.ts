@@ -437,7 +437,7 @@ export class Folder extends CompoundBase {
       }
     }
 
-    this.sidebarLabel = compoundDef.compoundName ?? '?'
+    this.sidebarLabel = compoundDef.compoundName ?? '???'
 
     this.indexName = this.sidebarLabel
 

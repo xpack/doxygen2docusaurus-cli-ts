@@ -536,11 +536,11 @@ export class Class extends CompoundBase {
   baseClassIds: Set<string> = new Set()
   baseClasses: Class[] = []
 
-  fullyQualifiedName: string = '?'
-  unqualifiedName: string = '?'
+  fullyQualifiedName: string = '???'
+  unqualifiedName: string = '???'
   templateParameters: string = ''
 
-  classFullName: string = '?'
+  classFullName: string = '???'
   template: string | undefined
 
   // Shortcuts, use data model objects.

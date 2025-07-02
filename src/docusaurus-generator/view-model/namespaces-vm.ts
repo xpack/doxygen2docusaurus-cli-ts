@@ -234,7 +234,7 @@ export class Namespaces extends CollectionBase {
 // ----------------------------------------------------------------------------
 
 export class Namespace extends CompoundBase {
-  unqualifiedName: string = '?'
+  unqualifiedName: string = '???'
   isAnonymous: boolean = false
 
   constructor (collection: Namespaces, compoundDef: CompoundDefDataModel) {

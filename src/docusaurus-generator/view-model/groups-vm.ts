@@ -222,7 +222,7 @@ export class Groups extends CollectionBase {
   }
 
   // private generateTableRowRecursively (group: Group): collapsibleTableRow {
-  //   const label = group.title ?? '?'
+  //   const label = group.title ?? '???'
 
   //   const permalink = this.workspace.getPagePermalink(group.id)
   //   assert(permalink !== undefined && permalink.length > 1)
@@ -249,7 +249,7 @@ export class Groups extends CollectionBase {
   private generateIndexMdFileRecursively (group: Group, depth: number): string[] {
     const lines: string[] = []
 
-    const label = group.titleHtmlString ?? '?'
+    const label = group.titleHtmlString ?? '???'
 
     const permalink = this.workspace.getPagePermalink(group.id)
     assert(permalink !== undefined && permalink.length > 0)
@@ -293,7 +293,7 @@ export class Group extends CompoundBase {
     }
 
     // The group title must be short.
-    this.sidebarLabel = compoundDef.title ?? '?'
+    this.sidebarLabel = compoundDef.title ?? '???'
 
     this.indexName = this.sidebarLabel
 
