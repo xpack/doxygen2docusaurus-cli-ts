@@ -293,9 +293,22 @@ export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
       if (body.length === 0) {
         lines.push('<dd></dd>')
       } else {
-        lines.push('<dd>')
-        lines.push(body)
-        lines.push('</dd>')
+        if (!body.includes('\n')) {
+          lines.push(`<dd>${body}</dd>`)
+        } else {
+          const bodyLines = body.split('\n')
+          lines.push(`<dd>${bodyLines[0]}`)
+          for (const bodyLine of bodyLines.slice(1)) {
+            if (bodyLine.trim().length > 0) {
+              lines.push(bodyLine)
+            } else {
+              // "A blank line ends the block-level HTML element."
+              // Without it admonitions are not rendered properly.
+              lines.push('&nbsp;')
+            }
+          }
+          lines.push('</dd>')
+        }
       }
       lines.push('</dl>')
     } else if (element.kind === 'par') {
@@ -307,9 +320,21 @@ export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
       if (body.length === 0) {
         lines.push('<dd></dd>')
       } else {
-        lines.push('<dd>')
-        lines.push(body)
-        lines.push('</dd>')
+        if (!body.includes('\n')) {
+          lines.push(`<dd>${body}</dd>`)
+        } else {
+          const bodyLines = body.split('\n')
+          lines.push(`<dd>${bodyLines[0]}`)
+          for (const bodyLine of bodyLines.slice(1)) {
+            if (bodyLine.trim().length > 0) {
+              lines.push(bodyLine)
+            } else {
+              // "A blank line ends the block-level HTML element."
+              lines.push('&nbsp;')
+            }
+          }
+          lines.push('</dd>')
+        }
       }
       lines.push('</dl>')
     } else if (element.kind === 'note') {
