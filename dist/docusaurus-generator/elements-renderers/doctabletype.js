@@ -43,7 +43,7 @@ export class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
         lines.push('<tr>');
-        lines.push(...this.workspace.renderElementsArrayToLines(element.entries, type));
+        lines.push(...this.workspace.renderElementsArrayToLines(element.entries, 'html'));
         lines.push('</tr>');
         return lines;
     }

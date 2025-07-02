@@ -11,7 +11,7 @@
 import assert from 'node:assert';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
-import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
+import { flattenPath, sanitizeHierarchicalPath } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class FilesAndFolders extends CollectionBase {
     // folders: Folders
@@ -259,7 +259,7 @@ export class FilesAndFolders extends CollectionBase {
     generateIndexMdFileRecursively(folder, depth) {
         // console.log(util.inspect(folder, { compact: false, depth: 999 }))
         const lines = [];
-        const label = escapeHtml(folder.compoundName);
+        const label = this.workspace.renderString(folder.compoundName, 'html');
         const permalink = this.workspace.getPagePermalink(folder.id);
         if (permalink === undefined || permalink.length === 0) {
             // console.log(namespace)
@@ -294,7 +294,7 @@ export class FilesAndFolders extends CollectionBase {
     generateFileIndexMd(file, depth) {
         // console.log(util.inspect(file, { compact: false, depth: 999 }))
         const lines = [];
-        const label = escapeHtml(file.compoundName);
+        const label = this.workspace.renderString(file.compoundName, 'html');
         const permalink = this.workspace.getPagePermalink(file.id, true);
         if (permalink === undefined || permalink.length === 0) {
             return [];
@@ -346,7 +346,7 @@ export class Folder extends CompoundBase {
                 this.childrenFileIds.push(ref.refid);
             }
         }
-        this.sidebarLabel = compoundDef.compoundName ?? '?';
+        this.sidebarLabel = compoundDef.compoundName ?? '???';
         this.indexName = this.sidebarLabel;
         this.pageTitle = `The \`${this.sidebarLabel}\` Folder Reference`;
         this.createSections();
@@ -376,7 +376,7 @@ export class Folder extends CompoundBase {
     // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
         const lines = [];
-        const descriptionTodo = `@dir ${escapeHtml(this.relativePath)}`;
+        const descriptionTodo = `@dir ${this.collection.workspace.renderString(this.relativePath, 'html')}`;
         const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({
             briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
@@ -476,7 +476,7 @@ export class File extends CompoundBase {
     // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
         const lines = [];
-        const descriptionTodo = `@file ${escapeHtml(this.relativePath)}`;
+        const descriptionTodo = `@file ${this.collection.workspace.renderString(this.relativePath, 'html')}`;
         const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({
             briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,

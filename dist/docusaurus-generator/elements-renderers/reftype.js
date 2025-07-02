@@ -9,7 +9,6 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 import { ElementLinesRendererBase } from './element-renderer-base.js';
-import { renderString } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class RefTypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
@@ -21,12 +20,13 @@ export class RefTypeLinesRenderer extends ElementLinesRendererBase {
             console.error(element.elementName, 'attribute inline not yet rendered in', this.constructor.name);
         }
         const lines = [];
+        const content = this.workspace.renderString(element.text.trim(), type);
         const permalink = this.workspace.getPagePermalink(element.refid);
         if (permalink !== undefined && permalink.length > 0) {
-            lines.push(`<a href="${permalink}">${renderString(element.text.trim(), type)}</a>`); // trim?
+            lines.push(`<a href="${permalink}">${content}</a>`);
         }
         else {
-            lines.push(`${renderString(element.text.trim(), type)}`);
+            lines.push(content);
         }
         return lines;
     }

@@ -11,7 +11,7 @@
 // ----------------------------------------------------------------------------
 import * as util from 'node:util';
 import assert from 'node:assert';
-import { escapeHtml, escapeMarkdown, getPermalinkAnchor } from '../utils.js';
+import { getPermalinkAnchor } from '../utils.js';
 import { MemberProgramListingDataModel, ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
 // ----------------------------------------------------------------------------
 export const sectionHeaders = {
@@ -453,16 +453,16 @@ export class Member extends MemberBase {
         const workspace = this.section.compound.collection.workspace;
         const permalink = workspace.getPermalink({ refid: this.id, kindref: 'member' });
         assert(permalink !== undefined && permalink.length > 1);
-        const name = escapeHtml(this.name);
+        const name = workspace.renderString(this.name, 'html');
         let itemTemplate = '';
         let itemType = '';
         let itemName = `<a href="${permalink}">${name}</a>`;
         if (this.templateParameters !== undefined && this.templateParameters.length > 0) {
             if (this.templateParameters.length < 64) {
-                itemTemplate = escapeHtml(`template ${this.templateParameters}`);
+                itemTemplate = workspace.renderString(`template ${this.templateParameters}`, 'html');
             }
             else {
-                itemTemplate = escapeHtml('template < ... >');
+                itemTemplate = workspace.renderString('template < ... >', 'html');
             }
         }
         switch (this.kind) {
@@ -496,14 +496,14 @@ export class Member extends MemberBase {
                     }
                     if (this.argsstring !== undefined) {
                         itemName += ' ';
-                        itemName += escapeHtml(this.argsstring);
+                        itemName += workspace.renderString(this.argsstring, 'html');
                     }
                     if (this.isTrailingType) {
                         if (!itemType.includes('auto')) {
                             itemType += 'auto ';
                         }
                         // WARNING: Doxygen shows this, but the resulting line is too long.
-                        itemName += escapeHtml(' -> ');
+                        itemName += workspace.renderString(' -> ', 'html');
                         itemName += type;
                     }
                     else {
@@ -530,10 +530,10 @@ export class Member extends MemberBase {
                 }
                 itemType += this.type;
                 if (this.definition?.startsWith('struct ')) {
-                    itemType = escapeHtml('struct { ... }');
+                    itemType = workspace.renderString('struct { ... }', 'html');
                 }
                 else if (this.definition?.startsWith('class ')) {
-                    itemType = escapeHtml('class { ... }');
+                    itemType = workspace.renderString('class { ... }', 'html');
                 }
                 if (this.argsstring !== undefined) {
                     itemName += this.argsstring;
@@ -563,9 +563,9 @@ export class Member extends MemberBase {
                 if (this.type !== undefined && this.type.length > 0) {
                     itemName += ` : ${this.type}`;
                 }
-                itemName += escapeHtml(' { ');
+                itemName += workspace.renderString(' { ', 'html');
                 itemName += `<a href="${permalink}">...</a>`;
-                itemName += escapeHtml(' }');
+                itemName += workspace.renderString(' }', 'html');
                 break;
             case 'friend':
                 // console.log(this)
@@ -614,12 +614,13 @@ export class Member extends MemberBase {
     // --------------------------------------------------------------------------
     renderToLines() {
         const lines = [];
+        const workspace = this.section.compound.collection.workspace;
         const isFunction = this.section.kind.startsWith('func') || this.section.kind.endsWith('func') || this.section.kind.endsWith('constructorr') || this.section.kind.endsWith('destructor') || this.section.kind.endsWith('operator');
         const id = getPermalinkAnchor(this.id);
         const name = this.name + (isFunction ? '()' : '');
         lines.push('');
         if (this.kind !== 'enum') {
-            lines.push(`### ${escapeMarkdown(name)} {#${id}}`);
+            lines.push(`### ${workspace.renderString(name, 'markdown')} {#${id}}`);
         }
         let template;
         let prototype;
@@ -633,7 +634,7 @@ export class Member extends MemberBase {
                 // WARNING: the rule to decide which type is trailing is not in XMLs.
                 // TODO: improve.
                 assert(this.definition !== undefined);
-                prototype = escapeHtml(this.definition);
+                prototype = workspace.renderString(this.definition, 'html');
                 if (this.isStatic) {
                     // The html pages show `static` only as a label; strip it.
                     prototype = prototype.replace(/^static /, '');
@@ -651,7 +652,7 @@ export class Member extends MemberBase {
                     }
                 }
                 if (this.templateParameters !== undefined && this.templateParameters.length > 0) {
-                    template = escapeHtml(`template ${this.templateParameters}`);
+                    template = workspace.renderString(`template ${this.templateParameters}`, 'html');
                 }
                 if (this.briefDescriptionMarkdownString !== undefined) {
                     childrenLines.push(this.section.compound.renderBriefDescriptionToString({
@@ -690,7 +691,7 @@ export class Member extends MemberBase {
                     prototype += 'class ';
                 }
                 if (this.name.length > 0) {
-                    lines.push(`### ${escapeMarkdown(name)} {#${id}}`);
+                    lines.push(`### ${workspace.renderString(name, 'markdown')} {#${id}}`);
                 }
                 else {
                     lines.push(`### ${prototype} {#${id}}`);
@@ -710,10 +711,10 @@ export class Member extends MemberBase {
                     }));
                 }
                 if (this.name.length > 0 && this.qualifiedName !== undefined) {
-                    prototype += `${escapeHtml(this.qualifiedName)} `;
+                    prototype += `${workspace.renderString(this.qualifiedName, 'html')} `;
                 }
                 else if (this.name.length > 0) {
-                    prototype += `${escapeHtml(this.name)} `;
+                    prototype += `${workspace.renderString(this.name, 'html')} `;
                 }
                 if (this.type !== undefined && this.type.length > 0) {
                     prototype += `: ${this.type}`;

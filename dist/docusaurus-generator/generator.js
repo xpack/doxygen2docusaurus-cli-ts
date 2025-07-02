@@ -38,9 +38,7 @@ export class DocusaurusGenerator {
         await this.generateTopIndexDotMdFile();
         await this.generateCollectionsIndexDotMdFiles();
         await this.generatePerInitialsIndexMdFiles();
-        if (this.workspace.pluginOptions.verbose) {
-            console.log(this.workspace.writtenMdFilesCounter, 'md files written');
-        }
+        console.log(this.workspace.writtenMdFilesCounter, '.md files written');
         // await this.generateManualRedirectFiles()
         await this.generateCompatibilityRedirectFiles();
         await this.copyFiles();

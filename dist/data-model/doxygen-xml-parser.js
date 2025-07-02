@@ -137,8 +137,8 @@ export class DoxygenXmlParser {
             }
         }
         assert(this.dataModel.doxyfile);
+        console.log(this.parsedFilesCounter, 'xml files parsed');
         if (this.verbose) {
-            console.log(this.parsedFilesCounter, 'xml files parsed');
             if (this.dataModel.images !== undefined) {
                 console.log(this.dataModel.images.length, 'images identified');
             }

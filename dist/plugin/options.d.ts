@@ -78,3 +78,4 @@ export interface PluginOptions {
 }
 export declare const defaultOptions: PluginConfigurationOptions;
 export declare function getInstanceDefaultOptions(id: string | undefined): PluginConfigurationOptions;
+export declare const renderParagraphs: boolean;

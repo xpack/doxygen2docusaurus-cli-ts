@@ -45,12 +45,12 @@ export class IndexEntry {
         }
         else {
             console.error('object type not supported in IndexEntry');
-            this.name = '?';
-            this.kind = '?';
-            this.objectKind = '?';
-            this.longName = '?';
+            this.name = '???';
+            this.kind = '???';
+            this.objectKind = '???';
+            this.longName = '???';
             // this.permalink = ''
-            this.id = '?';
+            this.id = '???';
         }
         // console.log(this)
     }

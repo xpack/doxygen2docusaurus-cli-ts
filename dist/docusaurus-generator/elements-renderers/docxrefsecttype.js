@@ -11,13 +11,12 @@
 // ----------------------------------------------------------------------------
 import assert from 'assert';
 import { ElementLinesRendererBase } from './element-renderer-base.js';
-import { escapeHtml } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class DocXRefSectLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
-        const title = escapeHtml(element.xreftitle ?? '?');
+        const title = this.workspace.renderString(element.xreftitle ?? '???', 'html');
         const permalink = this.workspace.getPermalink({ refid: element.id, kindref: 'xrefsect' });
         assert(permalink !== undefined);
         lines.push('');
@@ -25,7 +24,9 @@ export class DocXRefSectLinesRenderer extends ElementLinesRendererBase {
         lines.push('<dl class="doxyXrefSectList">');
         lines.push(`<dt class="doxyXrefSectTitle"><a href=${permalink}>${title}</a></dt>`);
         lines.push('<dd class="doxyXrefSectDescription">');
-        lines.push(this.workspace.renderElementToString(element.xrefdescription, 'html').trim());
+        if (element.xrefdescription !== undefined) {
+            lines.push(this.workspace.renderElementToString(element.xrefdescription, 'html').trim());
+        }
         lines.push('</dd>');
         lines.push('</dl>');
         lines.push('</div>');

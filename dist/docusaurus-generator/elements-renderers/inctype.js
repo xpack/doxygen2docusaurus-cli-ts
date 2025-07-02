@@ -9,7 +9,6 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 import { ElementLinesRendererBase } from './element-renderer-base.js';
-import { renderString } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class IncTypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
@@ -20,15 +19,15 @@ export class IncTypeLinesRenderer extends ElementLinesRendererBase {
             permalink = this.workspace.getPagePermalink(element.refId);
             // May be undefined.
         }
+        const content = this.workspace.renderString(element.text.trim(), type);
         let text = '';
-        // text += '<code>#include '
         text += '#include ';
         text += element.local ? '"' : '&lt;';
         if (permalink !== undefined && permalink.length > 0) {
-            text += `<a href="${permalink}">${renderString(element.text.trim(), type)}</a>`;
+            text += `<a href="${permalink}">${content}</a>`;
         }
         else {
-            text += renderString(element.text.trim(), type);
+            text += content;
         }
         text += element.local ? '"' : '&gt;';
         // text += '</code>'

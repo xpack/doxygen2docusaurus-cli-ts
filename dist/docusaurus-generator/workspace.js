@@ -17,7 +17,7 @@ import { AbstractDataModelBase } from '../data-model/types.js';
 import { Groups } from './view-model/groups-vm.js';
 import { Classes } from './view-model/classes-vm.js';
 import { DoxygenFileOptions } from './view-model/options.js';
-import { getPermalinkAnchor, renderString, stripPermalinkHexAnchor, stripPermalinkTextAnchor } from './utils.js';
+import { getPermalinkAnchor, stripPermalinkHexAnchor, stripPermalinkTextAnchor } from './utils.js';
 import { Namespaces } from './view-model/namespaces-vm.js';
 import { FilesAndFolders } from './view-model/files-and-folders-vm.js';
 import { Pages } from './view-model/pages-vm.js';
@@ -428,6 +428,33 @@ export class Workspace {
         this.writtenMdFilesCounter += 1;
     }
     // --------------------------------------------------------------------------
+    renderString(element, type) {
+        if (type === 'text') {
+            return element;
+        }
+        else if (type === 'markdown') {
+            return element
+                .replaceAll(/&/g, '&amp;')
+                .replaceAll(/</g, '&lt;')
+                .replaceAll(/>/g, '&gt;')
+                .replaceAll(/\\/g, '\\\\') // Must be placed before \[ \]
+                .replaceAll(/\[/g, '\\[')
+                .replaceAll(/\]/g, '\\]')
+                .replaceAll(/\*/g, '\\*') // Markdown for bold
+                .replaceAll(/_/g, '\\_') // Markdown for italics
+                .replaceAll(/~/g, '\\~'); // Markdown for strikethrough in GFM
+        }
+        else if (type === 'html') {
+            return element
+                .replaceAll(/&/g, '&amp;')
+                .replaceAll(/</g, '&lt;')
+                .replaceAll(/>/g, '&gt;');
+        }
+        else {
+            console.error('Unsupported type', type, 'in renderString');
+            return element;
+        }
+    }
     renderElementsArrayToLines(elements, type) {
         if (!Array.isArray(elements)) {
             return [];
@@ -447,7 +474,7 @@ export class Workspace {
                 return [];
             }
             else {
-                return [renderString(element, type)];
+                return [this.renderString(element, type)];
             }
         }
         if (Array.isArray(element)) {
@@ -484,7 +511,7 @@ export class Workspace {
             return '';
         }
         if (typeof element === 'string') {
-            return renderString(element, type);
+            return this.renderString(element, type);
         }
         if (Array.isArray(element)) {
             let text = '';

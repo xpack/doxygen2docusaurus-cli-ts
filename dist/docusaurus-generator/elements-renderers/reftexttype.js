@@ -9,7 +9,6 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 import { ElementStringRendererBase } from './element-renderer-base.js';
-import { renderString } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class RefTextTypeStringRenderer extends ElementStringRendererBase {
     renderToString(element, type) {
@@ -25,11 +24,12 @@ export class RefTextTypeStringRenderer extends ElementStringRendererBase {
             refid: element.refid,
             kindref: element.kindref
         });
+        const content = this.workspace.renderString(element.text.trim(), type);
         if (permalink !== undefined && permalink.length > 0) {
-            text += `<a href="${permalink}">${renderString(element.text.trim(), type)}</a>`;
+            text += `<a href="${permalink}">${content}</a>`;
         }
         else {
-            text += `${renderString(element.text.trim(), type)}`;
+            text += content;
         }
         return text;
     }

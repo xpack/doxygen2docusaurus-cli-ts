@@ -52,40 +52,41 @@ export function formatDate(date) {
 //     .replaceAll(/[&]/g, '%26')
 //     .replaceAll(/[*]/g, '%2A')
 // }
-/**
- * Escape characters that are problematic in a markdown context.
- * This includes HTML special chars and markdown delimiters.
- */
-export function escapeMarkdown(text) {
-    return text
-        .replaceAll(/&/g, '&amp;')
-        .replaceAll(/</g, '&lt;')
-        .replaceAll(/>/g, '&gt;')
-        .replaceAll(/\[/g, '\\[')
-        .replaceAll(/\]/g, '\\]')
-        .replaceAll(/\*/g, '\\*') // Markdown for bold
-        .replaceAll(/_/g, '\\_') // Markdown for italics
-        .replaceAll(/~/g, '\\~'); // Markdown for strikethrough in GFM
-}
-/**
- * In <code></code> only a few characters need to be escaped.
- */
-export function escapeHtml(text) {
-    return text
-        .replaceAll(/&/g, '&amp;')
-        .replaceAll(/</g, '&lt;')
-        .replaceAll(/>/g, '&gt;');
-}
-export function escapeQuotes(text) {
-    return text
-        .replaceAll(/"/g, '&quot;');
-}
-// type='plain-html'
-export function escapeBraces(text) {
-    return text
-        .replaceAll(/{/g, '&#123;') // MD
-        .replaceAll(/}/g, '&#125;'); // MD
-}
+// /**
+//  * Escape characters that are problematic in a markdown context.
+//  * This includes HTML special chars and markdown delimiters.
+//  */
+// export function escapeMarkdown (text: string): string {
+//   return text
+//     .replaceAll(/&/g, '&amp;')
+//     .replaceAll(/</g, '&lt;')
+//     .replaceAll(/>/g, '&gt;')
+//     .replaceAll(/\\/g, '\\\\') // Must be placed before \[ \]
+//     .replaceAll(/\[/g, '\\[')
+//     .replaceAll(/\]/g, '\\]')
+//     .replaceAll(/\*/g, '\\*') // Markdown for bold
+//     .replaceAll(/_/g, '\\_') // Markdown for italics
+//     .replaceAll(/~/g, '\\~') // Markdown for strikethrough in GFM
+// }
+// /**
+//  * In <code></code> only a few characters need to be escaped.
+//  */
+// export function escapeHtml (text: string): string {
+//   return text
+//     .replaceAll(/&/g, '&amp;')
+//     .replaceAll(/</g, '&lt;')
+//     .replaceAll(/>/g, '&gt;')
+// }
+// export function escapeQuotes (text: string): string {
+//   return text
+//     .replaceAll(/"/g, '&quot;')
+// }
+// // type='plain-html'
+// export function escapeBraces (text: string): string {
+//   return text
+//     .replaceAll(/{/g, '&#123;') // MD
+//     .replaceAll(/}/g, '&#125;') // MD
+// }
 // Preserve '/' too.
 export function sanitizeHierarchicalPath(text) {
     return text.toLowerCase()
@@ -97,23 +98,6 @@ export function sanitizeHierarchicalPath(text) {
         .replaceAll(/\(/g, '28')
         .replaceAll(/\)/g, '29')
         .replaceAll(/[^a-zA-Z0-9/-]/g, '-');
-}
-export function renderString(element, type) {
-    if (type === 'text') {
-        return element;
-        // } else if (type === 'plain-html') {
-        //   return escapeBraces(element)
-    }
-    else if (type === 'markdown') {
-        return escapeMarkdown(element);
-    }
-    else if (type === 'html') {
-        return escapeHtml(element);
-    }
-    else {
-        console.error('Unsupported type', type, 'in renderString');
-        return element;
-    }
 }
 export function flattenPath(text) {
     return text.replaceAll('/', '-');

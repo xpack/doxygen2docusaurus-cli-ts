@@ -12,7 +12,7 @@ import assert from 'node:assert';
 import path from 'node:path';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
-import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
+import { flattenPath, sanitizeHierarchicalPath } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class Namespaces extends CollectionBase {
     constructor() {
@@ -158,7 +158,7 @@ export class Namespaces extends CollectionBase {
     generateIndexMdFileRecursively(namespace, depth) {
         // console.log(util.inspect(namespace, { compact: false, depth: 999 }))
         const lines = [];
-        const label = escapeHtml(namespace.unqualifiedName);
+        const label = this.workspace.renderString(namespace.unqualifiedName, 'html');
         const permalink = this.workspace.getPagePermalink(namespace.id);
         if (permalink === undefined || permalink.length === 0) {
             // console.log(namespace)
@@ -189,7 +189,7 @@ export class Namespaces extends CollectionBase {
 export class Namespace extends CompoundBase {
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
-        this.unqualifiedName = '?';
+        this.unqualifiedName = '???';
         this.isAnonymous = false;
         // console.log('Namespace.constructor', util.inspect(compoundDef))
         if (Array.isArray(compoundDef.innerNamespaces)) {
@@ -303,7 +303,8 @@ export class Namespace extends CompoundBase {
     // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
         const lines = [];
-        const descriptionTodo = `@namespace ${escapeHtml(this.compoundName)}`;
+        const workspace = this.collection.workspace;
+        const descriptionTodo = `@namespace ${workspace.renderString(this.compoundName, 'html')}`;
         const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({
             briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
@@ -314,12 +315,12 @@ export class Namespace extends CompoundBase {
         lines.push('## Definition');
         lines.push('');
         lines.push('<div class="doxyDefinition">');
-        const dots = escapeHtml('{ ... }');
+        const dots = workspace.renderString('{ ... }', 'html');
         if (this.compoundName.startsWith('anonymous_namespace{')) {
             lines.push(`namespace ${dots}`);
         }
         else {
-            lines.push(`namespace ${escapeHtml(this.compoundName)} ${dots}`);
+            lines.push(`namespace ${workspace.renderString(this.compoundName, 'html')} ${dots}`);
         }
         lines.push('</div>');
         lines.push(...this.renderInnerIndicesToLines({

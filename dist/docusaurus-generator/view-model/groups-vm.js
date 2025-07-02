@@ -10,7 +10,7 @@
  */
 import assert from 'node:assert';
 import { CompoundBase } from './compound-base-vm.js';
-import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js';
+import { flattenPath, sanitizeHierarchicalPath } from '../utils.js';
 import { CollectionBase } from './collection-base.js';
 // Support for collapsible tables is experimental.
 // const useCollapsibleTable = false
@@ -170,7 +170,7 @@ export class Groups extends CollectionBase {
         return lines;
     }
     // private generateTableRowRecursively (group: Group): collapsibleTableRow {
-    //   const label = group.title ?? '?'
+    //   const label = group.title ?? '???'
     //   const permalink = this.workspace.getPagePermalink(group.id)
     //   assert(permalink !== undefined && permalink.length > 1)
     //   const description: string = group.briefDescriptionString?.replace(/[.]$/, '') ?? ''
@@ -190,7 +190,7 @@ export class Groups extends CollectionBase {
     // }
     generateIndexMdFileRecursively(group, depth) {
         const lines = [];
-        const label = group.titleHtmlString ?? '?';
+        const label = group.titleHtmlString ?? '???';
         const permalink = this.workspace.getPagePermalink(group.id);
         assert(permalink !== undefined && permalink.length > 0);
         let description = '';
@@ -224,7 +224,7 @@ export class Group extends CompoundBase {
             }
         }
         // The group title must be short.
-        this.sidebarLabel = compoundDef.title ?? '?';
+        this.sidebarLabel = compoundDef.title ?? '???';
         this.indexName = this.sidebarLabel;
         this.pageTitle = `The ${this.sidebarLabel} Reference`;
         const sanitizedPath = sanitizeHierarchicalPath(this.compoundName);
@@ -242,7 +242,7 @@ export class Group extends CompoundBase {
     // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
         const lines = [];
-        const descriptionTodo = `@defgroup ${escapeHtml(this.compoundName)}`;
+        const descriptionTodo = `@defgroup ${this.collection.workspace.renderString(this.compoundName, 'html')}`;
         const hasIndices = (this.renderDetailedDescriptionToLines !== undefined || this.hasSect1InDescription) && (this.hasInnerIndices() || this.hasSections());
         const morePermalink = hasIndices ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({

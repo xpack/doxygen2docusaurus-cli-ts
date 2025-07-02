@@ -64,6 +64,7 @@ export declare class Workspace {
         title?: string;
         pagePermalink?: string;
     }): Promise<void>;
+    renderString(element: string, type: string): string;
     renderElementsArrayToLines(elements: Object[] | undefined, type: string): string[];
     renderElementToLines(element: Object | undefined, type: string): string[];
     renderElementsArrayToString(elements: Object[] | undefined, type: string): string;
