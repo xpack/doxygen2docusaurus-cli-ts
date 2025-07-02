@@ -38,7 +38,7 @@ export declare class Member extends MemberBase {
     qualifiedName: string | undefined;
     definition: string | undefined;
     type: string | undefined;
-    initializerMarkdownLines: string[] | undefined;
+    initializerHtmlLines: string[] | undefined;
     locationMarkdownLines: string[] | undefined;
     templateParameters: string | undefined;
     enumHtmlLines: string[] | undefined;

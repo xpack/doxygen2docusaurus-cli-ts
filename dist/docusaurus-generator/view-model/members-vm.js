@@ -296,7 +296,7 @@ export class Member extends MemberBase {
             this.type = workspace.renderElementToString(memberDef.type, 'html').trim();
         }
         if (memberDef.initializer !== undefined) {
-            this.initializerMarkdownLines = workspace.renderElementToLines(memberDef.initializer, 'markdown');
+            this.initializerHtmlLines = workspace.renderElementToLines(memberDef.initializer, 'html');
         }
         if (memberDef.location !== undefined) {
             this.locationMarkdownLines = this.section.compound.renderLocationToLines(memberDef.location);
@@ -509,11 +509,11 @@ export class Member extends MemberBase {
                     else {
                         itemType += type;
                     }
-                    if (this.initializerMarkdownLines !== undefined) {
+                    if (this.initializerHtmlLines !== undefined) {
                         // Show only short initializers in the index.
                         itemName += ' ';
-                        if (this.initializerMarkdownLines.length === 1) {
-                            itemName += this.initializerMarkdownLines[0];
+                        if (this.initializerHtmlLines.length === 1) {
+                            itemName += this.initializerHtmlLines[0];
                         }
                         else {
                             itemName += '= ...';
@@ -538,11 +538,11 @@ export class Member extends MemberBase {
                 if (this.argsstring !== undefined) {
                     itemName += this.argsstring;
                 }
-                if (this.initializerMarkdownLines !== undefined) {
+                if (this.initializerHtmlLines !== undefined) {
                     // Show only short initializers in the index.
                     itemName += ' ';
-                    if (this.initializerMarkdownLines.length === 1) {
-                        itemName += this.initializerMarkdownLines[0];
+                    if (this.initializerHtmlLines.length === 1) {
+                        itemName += this.initializerHtmlLines[0];
                     }
                     else {
                         itemName += '= ...';
@@ -577,10 +577,10 @@ export class Member extends MemberBase {
                 if (this.parametersHtmlString !== undefined) {
                     itemName += `(${this.parametersHtmlString})`;
                 }
-                if (this.initializerMarkdownLines !== undefined) {
+                if (this.initializerHtmlLines !== undefined) {
                     itemName += '&nbsp;&nbsp;&nbsp;';
-                    if (this.initializerMarkdownLines.length === 1) {
-                        itemName += this.initializerMarkdownLines[0];
+                    if (this.initializerHtmlLines.length === 1) {
+                        itemName += this.initializerHtmlLines[0];
                     }
                     else {
                         itemName += '...';
@@ -646,9 +646,9 @@ export class Member extends MemberBase {
                     }
                     prototype += ')';
                 }
-                if (this.initializerMarkdownLines !== undefined) {
-                    if (this.initializerMarkdownLines.length === 1) {
-                        prototype += ` ${this.initializerMarkdownLines[0]}`;
+                if (this.initializerHtmlLines !== undefined) {
+                    if (this.initializerHtmlLines.length === 1) {
+                        prototype += ` ${this.initializerHtmlLines[0]}`;
                     }
                 }
                 if (this.templateParameters !== undefined && this.templateParameters.length > 0) {
@@ -659,14 +659,16 @@ export class Member extends MemberBase {
                         briefDescriptionMarkdownString: this.briefDescriptionMarkdownString
                     }));
                 }
-                if (this.initializerMarkdownLines !== undefined && this.initializerMarkdownLines.length > 1) {
+                if (this.initializerHtmlLines !== undefined && this.initializerHtmlLines.length > 1) {
                     childrenLines.push('');
                     childrenLines.push('<dl class="doxySectionUser">');
                     childrenLines.push('<dt>Initialiser</dt>');
                     childrenLines.push('<dd>');
-                    childrenLines.push(`<div class="doxyVerbatim">${this.initializerMarkdownLines[0]}`);
-                    for (const initializerLine of this.initializerMarkdownLines.slice(1)) {
-                        childrenLines.push(initializerLine);
+                    childrenLines.push(`<div class="doxyVerbatim">${this.initializerHtmlLines[0]}`);
+                    for (const initializerLine of this.initializerHtmlLines.slice(1)) {
+                        if (initializerLine.trim().length > 0) {
+                            childrenLines.push(initializerLine);
+                        }
                     }
                     childrenLines.push('</div>');
                     childrenLines.push('</dd>');
@@ -738,10 +740,10 @@ export class Member extends MemberBase {
                 if (this.parametersHtmlString !== undefined) {
                     prototype += `(${this.parametersHtmlString})`;
                 }
-                if (this.initializerMarkdownLines !== undefined) {
+                if (this.initializerHtmlLines !== undefined) {
                     prototype += '&nbsp;&nbsp;&nbsp;';
-                    if (this.initializerMarkdownLines.length === 1) {
-                        prototype += this.initializerMarkdownLines[0];
+                    if (this.initializerHtmlLines.length === 1) {
+                        prototype += this.initializerHtmlLines[0];
                     }
                     else {
                         prototype += '...';
@@ -752,15 +754,17 @@ export class Member extends MemberBase {
                         briefDescriptionMarkdownString: this.briefDescriptionMarkdownString
                     }));
                 }
-                if (this.initializerMarkdownLines !== undefined && this.initializerMarkdownLines.length > 1) {
+                if (this.initializerHtmlLines !== undefined && this.initializerHtmlLines.length > 1) {
                     childrenLines.push('');
                     childrenLines.push('<dl class="doxySectionUser">');
                     childrenLines.push('<dt>Value</dt>');
                     childrenLines.push('<dd>');
                     // TODO make code
-                    childrenLines.push(`<div class="doxyVerbatim">${this.initializerMarkdownLines[0]}`);
-                    for (const initializerLine of this.initializerMarkdownLines.slice(1)) {
-                        childrenLines.push(initializerLine);
+                    childrenLines.push(`<div class="doxyVerbatim">${this.initializerHtmlLines[0]}`);
+                    for (const initializerLine of this.initializerHtmlLines.slice(1)) {
+                        if (initializerLine.trim().length > 0) {
+                            childrenLines.push(initializerLine);
+                        }
                     }
                     childrenLines.push('</div>');
                     childrenLines.push('</dd>');
