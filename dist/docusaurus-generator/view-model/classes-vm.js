@@ -205,8 +205,8 @@ export class Classes extends CollectionBase {
         }
         const label = this.workspace.renderString(classs.unqualifiedName, 'html');
         let description = '';
-        if (classs.briefDescriptionMarkdownString !== undefined && classs.briefDescriptionMarkdownString.length > 0) {
-            description = classs.briefDescriptionMarkdownString.replace(/[.]$/, '');
+        if (classs.briefDescriptionHtmlString !== undefined && classs.briefDescriptionHtmlString.length > 0) {
+            description = classs.briefDescriptionHtmlString.replace(/[.]$/, '');
         }
         lines.push('');
         lines.push(...this.workspace.renderTreeTableRowToHtmlLines({
@@ -543,7 +543,7 @@ export class Class extends CompoundBase {
         const descriptionTodo = `@${this.kind} ${this.collection.workspace.renderString(this.compoundName, 'html')}`;
         const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({
-            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+            briefDescriptionString: this.briefDescriptionMarkdownString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -705,10 +705,10 @@ export class Class extends CompoundBase {
         lines.push('');
         const childrenLines = [];
         const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? `${permalink}/#details` : undefined;
-        const briefDescriptionString = this.briefDescriptionMarkdownString;
+        const briefDescriptionString = this.briefDescriptionHtmlString;
         if ((briefDescriptionString ?? '').length > 0) {
             childrenLines.push(this.renderBriefDescriptionToString({
-                briefDescriptionMarkdownString: briefDescriptionString,
+                briefDescriptionString,
                 morePermalink
             }));
         }

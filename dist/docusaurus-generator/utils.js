@@ -87,6 +87,9 @@ export function formatDate(date) {
 //     .replaceAll(/{/g, '&#123;') // MD
 //     .replaceAll(/}/g, '&#125;') // MD
 // }
+export function removeEmptyLines(text) {
+    return text.replace(/^\s*$(?:\r\n?|\n)/gm, '');
+}
 // Preserve '/' too.
 export function sanitizeHierarchicalPath(text) {
     return text.toLowerCase()

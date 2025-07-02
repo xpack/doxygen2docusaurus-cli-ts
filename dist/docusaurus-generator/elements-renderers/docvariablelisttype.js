@@ -9,6 +9,7 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 import { ElementLinesRendererBase } from './element-renderer-base.js';
+import { removeEmptyLines } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class DocVariableListTypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
@@ -32,7 +33,7 @@ export class VariableListPairLinesRenderer extends ElementLinesRendererBase {
         this.workspace.skipElementsPara(element.listitem.paras);
         const description = this.workspace.renderElementsArrayToString(element.listitem.paras, 'html').trim();
         lines.push(`<dt>${title}</dt>`);
-        lines.push(`<dd>${description}</dd>`);
+        lines.push(`<dd>${removeEmptyLines(description)}</dd>`);
         return lines;
     }
 }

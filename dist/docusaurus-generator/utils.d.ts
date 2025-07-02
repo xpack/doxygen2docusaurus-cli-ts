@@ -1,4 +1,5 @@
 export declare function formatDate(date: Date): string;
+export declare function removeEmptyLines(text: string): string;
 export declare function sanitizeHierarchicalPath(text: string): string;
 export declare function flattenPath(text: string): string;
 export declare function stripPermalinkHexAnchor(refid: string): string;

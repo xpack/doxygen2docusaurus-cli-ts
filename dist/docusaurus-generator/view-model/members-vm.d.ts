@@ -33,6 +33,7 @@ export declare class Member extends MemberBase {
     id: string;
     kind: string;
     briefDescriptionMarkdownString: string | undefined;
+    briefDescriptionHtmlString: string | undefined;
     detailedDescriptionMarkdownLines: string[] | undefined;
     argsstring: string | undefined;
     qualifiedName: string | undefined;

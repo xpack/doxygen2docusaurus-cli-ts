@@ -266,8 +266,8 @@ export class FilesAndFolders extends CollectionBase {
             return [];
         }
         let description = '';
-        if (folder.briefDescriptionMarkdownString !== undefined && folder.briefDescriptionMarkdownString.length > 0) {
-            description = folder.briefDescriptionMarkdownString.replace(/[.]$/, '');
+        if (folder.briefDescriptionHtmlString !== undefined && folder.briefDescriptionHtmlString.length > 0) {
+            description = folder.briefDescriptionHtmlString.replace(/[.]$/, '');
         }
         lines.push('');
         lines.push(...this.workspace.renderTreeTableRowToHtmlLines({
@@ -300,8 +300,8 @@ export class FilesAndFolders extends CollectionBase {
             return [];
         }
         let description = '';
-        if (file.briefDescriptionMarkdownString !== undefined && file.briefDescriptionMarkdownString.length > 0) {
-            description = file.briefDescriptionMarkdownString.replace(/[.]$/, '');
+        if (file.briefDescriptionHtmlString !== undefined && file.briefDescriptionHtmlString.length > 0) {
+            description = file.briefDescriptionHtmlString.replace(/[.]$/, '');
         }
         lines.push('');
         lines.push(...this.workspace.renderTreeTableRowToHtmlLines({
@@ -379,7 +379,7 @@ export class Folder extends CompoundBase {
         const descriptionTodo = `@dir ${this.collection.workspace.renderString(this.relativePath, 'html')}`;
         const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({
-            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+            briefDescriptionString: this.briefDescriptionMarkdownString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -479,7 +479,7 @@ export class File extends CompoundBase {
         const descriptionTodo = `@file ${this.collection.workspace.renderString(this.relativePath, 'html')}`;
         const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
         lines.push(this.renderBriefDescriptionToString({
-            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
+            briefDescriptionString: this.briefDescriptionMarkdownString,
             todo: descriptionTodo,
             morePermalink
         }));

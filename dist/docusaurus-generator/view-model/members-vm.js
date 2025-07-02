@@ -287,6 +287,13 @@ export class Member extends MemberBase {
                 }
             }
             this.briefDescriptionMarkdownString = workspace.renderElementToString(memberDef.briefDescription, 'markdown').trim();
+            const briefHtml = workspace.renderElementToString(memberDef.briefDescription, 'html').trim();
+            if (briefHtml !== this.briefDescriptionMarkdownString) {
+                this.briefDescriptionHtmlString = briefHtml;
+            }
+            else {
+                this.briefDescriptionHtmlString = this.briefDescriptionMarkdownString;
+            }
         }
         if (memberDef.detailedDescription !== undefined) {
             this.detailedDescriptionMarkdownLines = workspace.renderElementToLines(memberDef.detailedDescription, 'markdown');
@@ -596,10 +603,10 @@ export class Member extends MemberBase {
             console.warn('empty name in', this.id);
         }
         const childrenLines = [];
-        const briefDescriptionNoParaString = this.briefDescriptionMarkdownString;
-        if (briefDescriptionNoParaString !== undefined && briefDescriptionNoParaString.length > 0) {
+        const briefDescriptionString = this.briefDescriptionHtmlString;
+        if (briefDescriptionString !== undefined && briefDescriptionString.length > 0) {
             childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-                briefDescriptionMarkdownString: briefDescriptionNoParaString,
+                briefDescriptionString,
                 morePermalink: `${permalink}` // No #details, it is already an anchor.
             }));
         }
@@ -656,7 +663,7 @@ export class Member extends MemberBase {
                 }
                 if (this.briefDescriptionMarkdownString !== undefined) {
                     childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-                        briefDescriptionMarkdownString: this.briefDescriptionMarkdownString
+                        briefDescriptionString: this.briefDescriptionMarkdownString
                     }));
                 }
                 if (this.initializerHtmlLines !== undefined && this.initializerHtmlLines.length > 1) {
@@ -668,6 +675,8 @@ export class Member extends MemberBase {
                     for (const initializerLine of this.initializerHtmlLines.slice(1)) {
                         if (initializerLine.trim().length > 0) {
                             childrenLines.push(initializerLine);
+                            // } else {
+                            //   childrenLines.push('&nbsp;')
                         }
                     }
                     childrenLines.push('</div>');
@@ -700,7 +709,7 @@ export class Member extends MemberBase {
                 }
                 if (this.briefDescriptionMarkdownString !== undefined && this.briefDescriptionMarkdownString.length > 0) {
                     childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-                        briefDescriptionMarkdownString: this.briefDescriptionMarkdownString
+                        briefDescriptionString: this.briefDescriptionMarkdownString
                     }));
                 }
                 assert(this.enumHtmlLines !== undefined);
@@ -751,7 +760,7 @@ export class Member extends MemberBase {
                 }
                 if (this.briefDescriptionMarkdownString !== undefined) {
                     childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-                        briefDescriptionMarkdownString: this.briefDescriptionMarkdownString
+                        briefDescriptionString: this.briefDescriptionMarkdownString
                     }));
                 }
                 if (this.initializerHtmlLines !== undefined && this.initializerHtmlLines.length > 1) {
@@ -764,6 +773,8 @@ export class Member extends MemberBase {
                     for (const initializerLine of this.initializerHtmlLines.slice(1)) {
                         if (initializerLine.trim().length > 0) {
                             childrenLines.push(initializerLine);
+                            // } else {
+                            //   childrenLines.push('&nbsp;')
                         }
                     }
                     childrenLines.push('</div>');

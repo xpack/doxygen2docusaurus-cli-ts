@@ -176,11 +176,13 @@ export class ComputerOutputDataModelStringRenderer extends ElementStringRenderer
     renderToString(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         let text = '';
-        // Cannot use `...` since it may occur in a html paragraph.
-        text += '<code>'; // Was '<span class="doxyComputerOutput">'
+        // Cannot use `...` since it may include html code (like <a>).
+        // Cannot use <code> since Docusaurus renders it as a block if it includes
+        // other elements like <a>.
+        text += '<span class="doxyComputerOutput">';
         // Inherit type, do not use 'html' since Docusaurus may parse it as markdown.
         text += this.workspace.renderElementsArrayToString(element.children, type);
-        text += '</code>';
+        text += '</span>';
         return text;
     }
 }
@@ -268,9 +270,24 @@ export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
                 lines.push('<dd></dd>');
             }
             else {
-                lines.push('<dd>');
-                lines.push(body);
-                lines.push('</dd>');
+                if (!body.includes('\n')) {
+                    lines.push(`<dd>${body}</dd>`);
+                }
+                else {
+                    const bodyLines = body.split('\n');
+                    lines.push(`<dd>${bodyLines[0]}`);
+                    for (const bodyLine of bodyLines.slice(1)) {
+                        if (bodyLine.trim().length > 0) {
+                            lines.push(bodyLine);
+                        }
+                        else {
+                            // "A blank line ends the block-level HTML element."
+                            // Without it admonitions are not rendered properly.
+                            lines.push('&nbsp;');
+                        }
+                    }
+                    lines.push('</dd>');
+                }
             }
             lines.push('</dl>');
         }
@@ -284,9 +301,23 @@ export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
                 lines.push('<dd></dd>');
             }
             else {
-                lines.push('<dd>');
-                lines.push(body);
-                lines.push('</dd>');
+                if (!body.includes('\n')) {
+                    lines.push(`<dd>${body}</dd>`);
+                }
+                else {
+                    const bodyLines = body.split('\n');
+                    lines.push(`<dd>${bodyLines[0]}`);
+                    for (const bodyLine of bodyLines.slice(1)) {
+                        if (bodyLine.trim().length > 0) {
+                            lines.push(bodyLine);
+                        }
+                        else {
+                            // "A blank line ends the block-level HTML element."
+                            lines.push('&nbsp;');
+                        }
+                    }
+                    lines.push('</dd>');
+                }
             }
             lines.push('</dl>');
         }

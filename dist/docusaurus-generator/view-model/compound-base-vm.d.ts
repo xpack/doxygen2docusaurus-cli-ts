@@ -45,6 +45,7 @@ export declare abstract class CompoundBase {
     /** The name shown in the page title. */
     pageTitle: string;
     briefDescriptionMarkdownString: string | undefined;
+    briefDescriptionHtmlString: string | undefined;
     detailedDescriptionMarkdownLines: string[] | undefined;
     hasSect1InDescription: boolean;
     locationLines: string[] | undefined;
@@ -62,8 +63,8 @@ export declare abstract class CompoundBase {
     initializeLate(): void;
     isOperator(name: string): boolean;
     abstract renderToLines(frontMatter: FrontMatter): string[];
-    renderBriefDescriptionToString({ briefDescriptionMarkdownString, todo, morePermalink }: {
-        briefDescriptionMarkdownString: string | undefined;
+    renderBriefDescriptionToString({ briefDescriptionString, todo, morePermalink }: {
+        briefDescriptionString: string | undefined;
         todo?: string;
         morePermalink?: string | undefined;
     }): string;
