@@ -16,7 +16,6 @@ import * as util from 'util'
 
 import { ElementStringRendererBase } from './element-renderer-base.js'
 import { AbstractReferenceType, ReferenceDataModel, ReferencedByDataModel } from '../../data-model/compounds/referencetype-dm.js'
-import { renderString } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -31,7 +30,7 @@ export class ReferenceTypeStringRenderer extends ElementStringRendererBase {
     if (element instanceof ReferencedByDataModel || element instanceof ReferenceDataModel) {
       const memberPermalink = this.workspace.getPermalink({ refid: element.refid, kindref: 'member' })
       assert(memberPermalink !== undefined)
-      text += `<a href="${memberPermalink}">${renderString(element.text.trim(), type)}</a>`
+      text += `<a href="${memberPermalink}">${this.workspace.renderString(element.text.trim(), type)}</a>`
     } else {
       console.error(element.constructor.name, 'not implemented by', this.constructor.name)
       return ''

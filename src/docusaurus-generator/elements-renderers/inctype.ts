@@ -16,7 +16,6 @@ import * as util from 'util'
 
 import { ElementLinesRendererBase } from './element-renderer-base.js'
 import { AbstractIncType } from '../../data-model/compounds/inctype-dm.js'
-import { renderString } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -32,14 +31,14 @@ export class IncTypeLinesRenderer extends ElementLinesRendererBase {
       // May be undefined.
     }
 
+    const content = this.workspace.renderString(element.text.trim(), type)
     let text = ''
-    // text += '<code>#include '
     text += '#include '
     text += element.local ? '"' : '&lt;'
     if (permalink !== undefined && permalink.length > 0) {
-      text += `<a href="${permalink}">${renderString(element.text.trim(), type)}</a>`
+      text += `<a href="${permalink}">${content}</a>`
     } else {
-      text += renderString(element.text.trim(), type)
+      text += content
     }
     text += element.local ? '"' : '&gt;'
     // text += '</code>'

@@ -16,7 +16,6 @@ import * as util from 'util'
 
 import { ElementStringRendererBase } from './element-renderer-base.js'
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
-import { renderString } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -38,10 +37,11 @@ export class RefTextTypeStringRenderer extends ElementStringRendererBase {
       kindref: element.kindref
     })
 
+    const content = this.workspace.renderString(element.text.trim(), type)
     if (permalink !== undefined && permalink.length > 0) {
-      text += `<a href="${permalink}">${renderString(element.text.trim(), type)}</a>`
+      text += `<a href="${permalink}">${content}</a>`
     } else {
-      text += `${renderString(element.text.trim(), type)}`
+      text += content
     }
 
     return text

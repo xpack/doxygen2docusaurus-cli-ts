@@ -19,7 +19,7 @@ import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.
 import { CollectionBase } from './collection-base.js'
 import { MenuItem, SidebarCategory, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { Workspace } from '../workspace.js'
-import { escapeHtml, flattenPath, sanitizeHierarchicalPath } from '../utils.js'
+import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { FrontMatter } from '../types.js'
 import { ProgramListingDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 
@@ -327,7 +327,7 @@ export class FilesAndFolders extends CollectionBase {
 
     const lines: string[] = []
 
-    const label = escapeHtml(folder.compoundName)
+    const label = this.workspace.renderString(folder.compoundName, 'html')
 
     const permalink = this.workspace.getPagePermalink(folder.id)
     if (permalink === undefined || permalink.length === 0) {
@@ -370,7 +370,7 @@ export class FilesAndFolders extends CollectionBase {
     // console.log(util.inspect(file, { compact: false, depth: 999 }))
     const lines: string[] = []
 
-    const label = escapeHtml(file.compoundName)
+    const label = this.workspace.renderString(file.compoundName, 'html')
 
     const permalink = this.workspace.getPagePermalink(file.id, true)
     if (permalink === undefined || permalink.length === 0) {
@@ -476,7 +476,7 @@ export class Folder extends CompoundBase {
   override renderToLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    const descriptionTodo = `@dir ${escapeHtml(this.relativePath)}`
+    const descriptionTodo = `@dir ${this.collection.workspace.renderString(this.relativePath, 'html')}`
 
     const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToString({
@@ -607,7 +607,7 @@ export class File extends CompoundBase {
   override renderToLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    const descriptionTodo = `@file ${escapeHtml(this.relativePath)}`
+    const descriptionTodo = `@file ${this.collection.workspace.renderString(this.relativePath, 'html')}`
 
     const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToString({

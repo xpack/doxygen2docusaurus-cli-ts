@@ -23,7 +23,7 @@ import { CollectionBase } from './view-model/collection-base.js'
 import { Classes } from './view-model/classes-vm.js'
 import { DoxygenFileOptions } from './view-model/options.js'
 import { ElementLinesRendererBase, ElementStringRendererBase } from './elements-renderers/element-renderer-base.js'
-import { getPermalinkAnchor, renderString, stripPermalinkHexAnchor, stripPermalinkTextAnchor } from './utils.js'
+import { getPermalinkAnchor, stripPermalinkHexAnchor, stripPermalinkTextAnchor } from './utils.js'
 import { CompoundBase } from './view-model/compound-base-vm.js'
 import { Namespaces } from './view-model/namespaces-vm.js'
 import { FilesAndFolders, File } from './view-model/files-and-folders-vm.js'
@@ -602,6 +602,31 @@ export class Workspace {
 
   // --------------------------------------------------------------------------
 
+  renderString (element: string, type: string): string {
+    if (type === 'text') {
+      return element
+    } else if (type === 'markdown') {
+      return element
+        .replaceAll(/&/g, '&amp;')
+        .replaceAll(/</g, '&lt;')
+        .replaceAll(/>/g, '&gt;')
+        .replaceAll(/\\/g, '\\\\') // Must be placed before \[ \]
+        .replaceAll(/\[/g, '\\[')
+        .replaceAll(/\]/g, '\\]')
+        .replaceAll(/\*/g, '\\*') // Markdown for bold
+        .replaceAll(/_/g, '\\_') // Markdown for italics
+        .replaceAll(/~/g, '\\~') // Markdown for strikethrough in GFM
+    } else if (type === 'html') {
+      return element
+        .replaceAll(/&/g, '&amp;')
+        .replaceAll(/</g, '&lt;')
+        .replaceAll(/>/g, '&gt;')
+    } else {
+      console.error('Unsupported type', type, 'in renderString')
+      return element
+    }
+  }
+
   renderElementsArrayToLines (elements: Object[] | undefined, type: string): string[] {
     if (!Array.isArray(elements)) {
       return []
@@ -625,7 +650,7 @@ export class Workspace {
       if (element.startsWith('\n')) {
         return []
       } else {
-        return [renderString(element, type)]
+        return [this.renderString(element, type)]
       }
     }
 
@@ -671,7 +696,7 @@ export class Workspace {
     }
 
     if (typeof element === 'string') {
-      return renderString(element, type)
+      return this.renderString(element, type)
     }
 
     if (Array.isArray(element)) {

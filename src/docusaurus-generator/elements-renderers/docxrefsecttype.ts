@@ -16,7 +16,6 @@ import * as util from 'util'
 
 import { ElementLinesRendererBase } from './element-renderer-base.js'
 import { AbstractDocXRefSectType } from '../../data-model/compounds/descriptiontype-dm.js'
-import { escapeHtml } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -26,7 +25,7 @@ export class DocXRefSectLinesRenderer extends ElementLinesRendererBase {
 
     const lines: string[] = []
 
-    const title = escapeHtml(element.xreftitle ?? '?')
+    const title = this.workspace.renderString(element.xreftitle ?? '???', 'html')
     const permalink = this.workspace.getPermalink({ refid: element.id, kindref: 'xrefsect' })
     assert(permalink !== undefined)
 
@@ -36,7 +35,9 @@ export class DocXRefSectLinesRenderer extends ElementLinesRendererBase {
     lines.push(`<dt class="doxyXrefSectTitle"><a href=${permalink}>${title}</a></dt>`)
     lines.push('<dd class="doxyXrefSectDescription">')
 
-    lines.push(this.workspace.renderElementToString(element.xrefdescription, 'html').trim())
+    if (element.xrefdescription !== undefined) {
+      lines.push(this.workspace.renderElementToString(element.xrefdescription, 'html').trim())
+    }
     lines.push('</dd>')
     lines.push('</dl>')
     lines.push('</div>')

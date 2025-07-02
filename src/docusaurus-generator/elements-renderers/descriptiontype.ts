@@ -17,7 +17,7 @@ import util from 'util'
 import { ElementLinesRendererBase, ElementStringRendererBase } from './element-renderer-base.js'
 import { AbstractDescriptionType, AbstractDocAnchorType, AbstractDocBlockQuoteType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocHeadingType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocParamListType, AbstractDocParaType, AbstractDocRefTextType, AbstractDocSimpleSectType, AbstractDocURLLink, AbstractEmojiType, AbstractPreformattedType, AbstractSpType, AbstractVerbatimType, HrulerDataModel, ParameterNameDataModel, ParameterTypeDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.js'
-import { escapeHtml, getPermalinkAnchor, renderString, stripLeadingAndTrailingNewLines } from '../utils.js'
+import { getPermalinkAnchor, stripLeadingAndTrailingNewLines } from '../utils.js'
 import { AbstractDocHtmlOnlyType, LatexOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { AbstractDataModelBase } from '../../data-model/types.js'
 import { renderParagraphs } from '../../plugin/options.js'
@@ -462,7 +462,7 @@ export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
             }
 
             const parameters = this.workspace.renderElementToString(parameterItem.parameterDescription, 'html').trim()
-            const escapedName = escapeHtml(names.join(', '))
+            const escapedName = this.workspace.renderString(names.join(', '), 'html')
             lines.push('<tr class="doxyParamItem">')
             lines.push(`<td class="doxyParamItemName">${escapedName}</td>`)
             lines.push(`<td class="doxyParamItemDescription">${parameters}</td>`)
@@ -553,12 +553,13 @@ export class FormulaStringRenderer extends ElementStringRendererBase {
 
     let text = ''
 
-    const formula = renderString(element.text, type)
+    const formula = this.workspace.renderString(element.text, 'html')
     if (this.workspace.pluginOptions.verbose) {
       console.warn('LaTeX formula', formula, 'not rendered properly')
     }
 
     // element.id is ignored.
+    // Docusaurus renders it as a div with copy button.
     text += `<code>${formula}</code>`
 
     return text
@@ -594,7 +595,7 @@ export class ImageStringRenderer extends ElementStringRendererBase {
       text += '></img>'
       if (element.caption !== undefined) {
         text += '\n'
-        text += `  <figcaption>${escapeHtml(element.caption)}</figcaption>`
+        text += `  <figcaption>${this.workspace.renderString(element.caption, 'html')}</figcaption>`
       } else if (element.children !== undefined) {
         const caption = this.workspace.renderElementsArrayToString(element.children, 'html').trim()
         if (caption.length > 0) {
@@ -620,7 +621,7 @@ export class HtmlOnlyStringRenderer extends ElementStringRendererBase {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''
-    text += renderString(element.text, 'text')
+    text += this.workspace.renderString(element.text, 'text')
 
     return text
   }

@@ -20,7 +20,7 @@ import { FrontMatter } from '../types.js'
 import { ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { CollectionBase } from './collection-base.js'
 import { AbstractRefType } from '../../data-model/compounds/reftype-dm.js'
-import { escapeHtml, joinWithLast, renderString } from '../utils.js'
+import { joinWithLast } from '../utils.js'
 import { Section } from './members-vm.js'
 import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js'
 import { RefTextDataModel } from '../../data-model/compounds/reftexttype-dm.js'
@@ -121,7 +121,7 @@ export abstract class CompoundBase {
     this.id = compoundDef.id
 
     if (compoundDef.title !== undefined) {
-      this.titleHtmlString = escapeHtml(compoundDef.title)
+      this.titleHtmlString = this.collection.workspace.renderString(compoundDef.title, 'html')
     }
 
     if (compoundDef?.location?.file !== undefined) {
@@ -488,13 +488,13 @@ export abstract class CompoundBase {
             const permalink = workspace.getPagePermalink(innerObject.refid)
 
             // Debatable. The compound name has the full namespace, the index has the template signature.
-            const name = innerDataObject.indexName
+            const name = this.collection.workspace.renderString(innerDataObject.indexName, 'html')
 
             let itemName
             if (permalink !== undefined && permalink.length > 0) {
-              itemName = `<a href="${permalink}">${renderString(name, 'html')}</a>`
+              itemName = `<a href="${permalink}">${name}</a>`
             } else {
-              itemName = `${renderString(name, 'html')}`
+              itemName = name
             }
 
             const childrenLines: string[] = []
@@ -613,7 +613,7 @@ export abstract class CompoundBase {
             text += 'at line '
             const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
             if (permalink !== undefined && permalink.length > 0 && file.listingLineNumbers.has(location.line)) {
-              text += `<a href="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</a>`
+              text += `<a href="${permalink}/#${lineAttribute}">${workspace.renderString(location.line?.toString() ?? '???', 'html')}</a>`
             } else {
               text += location.line?.toString()
             }
@@ -621,10 +621,11 @@ export abstract class CompoundBase {
           } else {
             text += ' in file '
           }
+          const locationFile = workspace.renderString(path.basename(location.file) as string, 'html')
           if (permalink !== undefined && permalink.length > 0) {
-            text += `<a href="${permalink}">${escapeHtml(path.basename(location.file) as string)}</a>`
+            text += `<a href="${permalink}">${locationFile}</a>`
           } else {
-            text += `${escapeHtml(path.basename(location.file) as string)}`
+            text += locationFile
           }
 
           const definitionFile = workspace.filesByPath.get(location.bodyfile)
@@ -636,7 +637,7 @@ export abstract class CompoundBase {
               text += 'at line '
               const lineStart = `l${location.bodystart?.toString().padStart(5, '0')}`
               if (definitionPermalink !== undefined && definitionPermalink.length > 0 && definitionFile.listingLineNumbers.has(location.bodystart)) {
-                text += `<a href="${definitionPermalink}/#${lineStart}">${escapeHtml(location.bodystart?.toString() ?? '?')}</a>`
+                text += `<a href="${definitionPermalink}/#${lineStart}">${workspace.renderString(location.bodystart?.toString() ?? '???', 'html')}</a>`
               } else {
                 text += location.bodystart?.toString()
               }
@@ -644,10 +645,11 @@ export abstract class CompoundBase {
             } else {
               text += ' in file '
             }
+            const locationBodyFile = workspace.renderString(path.basename(location.bodyfile) as string, 'html')
             if (definitionPermalink !== undefined && definitionPermalink.length > 0) {
-              text += `<a href="${definitionPermalink}">${escapeHtml(path.basename(location.bodyfile) as string)}</a>`
+              text += `<a href="${definitionPermalink}">${locationBodyFile}</a>`
             } else {
-              text += `${escapeHtml(path.basename(location.bodyfile) as string)}`
+              text += locationBodyFile
             }
           } else {
             if (this.collection.workspace.pluginOptions.verbose) {
@@ -661,7 +663,7 @@ export abstract class CompoundBase {
             text += 'at line '
             const lineAttribute = `l${location.line?.toString().padStart(5, '0')}`
             if (permalink !== undefined && permalink.length > 0 && file.listingLineNumbers.has(location.line)) {
-              text += `<a href="${permalink}/#${lineAttribute}">${escapeHtml(location.line?.toString() ?? '?')}</a>`
+              text += `<a href="${permalink}/#${lineAttribute}">${workspace.renderString(location.line?.toString() ?? '???', 'html')}</a>`
             } else {
               text += location.line?.toString()
             }
@@ -669,10 +671,11 @@ export abstract class CompoundBase {
           } else {
             text += ' in file '
           }
+          const locationFile = workspace.renderString(path.basename(location.file) as string, 'html')
           if (permalink !== undefined && permalink.length > 0) {
-            text += `<a href="${permalink}">${escapeHtml(path.basename(location.file) as string)}</a>`
+            text += `<a href="${permalink}">${locationFile}</a>`
           } else {
-            text += `<a href="${permalink}">${escapeHtml(path.basename(location.file) as string)}</a>`
+            text += locationFile
           }
           text += '.'
         }
@@ -708,16 +711,17 @@ export abstract class CompoundBase {
       const sortedFiles = [...this.locationSet].sort((a, b) => a.localeCompare(b))
       for (const fileName of sortedFiles) {
         // console.log('search', fileName)
+        const fileNameEscaped = workspace.renderString(path.basename(fileName), 'html')
         const file = workspace.filesByPath.get(fileName)
         if (file !== undefined) {
           const permalink = workspace.getPagePermalink(file.id)
           if (permalink !== undefined && permalink.length > 0) {
-            lines.push(`<li><a href="${permalink}">${escapeHtml(path.basename(fileName))}</a></li>`)
+            lines.push(`<li><a href="${permalink}">${fileNameEscaped}</a></li>`)
           } else {
-            lines.push(`<li>${escapeHtml(path.basename(fileName))}</li>`)
+            lines.push(`<li>${fileNameEscaped}</li>`)
           }
         } else {
-          lines.push(`<li>${escapeHtml(path.basename(fileName))}</li>`)
+          lines.push(`<li>${fileNameEscaped}</li>`)
         }
       }
       lines.push('</ul>')

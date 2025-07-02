@@ -16,7 +16,6 @@ import * as util from 'util'
 
 import { ElementLinesRendererBase } from './element-renderer-base.js'
 import { AbstractRefType } from '../../data-model/compounds/reftype-dm.js'
-import { renderString } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -33,11 +32,12 @@ export class RefTypeLinesRenderer extends ElementLinesRendererBase {
 
     const lines: string[] = []
 
+    const content = this.workspace.renderString(element.text.trim(), type)
     const permalink = this.workspace.getPagePermalink(element.refid)
     if (permalink !== undefined && permalink.length > 0) {
-      lines.push(`<a href="${permalink}">${renderString(element.text.trim(), type)}</a>`) // trim?
+      lines.push(`<a href="${permalink}">${content}</a>`)
     } else {
-      lines.push(`${renderString(element.text.trim(), type)}`)
+      lines.push(content)
     }
 
     return lines

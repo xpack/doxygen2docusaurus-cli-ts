@@ -18,7 +18,7 @@ import crypto from 'node:crypto'
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
-import { escapeHtml, flattenPath, renderString, sanitizeHierarchicalPath } from '../utils.js'
+import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { MenuItem, SidebarCategory, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { FrontMatter } from '../types.js'
 import { BaseCompoundRefDataModel, DerivedCompoundRefDataModel } from '../../data-model/compounds/compoundreftype-dm.js'
@@ -248,7 +248,7 @@ export class Classes extends CollectionBase {
       iconLetter = '?'
     }
 
-    const label = escapeHtml(classs.unqualifiedName)
+    const label = this.workspace.renderString(classs.unqualifiedName, 'html')
 
     let description: string = ''
     if (classs.briefDescriptionMarkdownString !== undefined && classs.briefDescriptionMarkdownString.length > 0) {
@@ -516,10 +516,11 @@ export class Classes extends CollectionBase {
         if (entry.objectKind === 'compound') {
           kind = `${entry.kind} `
         }
+        const longName = this.workspace.renderString(entry.longName, 'html')
         if (entry.permalink !== undefined && entry.permalink.length > 0) {
-          lines.push(`<li>${escapeHtml(entry.name)}: <a href="${entry.permalink}">${kind}${escapeHtml(entry.longName)}</a></li>`)
+          lines.push(`<li>${this.workspace.renderString(entry.name, 'html')}: <a href="${entry.permalink}">${kind}${longName}</a></li>`)
         } else {
-          lines.push(`<li>${escapeHtml(entry.name)}: ${kind}${escapeHtml(entry.longName)}</li>`)
+          lines.push(`<li>${this.workspace.renderString(entry.name, 'html')}: ${kind}${longName}</li>`)
         }
       }
       lines.push('</ul>')
@@ -557,6 +558,8 @@ export class Class extends CompoundBase {
 
     // console.log('Class.constructor', util.inspect(compoundDef))
 
+    const workspace = this.collection.workspace
+
     if (Array.isArray(compoundDef.baseCompoundRefs)) {
       for (const ref of compoundDef.baseCompoundRefs) {
         // console.log('component', compoundDef.id, 'has base', ref.refid)
@@ -587,7 +590,7 @@ export class Class extends CompoundBase {
     const kind = compoundDef.kind
     const kindCapitalised = kind.charAt(0).toUpperCase() + kind.slice(1).toLowerCase()
 
-    this.pageTitle = `The \`${escapeHtml(this.unqualifiedName)}\` ${kindCapitalised}`
+    this.pageTitle = `The \`${workspace.renderString(this.unqualifiedName, 'html')}\` ${kindCapitalised}`
     if (compoundDef.templateParamList !== undefined) {
       this.pageTitle += ' Template'
     }
@@ -625,19 +628,21 @@ export class Class extends CompoundBase {
     const compoundDef = this._private._compoundDef
     assert(compoundDef !== undefined)
 
+    const workspace = this.collection.workspace
+
     let classFullName = this.fullyQualifiedName
     if (this.templateParameters.length > 0) {
-      classFullName += escapeHtml(this.templateParameters)
+      classFullName += workspace.renderString(this.templateParameters, 'html')
     } else {
-      classFullName += escapeHtml(this.renderTemplateParameterNamesToString(compoundDef.templateParamList))
+      classFullName += workspace.renderString(this.renderTemplateParameterNamesToString(compoundDef.templateParamList), 'html')
     }
     this.classFullName = classFullName
 
     if (compoundDef.templateParamList?.params !== undefined) {
-      this.template = escapeHtml(this.renderTemplateParametersToString({
+      this.template = workspace.renderString(this.renderTemplateParametersToString({
         templateParamList: compoundDef.templateParamList,
         withDefaults: true
-      }))
+      }), 'html')
     }
 
     this.baseCompoundRefs = compoundDef.baseCompoundRefs
@@ -670,7 +675,9 @@ export class Class extends CompoundBase {
   override renderToLines (frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    const descriptionTodo = `@${this.kind} ${escapeHtml(this.compoundName)}`
+    const workspace = this.collection.workspace
+
+    const descriptionTodo = `@${this.kind} ${this.collection.workspace.renderString(this.compoundName, 'html')}`
 
     const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
     lines.push(this.renderBriefDescriptionToString({
@@ -723,10 +730,10 @@ export class Class extends CompoundBase {
               continue
             }
           }
-          const itemName = renderString(baseCompoundRef.text, 'html')
+          const itemName = workspace.renderString(baseCompoundRef.text, 'html')
           lines.push('')
 
-          lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
+          lines.push(...workspace.renderMembersIndexItemToLines({
             type: this.kind,
             name: itemName
           }))
@@ -776,7 +783,7 @@ export class Class extends CompoundBase {
                 console.warn('Derived class id', derivedCompoundRef.refid, 'not a defined class')
               }
 
-              const itemName = renderString(derivedCompoundRef.text.trim(), 'html')
+              const itemName = workspace.renderString(derivedCompoundRef.text.trim(), 'html')
               lines.push('')
               lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
                 type: this.kind,
@@ -784,7 +791,7 @@ export class Class extends CompoundBase {
               }))
             }
           } else {
-            const itemName = renderString(derivedCompoundRef.text.trim(), 'html')
+            const itemName = workspace.renderString(derivedCompoundRef.text.trim(), 'html')
             lines.push('')
             lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
               type: this.kind,
@@ -850,12 +857,13 @@ export class Class extends CompoundBase {
 
     const permalink = workspace.getPagePermalink(this.id)
 
+    const indexName = this.collection.workspace.renderString(this.indexName, 'html')
     const itemType = this.kind
     let itemName
     if (permalink !== undefined && permalink.length > 0) {
-      itemName = `<a href="${permalink}">${escapeHtml(this.indexName)}</a>`
+      itemName = `<a href="${permalink}">${indexName}</a>`
     } else {
-      itemName = `${escapeHtml(this.indexName)}`
+      itemName = indexName
     }
 
     lines.push('')
