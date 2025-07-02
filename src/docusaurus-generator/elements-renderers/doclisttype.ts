@@ -63,7 +63,7 @@ export class DocListTypeLinesRenderer extends ElementLinesRendererBase {
 
           const paraLines: string[] = []
           for (const para of listItem.paras) {
-            paraLines.push(this.workspace.renderElementToString(para, type).trim())
+            paraLines.push(this.workspace.renderElementToString(para, 'html').trim())
           }
           // Two \n to separate paragraphs when there is no <p>.
           text += paraLines.join('\n\n')

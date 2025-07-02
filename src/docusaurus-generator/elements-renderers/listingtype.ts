@@ -88,9 +88,6 @@ function renderCodeLinesToString (workspace: Workspace, element: AbstractCodeLin
     text += '<span class="doxyNoLineNumber">&nbsp;</span>'
   }
 
-  if (type !== 'html') {
-    console.log('Expecting html type')
-  }
   const content = workspace.renderElementsArrayToString(element.highlights, type)
   if (content.length > 0) {
     text += `<span class="doxyLineContent">${content}</span>`

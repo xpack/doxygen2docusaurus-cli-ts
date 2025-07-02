@@ -70,6 +70,7 @@ export function escapeMarkdown (text: string): string {
     .replaceAll(/&/g, '&amp;')
     .replaceAll(/</g, '&lt;')
     .replaceAll(/>/g, '&gt;')
+    .replaceAll(/\\/g, '\\\\') // Must be placed before \[ \]
     .replaceAll(/\[/g, '\\[')
     .replaceAll(/\]/g, '\\]')
     .replaceAll(/\*/g, '\\*') // Markdown for bold

@@ -62,7 +62,7 @@ export class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
     const lines: string[] = []
 
     lines.push('<tr>')
-    lines.push(...this.workspace.renderElementsArrayToLines(element.entries, type))
+    lines.push(...this.workspace.renderElementsArrayToLines(element.entries, 'html'))
     lines.push('</tr>')
 
     return lines

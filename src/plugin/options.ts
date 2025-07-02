@@ -153,4 +153,6 @@ export function getInstanceDefaultOptions (id: string | undefined): PluginConfig
   return options
 }
 
+export const renderParagraphs: boolean = false
+
 // ----------------------------------------------------------------------------

@@ -20,6 +20,7 @@ import { AbstractRefTextType } from '../../data-model/compounds/reftexttype-dm.j
 import { escapeHtml, getPermalinkAnchor, renderString, stripLeadingAndTrailingNewLines } from '../utils.js'
 import { AbstractDocHtmlOnlyType, LatexOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { AbstractDataModelBase } from '../../data-model/types.js'
+import { renderParagraphs } from '../../plugin/options.js'
 
 // ----------------------------------------------------------------------------
 
@@ -54,14 +55,18 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
       // console.log(child)
       if (this.isParagraph(child)) {
         inParagraph = true
-        text += this.workspace.renderElementToString(child, type)
+        text += this.workspace.renderElementToString(child, renderParagraphs ? 'html' : type)
       } else {
         if (inParagraph) {
           text = text.trim()
           // console.log(text)
           if (text.length > 0) {
             lines.push('')
-            lines.push(text)
+            if (element.skipPara || !renderParagraphs) {
+              lines.push(text)
+            } else {
+              lines.push(`<p>${text}</p>`)
+            }
           }
           inParagraph = false
           text = ''
@@ -75,7 +80,11 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
       // console.log(text)
       if (text.length > 0) {
         lines.push('')
-        lines.push(text)
+        if (element.skipPara || !renderParagraphs) {
+          lines.push(text)
+        } else {
+          lines.push(`<p>${text}</p>`)
+        }
       }
     }
 
@@ -303,20 +312,20 @@ export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
     } else if (element.kind === 'note') {
       // https://docusaurus.io/docs/markdown-features/admonitions
       lines.push(':::info')
-      lines.push(this.workspace.renderElementToString(element.children, type).trim())
+      lines.push(this.workspace.renderElementToString(element.children, renderParagraphs ? 'html' : 'markdown').trim())
       lines.push(':::')
     } else if (element.kind === 'warning') {
       lines.push(':::warning')
       // console.log(util.inspect(element, { compact: false, depth: 999 }))
-      lines.push(this.workspace.renderElementToString(element.children, type).trim())
+      lines.push(this.workspace.renderElementToString(element.children, renderParagraphs ? 'html' : 'markdown').trim())
       lines.push(':::')
     } else if (element.kind === 'attention') {
       lines.push(':::danger')
-      lines.push(this.workspace.renderElementToString(element.children, type).trim())
+      lines.push(this.workspace.renderElementToString(element.children, renderParagraphs ? 'html' : 'markdown').trim())
       lines.push(':::')
     } else if (element.kind === 'important') {
       lines.push(':::tip')
-      lines.push(this.workspace.renderElementToString(element.children, type).trim())
+      lines.push(this.workspace.renderElementToString(element.children, renderParagraphs ? 'html' : 'markdown').trim())
       lines.push(':::')
     } else {
       console.error(util.inspect(element, { compact: false, depth: 999 }))
@@ -438,7 +447,7 @@ export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
                         names.push((subChild))
                       }
                     } else if (subChild instanceof AbstractRefTextType) {
-                      const name = this.workspace.renderElementToString(subChild, type)
+                      const name = this.workspace.renderElementToString(subChild, 'html')
                       names.push(name)
                     } else {
                       console.error(util.inspect(subChild, { compact: false, depth: 999 }))
@@ -449,7 +458,7 @@ export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
               }
             }
 
-            const parameters = this.workspace.renderElementToString(parameterItem.parameterDescription, type).trim()
+            const parameters = this.workspace.renderElementToString(parameterItem.parameterDescription, 'html').trim()
             const escapedName = escapeHtml(names.join(', '))
             lines.push('<tr class="doxyParamItem">')
             lines.push(`<td class="doxyParamItemName">${escapedName}</td>`)
@@ -584,7 +593,7 @@ export class ImageStringRenderer extends ElementStringRendererBase {
         text += '\n'
         text += `  <figcaption>${escapeHtml(element.caption)}</figcaption>`
       } else if (element.children !== undefined) {
-        const caption = this.workspace.renderElementsArrayToString(element.children, type).trim()
+        const caption = this.workspace.renderElementsArrayToString(element.children, 'html').trim()
         if (caption.length > 0) {
           text += '\n'
           text += `  <figcaption>${caption}</figcaption>`
@@ -632,7 +641,7 @@ export class HeadingLinesRenderer extends ElementLinesRendererBase {
     let text: string = ''
     text += '#'.repeat(element.level)
     text += ' '
-    text += this.workspace.renderElementsArrayToString(element.children, type)
+    text += this.workspace.renderElementsArrayToString(element.children, 'markdown')
     lines.push(text)
 
     return lines
@@ -661,7 +670,7 @@ export class BlockquoteLinesRenderer extends ElementLinesRendererBase {
 
     const lines: string[] = []
     lines.push('<blockquote class="doxyBlockQuote">')
-    lines.push(...this.workspace.renderElementsArrayToLines(element.children, type))
+    lines.push(...this.workspace.renderElementsArrayToLines(element.children, 'html'))
     lines.push('</blockquote>')
 
     return lines
