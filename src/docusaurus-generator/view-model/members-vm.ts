@@ -867,6 +867,8 @@ export class Member extends MemberBase {
           for (const initializerLine of this.initializerHtmlLines.slice(1)) {
             if (initializerLine.trim().length > 0) {
               childrenLines.push(initializerLine)
+            // } else {
+            //   childrenLines.push('&nbsp;')
             }
           }
           childrenLines.push('</div>')
@@ -980,6 +982,8 @@ export class Member extends MemberBase {
           for (const initializerLine of this.initializerHtmlLines.slice(1)) {
             if (initializerLine.trim().length > 0) {
               childrenLines.push(initializerLine)
+            // } else {
+            //   childrenLines.push('&nbsp;')
             }
           }
           childrenLines.push('</div>')
