@@ -198,7 +198,7 @@ export class Groups extends CollectionBase {
             description = group.briefDescriptionMarkdownString.replace(/[.]$/, '');
         }
         lines.push('');
-        lines.push(...this.workspace.renderTreeTableRowToLines({
+        lines.push(...this.workspace.renderTreeTableRowToHtmlLines({
             itemLabel: label,
             itemLink: permalink,
             depth,

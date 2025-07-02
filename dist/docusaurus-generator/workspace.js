@@ -533,7 +533,7 @@ export class Workspace {
         console.error('no element text renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToString');
         return '';
     }
-    renderMembersIndexItemToLines({ template, type, name, childrenLines }) {
+    renderMembersIndexItemToHtmlLines({ template, type, name, childrenLines }) {
         const lines = [];
         if (template !== undefined && template.length > 0) {
             lines.push('<tr class="doxyMemberIndexTemplate">');
@@ -568,7 +568,7 @@ export class Workspace {
         lines.push('</tr>');
         return lines;
     }
-    renderTreeTableRowToLines({ itemIconLetter, itemIconClass, itemLabel, itemLink, depth, description }) {
+    renderTreeTableRowToHtmlLines({ itemIconLetter, itemIconClass, itemLabel, itemLink, depth, description }) {
         const lines = [];
         lines.push('<tr class="doxyTreeItem">');
         lines.push('<td class="doxyTreeItemLeft" align="left" valign="top">');

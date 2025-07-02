@@ -341,7 +341,7 @@ export class FilesAndFolders extends CollectionBase {
     }
 
     lines.push('')
-    lines.push(...this.workspace.renderTreeTableRowToLines({
+    lines.push(...this.workspace.renderTreeTableRowToHtmlLines({
       itemIconClass: 'doxyIconFolder',
       itemLabel: label,
       itemLink: permalink,
@@ -383,7 +383,7 @@ export class FilesAndFolders extends CollectionBase {
     }
 
     lines.push('')
-    lines.push(...this.workspace.renderTreeTableRowToLines({
+    lines.push(...this.workspace.renderTreeTableRowToHtmlLines({
       itemIconClass: 'doxyIconFile',
       itemLabel: label,
       itemLink: permalink,

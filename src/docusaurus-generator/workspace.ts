@@ -723,7 +723,7 @@ export class Workspace {
     return ''
   }
 
-  renderMembersIndexItemToLines ({
+  renderMembersIndexItemToHtmlLines ({
     template,
     type,
     name,
@@ -772,7 +772,7 @@ export class Workspace {
     return lines
   }
 
-  renderTreeTableRowToLines ({
+  renderTreeTableRowToHtmlLines ({
     itemIconLetter,
     itemIconClass,
     itemLabel,

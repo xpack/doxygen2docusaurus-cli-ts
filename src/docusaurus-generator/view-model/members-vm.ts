@@ -785,7 +785,7 @@ export class Member extends MemberBase {
       }))
     }
 
-    lines.push(...workspace.renderMembersIndexItemToLines({
+    lines.push(...workspace.renderMembersIndexItemToHtmlLines({
       template: itemTemplate,
       type: itemType,
       name: itemName,

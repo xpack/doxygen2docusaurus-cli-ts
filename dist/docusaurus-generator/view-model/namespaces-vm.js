@@ -170,7 +170,7 @@ export class Namespaces extends CollectionBase {
             description = namespace.briefDescriptionMarkdownString.replace(/[.]$/, '');
         }
         lines.push('');
-        lines.push(...this.workspace.renderTreeTableRowToLines({
+        lines.push(...this.workspace.renderTreeTableRowToHtmlLines({
             itemIconLetter: 'N',
             itemLabel: label,
             itemLink: permalink,

@@ -256,7 +256,7 @@ export class Classes extends CollectionBase {
     }
 
     lines.push('')
-    lines.push(...this.workspace.renderTreeTableRowToLines({
+    lines.push(...this.workspace.renderTreeTableRowToHtmlLines({
       itemIconLetter: iconLetter,
       itemLabel: label,
       itemLink: permalink,
@@ -733,7 +733,7 @@ export class Class extends CompoundBase {
           const itemName = workspace.renderString(baseCompoundRef.text, 'html')
           lines.push('')
 
-          lines.push(...workspace.renderMembersIndexItemToLines({
+          lines.push(...workspace.renderMembersIndexItemToHtmlLines({
             type: this.kind,
             name: itemName
           }))
@@ -785,7 +785,7 @@ export class Class extends CompoundBase {
 
               const itemName = workspace.renderString(derivedCompoundRef.text.trim(), 'html')
               lines.push('')
-              lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
+              lines.push(...this.collection.workspace.renderMembersIndexItemToHtmlLines({
                 type: this.kind,
                 name: itemName
               }))
@@ -793,7 +793,7 @@ export class Class extends CompoundBase {
           } else {
             const itemName = workspace.renderString(derivedCompoundRef.text.trim(), 'html')
             lines.push('')
-            lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
+            lines.push(...this.collection.workspace.renderMembersIndexItemToHtmlLines({
               type: this.kind,
               name: itemName
             }))
@@ -878,7 +878,7 @@ export class Class extends CompoundBase {
       }))
     }
 
-    lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
+    lines.push(...this.collection.workspace.renderMembersIndexItemToHtmlLines({
       type: itemType,
       name: itemName,
       childrenLines

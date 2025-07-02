@@ -69,13 +69,13 @@ export declare class Workspace {
     renderElementToLines(element: Object | undefined, type: string): string[];
     renderElementsArrayToString(elements: Object[] | undefined, type: string): string;
     renderElementToString(element: Object | undefined, type: string): string;
-    renderMembersIndexItemToLines({ template, type, name, childrenLines }: {
+    renderMembersIndexItemToHtmlLines({ template, type, name, childrenLines }: {
         template?: string | undefined;
         type?: string | undefined;
         name: string;
         childrenLines?: string[] | undefined;
     }): string[];
-    renderTreeTableRowToLines({ itemIconLetter, itemIconClass, itemLabel, itemLink, depth, description }: {
+    renderTreeTableRowToHtmlLines({ itemIconLetter, itemIconClass, itemLabel, itemLink, depth, description }: {
         itemIconLetter?: string;
         itemIconClass?: string;
         itemLabel: string;

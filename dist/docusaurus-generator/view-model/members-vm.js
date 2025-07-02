@@ -603,7 +603,7 @@ export class Member extends MemberBase {
                 morePermalink: `${permalink}` // No #details, it is already an anchor.
             }));
         }
-        lines.push(...workspace.renderMembersIndexItemToLines({
+        lines.push(...workspace.renderMembersIndexItemToHtmlLines({
             template: itemTemplate,
             type: itemType,
             name: itemName,

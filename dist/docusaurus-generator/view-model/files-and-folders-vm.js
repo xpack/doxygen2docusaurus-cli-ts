@@ -270,7 +270,7 @@ export class FilesAndFolders extends CollectionBase {
             description = folder.briefDescriptionMarkdownString.replace(/[.]$/, '');
         }
         lines.push('');
-        lines.push(...this.workspace.renderTreeTableRowToLines({
+        lines.push(...this.workspace.renderTreeTableRowToHtmlLines({
             itemIconClass: 'doxyIconFolder',
             itemLabel: label,
             itemLink: permalink,
@@ -304,7 +304,7 @@ export class FilesAndFolders extends CollectionBase {
             description = file.briefDescriptionMarkdownString.replace(/[.]$/, '');
         }
         lines.push('');
-        lines.push(...this.workspace.renderTreeTableRowToLines({
+        lines.push(...this.workspace.renderTreeTableRowToHtmlLines({
             itemIconClass: 'doxyIconFile',
             itemLabel: label,
             itemLink: permalink,

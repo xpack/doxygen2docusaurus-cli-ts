@@ -354,7 +354,7 @@ export class CompoundBase {
                             }));
                         }
                         lines.push('');
-                        lines.push(...this.collection.workspace.renderMembersIndexItemToLines({
+                        lines.push(...this.collection.workspace.renderMembersIndexItemToHtmlLines({
                             type: itemType,
                             name: itemName,
                             childrenLines
