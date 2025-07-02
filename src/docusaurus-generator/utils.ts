@@ -100,6 +100,10 @@ export function formatDate (date: Date): string {
 //     .replaceAll(/}/g, '&#125;') // MD
 // }
 
+export function removeEmptyLines (text: string): string {
+  return text.replace(/^\s*$(?:\r\n?|\n)/gm, '')
+}
+
 // Preserve '/' too.
 export function sanitizeHierarchicalPath (text: string): string {
   return text.toLowerCase()

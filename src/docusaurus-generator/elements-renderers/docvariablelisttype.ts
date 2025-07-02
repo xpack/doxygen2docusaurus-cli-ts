@@ -16,6 +16,7 @@ import * as util from 'util'
 
 import { ElementLinesRendererBase } from './element-renderer-base.js'
 import { AbstractDocVariableListType, VariableListPairDataModel } from '../../data-model/compounds/docvarlistentrytype-dm.js'
+import { removeEmptyLines } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -50,7 +51,7 @@ export class VariableListPairLinesRenderer extends ElementLinesRendererBase {
     const description = this.workspace.renderElementsArrayToString(element.listitem.paras, 'html').trim()
 
     lines.push(`<dt>${title}</dt>`)
-    lines.push(`<dd>${description}</dd>`)
+    lines.push(`<dd>${removeEmptyLines(description)}</dd>`)
 
     return lines
   }
