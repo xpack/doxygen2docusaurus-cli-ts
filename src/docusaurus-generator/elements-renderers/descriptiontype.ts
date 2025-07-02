@@ -187,9 +187,12 @@ export class ComputerOutputDataModelStringRenderer extends ElementStringRenderer
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
     let text = ''
-    text += '<span class="doxyComputerOutput">'
+
+    // Cannot use `...` since it may occur in a html paragraph.
+    text += '<code>' // Was '<span class="doxyComputerOutput">'
+    // Inherit type, do not use 'html' since Docusaurus may parse it as markdown.
     text += this.workspace.renderElementsArrayToString(element.children, type)
-    text += '</span>'
+    text += '</code>'
 
     return text
   }
