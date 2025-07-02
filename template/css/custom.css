@@ -791,7 +791,7 @@ span.doxyHighlight a {
 /* --- End CodeLine/styles.module.css --- */
 
 /* Copied from code, horizontal padding doubled. */
-/* span.doxyComputerOutput {
+span.doxyComputerOutput {
   background-color: var(--ifm-code-background);
   border: .1rem solid #0000001a;
   border-radius: var(--ifm-code-border-radius);
@@ -799,7 +799,7 @@ span.doxyHighlight a {
   font-size: var(--ifm-code-font-size);
   padding: var(--ifm-code-padding-vertical) calc(var(--ifm-code-padding-horizontal) * 2);
   vertical-align: initial;
-} */
+}
 
 div.doxyPage h1 code {
   padding: var(--ifm-code-padding-vertical) calc(var(--ifm-code-padding-horizontal) * 2);

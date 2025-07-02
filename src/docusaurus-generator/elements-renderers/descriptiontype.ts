@@ -188,11 +188,13 @@ export class ComputerOutputDataModelStringRenderer extends ElementStringRenderer
 
     let text = ''
 
-    // Cannot use `...` since it may occur in a html paragraph.
-    text += '<code>' // Was '<span class="doxyComputerOutput">'
+    // Cannot use `...` since it may include html code (like <a>).
+    // Cannot use <code> since Docusaurus renders it as a block if it includes
+    // other elements like <a>.
+    text += '<span class="doxyComputerOutput">'
     // Inherit type, do not use 'html' since Docusaurus may parse it as markdown.
     text += this.workspace.renderElementsArrayToString(element.children, type)
-    text += '</code>'
+    text += '</span>'
 
     return text
   }
