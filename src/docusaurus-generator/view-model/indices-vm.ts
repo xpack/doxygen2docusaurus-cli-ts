@@ -12,7 +12,7 @@
 // ----------------------------------------------------------------------------
 
 import { Class } from './classes-vm.js'
-import { Member } from './members-vm.js'
+import { EnumValue, Member } from './members-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -21,44 +21,71 @@ export class IndexEntry {
   kind: string
   objectKind: string
   longName: string
+  className?: string
   permalink: string | undefined
 
   id: string
 
-  constructor (object: Member | Class) {
-    if (object instanceof Member) {
+  constructor (object: Class | Member | EnumValue) {
+    if (object instanceof Class) {
+      // console.log(object.kind, object.unqualifiedName)
+      this.name = object.unqualifiedName
+      this.kind = object.kind
+      this.id = object.id
+      this.objectKind = 'compound'
+      this.longName = object.fullyQualifiedName ?? '???'
+      this.className = `${object.kind} ${object.fullyQualifiedName ?? '???'}`
+
+      this.permalink = object.collection.workspace.getPermalink({
+        refid: object.id,
+        kindref: 'compound'
+      })
+
+      // console.log(this.kind, this.name, this.longName, this.className)
+    } else if (object instanceof Member) {
       // console.log(object.kind, object.name)
       this.name = object.name
       this.kind = object.kind
+      this.objectKind = 'member'
       this.id = object.id
       this.longName = object.qualifiedName ?? '???'
+      this.className = `${object.section.compound.kind} ${(object.section.compound as Class).classFullName}`
+
       this.permalink = object.section.compound.collection.workspace.getPermalink({
         refid: object.id,
         kindref: 'member'
       })
       if (this.kind === 'function') {
         this.name += '()'
-        this.longName += object.argsstring
+        // this.longName += object.argsstring
         // console.log(object)
       }
-      this.objectKind = 'member'
-    } else if (object instanceof Class) {
-      // console.log(object.kind, object.unqualifiedName)
-      this.name = object.unqualifiedName
-      this.kind = object.kind
+
+      // console.log(this.kind, this.name, this.longName, this.className)
+      // if (object.name === '_setSymbolName' || object.name === '_getPrevTok') {
+      //   console.log(object.section.compound)
+      // }
+    } else if (object instanceof EnumValue) {
+      this.name = object.name
+      this.kind = 'enumvalue'
+      this.objectKind = 'enumvalue'
       this.id = object.id
-      this.longName = object.fullyQualifiedName ?? '???'
-      this.permalink = object.collection.workspace.getPermalink({
+      this.longName = object.name
+      this.className = `${object.member.section.compound.kind} ${(object.member.section.compound as Class).classFullName}`
+
+      this.permalink = object.member.section.compound.collection.workspace.getPermalink({
         refid: object.id,
-        kindref: 'compound'
+        kindref: 'member'
       })
-      this.objectKind = 'compound'
+
+      // console.log(this.name, this.id, object.member.id)
     } else {
       console.error('object type not supported in IndexEntry')
       this.name = '???'
       this.kind = '???'
       this.objectKind = '???'
       this.longName = '???'
+      this.className = '???'
       // this.permalink = ''
       this.id = '???'
     }

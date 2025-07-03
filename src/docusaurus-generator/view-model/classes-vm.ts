@@ -129,6 +129,16 @@ export class Classes extends CollectionBase {
           type: 'doc',
           label: 'Typedefs',
           id: `${this.workspace.sidebarBaseId}index/classes/typedefs`
+        },
+        {
+          type: 'doc',
+          label: 'Enums',
+          id: `${this.workspace.sidebarBaseId}index/classes/enums`
+        },
+        {
+          type: 'doc',
+          label: 'Enum Values',
+          id: `${this.workspace.sidebarBaseId}index/classes/enumvalues`
         }
       ]
     }
@@ -286,6 +296,12 @@ export class Classes extends CollectionBase {
         for (const member of section.definitionMembers) {
           const memberEntry = new IndexEntry(member)
           allUnorderedEntriesMap.set(memberEntry.id, memberEntry)
+          if (member.enumValues !== undefined) {
+            for (const enumValue of member.enumValues) {
+              const enumValueEntry = new IndexEntry(enumValue)
+              allUnorderedEntriesMap.set(enumValueEntry.id, enumValueEntry)
+            }
+          }
         }
       }
     }
@@ -467,19 +483,93 @@ export class Classes extends CollectionBase {
     }
 
     // ------------------------------------------------------------------------
+
+    {
+      const filePath = `${outputFolderPath}index/classes/enums.md`
+      const permalink = 'index/classes/enums'
+
+      const frontMatter: FrontMatter = {
+        title: 'The Class Enums Index',
+        slug: `${this.workspace.slugBaseUrl}${permalink}`,
+        // description: '...', // TODO
+        custom_edit_url: null,
+        keywords: ['doxygen', 'classes', 'index']
+      }
+
+      const lines: string[] = []
+
+      lines.push('The class member enum definitions used by this project are:')
+
+      const classesUnorderedMap: Map<string, IndexEntry> = new Map()
+      for (const [id, entry] of allUnorderedEntriesMap) {
+        if (entry.kind === 'enum') {
+          classesUnorderedMap.set(id, entry)
+        }
+      }
+      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
+
+      lines.push(...this.outputEntries(orderedEntries))
+
+      console.log(`Writing index file ${filePath}...`)
+      await this.workspace.writeMdFile({
+        filePath,
+        frontMatter,
+        bodyLines: lines
+      })
+    }
+
+    // ------------------------------------------------------------------------
+
+    {
+      const filePath = `${outputFolderPath}index/classes/enumvalues.md`
+      const permalink = 'index/classes/enumvalues'
+
+      const frontMatter: FrontMatter = {
+        title: 'The Class Enum Values Index',
+        slug: `${this.workspace.slugBaseUrl}${permalink}`,
+        // description: '...', // TODO
+        custom_edit_url: null,
+        keywords: ['doxygen', 'classes', 'index']
+      }
+
+      const lines: string[] = []
+
+      lines.push('The class member enum values used by this project are:')
+
+      const classesUnorderedMap: Map<string, IndexEntry> = new Map()
+      for (const [id, entry] of allUnorderedEntriesMap) {
+        if (entry.kind === 'enumvalue') {
+          classesUnorderedMap.set(id, entry)
+        }
+      }
+      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
+
+      lines.push(...this.outputEntries(orderedEntries))
+
+      console.log(`Writing index file ${filePath}...`)
+      await this.workspace.writeMdFile({
+        filePath,
+        frontMatter,
+        bodyLines: lines
+      })
+    }
+
+    // ------------------------------------------------------------------------
   }
 
   orderPerInitials (entriesMap: Map<string, IndexEntry>): Map<string, IndexEntry[]> {
     const entriesPerInitialsMap: Map<string, IndexEntry[]> = new Map()
 
     for (const [id, entry] of entriesMap) {
-      const initial: string = entry.name.charAt(0)
-      let mapArray = entriesPerInitialsMap.get(initial)
-      if (mapArray === undefined) {
-        mapArray = []
-        entriesPerInitialsMap.set(initial, mapArray)
+      const initial: string = entry.name.charAt(0).toLowerCase()
+      if (initial.length > 0) {
+        let mapArray = entriesPerInitialsMap.get(initial)
+        if (mapArray === undefined) {
+          mapArray = []
+          entriesPerInitialsMap.set(initial, mapArray)
+        }
+        mapArray.push(entry)
       }
-      mapArray.push(entry)
     }
 
     const orderedMap: Map<string, IndexEntry[]> = new Map()
@@ -488,11 +578,11 @@ export class Classes extends CollectionBase {
       const unorderedArray = entriesPerInitialsMap.get(initial)
       assert(unorderedArray !== undefined)
       const orderedArray = unorderedArray.sort((a, b) => {
-        let nameComparison = a.name.localeCompare(b.name)
+        let nameComparison = a.name.localeCompare(b.name, undefined, { sensitivity: 'accent' })
         if (nameComparison !== 0) {
           return nameComparison
         }
-        nameComparison = a.longName.localeCompare(b.longName)
+        nameComparison = a.longName.localeCompare(b.longName, undefined, { sensitivity: 'accent' })
         return nameComparison
       })
       orderedMap.set(initial, orderedArray)
@@ -512,15 +602,12 @@ export class Classes extends CollectionBase {
       const mapArray = entriesPerInitialsMap.get(initial)
       assert(mapArray !== undefined)
       for (const entry of mapArray) {
-        let kind = ''
-        if (entry.objectKind === 'compound') {
-          kind = `${entry.kind} `
-        }
-        const longName = this.workspace.renderString(entry.longName, 'html')
+        const className = entry.className ?? '???'
+        const name = entry.name
         if (entry.permalink !== undefined && entry.permalink.length > 0) {
-          lines.push(`<li>${this.workspace.renderString(entry.name, 'html')}: <a href="${entry.permalink}">${kind}${longName}</a></li>`)
+          lines.push(`<li>${name}: <a href="${entry.permalink}">${className}</a></li>`)
         } else {
-          lines.push(`<li>${this.workspace.renderString(entry.name, 'html')}: ${kind}${longName}</li>`)
+          lines.push(`<li>${name}: ${className}</li>`)
         }
       }
       lines.push('</ul>')
