@@ -4,6 +4,7 @@ import { SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-d
 import { CompoundBase } from './compound-base-vm.js';
 import { MemberProgramListingDataModel, ProgramListingDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
 import { LocationDataModel } from '../../data-model/compounds/locationtype-dm.js';
+import { EnumValueDataModel } from '../../data-model/compounds/enumvaluetype-dm.js';
 export declare const sectionHeaders: Record<string, [string, number]>;
 export declare class Section {
     compound: CompoundBase;
@@ -46,6 +47,7 @@ export declare class Member extends MemberBase {
     programListing: ProgramListingDataModel | undefined;
     referencedByMarkdownString: string | undefined;
     referencesMarkdownString: string | undefined;
+    enumValues: EnumValue[] | undefined;
     labels: string[];
     isTrailingType: boolean;
     isConstexpr: boolean;
@@ -61,10 +63,18 @@ export declare class Member extends MemberBase {
     renderIndexToLines(): string[];
     renderToLines(): string[];
     private renderMemberDefinitionToLines;
-    renderEnumToLines(memberDef: MemberDefDataModel): string[];
+    renderEnumToLines(): string[];
 }
 export declare class MemberRef extends MemberBase {
     refid: string;
     constructor(section: Section, memberRef: MemberDataModel);
+}
+export declare class EnumValue {
+    name: string;
+    id: string;
+    briefDescriptionHtmlString: string | undefined;
+    initializerHtmlString: string | undefined;
+    member: Member;
+    constructor(member: Member, enumValue: EnumValueDataModel);
 }
 export {};

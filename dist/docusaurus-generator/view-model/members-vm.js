@@ -371,8 +371,15 @@ export class Member extends MemberBase {
                 this.parametersHtmlString = parameters.join(', ');
             }
         }
-        if (this.kind === 'enum') {
-            this.enumHtmlLines = this.renderEnumToLines(memberDef);
+        if (memberDef.kind === 'enum' && memberDef.enumvalues !== undefined) {
+            const enumValues = [];
+            for (const enumValueDataModel of memberDef.enumvalues) {
+                enumValues.push(new EnumValue(this, enumValueDataModel));
+            }
+            if (enumValues.length > 0) {
+                this.enumValues = enumValues;
+                this.enumHtmlLines = this.renderEnumToLines();
+            }
         }
         if (memberDef.qualifiedName !== undefined) {
             this.qualifiedName = memberDef.qualifiedName;
@@ -592,7 +599,9 @@ export class Member extends MemberBase {
         }
         lines.push('');
         if (itemName.length === 0) {
-            console.log(this);
+            if (this.section.compound.collection.workspace.pluginOptions.debug) {
+                console.log(this);
+            }
             console.warn('empty name in', this.id);
         }
         const childrenLines = [];
@@ -855,36 +864,26 @@ export class Member extends MemberBase {
         return lines;
     }
     // --------------------------------------------------------------------------
-    renderEnumToLines(memberDef) {
+    renderEnumToLines() {
         const lines = [];
-        const workspace = this.section.compound.collection.workspace;
         lines.push('');
         lines.push('<dl class="doxyEnumList">');
         lines.push('<dt class="doxyEnumTableTitle">Enumeration values</dt>');
         lines.push('<dd>');
         lines.push('<table class="doxyEnumTable">');
-        if (memberDef.enumvalues !== undefined) {
-            for (const enumValue of memberDef.enumvalues) {
-                // console.log(enumValue.briefDescription)
-                if (enumValue.briefDescription !== undefined) {
-                    assert(enumValue.briefDescription.children);
-                    for (const child of enumValue.briefDescription.children) {
-                        if (child instanceof ParaDataModel) {
-                            child.skipPara = true;
-                        }
-                    }
-                }
-                let enumBriefDescriptionHtmlString = workspace.renderElementToString(enumValue.briefDescription, 'html').trim().replace(/[.]$/, '');
-                // console.log(`|${enumBriefDescription}|`)
+        if (this.enumValues !== undefined) {
+            for (const enumValue of this.enumValues) {
                 const anchor = getPermalinkAnchor(enumValue.id);
-                const value = workspace.renderElementToString(enumValue.initializer, 'html');
-                if (value.length > 0) {
+                let enumBriefDescriptionHtmlString = (enumValue.briefDescriptionHtmlString ?? '').replace(/[.]$/, '');
+                // console.log(`|${enumBriefDescription}|`)
+                const value = enumValue.initializerHtmlString;
+                if (value !== undefined && value.length > 0) {
                     enumBriefDescriptionHtmlString += ` (${value})`;
                 }
                 lines.push('');
                 // lines.push(`<a id="${anchor}"></a>`)
                 lines.push('<tr class="doxyEnumItem">');
-                lines.push(`<td class="doxyEnumItemName">${enumValue.name.trim()}<a id="${anchor}"></a></td>`);
+                lines.push(`<td class="doxyEnumItemName">${enumValue.name}<a id="${anchor}"></a></td>`);
                 // lines.push(`<td class="doxyEnumItemDescription"><p>${enumBriefDescription}</p></td>`)
                 if (!enumBriefDescriptionHtmlString.includes('\n')) {
                     lines.push(`<td class="doxyEnumItemDescription">${enumBriefDescriptionHtmlString}</td>`);
@@ -910,6 +909,31 @@ export class MemberRef extends MemberBase {
         super(section, memberRef.name);
         // this.memberRef = memberRef
         this.refid = memberRef.refid;
+    }
+}
+// ----------------------------------------------------------------------------
+export class EnumValue {
+    constructor(member, enumValue) {
+        this.member = member;
+        this.name = enumValue.name.trim();
+        this.id = enumValue.id;
+        const workspace = member.section.compound.collection.workspace;
+        if (enumValue.briefDescription !== undefined) {
+            assert(enumValue.briefDescription.children);
+            for (const child of enumValue.briefDescription.children) {
+                if (child instanceof ParaDataModel) {
+                    child.skipPara = true;
+                }
+            }
+        }
+        if (enumValue.briefDescription?.children !== undefined) {
+            workspace.skipElementsPara(enumValue.briefDescription.children);
+            this.briefDescriptionHtmlString = workspace.renderElementToString(enumValue.briefDescription, 'html').trim();
+        }
+        if (enumValue.initializer !== undefined) {
+            this.initializerHtmlString = workspace.renderElementToString(enumValue.initializer, 'html');
+        }
+        // console.log(this)
     }
 }
 // ----------------------------------------------------------------------------
