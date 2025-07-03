@@ -811,7 +811,7 @@ export class Workspace {
 
   // --------------------------------------------------------------------------
 
-  skipElementsPara (elements: AbstractDataModelBase[] | undefined): void {
+  skipElementsPara (elements: Array<AbstractDataModelBase | string> | undefined): void {
     if (elements === undefined) {
       return
     }
