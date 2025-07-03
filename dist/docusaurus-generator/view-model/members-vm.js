@@ -121,7 +121,7 @@ export class Section {
         assert(this._private._sectionDef !== undefined);
         const sectionDef = this._private._sectionDef;
         if (sectionDef.description !== undefined) {
-            this.descriptionLines = workspace.renderElementToLines(sectionDef.description, 'markdown');
+            this.descriptionLines = workspace.renderElementToLines(sectionDef.description, 'html');
             // console.log(this.indexMembers, this.descriptionLines)
         }
     }
@@ -235,8 +235,8 @@ export class Section {
         lines.push(`## ${this.headerName}`);
         if (this.descriptionLines !== undefined) {
             lines.push('');
-            lines.push(...this.compound.renderDetailedDescriptionToLines({
-                detailedDescriptionMarkdownLines: this.descriptionLines,
+            lines.push(...this.compound.renderDetailedDescriptionToHtmlLines({
+                detailedDescriptionHtmlLines: this.descriptionLines,
                 showHeader: false
             }));
         }
@@ -286,17 +286,10 @@ export class Member extends MemberBase {
                     }
                 }
             }
-            this.briefDescriptionMarkdownString = workspace.renderElementToString(memberDef.briefDescription, 'markdown').trim();
-            const briefHtml = workspace.renderElementToString(memberDef.briefDescription, 'html').trim();
-            if (briefHtml !== this.briefDescriptionMarkdownString) {
-                this.briefDescriptionHtmlString = briefHtml;
-            }
-            else {
-                this.briefDescriptionHtmlString = this.briefDescriptionMarkdownString;
-            }
+            this.briefDescriptionHtmlString = workspace.renderElementToString(memberDef.briefDescription, 'html').trim();
         }
         if (memberDef.detailedDescription !== undefined) {
-            this.detailedDescriptionMarkdownLines = workspace.renderElementToLines(memberDef.detailedDescription, 'markdown');
+            this.detailedDescriptionHtmlLines = workspace.renderElementToLines(memberDef.detailedDescription, 'html');
         }
         this.argsstring = memberDef.argsstring;
         if (memberDef.type !== undefined) {
@@ -312,10 +305,10 @@ export class Member extends MemberBase {
             }
         }
         if (memberDef.references !== undefined) {
-            this.referencesMarkdownString = this.section.compound.renderReferencesToString(memberDef.references);
+            this.referencesMarkdownString = this.section.compound.renderReferencesToHtmlString(memberDef.references);
         }
         if (memberDef.referencedBy !== undefined) {
-            this.referencedByMarkdownString = this.section.compound.renderReferencedByToString(memberDef.referencedBy);
+            this.referencedByMarkdownString = this.section.compound.renderReferencedByToHtmlString(memberDef.referencedBy);
         }
         const labels = [];
         if (memberDef.inline?.valueOf()) {
@@ -605,8 +598,8 @@ export class Member extends MemberBase {
         const childrenLines = [];
         const briefDescriptionString = this.briefDescriptionHtmlString;
         if (briefDescriptionString !== undefined && briefDescriptionString.length > 0) {
-            childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-                briefDescriptionString,
+            childrenLines.push(this.section.compound.renderBriefDescriptionToHtmlString({
+                briefDescriptionHtmlString: briefDescriptionString,
                 morePermalink: `${permalink}` // No #details, it is already an anchor.
             }));
         }
@@ -661,9 +654,9 @@ export class Member extends MemberBase {
                 if (this.templateParameters !== undefined && this.templateParameters.length > 0) {
                     template = workspace.renderString(`template ${this.templateParameters}`, 'html');
                 }
-                if (this.briefDescriptionMarkdownString !== undefined) {
-                    childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-                        briefDescriptionString: this.briefDescriptionMarkdownString
+                if (this.briefDescriptionHtmlString !== undefined) {
+                    childrenLines.push(this.section.compound.renderBriefDescriptionToHtmlString({
+                        briefDescriptionHtmlString: this.briefDescriptionHtmlString
                     }));
                 }
                 if (this.initializerHtmlLines !== undefined && this.initializerHtmlLines.length > 1) {
@@ -671,22 +664,27 @@ export class Member extends MemberBase {
                     childrenLines.push('<dl class="doxySectionUser">');
                     childrenLines.push('<dt>Initialiser</dt>');
                     childrenLines.push('<dd>');
-                    childrenLines.push(`<div class="doxyVerbatim">${this.initializerHtmlLines[0]}`);
-                    for (const initializerLine of this.initializerHtmlLines.slice(1)) {
-                        if (initializerLine.trim().length > 0) {
-                            childrenLines.push(initializerLine);
-                            // } else {
-                            //   childrenLines.push('&nbsp;')
-                        }
+                    if (this.initializerHtmlLines.length === 1) {
+                        childrenLines.push(`<div class="doxyVerbatim">${this.initializerHtmlLines[0]}</div>`);
                     }
-                    childrenLines.push('</div>');
+                    else {
+                        childrenLines.push(`<div class="doxyVerbatim">${this.initializerHtmlLines[0]}`);
+                        for (const initializerLine of this.initializerHtmlLines.slice(1)) {
+                            if (initializerLine.trim().length > 0) {
+                                childrenLines.push(initializerLine);
+                                // } else {
+                                //   childrenLines.push('&nbsp;')
+                            }
+                        }
+                        childrenLines.push('</div>');
+                    }
                     childrenLines.push('</dd>');
                     childrenLines.push('</dl>');
                 }
-                if (this.detailedDescriptionMarkdownLines !== undefined) {
-                    childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-                        briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
-                        detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
+                if (this.detailedDescriptionHtmlLines !== undefined) {
+                    childrenLines.push(...this.section.compound.renderDetailedDescriptionToHtmlLines({
+                        briefDescriptionHtmlString: this.briefDescriptionHtmlString,
+                        detailedDescriptionHtmlLines: this.detailedDescriptionHtmlLines,
                         showHeader: false,
                         showBrief: false
                     }));
@@ -707,16 +705,16 @@ export class Member extends MemberBase {
                 else {
                     lines.push(`### ${prototype} {#${id}}`);
                 }
-                if (this.briefDescriptionMarkdownString !== undefined && this.briefDescriptionMarkdownString.length > 0) {
-                    childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-                        briefDescriptionString: this.briefDescriptionMarkdownString
+                if (this.briefDescriptionHtmlString !== undefined && this.briefDescriptionHtmlString.length > 0) {
+                    childrenLines.push(this.section.compound.renderBriefDescriptionToHtmlString({
+                        briefDescriptionHtmlString: this.briefDescriptionHtmlString
                     }));
                 }
                 assert(this.enumHtmlLines !== undefined);
                 childrenLines.push(...this.enumHtmlLines);
-                if (this.detailedDescriptionMarkdownLines !== undefined) {
-                    childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-                        detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
+                if (this.detailedDescriptionHtmlLines !== undefined) {
+                    childrenLines.push(...this.section.compound.renderDetailedDescriptionToHtmlLines({
+                        detailedDescriptionHtmlLines: this.detailedDescriptionHtmlLines,
                         showHeader: false,
                         showBrief: false
                     }));
@@ -734,10 +732,10 @@ export class Member extends MemberBase {
             case 'friend':
                 // console.log(this)
                 prototype = `friend ${this.type} ${this.parametersHtmlString}`;
-                if (this.detailedDescriptionMarkdownLines !== undefined) {
-                    childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-                        briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
-                        detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
+                if (this.detailedDescriptionHtmlLines !== undefined) {
+                    childrenLines.push(...this.section.compound.renderDetailedDescriptionToHtmlLines({
+                        briefDescriptionHtmlString: this.briefDescriptionHtmlString,
+                        detailedDescriptionHtmlLines: this.detailedDescriptionHtmlLines,
                         showHeader: false,
                         showBrief: true
                     }));
@@ -758,9 +756,9 @@ export class Member extends MemberBase {
                         prototype += '...';
                     }
                 }
-                if (this.briefDescriptionMarkdownString !== undefined) {
-                    childrenLines.push(this.section.compound.renderBriefDescriptionToString({
-                        briefDescriptionString: this.briefDescriptionMarkdownString
+                if (this.briefDescriptionHtmlString !== undefined) {
+                    childrenLines.push(this.section.compound.renderBriefDescriptionToHtmlString({
+                        briefDescriptionHtmlString: this.briefDescriptionHtmlString
                     }));
                 }
                 if (this.initializerHtmlLines !== undefined && this.initializerHtmlLines.length > 1) {
@@ -768,22 +766,26 @@ export class Member extends MemberBase {
                     childrenLines.push('<dl class="doxySectionUser">');
                     childrenLines.push('<dt>Value</dt>');
                     childrenLines.push('<dd>');
-                    // TODO make code
-                    childrenLines.push(`<div class="doxyVerbatim">${this.initializerHtmlLines[0]}`);
-                    for (const initializerLine of this.initializerHtmlLines.slice(1)) {
-                        if (initializerLine.trim().length > 0) {
-                            childrenLines.push(initializerLine);
-                            // } else {
-                            //   childrenLines.push('&nbsp;')
-                        }
+                    if (this.initializerHtmlLines.length === 1) {
+                        childrenLines.push(`<div class="doxyVerbatim">${this.initializerHtmlLines[0]}</div>`);
                     }
-                    childrenLines.push('</div>');
+                    else {
+                        childrenLines.push(`<div class="doxyVerbatim">${this.initializerHtmlLines[0]}`);
+                        for (const initializerLine of this.initializerHtmlLines.slice(1)) {
+                            if (initializerLine.trim().length > 0) {
+                                childrenLines.push(initializerLine);
+                                // } else {
+                                //   childrenLines.push('&nbsp;')
+                            }
+                        }
+                        childrenLines.push('</div>');
+                    }
                     childrenLines.push('</dd>');
                     childrenLines.push('</dl>');
                 }
-                childrenLines.push(...this.section.compound.renderDetailedDescriptionToLines({
-                    briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
-                    detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
+                childrenLines.push(...this.section.compound.renderDetailedDescriptionToHtmlLines({
+                    briefDescriptionHtmlString: this.briefDescriptionHtmlString,
+                    detailedDescriptionHtmlLines: this.detailedDescriptionHtmlLines,
                     showHeader: false,
                     showBrief: false
                 }));
@@ -884,7 +886,14 @@ export class Member extends MemberBase {
                 lines.push('<tr class="doxyEnumItem">');
                 lines.push(`<td class="doxyEnumItemName">${enumValue.name.trim()}<a id="${anchor}"></a></td>`);
                 // lines.push(`<td class="doxyEnumItemDescription"><p>${enumBriefDescription}</p></td>`)
-                lines.push(`<td class="doxyEnumItemDescription">${enumBriefDescriptionHtmlString}</td>`);
+                if (!enumBriefDescriptionHtmlString.includes('\n')) {
+                    lines.push(`<td class="doxyEnumItemDescription">${enumBriefDescriptionHtmlString}</td>`);
+                }
+                else {
+                    lines.push('<td class="doxyEnumItemDescription">');
+                    lines.push(...enumBriefDescriptionHtmlString.split('\n'));
+                    lines.push('</td>');
+                }
                 lines.push('</tr>');
             }
         }

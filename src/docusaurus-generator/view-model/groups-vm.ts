@@ -322,11 +322,11 @@ export class Group extends CompoundBase {
 
     const descriptionTodo = `@defgroup ${this.collection.workspace.renderString(this.compoundName, 'html')}`
 
-    const hasIndices = (this.renderDetailedDescriptionToLines !== undefined || this.hasSect1InDescription) && (this.hasInnerIndices() || this.hasSections())
+    const hasIndices = (this.renderDetailedDescriptionToHtmlLines !== undefined || this.hasSect1InDescription) && (this.hasInnerIndices() || this.hasSections())
     const morePermalink = hasIndices ? '#details' : undefined
 
-    lines.push(this.renderBriefDescriptionToString({
-      briefDescriptionString: this.briefDescriptionMarkdownString,
+    lines.push(this.renderBriefDescriptionToHtmlString({
+      briefDescriptionHtmlString: this.briefDescriptionHtmlString,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -337,9 +337,9 @@ export class Group extends CompoundBase {
 
     lines.push(...this.renderSectionIndicesToLines())
 
-    lines.push(...this.renderDetailedDescriptionToLines({
-      briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
-      detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
+    lines.push(...this.renderDetailedDescriptionToHtmlLines({
+      briefDescriptionHtmlString: this.briefDescriptionHtmlString,
+      detailedDescriptionHtmlLines: this.detailedDescriptionHtmlLines,
       todo: descriptionTodo,
       showHeader: !this.hasSect1InDescription,
       showBrief: !this.hasSect1InDescription

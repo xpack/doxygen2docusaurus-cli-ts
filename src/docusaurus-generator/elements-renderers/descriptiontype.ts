@@ -66,6 +66,7 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
               lines.push(text)
             } else {
               lines.push(`<p>${text}</p>`)
+              lines.push('')
             }
           }
           inParagraph = false
@@ -84,6 +85,7 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
           lines.push(text)
         } else {
           lines.push(`<p>${text}</p>`)
+          lines.push('')
         }
       }
     }
@@ -298,17 +300,8 @@ export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
         if (!body.includes('\n')) {
           lines.push(`<dd>${body}</dd>`)
         } else {
-          const bodyLines = body.split('\n')
-          lines.push(`<dd>${bodyLines[0]}`)
-          for (const bodyLine of bodyLines.slice(1)) {
-            if (bodyLine.trim().length > 0) {
-              lines.push(bodyLine)
-            } else {
-              // "A blank line ends the block-level HTML element."
-              // Without it admonitions are not rendered properly.
-              lines.push('&nbsp;')
-            }
-          }
+          lines.push('<dd>')
+          lines.push(...body.split('\n'))
           lines.push('</dd>')
         }
       }
@@ -325,35 +318,31 @@ export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
         if (!body.includes('\n')) {
           lines.push(`<dd>${body}</dd>`)
         } else {
-          const bodyLines = body.split('\n')
-          lines.push(`<dd>${bodyLines[0]}`)
-          for (const bodyLine of bodyLines.slice(1)) {
-            if (bodyLine.trim().length > 0) {
-              lines.push(bodyLine)
-            } else {
-              // "A blank line ends the block-level HTML element."
-              lines.push('&nbsp;')
-            }
-          }
+          lines.push('<dd>')
+          lines.push(...body.split('\n'))
           lines.push('</dd>')
         }
       }
       lines.push('</dl>')
     } else if (element.kind === 'note') {
       // https://docusaurus.io/docs/markdown-features/admonitions
+      lines.push('')
       lines.push(':::info')
       lines.push(this.workspace.renderElementToString(element.children, renderParagraphs ? 'html' : 'markdown').trim())
       lines.push(':::')
     } else if (element.kind === 'warning') {
+      lines.push('')
       lines.push(':::warning')
       // console.log(util.inspect(element, { compact: false, depth: 999 }))
       lines.push(this.workspace.renderElementToString(element.children, renderParagraphs ? 'html' : 'markdown').trim())
       lines.push(':::')
     } else if (element.kind === 'attention') {
+      lines.push('')
       lines.push(':::danger')
       lines.push(this.workspace.renderElementToString(element.children, renderParagraphs ? 'html' : 'markdown').trim())
       lines.push(':::')
     } else if (element.kind === 'important') {
+      lines.push('')
       lines.push(':::tip')
       lines.push(this.workspace.renderElementToString(element.children, renderParagraphs ? 'html' : 'markdown').trim())
       lines.push(':::')

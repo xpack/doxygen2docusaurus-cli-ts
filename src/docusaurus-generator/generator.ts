@@ -232,13 +232,13 @@ export class DocusaurusGenerator {
         lines.push('## Description')
       }
 
-      const detailedDescriptionLines = mainPage.detailedDescriptionMarkdownLines
+      const detailedDescriptionLines = mainPage.detailedDescriptionHtmlLines
 
       if (detailedDescriptionLines !== undefined && detailedDescriptionLines.length > 0) {
         lines.push('')
-        lines.push(...mainPage.renderDetailedDescriptionToLines({
-          briefDescriptionMarkdownString: mainPage.briefDescriptionMarkdownString,
-          detailedDescriptionMarkdownLines: mainPage.detailedDescriptionMarkdownLines,
+        lines.push(...mainPage.renderDetailedDescriptionToHtmlLines({
+          briefDescriptionHtmlString: mainPage.briefDescriptionHtmlString,
+          detailedDescriptionHtmlLines: mainPage.detailedDescriptionHtmlLines,
           showHeader: false,
           showBrief: false
         }))

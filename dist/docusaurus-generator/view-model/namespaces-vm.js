@@ -305,9 +305,9 @@ export class Namespace extends CompoundBase {
         const lines = [];
         const workspace = this.collection.workspace;
         const descriptionTodo = `@namespace ${workspace.renderString(this.compoundName, 'html')}`;
-        const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
-        lines.push(this.renderBriefDescriptionToString({
-            briefDescriptionString: this.briefDescriptionMarkdownString,
+        const morePermalink = this.renderDetailedDescriptionToHtmlLines !== undefined ? '#details' : undefined;
+        lines.push(this.renderBriefDescriptionToHtmlString({
+            briefDescriptionHtmlString: this.briefDescriptionHtmlString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -327,9 +327,9 @@ export class Namespace extends CompoundBase {
             suffixes: ['Namespaces', 'Classes']
         }));
         lines.push(...this.renderSectionIndicesToLines());
-        lines.push(...this.renderDetailedDescriptionToLines({
-            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
-            detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
+        lines.push(...this.renderDetailedDescriptionToHtmlLines({
+            briefDescriptionHtmlString: this.briefDescriptionHtmlString,
+            detailedDescriptionHtmlLines: this.detailedDescriptionHtmlLines,
             todo: descriptionTodo,
             showHeader: true,
             showBrief: !this.hasSect1InDescription

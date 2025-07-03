@@ -44,9 +44,8 @@ export declare abstract class CompoundBase {
     indexName: string;
     /** The name shown in the page title. */
     pageTitle: string;
-    briefDescriptionMarkdownString: string | undefined;
     briefDescriptionHtmlString: string | undefined;
-    detailedDescriptionMarkdownLines: string[] | undefined;
+    detailedDescriptionHtmlLines: string[] | undefined;
     hasSect1InDescription: boolean;
     locationLines: string[] | undefined;
     sections: Section[];
@@ -63,14 +62,14 @@ export declare abstract class CompoundBase {
     initializeLate(): void;
     isOperator(name: string): boolean;
     abstract renderToLines(frontMatter: FrontMatter): string[];
-    renderBriefDescriptionToString({ briefDescriptionString, todo, morePermalink }: {
-        briefDescriptionString: string | undefined;
+    renderBriefDescriptionToHtmlString({ briefDescriptionHtmlString, todo, morePermalink }: {
+        briefDescriptionHtmlString: string | undefined;
         todo?: string;
         morePermalink?: string | undefined;
     }): string;
-    renderDetailedDescriptionToLines({ briefDescriptionMarkdownString, detailedDescriptionMarkdownLines, todo, showHeader, showBrief }: {
-        briefDescriptionMarkdownString?: string | undefined;
-        detailedDescriptionMarkdownLines: string[] | undefined;
+    renderDetailedDescriptionToHtmlLines({ briefDescriptionHtmlString, detailedDescriptionHtmlLines, todo, showHeader, showBrief }: {
+        briefDescriptionHtmlString?: string | undefined;
+        detailedDescriptionHtmlLines: string[] | undefined;
         todo?: string;
         showHeader: boolean;
         showBrief?: boolean;
@@ -85,8 +84,8 @@ export declare abstract class CompoundBase {
     renderSectionsToLines(): string[];
     renderLocationToLines(location: LocationDataModel | undefined): string[];
     renderGeneratedFromToLines(): string[];
-    renderReferencesToString(references: ReferenceDataModel[] | undefined): string;
-    renderReferencedByToString(referencedBy: ReferencedByDataModel[] | undefined): string;
+    renderReferencesToHtmlString(references: ReferenceDataModel[] | undefined): string;
+    renderReferencedByToHtmlString(referencedBy: ReferencedByDataModel[] | undefined): string;
     /**
      * Return an array of types, like `class T`, or `class U = T`, or `N T::* MP`
      * @param templateParamList

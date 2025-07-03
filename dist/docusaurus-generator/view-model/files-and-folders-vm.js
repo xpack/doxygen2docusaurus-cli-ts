@@ -377,9 +377,9 @@ export class Folder extends CompoundBase {
     renderToLines(frontMatter) {
         const lines = [];
         const descriptionTodo = `@dir ${this.collection.workspace.renderString(this.relativePath, 'html')}`;
-        const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
-        lines.push(this.renderBriefDescriptionToString({
-            briefDescriptionString: this.briefDescriptionMarkdownString,
+        const morePermalink = this.renderDetailedDescriptionToHtmlLines !== undefined ? '#details' : undefined;
+        lines.push(this.renderBriefDescriptionToHtmlString({
+            briefDescriptionHtmlString: this.briefDescriptionHtmlString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -387,9 +387,9 @@ export class Folder extends CompoundBase {
             suffixes: ['Dirs', 'Files']
         }));
         lines.push(...this.renderSectionIndicesToLines());
-        lines.push(...this.renderDetailedDescriptionToLines({
-            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
-            detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
+        lines.push(...this.renderDetailedDescriptionToHtmlLines({
+            briefDescriptionHtmlString: this.briefDescriptionHtmlString,
+            detailedDescriptionHtmlLines: this.detailedDescriptionHtmlLines,
             todo: descriptionTodo,
             showHeader: true,
             showBrief: !this.hasSect1InDescription
@@ -477,9 +477,9 @@ export class File extends CompoundBase {
     renderToLines(frontMatter) {
         const lines = [];
         const descriptionTodo = `@file ${this.collection.workspace.renderString(this.relativePath, 'html')}`;
-        const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined;
-        lines.push(this.renderBriefDescriptionToString({
-            briefDescriptionString: this.briefDescriptionMarkdownString,
+        const morePermalink = this.renderDetailedDescriptionToHtmlLines !== undefined ? '#details' : undefined;
+        lines.push(this.renderBriefDescriptionToHtmlString({
+            briefDescriptionHtmlString: this.briefDescriptionHtmlString,
             todo: descriptionTodo,
             morePermalink
         }));
@@ -488,9 +488,9 @@ export class File extends CompoundBase {
             suffixes: ['Namespaces', 'Classes']
         }));
         lines.push(...this.renderSectionIndicesToLines());
-        lines.push(...this.renderDetailedDescriptionToLines({
-            briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
-            detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
+        lines.push(...this.renderDetailedDescriptionToHtmlLines({
+            briefDescriptionHtmlString: this.briefDescriptionHtmlString,
+            detailedDescriptionHtmlLines: this.detailedDescriptionHtmlLines,
             todo: descriptionTodo,
             showHeader: true,
             showBrief: !this.hasSect1InDescription

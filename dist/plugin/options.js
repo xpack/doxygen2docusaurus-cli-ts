@@ -40,6 +40,6 @@ export function getInstanceDefaultOptions(id) {
     }
     return options;
 }
-export const renderParagraphs = false;
+export const renderParagraphs = true;
 // ----------------------------------------------------------------------------
 //# sourceMappingURL=options.js.map

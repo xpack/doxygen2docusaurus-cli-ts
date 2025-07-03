@@ -47,11 +47,17 @@ export class VariableListPairLinesRenderer extends ElementLinesRendererBase {
     // WARNING: the title includes <b></b>
     const title = this.workspace.renderElementToString(element.varlistentry.term, 'html').trim()
 
-    this.workspace.skipElementsPara(element.listitem.paras)
+    // this.workspace.skipElementsPara(element.listitem.paras)
     const description = this.workspace.renderElementsArrayToString(element.listitem.paras, 'html').trim()
 
     lines.push(`<dt>${title}</dt>`)
-    lines.push(`<dd>${removeEmptyLines(description)}</dd>`)
+    if (!description.includes('\n')) {
+      lines.push(`<dd>${description}</dd>`)
+    } else {
+      lines.push('<dd>')
+      lines.push(...description.split('\n'))
+      lines.push('</dd>')
+    }
 
     return lines
   }

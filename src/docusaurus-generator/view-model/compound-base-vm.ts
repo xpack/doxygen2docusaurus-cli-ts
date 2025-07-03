@@ -31,6 +31,7 @@ import { IncludesDataModel } from '../../data-model/compounds/inctype-dm.js'
 import { SectionDefByKindDataModel, SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-dm.js'
 import { AbstractMemberBaseType } from '../../data-model/compounds/memberdeftype-dm.js'
 import { ReferenceDataModel, ReferencedByDataModel } from '../../data-model/compounds/referencetype-dm.js'
+import { renderParagraphs } from '../../plugin/options.js'
 
 // ----------------------------------------------------------------------------
 
@@ -91,9 +92,8 @@ export abstract class CompoundBase {
   /** The name shown in the page title. */
   pageTitle: string = ''
 
-  briefDescriptionMarkdownString: string | undefined
   briefDescriptionHtmlString: string | undefined
-  detailedDescriptionMarkdownLines: string[] | undefined
+  detailedDescriptionHtmlLines: string[] | undefined
   hasSect1InDescription: boolean = false
 
   locationLines: string[] | undefined
@@ -277,37 +277,19 @@ export abstract class CompoundBase {
 
     if (compoundDef.briefDescription !== undefined) {
       // console.log(compoundDef.briefDescription)
+
       assert(compoundDef.briefDescription.children !== undefined)
       if (compoundDef.briefDescription.children.length > 1) {
         assert(compoundDef.briefDescription.children[1] instanceof ParaDataModel)
-        this.briefDescriptionMarkdownString = workspace.renderElementsArrayToString(compoundDef.briefDescription.children[1].children, 'markdown').trim()
-        const briefHtml = workspace.renderElementsArrayToString(compoundDef.briefDescription.children[1].children, 'html').trim()
-        if (briefHtml !== this.briefDescriptionMarkdownString) {
-          this.briefDescriptionHtmlString = briefHtml
-        } else {
-          this.briefDescriptionHtmlString = this.briefDescriptionMarkdownString
-        }
+        this.briefDescriptionHtmlString = workspace.renderElementsArrayToString(compoundDef.briefDescription.children[1].children, 'html').trim()
       } else {
-        this.briefDescriptionMarkdownString = workspace.renderElementToString(compoundDef.briefDescription, 'markdown').trim()
-        const briefHtml = workspace.renderElementToString(compoundDef.briefDescription, 'markdown').trim()
-        if (briefHtml !== this.briefDescriptionMarkdownString) {
-          this.briefDescriptionHtmlString = briefHtml
-        } else {
-          this.briefDescriptionHtmlString = this.briefDescriptionMarkdownString
-        }
+        this.briefDescriptionHtmlString = workspace.renderElementToString(compoundDef.briefDescription, 'html').trim()
       }
     }
 
     if (compoundDef.detailedDescription !== undefined) {
       // console.log(compoundDef.detailedDescription)
-      this.detailedDescriptionMarkdownLines = workspace.renderElementToLines(compoundDef.detailedDescription, 'markdown')
-
-      // for (const child of compoundDef.detailedDescription.children) {
-      //   if (child instanceof Sect1DataModel) {
-      //     this.hasSect1InDescription = true
-      //     break
-      //   }
-      // }
+      this.detailedDescriptionHtmlLines = workspace.renderElementToLines(compoundDef.detailedDescription, 'html')
     }
 
     if (this.kind === 'page') {
@@ -364,12 +346,12 @@ export abstract class CompoundBase {
 
   // --------------------------------------------------------------------------
 
-  renderBriefDescriptionToString ({
-    briefDescriptionString,
+  renderBriefDescriptionToHtmlString ({
+    briefDescriptionHtmlString,
     todo = '',
     morePermalink
   }: {
-    briefDescriptionString: string | undefined
+    briefDescriptionHtmlString: string | undefined
     todo?: string
     morePermalink?: string | undefined
   }): string {
@@ -379,19 +361,19 @@ export abstract class CompoundBase {
       todo = ''
     }
 
-    if (briefDescriptionString === undefined && todo.length === 0) {
+    if (briefDescriptionHtmlString === undefined && todo.length === 0) {
       return ''
     }
 
-    if (briefDescriptionString !== undefined && briefDescriptionString.length > 0) {
-      // text += '<p>'
-      text += briefDescriptionString
+    if (briefDescriptionHtmlString !== undefined && briefDescriptionHtmlString.length > 0) {
+      text += '<p>'
+      text += briefDescriptionHtmlString
       if (morePermalink !== undefined && morePermalink.length > 0) {
         text += ` <a href="${morePermalink}">`
         text += 'More...'
         text += '</a>'
       }
-      // text += '</p>'
+      text += '</p>'
     } else if (todo.length > 0) {
       text += `TODO: add <code>@brief</code> to <code>${todo}</code>`
     }
@@ -399,15 +381,15 @@ export abstract class CompoundBase {
     return text
   }
 
-  renderDetailedDescriptionToLines ({
-    briefDescriptionMarkdownString,
-    detailedDescriptionMarkdownLines,
+  renderDetailedDescriptionToHtmlLines ({
+    briefDescriptionHtmlString,
+    detailedDescriptionHtmlLines,
     todo = '',
     showHeader,
     showBrief = false
   }: {
-    briefDescriptionMarkdownString?: string | undefined
-    detailedDescriptionMarkdownLines: string[] | undefined
+    briefDescriptionHtmlString?: string | undefined
+    detailedDescriptionHtmlLines: string[] | undefined
     todo?: string
     showHeader: boolean
     showBrief?: boolean
@@ -420,9 +402,9 @@ export abstract class CompoundBase {
 
     // const workspace = this.collection.workspace
     if (showHeader) {
-      if ((detailedDescriptionMarkdownLines !== undefined && detailedDescriptionMarkdownLines.length > 0) ||
+      if ((detailedDescriptionHtmlLines !== undefined && detailedDescriptionHtmlLines.length > 0) ||
         todo.length > 0 ||
-        (showBrief && briefDescriptionMarkdownString !== undefined && briefDescriptionMarkdownString.length > 0)) {
+        (showBrief && briefDescriptionHtmlString !== undefined && briefDescriptionHtmlString.length > 0)) {
         lines.push('')
         lines.push('## Description {#details}')
       }
@@ -432,18 +414,18 @@ export abstract class CompoundBase {
       if (showHeader) {
         lines.push('')
       }
-      if (briefDescriptionMarkdownString !== undefined && briefDescriptionMarkdownString.length > 0) {
+      if (briefDescriptionHtmlString !== undefined && briefDescriptionHtmlString.length > 0) {
         // lines.push(`<p>${briefDescriptionNoParaString}</p>`)
-        lines.push(`${briefDescriptionMarkdownString}`)
+        lines.push(`${briefDescriptionHtmlString}`)
       } else if (todo.length > 0) {
         lines.push(`TODO: add <code>@brief</code> to <code>${todo}</code>`)
       }
     }
 
     // console.log(util.inspect(detailedDescriptionLines, { compact: false, depth: 999 }))
-    if (detailedDescriptionMarkdownLines !== undefined && detailedDescriptionMarkdownLines.length > 0) {
+    if (detailedDescriptionHtmlLines !== undefined && detailedDescriptionHtmlLines.length > 0) {
       lines.push('')
-      lines.push(...detailedDescriptionMarkdownLines)
+      lines.push(...detailedDescriptionHtmlLines)
     } else if (todo.length > 0) {
       lines.push('')
       lines.push(`TODO: add <code>@details</code> to <code>${todo}</code>`)
@@ -512,10 +494,10 @@ export abstract class CompoundBase {
 
             const childrenLines: string[] = []
 
-            const morePermalink = innerDataObject.renderDetailedDescriptionToLines !== undefined ? `${permalink}/#details` : undefined
+            const morePermalink = innerDataObject.renderDetailedDescriptionToHtmlLines !== undefined ? `${permalink}/#details` : undefined
             if (innerDataObject.briefDescriptionHtmlString !== undefined && innerDataObject.briefDescriptionHtmlString.length > 0) {
-              childrenLines.push(this.renderBriefDescriptionToString({
-                briefDescriptionString: innerDataObject.briefDescriptionHtmlString,
+              childrenLines.push(this.renderBriefDescriptionToHtmlString({
+                briefDescriptionHtmlString: innerDataObject.briefDescriptionHtmlString,
                 morePermalink
               }))
             }
@@ -621,6 +603,7 @@ export abstract class CompoundBase {
         assert(permalink !== undefined && permalink.length > 0)
 
         if (location.bodyfile !== undefined && location.file !== location.bodyfile) {
+          text += '<p>'
           text += 'Declaration '
           if (location.line !== undefined) {
             text += 'at line '
@@ -670,7 +653,10 @@ export abstract class CompoundBase {
             }
           }
           text += '.'
+          text += '</p>'
+          text += '\n'
         } else {
+          text += '<p>'
           text += 'Definition '
           if (location.line !== undefined) {
             text += 'at line '
@@ -691,6 +677,8 @@ export abstract class CompoundBase {
             text += locationFile
           }
           text += '.'
+          text += '</p>'
+          text += '\n'
         }
       } else {
         if (this.collection.workspace.pluginOptions.verbose) {
@@ -743,7 +731,7 @@ export abstract class CompoundBase {
     return lines
   }
 
-  renderReferencesToString (references: ReferenceDataModel[] | undefined): string {
+  renderReferencesToHtmlString (references: ReferenceDataModel[] | undefined): string {
     let text: string = ''
 
     if (references === undefined || references.length === 0) {
@@ -755,9 +743,10 @@ export abstract class CompoundBase {
     const referenceLines: string[] = []
 
     for (const reference of references) {
-      referenceLines.push(workspace.renderElementToString(reference, 'markdown'))
+      referenceLines.push(workspace.renderElementToString(reference, 'html'))
     }
 
+    text += '<p>'
     if (referenceLines.length === 1) {
       text += 'Reference '
     } else {
@@ -765,11 +754,13 @@ export abstract class CompoundBase {
     }
     text += joinWithLast(referenceLines, ', ', ' and ')
     text += '.'
+    text += '</p>'
+    text += '\n'
 
     return text
   }
 
-  renderReferencedByToString (referencedBy: ReferencedByDataModel[] | undefined): string {
+  renderReferencedByToHtmlString (referencedBy: ReferencedByDataModel[] | undefined): string {
     let text: string = ''
 
     if (referencedBy === undefined || referencedBy.length === 0) {
@@ -781,12 +772,15 @@ export abstract class CompoundBase {
     const referenceLines: string[] = []
 
     for (const reference of referencedBy) {
-      referenceLines.push(workspace.renderElementToString(reference, 'markdown'))
+      referenceLines.push(workspace.renderElementToString(reference, 'html'))
     }
 
+    text += '<p>'
     text += 'Referenced by '
     text += joinWithLast(referenceLines, ', ', ' and ')
     text += '.'
+    text += '</p>'
+    text += '\n'
 
     return text
   }
@@ -923,11 +917,11 @@ export abstract class CompoundBase {
 
   // Override it
   hasAnyContent (): boolean {
-    if (this.briefDescriptionMarkdownString !== undefined && this.briefDescriptionMarkdownString.length > 0) {
+    if (this.briefDescriptionHtmlString !== undefined && this.briefDescriptionHtmlString.length > 0) {
       // console.log('has content brief', this.compoundName)
       return true
     }
-    if (this.detailedDescriptionMarkdownLines !== undefined && this.detailedDescriptionMarkdownLines.length > 0) {
+    if (this.detailedDescriptionHtmlLines !== undefined && this.detailedDescriptionHtmlLines.length > 0) {
       // console.log('has content details', this.compoundName)
       return true
     }

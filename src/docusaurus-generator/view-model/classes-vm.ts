@@ -679,9 +679,9 @@ export class Class extends CompoundBase {
 
     const descriptionTodo = `@${this.kind} ${this.collection.workspace.renderString(this.compoundName, 'html')}`
 
-    const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? '#details' : undefined
-    lines.push(this.renderBriefDescriptionToString({
-      briefDescriptionString: this.briefDescriptionMarkdownString,
+    const morePermalink = this.renderDetailedDescriptionToHtmlLines !== undefined ? '#details' : undefined
+    lines.push(this.renderBriefDescriptionToHtmlString({
+      briefDescriptionHtmlString: this.briefDescriptionHtmlString,
       todo: descriptionTodo,
       morePermalink
     }))
@@ -830,9 +830,9 @@ export class Class extends CompoundBase {
 
     lines.push(...this.renderSectionIndicesToLines())
 
-    lines.push(...this.renderDetailedDescriptionToLines({
-      briefDescriptionMarkdownString: this.briefDescriptionMarkdownString,
-      detailedDescriptionMarkdownLines: this.detailedDescriptionMarkdownLines,
+    lines.push(...this.renderDetailedDescriptionToHtmlLines({
+      briefDescriptionHtmlString: this.briefDescriptionHtmlString,
+      detailedDescriptionHtmlLines: this.detailedDescriptionHtmlLines,
       todo: descriptionTodo,
       showHeader: true,
       showBrief: !this.hasSect1InDescription
@@ -869,11 +869,11 @@ export class Class extends CompoundBase {
     lines.push('')
 
     const childrenLines: string[] = []
-    const morePermalink = this.renderDetailedDescriptionToLines !== undefined ? `${permalink}/#details` : undefined
-    const briefDescriptionString: string | undefined = this.briefDescriptionHtmlString
-    if ((briefDescriptionString ?? '').length > 0) {
-      childrenLines.push(this.renderBriefDescriptionToString({
-        briefDescriptionString,
+    const morePermalink = this.renderDetailedDescriptionToHtmlLines !== undefined ? `${permalink}/#details` : undefined
+    const briefDescriptionHtmlString: string | undefined = this.briefDescriptionHtmlString
+    if ((briefDescriptionHtmlString ?? '').length > 0) {
+      childrenLines.push(this.renderBriefDescriptionToHtmlString({
+        briefDescriptionHtmlString,
         morePermalink
       }))
     }
