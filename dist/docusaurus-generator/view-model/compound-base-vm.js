@@ -279,7 +279,7 @@ export class CompoundBase {
             }
             if (briefDescriptionHtmlString !== undefined && briefDescriptionHtmlString.length > 0) {
                 // lines.push(`<p>${briefDescriptionNoParaString}</p>`)
-                lines.push(`${briefDescriptionHtmlString}`);
+                lines.push(`<p>${briefDescriptionHtmlString}</p>`);
             }
             else if (todo.length > 0) {
                 lines.push(`TODO: add <code>@brief</code> to <code>${todo}</code>`);
