@@ -556,68 +556,9 @@ export class Classes extends CollectionBase {
 
     // ------------------------------------------------------------------------
   }
-
-  orderPerInitials (entriesMap: Map<string, IndexEntry>): Map<string, IndexEntry[]> {
-    const entriesPerInitialsMap: Map<string, IndexEntry[]> = new Map()
-
-    for (const [id, entry] of entriesMap) {
-      const initial: string = entry.name.charAt(0).toLowerCase()
-      if (initial.length > 0) {
-        let mapArray = entriesPerInitialsMap.get(initial)
-        if (mapArray === undefined) {
-          mapArray = []
-          entriesPerInitialsMap.set(initial, mapArray)
-        }
-        mapArray.push(entry)
-      }
-    }
-
-    const orderedMap: Map<string, IndexEntry[]> = new Map()
-    const orderedInitials = Array.from(entriesPerInitialsMap.keys()).sort()
-    for (const initial of orderedInitials) {
-      const unorderedArray = entriesPerInitialsMap.get(initial)
-      assert(unorderedArray !== undefined)
-      const orderedArray = unorderedArray.sort((a, b) => {
-        let nameComparison = a.name.localeCompare(b.name, undefined, { sensitivity: 'accent' })
-        if (nameComparison !== 0) {
-          return nameComparison
-        }
-        nameComparison = a.longName.localeCompare(b.longName, undefined, { sensitivity: 'accent' })
-        return nameComparison
-      })
-      orderedMap.set(initial, orderedArray)
-    }
-
-    return orderedMap
-  }
-
-  outputEntries (entriesPerInitialsMap: Map<string, IndexEntry[]>): string[] {
-    const lines: string[] = []
-
-    for (const initial of entriesPerInitialsMap.keys()) {
-      lines.push('')
-      lines.push(`## - ${initial} -`)
-      lines.push('')
-      lines.push('<ul>')
-      const mapArray = entriesPerInitialsMap.get(initial)
-      assert(mapArray !== undefined)
-      for (const entry of mapArray) {
-        const className = entry.className ?? '???'
-        const name = entry.name
-        if (entry.permalink !== undefined && entry.permalink.length > 0) {
-          lines.push(`<li>${name}: <a href="${entry.permalink}">${className}</a></li>`)
-        } else {
-          lines.push(`<li>${name}: ${className}</li>`)
-        }
-      }
-      lines.push('</ul>')
-    }
-
-    return lines
-  }
 }
 
-// ----------------------------------------------------------------------------
+// ============================================================================
 
 export class Class extends CompoundBase {
   // Due to multiple-inheritance, there can be multiple parents.

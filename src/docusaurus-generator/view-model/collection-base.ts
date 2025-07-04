@@ -18,6 +18,7 @@ import { Workspace } from '../workspace.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { MenuItem, SidebarCategory } from '../../plugin/types.js'
 import { CompoundBase } from './compound-base-vm.js'
+import { IndexEntryBase } from './indices-vm.js'
 
 export abstract class CollectionBase {
   workspace: Workspace
@@ -47,6 +48,79 @@ export abstract class CollectionBase {
 
   hasCompounds (): boolean {
     return this.collectionCompoundsById.size > 0
+  }
+
+  // --------------------------------------------------------------------------
+
+  orderPerInitials (entriesMap: Map<string, IndexEntryBase>): Map<string, IndexEntryBase[]> {
+    const entriesPerInitialsMap: Map<string, IndexEntryBase[]> = new Map()
+
+    for (const [id, entry] of entriesMap) {
+      const initial: string = entry.name.charAt(0).toLowerCase()
+      if (initial.length > 0) {
+        let mapArray = entriesPerInitialsMap.get(initial)
+        if (mapArray === undefined) {
+          mapArray = []
+          entriesPerInitialsMap.set(initial, mapArray)
+        }
+        mapArray.push(entry)
+      }
+    }
+
+    const orderedMap: Map<string, IndexEntryBase[]> = new Map()
+    const orderedInitials = Array.from(entriesPerInitialsMap.keys()).sort()
+    for (const initial of orderedInitials) {
+      const unorderedArray = entriesPerInitialsMap.get(initial)
+      assert(unorderedArray !== undefined)
+      const orderedArray = unorderedArray.sort((a, b) => {
+        let nameComparison = a.name.localeCompare(b.name, undefined, { sensitivity: 'accent' })
+        if (nameComparison !== 0) {
+          return nameComparison
+        }
+        nameComparison = a.longName.localeCompare(b.longName, undefined, { sensitivity: 'accent' })
+        return nameComparison
+      })
+      orderedMap.set(initial, orderedArray)
+    }
+
+    return orderedMap
+  }
+
+  outputEntries (entriesPerInitialsMap: Map<string, IndexEntryBase[]>): string[] {
+    const lines: string[] = []
+
+    for (const initial of entriesPerInitialsMap.keys()) {
+      lines.push('')
+      lines.push(`## - ${(initial as string).toUpperCase()} -`)
+      lines.push('')
+      lines.push('<ul>')
+      const mapArray = entriesPerInitialsMap.get(initial)
+      assert(mapArray !== undefined)
+      for (const entry of mapArray) {
+        const linkName: string = entry.linkName ?? '???'
+
+        const name = entry.name
+
+        let text: string = ''
+
+        text += `<li><b>${name}</b>: `
+        if (entry.linkKind.length > 0) {
+          text += entry.linkKind
+          text += ' '
+        }
+
+        if (entry.permalink !== undefined && entry.permalink.length > 0) {
+          text += `<a href="${entry.permalink}">${linkName}</a>`
+        } else {
+          text += linkName
+        }
+        text += '</li>'
+        lines.push(text)
+      }
+      lines.push('</ul>')
+    }
+
+    return lines
   }
 }
 
