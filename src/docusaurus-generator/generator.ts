@@ -60,14 +60,22 @@ export class DocusaurusGenerator {
     // await this.generateConfigurationFile()
 
     console.log()
+    if (this.workspace.pluginOptions.verbose) {
+      console.log('Writing Docusaurus .md pages (object -> url)...')
+    } else {
+      console.log('Writing Docusaurus .md pages...')
+    }
     await this.generatePages()
 
-    console.log()
+    if (this.workspace.pluginOptions.verbose) {
+      console.log()
+    }
     await this.generateTopIndexDotMdFile()
     await this.generateCollectionsIndexDotMdFiles()
     await this.generatePerInitialsIndexMdFiles()
     console.log(this.workspace.writtenMdFilesCounter, '.md files written')
 
+    console.log()
     await this.generateSidebarFile()
     await this.generateMenuFile()
 
@@ -252,7 +260,9 @@ export class DocusaurusGenerator {
       lines.push(':::')
     }
 
-    console.log(`Writing top index file ${filePath}...`)
+    if (this.workspace.pluginOptions.verbose) {
+      console.log(`Writing top index file ${filePath}...`)
+    }
 
     await this.workspace.writeMdFile({
       filePath,
@@ -274,12 +284,6 @@ export class DocusaurusGenerator {
   // --------------------------------------------------------------------------
 
   async generatePages (): Promise<void> {
-    if (this.workspace.pluginOptions.verbose) {
-      console.log('Writing Docusaurus .md pages (object -> url)...')
-    } else {
-      console.log('Writing Docusaurus .md pages...')
-    }
-
     for (const [compoundId, compound] of this.workspace.compoundsById) {
       if (compound instanceof Page) {
         if (compound.id === 'indexpage') {
@@ -478,12 +482,12 @@ export class DocusaurusGenerator {
 
     let fromFilePath = path.join(this.workspace.projectPath, 'template', 'img', 'document-svgrepo-com.svg')
     let toFilePath = path.join(destImgFolderPath, 'document-svgrepo-com.svg')
-    console.log('Writing image file', toFilePath)
+    console.log('Copying image file', toFilePath)
     await fs.copyFile(fromFilePath, toFilePath)
 
     fromFilePath = path.join(this.workspace.projectPath, 'template', 'img', 'folder-svgrepo-com.svg')
     toFilePath = path.join(destImgFolderPath, 'folder-svgrepo-com.svg')
-    console.log('Writing image file', toFilePath)
+    console.log('Copying image file', toFilePath)
     await fs.copyFile(fromFilePath, toFilePath)
 
     fromFilePath = path.join(this.workspace.projectPath, 'template', 'css', 'custom.css')
@@ -491,7 +495,7 @@ export class DocusaurusGenerator {
     if (!await folderExists(path.dirname(toFilePath))) {
       await fs.mkdir(path.dirname(toFilePath), { recursive: true })
     }
-    console.log('Writing css file', toFilePath)
+    console.log('Copying css file', toFilePath)
     await fs.copyFile(fromFilePath, toFilePath)
   }
 

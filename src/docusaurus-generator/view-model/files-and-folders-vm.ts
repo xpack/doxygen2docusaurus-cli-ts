@@ -314,7 +314,10 @@ export class FilesAndFolders extends CollectionBase {
     lines.push('')
     lines.push('</table>')
 
-    console.log(`Writing files index file ${filePath}...`)
+    if (this.workspace.pluginOptions.verbose) {
+      console.log(`Writing files index file ${filePath}...`)
+    }
+
     await this.workspace.writeMdFile({
       filePath,
       frontMatter,
