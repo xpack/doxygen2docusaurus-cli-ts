@@ -230,7 +230,10 @@ export class Classes extends CollectionBase {
     lines.push('')
     lines.push('</table>')
 
-    console.log(`Writing classes index file ${filePath}...`)
+    if (this.workspace.pluginOptions.verbose) {
+      console.log(`Writing classes index file ${filePath}...`)
+    }
+
     await this.workspace.writeMdFile({
       filePath,
       frontMatter,
@@ -309,251 +312,82 @@ export class Classes extends CollectionBase {
 
     // ------------------------------------------------------------------------
 
-    const outputFolderPath = this.workspace.outputFolderPath
-
-    {
-      const filePath = `${outputFolderPath}index/classes/all.md`
-      const permalink = 'index/classes/all'
-
-      const frontMatter: FrontMatter = {
-        title: 'The Classes and Members Index',
-        slug: `${this.workspace.slugBaseUrl}${permalink}`,
-        // description: '...', // TODO
-        custom_edit_url: null,
-        keywords: ['doxygen', 'classes', 'index']
+    await this.generateIndexFile({
+      group: 'classes',
+      fileKind: 'all',
+      title: 'The Classes and Members Index',
+      description: 'The classes, structs, unions and their members are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (true)
       }
+    })
 
-      const lines: string[] = []
-
-      lines.push('The classes, structs, unions and their members, variables, types used by this project are:')
-
-      const orderedEntriesMap = this.orderPerInitials(allUnorderedEntriesMap)
-
-      lines.push(...this.outputEntries(orderedEntriesMap))
-
-      console.log(`Writing classes index file ${filePath}...`)
-      await this.workspace.writeMdFile({
-        filePath,
-        frontMatter,
-        bodyLines: lines
-      })
-    }
-
-    // ------------------------------------------------------------------------
-
-    {
-      const filePath = `${outputFolderPath}index/classes/classes.md`
-      const permalink = 'index/classes/classes'
-
-      const frontMatter: FrontMatter = {
-        title: 'The Classes Index',
-        slug: `${this.workspace.slugBaseUrl}${permalink}`,
-        // description: '...', // TODO
-        custom_edit_url: null,
-        keywords: ['doxygen', 'classes', 'index']
+    await this.generateIndexFile({
+      group: 'classes',
+      fileKind: 'classes',
+      title: 'The Classes Index',
+      description: 'The classes, structs, unions defined in the project are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'class' || kind === 'struct' || kind === 'union')
       }
+    })
 
-      const lines: string[] = []
-
-      lines.push('The classes, structs, unions used by this project are:')
-
-      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
-      for (const [id, entry] of allUnorderedEntriesMap) {
-        if (entry.kind === 'class' || entry.kind === 'struct' || entry.kind === 'union') {
-          classesUnorderedMap.set(id, entry)
-        }
+    await this.generateIndexFile({
+      group: 'classes',
+      fileKind: 'functions',
+      title: 'The Class Functions Index',
+      description: 'The class member functions defined in the project are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'function')
       }
-      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
+    })
 
-      lines.push(...this.outputEntries(orderedEntries))
-
-      console.log(`Writing classes index file ${filePath}...`)
-      await this.workspace.writeMdFile({
-        filePath,
-        frontMatter,
-        bodyLines: lines
-      })
-    }
-
-    // ------------------------------------------------------------------------
-
-    {
-      const filePath = `${outputFolderPath}index/classes/functions.md`
-      const permalink = 'index/classes/functions'
-
-      const frontMatter: FrontMatter = {
-        title: 'The Class Functions Index',
-        slug: `${this.workspace.slugBaseUrl}${permalink}`,
-        // description: '...', // TODO
-        custom_edit_url: null,
-        keywords: ['doxygen', 'classes', 'index']
+    await this.generateIndexFile({
+      group: 'classes',
+      fileKind: 'variables',
+      title: 'The Class Variables Index',
+      description: 'The class member variables defined in the project are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'variable')
       }
+    })
 
-      const lines: string[] = []
-
-      lines.push('The class member functions used by this project are:')
-
-      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
-      for (const [id, entry] of allUnorderedEntriesMap) {
-        if (entry.kind === 'function') {
-          classesUnorderedMap.set(id, entry)
-        }
+    await this.generateIndexFile({
+      group: 'classes',
+      fileKind: 'typedefs',
+      title: 'The Class Type Definitions Index',
+      description: 'The class member typedefs defined in the project are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'typedef')
       }
-      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
+    })
 
-      lines.push(...this.outputEntries(orderedEntries))
-
-      console.log(`Writing classes index file ${filePath}...`)
-      await this.workspace.writeMdFile({
-        filePath,
-        frontMatter,
-        bodyLines: lines
-      })
-    }
-
-    // ------------------------------------------------------------------------
-
-    {
-      const filePath = `${outputFolderPath}index/classes/variables.md`
-      const permalink = 'index/classes/variables'
-
-      const frontMatter: FrontMatter = {
-        title: 'The Class Variables Index',
-        slug: `${this.workspace.slugBaseUrl}${permalink}`,
-        // description: '...', // TODO
-        custom_edit_url: null,
-        keywords: ['doxygen', 'classes', 'index']
+    await this.generateIndexFile({
+      group: 'classes',
+      fileKind: 'enums',
+      title: 'The Class Enums Index',
+      description: 'The class member enums defined in the project are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'enum')
       }
+    })
 
-      const lines: string[] = []
-
-      lines.push('The class member variables used by this project are:')
-
-      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
-      for (const [id, entry] of allUnorderedEntriesMap) {
-        if (entry.kind === 'variable') {
-          classesUnorderedMap.set(id, entry)
-        }
+    await this.generateIndexFile({
+      group: 'classes',
+      fileKind: 'enumvalues',
+      title: 'The Class Enum Values Index',
+      description: 'The class member enum values defined in the project are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'enumvalue')
       }
-      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
-
-      lines.push(...this.outputEntries(orderedEntries))
-
-      console.log(`Writing classes index file ${filePath}...`)
-      await this.workspace.writeMdFile({
-        filePath,
-        frontMatter,
-        bodyLines: lines
-      })
-    }
-
-    // ------------------------------------------------------------------------
-
-    {
-      const filePath = `${outputFolderPath}index/classes/typedefs.md`
-      const permalink = 'index/classes/typedefs'
-
-      const frontMatter: FrontMatter = {
-        title: 'The Class Type Definitions Index',
-        slug: `${this.workspace.slugBaseUrl}${permalink}`,
-        // description: '...', // TODO
-        custom_edit_url: null,
-        keywords: ['doxygen', 'classes', 'index']
-      }
-
-      const lines: string[] = []
-
-      lines.push('The class member type definitions used by this project are:')
-
-      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
-      for (const [id, entry] of allUnorderedEntriesMap) {
-        if (entry.kind === 'typedef') {
-          classesUnorderedMap.set(id, entry)
-        }
-      }
-      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
-
-      lines.push(...this.outputEntries(orderedEntries))
-
-      console.log(`Writing classes index file ${filePath}...`)
-      await this.workspace.writeMdFile({
-        filePath,
-        frontMatter,
-        bodyLines: lines
-      })
-    }
-
-    // ------------------------------------------------------------------------
-
-    {
-      const filePath = `${outputFolderPath}index/classes/enums.md`
-      const permalink = 'index/classes/enums'
-
-      const frontMatter: FrontMatter = {
-        title: 'The Class Enums Index',
-        slug: `${this.workspace.slugBaseUrl}${permalink}`,
-        // description: '...', // TODO
-        custom_edit_url: null,
-        keywords: ['doxygen', 'classes', 'index']
-      }
-
-      const lines: string[] = []
-
-      lines.push('The class member enum definitions used by this project are:')
-
-      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
-      for (const [id, entry] of allUnorderedEntriesMap) {
-        if (entry.kind === 'enum') {
-          classesUnorderedMap.set(id, entry)
-        }
-      }
-      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
-
-      lines.push(...this.outputEntries(orderedEntries))
-
-      console.log(`Writing classes index file ${filePath}...`)
-      await this.workspace.writeMdFile({
-        filePath,
-        frontMatter,
-        bodyLines: lines
-      })
-    }
-
-    // ------------------------------------------------------------------------
-
-    {
-      const filePath = `${outputFolderPath}index/classes/enumvalues.md`
-      const permalink = 'index/classes/enumvalues'
-
-      const frontMatter: FrontMatter = {
-        title: 'The Class Enum Values Index',
-        slug: `${this.workspace.slugBaseUrl}${permalink}`,
-        // description: '...', // TODO
-        custom_edit_url: null,
-        keywords: ['doxygen', 'classes', 'index']
-      }
-
-      const lines: string[] = []
-
-      lines.push('The class member enum values used by this project are:')
-
-      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
-      for (const [id, entry] of allUnorderedEntriesMap) {
-        if (entry.kind === 'enumvalue') {
-          classesUnorderedMap.set(id, entry)
-        }
-      }
-      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
-
-      lines.push(...this.outputEntries(orderedEntries))
-
-      console.log(`Writing classes index file ${filePath}...`)
-      await this.workspace.writeMdFile({
-        filePath,
-        frontMatter,
-        bodyLines: lines
-      })
-    }
+    })
 
     // ------------------------------------------------------------------------
   }

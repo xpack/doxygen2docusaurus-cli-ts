@@ -19,6 +19,7 @@ import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.
 import { MenuItem, SidebarCategory } from '../../plugin/types.js'
 import { CompoundBase } from './compound-base-vm.js'
 import { IndexEntryBase } from './indices-vm.js'
+import { FrontMatter } from '../types.js'
 
 export abstract class CollectionBase {
   workspace: Workspace
@@ -121,6 +122,59 @@ export abstract class CollectionBase {
     }
 
     return lines
+  }
+
+  async generateIndexFile ({
+    group,
+    fileKind,
+    title,
+    description,
+    map,
+    filter
+  }: {
+    group: string
+    fileKind: string
+    title: string
+    description: string
+    map: Map<string, IndexEntryBase>
+    filter: (kind: string) => boolean
+  }): Promise<void> {
+    const outputFolderPath = this.workspace.outputFolderPath
+
+    const filePath = `${outputFolderPath}index/${group}/${fileKind}.md`
+    const permalink = `index/${group}/${fileKind}`
+
+    const frontMatter: FrontMatter = {
+      title,
+      slug: `${this.workspace.slugBaseUrl}${permalink}`,
+      // description: '...', // TODO
+      custom_edit_url: null,
+      keywords: ['doxygen', group, 'index']
+    }
+
+    const lines: string[] = []
+
+    lines.push(description)
+
+    const filteredMap: Map<string, IndexEntryBase> = new Map()
+    for (const [id, entry] of map) {
+      if (filter(entry.kind)) {
+        filteredMap.set(id, entry)
+      }
+    }
+    const orderedEntries = this.orderPerInitials(filteredMap)
+
+    lines.push(...this.outputEntries(orderedEntries))
+
+    if (this.workspace.pluginOptions.verbose) {
+      console.log(`Writing ${group} index file ${filePath}...`)
+    }
+
+    await this.workspace.writeMdFile({
+      filePath,
+      frontMatter,
+      bodyLines: lines
+    })
   }
 }
 

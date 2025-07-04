@@ -229,7 +229,10 @@ export class Namespaces extends CollectionBase {
     lines.push('')
     lines.push('</table>')
 
-    console.log(`Writing namespaces index file ${filePath}...`)
+    if (this.workspace.pluginOptions.verbose) {
+      console.log(`Writing namespaces index file ${filePath}...`)
+    }
+
     await this.workspace.writeMdFile({
       filePath,
       frontMatter,
@@ -318,251 +321,84 @@ export class Namespaces extends CollectionBase {
 
     // ------------------------------------------------------------------------
 
-    const outputFolderPath = this.workspace.outputFolderPath
-
-    {
-      const filePath = `${outputFolderPath}index/namespaces/all.md`
-      const permalink = 'index/namespaces/all'
-
-      const frontMatter: FrontMatter = {
-        title: 'The Namespaces and Members Index',
-        slug: `${this.workspace.slugBaseUrl}${permalink}`,
-        // description: '...', // TODO
-        custom_edit_url: null,
-        keywords: ['doxygen', 'namespaces', 'index']
+    await this.generateIndexFile({
+      group: 'namespaces',
+      fileKind: 'all',
+      title: 'The Namespaces Members Index',
+      description: 'The definitions part of the namespaces are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (true)
       }
+    })
 
-      const lines: string[] = []
+    await this.generateIndexFile({
+      group: 'namespaces',
+      fileKind: 'classes',
+      title: 'The Namespaces Classes Index',
+      description: 'The classes, structs, unions defined in the namespaces are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'class' || kind === 'struct' || kind === 'union')
+      }
+    })
 
-      lines.push('The definitions used by this project, with links to the namespace documentation, are:')
+    await this.generateIndexFile({
+      group: 'namespaces',
+      fileKind: 'functions',
+      title: 'The Namespaces Functions Index',
+      description: 'The functions defined in the namespaces are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'function')
+      }
+    })
 
-      const orderedEntriesMap = this.orderPerInitials(allUnorderedEntriesMap)
+    await this.generateIndexFile({
+      group: 'namespaces',
+      fileKind: 'variables',
+      title: 'The Namespaces Variables Index',
+      description: 'The variables defined in the namespaces are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'variable')
+      }
+    })
 
-      lines.push(...this.outputEntries(orderedEntriesMap))
+    await this.generateIndexFile({
+      group: 'namespaces',
+      fileKind: 'typedefs',
+      title: 'The Namespaces Type Definitions Index',
+      description: 'The typedefs defined in the namespaces are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'typedef')
+      }
+    })
 
-      console.log(`Writing namespaces index file ${filePath}...`)
-      await this.workspace.writeMdFile({
-        filePath,
-        frontMatter,
-        bodyLines: lines
-      })
-    }
+    await this.generateIndexFile({
+      group: 'namespaces',
+      fileKind: 'enums',
+      title: 'The Namespaces Enums Index',
+      description: 'The enums defined in the namespaces are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'enum')
+      }
+    })
+
+    await this.generateIndexFile({
+      group: 'namespaces',
+      fileKind: 'enumvalues',
+      title: 'The Namespaces Enum Values Index',
+      description: 'The enum values defined in the namespaces are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'enumvalue')
+      }
+    })
 
     // ------------------------------------------------------------------------
-
-    {
-      const filePath = `${outputFolderPath}index/namespaces/classes.md`
-      const permalink = 'index/namespaces/classes'
-
-      const frontMatter: FrontMatter = {
-        title: 'The Classes Index',
-        slug: `${this.workspace.slugBaseUrl}${permalink}`,
-        // description: '...', // TODO
-        custom_edit_url: null,
-        keywords: ['doxygen', 'namespaces', 'index']
-      }
-
-      const lines: string[] = []
-
-      lines.push('The classes, structs, unions used by this project, with links to the namespace documentation, are:')
-
-      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
-      for (const [id, entry] of allUnorderedEntriesMap) {
-        if (entry.kind === 'class' || entry.kind === 'struct' || entry.kind === 'union') {
-          classesUnorderedMap.set(id, entry)
-        }
-      }
-      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
-
-      lines.push(...this.outputEntries(orderedEntries))
-
-      console.log(`Writing namespaces index file ${filePath}...`)
-      await this.workspace.writeMdFile({
-        filePath,
-        frontMatter,
-        bodyLines: lines
-      })
-    }
-
-    // ------------------------------------------------------------------------
-
-    {
-      const filePath = `${outputFolderPath}index/namespaces/functions.md`
-      const permalink = 'index/namespaces/functions'
-
-      const frontMatter: FrontMatter = {
-        title: 'The Namespace Functions Index',
-        slug: `${this.workspace.slugBaseUrl}${permalink}`,
-        // description: '...', // TODO
-        custom_edit_url: null,
-        keywords: ['doxygen', 'namespaces', 'index']
-      }
-
-      const lines: string[] = []
-
-      lines.push('The functions used by this project, with links to the namespace documentation, are:')
-
-      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
-      for (const [id, entry] of allUnorderedEntriesMap) {
-        if (entry.kind === 'function') {
-          classesUnorderedMap.set(id, entry)
-        }
-      }
-      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
-
-      lines.push(...this.outputEntries(orderedEntries))
-
-      console.log(`Writing namespaces index file ${filePath}...`)
-      await this.workspace.writeMdFile({
-        filePath,
-        frontMatter,
-        bodyLines: lines
-      })
-    }
-
-    // ------------------------------------------------------------------------
-
-    {
-      const filePath = `${outputFolderPath}index/namespaces/variables.md`
-      const permalink = 'index/namespaces/variables'
-
-      const frontMatter: FrontMatter = {
-        title: 'The Namespace Variables Index',
-        slug: `${this.workspace.slugBaseUrl}${permalink}`,
-        // description: '...', // TODO
-        custom_edit_url: null,
-        keywords: ['doxygen', 'namespaces', 'index']
-      }
-
-      const lines: string[] = []
-
-      lines.push('The variables used by this project, with links to the namespace documentation, are:')
-
-      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
-      for (const [id, entry] of allUnorderedEntriesMap) {
-        if (entry.kind === 'variable') {
-          classesUnorderedMap.set(id, entry)
-        }
-      }
-      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
-
-      lines.push(...this.outputEntries(orderedEntries))
-
-      console.log(`Writing namespaces index file ${filePath}...`)
-      await this.workspace.writeMdFile({
-        filePath,
-        frontMatter,
-        bodyLines: lines
-      })
-    }
-
-    // ------------------------------------------------------------------------
-
-    {
-      const filePath = `${outputFolderPath}index/namespaces/typedefs.md`
-      const permalink = 'index/namespaces/typedefs'
-
-      const frontMatter: FrontMatter = {
-        title: 'The Namespace Type Definitions Index',
-        slug: `${this.workspace.slugBaseUrl}${permalink}`,
-        // description: '...', // TODO
-        custom_edit_url: null,
-        keywords: ['doxygen', 'namespaces', 'index']
-      }
-
-      const lines: string[] = []
-
-      lines.push('The type definitions used by this project, with links to the namespace documentation, are:')
-
-      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
-      for (const [id, entry] of allUnorderedEntriesMap) {
-        if (entry.kind === 'typedef') {
-          classesUnorderedMap.set(id, entry)
-        }
-      }
-      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
-
-      lines.push(...this.outputEntries(orderedEntries))
-
-      console.log(`Writing namespaces index file ${filePath}...`)
-      await this.workspace.writeMdFile({
-        filePath,
-        frontMatter,
-        bodyLines: lines
-      })
-    }
-
-    // ------------------------------------------------------------------------
-
-    {
-      const filePath = `${outputFolderPath}index/namespaces/enums.md`
-      const permalink = 'index/namespaces/enums'
-
-      const frontMatter: FrontMatter = {
-        title: 'The Namespace Enums Index',
-        slug: `${this.workspace.slugBaseUrl}${permalink}`,
-        // description: '...', // TODO
-        custom_edit_url: null,
-        keywords: ['doxygen', 'namespaces', 'index']
-      }
-
-      const lines: string[] = []
-
-      lines.push('The enum definitions used by this project, with links to the namespace documentation, are:')
-
-      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
-      for (const [id, entry] of allUnorderedEntriesMap) {
-        if (entry.kind === 'enum') {
-          classesUnorderedMap.set(id, entry)
-        }
-      }
-      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
-
-      lines.push(...this.outputEntries(orderedEntries))
-
-      console.log(`Writing namespaces index file ${filePath}...`)
-      await this.workspace.writeMdFile({
-        filePath,
-        frontMatter,
-        bodyLines: lines
-      })
-    }
-
-    // ------------------------------------------------------------------------
-
-    {
-      const filePath = `${outputFolderPath}index/namespaces/enumvalues.md`
-      const permalink = 'index/namespaces/enumvalues'
-
-      const frontMatter: FrontMatter = {
-        title: 'The Namespace Enum Values Index',
-        slug: `${this.workspace.slugBaseUrl}${permalink}`,
-        // description: '...', // TODO
-        custom_edit_url: null,
-        keywords: ['doxygen', 'namespaces', 'index']
-      }
-
-      const lines: string[] = []
-
-      lines.push('The enum values used by this project, with links to the namespace documentation, are:')
-
-      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
-      for (const [id, entry] of allUnorderedEntriesMap) {
-        if (entry.kind === 'enumvalue') {
-          classesUnorderedMap.set(id, entry)
-        }
-      }
-      const orderedEntries = this.orderPerInitials(classesUnorderedMap)
-
-      lines.push(...this.outputEntries(orderedEntries))
-
-      console.log(`Writing namespaces index file ${filePath}...`)
-      await this.workspace.writeMdFile({
-        filePath,
-        frontMatter,
-        bodyLines: lines
-      })
-    }
   }
 }
 
