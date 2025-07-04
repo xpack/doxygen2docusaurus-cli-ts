@@ -90,6 +90,7 @@ export abstract class CollectionBase {
   outputEntries (entriesPerInitialsMap: Map<string, IndexEntryBase[]>): string[] {
     const lines: string[] = []
 
+    let totalCount = 0
     for (const initial of entriesPerInitialsMap.keys()) {
       lines.push('')
       lines.push(`## - ${(initial as string).toUpperCase()} -`)
@@ -119,7 +120,15 @@ export abstract class CollectionBase {
         lines.push(text)
       }
       lines.push('</ul>')
+
+      if (mapArray.length > 1) {
+        lines.push(`<p>${mapArray.length} entries</p>`)
+      }
+      totalCount += mapArray.length
     }
+
+    lines.push('<br/>')
+    lines.push(`<p>Total: ${totalCount} entries.</p>`)
 
     return lines
   }
