@@ -14,6 +14,7 @@
 import { Class } from './classes-vm.js'
 import { EnumValue, Member } from './members-vm.js'
 import { Namespace } from './namespaces-vm.js'
+import { File } from './files-and-folders-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -114,43 +115,31 @@ export class ClassIndexEntry extends IndexEntryBase {
   constructor (entry: Class | Member | EnumValue, classs: Class) {
     super(entry)
 
-    if (entry instanceof Class) {
-      // console.log(this.kind, this.name, this.longName, this.linkName)
-    } else if (entry instanceof Member) {
-      // console.log(object)
-      this.linkKind = entry.section.compound.kind
-      this.linkName = classs.classFullName
-      // console.log(this.kind, this.name, this.longName, this.linkName)
-    } else if (entry instanceof EnumValue) {
-      this.linkKind = entry.member.section.compound.kind
-      this.linkName = classs.classFullName
-      // console.log(this.name, this.id, object.member.id)
-    }
+    this.linkKind = classs.kind
+    this.linkName = classs.classFullName
+
     // console.log(this)
   }
 }
 
 export class NamespaceIndexEntry extends IndexEntryBase {
-  constructor (entry: Namespace | Member | EnumValue | Class, namespace: Namespace) {
+  constructor (entry: Namespace | Class | Member | EnumValue, namespace: Namespace) {
     super(entry)
 
-    if (entry instanceof Namespace) {
-      // console.log(entry)
-      // console.log(this.kind, this.name, this.longName, this.linkName)
-    } else if (entry instanceof Class) {
-      this.linkKind = 'namespace'
-      this.linkName = namespace.indexName
-      // console.log(this.kind, this.name, this.longName, this.linkName)
-    } else if (entry instanceof Member) {
-      // console.log(object)
-      this.linkKind = 'namespace'
-      this.linkName = namespace.indexName
-      // console.log(this.kind, this.name, this.longName, this.linkName)
-    } else if (entry instanceof EnumValue) {
-      this.linkKind = 'namespace'
-      this.linkName = namespace.indexName
-      // console.log(this.name, this.id, entry.member.id)
-    }
+    this.linkKind = 'namespace'
+    this.linkName = namespace.indexName
+
+    // console.log(this)
+  }
+}
+
+export class FileIndexEntry extends IndexEntryBase {
+  constructor (entry: Namespace | Class | Member | EnumValue, file: File) {
+    super(entry)
+
+    this.linkKind = 'file'
+    this.linkName = file.indexName
+
     // console.log(this)
   }
 }
