@@ -23,7 +23,7 @@ import { MenuItem, SidebarCategory, SidebarCategoryItem, SidebarDocItem, Sidebar
 import { FrontMatter } from '../types.js'
 import { BaseCompoundRefDataModel, DerivedCompoundRefDataModel } from '../../data-model/compounds/compoundreftype-dm.js'
 import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js'
-import { IndexEntry } from './indices-vm.js'
+import { ClassIndexEntry, IndexEntryBase } from './indices-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -258,7 +258,7 @@ export class Classes extends CollectionBase {
       iconLetter = '?'
     }
 
-    const label = this.workspace.renderString(classs.unqualifiedName, 'html')
+    const label = this.workspace.renderString(classs.indexName, 'html')
 
     let description: string = ''
     if (classs.briefDescriptionHtmlString !== undefined && classs.briefDescriptionHtmlString.length > 0) {
@@ -288,17 +288,18 @@ export class Classes extends CollectionBase {
       return
     }
 
-    const allUnorderedEntriesMap: Map<string, IndexEntry> = new Map()
+    const allUnorderedEntriesMap: Map<string, IndexEntryBase> = new Map()
+
     for (const [compoundId, compound] of this.collectionCompoundsById) {
-      const compoundEntry = new IndexEntry(compound as Class)
+      const compoundEntry = new ClassIndexEntry(compound as Class, compound as Class)
       allUnorderedEntriesMap.set(compoundEntry.id, compoundEntry)
       for (const section of compound.sections) {
         for (const member of section.definitionMembers) {
-          const memberEntry = new IndexEntry(member)
+          const memberEntry = new ClassIndexEntry(member, compound as Class)
           allUnorderedEntriesMap.set(memberEntry.id, memberEntry)
           if (member.enumValues !== undefined) {
             for (const enumValue of member.enumValues) {
-              const enumValueEntry = new IndexEntry(enumValue)
+              const enumValueEntry = new ClassIndexEntry(enumValue, compound as Class)
               allUnorderedEntriesMap.set(enumValueEntry.id, enumValueEntry)
             }
           }
@@ -324,13 +325,13 @@ export class Classes extends CollectionBase {
 
       const lines: string[] = []
 
-      lines.push('The classes, structs, union interfaces and their members, variables, types used by this project are:')
+      lines.push('The classes, structs, unions and their members, variables, types used by this project are:')
 
       const orderedEntriesMap = this.orderPerInitials(allUnorderedEntriesMap)
 
       lines.push(...this.outputEntries(orderedEntriesMap))
 
-      console.log(`Writing index file ${filePath}...`)
+      console.log(`Writing classes index file ${filePath}...`)
       await this.workspace.writeMdFile({
         filePath,
         frontMatter,
@@ -354,11 +355,11 @@ export class Classes extends CollectionBase {
 
       const lines: string[] = []
 
-      lines.push('The classes, structs, union interfaces used by this project are:')
+      lines.push('The classes, structs, unions used by this project are:')
 
-      const classesUnorderedMap: Map<string, IndexEntry> = new Map()
+      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
       for (const [id, entry] of allUnorderedEntriesMap) {
-        if (entry.objectKind === 'compound') {
+        if (entry.kind === 'class' || entry.kind === 'struct' || entry.kind === 'union') {
           classesUnorderedMap.set(id, entry)
         }
       }
@@ -366,7 +367,7 @@ export class Classes extends CollectionBase {
 
       lines.push(...this.outputEntries(orderedEntries))
 
-      console.log(`Writing index file ${filePath}...`)
+      console.log(`Writing classes index file ${filePath}...`)
       await this.workspace.writeMdFile({
         filePath,
         frontMatter,
@@ -392,7 +393,7 @@ export class Classes extends CollectionBase {
 
       lines.push('The class member functions used by this project are:')
 
-      const classesUnorderedMap: Map<string, IndexEntry> = new Map()
+      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
       for (const [id, entry] of allUnorderedEntriesMap) {
         if (entry.kind === 'function') {
           classesUnorderedMap.set(id, entry)
@@ -402,7 +403,7 @@ export class Classes extends CollectionBase {
 
       lines.push(...this.outputEntries(orderedEntries))
 
-      console.log(`Writing index file ${filePath}...`)
+      console.log(`Writing classes index file ${filePath}...`)
       await this.workspace.writeMdFile({
         filePath,
         frontMatter,
@@ -428,7 +429,7 @@ export class Classes extends CollectionBase {
 
       lines.push('The class member variables used by this project are:')
 
-      const classesUnorderedMap: Map<string, IndexEntry> = new Map()
+      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
       for (const [id, entry] of allUnorderedEntriesMap) {
         if (entry.kind === 'variable') {
           classesUnorderedMap.set(id, entry)
@@ -438,7 +439,7 @@ export class Classes extends CollectionBase {
 
       lines.push(...this.outputEntries(orderedEntries))
 
-      console.log(`Writing index file ${filePath}...`)
+      console.log(`Writing classes index file ${filePath}...`)
       await this.workspace.writeMdFile({
         filePath,
         frontMatter,
@@ -464,7 +465,7 @@ export class Classes extends CollectionBase {
 
       lines.push('The class member type definitions used by this project are:')
 
-      const classesUnorderedMap: Map<string, IndexEntry> = new Map()
+      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
       for (const [id, entry] of allUnorderedEntriesMap) {
         if (entry.kind === 'typedef') {
           classesUnorderedMap.set(id, entry)
@@ -474,7 +475,7 @@ export class Classes extends CollectionBase {
 
       lines.push(...this.outputEntries(orderedEntries))
 
-      console.log(`Writing index file ${filePath}...`)
+      console.log(`Writing classes index file ${filePath}...`)
       await this.workspace.writeMdFile({
         filePath,
         frontMatter,
@@ -500,7 +501,7 @@ export class Classes extends CollectionBase {
 
       lines.push('The class member enum definitions used by this project are:')
 
-      const classesUnorderedMap: Map<string, IndexEntry> = new Map()
+      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
       for (const [id, entry] of allUnorderedEntriesMap) {
         if (entry.kind === 'enum') {
           classesUnorderedMap.set(id, entry)
@@ -510,7 +511,7 @@ export class Classes extends CollectionBase {
 
       lines.push(...this.outputEntries(orderedEntries))
 
-      console.log(`Writing index file ${filePath}...`)
+      console.log(`Writing classes index file ${filePath}...`)
       await this.workspace.writeMdFile({
         filePath,
         frontMatter,
@@ -536,7 +537,7 @@ export class Classes extends CollectionBase {
 
       lines.push('The class member enum values used by this project are:')
 
-      const classesUnorderedMap: Map<string, IndexEntry> = new Map()
+      const classesUnorderedMap: Map<string, IndexEntryBase> = new Map()
       for (const [id, entry] of allUnorderedEntriesMap) {
         if (entry.kind === 'enumvalue') {
           classesUnorderedMap.set(id, entry)
@@ -546,7 +547,7 @@ export class Classes extends CollectionBase {
 
       lines.push(...this.outputEntries(orderedEntries))
 
-      console.log(`Writing index file ${filePath}...`)
+      console.log(`Writing classes index file ${filePath}...`)
       await this.workspace.writeMdFile({
         filePath,
         frontMatter,
@@ -598,7 +599,7 @@ export class Class extends CompoundBase {
     }
 
     // Remove the template parameters.
-    this.fullyQualifiedName = compoundDef.compoundName.replace(/<.*>/, '')
+    this.fullyQualifiedName = compoundDef.compoundName.replace(/<.*>/, '').replace(/anonymous_namespace\{/, 'anonymous{')
     // Remove the namespaces(s).
     this.unqualifiedName = this.fullyQualifiedName.replace(/.*::/, '')
 

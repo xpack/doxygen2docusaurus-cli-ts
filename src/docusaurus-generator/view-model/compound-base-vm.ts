@@ -31,7 +31,6 @@ import { IncludesDataModel } from '../../data-model/compounds/inctype-dm.js'
 import { SectionDefByKindDataModel, SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-dm.js'
 import { AbstractMemberBaseType } from '../../data-model/compounds/memberdeftype-dm.js'
 import { ReferenceDataModel, ReferencedByDataModel } from '../../data-model/compounds/referencetype-dm.js'
-import { renderParagraphs } from '../../plugin/options.js'
 
 // ----------------------------------------------------------------------------
 
@@ -103,7 +102,7 @@ export abstract class CompoundBase {
 
   // Shortcut
   includes: IncludesDataModel[] | undefined
-  innerCompounds: Map<string, any> | undefined
+  innerCompounds: Map<string, CompoundDefDataModel> | undefined
 
   _private: {
     // Reference to the data model object.
@@ -464,7 +463,7 @@ export abstract class CompoundBase {
     for (const suffix of suffixes) {
       const innerKey = `inner${suffix}`
       const innerCompound = this.innerCompounds !== undefined ? (this.innerCompounds.get(innerKey)) : undefined
-      const innerObjects = innerCompound !== undefined ? innerCompound[innerKey] as AbstractRefType[] : undefined
+      const innerObjects = innerCompound !== undefined ? (innerCompound as any)[innerKey] as AbstractRefType[] : undefined
 
       if (innerObjects !== undefined && innerObjects.length > 0) {
         lines.push('')
@@ -914,6 +913,8 @@ export abstract class CompoundBase {
     }
     return text
   }
+
+  // --------------------------------------------------------------------------
 
   // Override it
   hasAnyContent (): boolean {
