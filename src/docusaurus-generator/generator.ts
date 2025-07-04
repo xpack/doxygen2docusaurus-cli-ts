@@ -321,8 +321,8 @@ export class DocusaurusGenerator {
         slug,
         // description: '...', // TODO
         custom_edit_url: null,
-        keywords: ['doxygen', 'reference', `${compound.kind as string}`],
-        toc_max_heading_level: 4
+        toc_max_heading_level: 4,
+        keywords: ['doxygen', 'reference', `${compound.kind as string}`]
       }
 
       const bodyLines = compound.renderToLines(frontMatter)
