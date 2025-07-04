@@ -13,7 +13,7 @@ import crypto from 'node:crypto';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
 import { flattenPath, sanitizeHierarchicalPath } from '../utils.js';
-import { IndexEntry } from './indices-vm.js';
+import { ClassIndexEntry } from './indices-vm.js';
 // ----------------------------------------------------------------------------
 const kindsPlurals = {
     class: 'Classes',
@@ -73,7 +73,7 @@ export class Classes extends CollectionBase {
             label: 'Classes',
             link: {
                 type: 'doc',
-                id: `${this.workspace.sidebarBaseId}index/classes/index`
+                id: `${this.workspace.sidebarBaseId}indices/classes/index`
             },
             collapsed: true,
             items: [
@@ -86,37 +86,37 @@ export class Classes extends CollectionBase {
                 {
                     type: 'doc',
                     label: 'All',
-                    id: `${this.workspace.sidebarBaseId}index/classes/all`
+                    id: `${this.workspace.sidebarBaseId}indices/classes/all`
                 },
                 {
                     type: 'doc',
                     label: 'Classes',
-                    id: `${this.workspace.sidebarBaseId}index/classes/classes`
+                    id: `${this.workspace.sidebarBaseId}indices/classes/classes`
                 },
                 {
                     type: 'doc',
                     label: 'Functions',
-                    id: `${this.workspace.sidebarBaseId}index/classes/functions`
+                    id: `${this.workspace.sidebarBaseId}indices/classes/functions`
                 },
                 {
                     type: 'doc',
                     label: 'Variables',
-                    id: `${this.workspace.sidebarBaseId}index/classes/variables`
+                    id: `${this.workspace.sidebarBaseId}indices/classes/variables`
                 },
                 {
                     type: 'doc',
                     label: 'Typedefs',
-                    id: `${this.workspace.sidebarBaseId}index/classes/typedefs`
+                    id: `${this.workspace.sidebarBaseId}indices/classes/typedefs`
                 },
                 {
                     type: 'doc',
                     label: 'Enums',
-                    id: `${this.workspace.sidebarBaseId}index/classes/enums`
+                    id: `${this.workspace.sidebarBaseId}indices/classes/enums`
                 },
                 {
                     type: 'doc',
                     label: 'Enum Values',
-                    id: `${this.workspace.sidebarBaseId}index/classes/enumvalues`
+                    id: `${this.workspace.sidebarBaseId}indices/classes/enumvalues`
                 }
             ]
         };
@@ -173,7 +173,7 @@ export class Classes extends CollectionBase {
         if (this.topLevelClasses.length === 0) {
             return;
         }
-        const filePath = `${this.workspace.outputFolderPath}index/classes/index.md`;
+        const filePath = `${this.workspace.outputFolderPath}indices/classes/index.md`;
         const permalink = 'classes';
         const frontMatter = {
             title: 'The Classes Reference',
@@ -191,7 +191,9 @@ export class Classes extends CollectionBase {
         }
         lines.push('');
         lines.push('</table>');
-        console.log(`Writing classes index file ${filePath}...`);
+        if (this.workspace.pluginOptions.verbose) {
+            console.log(`Writing classes index file ${filePath}...`);
+        }
         await this.workspace.writeMdFile({
             filePath,
             frontMatter,
@@ -213,7 +215,7 @@ export class Classes extends CollectionBase {
             console.error('Icon kind', classs.kind, 'not supported yet in', this.constructor.name, '(using ?)');
             iconLetter = '?';
         }
-        const label = this.workspace.renderString(classs.unqualifiedName, 'html');
+        const label = this.workspace.renderString(classs.indexName, 'html');
         let description = '';
         if (classs.briefDescriptionHtmlString !== undefined && classs.briefDescriptionHtmlString.length > 0) {
             description = classs.briefDescriptionHtmlString.replace(/[.]$/, '');
@@ -239,15 +241,15 @@ export class Classes extends CollectionBase {
         }
         const allUnorderedEntriesMap = new Map();
         for (const [compoundId, compound] of this.collectionCompoundsById) {
-            const compoundEntry = new IndexEntry(compound);
+            const compoundEntry = new ClassIndexEntry(compound, compound);
             allUnorderedEntriesMap.set(compoundEntry.id, compoundEntry);
             for (const section of compound.sections) {
                 for (const member of section.definitionMembers) {
-                    const memberEntry = new IndexEntry(member);
+                    const memberEntry = new ClassIndexEntry(member, compound);
                     allUnorderedEntriesMap.set(memberEntry.id, memberEntry);
                     if (member.enumValues !== undefined) {
                         for (const enumValue of member.enumValues) {
-                            const enumValueEntry = new IndexEntry(enumValue);
+                            const enumValueEntry = new ClassIndexEntry(enumValue, compound);
                             allUnorderedEntriesMap.set(enumValueEntry.id, enumValueEntry);
                         }
                     }
@@ -255,253 +257,80 @@ export class Classes extends CollectionBase {
             }
         }
         // ------------------------------------------------------------------------
-        const outputFolderPath = this.workspace.outputFolderPath;
-        {
-            const filePath = `${outputFolderPath}index/classes/all.md`;
-            const permalink = 'index/classes/all';
-            const frontMatter = {
-                title: 'The Classes and Members Index',
-                slug: `${this.workspace.slugBaseUrl}${permalink}`,
-                // description: '...', // TODO
-                custom_edit_url: null,
-                keywords: ['doxygen', 'classes', 'index']
-            };
-            const lines = [];
-            lines.push('The classes, structs, union interfaces and their members, variables, types used by this project are:');
-            const orderedEntriesMap = this.orderPerInitials(allUnorderedEntriesMap);
-            lines.push(...this.outputEntries(orderedEntriesMap));
-            console.log(`Writing index file ${filePath}...`);
-            await this.workspace.writeMdFile({
-                filePath,
-                frontMatter,
-                bodyLines: lines
-            });
-        }
+        await this.generateIndexFile({
+            group: 'classes',
+            fileKind: 'all',
+            title: 'The Classes and Members Index',
+            description: 'The classes, structs, unions and their members are:',
+            map: allUnorderedEntriesMap,
+            filter: (kind) => {
+                return (true);
+            }
+        });
+        await this.generateIndexFile({
+            group: 'classes',
+            fileKind: 'classes',
+            title: 'The Classes Index',
+            description: 'The classes, structs, unions defined in the project are:',
+            map: allUnorderedEntriesMap,
+            filter: (kind) => {
+                return (kind === 'class' || kind === 'struct' || kind === 'union');
+            }
+        });
+        await this.generateIndexFile({
+            group: 'classes',
+            fileKind: 'functions',
+            title: 'The Class Functions Index',
+            description: 'The class member functions defined in the project are:',
+            map: allUnorderedEntriesMap,
+            filter: (kind) => {
+                return (kind === 'function');
+            }
+        });
+        await this.generateIndexFile({
+            group: 'classes',
+            fileKind: 'variables',
+            title: 'The Class Variables Index',
+            description: 'The class member variables defined in the project are:',
+            map: allUnorderedEntriesMap,
+            filter: (kind) => {
+                return (kind === 'variable');
+            }
+        });
+        await this.generateIndexFile({
+            group: 'classes',
+            fileKind: 'typedefs',
+            title: 'The Class Type Definitions Index',
+            description: 'The class member typedefs defined in the project are:',
+            map: allUnorderedEntriesMap,
+            filter: (kind) => {
+                return (kind === 'typedef');
+            }
+        });
+        await this.generateIndexFile({
+            group: 'classes',
+            fileKind: 'enums',
+            title: 'The Class Enums Index',
+            description: 'The class member enums defined in the project are:',
+            map: allUnorderedEntriesMap,
+            filter: (kind) => {
+                return (kind === 'enum');
+            }
+        });
+        await this.generateIndexFile({
+            group: 'classes',
+            fileKind: 'enumvalues',
+            title: 'The Class Enum Values Index',
+            description: 'The class member enum values defined in the project are:',
+            map: allUnorderedEntriesMap,
+            filter: (kind) => {
+                return (kind === 'enumvalue');
+            }
+        });
         // ------------------------------------------------------------------------
-        {
-            const filePath = `${outputFolderPath}index/classes/classes.md`;
-            const permalink = 'index/classes/classes';
-            const frontMatter = {
-                title: 'The Classes Index',
-                slug: `${this.workspace.slugBaseUrl}${permalink}`,
-                // description: '...', // TODO
-                custom_edit_url: null,
-                keywords: ['doxygen', 'classes', 'index']
-            };
-            const lines = [];
-            lines.push('The classes, structs, union interfaces used by this project are:');
-            const classesUnorderedMap = new Map();
-            for (const [id, entry] of allUnorderedEntriesMap) {
-                if (entry.objectKind === 'compound') {
-                    classesUnorderedMap.set(id, entry);
-                }
-            }
-            const orderedEntries = this.orderPerInitials(classesUnorderedMap);
-            lines.push(...this.outputEntries(orderedEntries));
-            console.log(`Writing index file ${filePath}...`);
-            await this.workspace.writeMdFile({
-                filePath,
-                frontMatter,
-                bodyLines: lines
-            });
-        }
-        // ------------------------------------------------------------------------
-        {
-            const filePath = `${outputFolderPath}index/classes/functions.md`;
-            const permalink = 'index/classes/functions';
-            const frontMatter = {
-                title: 'The Class Functions Index',
-                slug: `${this.workspace.slugBaseUrl}${permalink}`,
-                // description: '...', // TODO
-                custom_edit_url: null,
-                keywords: ['doxygen', 'classes', 'index']
-            };
-            const lines = [];
-            lines.push('The class member functions used by this project are:');
-            const classesUnorderedMap = new Map();
-            for (const [id, entry] of allUnorderedEntriesMap) {
-                if (entry.kind === 'function') {
-                    classesUnorderedMap.set(id, entry);
-                }
-            }
-            const orderedEntries = this.orderPerInitials(classesUnorderedMap);
-            lines.push(...this.outputEntries(orderedEntries));
-            console.log(`Writing index file ${filePath}...`);
-            await this.workspace.writeMdFile({
-                filePath,
-                frontMatter,
-                bodyLines: lines
-            });
-        }
-        // ------------------------------------------------------------------------
-        {
-            const filePath = `${outputFolderPath}index/classes/variables.md`;
-            const permalink = 'index/classes/variables';
-            const frontMatter = {
-                title: 'The Class Variables Index',
-                slug: `${this.workspace.slugBaseUrl}${permalink}`,
-                // description: '...', // TODO
-                custom_edit_url: null,
-                keywords: ['doxygen', 'classes', 'index']
-            };
-            const lines = [];
-            lines.push('The class member variables used by this project are:');
-            const classesUnorderedMap = new Map();
-            for (const [id, entry] of allUnorderedEntriesMap) {
-                if (entry.kind === 'variable') {
-                    classesUnorderedMap.set(id, entry);
-                }
-            }
-            const orderedEntries = this.orderPerInitials(classesUnorderedMap);
-            lines.push(...this.outputEntries(orderedEntries));
-            console.log(`Writing index file ${filePath}...`);
-            await this.workspace.writeMdFile({
-                filePath,
-                frontMatter,
-                bodyLines: lines
-            });
-        }
-        // ------------------------------------------------------------------------
-        {
-            const filePath = `${outputFolderPath}index/classes/typedefs.md`;
-            const permalink = 'index/classes/typedefs';
-            const frontMatter = {
-                title: 'The Class Type Definitions Index',
-                slug: `${this.workspace.slugBaseUrl}${permalink}`,
-                // description: '...', // TODO
-                custom_edit_url: null,
-                keywords: ['doxygen', 'classes', 'index']
-            };
-            const lines = [];
-            lines.push('The class member type definitions used by this project are:');
-            const classesUnorderedMap = new Map();
-            for (const [id, entry] of allUnorderedEntriesMap) {
-                if (entry.kind === 'typedef') {
-                    classesUnorderedMap.set(id, entry);
-                }
-            }
-            const orderedEntries = this.orderPerInitials(classesUnorderedMap);
-            lines.push(...this.outputEntries(orderedEntries));
-            console.log(`Writing index file ${filePath}...`);
-            await this.workspace.writeMdFile({
-                filePath,
-                frontMatter,
-                bodyLines: lines
-            });
-        }
-        // ------------------------------------------------------------------------
-        {
-            const filePath = `${outputFolderPath}index/classes/enums.md`;
-            const permalink = 'index/classes/enums';
-            const frontMatter = {
-                title: 'The Class Enums Index',
-                slug: `${this.workspace.slugBaseUrl}${permalink}`,
-                // description: '...', // TODO
-                custom_edit_url: null,
-                keywords: ['doxygen', 'classes', 'index']
-            };
-            const lines = [];
-            lines.push('The class member enum definitions used by this project are:');
-            const classesUnorderedMap = new Map();
-            for (const [id, entry] of allUnorderedEntriesMap) {
-                if (entry.kind === 'enum') {
-                    classesUnorderedMap.set(id, entry);
-                }
-            }
-            const orderedEntries = this.orderPerInitials(classesUnorderedMap);
-            lines.push(...this.outputEntries(orderedEntries));
-            console.log(`Writing index file ${filePath}...`);
-            await this.workspace.writeMdFile({
-                filePath,
-                frontMatter,
-                bodyLines: lines
-            });
-        }
-        // ------------------------------------------------------------------------
-        {
-            const filePath = `${outputFolderPath}index/classes/enumvalues.md`;
-            const permalink = 'index/classes/enumvalues';
-            const frontMatter = {
-                title: 'The Class Enum Values Index',
-                slug: `${this.workspace.slugBaseUrl}${permalink}`,
-                // description: '...', // TODO
-                custom_edit_url: null,
-                keywords: ['doxygen', 'classes', 'index']
-            };
-            const lines = [];
-            lines.push('The class member enum values used by this project are:');
-            const classesUnorderedMap = new Map();
-            for (const [id, entry] of allUnorderedEntriesMap) {
-                if (entry.kind === 'enumvalue') {
-                    classesUnorderedMap.set(id, entry);
-                }
-            }
-            const orderedEntries = this.orderPerInitials(classesUnorderedMap);
-            lines.push(...this.outputEntries(orderedEntries));
-            console.log(`Writing index file ${filePath}...`);
-            await this.workspace.writeMdFile({
-                filePath,
-                frontMatter,
-                bodyLines: lines
-            });
-        }
-        // ------------------------------------------------------------------------
-    }
-    orderPerInitials(entriesMap) {
-        const entriesPerInitialsMap = new Map();
-        for (const [id, entry] of entriesMap) {
-            const initial = entry.name.charAt(0).toLowerCase();
-            if (initial.length > 0) {
-                let mapArray = entriesPerInitialsMap.get(initial);
-                if (mapArray === undefined) {
-                    mapArray = [];
-                    entriesPerInitialsMap.set(initial, mapArray);
-                }
-                mapArray.push(entry);
-            }
-        }
-        const orderedMap = new Map();
-        const orderedInitials = Array.from(entriesPerInitialsMap.keys()).sort();
-        for (const initial of orderedInitials) {
-            const unorderedArray = entriesPerInitialsMap.get(initial);
-            assert(unorderedArray !== undefined);
-            const orderedArray = unorderedArray.sort((a, b) => {
-                let nameComparison = a.name.localeCompare(b.name, undefined, { sensitivity: 'accent' });
-                if (nameComparison !== 0) {
-                    return nameComparison;
-                }
-                nameComparison = a.longName.localeCompare(b.longName, undefined, { sensitivity: 'accent' });
-                return nameComparison;
-            });
-            orderedMap.set(initial, orderedArray);
-        }
-        return orderedMap;
-    }
-    outputEntries(entriesPerInitialsMap) {
-        const lines = [];
-        for (const initial of entriesPerInitialsMap.keys()) {
-            lines.push('');
-            lines.push(`## - ${initial} -`);
-            lines.push('');
-            lines.push('<ul>');
-            const mapArray = entriesPerInitialsMap.get(initial);
-            assert(mapArray !== undefined);
-            for (const entry of mapArray) {
-                const className = entry.className ?? '???';
-                const name = entry.name;
-                if (entry.permalink !== undefined && entry.permalink.length > 0) {
-                    lines.push(`<li>${name}: <a href="${entry.permalink}">${className}</a></li>`);
-                }
-                else {
-                    lines.push(`<li>${name}: ${className}</li>`);
-                }
-            }
-            lines.push('</ul>');
-        }
-        return lines;
     }
 }
-// ----------------------------------------------------------------------------
+// ============================================================================
 export class Class extends CompoundBase {
     // --------------------------------------------------------------------------
     constructor(collection, compoundDef) {
@@ -524,7 +353,7 @@ export class Class extends CompoundBase {
             }
         }
         // Remove the template parameters.
-        this.fullyQualifiedName = compoundDef.compoundName.replace(/<.*>/, '');
+        this.fullyQualifiedName = compoundDef.compoundName.replace(/<.*>/, '').replace(/anonymous_namespace\{/, 'anonymous{');
         // Remove the namespaces(s).
         this.unqualifiedName = this.fullyQualifiedName.replace(/.*::/, '');
         const index = compoundDef.compoundName.indexOf('<');

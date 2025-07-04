@@ -11,68 +11,105 @@
 // ----------------------------------------------------------------------------
 import { Class } from './classes-vm.js';
 import { EnumValue, Member } from './members-vm.js';
+import { Namespace } from './namespaces-vm.js';
 // ----------------------------------------------------------------------------
-export class IndexEntry {
-    constructor(object) {
-        if (object instanceof Class) {
-            // console.log(object.kind, object.unqualifiedName)
-            this.name = object.unqualifiedName;
-            this.kind = object.kind;
-            this.id = object.id;
-            this.objectKind = 'compound';
-            this.longName = object.fullyQualifiedName ?? '???';
-            this.className = `${object.kind} ${object.fullyQualifiedName ?? '???'}`;
-            this.permalink = object.collection.workspace.getPermalink({
-                refid: object.id,
+export class IndexEntryBase {
+    constructor(entry) {
+        /** @brief The short name shown in the left part of the index lines. */
+        this.name = '???';
+        /** @brief The full name, used internally as the second sort criteria. */
+        this.longName = '???';
+        /**
+         * @brief The compound or member kind.
+         *
+         * @details
+         * classes: `class`, `struct`, `union`
+         * namespaces: `namespace`
+         * members: `function`, `variable`, `typedef`, `enum`, ...
+         * enumvalue: `enumvalue`
+         * */
+        this.kind = '???';
+        /** @brief displayed outside the link */
+        this.linkKind = '';
+        /** @brief The name of the linked target object. */
+        this.linkName = '???';
+        if (entry instanceof Class) {
+            this.id = entry.id;
+            // this.name = entry.unqualifiedName
+            this.name = entry.collection.workspace.renderString(entry.indexName, 'html');
+            this.longName = entry.fullyQualifiedName;
+            // console.log(this.name, '    |   ', entry.indexName, entry.unqualifiedName, entry.fullyQualifiedName, entry.compoundName, entry.classFullName)
+            this.kind = entry.kind; // class, struct, union
+            this.linkKind = entry.kind;
+            this.linkName = entry.fullyQualifiedName;
+            this.permalink = entry.collection.workspace.getPermalink({
+                refid: entry.id,
                 kindref: 'compound'
             });
-            // console.log(this.kind, this.name, this.longName, this.className)
         }
-        else if (object instanceof Member) {
-            // console.log(object.kind, object.name)
-            this.name = object.name;
-            this.kind = object.kind;
-            this.objectKind = 'member';
-            this.id = object.id;
-            this.longName = object.qualifiedName ?? '???';
-            this.className = `${object.section.compound.kind} ${object.section.compound.classFullName}`;
-            this.permalink = object.section.compound.collection.workspace.getPermalink({
-                refid: object.id,
+        else if (entry instanceof Namespace) {
+            this.id = entry.id;
+            this.name = entry.indexName;
+            this.longName = entry.unqualifiedName;
+            this.kind = entry.kind; // namespace
+            this.linkKind = entry.kind;
+            this.linkName = entry.indexName;
+            this.permalink = entry.collection.workspace.getPermalink({
+                refid: entry.id,
+                kindref: 'compound'
+            });
+        }
+        else if (entry instanceof Member) {
+            this.id = entry.id;
+            this.name = entry.name;
+            this.longName = entry.qualifiedName ?? '???';
+            this.kind = entry.kind;
+            this.permalink = entry.section.compound.collection.workspace.getPermalink({
+                refid: entry.id,
                 kindref: 'member'
             });
             if (this.kind === 'function') {
                 this.name += '()';
-                // this.longName += object.argsstring
-                // console.log(object)
             }
-            // console.log(this.kind, this.name, this.longName, this.className)
-            // if (object.name === '_setSymbolName' || object.name === '_getPrevTok') {
-            //   console.log(object.section.compound)
-            // }
         }
-        else if (object instanceof EnumValue) {
-            this.name = object.name;
+        else if (entry instanceof EnumValue) {
+            this.id = entry.id;
+            this.name = entry.name;
+            this.longName = entry.name;
             this.kind = 'enumvalue';
-            this.objectKind = 'enumvalue';
-            this.id = object.id;
-            this.longName = object.name;
-            this.className = `${object.member.section.compound.kind} ${object.member.section.compound.classFullName}`;
-            this.permalink = object.member.section.compound.collection.workspace.getPermalink({
-                refid: object.id,
+            this.permalink = entry.member.section.compound.collection.workspace.getPermalink({
+                refid: entry.id,
                 kindref: 'member'
             });
-            // console.log(this.name, this.id, object.member.id)
         }
         else {
-            console.error('object type not supported in IndexEntry');
-            this.name = '???';
-            this.kind = '???';
-            this.objectKind = '???';
-            this.longName = '???';
-            this.className = '???';
-            // this.permalink = ''
             this.id = '???';
+            // Fallback for unknown object types.
+            console.error('object type', typeof entry, 'not supported in', this.constructor.name);
         }
+    }
+}
+export class ClassIndexEntry extends IndexEntryBase {
+    constructor(entry, classs) {
+        super(entry);
+        this.linkKind = classs.kind;
+        this.linkName = classs.classFullName;
+        // console.log(this)
+    }
+}
+export class NamespaceIndexEntry extends IndexEntryBase {
+    constructor(entry, namespace) {
+        super(entry);
+        this.linkKind = 'namespace';
+        this.linkName = namespace.indexName;
+        // console.log(this)
+    }
+}
+export class FileIndexEntry extends IndexEntryBase {
+    constructor(entry, file) {
+        super(entry);
+        this.linkKind = 'file';
+        this.linkName = file.indexName;
         // console.log(this)
     }
 }

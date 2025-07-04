@@ -22,6 +22,7 @@ export declare class FilesAndFolders extends CollectionBase {
     private generateIndexMdFileRecursively;
     private generateFileIndexMd;
     hasCompounds(): boolean;
+    generatePerInitialsIndexMdFiles(): Promise<void>;
 }
 export declare class Folder extends CompoundBase {
     childrenFileIds: string[];

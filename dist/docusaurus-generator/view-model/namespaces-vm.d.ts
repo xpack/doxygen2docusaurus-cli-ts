@@ -12,6 +12,7 @@ export declare class Namespaces extends CollectionBase {
     createMenuItems(): MenuItem[];
     generateIndexDotMdFile(): Promise<void>;
     private generateIndexMdFileRecursively;
+    generatePerInitialsIndexMdFiles(): Promise<void>;
 }
 export declare class Namespace extends CompoundBase {
     unqualifiedName: string;

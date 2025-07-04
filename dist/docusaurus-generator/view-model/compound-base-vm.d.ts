@@ -51,7 +51,7 @@ export declare abstract class CompoundBase {
     sections: Section[];
     locationSet: Set<string>;
     includes: IncludesDataModel[] | undefined;
-    innerCompounds: Map<string, any> | undefined;
+    innerCompounds: Map<string, CompoundDefDataModel> | undefined;
     _private: {
         _compoundDef?: CompoundDefDataModel | undefined;
     };

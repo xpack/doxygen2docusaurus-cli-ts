@@ -13,6 +13,8 @@ import path from 'node:path';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
 import { flattenPath, sanitizeHierarchicalPath } from '../utils.js';
+import { NamespaceIndexEntry } from './indices-vm.js';
+import { Class } from './classes-vm.js';
 // ----------------------------------------------------------------------------
 export class Namespaces extends CollectionBase {
     constructor() {
@@ -67,15 +69,57 @@ export class Namespaces extends CollectionBase {
             label: 'Namespaces',
             link: {
                 type: 'doc',
-                id: `${this.workspace.sidebarBaseId}index/namespaces/index`
+                id: `${this.workspace.sidebarBaseId}indices/namespaces/index`
             },
             collapsed: true,
-            items: []
+            items: [
+                {
+                    type: 'category',
+                    label: 'Hierarchy',
+                    collapsed: true,
+                    items: []
+                },
+                {
+                    type: 'doc',
+                    label: 'All',
+                    id: `${this.workspace.sidebarBaseId}indices/namespaces/all`
+                },
+                {
+                    type: 'doc',
+                    label: 'Classes',
+                    id: `${this.workspace.sidebarBaseId}indices/namespaces/classes`
+                },
+                {
+                    type: 'doc',
+                    label: 'Functions',
+                    id: `${this.workspace.sidebarBaseId}indices/namespaces/functions`
+                },
+                {
+                    type: 'doc',
+                    label: 'Variables',
+                    id: `${this.workspace.sidebarBaseId}indices/namespaces/variables`
+                },
+                {
+                    type: 'doc',
+                    label: 'Typedefs',
+                    id: `${this.workspace.sidebarBaseId}indices/namespaces/typedefs`
+                },
+                {
+                    type: 'doc',
+                    label: 'Enums',
+                    id: `${this.workspace.sidebarBaseId}indices/namespaces/enums`
+                },
+                {
+                    type: 'doc',
+                    label: 'Enum Values',
+                    id: `${this.workspace.sidebarBaseId}indices/namespaces/enumvalues`
+                }
+            ]
         };
         for (const namespace of this.topLevelNamespaces) {
             const item = this.createNamespaceItemRecursively(namespace);
             if (item !== undefined) {
-                namespacesCategory.items.push(item);
+                namespacesCategory.items[0].items.push(item);
             }
         }
         sidebarCategory.items.push(namespacesCategory);
@@ -125,7 +169,7 @@ export class Namespaces extends CollectionBase {
         if (this.topLevelNamespaces.length === 0) {
             return;
         }
-        const filePath = `${this.workspace.outputFolderPath}index/namespaces/index.md`;
+        const filePath = `${this.workspace.outputFolderPath}indices/namespaces/index.md`;
         const permalink = 'namespaces';
         const frontMatter = {
             title: 'The Namespaces Reference',
@@ -148,7 +192,9 @@ export class Namespaces extends CollectionBase {
         lines.push(...contentLines);
         lines.push('');
         lines.push('</table>');
-        console.log(`Writing namespaces index file ${filePath}...`);
+        if (this.workspace.pluginOptions.verbose) {
+            console.log(`Writing namespaces index file ${filePath}...`);
+        }
         await this.workspace.writeMdFile({
             filePath,
             frontMatter,
@@ -158,7 +204,7 @@ export class Namespaces extends CollectionBase {
     generateIndexMdFileRecursively(namespace, depth) {
         // console.log(util.inspect(namespace, { compact: false, depth: 999 }))
         const lines = [];
-        const label = this.workspace.renderString(namespace.unqualifiedName, 'html');
+        const label = this.workspace.renderString(namespace.indexName, 'html');
         const permalink = this.workspace.getPagePermalink(namespace.id);
         if (permalink === undefined || permalink.length === 0) {
             // console.log(namespace)
@@ -184,8 +230,118 @@ export class Namespaces extends CollectionBase {
         }
         return lines;
     }
+    // --------------------------------------------------------------------------
+    async generatePerInitialsIndexMdFiles() {
+        if (this.topLevelNamespaces.length === 0) {
+            return;
+        }
+        const allUnorderedEntriesMap = new Map();
+        for (const [compoundId, compound] of this.collectionCompoundsById) {
+            const compoundEntry = new NamespaceIndexEntry(compound, compound);
+            allUnorderedEntriesMap.set(compoundEntry.id, compoundEntry);
+            // console.log(compound.indexName)
+            if (compound.innerCompounds !== undefined) {
+                // console.log(compound.indexName, Array.from(compound.innerCompounds.keys()))
+                const classCompoundDef = compound.innerCompounds.get('innerClasses');
+                if (classCompoundDef?.innerClasses !== undefined) {
+                    for (const innerClass of classCompoundDef.innerClasses) {
+                        // console.log(innerClass.refid)
+                        const compoundClass = this.workspace.compoundsById.get(innerClass.refid);
+                        if (compoundClass instanceof Class) {
+                            const classEntry = new NamespaceIndexEntry(compoundClass, compound);
+                            allUnorderedEntriesMap.set(classEntry.id, classEntry);
+                        }
+                    }
+                }
+            }
+            for (const section of compound.sections) {
+                for (const member of section.definitionMembers) {
+                    const memberEntry = new NamespaceIndexEntry(member, compound);
+                    allUnorderedEntriesMap.set(memberEntry.id, memberEntry);
+                    if (member.enumValues !== undefined) {
+                        for (const enumValue of member.enumValues) {
+                            const enumValueEntry = new NamespaceIndexEntry(enumValue, compound);
+                            allUnorderedEntriesMap.set(enumValueEntry.id, enumValueEntry);
+                        }
+                    }
+                }
+            }
+        }
+        // ------------------------------------------------------------------------
+        await this.generateIndexFile({
+            group: 'namespaces',
+            fileKind: 'all',
+            title: 'The Namespaces Definitions Index',
+            description: 'The definitions part of the namespaces are:',
+            map: allUnorderedEntriesMap,
+            filter: (kind) => {
+                return (true);
+            }
+        });
+        await this.generateIndexFile({
+            group: 'namespaces',
+            fileKind: 'classes',
+            title: 'The Namespaces Classes Index',
+            description: 'The classes, structs, unions defined in the namespaces are:',
+            map: allUnorderedEntriesMap,
+            filter: (kind) => {
+                return (kind === 'class' || kind === 'struct' || kind === 'union');
+            }
+        });
+        await this.generateIndexFile({
+            group: 'namespaces',
+            fileKind: 'functions',
+            title: 'The Namespaces Functions Index',
+            description: 'The functions defined in the namespaces are:',
+            map: allUnorderedEntriesMap,
+            filter: (kind) => {
+                return (kind === 'function');
+            }
+        });
+        await this.generateIndexFile({
+            group: 'namespaces',
+            fileKind: 'variables',
+            title: 'The Namespaces Variables Index',
+            description: 'The variables defined in the namespaces are:',
+            map: allUnorderedEntriesMap,
+            filter: (kind) => {
+                return (kind === 'variable');
+            }
+        });
+        await this.generateIndexFile({
+            group: 'namespaces',
+            fileKind: 'typedefs',
+            title: 'The Namespaces Type Definitions Index',
+            description: 'The typedefs defined in the namespaces are:',
+            map: allUnorderedEntriesMap,
+            filter: (kind) => {
+                return (kind === 'typedef');
+            }
+        });
+        await this.generateIndexFile({
+            group: 'namespaces',
+            fileKind: 'enums',
+            title: 'The Namespaces Enums Index',
+            description: 'The enums defined in the namespaces are:',
+            map: allUnorderedEntriesMap,
+            filter: (kind) => {
+                return (kind === 'enum');
+            }
+        });
+        await this.generateIndexFile({
+            group: 'namespaces',
+            fileKind: 'enumvalues',
+            title: 'The Namespaces Enum Values Index',
+            description: 'The enum values defined in the namespaces are:',
+            map: allUnorderedEntriesMap,
+            filter: (kind) => {
+                return (kind === 'enumvalue');
+            }
+        });
+        // ------------------------------------------------------------------------
+    }
 }
-// ----------------------------------------------------------------------------
+// ============================================================================
 export class Namespace extends CompoundBase {
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
@@ -238,8 +394,8 @@ export class Namespace extends CompoundBase {
         else {
             // The compoundName is the fully qualified namespace name.
             // Keep only the last name.
-            this.unqualifiedName = compoundDef.compoundName.replace(/.*::/, '').replace(/anonymous_namespace\{/, 'anonymous{');
-            this.indexName = this.compoundName.replaceAll(/anonymous_namespace\{/g, 'anonymous{');
+            this.unqualifiedName = compoundDef.compoundName.replace(/.*::/, '').replaceAll(/anonymous_namespace\{/g, 'anonymous{');
+            this.indexName = this.compoundName.replace(/.*::/, '').replaceAll(/anonymous_namespace\{/g, 'anonymous{');
             this.pageTitle = `The \`${this.unqualifiedName}\` Namespace Reference`;
             const sanitizedPath = sanitizeHierarchicalPath(this.compoundName.replaceAll('::', '/').replaceAll(/anonymous_namespace\{/g, 'anonymous{'));
             if (compoundDef.compoundName.length > 0) {

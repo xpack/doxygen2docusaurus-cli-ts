@@ -5,7 +5,6 @@ import { MenuItem, SidebarCategory } from '../../plugin/types.js';
 import { FrontMatter } from '../types.js';
 import { BaseCompoundRefDataModel, DerivedCompoundRefDataModel } from '../../data-model/compounds/compoundreftype-dm.js';
 import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js';
-import { IndexEntry } from './indices-vm.js';
 export declare class Classes extends CollectionBase {
     topLevelClasses: Class[];
     addChild(compoundDef: CompoundDefDataModel): CompoundBase;
@@ -16,8 +15,6 @@ export declare class Classes extends CollectionBase {
     generateIndexDotMdFile(): Promise<void>;
     private generateIndexMdFileRecursively;
     generatePerInitialsIndexMdFiles(): Promise<void>;
-    orderPerInitials(entriesMap: Map<string, IndexEntry>): Map<string, IndexEntry[]>;
-    outputEntries(entriesPerInitialsMap: Map<string, IndexEntry[]>): string[];
 }
 export declare class Class extends CompoundBase {
     baseClassIds: Set<string>;

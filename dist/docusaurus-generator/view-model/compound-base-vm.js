@@ -699,6 +699,7 @@ export class CompoundBase {
         }
         return text;
     }
+    // --------------------------------------------------------------------------
     // Override it
     hasAnyContent() {
         if (this.briefDescriptionHtmlString !== undefined && this.briefDescriptionHtmlString.length > 0) {
