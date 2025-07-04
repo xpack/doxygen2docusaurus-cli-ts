@@ -163,7 +163,7 @@ export abstract class CollectionBase {
 
     const lines: string[] = []
 
-    lines.push(description)
+    lines.push(`<p>${description}</p>`)
 
     const filteredMap: Map<string, IndexEntryBase> = new Map()
     for (const [id, entry] of map) {
