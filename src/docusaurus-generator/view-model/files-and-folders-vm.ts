@@ -22,6 +22,9 @@ import { Workspace } from '../workspace.js'
 import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { FrontMatter } from '../types.js'
 import { ProgramListingDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
+import { FileIndexEntry, IndexEntryBase } from './indices-vm.js'
+import { Class } from './classes-vm.js'
+import { Namespace } from './namespaces-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -191,20 +194,72 @@ export class FilesAndFolders extends CollectionBase {
         id: `${this.workspace.sidebarBaseId}indices/files/index`
       },
       collapsed: true,
-      items: []
+      items: [
+        {
+          type: 'category',
+          label: 'Hierarchy',
+          collapsed: true,
+          items: []
+        },
+        {
+          type: 'doc',
+          label: 'All',
+          id: `${this.workspace.sidebarBaseId}indices/files/all`
+        },
+        {
+          type: 'doc',
+          label: 'Classes',
+          id: `${this.workspace.sidebarBaseId}indices/files/classes`
+        },
+        {
+          type: 'doc',
+          label: 'Namespaces',
+          id: `${this.workspace.sidebarBaseId}indices/files/namespaces`
+        },
+        {
+          type: 'doc',
+          label: 'Functions',
+          id: `${this.workspace.sidebarBaseId}indices/files/functions`
+        },
+        {
+          type: 'doc',
+          label: 'Variables',
+          id: `${this.workspace.sidebarBaseId}indices/files/variables`
+        },
+        {
+          type: 'doc',
+          label: 'Typedefs',
+          id: `${this.workspace.sidebarBaseId}indices/files/typedefs`
+        },
+        {
+          type: 'doc',
+          label: 'Enums',
+          id: `${this.workspace.sidebarBaseId}indices/files/enums`
+        },
+        {
+          type: 'doc',
+          label: 'Enum Values',
+          id: `${this.workspace.sidebarBaseId}indices/files/enumvalues`
+        },
+        {
+          type: 'doc',
+          label: 'Macro Definitions',
+          id: `${this.workspace.sidebarBaseId}indices/files/defines`
+        }
+      ]
     }
 
     for (const folder of this.topLevelFolders) {
       const item = this.createFolderSidebarItemRecursively(folder)
       if (item !== undefined) {
-        filesCategory.items.push(item)
+        (filesCategory.items[0] as SidebarCategoryItem).items.push(item)
       }
     }
 
     for (const file of this.topLevelFiles) {
       const item = this.createFileSidebarItem(file)
       if (item !== undefined) {
-        filesCategory.items.push(item)
+        (filesCategory.items[0] as SidebarCategoryItem).items.push(item)
       }
     }
 
@@ -404,6 +459,156 @@ export class FilesAndFolders extends CollectionBase {
       }
     }
     return false
+  }
+
+  override async generatePerInitialsIndexMdFiles (): Promise<void> {
+    if (this.topLevelFiles.length === 0) {
+      return
+    }
+
+    const allUnorderedEntriesMap: Map<string, IndexEntryBase> = new Map()
+
+    for (const [compoundId, compound] of this.collectionCompoundsById) {
+      if (compound.innerCompounds !== undefined) {
+        // console.log(compound.indexName, Array.from(compound.innerCompounds.keys()))
+        const classCompoundDef = compound.innerCompounds.get('innerClasses')
+        if (classCompoundDef?.innerClasses !== undefined) {
+          for (const innerClass of classCompoundDef.innerClasses) {
+            // console.log(innerClass.refid)
+            const compoundClass = this.workspace.compoundsById.get(innerClass.refid) as Class
+            if (compoundClass instanceof Class) {
+              const classEntry = new FileIndexEntry(compoundClass, compound as File)
+              allUnorderedEntriesMap.set(classEntry.id, classEntry)
+            }
+          }
+        }
+        const namespaceCompoundDef = compound.innerCompounds.get('innerNamespaces')
+        if (namespaceCompoundDef?.innerNamespaces !== undefined) {
+          for (const innerNamespace of namespaceCompoundDef.innerNamespaces) {
+            // console.log(innerNamespace.refid)
+            const compoundNamespace = this.workspace.compoundsById.get(innerNamespace.refid) as Namespace
+            if (compoundNamespace instanceof Namespace) {
+              const namespaceEntry = new FileIndexEntry(compoundNamespace, compound as File)
+              allUnorderedEntriesMap.set(namespaceEntry.id, namespaceEntry)
+            }
+          }
+        }
+      }
+
+      for (const section of compound.sections) {
+        for (const member of section.definitionMembers) {
+          const memberEntry = new FileIndexEntry(member, compound as File)
+          allUnorderedEntriesMap.set(memberEntry.id, memberEntry)
+          if (member.enumValues !== undefined) {
+            for (const enumValue of member.enumValues) {
+              const enumValueEntry = new FileIndexEntry(enumValue, compound as File)
+              allUnorderedEntriesMap.set(enumValueEntry.id, enumValueEntry)
+            }
+          }
+        }
+      }
+    }
+
+    // ------------------------------------------------------------------------
+
+    await this.generateIndexFile({
+      group: 'files',
+      fileKind: 'all',
+      title: 'The Files Definitions Index',
+      description: 'The definitions part of the files are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (true)
+      }
+    })
+
+    await this.generateIndexFile({
+      group: 'files',
+      fileKind: 'classes',
+      title: 'The Files Classes Index',
+      description: 'The classes, structs, unions defined in the project are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'class' || kind === 'struct' || kind === 'union')
+      }
+    })
+
+    await this.generateIndexFile({
+      group: 'files',
+      fileKind: 'namespaces',
+      title: 'The Files Namespaces Index',
+      description: 'The namespaces defined in the project are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'namespace')
+      }
+    })
+
+    await this.generateIndexFile({
+      group: 'files',
+      fileKind: 'functions',
+      title: 'The Files Functions Index',
+      description: 'The functions defined in the project are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'function')
+      }
+    })
+
+    await this.generateIndexFile({
+      group: 'files',
+      fileKind: 'variables',
+      title: 'The Files Variables Index',
+      description: 'The variables defined in the project are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'variable')
+      }
+    })
+
+    await this.generateIndexFile({
+      group: 'files',
+      fileKind: 'typedefs',
+      title: 'The Files Type Definitions Index',
+      description: 'The typedefs defined in the project are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'typedef')
+      }
+    })
+
+    await this.generateIndexFile({
+      group: 'files',
+      fileKind: 'enums',
+      title: 'The Files Enums Index',
+      description: 'The enums defined in the project are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'enum')
+      }
+    })
+
+    await this.generateIndexFile({
+      group: 'files',
+      fileKind: 'enumvalues',
+      title: 'The Files Enum Values Index',
+      description: 'The enum values defined in the project are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'enumvalue')
+      }
+    })
+
+    await this.generateIndexFile({
+      group: 'files',
+      fileKind: 'defines',
+      title: 'The Files Macro Definitions Index',
+      description: 'The macros defined in the project are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => {
+        return (kind === 'define')
+      }
+    })
   }
 }
 
