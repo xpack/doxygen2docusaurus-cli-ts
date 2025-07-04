@@ -188,7 +188,7 @@ export class FilesAndFolders extends CollectionBase {
       label: 'Files',
       link: {
         type: 'doc',
-        id: `${this.workspace.sidebarBaseId}index/files/index`
+        id: `${this.workspace.sidebarBaseId}indices/files/index`
       },
       collapsed: true,
       items: []
@@ -278,7 +278,7 @@ export class FilesAndFolders extends CollectionBase {
       return
     }
 
-    const filePath = `${this.workspace.outputFolderPath}index/files/index.md`
+    const filePath = `${this.workspace.outputFolderPath}indices/files/index.md`
     const permalink = 'files'
 
     const frontMatter: FrontMatter = {

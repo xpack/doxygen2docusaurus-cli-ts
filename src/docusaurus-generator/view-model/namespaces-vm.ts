@@ -86,7 +86,7 @@ export class Namespaces extends CollectionBase {
       label: 'Namespaces',
       link: {
         type: 'doc',
-        id: `${this.workspace.sidebarBaseId}index/namespaces/index`
+        id: `${this.workspace.sidebarBaseId}indices/namespaces/index`
       },
       collapsed: true,
       items: [
@@ -99,37 +99,37 @@ export class Namespaces extends CollectionBase {
         {
           type: 'doc',
           label: 'All',
-          id: `${this.workspace.sidebarBaseId}index/namespaces/all`
+          id: `${this.workspace.sidebarBaseId}indices/namespaces/all`
         },
         {
           type: 'doc',
           label: 'Classes',
-          id: `${this.workspace.sidebarBaseId}index/namespaces/classes`
+          id: `${this.workspace.sidebarBaseId}indices/namespaces/classes`
         },
         {
           type: 'doc',
           label: 'Functions',
-          id: `${this.workspace.sidebarBaseId}index/namespaces/functions`
+          id: `${this.workspace.sidebarBaseId}indices/namespaces/functions`
         },
         {
           type: 'doc',
           label: 'Variables',
-          id: `${this.workspace.sidebarBaseId}index/namespaces/variables`
+          id: `${this.workspace.sidebarBaseId}indices/namespaces/variables`
         },
         {
           type: 'doc',
           label: 'Typedefs',
-          id: `${this.workspace.sidebarBaseId}index/namespaces/typedefs`
+          id: `${this.workspace.sidebarBaseId}indices/namespaces/typedefs`
         },
         {
           type: 'doc',
           label: 'Enums',
-          id: `${this.workspace.sidebarBaseId}index/namespaces/enums`
+          id: `${this.workspace.sidebarBaseId}indices/namespaces/enums`
         },
         {
           type: 'doc',
           label: 'Enum Values',
-          id: `${this.workspace.sidebarBaseId}index/namespaces/enumvalues`
+          id: `${this.workspace.sidebarBaseId}indices/namespaces/enumvalues`
         }
       ]
     }
@@ -196,7 +196,7 @@ export class Namespaces extends CollectionBase {
       return
     }
 
-    const filePath = `${this.workspace.outputFolderPath}index/namespaces/index.md`
+    const filePath = `${this.workspace.outputFolderPath}indices/namespaces/index.md`
     const permalink = 'namespaces'
 
     const frontMatter: FrontMatter = {
@@ -292,9 +292,10 @@ export class Namespaces extends CollectionBase {
 
       // console.log(compound.indexName)
       if (compound.innerCompounds !== undefined) {
-        const compoundDef = compound.innerCompounds.get('innerClasses')
-        if (compoundDef?.innerClasses !== undefined) {
-          for (const innerClass of compoundDef.innerClasses) {
+        // console.log(compound.indexName, Array.from(compound.innerCompounds.keys()))
+        const classCompoundDef = compound.innerCompounds.get('innerClasses')
+        if (classCompoundDef?.innerClasses !== undefined) {
+          for (const innerClass of classCompoundDef.innerClasses) {
             // console.log(innerClass.refid)
             const compoundClass = this.workspace.compoundsById.get(innerClass.refid) as Class
             if (compoundClass instanceof Class) {
@@ -324,7 +325,7 @@ export class Namespaces extends CollectionBase {
     await this.generateIndexFile({
       group: 'namespaces',
       fileKind: 'all',
-      title: 'The Namespaces Members Index',
+      title: 'The Namespaces Definitions Index',
       description: 'The definitions part of the namespaces are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => {

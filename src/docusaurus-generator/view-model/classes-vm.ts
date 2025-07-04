@@ -95,7 +95,7 @@ export class Classes extends CollectionBase {
       label: 'Classes',
       link: {
         type: 'doc',
-        id: `${this.workspace.sidebarBaseId}index/classes/index`
+        id: `${this.workspace.sidebarBaseId}indices/classes/index`
       },
       collapsed: true,
       items: [
@@ -108,37 +108,37 @@ export class Classes extends CollectionBase {
         {
           type: 'doc',
           label: 'All',
-          id: `${this.workspace.sidebarBaseId}index/classes/all`
+          id: `${this.workspace.sidebarBaseId}indices/classes/all`
         },
         {
           type: 'doc',
           label: 'Classes',
-          id: `${this.workspace.sidebarBaseId}index/classes/classes`
+          id: `${this.workspace.sidebarBaseId}indices/classes/classes`
         },
         {
           type: 'doc',
           label: 'Functions',
-          id: `${this.workspace.sidebarBaseId}index/classes/functions`
+          id: `${this.workspace.sidebarBaseId}indices/classes/functions`
         },
         {
           type: 'doc',
           label: 'Variables',
-          id: `${this.workspace.sidebarBaseId}index/classes/variables`
+          id: `${this.workspace.sidebarBaseId}indices/classes/variables`
         },
         {
           type: 'doc',
           label: 'Typedefs',
-          id: `${this.workspace.sidebarBaseId}index/classes/typedefs`
+          id: `${this.workspace.sidebarBaseId}indices/classes/typedefs`
         },
         {
           type: 'doc',
           label: 'Enums',
-          id: `${this.workspace.sidebarBaseId}index/classes/enums`
+          id: `${this.workspace.sidebarBaseId}indices/classes/enums`
         },
         {
           type: 'doc',
           label: 'Enum Values',
-          id: `${this.workspace.sidebarBaseId}index/classes/enumvalues`
+          id: `${this.workspace.sidebarBaseId}indices/classes/enumvalues`
         }
       ]
     }
@@ -205,7 +205,7 @@ export class Classes extends CollectionBase {
       return
     }
 
-    const filePath = `${this.workspace.outputFolderPath}index/classes/index.md`
+    const filePath = `${this.workspace.outputFolderPath}indices/classes/index.md`
     const permalink = 'classes'
 
     const frontMatter: FrontMatter = {

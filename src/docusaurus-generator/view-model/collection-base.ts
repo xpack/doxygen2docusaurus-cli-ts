@@ -150,8 +150,8 @@ export abstract class CollectionBase {
   }): Promise<void> {
     const outputFolderPath = this.workspace.outputFolderPath
 
-    const filePath = `${outputFolderPath}index/${group}/${fileKind}.md`
-    const permalink = `index/${group}/${fileKind}`
+    const filePath = `${outputFolderPath}indices/${group}/${fileKind}.md`
+    const permalink = `indices/${group}/${fileKind}`
 
     const frontMatter: FrontMatter = {
       title,
