@@ -59,9 +59,6 @@ export class DocusaurusGenerator {
     // No longer used with CommonMarkdown output.
     // await this.generateConfigurationFile()
 
-    await this.generateSidebarFile()
-    await this.generateMenuFile()
-
     console.log()
     await this.generatePages()
 
@@ -70,6 +67,9 @@ export class DocusaurusGenerator {
     await this.generateCollectionsIndexDotMdFiles()
     await this.generatePerInitialsIndexMdFiles()
     console.log(this.workspace.writtenMdFilesCounter, '.md files written')
+
+    await this.generateSidebarFile()
+    await this.generateMenuFile()
 
     // await this.generateManualRedirectFiles()
     await this.generateCompatibilityRedirectFiles()
