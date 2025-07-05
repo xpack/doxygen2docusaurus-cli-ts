@@ -250,6 +250,7 @@ export class Classes extends CollectionBase {
 
     lines.push('')
     lines.push('<table class="doxyTreeTable">')
+    lines.push('<colgroup><col style="width:40%"><col></colgroup>')
 
     for (const classs of this.topLevelClasses) {
       lines.push(...this.generateIndexMdFileRecursively(classs, 1))

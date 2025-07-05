@@ -563,12 +563,15 @@ div.doxySectionDef h3::before {
 
 /* --- Begin TreeTableRow/styles.module.css --- */
 
-tr.doxyTreeItem:hover {
-  background-color: var(--ifm-menu-color-background-hover);
+table.doxyTreeTable {
+  table-layout: fixed;
+  width: 100%;
 }
 
 td.doxyTreeItemLeft {
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   padding-top: 6px;
   padding-bottom: 6px;
 }
@@ -616,6 +619,10 @@ span.doxyTreeIcon {
   vertical-align: middle;
   padding-right: 0.4em;
   background: url("/img/docusaurus-plugin-doxygen/folder-svgrepo-com.svg") no-repeat;
+}
+
+tr.doxyTreeItem:hover {
+  background-color: var(--ifm-menu-color-background-hover);
 }
 
 /* --- End TreeTableRow/styles.module.css --- */
