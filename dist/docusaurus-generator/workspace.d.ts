@@ -39,6 +39,26 @@ export declare class Workspace {
     writtenHtmlFilesCounter: number;
     mainPage: Page | undefined;
     filesByPath: Map<String, File>;
+    /**
+     * @brief Map to keep track of indices that have content.
+     *
+     * @details
+     * The map keys are:
+     * - classes
+     * - namespaces
+     * - files
+     *
+     * and the Set may include:
+     * - all
+     * - classes
+     * - namespaces
+     * - functions
+     * - variables
+     * - typedefs
+     * - enums
+     * - enumvalues
+     */
+    indicesMaps: Map<string, Set<string>>;
     constructor({ dataModel, pluginOptions, siteConfig, pluginActions }: {
         dataModel: DataModel;
         pluginOptions: PluginOptions;

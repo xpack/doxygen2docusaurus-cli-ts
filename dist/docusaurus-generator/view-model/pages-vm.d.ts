@@ -6,7 +6,7 @@ import { FrontMatter } from '../types.js';
 export declare class Pages extends CollectionBase {
     addChild(compoundDef: CompoundDefDataModel): CompoundBase;
     createCompoundsHierarchies(): void;
-    createSidebarItems(sidebarCategory: SidebarCategory): void;
+    addSidebarItems(sidebarCategory: SidebarCategory): void;
     createTopPagesSidebarItems(sidebarCategory: SidebarCategory): void;
     createMenuItems(): MenuItem[];
     generateIndexDotMdFile(): Promise<void>;

@@ -14,7 +14,7 @@ export declare class FilesAndFolders extends CollectionBase {
     addChild(compoundDef: CompoundDefDataModel): CompoundBase;
     createCompoundsHierarchies(): void;
     private getRelativePathRecursively;
-    createSidebarItems(sidebarCategory: SidebarCategory): void;
+    addSidebarItems(sidebarCategory: SidebarCategory): void;
     private createFolderSidebarItemRecursively;
     private createFileSidebarItem;
     createMenuItems(): MenuItem[];

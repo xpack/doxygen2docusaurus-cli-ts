@@ -9,7 +9,7 @@ export declare abstract class CollectionBase {
     constructor(workspace: Workspace);
     abstract addChild(compoundDef: CompoundDefDataModel): CompoundBase;
     abstract createCompoundsHierarchies(): void;
-    abstract createSidebarItems(sidebarCategory: SidebarCategory): void;
+    abstract addSidebarItems(sidebarCategory: SidebarCategory): void;
     abstract createMenuItems(): MenuItem[];
     abstract generateIndexDotMdFile(): Promise<void>;
     generatePerInitialsIndexMdFiles(): Promise<void>;

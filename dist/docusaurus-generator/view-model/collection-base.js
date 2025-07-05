@@ -91,6 +91,22 @@ export class CollectionBase {
         return lines;
     }
     async generateIndexFile({ group, fileKind, title, description, map, filter }) {
+        const filteredMap = new Map();
+        for (const [id, entry] of map) {
+            if (filter(entry.kind)) {
+                filteredMap.set(id, entry);
+            }
+        }
+        if (filteredMap.size === 0) {
+            // There are no index entries.
+            return;
+        }
+        if (!this.workspace.indicesMaps.has(group)) {
+            // Add the empty set at the first usage.
+            this.workspace.indicesMaps.set(group, new Set());
+        }
+        this.workspace.indicesMaps.get(group)?.add(fileKind);
+        const orderedEntries = this.orderPerInitials(filteredMap);
         const outputFolderPath = this.workspace.outputFolderPath;
         const filePath = `${outputFolderPath}indices/${group}/${fileKind}.md`;
         const permalink = `indices/${group}/${fileKind}`;
@@ -103,13 +119,6 @@ export class CollectionBase {
         };
         const lines = [];
         lines.push(`<p>${description}</p>`);
-        const filteredMap = new Map();
-        for (const [id, entry] of map) {
-            if (filter(entry.kind)) {
-                filteredMap.set(id, entry);
-            }
-        }
-        const orderedEntries = this.orderPerInitials(filteredMap);
         lines.push(...this.outputEntries(orderedEntries));
         if (this.workspace.pluginOptions.verbose) {
             console.log(`Writing ${group} index file ${filePath}...`);

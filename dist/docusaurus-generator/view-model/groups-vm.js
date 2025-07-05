@@ -53,7 +53,7 @@ export class Groups extends CollectionBase {
         }
     }
     // --------------------------------------------------------------------------
-    createSidebarItems(sidebarCategory) {
+    addSidebarItems(sidebarCategory) {
         const sidebarItems = [];
         for (const topLevelGroup of this.topLevelGroups) {
             const item = this.createSidebarItemRecursively(topLevelGroup);

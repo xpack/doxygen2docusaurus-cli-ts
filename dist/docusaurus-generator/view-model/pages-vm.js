@@ -34,7 +34,7 @@ export class Pages extends CollectionBase {
         // There are no pages hierarchies.
     }
     // --------------------------------------------------------------------------
-    createSidebarItems(sidebarCategory) {
+    addSidebarItems(sidebarCategory) {
         // Add pages to the sidebar.
         // They are organised as a flat list, no hierarchies.
         const pagesCategory = {

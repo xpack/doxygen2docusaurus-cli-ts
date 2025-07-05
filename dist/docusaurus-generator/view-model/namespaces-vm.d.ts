@@ -7,7 +7,7 @@ export declare class Namespaces extends CollectionBase {
     topLevelNamespaces: Namespace[];
     addChild(compoundDef: CompoundDefDataModel): CompoundBase;
     createCompoundsHierarchies(): void;
-    createSidebarItems(sidebarCategory: SidebarCategory): void;
+    addSidebarItems(sidebarCategory: SidebarCategory): void;
     private createNamespaceItemRecursively;
     createMenuItems(): MenuItem[];
     generateIndexDotMdFile(): Promise<void>;

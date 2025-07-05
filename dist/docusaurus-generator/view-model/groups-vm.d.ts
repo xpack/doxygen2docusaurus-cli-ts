@@ -7,7 +7,7 @@ export declare class Groups extends CollectionBase {
     topLevelGroups: Group[];
     addChild(compoundDef: CompoundDefDataModel): CompoundBase;
     createCompoundsHierarchies(): void;
-    createSidebarItems(sidebarCategory: SidebarCategory): void;
+    addSidebarItems(sidebarCategory: SidebarCategory): void;
     private createSidebarItemRecursively;
     createMenuItems(): MenuItem[];
     generateIndexDotMdFile(): Promise<void>;

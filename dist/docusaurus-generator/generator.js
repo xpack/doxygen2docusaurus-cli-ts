@@ -83,12 +83,13 @@ export class DocusaurusGenerator {
         };
         const pages = this.workspace.viewModel.get('pages');
         pages.createTopPagesSidebarItems(sidebarCategory);
-        // This is the order of items in the sidebar.
+        // The order in sidebarCollectionNames also gives the the order
+        // of items in the sidebar.
         for (const collectionName of this.workspace.sidebarCollectionNames) {
             // console.log(collectionName)
             const collection = this.workspace.viewModel.get(collectionName);
             if (collection?.hasCompounds()) {
-                collection.createSidebarItems(sidebarCategory);
+                collection.addSidebarItems(sidebarCategory);
             }
         }
         // console.log('sidebar:', util.inspect(sidebar, { compact: false, depth: 999 }))

@@ -63,6 +63,26 @@ export class Workspace {
         this.writtenMdFilesCounter = 0;
         this.writtenHtmlFilesCounter = 0;
         this.filesByPath = new Map();
+        /**
+         * @brief Map to keep track of indices that have content.
+         *
+         * @details
+         * The map keys are:
+         * - classes
+         * - namespaces
+         * - files
+         *
+         * and the Set may include:
+         * - all
+         * - classes
+         * - namespaces
+         * - functions
+         * - variables
+         * - typedefs
+         * - enums
+         * - enumvalues
+         */
+        this.indicesMaps = new Map();
         console.log();
         const __dirname = path.dirname(fileURLToPath(import.meta.url));
         this.projectPath = path.dirname(path.dirname(__dirname));

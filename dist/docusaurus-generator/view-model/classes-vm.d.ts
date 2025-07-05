@@ -9,7 +9,7 @@ export declare class Classes extends CollectionBase {
     topLevelClasses: Class[];
     addChild(compoundDef: CompoundDefDataModel): CompoundBase;
     createCompoundsHierarchies(): void;
-    createSidebarItems(sidebarCategory: SidebarCategory): void;
+    addSidebarItems(sidebarCategory: SidebarCategory): void;
     private createSidebarItemRecursively;
     createMenuItems(): MenuItem[];
     generateIndexDotMdFile(): Promise<void>;
