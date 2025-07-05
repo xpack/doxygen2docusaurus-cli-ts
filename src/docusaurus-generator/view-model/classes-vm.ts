@@ -87,7 +87,7 @@ export class Classes extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createSidebarItems (sidebarCategory: SidebarCategory): void {
+  override addSidebarItems (sidebarCategory: SidebarCategory): void {
     // Add classes to the sidebar.
     // Top level classes are added below a Class category
     const classesCategory: SidebarCategoryItem = {

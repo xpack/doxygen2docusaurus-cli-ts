@@ -74,7 +74,7 @@ export class Groups extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createSidebarItems (sidebarCategory: SidebarCategory): void {
+  override addSidebarItems (sidebarCategory: SidebarCategory): void {
     const sidebarItems: SidebarItem[] = []
 
     for (const topLevelGroup of this.topLevelGroups) {

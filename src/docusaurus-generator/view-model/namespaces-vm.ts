@@ -78,7 +78,7 @@ export class Namespaces extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createSidebarItems (sidebarCategory: SidebarCategory): void {
+  override addSidebarItems (sidebarCategory: SidebarCategory): void {
     // Add namespaces to the sidebar.
     // Top level namespaces are added below a Namespaces category.
     const namespacesCategory: SidebarCategoryItem = {

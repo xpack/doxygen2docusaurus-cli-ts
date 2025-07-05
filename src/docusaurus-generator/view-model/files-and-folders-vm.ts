@@ -183,7 +183,7 @@ export class FilesAndFolders extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createSidebarItems (sidebarCategory: SidebarCategory): void {
+  override addSidebarItems (sidebarCategory: SidebarCategory): void {
     // Add folders & files to the sidebar.
     // Top level folders & files are added below a Files category
     const filesCategory: SidebarCategoryItem = {

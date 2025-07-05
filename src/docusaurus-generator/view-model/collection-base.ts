@@ -38,8 +38,8 @@ export abstract class CollectionBase {
 
   abstract addChild (compoundDef: CompoundDefDataModel): CompoundBase
   abstract createCompoundsHierarchies (): void
-  // It must return an array since groups can have multiple top pages.
-  abstract createSidebarItems (sidebarCategory: SidebarCategory): void
+
+  abstract addSidebarItems (sidebarCategory: SidebarCategory): void
   abstract createMenuItems (): MenuItem[]
   abstract generateIndexDotMdFile (): Promise<void>
 

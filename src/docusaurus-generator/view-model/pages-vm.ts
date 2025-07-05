@@ -54,7 +54,7 @@ export class Pages extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createSidebarItems (sidebarCategory: SidebarCategory): void {
+  override addSidebarItems (sidebarCategory: SidebarCategory): void {
     // Add pages to the sidebar.
     // They are organised as a flat list, no hierarchies.
     const pagesCategory: SidebarCategoryItem = {
