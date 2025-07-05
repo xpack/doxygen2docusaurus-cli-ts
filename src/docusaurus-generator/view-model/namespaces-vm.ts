@@ -79,6 +79,11 @@ export class Namespaces extends CollectionBase {
   // --------------------------------------------------------------------------
 
   override addSidebarItems (sidebarCategory: SidebarCategory): void {
+    const indicesSet = this.workspace.indicesMaps.get('namespaces')
+    if (indicesSet === undefined) {
+      return
+    }
+
     // Add namespaces to the sidebar.
     // Top level namespaces are added below a Namespaces category.
     const namespacesCategory: SidebarCategoryItem = {
@@ -95,41 +100,6 @@ export class Namespaces extends CollectionBase {
           label: 'Hierarchy',
           collapsed: true,
           items: []
-        },
-        {
-          type: 'doc',
-          label: 'All',
-          id: `${this.workspace.sidebarBaseId}indices/namespaces/all`
-        },
-        {
-          type: 'doc',
-          label: 'Classes',
-          id: `${this.workspace.sidebarBaseId}indices/namespaces/classes`
-        },
-        {
-          type: 'doc',
-          label: 'Functions',
-          id: `${this.workspace.sidebarBaseId}indices/namespaces/functions`
-        },
-        {
-          type: 'doc',
-          label: 'Variables',
-          id: `${this.workspace.sidebarBaseId}indices/namespaces/variables`
-        },
-        {
-          type: 'doc',
-          label: 'Typedefs',
-          id: `${this.workspace.sidebarBaseId}indices/namespaces/typedefs`
-        },
-        {
-          type: 'doc',
-          label: 'Enums',
-          id: `${this.workspace.sidebarBaseId}indices/namespaces/enums`
-        },
-        {
-          type: 'doc',
-          label: 'Enum Values',
-          id: `${this.workspace.sidebarBaseId}indices/namespaces/enumvalues`
         }
       ]
     }
@@ -139,6 +109,62 @@ export class Namespaces extends CollectionBase {
       if (item !== undefined) {
         (namespacesCategory.items[0] as SidebarCategoryItem).items.push(item)
       }
+    }
+
+    if (indicesSet.has('all')) {
+      namespacesCategory.items.push({
+        type: 'doc',
+        label: 'All',
+        id: `${this.workspace.sidebarBaseId}indices/namespaces/all`
+      })
+    }
+
+    if (indicesSet.has('classes')) {
+      namespacesCategory.items.push({
+        type: 'doc',
+        label: 'Classes',
+        id: `${this.workspace.sidebarBaseId}indices/namespaces/classes`
+      })
+    }
+
+    if (indicesSet.has('functions')) {
+      namespacesCategory.items.push({
+        type: 'doc',
+        label: 'Functions',
+        id: `${this.workspace.sidebarBaseId}indices/namespaces/functions`
+      })
+    }
+
+    if (indicesSet.has('variables')) {
+      namespacesCategory.items.push({
+        type: 'doc',
+        label: 'Variables',
+        id: `${this.workspace.sidebarBaseId}indices/namespaces/variables`
+      })
+    }
+
+    if (indicesSet.has('typedefs')) {
+      namespacesCategory.items.push({
+        type: 'doc',
+        label: 'Typedefs',
+        id: `${this.workspace.sidebarBaseId}indices/namespaces/typedefs`
+      })
+    }
+
+    if (indicesSet.has('enums')) {
+      namespacesCategory.items.push({
+        type: 'doc',
+        label: 'Enums',
+        id: `${this.workspace.sidebarBaseId}indices/namespaces/enums`
+      })
+    }
+
+    if (indicesSet.has('enumvalues')) {
+      namespacesCategory.items.push({
+        type: 'doc',
+        label: 'Enum Values',
+        id: `${this.workspace.sidebarBaseId}indices/namespaces/enumvalues`
+      })
     }
 
     sidebarCategory.items.push(namespacesCategory)

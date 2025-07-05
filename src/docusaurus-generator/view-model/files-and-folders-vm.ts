@@ -184,6 +184,11 @@ export class FilesAndFolders extends CollectionBase {
   // --------------------------------------------------------------------------
 
   override addSidebarItems (sidebarCategory: SidebarCategory): void {
+    const indicesSet = this.workspace.indicesMaps.get('files')
+    if (indicesSet === undefined) {
+      return
+    }
+
     // Add folders & files to the sidebar.
     // Top level folders & files are added below a Files category
     const filesCategory: SidebarCategoryItem = {
@@ -200,51 +205,6 @@ export class FilesAndFolders extends CollectionBase {
           label: 'Hierarchy',
           collapsed: true,
           items: []
-        },
-        {
-          type: 'doc',
-          label: 'All',
-          id: `${this.workspace.sidebarBaseId}indices/files/all`
-        },
-        {
-          type: 'doc',
-          label: 'Classes',
-          id: `${this.workspace.sidebarBaseId}indices/files/classes`
-        },
-        {
-          type: 'doc',
-          label: 'Namespaces',
-          id: `${this.workspace.sidebarBaseId}indices/files/namespaces`
-        },
-        {
-          type: 'doc',
-          label: 'Functions',
-          id: `${this.workspace.sidebarBaseId}indices/files/functions`
-        },
-        {
-          type: 'doc',
-          label: 'Variables',
-          id: `${this.workspace.sidebarBaseId}indices/files/variables`
-        },
-        {
-          type: 'doc',
-          label: 'Typedefs',
-          id: `${this.workspace.sidebarBaseId}indices/files/typedefs`
-        },
-        {
-          type: 'doc',
-          label: 'Enums',
-          id: `${this.workspace.sidebarBaseId}indices/files/enums`
-        },
-        {
-          type: 'doc',
-          label: 'Enum Values',
-          id: `${this.workspace.sidebarBaseId}indices/files/enumvalues`
-        },
-        {
-          type: 'doc',
-          label: 'Macro Definitions',
-          id: `${this.workspace.sidebarBaseId}indices/files/defines`
         }
       ]
     }
@@ -261,6 +221,78 @@ export class FilesAndFolders extends CollectionBase {
       if (item !== undefined) {
         (filesCategory.items[0] as SidebarCategoryItem).items.push(item)
       }
+    }
+
+    if (indicesSet.has('all')) {
+      filesCategory.items.push({
+        type: 'doc',
+        label: 'All',
+        id: `${this.workspace.sidebarBaseId}indices/files/all`
+      })
+    }
+
+    if (indicesSet.has('classes')) {
+      filesCategory.items.push({
+        type: 'doc',
+        label: 'Classes',
+        id: `${this.workspace.sidebarBaseId}indices/files/classes`
+      })
+    }
+
+    if (indicesSet.has('namespaces')) {
+      filesCategory.items.push({
+        type: 'doc',
+        label: 'Namespaces',
+        id: `${this.workspace.sidebarBaseId}indices/files/namespaces`
+      })
+    }
+
+    if (indicesSet.has('functions')) {
+      filesCategory.items.push({
+        type: 'doc',
+        label: 'Functions',
+        id: `${this.workspace.sidebarBaseId}indices/files/functions`
+      })
+    }
+
+    if (indicesSet.has('variables')) {
+      filesCategory.items.push({
+        type: 'doc',
+        label: 'Variables',
+        id: `${this.workspace.sidebarBaseId}indices/files/variables`
+      })
+    }
+
+    if (indicesSet.has('typedefs')) {
+      filesCategory.items.push({
+        type: 'doc',
+        label: 'Typedefs',
+        id: `${this.workspace.sidebarBaseId}indices/files/typedefs`
+      })
+    }
+
+    if (indicesSet.has('enums')) {
+      filesCategory.items.push({
+        type: 'doc',
+        label: 'Enums',
+        id: `${this.workspace.sidebarBaseId}indices/files/enums`
+      })
+    }
+
+    if (indicesSet.has('enumvalues')) {
+      filesCategory.items.push({
+        type: 'doc',
+        label: 'Enum Values',
+        id: `${this.workspace.sidebarBaseId}indices/files/enumvalues`
+      })
+    }
+
+    if (indicesSet.has('defines')) {
+      filesCategory.items.push({
+        type: 'doc',
+        label: 'Macro Definitions',
+        id: `${this.workspace.sidebarBaseId}indices/files/defines`
+      })
     }
 
     sidebarCategory.items.push(filesCategory)

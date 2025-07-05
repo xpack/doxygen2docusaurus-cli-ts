@@ -155,6 +155,27 @@ export class Workspace {
 
   filesByPath: Map<String, File> = new Map()
 
+  /**
+   * @brief Map to keep track of indices that have content.
+   *
+   * @details
+   * The map keys are:
+   * - classes
+   * - namespaces
+   * - files
+   *
+   * and the Set may include:
+   * - all
+   * - classes
+   * - namespaces
+   * - functions
+   * - variables
+   * - typedefs
+   * - enums
+   * - enumvalues
+   */
+  indicesMaps: Map<string, Set<string>> = new Map()
+
   // --------------------------------------------------------------------------
 
   constructor ({

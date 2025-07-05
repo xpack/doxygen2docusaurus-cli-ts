@@ -88,6 +88,11 @@ export class Classes extends CollectionBase {
   // --------------------------------------------------------------------------
 
   override addSidebarItems (sidebarCategory: SidebarCategory): void {
+    const indicesSet = this.workspace.indicesMaps.get('classes')
+    if (indicesSet === undefined) {
+      return
+    }
+
     // Add classes to the sidebar.
     // Top level classes are added below a Class category
     const classesCategory: SidebarCategoryItem = {
@@ -104,50 +109,73 @@ export class Classes extends CollectionBase {
           label: 'Hierarchy',
           collapsed: true,
           items: []
-        },
-        {
-          type: 'doc',
-          label: 'All',
-          id: `${this.workspace.sidebarBaseId}indices/classes/all`
-        },
-        {
-          type: 'doc',
-          label: 'Classes',
-          id: `${this.workspace.sidebarBaseId}indices/classes/classes`
-        },
-        {
-          type: 'doc',
-          label: 'Functions',
-          id: `${this.workspace.sidebarBaseId}indices/classes/functions`
-        },
-        {
-          type: 'doc',
-          label: 'Variables',
-          id: `${this.workspace.sidebarBaseId}indices/classes/variables`
-        },
-        {
-          type: 'doc',
-          label: 'Typedefs',
-          id: `${this.workspace.sidebarBaseId}indices/classes/typedefs`
-        },
-        {
-          type: 'doc',
-          label: 'Enums',
-          id: `${this.workspace.sidebarBaseId}indices/classes/enums`
-        },
-        {
-          type: 'doc',
-          label: 'Enum Values',
-          id: `${this.workspace.sidebarBaseId}indices/classes/enumvalues`
         }
       ]
     }
 
+    // Add the hierarchy.
     for (const classs of this.topLevelClasses) {
       const item = this.createSidebarItemRecursively(classs)
       if (item !== undefined) {
         (classesCategory.items[0] as SidebarCategoryItem).items.push(item)
       }
+    }
+
+    // Add the rest of the entries.
+    if (indicesSet.has('classes')) {
+      classesCategory.items.push({
+        type: 'doc',
+        label: 'All',
+        id: `${this.workspace.sidebarBaseId}indices/classes/all`
+      })
+    }
+
+    if (indicesSet.has('classes')) {
+      classesCategory.items.push({
+        type: 'doc',
+        label: 'Classes',
+        id: `${this.workspace.sidebarBaseId}indices/classes/classes`
+      })
+    }
+
+    if (indicesSet.has('functions')) {
+      classesCategory.items.push({
+        type: 'doc',
+        label: 'Functions',
+        id: `${this.workspace.sidebarBaseId}indices/classes/functions`
+      })
+    }
+
+    if (indicesSet.has('variables')) {
+      classesCategory.items.push({
+        type: 'doc',
+        label: 'Variables',
+        id: `${this.workspace.sidebarBaseId}indices/classes/variables`
+      })
+    }
+
+    if (indicesSet.has('typedefs')) {
+      classesCategory.items.push({
+        type: 'doc',
+        label: 'Typedefs',
+        id: `${this.workspace.sidebarBaseId}indices/classes/typedefs`
+      })
+    }
+
+    if (indicesSet.has('enums')) {
+      classesCategory.items.push({
+        type: 'doc',
+        label: 'Enums',
+        id: `${this.workspace.sidebarBaseId}indices/classes/enums`
+      })
+    }
+
+    if (indicesSet.has('enumvalues')) {
+      classesCategory.items.push({
+        type: 'doc',
+        label: 'Enum Values',
+        id: `${this.workspace.sidebarBaseId}indices/classes/enumvalues`
+      })
     }
 
     sidebarCategory.items.push(classesCategory)
