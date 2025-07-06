@@ -57,7 +57,7 @@ export abstract class CollectionBase {
     const entriesPerInitialsMap: Map<string, TreeEntryBase[]> = new Map()
 
     for (const [id, entry] of entriesMap) {
-      const initial: string = entry.name.charAt(0).toLowerCase()
+      const initial: string = entry.name.replace(/^[~]/, '').charAt(0).toLowerCase()
       if (initial.length > 0) {
         let mapArray = entriesPerInitialsMap.get(initial)
         if (mapArray === undefined) {
@@ -74,7 +74,7 @@ export abstract class CollectionBase {
       const unorderedArray = entriesPerInitialsMap.get(initial)
       assert(unorderedArray !== undefined)
       const orderedArray = unorderedArray.sort((a, b) => {
-        let nameComparison = a.name.localeCompare(b.name, undefined, { sensitivity: 'accent' })
+        let nameComparison = a.name.replace(/^[~]/, '').localeCompare(b.name.replace(/^[~]/, ''), undefined, { sensitivity: 'accent' })
         if (nameComparison !== 0) {
           return nameComparison
         }

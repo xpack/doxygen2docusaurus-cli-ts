@@ -25,7 +25,7 @@ export class CollectionBase {
     orderPerInitials(entriesMap) {
         const entriesPerInitialsMap = new Map();
         for (const [id, entry] of entriesMap) {
-            const initial = entry.name.charAt(0).toLowerCase();
+            const initial = entry.name.replace(/^[~]/, '').charAt(0).toLowerCase();
             if (initial.length > 0) {
                 let mapArray = entriesPerInitialsMap.get(initial);
                 if (mapArray === undefined) {
@@ -41,7 +41,7 @@ export class CollectionBase {
             const unorderedArray = entriesPerInitialsMap.get(initial);
             assert(unorderedArray !== undefined);
             const orderedArray = unorderedArray.sort((a, b) => {
-                let nameComparison = a.name.localeCompare(b.name, undefined, { sensitivity: 'accent' });
+                let nameComparison = a.name.replace(/^[~]/, '').localeCompare(b.name.replace(/^[~]/, ''), undefined, { sensitivity: 'accent' });
                 if (nameComparison !== 0) {
                     return nameComparison;
                 }
