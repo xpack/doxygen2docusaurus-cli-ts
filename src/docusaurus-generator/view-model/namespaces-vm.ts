@@ -271,7 +271,7 @@ export class Namespaces extends CollectionBase {
 
     const lines: string[] = []
 
-    const label = this.workspace.renderString(namespace.indexName, 'html')
+    const label = this.workspace.renderString(namespace.treeEntryName, 'html')
 
     const permalink = this.workspace.getPagePermalink(namespace.id)
     if (permalink === undefined || permalink.length === 0) {
@@ -512,6 +512,8 @@ export class Namespace extends CompoundBase {
         console.warn('Skipping unnamed namespace', compoundDef.id, compoundDef.location?.file)
       }
     }
+
+    this.treeEntryName = this.indexName
 
     this.createSections()
 

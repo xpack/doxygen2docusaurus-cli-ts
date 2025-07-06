@@ -141,6 +141,7 @@ export class Page extends CompoundBase {
     this.sidebarLabel = compoundDef.title.trim().replace(/\.$/, '')
 
     this.indexName = this.sidebarLabel
+    this.treeEntryName = this.sidebarLabel
 
     // this.pageTitle = `The ${this.sidebarLabel}`
     this.pageTitle = this.sidebarLabel

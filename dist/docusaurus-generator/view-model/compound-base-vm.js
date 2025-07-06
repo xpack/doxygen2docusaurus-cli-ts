@@ -28,6 +28,8 @@ export class CompoundBase {
         this.children = [];
         /** The name shown in the index section. */
         this.indexName = '';
+        /** @brief The named used in the tree entry rendered in the top index pages. */
+        this.treeEntryName = '';
         /** The name shown in the page title. */
         this.pageTitle = '';
         this.hasSect1InDescription = false;

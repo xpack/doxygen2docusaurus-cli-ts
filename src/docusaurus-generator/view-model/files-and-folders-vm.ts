@@ -680,6 +680,7 @@ export class Folder extends CompoundBase {
     this.sidebarLabel = compoundDef.compoundName ?? '???'
 
     this.indexName = this.sidebarLabel
+    this.treeEntryName = this.sidebarLabel
 
     this.pageTitle = `The \`${this.sidebarLabel}\` Folder Reference`
 
@@ -779,6 +780,7 @@ export class File extends CompoundBase {
     this.sidebarLabel = compoundDef.compoundName
 
     this.indexName = this.sidebarLabel
+    this.treeEntryName = this.sidebarLabel
 
     this.pageTitle = `The \`${this.sidebarLabel}\` File Reference`
 

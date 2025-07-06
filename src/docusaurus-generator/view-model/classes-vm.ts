@@ -290,7 +290,7 @@ export class Classes extends CollectionBase {
       iconLetter = '?'
     }
 
-    const label = this.workspace.renderString(classs.indexName, 'html')
+    const label = this.workspace.renderString(classs.treeEntryName, 'html')
 
     let description: string = ''
     if (classs.briefDescriptionHtmlString !== undefined && classs.briefDescriptionHtmlString.length > 0) {
@@ -478,6 +478,12 @@ export class Class extends CompoundBase {
     this.sidebarLabel = this.unqualifiedName
 
     this.indexName = `${this.unqualifiedName}${indexNameTemplateParameters}`
+
+    if (this.indexName.length < 42) {
+      this.treeEntryName = this.indexName
+    } else {
+      this.treeEntryName = `${this.unqualifiedName}<...>`
+    }
 
     const kind = compoundDef.kind
     const kindCapitalised = kind.charAt(0).toUpperCase() + kind.slice(1).toLowerCase()

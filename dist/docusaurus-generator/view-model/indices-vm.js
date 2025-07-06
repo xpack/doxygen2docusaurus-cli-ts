@@ -36,7 +36,7 @@ export class IndexEntryBase {
         if (entry instanceof Class) {
             this.id = entry.id;
             // this.name = entry.unqualifiedName
-            this.name = entry.collection.workspace.renderString(entry.indexName, 'html');
+            this.name = entry.collection.workspace.renderString(entry.treeEntryName, 'html');
             this.longName = entry.fullyQualifiedName;
             // console.log(this.name, '    |   ', entry.indexName, entry.unqualifiedName, entry.fullyQualifiedName, entry.compoundName, entry.classFullName)
             this.kind = entry.kind; // class, struct, union
@@ -49,11 +49,11 @@ export class IndexEntryBase {
         }
         else if (entry instanceof Namespace) {
             this.id = entry.id;
-            this.name = entry.indexName;
+            this.name = entry.treeEntryName;
             this.longName = entry.unqualifiedName;
             this.kind = entry.kind; // namespace
             this.linkKind = entry.kind;
-            this.linkName = entry.indexName;
+            this.linkName = entry.treeEntryName;
             this.permalink = entry.collection.workspace.getPermalink({
                 refid: entry.id,
                 kindref: 'compound'
@@ -101,7 +101,7 @@ export class NamespaceIndexEntry extends IndexEntryBase {
     constructor(entry, namespace) {
         super(entry);
         this.linkKind = 'namespace';
-        this.linkName = namespace.indexName;
+        this.linkName = namespace.compoundName;
         // console.log(this)
     }
 }
@@ -109,7 +109,7 @@ export class FileIndexEntry extends IndexEntryBase {
     constructor(entry, file) {
         super(entry);
         this.linkKind = 'file';
-        this.linkName = file.indexName;
+        this.linkName = file.relativePath;
         // console.log(this)
     }
 }

@@ -104,6 +104,7 @@ export class Page extends CompoundBase {
         assert(compoundDef.title !== undefined);
         this.sidebarLabel = compoundDef.title.trim().replace(/\.$/, '');
         this.indexName = this.sidebarLabel;
+        this.treeEntryName = this.sidebarLabel;
         // this.pageTitle = `The ${this.sidebarLabel}`
         this.pageTitle = this.sidebarLabel;
         const sanitizedPath = sanitizeHierarchicalPath(this.compoundName);

@@ -88,6 +88,9 @@ export abstract class CompoundBase {
   /** The name shown in the index section. */
   indexName: string = ''
 
+  /** @brief The named used in the tree entry rendered in the top index pages. */
+  treeEntryName: string = ''
+
   /** The name shown in the page title. */
   pageTitle: string = ''
 
