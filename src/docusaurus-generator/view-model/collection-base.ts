@@ -18,7 +18,7 @@ import { Workspace } from '../workspace.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { MenuItem, SidebarCategory } from '../../plugin/types.js'
 import { CompoundBase } from './compound-base-vm.js'
-import { IndexEntryBase } from './indices-vm.js'
+import { TreeEntryBase } from './tree-entries-vm.js'
 import { FrontMatter } from '../types.js'
 
 export abstract class CollectionBase {
@@ -53,8 +53,8 @@ export abstract class CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  orderPerInitials (entriesMap: Map<string, IndexEntryBase>): Map<string, IndexEntryBase[]> {
-    const entriesPerInitialsMap: Map<string, IndexEntryBase[]> = new Map()
+  orderPerInitials (entriesMap: Map<string, TreeEntryBase>): Map<string, TreeEntryBase[]> {
+    const entriesPerInitialsMap: Map<string, TreeEntryBase[]> = new Map()
 
     for (const [id, entry] of entriesMap) {
       const initial: string = entry.name.charAt(0).toLowerCase()
@@ -68,7 +68,7 @@ export abstract class CollectionBase {
       }
     }
 
-    const orderedMap: Map<string, IndexEntryBase[]> = new Map()
+    const orderedMap: Map<string, TreeEntryBase[]> = new Map()
     const orderedInitials = Array.from(entriesPerInitialsMap.keys()).sort()
     for (const initial of orderedInitials) {
       const unorderedArray = entriesPerInitialsMap.get(initial)
@@ -87,7 +87,7 @@ export abstract class CollectionBase {
     return orderedMap
   }
 
-  outputEntries (entriesPerInitialsMap: Map<string, IndexEntryBase[]>): string[] {
+  outputEntries (entriesPerInitialsMap: Map<string, TreeEntryBase[]>): string[] {
     const lines: string[] = []
 
     let totalCount = 0
@@ -145,10 +145,10 @@ export abstract class CollectionBase {
     fileKind: string
     title: string
     description: string
-    map: Map<string, IndexEntryBase>
+    map: Map<string, TreeEntryBase>
     filter: (kind: string) => boolean
   }): Promise<void> {
-    const filteredMap: Map<string, IndexEntryBase> = new Map()
+    const filteredMap: Map<string, TreeEntryBase> = new Map()
     for (const [id, entry] of map) {
       if (filter(entry.kind)) {
         filteredMap.set(id, entry)

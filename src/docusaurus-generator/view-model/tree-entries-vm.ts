@@ -19,7 +19,7 @@ import { sanitizeAnonymousNamespace } from '../utils.js'
 
 // ----------------------------------------------------------------------------
 
-export class IndexEntryBase {
+export class TreeEntryBase {
   /** @brief The short name shown in the left part of the index lines. */
   name: string = '???'
   /** @brief The full name, used internally as the second sort criteria. */
@@ -112,7 +112,7 @@ export class IndexEntryBase {
   }
 }
 
-export class ClassIndexEntry extends IndexEntryBase {
+export class ClassTreeEntry extends TreeEntryBase {
   constructor (entry: Class | Member | EnumValue, classs: Class) {
     super(entry)
 
@@ -123,7 +123,7 @@ export class ClassIndexEntry extends IndexEntryBase {
   }
 }
 
-export class NamespaceIndexEntry extends IndexEntryBase {
+export class NamespaceTreeEntry extends TreeEntryBase {
   constructor (entry: Namespace | Class | Member | EnumValue, namespace: Namespace) {
     super(entry)
 
@@ -134,7 +134,7 @@ export class NamespaceIndexEntry extends IndexEntryBase {
   }
 }
 
-export class FileIndexEntry extends IndexEntryBase {
+export class FileTreeEntry extends TreeEntryBase {
   constructor (entry: Namespace | Class | Member | EnumValue, file: File) {
     super(entry)
 

@@ -23,7 +23,7 @@ import { MenuItem, SidebarCategory, SidebarCategoryItem, SidebarDocItem, Sidebar
 import { FrontMatter } from '../types.js'
 import { BaseCompoundRefDataModel, DerivedCompoundRefDataModel } from '../../data-model/compounds/compoundreftype-dm.js'
 import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js'
-import { ClassIndexEntry, IndexEntryBase } from './indices-vm.js'
+import { ClassTreeEntry, TreeEntryBase } from './tree-entries-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -320,18 +320,18 @@ export class Classes extends CollectionBase {
       return
     }
 
-    const allUnorderedEntriesMap: Map<string, IndexEntryBase> = new Map()
+    const allUnorderedEntriesMap: Map<string, TreeEntryBase> = new Map()
 
     for (const [compoundId, compound] of this.collectionCompoundsById) {
-      const compoundEntry = new ClassIndexEntry(compound as Class, compound as Class)
+      const compoundEntry = new ClassTreeEntry(compound as Class, compound as Class)
       allUnorderedEntriesMap.set(compoundEntry.id, compoundEntry)
       for (const section of compound.sections) {
         for (const member of section.definitionMembers) {
-          const memberEntry = new ClassIndexEntry(member, compound as Class)
+          const memberEntry = new ClassTreeEntry(member, compound as Class)
           allUnorderedEntriesMap.set(memberEntry.id, memberEntry)
           if (member.enumValues !== undefined) {
             for (const enumValue of member.enumValues) {
-              const enumValueEntry = new ClassIndexEntry(enumValue, compound as Class)
+              const enumValueEntry = new ClassTreeEntry(enumValue, compound as Class)
               allUnorderedEntriesMap.set(enumValueEntry.id, enumValueEntry)
             }
           }

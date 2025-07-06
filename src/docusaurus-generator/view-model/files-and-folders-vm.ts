@@ -22,7 +22,7 @@ import { Workspace } from '../workspace.js'
 import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { FrontMatter } from '../types.js'
 import { ProgramListingDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
-import { FileIndexEntry, IndexEntryBase } from './indices-vm.js'
+import { FileTreeEntry, TreeEntryBase } from './tree-entries-vm.js'
 import { Class } from './classes-vm.js'
 import { Namespace } from './namespaces-vm.js'
 
@@ -498,7 +498,7 @@ export class FilesAndFolders extends CollectionBase {
       return
     }
 
-    const allUnorderedEntriesMap: Map<string, IndexEntryBase> = new Map()
+    const allUnorderedEntriesMap: Map<string, TreeEntryBase> = new Map()
 
     for (const [compoundId, compound] of this.collectionCompoundsById) {
       if (compound.innerCompounds !== undefined) {
@@ -509,7 +509,7 @@ export class FilesAndFolders extends CollectionBase {
             // console.log(innerClass.refid)
             const compoundClass = this.workspace.compoundsById.get(innerClass.refid) as Class
             if (compoundClass instanceof Class) {
-              const classEntry = new FileIndexEntry(compoundClass, compound as File)
+              const classEntry = new FileTreeEntry(compoundClass, compound as File)
               allUnorderedEntriesMap.set(classEntry.id, classEntry)
             }
           }
@@ -520,7 +520,7 @@ export class FilesAndFolders extends CollectionBase {
             // console.log(innerNamespace.refid)
             const compoundNamespace = this.workspace.compoundsById.get(innerNamespace.refid) as Namespace
             if (compoundNamespace instanceof Namespace) {
-              const namespaceEntry = new FileIndexEntry(compoundNamespace, compound as File)
+              const namespaceEntry = new FileTreeEntry(compoundNamespace, compound as File)
               allUnorderedEntriesMap.set(namespaceEntry.id, namespaceEntry)
             }
           }
@@ -529,11 +529,11 @@ export class FilesAndFolders extends CollectionBase {
 
       for (const section of compound.sections) {
         for (const member of section.definitionMembers) {
-          const memberEntry = new FileIndexEntry(member, compound as File)
+          const memberEntry = new FileTreeEntry(member, compound as File)
           allUnorderedEntriesMap.set(memberEntry.id, memberEntry)
           if (member.enumValues !== undefined) {
             for (const enumValue of member.enumValues) {
-              const enumValueEntry = new FileIndexEntry(enumValue, compound as File)
+              const enumValueEntry = new FileTreeEntry(enumValue, compound as File)
               allUnorderedEntriesMap.set(enumValueEntry.id, enumValueEntry)
             }
           }

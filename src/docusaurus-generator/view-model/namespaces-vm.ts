@@ -21,7 +21,7 @@ import { CollectionBase } from './collection-base.js'
 import { MenuItem, SidebarCategory, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { flattenPath, sanitizeAnonymousNamespace, sanitizeHierarchicalPath } from '../utils.js'
 import { FrontMatter } from '../types.js'
-import { IndexEntryBase, NamespaceIndexEntry } from './indices-vm.js'
+import { TreeEntryBase, NamespaceTreeEntry } from './tree-entries-vm.js'
 import { Class } from './classes-vm.js'
 
 // ----------------------------------------------------------------------------
@@ -310,10 +310,10 @@ export class Namespaces extends CollectionBase {
       return
     }
 
-    const allUnorderedEntriesMap: Map<string, IndexEntryBase> = new Map()
+    const allUnorderedEntriesMap: Map<string, TreeEntryBase> = new Map()
 
     for (const [compoundId, compound] of this.collectionCompoundsById) {
-      const compoundEntry = new NamespaceIndexEntry(compound as Namespace, compound as Namespace)
+      const compoundEntry = new NamespaceTreeEntry(compound as Namespace, compound as Namespace)
       allUnorderedEntriesMap.set(compoundEntry.id, compoundEntry)
 
       // console.log(compound.indexName)
@@ -325,7 +325,7 @@ export class Namespaces extends CollectionBase {
             // console.log(innerClass.refid)
             const compoundClass = this.workspace.compoundsById.get(innerClass.refid) as Class
             if (compoundClass instanceof Class) {
-              const classEntry = new NamespaceIndexEntry(compoundClass, compound as Namespace)
+              const classEntry = new NamespaceTreeEntry(compoundClass, compound as Namespace)
               allUnorderedEntriesMap.set(classEntry.id, classEntry)
             }
           }
@@ -334,11 +334,11 @@ export class Namespaces extends CollectionBase {
 
       for (const section of compound.sections) {
         for (const member of section.definitionMembers) {
-          const memberEntry = new NamespaceIndexEntry(member, compound as Namespace)
+          const memberEntry = new NamespaceTreeEntry(member, compound as Namespace)
           allUnorderedEntriesMap.set(memberEntry.id, memberEntry)
           if (member.enumValues !== undefined) {
             for (const enumValue of member.enumValues) {
-              const enumValueEntry = new NamespaceIndexEntry(enumValue, compound as Namespace)
+              const enumValueEntry = new NamespaceTreeEntry(enumValue, compound as Namespace)
               allUnorderedEntriesMap.set(enumValueEntry.id, enumValueEntry)
             }
           }
