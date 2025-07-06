@@ -14,7 +14,7 @@ import { EnumValue, Member } from './members-vm.js';
 import { Namespace } from './namespaces-vm.js';
 import { sanitizeAnonymousNamespace } from '../utils.js';
 // ----------------------------------------------------------------------------
-export class IndexEntryBase {
+export class TreeEntryBase {
     constructor(entry) {
         /** @brief The short name shown in the left part of the index lines. */
         this.name = '???';
@@ -34,6 +34,8 @@ export class IndexEntryBase {
         this.linkKind = '';
         /** @brief The name of the linked target object. */
         this.linkName = '???';
+        /** @brief The short name of the linked target object, to be compared with name. */
+        this.comparableLinkName = '';
         if (entry instanceof Class) {
             this.id = entry.id;
             // this.name = entry.unqualifiedName
@@ -90,23 +92,25 @@ export class IndexEntryBase {
         }
     }
 }
-export class ClassIndexEntry extends IndexEntryBase {
+export class ClassTreeEntry extends TreeEntryBase {
     constructor(entry, classs) {
         super(entry);
         this.linkKind = classs.kind;
         this.linkName = classs.classFullName;
+        this.comparableLinkName = classs.collection.workspace.renderString(classs.treeEntryName, 'html');
         // console.log(this)
     }
 }
-export class NamespaceIndexEntry extends IndexEntryBase {
+export class NamespaceTreeEntry extends TreeEntryBase {
     constructor(entry, namespace) {
         super(entry);
         this.linkKind = 'namespace';
         this.linkName = sanitizeAnonymousNamespace(namespace.compoundName);
+        this.comparableLinkName = namespace.treeEntryName;
         // console.log(this)
     }
 }
-export class FileIndexEntry extends IndexEntryBase {
+export class FileTreeEntry extends TreeEntryBase {
     constructor(entry, file) {
         super(entry);
         this.linkKind = 'file';
@@ -115,4 +119,4 @@ export class FileIndexEntry extends IndexEntryBase {
     }
 }
 // ----------------------------------------------------------------------------
-//# sourceMappingURL=indices-vm.js.map
+//# sourceMappingURL=tree-entries-vm.js.map

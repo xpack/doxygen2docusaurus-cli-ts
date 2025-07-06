@@ -2,7 +2,7 @@ import { Workspace } from '../workspace.js';
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js';
 import { MenuItem, SidebarCategory } from '../../plugin/types.js';
 import { CompoundBase } from './compound-base-vm.js';
-import { IndexEntryBase } from './indices-vm.js';
+import { TreeEntryBase } from './tree-entries-vm.js';
 export declare abstract class CollectionBase {
     workspace: Workspace;
     collectionCompoundsById: Map<string, CompoundBase>;
@@ -14,14 +14,14 @@ export declare abstract class CollectionBase {
     abstract generateIndexDotMdFile(): Promise<void>;
     generatePerInitialsIndexMdFiles(): Promise<void>;
     hasCompounds(): boolean;
-    orderPerInitials(entriesMap: Map<string, IndexEntryBase>): Map<string, IndexEntryBase[]>;
-    outputEntries(entriesPerInitialsMap: Map<string, IndexEntryBase[]>): string[];
+    orderPerInitials(entriesMap: Map<string, TreeEntryBase>): Map<string, TreeEntryBase[]>;
+    outputEntries(entriesPerInitialsMap: Map<string, TreeEntryBase[]>): string[];
     generateIndexFile({ group, fileKind, title, description, map, filter }: {
         group: string;
         fileKind: string;
         title: string;
         description: string;
-        map: Map<string, IndexEntryBase>;
+        map: Map<string, TreeEntryBase>;
         filter: (kind: string) => boolean;
     }): Promise<void>;
 }

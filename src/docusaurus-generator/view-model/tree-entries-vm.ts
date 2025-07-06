@@ -45,6 +45,9 @@ export class TreeEntryBase {
   /** @brief The name of the linked target object. */
   linkName: string = '???'
 
+  /** @brief The short name of the linked target object, to be compared with name. */
+  comparableLinkName: string = ''
+
   /** @brief The URL of the target object, including the anchor. */
   permalink?: string | undefined
 
@@ -118,6 +121,7 @@ export class ClassTreeEntry extends TreeEntryBase {
 
     this.linkKind = classs.kind
     this.linkName = classs.classFullName
+    this.comparableLinkName = classs.collection.workspace.renderString(classs.treeEntryName, 'html')
 
     // console.log(this)
   }
@@ -129,7 +133,7 @@ export class NamespaceTreeEntry extends TreeEntryBase {
 
     this.linkKind = 'namespace'
     this.linkName = sanitizeAnonymousNamespace(namespace.compoundName)
-
+    this.comparableLinkName = namespace.treeEntryName
     // console.log(this)
   }
 }

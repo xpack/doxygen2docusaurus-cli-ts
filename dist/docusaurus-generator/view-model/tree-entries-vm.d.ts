@@ -2,7 +2,7 @@ import { Class } from './classes-vm.js';
 import { EnumValue, Member } from './members-vm.js';
 import { Namespace } from './namespaces-vm.js';
 import { File } from './files-and-folders-vm.js';
-export declare class IndexEntryBase {
+export declare class TreeEntryBase {
     /** @brief The short name shown in the left part of the index lines. */
     name: string;
     /** @brief The full name, used internally as the second sort criteria. */
@@ -23,16 +23,18 @@ export declare class IndexEntryBase {
     linkKind: string;
     /** @brief The name of the linked target object. */
     linkName: string;
+    /** @brief The short name of the linked target object, to be compared with name. */
+    comparableLinkName: string;
     /** @brief The URL of the target object, including the anchor. */
     permalink?: string | undefined;
     constructor(entry: Class | Namespace | Member | EnumValue);
 }
-export declare class ClassIndexEntry extends IndexEntryBase {
+export declare class ClassTreeEntry extends TreeEntryBase {
     constructor(entry: Class | Member | EnumValue, classs: Class);
 }
-export declare class NamespaceIndexEntry extends IndexEntryBase {
+export declare class NamespaceTreeEntry extends TreeEntryBase {
     constructor(entry: Namespace | Class | Member | EnumValue, namespace: Namespace);
 }
-export declare class FileIndexEntry extends IndexEntryBase {
+export declare class FileTreeEntry extends TreeEntryBase {
     constructor(entry: Namespace | Class | Member | EnumValue, file: File);
 }

@@ -12,7 +12,7 @@ import assert from 'node:assert';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
 import { flattenPath, sanitizeHierarchicalPath } from '../utils.js';
-import { FileIndexEntry } from './indices-vm.js';
+import { FileTreeEntry } from './tree-entries-vm.js';
 import { Class } from './classes-vm.js';
 import { Namespace } from './namespaces-vm.js';
 // ----------------------------------------------------------------------------
@@ -414,7 +414,7 @@ export class FilesAndFolders extends CollectionBase {
                         // console.log(innerClass.refid)
                         const compoundClass = this.workspace.compoundsById.get(innerClass.refid);
                         if (compoundClass instanceof Class) {
-                            const classEntry = new FileIndexEntry(compoundClass, compound);
+                            const classEntry = new FileTreeEntry(compoundClass, compound);
                             allUnorderedEntriesMap.set(classEntry.id, classEntry);
                         }
                     }
@@ -425,7 +425,7 @@ export class FilesAndFolders extends CollectionBase {
                         // console.log(innerNamespace.refid)
                         const compoundNamespace = this.workspace.compoundsById.get(innerNamespace.refid);
                         if (compoundNamespace instanceof Namespace) {
-                            const namespaceEntry = new FileIndexEntry(compoundNamespace, compound);
+                            const namespaceEntry = new FileTreeEntry(compoundNamespace, compound);
                             allUnorderedEntriesMap.set(namespaceEntry.id, namespaceEntry);
                         }
                     }
@@ -433,11 +433,11 @@ export class FilesAndFolders extends CollectionBase {
             }
             for (const section of compound.sections) {
                 for (const member of section.definitionMembers) {
-                    const memberEntry = new FileIndexEntry(member, compound);
+                    const memberEntry = new FileTreeEntry(member, compound);
                     allUnorderedEntriesMap.set(memberEntry.id, memberEntry);
                     if (member.enumValues !== undefined) {
                         for (const enumValue of member.enumValues) {
-                            const enumValueEntry = new FileIndexEntry(enumValue, compound);
+                            const enumValueEntry = new FileTreeEntry(enumValue, compound);
                             allUnorderedEntriesMap.set(enumValueEntry.id, enumValueEntry);
                         }
                     }

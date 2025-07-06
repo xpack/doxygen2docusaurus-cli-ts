@@ -99,13 +99,20 @@ export abstract class CollectionBase {
       const mapArray = entriesPerInitialsMap.get(initial)
       assert(mapArray !== undefined)
       for (const entry of mapArray) {
-        const linkName: string = entry.linkName ?? '???'
+        const linkName: string = entry.linkName
 
         const name = entry.name
+        const kind = entry.kind.replace(/enumvalue/, 'enum value').replace(/define/, 'macro definition')
 
         let text: string = ''
 
         text += `<li><b>${name}</b>: `
+        text += 'as '
+        if (name !== entry.comparableLinkName) {
+          text += `${kind} `
+          text += 'in '
+        }
+
         if (entry.linkKind.length > 0) {
           text += entry.linkKind
           text += ' '

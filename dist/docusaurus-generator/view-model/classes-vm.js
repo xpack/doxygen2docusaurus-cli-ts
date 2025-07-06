@@ -13,7 +13,7 @@ import crypto from 'node:crypto';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
 import { flattenPath, sanitizeAnonymousNamespace, sanitizeHierarchicalPath } from '../utils.js';
-import { ClassIndexEntry } from './indices-vm.js';
+import { ClassTreeEntry } from './tree-entries-vm.js';
 // ----------------------------------------------------------------------------
 const kindsPlurals = {
     class: 'Classes',
@@ -262,15 +262,15 @@ export class Classes extends CollectionBase {
         }
         const allUnorderedEntriesMap = new Map();
         for (const [compoundId, compound] of this.collectionCompoundsById) {
-            const compoundEntry = new ClassIndexEntry(compound, compound);
+            const compoundEntry = new ClassTreeEntry(compound, compound);
             allUnorderedEntriesMap.set(compoundEntry.id, compoundEntry);
             for (const section of compound.sections) {
                 for (const member of section.definitionMembers) {
-                    const memberEntry = new ClassIndexEntry(member, compound);
+                    const memberEntry = new ClassTreeEntry(member, compound);
                     allUnorderedEntriesMap.set(memberEntry.id, memberEntry);
                     if (member.enumValues !== undefined) {
                         for (const enumValue of member.enumValues) {
-                            const enumValueEntry = new ClassIndexEntry(enumValue, compound);
+                            const enumValueEntry = new ClassTreeEntry(enumValue, compound);
                             allUnorderedEntriesMap.set(enumValueEntry.id, enumValueEntry);
                         }
                     }
