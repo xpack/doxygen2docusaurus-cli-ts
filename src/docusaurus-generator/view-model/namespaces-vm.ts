@@ -19,7 +19,7 @@ import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
 import { MenuItem, SidebarCategory, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
-import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
+import { flattenPath, sanitizeAnonymousNamespace, sanitizeHierarchicalPath } from '../utils.js'
 import { FrontMatter } from '../types.js'
 import { IndexEntryBase, NamespaceIndexEntry } from './indices-vm.js'
 import { Class } from './classes-vm.js'
@@ -495,13 +495,13 @@ export class Namespace extends CompoundBase {
     } else {
       // The compoundName is the fully qualified namespace name.
       // Keep only the last name.
-      this.unqualifiedName = compoundDef.compoundName.replace(/.*::/, '').replaceAll(/anonymous_namespace\{/g, 'anonymous{')
+      this.unqualifiedName = sanitizeAnonymousNamespace(compoundDef.compoundName.replace(/.*::/, ''))
 
-      this.indexName = this.compoundName.replace(/.*::/, '').replaceAll(/anonymous_namespace\{/g, 'anonymous{')
+      this.indexName = sanitizeAnonymousNamespace(this.compoundName.replace(/.*::/, ''))
 
       this.pageTitle = `The \`${this.unqualifiedName}\` Namespace Reference`
 
-      const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundName.replaceAll('::', '/').replaceAll(/anonymous_namespace\{/g, 'anonymous{'))
+      const sanitizedPath: string = sanitizeHierarchicalPath(sanitizeAnonymousNamespace(this.compoundName.replaceAll('::', '/')))
 
       if (compoundDef.compoundName.length > 0) {
         // Skip un-named namespaces, and generated ones, since they can be duplicate.

@@ -18,7 +18,7 @@ import { MemberDefDataModel } from '../../data-model/compounds/memberdeftype-dm.
 import { MemberDataModel } from '../../data-model/compounds/membertype-dm.js'
 import { SectionDefDataModel } from '../../data-model/compounds/sectiondeftype-dm.js'
 import { CompoundBase } from './compound-base-vm.js'
-import { getPermalinkAnchor } from '../utils.js'
+import { getPermalinkAnchor, sanitizeAnonymousNamespace } from '../utils.js'
 import { Class } from './classes-vm.js'
 import { MemberProgramListingDataModel, ParaDataModel, ProgramListingDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { LocationDataModel } from '../../data-model/compounds/locationtype-dm.js'
@@ -498,7 +498,7 @@ export class Member extends MemberBase {
     }
 
     if (templateParamList?.params !== undefined) {
-      this.templateParameters = this.section.compound.renderTemplateParametersToString({ templateParamList, withDefaults: true })
+      this.templateParameters = sanitizeAnonymousNamespace(this.section.compound.renderTemplateParametersToString({ templateParamList, withDefaults: true }))
     }
 
     if (memberDef.params !== undefined) {
@@ -526,11 +526,11 @@ export class Member extends MemberBase {
     }
 
     if (memberDef.qualifiedName !== undefined) {
-      this.qualifiedName = memberDef.qualifiedName
+      this.qualifiedName = sanitizeAnonymousNamespace(memberDef.qualifiedName)
     }
 
     if (memberDef.definition !== undefined) {
-      this.definition = memberDef.definition
+      this.definition = sanitizeAnonymousNamespace(memberDef.definition)
     }
 
     if (memberDef.constexpr?.valueOf() && !type.includes('constexpr')) {

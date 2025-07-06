@@ -102,6 +102,9 @@ export function sanitizeHierarchicalPath(text) {
         .replaceAll(/\)/g, '29')
         .replaceAll(/[^a-zA-Z0-9/-]/g, '-');
 }
+export function sanitizeAnonymousNamespace(text) {
+    return text.replaceAll(/anonymous_namespace\{/g, 'anonymous{');
+}
 export function flattenPath(text) {
     return text.replaceAll('/', '-');
 }

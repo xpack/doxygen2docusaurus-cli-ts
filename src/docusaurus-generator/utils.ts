@@ -117,6 +117,10 @@ export function sanitizeHierarchicalPath (text: string): string {
     .replaceAll(/[^a-zA-Z0-9/-]/g, '-')
 }
 
+export function sanitizeAnonymousNamespace (text: string): string {
+  return text.replaceAll(/anonymous_namespace\{/g, 'anonymous{')
+}
+
 export function flattenPath (text: string): string {
   return text.replaceAll('/', '-')
 }

@@ -12,6 +12,7 @@
 import { Class } from './classes-vm.js';
 import { EnumValue, Member } from './members-vm.js';
 import { Namespace } from './namespaces-vm.js';
+import { sanitizeAnonymousNamespace } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class IndexEntryBase {
     constructor(entry) {
@@ -101,7 +102,7 @@ export class NamespaceIndexEntry extends IndexEntryBase {
     constructor(entry, namespace) {
         super(entry);
         this.linkKind = 'namespace';
-        this.linkName = namespace.compoundName;
+        this.linkName = sanitizeAnonymousNamespace(namespace.compoundName);
         // console.log(this)
     }
 }

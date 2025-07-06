@@ -12,7 +12,7 @@ import assert from 'node:assert';
 import crypto from 'node:crypto';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
-import { flattenPath, sanitizeHierarchicalPath } from '../utils.js';
+import { flattenPath, sanitizeAnonymousNamespace, sanitizeHierarchicalPath } from '../utils.js';
 import { ClassIndexEntry } from './indices-vm.js';
 // ----------------------------------------------------------------------------
 const kindsPlurals = {
@@ -374,7 +374,7 @@ export class Class extends CompoundBase {
             }
         }
         // Remove the template parameters.
-        this.fullyQualifiedName = compoundDef.compoundName.replace(/<.*>/, '').replace(/anonymous_namespace\{/, 'anonymous{');
+        this.fullyQualifiedName = sanitizeAnonymousNamespace(compoundDef.compoundName.replace(/<.*>/, ''));
         // Remove the namespaces(s).
         this.unqualifiedName = this.fullyQualifiedName.replace(/.*::/, '');
         const index = compoundDef.compoundName.indexOf('<');

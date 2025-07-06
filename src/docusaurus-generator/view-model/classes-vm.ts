@@ -18,7 +18,7 @@ import crypto from 'node:crypto'
 import { CompoundBase } from './compound-base-vm.js'
 import { CompoundDefDataModel } from '../../data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
-import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
+import { flattenPath, sanitizeAnonymousNamespace, sanitizeHierarchicalPath } from '../utils.js'
 import { MenuItem, SidebarCategory, SidebarCategoryItem, SidebarDocItem, SidebarItem } from '../../plugin/types.js'
 import { FrontMatter } from '../types.js'
 import { BaseCompoundRefDataModel, DerivedCompoundRefDataModel } from '../../data-model/compounds/compoundreftype-dm.js'
@@ -462,7 +462,7 @@ export class Class extends CompoundBase {
     }
 
     // Remove the template parameters.
-    this.fullyQualifiedName = compoundDef.compoundName.replace(/<.*>/, '').replace(/anonymous_namespace\{/, 'anonymous{')
+    this.fullyQualifiedName = sanitizeAnonymousNamespace(compoundDef.compoundName.replace(/<.*>/, ''))
     // Remove the namespaces(s).
     this.unqualifiedName = this.fullyQualifiedName.replace(/.*::/, '')
 

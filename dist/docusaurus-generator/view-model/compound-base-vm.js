@@ -11,7 +11,7 @@
 import assert from 'node:assert';
 import path from 'node:path';
 import { ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
-import { joinWithLast } from '../utils.js';
+import { joinWithLast, sanitizeAnonymousNamespace } from '../utils.js';
 import { Section } from './members-vm.js';
 import { RefTextDataModel } from '../../data-model/compounds/reftexttype-dm.js';
 import { SectionDefByKindDataModel } from '../../data-model/compounds/sectiondeftype-dm.js';
@@ -39,7 +39,7 @@ export class CompoundBase {
         this._private._compoundDef = compoundDef;
         this.collection = collection;
         this.kind = compoundDef.kind;
-        this.compoundName = compoundDef.compoundName;
+        this.compoundName = sanitizeAnonymousNamespace(compoundDef.compoundName);
         this.id = compoundDef.id;
         if (compoundDef.title !== undefined) {
             this.titleHtmlString = this.collection.workspace.renderString(compoundDef.title, 'html');

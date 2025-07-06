@@ -20,7 +20,7 @@ import { FrontMatter } from '../types.js'
 import { ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js'
 import { CollectionBase } from './collection-base.js'
 import { AbstractRefType } from '../../data-model/compounds/reftype-dm.js'
-import { joinWithLast } from '../utils.js'
+import { joinWithLast, sanitizeAnonymousNamespace } from '../utils.js'
 import { Section } from './members-vm.js'
 import { TemplateParamListDataModel } from '../../data-model/compounds/templateparamlisttype-dm.js'
 import { RefTextDataModel } from '../../data-model/compounds/reftexttype-dm.js'
@@ -120,7 +120,7 @@ export abstract class CompoundBase {
     this.collection = collection
 
     this.kind = compoundDef.kind
-    this.compoundName = compoundDef.compoundName
+    this.compoundName = sanitizeAnonymousNamespace(compoundDef.compoundName)
     this.id = compoundDef.id
 
     if (compoundDef.title !== undefined) {

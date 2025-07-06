@@ -12,7 +12,7 @@ import assert from 'node:assert';
 import path from 'node:path';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
-import { flattenPath, sanitizeHierarchicalPath } from '../utils.js';
+import { flattenPath, sanitizeAnonymousNamespace, sanitizeHierarchicalPath } from '../utils.js';
 import { NamespaceIndexEntry } from './indices-vm.js';
 import { Class } from './classes-vm.js';
 // ----------------------------------------------------------------------------
@@ -412,10 +412,10 @@ export class Namespace extends CompoundBase {
         else {
             // The compoundName is the fully qualified namespace name.
             // Keep only the last name.
-            this.unqualifiedName = compoundDef.compoundName.replace(/.*::/, '').replaceAll(/anonymous_namespace\{/g, 'anonymous{');
-            this.indexName = this.compoundName.replace(/.*::/, '').replaceAll(/anonymous_namespace\{/g, 'anonymous{');
+            this.unqualifiedName = sanitizeAnonymousNamespace(compoundDef.compoundName.replace(/.*::/, ''));
+            this.indexName = sanitizeAnonymousNamespace(this.compoundName.replace(/.*::/, ''));
             this.pageTitle = `The \`${this.unqualifiedName}\` Namespace Reference`;
-            const sanitizedPath = sanitizeHierarchicalPath(this.compoundName.replaceAll('::', '/').replaceAll(/anonymous_namespace\{/g, 'anonymous{'));
+            const sanitizedPath = sanitizeHierarchicalPath(sanitizeAnonymousNamespace(this.compoundName.replaceAll('::', '/')));
             if (compoundDef.compoundName.length > 0) {
                 // Skip un-named namespaces, and generated ones, since they can be duplicate.
                 this.relativePermalink = `namespaces/${sanitizedPath}`;

@@ -11,7 +11,7 @@
 // ----------------------------------------------------------------------------
 import * as util from 'node:util';
 import assert from 'node:assert';
-import { getPermalinkAnchor } from '../utils.js';
+import { getPermalinkAnchor, sanitizeAnonymousNamespace } from '../utils.js';
 import { MemberProgramListingDataModel, ParaDataModel } from '../../data-model/compounds/descriptiontype-dm.js';
 // ----------------------------------------------------------------------------
 export const sectionHeaders = {
@@ -360,7 +360,7 @@ export class Member extends MemberBase {
             this.isTrailingType = true;
         }
         if (templateParamList?.params !== undefined) {
-            this.templateParameters = this.section.compound.renderTemplateParametersToString({ templateParamList, withDefaults: true });
+            this.templateParameters = sanitizeAnonymousNamespace(this.section.compound.renderTemplateParametersToString({ templateParamList, withDefaults: true }));
         }
         if (memberDef.params !== undefined) {
             const parameters = [];
@@ -382,10 +382,10 @@ export class Member extends MemberBase {
             }
         }
         if (memberDef.qualifiedName !== undefined) {
-            this.qualifiedName = memberDef.qualifiedName;
+            this.qualifiedName = sanitizeAnonymousNamespace(memberDef.qualifiedName);
         }
         if (memberDef.definition !== undefined) {
-            this.definition = memberDef.definition;
+            this.definition = sanitizeAnonymousNamespace(memberDef.definition);
         }
         if (memberDef.constexpr?.valueOf() && !type.includes('constexpr')) {
             this.isConstexpr = true;
