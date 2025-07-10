@@ -17,15 +17,25 @@ import { XMLParser } from 'fast-xml-parser';
 import { DoxygenIndexDataModel } from './data-model/index/indexdoxygentype-dm.js';
 import { DoxygenFileDataModel } from './data-model/doxyfile/doxyfiletype-dm.js';
 import { DoxygenDataModel } from './data-model/compounds/doxygentype-dm.js';
+import { maxParallelPromises } from '../docusaurus/options.js';
 // ----------------------------------------------------------------------------
 export class DoxygenXmlParser {
-    verbose = false;
+    options;
     parsedFilesCounter = 0;
+    xmlParser;
     dataModel = {
         compoundDefs: [],
     };
-    constructor({ verbose = false }) {
-        this.verbose = verbose;
+    constructor({ options }) {
+        this.options = options;
+        this.xmlParser = new XMLParser({
+            preserveOrder: true,
+            removeNSPrefix: true,
+            ignoreAttributes: false,
+            parseTagValue: true,
+            parseAttributeValue: true,
+            trimValues: false,
+        });
     }
     async parse({ folderPath }) {
         // The parser is configured to preserve the original, non-trimmed content
@@ -34,24 +44,14 @@ export class DoxygenXmlParser {
         // https://github.com/NaturalIntelligence/fast-xml-parser/blob/master/README.md#documents
         // The defaults are in the project source:
         // https://github.com/NaturalIntelligence/fast-xml-parser/blob/master/src/xmlparser/OptionsBuilder.js
-        const xmlParser = new XMLParser({
-            preserveOrder: true,
-            removeNSPrefix: true,
-            ignoreAttributes: false,
-            parseTagValue: true,
-            parseAttributeValue: true,
-            trimValues: false,
-        });
         // console.log(folderPath)
         // ------------------------------------------------------------------------
         // Parse the top index.xml file.
-        if (!this.verbose) {
+        if (!this.options.verbose) {
             console.log('Parsing Doxygen generated .xml files...');
         }
         const parsedIndexElements = await this.parseFile({
             fileName: 'index.xml',
-            folderPath,
-            xmlParser,
         });
         // console.log(util.inspect(parsedIndex))
         // console.log(util.inspect(parsedIndex[0]['?xml']))
@@ -75,33 +75,20 @@ export class DoxygenXmlParser {
         // ------------------------------------------------------------------------
         // Parse all compound *.xml files mentioned in the index.
         if (Array.isArray(this.dataModel.doxygenindex.compounds)) {
-            for (const compound of this.dataModel.doxygenindex.compounds) {
-                const parsedDoxygenElements = await this.parseFile({
-                    fileName: `${compound.refid}.xml`,
-                    folderPath,
-                    xmlParser,
-                });
-                // console.log(util.inspect(parsedDoxygen))
-                // console.log(JSON.stringify(parsedDoxygen, null, '  '))
-                for (const element of parsedDoxygenElements) {
-                    if (this.hasInnerElement(element, '?xml')) {
-                        // Ignore the top xml prologue.
+            const promises = [];
+            for (const indexCompound of this.dataModel.doxygenindex.compounds) {
+                if (this.options.debug) {
+                    await this.parseAndProcessFile(indexCompound);
+                }
+                else {
+                    if (promises.length > maxParallelPromises) {
+                        await Promise.all(promises);
+                        promises.length = 0;
                     }
-                    else if (this.hasInnerText(element)) {
-                        // Ignore top texts.
-                    }
-                    else if (this.hasInnerElement(element, 'doxygen')) {
-                        const doxygen = new DoxygenDataModel(this, element);
-                        if (Array.isArray(doxygen.compoundDefs)) {
-                            this.dataModel.compoundDefs.push(...doxygen.compoundDefs);
-                        }
-                    }
-                    else {
-                        console.error(util.inspect(element, { compact: false, depth: 999 }));
-                        console.error(`${compound.refid}.xml element:`, Object.keys(element), 'not implemented yet in', this.constructor.name);
-                    }
+                    promises.push(this.parseAndProcessFile(indexCompound));
                 }
             }
+            await Promise.all(promises);
             const memberDefsById = new Map();
             for (const compoundDef of this.dataModel.compoundDefs) {
                 if (compoundDef.sectionDefs !== undefined) {
@@ -128,8 +115,6 @@ export class DoxygenXmlParser {
         // Parse the Doxyfile.xml with the options.
         const parsedDoxyfileElements = await this.parseFile({
             fileName: 'Doxyfile.xml',
-            folderPath,
-            xmlParser,
         });
         // console.log(util.inspect(parsedDoxyfile))
         // console.log(JSON.stringify(parsedDoxyfile, null, '  '))
@@ -150,7 +135,7 @@ export class DoxygenXmlParser {
         }
         assert(this.dataModel.doxyfile);
         console.log(this.parsedFilesCounter, 'xml files parsed');
-        if (this.verbose) {
+        if (this.options.verbose) {
             if (this.dataModel.images !== undefined) {
                 console.log(this.dataModel.images.length, 'images identified');
             }
@@ -158,16 +143,42 @@ export class DoxygenXmlParser {
         // ------------------------------------------------------------------------
         return this.dataModel;
     }
+    async parseAndProcessFile(indexCompound) {
+        const parsedDoxygenElements = await this.parseFile({
+            fileName: `${indexCompound.refid}.xml`,
+        });
+        // console.log(util.inspect(parsedDoxygen))
+        // console.log(JSON.stringify(parsedDoxygen, null, '  '))
+        for (const element of parsedDoxygenElements) {
+            if (this.hasInnerElement(element, '?xml')) {
+                // Ignore the top xml prologue.
+            }
+            else if (this.hasInnerText(element)) {
+                // Ignore top texts.
+            }
+            else if (this.hasInnerElement(element, 'doxygen')) {
+                const doxygen = new DoxygenDataModel(this, element);
+                if (Array.isArray(doxygen.compoundDefs)) {
+                    this.dataModel.compoundDefs.push(...doxygen.compoundDefs);
+                }
+            }
+            else {
+                console.error(util.inspect(element, { compact: false, depth: 999 }));
+                console.error(`${indexCompound.refid}.xml element:`, Object.keys(element), 'not implemented yet in', this.constructor.name);
+            }
+        }
+    }
     // --------------------------------------------------------------------------
     // Support methods.
-    async parseFile({ fileName, folderPath, xmlParser, }) {
+    async parseFile({ fileName }) {
+        const folderPath = this.options.doxygenXmlInputFolderPath;
         const filePath = path.join(folderPath, fileName);
         const xmlString = await fs.readFile(filePath, { encoding: 'utf8' });
-        if (this.verbose) {
+        if (this.options.verbose) {
             console.log(`Parsing ${fileName}...`);
         }
         this.parsedFilesCounter += 1;
-        return xmlParser.parse(xmlString);
+        return this.xmlParser.parse(xmlString);
     }
     // --------------------------------------------------------------------------
     hasAttributes(element) {

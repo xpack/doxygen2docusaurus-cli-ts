@@ -174,4 +174,6 @@ export function getInstanceDefaultOptions(id: string | undefined): CliOptions {
 // Was used during development. Now stick to true.
 export const renderParagraphs = true
 
+export const maxParallelPromises = 42
+
 // ----------------------------------------------------------------------------

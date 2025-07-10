@@ -109,10 +109,10 @@ export async function parseDoxygen({ options, }) {
     assert(options.sidebarCategoryFilePath.length > 0, 'sidebarCategoryFilePath is required');
     assert(options.menuDropdownFilePath.length > 0, 'menuDropdownFilePath is required');
     console.log();
-    const xml = new DoxygenXmlParser({
-        verbose: options.verbose,
+    const xmlParser = new DoxygenXmlParser({
+        options,
     });
-    const dataModel = await xml.parse({
+    const dataModel = await xmlParser.parse({
         folderPath: options.doxygenXmlInputFolderPath,
     });
     // console.log('doxygenData:', util.inspect(doxygenData))

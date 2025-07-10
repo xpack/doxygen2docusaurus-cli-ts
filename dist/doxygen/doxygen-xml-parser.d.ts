@@ -1,19 +1,21 @@
 import { XMLParser } from 'fast-xml-parser';
 import { XmlElement, DataModel } from './data-model/types.js';
+import { IndexCompoundDataModel } from './data-model/index/indexcompoundtype-dm.js';
+import { CliOptions } from '../docusaurus/options.js';
 export declare class DoxygenXmlParser {
-    verbose: boolean;
+    options: CliOptions;
     parsedFilesCounter: number;
+    xmlParser: XMLParser;
     dataModel: DataModel;
-    constructor({ verbose }: {
-        verbose: boolean;
+    constructor({ options }: {
+        options: CliOptions;
     });
     parse({ folderPath }: {
         folderPath: string;
     }): Promise<DataModel>;
-    parseFile({ fileName, folderPath, xmlParser, }: {
+    parseAndProcessFile(indexCompound: IndexCompoundDataModel): Promise<void>;
+    parseFile({ fileName }: {
         fileName: string;
-        folderPath: string;
-        xmlParser: XMLParser;
     }): Promise<any>;
     hasAttributes(element: Object): boolean;
     getAttributesNames(element: Object): string[];

@@ -18,12 +18,13 @@ import * as fs from 'node:fs/promises'
 
 import { Workspace } from './workspace.js'
 import type { DataModel } from '../doxygen/data-model/types.js'
-import type { CliOptions } from './options.js'
+import { maxParallelPromises, type CliOptions } from './options.js'
 import type { MenuDropdown, SidebarCategory, FrontMatter } from './types.js'
 import { folderExists } from './utils.js'
 import { Page } from './view-model/pages-vm.js'
 import type { Pages } from './view-model/pages-vm.js'
 import type { Groups } from './view-model/groups-vm.js'
+import type { CompoundBase } from './view-model/compound-base-vm.js'
 // import type { File } from '../view-model/files-and-folders-vm.js'
 
 // ----------------------------------------------------------------------------
@@ -305,7 +306,10 @@ export class DocusaurusGenerator {
 
   // --------------------------------------------------------------------------
 
+  // eslint-disable-next-line complexity
   async generatePages(): Promise<void> {
+    const promises: Array<Promise<void>> = []
+
     for (const [, compound] of this.workspace.compoundsById) {
       if (compound instanceof Page) {
         if (compound.id === 'indexpage') {
@@ -335,34 +339,50 @@ export class DocusaurusGenerator {
         )
       }
 
-      const fileName = `${docusaurusId}.md`
-      // console.log('fileName:', fileName)
-      const filePath = `${this.workspace.outputFolderPath}${fileName}`
-      const slug = `${this.workspace.slugBaseUrl}${permalink}`
-
-      const frontMatter: FrontMatter = {
-        // title: `${dataObject.pageTitle ?? compound.compoundName}`,
-        slug,
-        // description: '...', // TODO
-        custom_edit_url: null,
-        toc_max_heading_level: 4,
-        keywords: ['doxygen', 'reference', compound.kind],
+      if (this.workspace.options.debug) {
+        await this.generatePage(compound)
+      } else {
+        if (promises.length > maxParallelPromises) {
+          await Promise.all(promises)
+          promises.length = 0
+        }
+        promises.push(this.generatePage(compound))
       }
-
-      const bodyLines = compound.renderToLines(frontMatter)
-      const pagePermalink =
-        this.workspace.pageBaseUrl + compound.relativePermalink
-
-      await this.workspace.writeMdFile({
-        filePath,
-        frontMatter,
-        bodyLines,
-        title: compound.pageTitle,
-        pagePermalink,
-      })
+    }
+    if (promises.length > 0) {
+      await Promise.all(promises)
     }
   }
 
+  async generatePage(compound: CompoundBase): Promise<void> {
+    const { docusaurusId } = compound
+    const fileName = `${docusaurusId}.md`
+    // console.log('fileName:', fileName)
+    const filePath = `${this.workspace.outputFolderPath}${fileName}`
+    const permalink: string | undefined = compound.relativePermalink
+    const slug = `${this.workspace.slugBaseUrl}${permalink}`
+
+    const frontMatter: FrontMatter = {
+      // title: `${dataObject.pageTitle ?? compound.compoundName}`,
+      slug,
+      // description: '...', // TODO
+      custom_edit_url: null,
+      toc_max_heading_level: 4,
+      keywords: ['doxygen', 'reference', compound.kind],
+    }
+
+    const bodyLines = compound.renderToLines(frontMatter)
+    const pagePermalink =
+      this.workspace.pageBaseUrl + compound.relativePermalink
+
+    await this.workspace.writeMdFile({
+      filePath,
+      frontMatter,
+      bodyLines,
+      title: compound.pageTitle,
+      pagePermalink,
+    })
+  }
   // --------------------------------------------------------------------------
 
   async generateCompatibilityRedirectFiles(): Promise<void> {

@@ -14,6 +14,7 @@ import assert from 'node:assert';
 import path from 'node:path';
 import * as fs from 'node:fs/promises';
 import { Workspace } from './workspace.js';
+import { maxParallelPromises } from './options.js';
 import { folderExists } from './utils.js';
 import { Page } from './view-model/pages-vm.js';
 // import type { File } from '../view-model/files-and-folders-vm.js'
@@ -234,7 +235,9 @@ export class DocusaurusGenerator {
         // TODO: parallelize
     }
     // --------------------------------------------------------------------------
+    // eslint-disable-next-line complexity
     async generatePages() {
+        const promises = [];
         for (const [, compound] of this.workspace.compoundsById) {
             if (compound instanceof Page) {
                 if (compound.id === 'indexpage') {
@@ -257,28 +260,45 @@ export class DocusaurusGenerator {
             if (this.workspace.options.verbose) {
                 console.log(`${compound.kind}: ${compound.compoundName.replaceAll(/[ ]*/g, '')}`, '->', `${this.workspace.absoluteBaseUrl}${permalink}...`);
             }
-            const fileName = `${docusaurusId}.md`;
-            // console.log('fileName:', fileName)
-            const filePath = `${this.workspace.outputFolderPath}${fileName}`;
-            const slug = `${this.workspace.slugBaseUrl}${permalink}`;
-            const frontMatter = {
-                // title: `${dataObject.pageTitle ?? compound.compoundName}`,
-                slug,
-                // description: '...', // TODO
-                custom_edit_url: null,
-                toc_max_heading_level: 4,
-                keywords: ['doxygen', 'reference', compound.kind],
-            };
-            const bodyLines = compound.renderToLines(frontMatter);
-            const pagePermalink = this.workspace.pageBaseUrl + compound.relativePermalink;
-            await this.workspace.writeMdFile({
-                filePath,
-                frontMatter,
-                bodyLines,
-                title: compound.pageTitle,
-                pagePermalink,
-            });
+            if (this.workspace.options.debug) {
+                await this.generatePage(compound);
+            }
+            else {
+                if (promises.length > maxParallelPromises) {
+                    await Promise.all(promises);
+                    promises.length = 0;
+                }
+                promises.push(this.generatePage(compound));
+            }
         }
+        if (promises.length > 0) {
+            await Promise.all(promises);
+        }
+    }
+    async generatePage(compound) {
+        const { docusaurusId } = compound;
+        const fileName = `${docusaurusId}.md`;
+        // console.log('fileName:', fileName)
+        const filePath = `${this.workspace.outputFolderPath}${fileName}`;
+        const permalink = compound.relativePermalink;
+        const slug = `${this.workspace.slugBaseUrl}${permalink}`;
+        const frontMatter = {
+            // title: `${dataObject.pageTitle ?? compound.compoundName}`,
+            slug,
+            // description: '...', // TODO
+            custom_edit_url: null,
+            toc_max_heading_level: 4,
+            keywords: ['doxygen', 'reference', compound.kind],
+        };
+        const bodyLines = compound.renderToLines(frontMatter);
+        const pagePermalink = this.workspace.pageBaseUrl + compound.relativePermalink;
+        await this.workspace.writeMdFile({
+            filePath,
+            frontMatter,
+            bodyLines,
+            title: compound.pageTitle,
+            pagePermalink,
+        });
     }
     // --------------------------------------------------------------------------
     async generateCompatibilityRedirectFiles() {

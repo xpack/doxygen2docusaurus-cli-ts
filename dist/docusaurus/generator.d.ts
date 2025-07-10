@@ -1,6 +1,7 @@
 import { Workspace } from './workspace.js';
 import type { DataModel } from '../doxygen/data-model/types.js';
-import type { CliOptions } from './options.js';
+import { type CliOptions } from './options.js';
+import type { CompoundBase } from './view-model/compound-base-vm.js';
 export declare class DocusaurusGenerator {
     workspace: Workspace;
     constructor({ dataModel, options, }: {
@@ -15,6 +16,7 @@ export declare class DocusaurusGenerator {
     generateTopIndexDotMdFile(): Promise<void>;
     generatePerInitialsIndexMdFiles(): Promise<void>;
     generatePages(): Promise<void>;
+    generatePage(compound: CompoundBase): Promise<void>;
     generateCompatibilityRedirectFiles(): Promise<void>;
     private generateRedirectFile;
     copyFiles(): Promise<void>;

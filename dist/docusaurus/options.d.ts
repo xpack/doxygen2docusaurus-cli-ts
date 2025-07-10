@@ -99,4 +99,5 @@ export interface CliOptions {
 export declare const defaultOptions: CliOptions;
 export declare function getInstanceDefaultOptions(id: string | undefined): CliOptions;
 export declare const renderParagraphs = true;
+export declare const maxParallelPromises = 42;
 //# sourceMappingURL=options.d.ts.map

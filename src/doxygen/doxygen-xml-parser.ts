@@ -22,19 +22,31 @@ import { DoxygenIndexDataModel } from './data-model/index/indexdoxygentype-dm.js
 import { DoxygenFileDataModel } from './data-model/doxyfile/doxyfiletype-dm.js'
 import { DoxygenDataModel } from './data-model/compounds/doxygentype-dm.js'
 import { MemberDefDataModel } from './data-model/compounds/memberdeftype-dm.js'
+import { IndexCompoundDataModel } from './data-model/index/indexcompoundtype-dm.js'
+import { CliOptions, maxParallelPromises } from '../docusaurus/options.js'
 
 // ----------------------------------------------------------------------------
 
 export class DoxygenXmlParser {
-  verbose: boolean = false
+  options: CliOptions
   parsedFilesCounter: number = 0
+  xmlParser: XMLParser
 
   dataModel: DataModel = {
     compoundDefs: [],
   }
 
-  constructor({ verbose = false }: { verbose: boolean }) {
-    this.verbose = verbose
+  constructor({ options }: { options: CliOptions }) {
+    this.options = options
+
+    this.xmlParser = new XMLParser({
+      preserveOrder: true,
+      removeNSPrefix: true,
+      ignoreAttributes: false,
+      parseTagValue: true,
+      parseAttributeValue: true,
+      trimValues: false,
+    })
   }
 
   async parse({ folderPath }: { folderPath: string }): Promise<DataModel> {
@@ -45,28 +57,17 @@ export class DoxygenXmlParser {
     // The defaults are in the project source:
     // https://github.com/NaturalIntelligence/fast-xml-parser/blob/master/src/xmlparser/OptionsBuilder.js
 
-    const xmlParser = new XMLParser({
-      preserveOrder: true,
-      removeNSPrefix: true,
-      ignoreAttributes: false,
-      parseTagValue: true,
-      parseAttributeValue: true,
-      trimValues: false,
-    })
-
     // console.log(folderPath)
 
     // ------------------------------------------------------------------------
     // Parse the top index.xml file.
 
-    if (!this.verbose) {
+    if (!this.options.verbose) {
       console.log('Parsing Doxygen generated .xml files...')
     }
 
     const parsedIndexElements: XmlElement[] = await this.parseFile({
       fileName: 'index.xml',
-      folderPath,
-      xmlParser,
     })
     // console.log(util.inspect(parsedIndex))
     // console.log(util.inspect(parsedIndex[0]['?xml']))
@@ -96,36 +97,21 @@ export class DoxygenXmlParser {
     // Parse all compound *.xml files mentioned in the index.
 
     if (Array.isArray(this.dataModel.doxygenindex.compounds)) {
-      for (const compound of this.dataModel.doxygenindex.compounds) {
-        const parsedDoxygenElements: XmlElement[] = await this.parseFile({
-          fileName: `${compound.refid}.xml`,
-          folderPath,
-          xmlParser,
-        })
-        // console.log(util.inspect(parsedDoxygen))
-        // console.log(JSON.stringify(parsedDoxygen, null, '  '))
+      const promises: Array<Promise<void>> = []
 
-        for (const element of parsedDoxygenElements) {
-          if (this.hasInnerElement(element, '?xml')) {
-            // Ignore the top xml prologue.
-          } else if (this.hasInnerText(element)) {
-            // Ignore top texts.
-          } else if (this.hasInnerElement(element, 'doxygen')) {
-            const doxygen = new DoxygenDataModel(this, element)
-            if (Array.isArray(doxygen.compoundDefs)) {
-              this.dataModel.compoundDefs.push(...doxygen.compoundDefs)
-            }
-          } else {
-            console.error(util.inspect(element, { compact: false, depth: 999 }))
-            console.error(
-              `${compound.refid}.xml element:`,
-              Object.keys(element),
-              'not implemented yet in',
-              this.constructor.name
-            )
+      for (const indexCompound of this.dataModel.doxygenindex.compounds) {
+        if (this.options.debug) {
+          await this.parseAndProcessFile(indexCompound)
+        } else {
+          if (promises.length > maxParallelPromises) {
+            await Promise.all(promises)
+            promises.length = 0
           }
+          promises.push(this.parseAndProcessFile(indexCompound))
         }
       }
+
+      await Promise.all(promises)
 
       const memberDefsById: Map<string, MemberDefDataModel> = new Map()
       for (const compoundDef of this.dataModel.compoundDefs) {
@@ -155,8 +141,6 @@ export class DoxygenXmlParser {
 
     const parsedDoxyfileElements: XmlElement[] = await this.parseFile({
       fileName: 'Doxyfile.xml',
-      folderPath,
-      xmlParser,
     })
     // console.log(util.inspect(parsedDoxyfile))
     // console.log(JSON.stringify(parsedDoxyfile, null, '  '))
@@ -182,7 +166,7 @@ export class DoxygenXmlParser {
     assert(this.dataModel.doxyfile)
 
     console.log(this.parsedFilesCounter, 'xml files parsed')
-    if (this.verbose) {
+    if (this.options.verbose) {
       if (this.dataModel.images !== undefined) {
         console.log(this.dataModel.images.length, 'images identified')
       }
@@ -193,27 +177,51 @@ export class DoxygenXmlParser {
     return this.dataModel
   }
 
+  async parseAndProcessFile(
+    indexCompound: IndexCompoundDataModel
+  ): Promise<void> {
+    const parsedDoxygenElements: XmlElement[] = await this.parseFile({
+      fileName: `${indexCompound.refid}.xml`,
+    })
+    // console.log(util.inspect(parsedDoxygen))
+    // console.log(JSON.stringify(parsedDoxygen, null, '  '))
+
+    for (const element of parsedDoxygenElements) {
+      if (this.hasInnerElement(element, '?xml')) {
+        // Ignore the top xml prologue.
+      } else if (this.hasInnerText(element)) {
+        // Ignore top texts.
+      } else if (this.hasInnerElement(element, 'doxygen')) {
+        const doxygen = new DoxygenDataModel(this, element)
+        if (Array.isArray(doxygen.compoundDefs)) {
+          this.dataModel.compoundDefs.push(...doxygen.compoundDefs)
+        }
+      } else {
+        console.error(util.inspect(element, { compact: false, depth: 999 }))
+        console.error(
+          `${indexCompound.refid}.xml element:`,
+          Object.keys(element),
+          'not implemented yet in',
+          this.constructor.name
+        )
+      }
+    }
+  }
+
   // --------------------------------------------------------------------------
   // Support methods.
 
-  async parseFile({
-    fileName,
-    folderPath,
-    xmlParser,
-  }: {
-    fileName: string
-    folderPath: string
-    xmlParser: XMLParser
-  }): Promise<any> {
+  async parseFile({ fileName }: { fileName: string }): Promise<any> {
+    const folderPath = this.options.doxygenXmlInputFolderPath
     const filePath: string = path.join(folderPath, fileName)
     const xmlString: string = await fs.readFile(filePath, { encoding: 'utf8' })
 
-    if (this.verbose) {
+    if (this.options.verbose) {
       console.log(`Parsing ${fileName}...`)
     }
     this.parsedFilesCounter += 1
 
-    return xmlParser.parse(xmlString)
+    return this.xmlParser.parse(xmlString)
   }
 
   // --------------------------------------------------------------------------

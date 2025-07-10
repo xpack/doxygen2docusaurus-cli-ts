@@ -43,5 +43,6 @@ export function getInstanceDefaultOptions(id) {
 }
 // Was used during development. Now stick to true.
 export const renderParagraphs = true;
+export const maxParallelPromises = 42;
 // ----------------------------------------------------------------------------
 //# sourceMappingURL=options.js.map
