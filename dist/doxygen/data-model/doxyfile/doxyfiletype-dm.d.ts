@@ -11,3 +11,4 @@ export declare abstract class AbstractDoxygenFileType extends AbstractDataModelB
 export declare class DoxygenFileDataModel extends AbstractDoxygenFileType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=doxyfiletype-dm.d.ts.map

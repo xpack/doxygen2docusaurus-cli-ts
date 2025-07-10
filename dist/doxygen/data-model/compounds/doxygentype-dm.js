@@ -22,11 +22,15 @@ import { AbstractDataModelBase } from '../types.js';
 //   <xsd:attribute ref="xml:lang" use="required"/>
 // </xsd:complexType>
 export class AbstractDoxygenType extends AbstractDataModelBase {
+    // Mandatory attributes.
+    version = '';
+    lang = '';
+    // Optional elements.
+    compoundDefs;
+    // Optional attributes.
+    noNamespaceSchemaLocation;
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory attributes.
-        this.version = '';
-        this.lang = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))ect(element))
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);

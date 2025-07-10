@@ -21,13 +21,13 @@ import { AbstractDataModelBase } from '../types.js';
 //   <xsd:attribute name="kind" type="MemberKind" use="required"/>
 // </xsd:complexType>
 export class AbstractIndexMemberType extends AbstractDataModelBase {
+    // Mandatory elements.
+    name = '';
+    // Mandatory attributes.
+    refid = '';
+    kind = ''; // MemberKind
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory elements.
-        this.name = '';
-        // Mandatory attributes.
-        this.refid = '';
-        this.kind = ''; // MemberKind
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.

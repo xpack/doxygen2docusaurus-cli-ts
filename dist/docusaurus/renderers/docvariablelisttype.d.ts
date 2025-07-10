@@ -6,3 +6,4 @@ export declare class DocVariableListTypeLinesRenderer extends ElementLinesRender
 export declare class VariableListPairLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element: VariableListPairDataModel, type: string): string[];
 }
+//# sourceMappingURL=docvariablelisttype.d.ts.map

@@ -3,3 +3,4 @@ import { type AbstractReferenceType } from '../../doxygen/data-model/compounds/r
 export declare class ReferenceTypeStringRenderer extends ElementStringRendererBase {
     renderToString(element: AbstractReferenceType, type: string): string;
 }
+//# sourceMappingURL=referencetype.d.ts.map

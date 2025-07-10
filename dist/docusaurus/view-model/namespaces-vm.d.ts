@@ -21,3 +21,4 @@ export declare class Namespace extends CompoundBase {
     hasAnyContent(): boolean;
     renderToLines(frontMatter: FrontMatter): string[];
 }
+//# sourceMappingURL=namespaces-vm.d.ts.map

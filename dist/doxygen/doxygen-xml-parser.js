@@ -19,12 +19,12 @@ import { DoxygenFileDataModel } from './data-model/doxyfile/doxyfiletype-dm.js';
 import { DoxygenDataModel } from './data-model/compounds/doxygentype-dm.js';
 // ----------------------------------------------------------------------------
 export class DoxygenXmlParser {
+    verbose = false;
+    parsedFilesCounter = 0;
+    dataModel = {
+        compoundDefs: [],
+    };
     constructor({ verbose = false }) {
-        this.verbose = false;
-        this.parsedFilesCounter = 0;
-        this.dataModel = {
-            compoundDefs: [],
-        };
         this.verbose = verbose;
     }
     async parse({ folderPath }) {

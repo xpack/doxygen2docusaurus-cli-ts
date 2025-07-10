@@ -15,3 +15,4 @@ export declare class Page extends CompoundBase {
     isTopPage(): boolean;
     renderToLines(frontMatter: FrontMatter): string[];
 }
+//# sourceMappingURL=pages-vm.d.ts.map

@@ -25,11 +25,8 @@ const kindsPlurals = {
 };
 // ----------------------------------------------------------------------------
 export class Classes extends CollectionBase {
-    constructor() {
-        super(...arguments);
-        // compoundsById: Map<string, Class>
-        this.topLevelClasses = [];
-    }
+    // compoundsById: Map<string, Class>
+    topLevelClasses = [];
     // --------------------------------------------------------------------------
     // constructor (workspace: Workspace) {
     //   super(workspace)
@@ -245,6 +242,7 @@ export class Classes extends CollectionBase {
             union: 'U',
         };
         let iconLetter = iconLetters[classs.kind];
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (iconLetter === undefined) {
             console.error('Icon kind', classs.kind, 'not supported yet in', this.constructor.name, '(using ?)');
             iconLetter = '?';
@@ -358,16 +356,22 @@ export class Classes extends CollectionBase {
 }
 // ============================================================================
 export class Class extends CompoundBase {
+    // Due to multiple-inheritance, there can be multiple parents.
+    baseClassIds = new Set();
+    baseClasses = [];
+    fullyQualifiedName = '???';
+    unqualifiedName = '???';
+    templateParameters = '';
+    classFullName = '???';
+    template;
+    // Shortcuts, use data model objects.
+    // WARNING: May be duplicate.
+    baseCompoundRefs;
+    derivedCompoundRefs;
+    templateParamList;
     // --------------------------------------------------------------------------
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
-        // Due to multiple-inheritance, there can be multiple parents.
-        this.baseClassIds = new Set();
-        this.baseClasses = [];
-        this.fullyQualifiedName = '???';
-        this.unqualifiedName = '???';
-        this.templateParameters = '';
-        this.classFullName = '???';
         // console.log('Class.constructor', util.inspect(compoundDef))
         // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
@@ -413,6 +417,7 @@ export class Class extends CompoundBase {
             this.pageTitle += ' Template';
         }
         this.pageTitle += ' Reference';
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         assert(kindsPlurals[kind] !== undefined);
         const pluralKind = kindsPlurals[kind].toLowerCase();
         // Turn the namespace into a hierarchical path. Keep the dot.
@@ -522,7 +527,7 @@ export class Class extends CompoundBase {
                 }
                 lines.push('');
                 if (baseCompoundRefs.size > 1) {
-                    lines.push(`## Base ${kindsPlurals[this.kind]?.toLowerCase()}`);
+                    lines.push(`## Base ${kindsPlurals[this.kind].toLowerCase()}`);
                 }
                 else {
                     lines.push(`## Base ${this.kind}`);
@@ -554,7 +559,7 @@ export class Class extends CompoundBase {
             else if ('baseClassIds' in classs && classs.baseClassIds.size > 0) {
                 lines.push('');
                 if (classs.baseClassIds.size > 1) {
-                    lines.push(`## Base ${kindsPlurals[this.kind]?.toLowerCase()}`);
+                    lines.push(`## Base ${kindsPlurals[this.kind].toLowerCase()}`);
                 }
                 else {
                     lines.push(`## Base ${this.kind}`);

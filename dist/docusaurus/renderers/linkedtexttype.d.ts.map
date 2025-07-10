@@ -1,0 +1,1 @@
+{"version":3,"file":"linkedtexttype.d.ts","sourceRoot":"","sources":["../../../src/docusaurus/renderers/linkedtexttype.ts"],"names":[],"mappings":"AAgBA,OAAO,EAAE,yBAAyB,EAAE,MAAM,4BAA4B,CAAA;AACtE,OAAO,KAAK,EAAE,sBAAsB,EAAE,MAAM,yDAAyD,CAAA;AAYrG,qBAAa,4BAA6B,SAAQ,yBAAyB;IACzE,cAAc,CAAC,OAAO,EAAE,sBAAsB,EAAE,IAAI,EAAE,MAAM,GAAG,MAAM;CAStE"}

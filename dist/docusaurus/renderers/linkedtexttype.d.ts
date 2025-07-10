@@ -3,3 +3,4 @@ import type { AbstractLinkedTextType } from '../../doxygen/data-model/compounds/
 export declare class LinkedTextTypeStringRenderer extends ElementStringRendererBase {
     renderToString(element: AbstractLinkedTextType, type: string): string;
 }
+//# sourceMappingURL=linkedtexttype.d.ts.map

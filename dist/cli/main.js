@@ -80,9 +80,10 @@ function selectMultiConfiguration(multiConfigurations, id) {
     let configurationOptions = undefined;
     if (id !== undefined) {
         // eslint-disable-next-line @typescript-eslint/prefer-destructuring
-        configurationOptions =
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion,
-            multiConfigurations[id];
+        configurationOptions = 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+        multiConfigurations[id];
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (configurationOptions !== undefined) {
             configurationOptions.id = id;
         }

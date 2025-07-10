@@ -54,66 +54,91 @@ import { stripPermalinkHexAnchor, getPermalinkAnchor, stripPermalinkTextAnchor, 
 // </xsd:simpleType>
 // ----------------------------------------------------------------------------
 export class Workspace extends Renderers {
+    // The doxygen2docusaurus project path.
+    projectPath;
+    // The data parsed from the Doxygen XML files.
+    dataModel;
+    // From the project docusaurus.config.ts or defaults.
+    options;
+    collectionNamesByKind = {
+        class: 'classes',
+        struct: 'classes',
+        union: 'classes',
+        // interface
+        // protocol
+        // category
+        // exception
+        // service
+        // singleton
+        // module
+        // type
+        file: 'files',
+        namespace: 'namespaces',
+        group: 'groups',
+        page: 'pages',
+        // example
+        dir: 'files',
+        // concept
+    };
+    // The key is one of the above collection names.
+    // groups, classes, namespaces, files, pages.
+    viewModel;
+    // The many options used by Doxygen during build.
+    doxygenOptions;
+    // Like `/micro-os-plus/docs/api/`.
+    absoluteBaseUrl;
+    // Like `/micro-os-plus/docs/api/`.
+    pageBaseUrl;
+    // Like `/api/`.
+    slugBaseUrl;
+    // Like `/docs/api/`.
+    menuBaseUrl;
+    // Like `docs/api/`.
+    outputFolderPath;
+    // like `api/`.
+    sidebarBaseId;
+    // The order of entries in the sidebar and in the top menu dropdown.
+    sidebarCollectionNames = [
+        'groups',
+        'namespaces',
+        'classes',
+        'files',
+        'pages',
+    ];
+    // View model objects.
+    compoundsById = new Map();
+    membersById = new Map();
+    descriptionTocLists = [];
+    descriptionTocItemsById = new Map();
+    descriptionAnchorsById = new Map();
+    currentCompound;
+    writtenMdFilesCounter = 0;
+    writtenHtmlFilesCounter = 0;
+    mainPage;
+    filesByPath = new Map();
+    /**
+     * @brief Map to keep track of indices that have content.
+     *
+     * @details
+     * The map keys are:
+     * - classes
+     * - namespaces
+     * - files
+     *
+     * and the Set may include:
+     * - all
+     * - classes
+     * - namespaces
+     * - functions
+     * - variables
+     * - typedefs
+     * - enums
+     * - enumvalues
+     */
+    indicesMaps = new Map();
     // --------------------------------------------------------------------------
     constructor({ dataModel, options, }) {
         super();
-        this.collectionNamesByKind = {
-            class: 'classes',
-            struct: 'classes',
-            union: 'classes',
-            // interface
-            // protocol
-            // category
-            // exception
-            // service
-            // singleton
-            // module
-            // type
-            file: 'files',
-            namespace: 'namespaces',
-            group: 'groups',
-            page: 'pages',
-            // example
-            dir: 'files',
-            // concept
-        };
-        // The order of entries in the sidebar and in the top menu dropdown.
-        this.sidebarCollectionNames = [
-            'groups',
-            'namespaces',
-            'classes',
-            'files',
-            'pages',
-        ];
-        // View model objects.
-        this.compoundsById = new Map();
-        this.membersById = new Map();
-        this.descriptionTocLists = [];
-        this.descriptionTocItemsById = new Map();
-        this.descriptionAnchorsById = new Map();
-        this.writtenMdFilesCounter = 0;
-        this.writtenHtmlFilesCounter = 0;
-        this.filesByPath = new Map();
-        /**
-         * @brief Map to keep track of indices that have content.
-         *
-         * @details
-         * The map keys are:
-         * - classes
-         * - namespaces
-         * - files
-         *
-         * and the Set may include:
-         * - all
-         * - classes
-         * - namespaces
-         * - functions
-         * - variables
-         * - typedefs
-         * - enums
-         * - enumvalues
-         */
-        this.indicesMaps = new Map();
         console.log();
         // Like .../doxygen2docusaurus/dist/src/docusaurus/generator
         // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -168,20 +193,17 @@ export class Workspace extends Renderers {
         for (const compoundDefDataModel of this.dataModel.compoundDefs) {
             let compound = undefined;
             const { kind } = compoundDefDataModel;
-            // eslint-disable-next-line @typescript-eslint/prefer-destructuring
             const collectionName = this.collectionNamesByKind[kind];
-            if (collectionName !== undefined) {
-                const collection = this.viewModel.get(collectionName);
-                if (collection !== undefined) {
-                    // Create the compound object and add it to the parent collection.
-                    // console.log(
-                    //   compoundDefDataModel.kind, compoundDefDataModel.compoundName
-                    // )
-                    compound = collection.addChild(compoundDefDataModel);
-                    // Also add it to the global compounds map.
-                    this.compoundsById.set(compound.id, compound);
-                    // console.log('compoundsById.set', compound.kind, compound.id)
-                }
+            const collection = this.viewModel.get(collectionName);
+            if (collection !== undefined) {
+                // Create the compound object and add it to the parent collection.
+                // console.log(
+                //   compoundDefDataModel.kind, compoundDefDataModel.compoundName
+                // )
+                compound = collection.addChild(compoundDefDataModel);
+                // Also add it to the global compounds map.
+                this.compoundsById.set(compound.id, compound);
+                // console.log('compoundsById.set', compound.kind, compound.id)
             }
             if (compound !== undefined) {
                 if (compoundDefDataModel instanceof AbstractCompoundDefType &&

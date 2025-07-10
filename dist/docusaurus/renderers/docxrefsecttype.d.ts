@@ -3,3 +3,4 @@ import type { AbstractDocXRefSectType } from '../../doxygen/data-model/compounds
 export declare class DocXRefSectLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element: AbstractDocXRefSectType, type: string): string[];
 }
+//# sourceMappingURL=docxrefsecttype.d.ts.map

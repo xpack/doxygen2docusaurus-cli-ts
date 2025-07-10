@@ -22,12 +22,14 @@ import { AbstractDataModelBase } from '../types.js';
 //   <xsd:attribute name="type" type="typeType" use="required"/>
 // </xsd:complexType>
 export class AbstractDoxygenFileOptionType extends AbstractDataModelBase {
+    // Optional elements.
+    values; // [0-n] valueType
+    // Mandatory attributes.
+    id = ''; // idType
+    default = ''; // defaultType
+    type = ''; // typeType
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory attributes.
-        this.id = ''; // idType
-        this.default = ''; // defaultType
-        this.type = ''; // typeType
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.

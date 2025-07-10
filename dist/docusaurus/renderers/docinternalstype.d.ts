@@ -18,3 +18,4 @@ export declare class DocS5TypeLinesRenderer extends ElementLinesRendererBase {
 export declare class DocS6TypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element: AbstractDocSect6Type, type: string): string[];
 }
+//# sourceMappingURL=docinternalstype.d.ts.map

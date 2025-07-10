@@ -78,3 +78,4 @@ export declare class EnumValue {
     constructor(member: Member, enumValue: EnumValueDataModel);
 }
 export {};
+//# sourceMappingURL=members-vm.d.ts.map

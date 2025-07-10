@@ -30,10 +30,8 @@ import { TocListLinesRenderer } from './tableofcontentstype.js';
 import { ReferenceTypeStringRenderer } from './referencetype.js';
 // ----------------------------------------------------------------------------
 export class Renderers {
-    constructor() {
-        this.elementLinesRenderers = new Map();
-        this.elementStringRenderers = new Map();
-    }
+    elementLinesRenderers = new Map();
+    elementStringRenderers = new Map();
     registerRenderers(workspace) {
         // Add renderers for the parsed xml elements (in alphabetical order).
         this.elementLinesRenderers.set('VariableListPairDataModel', new VariableListPairLinesRenderer(workspace));

@@ -84,3 +84,4 @@ export declare class Workspace extends Renderers {
     getPagePermalink(refid: string, noWarn?: boolean): string | undefined;
     getXrefPermalink(id: string): string;
 }
+//# sourceMappingURL=workspace.d.ts.map

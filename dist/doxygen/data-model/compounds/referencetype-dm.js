@@ -20,12 +20,18 @@ import { AbstractDataModelBase } from '../types.js';
 //   <xsd:attribute name="endline" type="xsd:integer" />
 // </xsd:complexType>
 export class AbstractReferenceType extends AbstractDataModelBase {
+    // WARNING: not in DTD?
+    text = '';
+    // Mandatory attributes.
+    refid = '';
+    // WARNING: may be missing
+    startline;
+    // WARNING: may be missing
+    endline;
+    // Optional attributes.
+    compoundref;
     constructor(xml, element, elementName) {
         super(elementName);
-        // WARNING: not in DTD?
-        this.text = '';
-        // Mandatory attributes.
-        this.refid = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.

@@ -24,20 +24,32 @@ import { TableOfContentsDataModel } from './tableofcontentstype-dm.js';
 // ----------------------------------------------------------------------------
 // Template, to be used for creating new objects.
 export class AbstractXyzType extends AbstractDataModelBase {
+    // If the object has a text.
+    text = '';
+    // Mandatory elements.
+    compoundName = '';
+    colsCount = NaN;
+    elm12 = false;
+    // elm13: BriefDescriptionDataModel
+    // Optional elements.
+    elm20;
+    elm21;
+    elm22;
+    briefDescription;
+    includes;
+    // Mandatory attributes.
+    id = '';
+    rowsCount = NaN;
+    thead = false;
+    // Optional attributes.
+    language;
+    final;
+    lineno;
+    attr23;
     // ------------------------------------------
     // children: Array<string | ParaDataModel | Sect5DataModel> = []
     constructor(xml, element, elementName) {
         super(elementName);
-        // If the object has a text.
-        this.text = '';
-        // Mandatory elements.
-        this.compoundName = '';
-        this.colsCount = NaN;
-        this.elm12 = false;
-        // Mandatory attributes.
-        this.id = '';
-        this.rowsCount = NaN;
-        this.thead = false;
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -200,16 +212,46 @@ export class XyzDataModel extends AbstractXyzType {
 // </xsd:restriction>
 // </xsd:simpleType>
 export class AbstractCompoundDefType extends AbstractDataModelBase {
+    // Mandatory elements.
+    compoundName = '';
+    // Optional elements.
+    title;
+    briefDescription;
+    detailedDescription;
+    baseCompoundRefs;
+    derivedCompoundRefs;
+    includes;
+    includedBy;
+    templateParamList;
+    sectionDefs;
+    tableOfContents;
+    // innerModules
+    innerDirs;
+    innerFiles;
+    innerClasses;
+    // innerConcepts
+    innerNamespaces;
+    innerPages;
+    innerGroups;
+    programListing;
+    location;
+    listOfAllMembers;
+    // Mandatory attributes.
+    id = '';
+    kind = ''; // DoxCompoundKind
+    // Optional attributes.
+    language; // DoxLanguage
+    // WARNING: This attribute is not marked as optional, but is not present.
+    prot;
+    final;
+    inline;
+    sealed;
+    abstract;
     // Not in xsd.
     // parentId: string = ''
     // permalink: string = ''
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory elements.
-        this.compoundName = '';
-        // Mandatory attributes.
-        this.id = '';
-        this.kind = ''; // DoxCompoundKind
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -398,9 +440,10 @@ export class CompoundDefDataModel extends AbstractCompoundDefType {
 //   </xsd:simpleContent>
 // </xsd:complexType>
 export class AbstractDocHtmlOnlyType extends AbstractDataModelBase {
+    text = '';
+    block;
     constructor(xml, element, elementName) {
         super(elementName);
-        this.text = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.

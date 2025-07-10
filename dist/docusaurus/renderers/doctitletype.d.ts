@@ -3,3 +3,4 @@ import { type AbstractDocTitleType } from '../../doxygen/data-model/compounds/de
 export declare class DocTitleTypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element: AbstractDocTitleType, type: string): string[];
 }
+//# sourceMappingURL=doctitletype.d.ts.map

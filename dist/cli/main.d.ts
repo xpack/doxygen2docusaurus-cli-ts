@@ -8,3 +8,4 @@ export declare function generateDocusaurusMd({ dataModel, options, }: {
     dataModel: DataModel;
     options: CliOptions;
 }): Promise<number>;
+//# sourceMappingURL=main.d.ts.map

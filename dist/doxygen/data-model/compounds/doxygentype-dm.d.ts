@@ -11,3 +11,4 @@ export declare abstract class AbstractDoxygenType extends AbstractDataModelBase 
 export declare class DoxygenDataModel extends AbstractDoxygenType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=doxygentype-dm.d.ts.map

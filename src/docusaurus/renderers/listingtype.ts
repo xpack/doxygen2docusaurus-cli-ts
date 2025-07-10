@@ -144,6 +144,7 @@ export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
 
     // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     let spanClass = this.knownClasses[element.classs]
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (spanClass === undefined) {
       console.error(util.inspect(element, { compact: false, depth: 999 }))
       console.error(

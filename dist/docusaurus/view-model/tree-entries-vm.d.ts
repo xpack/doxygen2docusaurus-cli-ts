@@ -41,3 +41,4 @@ export declare class NamespaceTreeEntry extends TreeEntryBase {
 export declare class FileTreeEntry extends TreeEntryBase {
     constructor(entry: Namespace | Class | Member | EnumValue, file: File);
 }
+//# sourceMappingURL=tree-entries-vm.d.ts.map

@@ -15,3 +15,4 @@ export declare class BaseCompoundRefDataModel extends AbstractCompoundRefType {
 export declare class DerivedCompoundRefDataModel extends AbstractCompoundRefType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=compoundreftype-dm.d.ts.map

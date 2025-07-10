@@ -3,3 +3,4 @@ import type { AbstractParamType } from '../../doxygen/data-model/compounds/param
 export declare class ParamTypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element: AbstractParamType, type: string): string[];
 }
+//# sourceMappingURL=paramtype.d.ts.map

@@ -11,3 +11,4 @@ export declare abstract class AbstractIndexDoxygenType extends AbstractDataModel
 export declare class DoxygenIndexDataModel extends AbstractIndexDoxygenType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=indexdoxygentype-dm.d.ts.map

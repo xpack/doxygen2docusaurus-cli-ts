@@ -15,30 +15,34 @@ import { Namespace } from './namespaces-vm.js';
 import { sanitizeAnonymousNamespace } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class TreeEntryBase {
+    /** @brief The short name shown in the left part of the index lines. */
+    name = '???';
+    /** @brief The full name, used internally as the second sort criteria. */
+    longName = '???';
+    /** @brief The internal id, used to compute the permalink. */
+    id;
+    /**
+     * @brief The compound or member kind.
+     *
+     * @details
+     * classes: `class`, `struct`, `union`
+     * namespaces: `namespace`
+     * members: `function`, `variable`, `typedef`, `enum`, ...
+     * enumvalue: `enumvalue`
+     * */
+    kind = '???';
+    /** @brief displayed outside the link */
+    linkKind = '';
+    /** @brief The name of the linked target object. */
+    linkName = '???';
+    /**
+     * @brief The short name of the linked target object,
+     * to be compared with name.
+     */
+    comparableLinkName = '';
+    /** @brief The URL of the target object, including the anchor. */
+    permalink;
     constructor(entry) {
-        /** @brief The short name shown in the left part of the index lines. */
-        this.name = '???';
-        /** @brief The full name, used internally as the second sort criteria. */
-        this.longName = '???';
-        /**
-         * @brief The compound or member kind.
-         *
-         * @details
-         * classes: `class`, `struct`, `union`
-         * namespaces: `namespace`
-         * members: `function`, `variable`, `typedef`, `enum`, ...
-         * enumvalue: `enumvalue`
-         * */
-        this.kind = '???';
-        /** @brief displayed outside the link */
-        this.linkKind = '';
-        /** @brief The name of the linked target object. */
-        this.linkName = '???';
-        /**
-         * @brief The short name of the linked target object,
-         * to be compared with name.
-         */
-        this.comparableLinkName = '';
         if (entry instanceof Class) {
             const { id, collection, treeEntryName, fullyQualifiedName, kind } = entry;
             this.id = id;

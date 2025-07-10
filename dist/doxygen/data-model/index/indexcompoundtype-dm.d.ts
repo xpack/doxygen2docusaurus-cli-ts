@@ -12,3 +12,4 @@ export type IndexCompoundKind = 'class' | 'struct' | 'union' | 'interface' | 'pr
 export declare class IndexCompoundDataModel extends AbstractIndexCompoundType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=indexcompoundtype-dm.d.ts.map

@@ -12,6 +12,8 @@
 // import * as fs from 'node:fs/promises'
 import assert from 'node:assert';
 export class CollectionBase {
+    workspace;
+    collectionCompoundsById;
     // --------------------------------------------------------------------------
     constructor(workspace) {
         this.workspace = workspace;

@@ -1172,3 +1172,4 @@ export declare abstract class AbstractPreformattedType extends AbstractDataModel
 export declare class PreformattedDataModel extends AbstractPreformattedType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=descriptiontype-dm.d.ts.map

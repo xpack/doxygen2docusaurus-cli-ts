@@ -20,12 +20,15 @@ import { Class } from './classes-vm.js';
 import { Namespace } from './namespaces-vm.js';
 // ----------------------------------------------------------------------------
 export class FilesAndFolders extends CollectionBase {
+    // compoundsById: Map<string, File | Folder>
+    compoundFoldersById;
+    compoundFilesById;
+    topLevelFolders = [];
+    topLevelFiles = [];
     // folders: Folders
     // --------------------------------------------------------------------------
     constructor(workspace) {
         super(workspace);
-        this.topLevelFolders = [];
-        this.topLevelFiles = [];
         // this.compoundsById = new Map()
         this.compoundFoldersById = new Map();
         this.compoundFilesById = new Map();
@@ -550,12 +553,12 @@ export class FilesAndFolders extends CollectionBase {
 }
 // ----------------------------------------------------------------------------
 export class Folder extends CompoundBase {
+    childrenFileIds = [];
+    childrenFolderIds = [];
+    relativePath = '';
     // --------------------------------------------------------------------------
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
-        this.childrenFileIds = [];
-        this.childrenFolderIds = [];
-        this.relativePath = '';
         // console.log('folder:', util.inspect(compoundDef))
         // console.log('folder:', compoundDef.compoundName)
         if (Array.isArray(compoundDef.innerDirs)) {
@@ -643,10 +646,12 @@ export class Folder extends CompoundBase {
 }
 // ----------------------------------------------------------------------------
 export class File extends CompoundBase {
+    relativePath = '';
+    listingLineNumbers = new Set();
+    // Shortcut, use data model objects.
+    programListing;
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
-        this.relativePath = '';
-        this.listingLineNumbers = new Set();
         // console.log('file:', compoundDef.compoundName)
         // The compoundName is the actual file name, without path.
         const { compoundName } = compoundDef;

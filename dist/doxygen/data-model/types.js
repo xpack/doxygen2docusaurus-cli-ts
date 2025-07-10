@@ -10,6 +10,9 @@
  */
 // ----------------------------------------------------------------------------
 export class AbstractDataModelBase {
+    elementName;
+    skipPara;
+    children;
     constructor(elementName) {
         this.elementName = elementName;
     }

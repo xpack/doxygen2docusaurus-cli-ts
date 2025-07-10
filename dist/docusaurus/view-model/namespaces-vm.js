@@ -20,11 +20,8 @@ import { NamespaceTreeEntry } from './tree-entries-vm.js';
 import { Class } from './classes-vm.js';
 // ----------------------------------------------------------------------------
 export class Namespaces extends CollectionBase {
-    constructor() {
-        super(...arguments);
-        // compoundsById: Map<string, Namespace>
-        this.topLevelNamespaces = [];
-    }
+    // compoundsById: Map<string, Namespace>
+    topLevelNamespaces = [];
     // --------------------------------------------------------------------------
     // constructor (workspace: Workspace) {
     //   super(workspace)
@@ -367,10 +364,10 @@ export class Namespaces extends CollectionBase {
 }
 // ============================================================================
 export class Namespace extends CompoundBase {
+    unqualifiedName = '???';
+    isAnonymous = false;
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
-        this.unqualifiedName = '???';
-        this.isAnonymous = false;
         // console.log('Namespace.constructor', util.inspect(compoundDef))
         if (Array.isArray(compoundDef.innerNamespaces)) {
             for (const ref of compoundDef.innerNamespaces) {

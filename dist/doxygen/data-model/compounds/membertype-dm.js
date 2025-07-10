@@ -21,13 +21,13 @@ import { AbstractMemberBaseType } from './memberdeftype-dm.js';
 //   <xsd:attribute name="kind" type="MemberKind" use="required"/>
 // </xsd:complexType>
 export class AbstractMemberType extends AbstractMemberBaseType {
+    // Mandatory elements.
+    // name: string = '' (in parent)
+    // Mandatory attributes.
+    refid = '';
     // kind: string = '' // MemberKind (in parent)
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory elements.
-        // name: string = '' (in parent)
-        // Mandatory attributes.
-        this.refid = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.

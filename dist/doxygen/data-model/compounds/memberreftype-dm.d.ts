@@ -12,3 +12,4 @@ export declare abstract class AbstractMemberRefType extends AbstractDataModelBas
 export declare class MemberRefDataModel extends AbstractMemberRefType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=memberreftype-dm.d.ts.map

@@ -10,11 +10,13 @@
  */
 // ----------------------------------------------------------------------------
 export class ElementStringRendererBase {
+    workspace;
     constructor(workspace) {
         this.workspace = workspace;
     }
 }
 export class ElementLinesRendererBase {
+    workspace;
     constructor(workspace) {
         this.workspace = workspace;
     }

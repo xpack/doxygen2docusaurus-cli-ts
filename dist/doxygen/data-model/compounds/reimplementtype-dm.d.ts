@@ -11,3 +11,4 @@ export declare class ReimplementDataModel extends AbstractReimplementType {
 export declare class ReimplementedByDataModel extends AbstractReimplementType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=reimplementtype-dm.d.ts.map

@@ -12,3 +12,4 @@ export declare class IncludesDataModel extends AbstractIncType {
 export declare class IncludedByDataModel extends AbstractIncType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=inctype-dm.d.ts.map

@@ -3,3 +3,4 @@ import type { SubstringDocMarkupType } from '../../doxygen/data-model/compounds/
 export declare class SubstringDocMarkupTypeRenderer extends ElementStringRendererBase {
     renderToString(element: SubstringDocMarkupType, type: string): string;
 }
+//# sourceMappingURL=substringtype.d.ts.map

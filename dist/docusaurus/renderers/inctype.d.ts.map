@@ -1,0 +1,1 @@
+{"version":3,"file":"inctype.d.ts","sourceRoot":"","sources":["../../../src/docusaurus/renderers/inctype.ts"],"names":[],"mappings":"AAgBA,OAAO,EAAE,wBAAwB,EAAE,MAAM,4BAA4B,CAAA;AACrE,OAAO,KAAK,EAAE,eAAe,EAAE,MAAM,kDAAkD,CAAA;AAIvF,qBAAa,oBAAqB,SAAQ,wBAAwB;IACvD,aAAa,CAAC,OAAO,EAAE,eAAe,EAAE,IAAI,EAAE,MAAM,GAAG,MAAM,EAAE;CA2BzE"}

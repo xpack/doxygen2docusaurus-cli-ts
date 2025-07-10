@@ -135,9 +135,11 @@ function selectMultiConfiguration(
   let configurationOptions: CliConfigurationOptions | undefined = undefined
   if (id !== undefined) {
     // eslint-disable-next-line @typescript-eslint/prefer-destructuring
-    configurationOptions =
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion,
-      (multiConfigurations as Record<string, CliConfigurationOptions>)[id]
+    configurationOptions = (
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+      multiConfigurations as Record<string, CliConfigurationOptions>
+    )[id]
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (configurationOptions !== undefined) {
       configurationOptions.id = id
     }

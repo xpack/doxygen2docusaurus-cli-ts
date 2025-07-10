@@ -12,3 +12,4 @@ export type DoxRefKind = 'compound' | 'member';
 export declare class RefTextDataModel extends AbstractRefTextType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=reftexttype-dm.d.ts.map

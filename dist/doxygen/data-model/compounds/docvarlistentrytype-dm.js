@@ -20,6 +20,8 @@ import { ListItemDataModel, TermDataModel } from './descriptiontype-dm.js';
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDocVarListEntryType extends AbstractDataModelBase {
+    // Mandatory elements.
+    term;
     constructor(xml, element, elementName) {
         super(elementName);
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))ect(element))
@@ -65,6 +67,8 @@ export class VarListEntryDataModel extends AbstractDocVarListEntryType {
 //   </xsd:sequence>
 // </xsd:group>
 export class VariableListPairDataModel extends AbstractDataModelBase {
+    varlistentry;
+    listitem;
     constructor(varlistentry, listitem) {
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         super('variablelistpair');

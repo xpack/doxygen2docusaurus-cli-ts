@@ -10,3 +10,4 @@ export type IndexMemberKind = 'define' | 'property' | 'event' | 'variable' | 'ty
 export declare class IndexMemberDataModel extends AbstractIndexMemberType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=indexmembertype-dm.d.ts.map

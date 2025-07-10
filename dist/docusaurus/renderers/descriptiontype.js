@@ -169,6 +169,7 @@ export class DocMarkupTypeStringRenderer extends ElementStringRendererBase {
     renderToString(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const htmlElement = htmlElements[element.constructor.name];
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (htmlElement === undefined) {
             console.error(util.inspect(element, { compact: false, depth: 999 }));
             console.error(element.constructor.name, 'not yet rendered in', this.constructor.name);
@@ -272,6 +273,7 @@ export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
             // rcs: - apparently ignored
         };
         lines.push('');
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (DoxSimpleSectKind[element.kind] !== undefined) {
             const { kind } = element;
             // eslint-disable-next-line @typescript-eslint/prefer-destructuring
@@ -426,6 +428,7 @@ export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
             const { kind } = element;
             // eslint-disable-next-line @typescript-eslint/prefer-destructuring
             const title = titlesByKind[kind];
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             if (title === undefined) {
                 console.error(util.inspect(element, { compact: false, depth: 999 }));
                 console.error(element.constructor.name, 'kind', kind, 'not yet rendered in', this.constructor.name);

@@ -31,12 +31,15 @@ import { AbstractDataModelBase } from '../types.js';
 // </xsd:restriction>
 // </xsd:simpleType>
 export class AbstractRefType extends AbstractDataModelBase {
+    // Mandatory elements.
+    text = ''; // The name of the reference, passed as element text.
+    // Mandatory attributes.
+    refid = '';
+    // Optional attributes.
+    prot; // DoxProtectionKind
+    inline; // DoxBool
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory elements.
-        this.text = ''; // The name of the reference, passed as element text.
-        // Mandatory attributes.
-        this.refid = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.

@@ -20,29 +20,66 @@ import { RefTextDataModel } from '../../doxygen/data-model/compounds/reftexttype
 import { SectionDefByKindDataModel, } from '../../doxygen/data-model/compounds/sectiondeftype-dm.js';
 // ----------------------------------------------------------------------------
 export class CompoundBase {
+    kind = '';
+    compoundName = '';
+    id = '';
+    // The collection this compound is part of.
+    collection;
+    titleHtmlString;
+    locationFilePath;
+    // --------------------------------------------------------------------------
+    // Not used for classes, see Class.baseClasses.
+    parent;
+    // Set in 2 steps, first the Ids and then, when all objects are in,
+    // the references.
+    // Folder objects use separate arrays for files and folders children.
+    childrenIds = [];
+    children = [];
+    /**
+     * @brief Relative path to the output folder.
+     *
+     * Starts with plural kind.
+     *
+     * If undefined, the compound must not
+     * be referred in the sidebar.
+     */
+    docusaurusId;
+    /**
+     * @brief Short name, to fit the limited space in the sidebar.
+     *
+     * If undefined, the compound must not
+     * be referred in the sidebar.
+     */
+    sidebarLabel;
+    /**
+     * @brief The part below outputFolderPath.
+     *
+     * No leading slash.
+     *
+     * If undefined, the MD file for the compound must not be generated.
+     */
+    relativePermalink;
+    /** The name shown in the index section. */
+    indexName = '';
+    /**
+     * @brief
+     * The named used in the tree entry rendered in the top index pages.
+     */
+    treeEntryName = '';
+    /** The name shown in the page title. */
+    pageTitle = '';
+    briefDescriptionHtmlString;
+    detailedDescriptionHtmlLines;
+    hasSect1InDescription = false;
+    locationLines;
+    sections = [];
+    locationSet = new Set();
+    // Shortcut
+    includes;
+    innerCompounds;
+    _private = {};
     // --------------------------------------------------------------------------
     constructor(collection, compoundDef) {
-        this.kind = '';
-        this.compoundName = '';
-        this.id = '';
-        // Set in 2 steps, first the Ids and then, when all objects are in,
-        // the references.
-        // Folder objects use separate arrays for files and folders children.
-        this.childrenIds = [];
-        this.children = [];
-        /** The name shown in the index section. */
-        this.indexName = '';
-        /**
-         * @brief
-         * The named used in the tree entry rendered in the top index pages.
-         */
-        this.treeEntryName = '';
-        /** The name shown in the page title. */
-        this.pageTitle = '';
-        this.hasSect1InDescription = false;
-        this.sections = [];
-        this.locationSet = new Set();
-        this._private = {};
         this._private._compoundDef = compoundDef;
         this.collection = collection;
         const { kind, compoundName, id } = compoundDef;
@@ -90,7 +127,7 @@ export class CompoundBase {
                         mapSectionDef = new SectionDefByKindDataModel(adjustedSectionKind);
                         sectionDefsByKind.set(adjustedSectionKind, mapSectionDef);
                     }
-                    mapSectionDef.memberDefs ?? (mapSectionDef.memberDefs = []);
+                    mapSectionDef.memberDefs ??= [];
                     mapSectionDef.memberDefs.push(memberDef);
                 }
             }
@@ -102,7 +139,7 @@ export class CompoundBase {
                         mapSectionDef = new SectionDefByKindDataModel(adjustedSectionKind);
                         sectionDefsByKind.set(adjustedSectionKind, mapSectionDef);
                     }
-                    mapSectionDef.members ?? (mapSectionDef.members = []);
+                    mapSectionDef.members ??= [];
                     mapSectionDef.members.push(member);
                 }
             }
@@ -238,9 +275,14 @@ export class CompoundBase {
         if (includes !== undefined) {
             this.includes = includes;
         }
+        if (this.id === 'group__micro-test-plus-c-api') {
+            console.log(this);
+        }
         for (const innerKey of Object.keys(compoundDef)) {
-            if (innerKey.startsWith('inner')) {
-                this.innerCompounds ?? (this.innerCompounds = new Map());
+            if (innerKey.startsWith('inner') &&
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+                compoundDef[innerKey] !== undefined) {
+                this.innerCompounds ??= new Map();
                 this.innerCompounds.set(innerKey, compoundDef);
             }
         }

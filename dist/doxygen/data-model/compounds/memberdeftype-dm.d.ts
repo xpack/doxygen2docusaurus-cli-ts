@@ -55,3 +55,4 @@ export declare abstract class AbstractMemberDefType extends AbstractMemberBaseTy
 export declare class MemberDefDataModel extends AbstractMemberDefType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=memberdeftype-dm.d.ts.map

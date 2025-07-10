@@ -19,3 +19,4 @@ export declare abstract class AbstractDocVariableListType extends AbstractDataMo
 export declare class VariableListDataModel extends AbstractDocVariableListType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=docvarlistentrytype-dm.d.ts.map

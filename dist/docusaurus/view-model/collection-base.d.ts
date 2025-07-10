@@ -25,3 +25,4 @@ export declare abstract class CollectionBase {
         filter: (kind: string) => boolean;
     }): Promise<void>;
 }
+//# sourceMappingURL=collection-base.d.ts.map

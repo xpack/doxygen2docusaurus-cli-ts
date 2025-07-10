@@ -10,6 +10,8 @@
  */
 // ----------------------------------------------------------------------------
 export class DescriptionAnchor {
+    compound;
+    id;
     constructor(compound, id) {
         this.compound = compound;
         this.id = id;
@@ -17,12 +19,15 @@ export class DescriptionAnchor {
 }
 // ----------------------------------------------------------------------------
 export class DescriptionTocList {
+    compound;
+    tocItems = [];
     constructor(compound) {
-        this.tocItems = [];
         this.compound = compound;
     }
 }
 export class DescriptionTocItem {
+    id;
+    tocList;
     constructor(id, tocList) {
         this.id = id;
         this.tocList = tocList;

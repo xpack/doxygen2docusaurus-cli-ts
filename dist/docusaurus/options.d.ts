@@ -99,3 +99,4 @@ export interface CliOptions {
 export declare const defaultOptions: CliOptions;
 export declare function getInstanceDefaultOptions(id: string | undefined): CliOptions;
 export declare const renderParagraphs = true;
+//# sourceMappingURL=options.d.ts.map

@@ -12,3 +12,4 @@ export declare class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
 export declare class DocEntryTypeStringRenderer extends ElementStringRendererBase {
     renderToString(element: AbstractDocEntryType, type: string): string;
 }
+//# sourceMappingURL=doctabletype.d.ts.map

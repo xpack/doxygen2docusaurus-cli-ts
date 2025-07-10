@@ -317,6 +317,7 @@ export class Classes extends CollectionBase {
     }
 
     let iconLetter: string | undefined = iconLetters[classs.kind]
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (iconLetter === undefined) {
       console.error(
         'Icon kind',
@@ -546,6 +547,7 @@ export class Class extends CompoundBase {
     }
     this.pageTitle += ' Reference'
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     assert(kindsPlurals[kind] !== undefined)
     const pluralKind = kindsPlurals[kind].toLowerCase()
 
@@ -696,7 +698,7 @@ export class Class extends CompoundBase {
 
         lines.push('')
         if (baseCompoundRefs.size > 1) {
-          lines.push(`## Base ${kindsPlurals[this.kind]?.toLowerCase()}`)
+          lines.push(`## Base ${kindsPlurals[this.kind].toLowerCase()}`)
         } else {
           lines.push(`## Base ${this.kind}`)
         }
@@ -734,7 +736,7 @@ export class Class extends CompoundBase {
       } else if ('baseClassIds' in classs && classs.baseClassIds.size > 0) {
         lines.push('')
         if (classs.baseClassIds.size > 1) {
-          lines.push(`## Base ${kindsPlurals[this.kind]?.toLowerCase()}`)
+          lines.push(`## Base ${kindsPlurals[this.kind].toLowerCase()}`)
         } else {
           lines.push(`## Base ${this.kind}`)
         }

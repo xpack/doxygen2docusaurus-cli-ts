@@ -14,3 +14,4 @@ export declare abstract class AbstractEnumValueType extends AbstractDataModelBas
 export declare class EnumValueDataModel extends AbstractEnumValueType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=enumvaluetype-dm.d.ts.map

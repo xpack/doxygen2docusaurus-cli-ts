@@ -8,3 +8,4 @@ export declare abstract class AbstractTemplateParamListType extends AbstractData
 export declare class TemplateParamListDataModel extends AbstractTemplateParamListType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=templateparamlisttype-dm.d.ts.map

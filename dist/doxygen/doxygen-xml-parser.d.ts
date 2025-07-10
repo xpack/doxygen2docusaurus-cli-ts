@@ -30,3 +30,4 @@ export declare class DoxygenXmlParser {
     getInnerElementBoolean(element: Object, name: string): boolean;
     getInnerText(element: Object): string;
 }
+//# sourceMappingURL=doxygen-xml-parser.d.ts.map

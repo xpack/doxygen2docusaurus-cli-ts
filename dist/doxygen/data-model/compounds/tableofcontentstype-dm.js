@@ -23,6 +23,9 @@ import { parseDocTitleCmdGroup, } from './descriptiontype-dm.js';
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractTableOfContentsType extends AbstractDataModelBase {
+    // xsd:choice, only one of them.
+    tocSect;
+    tableOfContents;
     constructor(xml, element, elementName) {
         super(elementName);
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -76,11 +79,13 @@ export class TableOfContentsDataModel extends AbstractTableOfContentsType {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractTableOfContentsKindType extends AbstractDataModelBase {
+    // Mandatory elements.
+    name = '';
+    reference = '';
+    // docs:
+    tableOfContents;
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory elements.
-        this.name = '';
-        this.reference = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -131,12 +136,12 @@ export class TocSectDataModel extends AbstractTableOfContentsKindType {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 export class AbstractTocDocItemType extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | DocTitleCmdGroup> = []
+    // Mandatory attributes.
+    id = '';
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        // children: Array<string | DocTitleCmdGroup> = []
-        // Mandatory attributes.
-        this.id = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -184,6 +189,7 @@ export class TocItemDataModel extends AbstractTocDocItemType {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDocTocListType extends AbstractDataModelBase {
+    tocItems;
     constructor(xml, element, elementName) {
         super(elementName);
         const innerElements = xml.getInnerElements(element, elementName);

@@ -60,3 +60,4 @@ export declare class EmojiStringRenderer extends ElementStringRendererBase {
 export declare class BlockquoteLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element: AbstractDocBlockQuoteType, type: string): string[];
 }
+//# sourceMappingURL=descriptiontype.d.ts.map

@@ -639,6 +639,7 @@ export class Namespace extends CompoundBase {
 
     const morePermalink =
       this.detailedDescriptionHtmlLines !== undefined ? '#details' : undefined
+
     lines.push(
       this.renderBriefDescriptionToHtmlString({
         briefDescriptionHtmlString: this.briefDescriptionHtmlString,

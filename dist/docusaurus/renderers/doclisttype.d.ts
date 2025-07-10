@@ -3,3 +3,4 @@ import { type AbstractDocListType } from '../../doxygen/data-model/compounds/des
 export declare class DocListTypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element: AbstractDocListType, type: string): string[];
 }
+//# sourceMappingURL=doclisttype.d.ts.map

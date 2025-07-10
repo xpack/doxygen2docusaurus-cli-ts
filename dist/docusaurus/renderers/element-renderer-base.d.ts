@@ -9,3 +9,4 @@ export declare abstract class ElementLinesRendererBase {
     constructor(workspace: Workspace);
     abstract renderToLines(element: object, type: string): string[];
 }
+//# sourceMappingURL=element-renderer-base.d.ts.map

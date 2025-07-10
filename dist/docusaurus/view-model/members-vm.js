@@ -80,12 +80,16 @@ export const sectionHeaders = {
 };
 // ----------------------------------------------------------------------------
 export class Section {
+    compound;
+    kind;
+    headerName;
+    descriptionLines;
+    // Both references and definitions.
+    indexMembers = [];
+    // Only definitions.
+    definitionMembers = [];
+    _private = {};
     constructor(compound, sectionDef) {
-        // Both references and definitions.
-        this.indexMembers = [];
-        // Only definitions.
-        this.definitionMembers = [];
-        this._private = {};
         // console.log(compound.kind, compound.compoundName, sectionDef.kind)
         this._private._sectionDef = sectionDef;
         this.compound = compound;
@@ -187,8 +191,8 @@ export class Section {
             console.warn('header', header, 'ignored in sectionDef of kind', kind);
         }
         // ------------------------------------------------------------------------
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const sectionHeader = sectionHeaders[kind];
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (sectionHeader === undefined) {
             console.error(util.inspect(sectionDef, { compact: false, depth: 999 }));
             console.error(sectionDef.constructor.name, 'kind', kind, 'not yet rendered in', this.constructor.name, 'getHeaderNameByKind');
@@ -201,8 +205,8 @@ export class Section {
         if (kind === 'user-defined') {
             return 1000; // At the end.
         }
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const header = sectionHeaders[kind];
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         assert(header !== undefined);
         return header[1];
     }
@@ -258,6 +262,8 @@ export class Section {
 }
 // ----------------------------------------------------------------------------
 class MemberBase {
+    section;
+    name;
     constructor(section, name) {
         this.section = section;
         this.name = name;
@@ -267,15 +273,33 @@ class MemberBase {
     initializeLate() { }
 }
 export class Member extends MemberBase {
+    id;
+    kind;
+    briefDescriptionHtmlString;
+    detailedDescriptionHtmlLines;
+    argsstring;
+    qualifiedName;
+    definition;
+    type;
+    // Markdown, since it may include constructs like []().
+    initializerHtmlLines;
+    locationMarkdownLines;
+    templateParameters;
+    enumHtmlLines;
+    parametersHtmlString;
+    programListing;
+    referencedByMarkdownString;
+    referencesMarkdownString;
+    enumValues;
+    labels = [];
+    isTrailingType = false;
+    isConstexpr = false;
+    isStrong = false;
+    isConst = false;
+    isStatic = false;
+    _private = {};
     constructor(section, memberDef) {
         super(section, memberDef.name);
-        this.labels = [];
-        this.isTrailingType = false;
-        this.isConstexpr = false;
-        this.isStrong = false;
-        this.isConst = false;
-        this.isStatic = false;
-        this._private = {};
         this._private._memberDef = memberDef;
         const { id, kind } = memberDef;
         this.id = id;
@@ -951,6 +975,8 @@ export class Member extends MemberBase {
 }
 // ----------------------------------------------------------------------------
 export class MemberRef extends MemberBase {
+    // memberRef: MemberDataModel
+    refid;
     constructor(section, memberRef) {
         super(section, memberRef.name);
         // this.memberRef = memberRef
@@ -960,6 +986,11 @@ export class MemberRef extends MemberBase {
 }
 // ----------------------------------------------------------------------------
 export class EnumValue {
+    name;
+    id;
+    briefDescriptionHtmlString;
+    initializerHtmlString;
+    member;
     constructor(member, enumValue) {
         this.member = member;
         this.name = enumValue.name.trim();

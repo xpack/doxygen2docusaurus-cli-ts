@@ -5,3 +5,4 @@ export declare class DoxygenFileOptions {
     getOptionStringValue(optionId: string): string;
     getOptionCdataValue(optionId: string): string;
 }
+//# sourceMappingURL=options.d.ts.map

@@ -8,3 +8,4 @@ export declare abstract class AbstractListOfAllMembersType extends AbstractDataM
 export declare class ListOfAllMembersDataModel extends AbstractListOfAllMembersType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=listofallmemberstype-dm.d.ts.map

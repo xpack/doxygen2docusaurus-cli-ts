@@ -23,13 +23,14 @@ import { AbstractDataModelBase } from '../types.js';
 //   <xsd:attribute name="kind" type="CompoundKind" use="required"/>
 // </xsd:complexType>
 export class AbstractIndexCompoundType extends AbstractDataModelBase {
+    // Mandatory elements.
+    name = '';
+    members; // [0-n]
+    // Mandatory attributes.
+    refid = '';
+    kind = ''; // CompoundKind
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory elements.
-        this.name = '';
-        // Mandatory attributes.
-        this.refid = '';
-        this.kind = ''; // CompoundKind
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.

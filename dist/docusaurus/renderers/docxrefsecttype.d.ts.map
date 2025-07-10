@@ -1,0 +1,1 @@
+{"version":3,"file":"docxrefsecttype.d.ts","sourceRoot":"","sources":["../../../src/docusaurus/renderers/docxrefsecttype.ts"],"names":[],"mappings":"AAgBA,OAAO,EAAE,wBAAwB,EAAE,MAAM,4BAA4B,CAAA;AACrE,OAAO,KAAK,EAAE,uBAAuB,EAAE,MAAM,0DAA0D,CAAA;AAIvG,qBAAa,wBAAyB,SAAQ,wBAAwB;IACpE,aAAa,CAAC,OAAO,EAAE,uBAAuB,EAAE,IAAI,EAAE,MAAM,GAAG,MAAM,EAAE;CAoCxE"}

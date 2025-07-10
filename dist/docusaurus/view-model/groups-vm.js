@@ -20,11 +20,8 @@ import { CollectionBase } from './collection-base.js';
 // const useCollapsibleTable = false
 // ----------------------------------------------------------------------------
 export class Groups extends CollectionBase {
-    constructor() {
-        super(...arguments);
-        // compoundsById: Map<string, Group>
-        this.topLevelGroups = [];
-    }
+    // compoundsById: Map<string, Group>
+    topLevelGroups = [];
     // --------------------------------------------------------------------------
     // constructor (workspace: Workspace) {
     //   super(workspace)
@@ -255,12 +252,14 @@ export class Group extends CompoundBase {
     renderToLines(frontMatter) {
         const lines = [];
         const descriptionTodo = `@defgroup ${this.collection.workspace.renderString(this.compoundName, 'html')}`;
+        if (this.id === 'group__micro-test-plus-c-api') {
+            console.log(this);
+        }
         // const hasIndices =
         //   this.hasSect1InDescription &&
         //   (this.hasInnerIndices() || this.hasSections())
         let morePermalink = undefined;
-        if (!this.hasSect1InDescription &&
-            (this.hasInnerIndices() || this.hasSections())) {
+        if (this.hasInnerIndices() || this.hasSections()) {
             morePermalink = '#details';
         }
         lines.push(this.renderBriefDescriptionToHtmlString({
@@ -277,8 +276,7 @@ export class Group extends CompoundBase {
             detailedDescriptionHtmlLines: this.detailedDescriptionHtmlLines,
             todo: descriptionTodo,
             showHeader: !this.hasSect1InDescription,
-            showBrief: !this.hasSect1InDescription &&
-                (this.hasInnerIndices() || this.hasSections()),
+            showBrief: this.hasInnerIndices() || this.hasSections(),
         }));
         lines.push(...this.renderSectionsToLines());
         return lines;

@@ -271,21 +271,21 @@ export class Workspace extends Renderers {
     for (const compoundDefDataModel of this.dataModel.compoundDefs) {
       let compound: CompoundBase | undefined = undefined
       const { kind } = compoundDefDataModel
-      // eslint-disable-next-line @typescript-eslint/prefer-destructuring
-      const collectionName = this.collectionNamesByKind[kind]
-      if (collectionName !== undefined) {
-        const collection = this.viewModel.get(collectionName)
-        if (collection !== undefined) {
-          // Create the compound object and add it to the parent collection.
-          // console.log(
-          //   compoundDefDataModel.kind, compoundDefDataModel.compoundName
-          // )
-          compound = collection.addChild(compoundDefDataModel)
-          // Also add it to the global compounds map.
-          this.compoundsById.set(compound.id, compound)
-          // console.log('compoundsById.set', compound.kind, compound.id)
-        }
+
+      const collectionName: string | undefined =
+        this.collectionNamesByKind[kind]
+      const collection = this.viewModel.get(collectionName)
+      if (collection !== undefined) {
+        // Create the compound object and add it to the parent collection.
+        // console.log(
+        //   compoundDefDataModel.kind, compoundDefDataModel.compoundName
+        // )
+        compound = collection.addChild(compoundDefDataModel)
+        // Also add it to the global compounds map.
+        this.compoundsById.set(compound.id, compound)
+        // console.log('compoundsById.set', compound.kind, compound.id)
       }
+
       if (compound !== undefined) {
         if (
           compoundDefDataModel instanceof AbstractCompoundDefType &&

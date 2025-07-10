@@ -14,3 +14,4 @@ export declare class DescriptionTocItem {
     tocList: DescriptionTocList;
     constructor(id: string, tocList: DescriptionTocList);
 }
+//# sourceMappingURL=description-anchors.d.ts.map

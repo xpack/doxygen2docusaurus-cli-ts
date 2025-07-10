@@ -15,3 +15,4 @@ export declare class DefValDataModel extends AbstractLinkedTextType {
 export declare class TypeConstraintDataModel extends AbstractLinkedTextType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=linkedtexttype-dm.d.ts.map

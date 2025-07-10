@@ -3,3 +3,4 @@ import type { AbstractIncType } from '../../doxygen/data-model/compounds/inctype
 export declare class IncTypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element: AbstractIncType, type: string): string[];
 }
+//# sourceMappingURL=inctype.d.ts.map

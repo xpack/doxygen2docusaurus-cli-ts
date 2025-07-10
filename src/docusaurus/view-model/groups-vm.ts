@@ -349,14 +349,14 @@ export class Group extends CompoundBase {
       'html'
     )}`
 
+    if (this.id === 'group__micro-test-plus-c-api') {
+      console.log(this)
+    }
     // const hasIndices =
     //   this.hasSect1InDescription &&
     //   (this.hasInnerIndices() || this.hasSections())
     let morePermalink = undefined
-    if (
-      !this.hasSect1InDescription &&
-      (this.hasInnerIndices() || this.hasSections())
-    ) {
+    if (this.hasInnerIndices() || this.hasSections()) {
       morePermalink = '#details'
     }
 
@@ -382,9 +382,7 @@ export class Group extends CompoundBase {
         detailedDescriptionHtmlLines: this.detailedDescriptionHtmlLines,
         todo: descriptionTodo,
         showHeader: !this.hasSect1InDescription,
-        showBrief:
-          !this.hasSect1InDescription &&
-          (this.hasInnerIndices() || this.hasSections()),
+        showBrief: this.hasInnerIndices() || this.hasSections(),
       })
     )
 

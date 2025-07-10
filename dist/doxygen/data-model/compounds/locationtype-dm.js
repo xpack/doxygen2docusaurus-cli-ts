@@ -25,10 +25,21 @@ import { AbstractDataModelBase } from '../types.js';
 //   <xsd:attribute name="bodyend" type="xsd:integer" />
 // </xsd:complexType>
 export class AbstractLocationType extends AbstractDataModelBase {
+    // Mandatory attributes.
+    file = '';
+    // Optional elements.
+    // WARNING: The xsd specifies that `line` is mandatory, but in practice it is not.
+    line;
+    // Optional attributes.
+    column;
+    declfile;
+    declline;
+    declcolumn;
+    bodyfile;
+    bodystart;
+    bodyend;
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory attributes.
-        this.file = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.

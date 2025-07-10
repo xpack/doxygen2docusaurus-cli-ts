@@ -19,6 +19,7 @@ import { Page } from './view-model/pages-vm.js';
 // import type { File } from '../view-model/files-and-folders-vm.js'
 // ----------------------------------------------------------------------------
 export class DocusaurusGenerator {
+    workspace;
     // --------------------------------------------------------------------------
     constructor({ dataModel, options, }) {
         this.workspace = new Workspace({

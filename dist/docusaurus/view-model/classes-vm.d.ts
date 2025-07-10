@@ -32,3 +32,4 @@ export declare class Class extends CompoundBase {
     renderToLines(frontMatter: FrontMatter): string[];
     renderIndexToLines(): string[];
 }
+//# sourceMappingURL=classes-vm.d.ts.map

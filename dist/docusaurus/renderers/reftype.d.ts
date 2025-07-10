@@ -3,3 +3,4 @@ import type { AbstractRefType } from '../../doxygen/data-model/compounds/reftype
 export declare class RefTypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element: AbstractRefType, type: string): string[];
 }
+//# sourceMappingURL=reftype.d.ts.map

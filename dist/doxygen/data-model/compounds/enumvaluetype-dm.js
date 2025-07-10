@@ -26,13 +26,17 @@ import { InitializerDataModel } from './linkedtexttype-dm.js';
 //   <xsd:attribute name="prot" type="DoxProtectionKind" />
 // </xsd:complexType>
 export class AbstractEnumValueType extends AbstractDataModelBase {
+    // Mandatory elements.
+    name = '';
+    // Optional elements.
+    initializer;
+    briefDescription;
+    detailedDescription;
+    // Mandatory attributes.
+    id = '';
+    prot = ''; // DoxProtectionKind
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory elements.
-        this.name = '';
-        // Mandatory attributes.
-        this.id = '';
-        this.prot = ''; // DoxProtectionKind
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.

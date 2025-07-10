@@ -16,3 +16,4 @@ export declare abstract class AbstractParamType extends AbstractDataModelBase {
 export declare class ParamDataModel extends AbstractParamType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=paramtype-dm.d.ts.map

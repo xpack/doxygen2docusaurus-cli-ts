@@ -1,0 +1,1 @@
+{"version":3,"file":"paramtype.d.ts","sourceRoot":"","sources":["../../../src/docusaurus/renderers/paramtype.ts"],"names":[],"mappings":"AAgBA,OAAO,EAAE,wBAAwB,EAAE,MAAM,4BAA4B,CAAA;AACrE,OAAO,KAAK,EAAE,iBAAiB,EAAE,MAAM,oDAAoD,CAAA;AAkB3F,qBAAa,sBAAuB,SAAQ,wBAAwB;IACzD,aAAa,CAAC,OAAO,EAAE,iBAAiB,EAAE,IAAI,EAAE,MAAM,GAAG,MAAM,EAAE;CAmD3E"}

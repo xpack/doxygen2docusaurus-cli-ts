@@ -31,3 +31,4 @@ export declare class InnerPageDataModel extends AbstractRefType {
 export declare class InnerGroupDataModel extends AbstractRefType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=reftype-dm.d.ts.map

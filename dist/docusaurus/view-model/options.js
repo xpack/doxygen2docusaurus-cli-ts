@@ -13,6 +13,7 @@
 import assert from 'node:assert';
 // ----------------------------------------------------------------------------
 export class DoxygenFileOptions {
+    membersById;
     constructor(options) {
         this.membersById = new Map();
         assert(options !== undefined);

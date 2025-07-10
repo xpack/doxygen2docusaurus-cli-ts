@@ -21,12 +21,12 @@ import { AbstractDataModelBase } from '../types.js';
 //   </xsd:simpleContent>
 // </xsd:complexType>
 export class AbstractReimplementType extends AbstractDataModelBase {
+    // Mandatory elements.
+    text = ''; // Passed as element text.
+    // Mandatory attributes.
+    refId = '';
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory elements.
-        this.text = ''; // Passed as element text.
-        // Mandatory attributes.
-        this.refId = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))ect(element))
         // ------------------------------------------------------------------------
         // Process elements.

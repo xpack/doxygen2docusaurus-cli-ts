@@ -1,6 +1,6 @@
 export interface FrontMatter {
     keywords: string[];
-    [key: string]: string | string[] | null | boolean | number;
+    [key: string]: string | string[] | null | boolean | number | undefined;
 }
 export interface collapsibleTableRow {
     id: string;
@@ -48,3 +48,4 @@ export interface MenuItem {
     label: string;
     to: string;
 }
+//# sourceMappingURL=types.d.ts.map

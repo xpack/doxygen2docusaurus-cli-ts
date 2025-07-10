@@ -109,3 +109,4 @@ export declare abstract class CompoundBase {
     renderTemplateParameterNamesToString(templateParamList: TemplateParamListDataModel | undefined): string;
     hasAnyContent(): boolean;
 }
+//# sourceMappingURL=compound-base-vm.d.ts.map

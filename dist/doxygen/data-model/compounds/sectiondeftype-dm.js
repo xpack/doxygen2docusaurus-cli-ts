@@ -28,10 +28,16 @@ import { AbstractDataModelBase } from '../types.js';
 //   <xsd:attribute name="kind" type="DoxSectionKind" />
 // </xsd:complexType>
 export class AbstractSectionDefTypeBase extends AbstractDataModelBase {
+    // Mandatory attributes.
+    kind = '';
+    // Optional elements.
+    header;
+    description;
+    // Actually only one is defined at a time.
+    memberDefs;
+    members;
     constructor(elementName, kind) {
         super(elementName);
-        // Mandatory attributes.
-        this.kind = '';
         this.kind = kind;
     }
     hasMembers() {

@@ -1,0 +1,1 @@
+{"version":3,"file":"doctitletype.d.ts","sourceRoot":"","sources":["../../../src/docusaurus/renderers/doctitletype.ts"],"names":[],"mappings":"AAgBA,OAAO,EAAE,wBAAwB,EAAE,MAAM,4BAA4B,CAAA;AACrE,OAAO,EACL,KAAK,oBAAoB,EAG1B,MAAM,0DAA0D,CAAA;AAIjE,qBAAa,yBAA0B,SAAQ,wBAAwB;IAC5D,aAAa,CACpB,OAAO,EAAE,oBAAoB,EAC7B,IAAI,EAAE,MAAM,GACX,MAAM,EAAE;CAuBZ"}

@@ -31,3 +31,4 @@ export declare abstract class AbstractDocTocListType extends AbstractDataModelBa
 export declare class TocListDataModel extends AbstractDocTocListType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=tableofcontentstype-dm.d.ts.map

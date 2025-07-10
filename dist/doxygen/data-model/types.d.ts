@@ -46,3 +46,4 @@ export interface DataModel {
     doxyfile?: DoxygenFileDataModel;
     images?: AbstractDocImageType[];
 }
+//# sourceMappingURL=types.d.ts.map

@@ -22,3 +22,4 @@ export declare class SectionDefDataModel extends AbstractSectionDefType {
 export declare class SectionDefByKindDataModel extends AbstractSectionDefTypeBase {
     constructor(kind: string);
 }
+//# sourceMappingURL=sectiondeftype-dm.d.ts.map

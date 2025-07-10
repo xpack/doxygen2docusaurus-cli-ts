@@ -27,3 +27,4 @@ export declare class Renderers {
         description: string;
     }): string[];
 }
+//# sourceMappingURL=renderers.d.ts.map

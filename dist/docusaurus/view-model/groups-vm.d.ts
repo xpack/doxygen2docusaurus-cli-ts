@@ -17,3 +17,4 @@ export declare class Group extends CompoundBase {
     constructor(collection: Groups, compoundDef: CompoundDefDataModel);
     renderToLines(frontMatter: FrontMatter): string[];
 }
+//# sourceMappingURL=groups-vm.d.ts.map

@@ -385,8 +385,16 @@ export abstract class CompoundBase {
       this.includes = includes
     }
 
+    if (this.id === 'group__micro-test-plus-c-api') {
+      console.log(this)
+    }
+
     for (const innerKey of Object.keys(compoundDef)) {
-      if (innerKey.startsWith('inner')) {
+      if (
+        innerKey.startsWith('inner') &&
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+        (compoundDef as any)[innerKey] !== undefined
+      ) {
         this.innerCompounds ??= new Map()
         this.innerCompounds.set(innerKey, compoundDef)
       }

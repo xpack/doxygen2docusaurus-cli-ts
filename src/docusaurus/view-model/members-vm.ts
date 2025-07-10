@@ -258,8 +258,8 @@ export class Section {
 
     // ------------------------------------------------------------------------
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
-    const sectionHeader = sectionHeaders[kind]
+    const sectionHeader: [string, number] | undefined = sectionHeaders[kind]
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (sectionHeader === undefined) {
       console.error(util.inspect(sectionDef, { compact: false, depth: 999 }))
       console.error(
@@ -282,8 +282,8 @@ export class Section {
       return 1000 // At the end.
     }
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
-    const header = sectionHeaders[kind]
+    const header: [string, number] | undefined = sectionHeaders[kind]
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     assert(header !== undefined)
     return header[1]
   }

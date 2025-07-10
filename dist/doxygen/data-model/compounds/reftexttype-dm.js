@@ -24,13 +24,16 @@ import { AbstractDataModelBase } from '../types.js';
 //   </xsd:simpleContent>
 // </xsd:complexType>
 export class AbstractRefTextType extends AbstractDataModelBase {
+    // Mandatory elements.
+    text = ''; // The name of the reference, passed as element text.
+    // Mandatory attributes.
+    refid = '';
+    kindref = ''; // DoxRefKind
+    // Optional attributes.
+    external;
+    tooltip;
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory elements.
-        this.text = ''; // The name of the reference, passed as element text.
-        // Mandatory attributes.
-        this.refid = '';
-        this.kindref = ''; // DoxRefKind
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.

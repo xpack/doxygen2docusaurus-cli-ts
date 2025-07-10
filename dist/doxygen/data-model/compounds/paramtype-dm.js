@@ -27,6 +27,15 @@ import { AbstractDataModelBase } from '../types.js';
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractParamType extends AbstractDataModelBase {
+    // Optional elements.
+    attributes;
+    type;
+    declname;
+    defname;
+    array;
+    defval;
+    typeconstraint;
+    briefdescription;
     constructor(xml, element, elementName) {
         super(elementName);
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

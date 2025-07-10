@@ -24,15 +24,17 @@ import { AbstractDataModelBase } from '../types.js';
 //   <xsd:attribute name="ambiguityscope" type="xsd:string" />
 // </xsd:complexType>
 export class AbstractMemberRefType extends AbstractDataModelBase {
+    // Mandatory elements.
+    scope = ''; // This acts as the namespace.
+    name = '';
+    // Mandatory attributes.
+    refid = '';
+    prot = '';
+    virt = '';
+    // WARNING: Deviation from xsd, there it is not optional.
+    ambiguityscope;
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory elements.
-        this.scope = ''; // This acts as the namespace.
-        this.name = '';
-        // Mandatory attributes.
-        this.refid = '';
-        this.prot = '';
-        this.virt = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.

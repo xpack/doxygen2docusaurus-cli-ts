@@ -14,3 +14,4 @@ export declare class ReferenceDataModel extends AbstractReferenceType {
 export declare class ReferencedByDataModel extends AbstractReferenceType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=referencetype-dm.d.ts.map

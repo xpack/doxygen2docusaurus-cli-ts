@@ -88,3 +88,4 @@ export declare class LatexOnlyDataModel extends AbstractStringType {
 export declare class DocBookOnlyDataModel extends AbstractStringType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=compounddef-dm.d.ts.map

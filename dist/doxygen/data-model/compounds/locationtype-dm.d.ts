@@ -15,3 +15,4 @@ export declare abstract class AbstractLocationType extends AbstractDataModelBase
 export declare class LocationDataModel extends AbstractLocationType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=locationtype-dm.d.ts.map

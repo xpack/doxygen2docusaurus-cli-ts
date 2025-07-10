@@ -12,3 +12,4 @@ export type DoxyfileTypeType = 'int' | 'bool' | 'string' | 'stringlist';
 export declare class DoxygenFileOptionDataModel extends AbstractDoxygenFileOptionType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=doxyfileoptiontype-dm.d.ts.map

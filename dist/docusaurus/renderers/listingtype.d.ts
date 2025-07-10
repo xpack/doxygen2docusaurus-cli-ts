@@ -7,3 +7,4 @@ export declare class HighlightTypeLinesRenderer extends ElementLinesRendererBase
     knownClasses: Record<string, string>;
     renderToLines(element: AbstractHighlightType, type: string): string[];
 }
+//# sourceMappingURL=listingtype.d.ts.map

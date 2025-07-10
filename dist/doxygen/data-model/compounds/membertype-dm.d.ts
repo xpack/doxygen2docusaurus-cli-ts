@@ -8,3 +8,4 @@ export type MemberKind = 'define' | 'property' | 'event' | 'variable' | 'typedef
 export declare class MemberDataModel extends AbstractMemberType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+//# sourceMappingURL=membertype-dm.d.ts.map

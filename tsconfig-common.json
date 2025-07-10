@@ -1,71 +1,13 @@
 {
+  "extends": "@tsconfig/node20/tsconfig.json",
   "compilerOptions": {
-    // "module": "Node16",
-    // "lib": ["es2023", "dom"],
-    // "target": "es2022",
-    // "declaration": true,
-    // ?? "experimentalDecorators": true,
-    // "esModuleInterop": true,
-    // "noImplicitAny": false,
-    // "noUnusedLocals": true,
-    // ?? "removeComments": false,
-    // "sourceMap": false,
-    // "strictNullChecks": true,
+    /* Visit https://aka.ms/tsconfig to read more about this file */
+    /* https://www.npmjs.com/package/@tsconfig/node20 */
 
-    /* Emit */
-    "target": "ES2020",
-    "lib": ["ESNext"],
-    "declaration": true,
-    // These two options will be selectively overridden in each project.
-    // Utility libraries will have source maps on, but plugins will not.
-    "declarationMap": false,
-    "sourceMap": true,
-    "jsx": "react-native",
-    "importHelpers": true,
-    "noEmitHelpers": true,
-    // Will be overridden in client projects
-    "module": "NodeNext",
+    "declaration": true,                              /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
+    "declarationMap": true,                           /* Create sourcemaps for d.ts files. */
+    "sourceMap": true,                                /* Create source map files for emitted JavaScript files. */
 
-    // // Avoid accidentally using this config to build
-    // !! "noEmit": true,
-
-    /* Strict Type-Checking Options */
-    "allowUnreachableCode": false,
-
-    // Too hard to turn on
-    "exactOptionalPropertyTypes": false,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitOverride": true,
-    "noImplicitReturns": true,
-
-    // `process.env` is usually accessed as property
-    "noPropertyAccessFromIndexSignature": false,
-    "noUncheckedIndexedAccess": true,
-
-    /* strict family */
-    "strict": true,
-    "alwaysStrict": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "strictBindCallApply": true,
-    "strictFunctionTypes": true,
-    "strictNullChecks": true,
-    "strictPropertyInitialization": true,
-    "useUnknownInCatchVariables": true,
-
-    /* Handled by ESLint */
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "importsNotUsedAsValues": "remove",
-
-    /* Module Resolution */
-    "moduleResolution": "NodeNext",
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "allowJs": true,
-    "skipLibCheck": true // @types/webpack and webpack/types.d.ts are not the same thing
+    "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
   }
 }

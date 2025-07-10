@@ -20,3 +20,4 @@ export declare class DocusaurusGenerator {
     copyFiles(): Promise<void>;
     copyImageFiles(): Promise<void>;
 }
+//# sourceMappingURL=generator.d.ts.map

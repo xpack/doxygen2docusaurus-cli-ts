@@ -42,3 +42,4 @@ export declare class File extends CompoundBase {
     hasAnyContent(): boolean;
     renderToLines(frontMatter: FrontMatter): string[];
 }
+//# sourceMappingURL=files-and-folders-vm.d.ts.map

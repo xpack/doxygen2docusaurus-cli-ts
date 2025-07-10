@@ -21,9 +21,9 @@ import { TocListDataModel } from './tableofcontentstype-dm.js';
 // However, for consistency reasons, for objects like XXXonly perhaps it is
 // better to use objects,
 export class AbstractStringType extends AbstractDataModelBase {
+    text = '';
     constructor(xml, element, elementName) {
         super(elementName);
-        this.text = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -46,6 +46,8 @@ export class AbstractStringType extends AbstractDataModelBase {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDescriptionType extends AbstractDataModelBase {
+    // Optional elements.
+    title; // Only one.
     // Any sequence of them.
     // children: Array<string | ParaDataModel | InternalDataModel | Sect1DataModel> = []
     constructor(xml, element, elementName) {
@@ -93,6 +95,10 @@ export class AbstractDescriptionType extends AbstractDataModelBase {
 // <xsd:attribute name="filename" type="xsd:string" use="optional"/>
 // </xsd:complexType>
 export class AbstractListingTypeBase extends AbstractDataModelBase {
+    // Optional elements.
+    codelines;
+    // Optional attributes.
+    filename;
 }
 export class AbstractListingType extends AbstractListingTypeBase {
     constructor(xml, element, elementName) {
@@ -172,6 +178,13 @@ export class MemberProgramListingDataModel extends AbstractListingTypeBase {
 // <xsd:attribute name="external" type="DoxBool" />
 // </xsd:complexType>
 export class AbstractCodeLineType extends AbstractDataModelBase {
+    // Optional elements.
+    highlights;
+    // Optional attributes.
+    lineno;
+    refid;
+    refkind;
+    external;
     constructor(xml, element, elementName) {
         super(elementName);
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -228,12 +241,12 @@ export class CodeLineDataModel extends AbstractCodeLineType {
     }
 }
 export class AbstractHighlightType extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | SpDataModel | RefTextDataModel> = []
+    // Mandatory attributes.
+    classs = '';
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        // children: Array<string | SpDataModel | RefTextDataModel> = []
-        // Mandatory attributes.
-        this.classs = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -284,9 +297,11 @@ export class HighlightDataModel extends AbstractHighlightType {
 // <xsd:attribute name="value" type="xsd:integer" use="optional"/>
 // </xsd:complexType>
 export class AbstractSpType extends AbstractDataModelBase {
+    text = '';
+    // Optional attributes.
+    value;
     constructor(xml, element, elementName) {
         super(elementName);
-        this.text = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -329,6 +344,11 @@ export class SpDataModel extends AbstractSpType {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 export class AbstractDocSectType extends AbstractDataModelBase {
+    title;
+    // Any sequence of them.
+    // children: Array<string | ParaDataModel | InternalS1DataModel | Sect2DataModel> = []
+    // Optional attribute.
+    id;
 }
 export class AbstractDocSect1Type extends AbstractDocSectType {
     constructor(xml, element, elementName) {
@@ -2860,6 +2880,7 @@ export class AbstractDocMarkupType extends AbstractDataModelBase {
     }
 }
 export class SubstringDocMarkupType extends AbstractDocMarkupType {
+    substring;
     constructor(xml, element, elementName, substring) {
         super(xml, element, elementName);
         this.substring = substring;
@@ -4368,11 +4389,11 @@ export class RsquoDocMarkupDataModel extends SubstringDocMarkupType {
 //   <xsd:attribute name="url" type="xsd:string" />
 // </xsd:complexType>
 export class AbstractDocURLLink extends AbstractDataModelBase {
+    // children: Array<string | DocTitleCmdGroup> = []
+    // Mandatory attributes.
+    url = '';
     constructor(xml, element, elementName) {
         super(elementName);
-        // children: Array<string | DocTitleCmdGroup> = []
-        // Mandatory attributes.
-        this.url = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -4416,11 +4437,11 @@ export class UlinkDataModel extends AbstractDocURLLink {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 export class AbstractDocAnchorType extends AbstractDataModelBase {
+    // children: string[] = []
+    // Mandatory attributes.
+    id = '';
     constructor(xml, element, elementName) {
         super(elementName);
-        // children: string[] = []
-        // Mandatory attributes.
-        this.id = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -4468,12 +4489,12 @@ export class AnchorDataModel extends AbstractDocAnchorType {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 export class AbstractDocFormulaType extends AbstractDataModelBase {
+    // Mandatory elements.
+    text = ''; // The name of the reference, passed as element text.
+    // Mandatory attributes.
+    id = '';
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory elements.
-        this.text = ''; // The name of the reference, passed as element text.
-        // Mandatory attributes.
-        this.id = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -4513,11 +4534,11 @@ export class FormulaDataModel extends AbstractDocFormulaType {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDocIndexEntryType extends AbstractDataModelBase {
+    // Mandatory elements.
+    primaryie = '';
+    secondaryie = '';
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory elements.
-        this.primaryie = '';
-        this.secondaryie = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -4574,12 +4595,13 @@ export class IndexEntryDataModel extends AbstractDocIndexEntryType {
 //   </xsd:restriction>
 // </xsd:simpleType>
 export class AbstractDocListType extends AbstractDataModelBase {
+    // Mandatory elements.
+    listItems = [];
+    // Optional attributes.
+    type = '';
+    start;
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory elements.
-        this.listItems = [];
-        // Optional attributes.
-        this.type = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -4629,6 +4651,11 @@ export class AbstractDocListType extends AbstractDataModelBase {
 //   <xsd:attribute name="value" type="xsd:integer" use="optional"/>
 // </xsd:complexType>
 export class AbstractDocListItemType extends AbstractDataModelBase {
+    // Optional elements.
+    paras;
+    // Optional attributes.
+    override;
+    value;
     constructor(xml, element, elementName) {
         super(elementName);
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -4691,12 +4718,14 @@ export class ListItemDataModel extends AbstractDocListItemType {
 //   <xsd:attribute name="kind" type="DoxSimpleSectKind" />
 // </xsd:complexType>
 export class AbstractDocSimpleSectType extends AbstractDataModelBase {
+    // Optional elements.
+    title; // Only one.
+    // Any sequence of them.
+    // children: Array<string | ParaDataModel> = []
+    // Mandatory attributes.
+    kind = '';
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        // children: Array<string | ParaDataModel> = []
-        // Mandatory attributes.
-        this.kind = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -4760,13 +4789,15 @@ export class AbstractDocSimpleSectType extends AbstractDataModelBase {
 //   <xsd:attribute name="external" type="xsd:string" />
 // </xsd:complexType>
 export class AbstractDocRefTextType extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | DocTitleCmdGroup> = []
+    // Mandatory attributes.
+    refid = '';
+    kindref = ''; // DoxRefKind
+    // Optional attributes.
+    external;
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        // children: Array<string | DocTitleCmdGroup> = []
-        // Mandatory attributes.
-        this.refid = '';
-        this.kindref = ''; // DoxRefKind
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -4823,13 +4854,15 @@ export class RefDataModel extends AbstractDocRefTextType {
 //   <xsd:attribute name="width" type="xsd:string" /> // WARNING: optional
 // </xsd:complexType>
 export class AbstractDocTableType extends AbstractDataModelBase {
+    caption = undefined;
+    rows = undefined;
+    // Mandatory attributes.
+    rowsCount = NaN;
+    colsCount = NaN;
+    // Optional
+    width;
     constructor(xml, element, elementName) {
         super(elementName);
-        this.caption = undefined;
-        this.rows = undefined;
-        // Mandatory attributes.
-        this.rowsCount = NaN;
-        this.colsCount = NaN;
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -4897,6 +4930,8 @@ export class DocTableDataModel extends AbstractDocTableType {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDocRowType extends AbstractDataModelBase {
+    // Optional elements.
+    entries;
     constructor(xml, element, elementName) {
         super(elementName);
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -4949,10 +4984,18 @@ export class DocRowDataModel extends AbstractDocRowType {
 //   <xsd:anyAttribute processContents="skip"/>
 // </xsd:complexType>
 export class AbstractDocEntryType extends AbstractDataModelBase {
+    // Optional elements.
+    paras;
+    // Mandatory attributes.
+    thead = false;
+    colspan;
+    rowspan;
+    align;
+    valign;
+    width;
+    classs;
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory attributes.
-        this.thead = false;
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -5028,12 +5071,12 @@ export class DocEntryDataModel extends AbstractDocEntryType {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 export class AbstractDocCaptionType extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | DocTitleCmdGroup> = []
+    // Mandatory attributes.
+    id = '';
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        // children: Array<string | DocTitleCmdGroup> = []
-        // Mandatory attributes.
-        this.id = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -5085,12 +5128,12 @@ export class DocCaptionDataModel extends AbstractDocCaptionType {
 //   <xsd:attribute name="level" type="range_1_6" />
 // </xsd:complexType>
 export class AbstractDocHeadingType extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | DocTitleCmdGroup> = []
+    // Mandatory attributes.
+    level = NaN;
     constructor(xml, element, elementName) {
         super(elementName);
-        // Any sequence of them.
-        // children: Array<string | DocTitleCmdGroup> = []
-        // Mandatory attributes.
-        this.level = NaN;
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -5150,6 +5193,16 @@ export class HeadingDataModel extends AbstractDocHeadingType {
 //   </xsd:restriction>
 // </xsd:simpleType>
 export class AbstractDocImageType extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | DocTitleCmdGroup> = []
+    // Optional attributes.
+    type;
+    name;
+    width;
+    height;
+    alt;
+    inline;
+    caption;
     constructor(xml, element, elementName) {
         super(elementName);
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -5261,10 +5314,12 @@ export class ImageDataModel extends AbstractDocImageType {
 //   <xsd:attribute name="kind" type="DoxParamListKind" />
 // </xsd:complexType>
 export class AbstractDocParamListType extends AbstractDataModelBase {
+    // Optional elements.
+    parameterItems;
+    // Mandatory attributes.
+    kind = '';
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory attributes.
-        this.kind = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -5316,6 +5371,10 @@ export class ParameterListDataModel extends AbstractDocParamListType {
 //   </xsd:sequence>
 // </xsd:complexType>
 export class AbstractDocParamListItem extends AbstractDataModelBase {
+    // Mandatory elements.
+    parameterDescription;
+    // Optional elements.
+    parameterNameList;
     constructor(xml, element, elementName) {
         super(elementName);
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -5449,6 +5508,10 @@ export class ParameterTypeDataModel extends AbstractDocParamType {
 //   <xsd:attribute name="direction" type="DoxParamDir" use="optional" />
 // </xsd:complexType>
 export class AbstractDocParamName extends AbstractDataModelBase {
+    // Any sequence of them.
+    // children: Array<string | RefTextDataModel> = []
+    // Optional attributes.
+    direction;
     constructor(xml, element, elementName) {
         super(elementName);
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -5502,10 +5565,13 @@ export class ParameterNameDataModel extends AbstractDocParamName {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 export class AbstractDocXRefSectType extends AbstractDataModelBase {
+    // Mandatory elements.
+    xreftitle;
+    xrefdescription;
+    // Mandatory attributes.
+    id = '';
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory attributes.
-        this.id = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))ect(element))
         // ------------------------------------------------------------------------
         // Process elements.
@@ -5627,10 +5693,10 @@ export class AbstractDocEmptyType extends AbstractDataModelBase {
 //   <xsd:attribute name="unicode" type="xsd:string"/>
 // </xsd:complexType>
 export class AbstractEmojiType extends AbstractDataModelBase {
+    name = '';
+    unicode = '';
     constructor(xml, element, elementName) {
         super(elementName);
-        this.name = '';
-        this.unicode = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.

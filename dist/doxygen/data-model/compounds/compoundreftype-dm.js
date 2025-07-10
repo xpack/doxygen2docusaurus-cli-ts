@@ -23,13 +23,15 @@ import { AbstractDataModelBase } from '../types.js';
 //   </xsd:simpleContent>
 // </xsd:complexType>
 export class AbstractCompoundRefType extends AbstractDataModelBase {
+    // Mandatory elements.
+    text = ''; // Passed as element text.
+    // Mandatory attributes.
+    prot = '';
+    virt = '';
+    // Optional attributes.
+    refid;
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory elements.
-        this.text = ''; // Passed as element text.
-        // Mandatory attributes.
-        this.prot = '';
-        this.virt = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.

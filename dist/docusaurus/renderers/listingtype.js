@@ -81,28 +81,26 @@ function renderCodeLinesToString(workspace, element, type, showAnchor) {
 // Optimise this to directly generate plain html, to save the compiler/bundler
 // a lot of efforts, since the file references are very large.
 export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
-    constructor() {
-        super(...arguments);
-        this.knownClasses = {
-            normal: 'doxyHighlight',
-            charliteral: 'doxyHighlightCharLiteral',
-            comment: 'doxyHighlightComment',
-            preprocessor: 'doxyHighlightPreprocessor',
-            keyword: 'doxyHighlightKeyword',
-            keywordtype: 'doxyHighlightKeywordType',
-            keywordflow: 'doxyHighlightKeywordFlow',
-            token: 'doxyHighlightToken',
-            stringliteral: 'doxyHighlightStringLiteral',
-            vhdlchar: 'doxyHighlightVhdlChar',
-            vhdlkeyword: 'doxyHighlightVhdlKeyword',
-            vhdllogic: 'doxyHighlightVhdlLogic',
-        };
-    }
+    knownClasses = {
+        normal: 'doxyHighlight',
+        charliteral: 'doxyHighlightCharLiteral',
+        comment: 'doxyHighlightComment',
+        preprocessor: 'doxyHighlightPreprocessor',
+        keyword: 'doxyHighlightKeyword',
+        keywordtype: 'doxyHighlightKeywordType',
+        keywordflow: 'doxyHighlightKeywordFlow',
+        token: 'doxyHighlightToken',
+        stringliteral: 'doxyHighlightStringLiteral',
+        vhdlchar: 'doxyHighlightVhdlChar',
+        vhdlkeyword: 'doxyHighlightVhdlKeyword',
+        vhdllogic: 'doxyHighlightVhdlLogic',
+    };
     renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         assert(element instanceof HighlightDataModel);
         // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         let spanClass = this.knownClasses[element.classs];
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (spanClass === undefined) {
             console.error(util.inspect(element, { compact: false, depth: 999 }));
             console.error(element.classs, 'not implemented yet in', this.constructor.name);

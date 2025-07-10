@@ -21,21 +21,61 @@ import { EnumValueDataModel } from './enumvaluetype-dm.js';
 import { ReimplementDataModel, ReimplementedByDataModel, } from './reimplementtype-dm.js';
 import { ReferenceDataModel, ReferencedByDataModel, } from './referencetype-dm.js';
 export class AbstractMemberBaseType extends AbstractDataModelBase {
-    constructor() {
-        super(...arguments);
-        // Mandatory elements.
-        this.name = '';
-        this.kind = '';
-    }
+    // Mandatory elements.
+    name = '';
+    kind = '';
 }
 export class AbstractMemberDefType extends AbstractMemberBaseType {
+    // Mandatory elements.
+    // name: string = '' (in parent)
+    location;
+    // Mandatory attributes.
+    // kind: DoxMemberKind | '' = '' (in parent)
+    id = '';
+    prot = '';
+    staticc;
+    // Optional elements.
+    templateparamlist;
+    type;
+    definition;
+    argsstring;
+    qualifiedName;
+    // read?: string | undefined
+    // write?: string | undefined
+    bitfield;
+    reimplements;
+    reimplementedBys;
+    // qualifier?: string[] | undefined
+    params;
+    enumvalues;
+    // requiresclause?: LinkedTextType | undefined
+    initializer;
+    // exceptions?: LinkedTextType | undefined
+    briefDescription;
+    detailedDescription;
+    inbodyDescription;
+    references;
+    referencedBy;
+    // Optional attributes.
+    extern;
+    strong;
+    constt;
+    explicit;
+    inline;
+    refqual;
+    virt;
+    volatile;
+    mutable;
+    noexcept;
+    noexceptexpression;
+    nodiscard;
+    constexpr;
+    consteval;
+    constinit;
+    final;
     // TODO: add more...
     constructor(xml, element, elementName) {
         super(elementName);
-        // Mandatory attributes.
-        // kind: DoxMemberKind | '' = '' (in parent)
-        this.id = '';
-        this.prot = '';
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
