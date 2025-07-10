@@ -13,7 +13,10 @@ export declare class DoxygenXmlParser {
     parse({ folderPath }: {
         folderPath: string;
     }): Promise<DataModel>;
-    parseAndProcessFile(indexCompound: IndexCompoundDataModel): Promise<void>;
+    parseDoxygenIndex(): Promise<void>;
+    processCompoundDefs(indexCompound: IndexCompoundDataModel, parsedDoxygenElements: XmlElement[]): void;
+    processMemberdefs(): void;
+    parseDoxyfile(): Promise<void>;
     parseFile({ fileName }: {
         fileName: string;
     }): Promise<any>;
