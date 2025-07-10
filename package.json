@@ -1,29 +1,13 @@
 {
-  "name": "@xpack/docusaurus-plugin-doxygen",
-  "version": "0.4.0",
-  "description": "A Docusaurus plugin to integrate Doxygen into a Docusaurus project.",
+  "name": "@xpack/doxygen2docusaurus",
+  "version": "1.0.0",
+  "description": "A CLI application to convert Doxygen XMLs into Docusaurus docs.",
   "type": "module",
   "exports": {
-    ".": "./dist/index.js",
-    "./components/CodeLine": "./src/components/CodeLine/index.js",
-    "./components/CollapsibleTreeTable": "./src/components/CollapsibleTreeTable/index.js",
-    "./components/DoxygenPage": "./src/components/DoxygenPage/index.js",
-    "./components/EnumerationList": "./src/components/EnumerationList/index.js",
-    "./components/EnumerationListItem": "./src/components/EnumerationListItem/index.js",
-    "./components/IncludesList": "./src/components/IncludesList/index.js",
-    "./components/IncludesListItem": "./src/components/IncludesListItem/index.js",
-    "./components/MemberDefinition": "./src/components/MemberDefinition/index.js",
-    "./components/MembersIndex": "./src/components/MembersIndex/index.js",
-    "./components/MembersIndexItem": "./src/components/MembersIndexItem/index.js",
-    "./components/ParametersList": "./src/components/ParametersList/index.js",
-    "./components/ParametersListItem": "./src/components/ParametersListItem/index.js",
-    "./components/ProgramListing": "./src/components/ProgramListing/index.js",
-    "./components/Reference": "./src/components/Reference/index.js",
-    "./components/TreeTable": "./src/components/TreeTable/index.js",
-    "./components/TreeTableRow": "./src/components/TreeTableRow/index.js",
-    "./components/SectionDefinition": "./src/components/SectionDefinition/index.js",
-    "./components/SectionUser": "./src/components/SectionUser/index.js",
-    "./components/XrefSect": "./src/components/XrefSect/index.js"
+    ".": "./dist/index.js"
+  },
+  "bin": {
+    "doxygen2docusaurus": "./bin/doxygen2docusaurus.js"
   },
   "files": [
     "dist/",
@@ -33,15 +17,15 @@
   "keywords": [
     "docusaurus",
     "doxygen",
-    "plugin"
+    "cli"
   ],
-  "homepage": "https://github.com/xpack/docusaurus-plugin-doxygen#readme",
+  "homepage": "https://github.com/xpack/doxygen2docusaurus#readme",
   "bugs": {
-    "url": "https://github.com/xpack/docusaurus-plugin-doxygen/issues"
+    "url": "https://github.com/xpack/doxygen2docusaurus/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xpack/docusaurus-plugin-doxygen.git"
+    "url": "git+https://github.com/xpack/doxygen2docusaurus.git"
   },
   "license": "MIT",
   "author": {
@@ -51,8 +35,9 @@
   },
   "scripts": {
     "compile-watch": "tsc --build --verbose --watch src",
-    "fix": "ts-standard --fix src",
     "compile": "tsc --build --verbose src",
+    "prettier": "prettier src --write",
+    "lint": "eslint --fix",
     "npm-install": "npm install",
     "npm-link": "npm link",
     "npm-link-deps": "echo none",
@@ -64,43 +49,32 @@
     "npm-version-minor": "npm version minor",
     "postversion": "git push origin --all && git push origin --tags",
     "git-log": "git log --pretty='%cd * %h %s' --date=short",
-    "lint": "ts-standard src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "fast-xml-parser": "^5.0.9"
+    "commander": "^14.0.0",
+    "fast-xml-parser": "^5.2.5"
   },
   "devDependencies": {
-    "@docusaurus/types": "^3.7.0",
-    "@types/node": "^22.13.13",
+    "@types/node": "^24.0.10",
     "del-cli": "^6.0.0",
-    "react-markdown": "^10.1.0",
+    "eslint": "^9.30.1",
+    "eslint-config-love": "^121.0.0",
+    "prettier": "3.6.2",
     "ts-node": "^10.9.2",
-    "ts-standard": "^12.0.2",
-    "typescript": "^5.8.2"
-  },
-  "eslintConfig": {
-    "rules": {
-      "max-len": [
-        "error",
-        80,
-        {
-          "ignoreUrls": true
-        }
-      ]
-    }
-  },
-  "ts-standard": {
-    "ignore": [
-      "dist",
-      "src/**/*.js"
-    ]
+    "typescript": "^5.8.3"
   },
   "topConfig": {
-    "descriptiveName": "Docusaurus plug-in to render Doxygen pages",
-    "permalinkName": "docusaurus-plugin-doxygen"
+    "descriptiveName": "CLI application to convert Doxygen XMLs into Docusaurus docs",
+    "permalinkName": "doxygen2docusaurus"
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
   },
   "engines": {
-    "node": " >=18.0.0"
+    "node": " >=20.0.0"
   }
 }

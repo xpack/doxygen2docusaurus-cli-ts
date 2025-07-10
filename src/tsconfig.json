@@ -7,9 +7,6 @@
     "esModuleInterop": true,
     "strictNullChecks": true
   },
-  "exclude": [
-  ],
-  "include": [
-    "**/*.ts"
-  ]
+  "exclude": [],
+  "include": ["**/*.ts"]
 }

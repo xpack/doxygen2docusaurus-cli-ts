@@ -1,1 +1,1 @@
-export { default } from './plugin/docusaurus.js';
+export * from './cli/main.js';
