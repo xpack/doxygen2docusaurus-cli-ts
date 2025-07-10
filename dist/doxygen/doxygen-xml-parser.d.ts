@@ -10,9 +10,7 @@ export declare class DoxygenXmlParser {
     constructor({ options }: {
         options: CliOptions;
     });
-    parse({ folderPath }: {
-        folderPath: string;
-    }): Promise<DataModel>;
+    parse(): Promise<DataModel>;
     parseDoxygenIndex(): Promise<void>;
     processCompoundDefs(indexCompound: IndexCompoundDataModel, parsedDoxygenElements: XmlElement[]): void;
     processMemberdefs(): void;

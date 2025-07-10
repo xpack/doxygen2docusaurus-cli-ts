@@ -36,7 +36,7 @@ export class DoxygenXmlParser {
             trimValues: false,
         });
     }
-    async parse({ folderPath }) {
+    async parse() {
         // The parser is configured to preserve the original, non-trimmed content
         // and the original elements order. The downsize
         // Some details are from the schematic documentation:

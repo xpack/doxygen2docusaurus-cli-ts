@@ -49,7 +49,7 @@ export class DoxygenXmlParser {
     })
   }
 
-  async parse({ folderPath }: { folderPath: string }): Promise<DataModel> {
+  async parse(): Promise<DataModel> {
     // The parser is configured to preserve the original, non-trimmed content
     // and the original elements order. The downsize
     // Some details are from the schematic documentation:

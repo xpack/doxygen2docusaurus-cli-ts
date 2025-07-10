@@ -112,9 +112,7 @@ export async function parseDoxygen({ options, }) {
     const xmlParser = new DoxygenXmlParser({
         options,
     });
-    const dataModel = await xmlParser.parse({
-        folderPath: options.doxygenXmlInputFolderPath,
-    });
+    const dataModel = await xmlParser.parse();
     // console.log('doxygenData:', util.inspect(doxygenData))
     return dataModel;
 }
