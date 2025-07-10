@@ -28,7 +28,6 @@ export declare class Workspace extends Renderers {
     descriptionTocLists: DescriptionTocList[];
     descriptionTocItemsById: Map<string, DescriptionTocItem>;
     descriptionAnchorsById: Map<string, DescriptionAnchor>;
-    currentCompound: CompoundBase | undefined;
     writtenMdFilesCounter: number;
     writtenHtmlFilesCounter: number;
     mainPage: Page | undefined;

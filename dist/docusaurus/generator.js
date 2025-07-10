@@ -245,7 +245,6 @@ export class DocusaurusGenerator {
                     continue;
                 }
             }
-            this.workspace.currentCompound = compound;
             const permalink = compound.relativePermalink;
             const { docusaurusId } = compound;
             if (permalink === undefined || docusaurusId === undefined) {
@@ -279,7 +278,6 @@ export class DocusaurusGenerator {
                 title: compound.pageTitle,
                 pagePermalink,
             });
-            this.workspace.currentCompound = undefined;
         }
     }
     // --------------------------------------------------------------------------

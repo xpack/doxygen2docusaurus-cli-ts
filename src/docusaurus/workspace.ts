@@ -158,8 +158,6 @@ export class Workspace extends Renderers {
 
   descriptionAnchorsById = new Map<string, DescriptionAnchor>()
 
-  currentCompound: CompoundBase | undefined
-
   writtenMdFilesCounter = 0
   writtenHtmlFilesCounter = 0
 
@@ -378,14 +376,12 @@ export class Workspace extends Renderers {
     for (const [collectionName, collection] of this.viewModel) {
       // console.log('createHierarchies:', collectionName)
       for (const [, compound] of collection.collectionCompoundsById) {
-        this.currentCompound = compound
         if (this.options.debug) {
           console.log(compound.kind, compound.compoundName)
         }
         compound.initializeLate()
       }
     }
-    this.currentCompound = undefined
   }
 
   // --------------------------------------------------------------------------
@@ -438,7 +434,6 @@ export class Workspace extends Renderers {
       if (this.options.debug) {
         console.log(compound.kind, compound.compoundName, compound.id)
       }
-      this.currentCompound = compound
       for (const section of compound.sections) {
         section.initializeLate()
 
@@ -455,7 +450,6 @@ export class Workspace extends Renderers {
         }
       }
     }
-    this.currentCompound = undefined
   }
 
   // --------------------------------------------------------------------------
