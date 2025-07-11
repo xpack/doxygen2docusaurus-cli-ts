@@ -20,6 +20,7 @@ import { RefTextDataModel } from './reftexttype-dm.js'
 import { VariableListDataModel } from './docvarlistentrytype-dm.js'
 import { DocBookOnlyDataModel, HtmlOnlyDataModel } from './compounddef-dm.js'
 import { TocListDataModel } from './tableofcontentstype-dm.js'
+import { isUrl } from '../../../docusaurus/utils.js'
 
 // ----------------------------------------------------------------------------
 
@@ -6293,7 +6294,7 @@ export abstract class AbstractDocImageType extends AbstractDataModelBase {
     // ------------------------------------------------------------------------
 
     // Keep track of html images, to copy them to the output.
-    if (this.type === 'html') {
+    if (this.type === 'html' && this.name !== undefined && !isUrl(this.name)) {
       if (xml.dataModel.images === undefined) {
         xml.dataModel.images = []
       }

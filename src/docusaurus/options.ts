@@ -62,7 +62,7 @@ export interface CliOptions {
   apiFolderPath: string
 
   /** Site base URL, like / or /xxx/. */
-  baseUrl?: string
+  baseUrl: string
 
   /** Relative to the web home, like `docs`, without initial/final slashes. */
   docsBaseUrl: string

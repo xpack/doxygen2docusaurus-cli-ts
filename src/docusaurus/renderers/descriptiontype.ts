@@ -45,6 +45,7 @@ import {
 import { AbstractRefTextType } from '../../doxygen/data-model/compounds/reftexttype-dm.js'
 import {
   getPermalinkAnchor,
+  isUrl,
   stripLeadingAndTrailingNewLines,
 } from '../utils.js'
 import {
@@ -746,13 +747,18 @@ export class ImageStringRenderer extends ElementStringRendererBase {
       text += '<figure>\n'
       text += '  <img'
       if (element.name !== undefined) {
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
-        let name = this.workspace.options.baseUrl
-        name += this.workspace.options.imagesFolderPath
-        name += '/'
-        name += element.name
-
-        text += ` src="${name}"`
+        const { name } = element
+        let imageSrc = ''
+        if (isUrl(name)) {
+          imageSrc = name
+        } else {
+          // eslint-disable-next-line @typescript-eslint/prefer-destructuring
+          imageSrc = this.workspace.options.baseUrl
+          imageSrc += this.workspace.options.imagesFolderPath
+          imageSrc += '/'
+          imageSrc += name
+        }
+        text += ` src="${imageSrc}"`
       }
       if (element.width !== undefined) {
         text += ` width="${element.width}"`

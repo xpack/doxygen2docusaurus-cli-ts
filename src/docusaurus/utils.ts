@@ -180,4 +180,14 @@ export function joinWithLast(
   return arr.slice(0, -1).join(delimiter) + lastDelimiter + arr[arr.length - 1]
 }
 
+export function isUrl(str: string): boolean {
+  try {
+    // eslint-disable-next-line no-new
+    new URL(str)
+    return true
+  } catch {
+    return false
+  }
+}
+
 // ----------------------------------------------------------------------------
