@@ -1053,8 +1053,9 @@ export class Member extends MemberBase {
           )
         }
 
-        assert(this.enumHtmlLines !== undefined)
-        childrenLines.push(...this.enumHtmlLines)
+        if (this.enumHtmlLines !== undefined) {
+          childrenLines.push(...this.enumHtmlLines)
+        }
 
         if (this.detailedDescriptionHtmlLines !== undefined) {
           childrenLines.push(
