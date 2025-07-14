@@ -136,7 +136,7 @@ export class FilesAndFolders extends CollectionBase {
       }
     }
 
-     
+
     for (const [fileId, file] of this.compoundFilesById) {
       if (file.parent === undefined) {
         if (this.workspace.options.debug) {
@@ -905,9 +905,12 @@ export class File extends CompoundBase {
       return true
     }
 
-    // if (!super.hasAnyContent()) {
-    //   console.log('has no content', this)
+    // if (this.collection.workspace.options.renderProgramListing) {
+    //   if (this.programListing !== undefined) {
+    //     return true
+    //   }
     // }
+
     return super.hasAnyContent()
   }
 
