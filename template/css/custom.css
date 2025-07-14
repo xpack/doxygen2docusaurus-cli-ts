@@ -564,6 +564,7 @@ div.doxySectionDef h3::before {
 /* --- Begin TreeTableRow/styles.module.css --- */
 
 table.doxyTreeTable {
+  display: table;
   table-layout: fixed;
   width: 100%;
 }
