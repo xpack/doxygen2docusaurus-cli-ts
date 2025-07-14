@@ -258,13 +258,6 @@ export class Namespaces extends CollectionBase {
       keywords: ['doxygen', 'namespaces', 'reference'],
     }
 
-    const lines: string[] = []
-
-    lines.push('The namespaces used by this project are:')
-
-    lines.push('')
-    lines.push('<table class="doxyTreeTable">')
-
     const contentLines: string[] = []
 
     for (const namespace of this.topLevelNamespaces) {
@@ -275,10 +268,11 @@ export class Namespaces extends CollectionBase {
       return
     }
 
-    lines.push(...contentLines)
+    const lines: string[] = []
 
-    lines.push('')
-    lines.push('</table>')
+    lines.push('The namespaces used by this project are:')
+
+    lines.push(...this.workspace.renderTreeTableToHtmlLines({ contentLines }))
 
     if (this.workspace.options.verbose) {
       console.log(`Writing namespaces index file ${filePath}...`)

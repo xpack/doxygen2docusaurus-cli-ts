@@ -416,13 +416,6 @@ export class FilesAndFolders extends CollectionBase {
       keywords: ['doxygen', 'files', 'folders', 'reference'],
     }
 
-    const lines: string[] = []
-
-    lines.push('The files & folders that contributed content to this site are:')
-
-    lines.push('')
-    lines.push('<table class="doxyTreeTable">')
-
     const contentLines: string[] = []
     for (const folder of this.topLevelFolders) {
       contentLines.push(...this.generateIndexMdFileRecursively(folder, 0))
@@ -436,10 +429,11 @@ export class FilesAndFolders extends CollectionBase {
       return
     }
 
-    lines.push(...contentLines)
+    const lines: string[] = []
 
-    lines.push('')
-    lines.push('</table>')
+    lines.push('The files & folders that contributed content to this site are:')
+
+    lines.push(...this.workspace.renderTreeTableToHtmlLines({ contentLines }))
 
     if (this.workspace.options.verbose) {
       console.log(`Writing files index file ${filePath}...`)

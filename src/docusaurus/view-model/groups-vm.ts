@@ -211,21 +211,22 @@ export class Groups extends CollectionBase {
       return []
     }
 
+    const contentLines: string[] = []
+    for (const group of this.topLevelGroups) {
+      contentLines.push(...this.generateIndexMdFileRecursively(group, 1))
+    }
+
+    if (contentLines.length === 0) {
+      return
+    }
+
     const lines: string[] = []
 
     const projectBrief =
       this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF')
     lines.push(`${projectBrief} topics with brief descriptions are:`)
 
-    lines.push('')
-    lines.push('<table class="doxyTreeTable">')
-
-    for (const group of this.topLevelGroups) {
-      lines.push(...this.generateIndexMdFileRecursively(group, 1))
-    }
-
-    lines.push('')
-    lines.push('</table>')
+    lines.push(...this.workspace.renderTreeTableToHtmlLines({ contentLines }))
 
     return lines
   }

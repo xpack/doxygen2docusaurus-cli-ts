@@ -271,22 +271,22 @@ export class Classes extends CollectionBase {
       keywords: ['doxygen', 'classes', 'reference'],
     }
 
+    const contentLines: string[] = []
+    for (const classs of this.topLevelClasses) {
+      contentLines.push(...this.generateIndexMdFileRecursively(classs, 1))
+    }
+
+    if (contentLines.length === 0) {
+      return
+    }
+
     const lines: string[] = []
 
     lines.push(
       'The classes, structs, union and interfaces used by this project are:'
     )
 
-    lines.push('')
-    lines.push('<table class="doxyTreeTable">')
-    lines.push('<colgroup><col style="width:40%"><col></colgroup>')
-
-    for (const classs of this.topLevelClasses) {
-      lines.push(...this.generateIndexMdFileRecursively(classs, 1))
-    }
-
-    lines.push('')
-    lines.push('</table>')
+    lines.push(...this.workspace.renderTreeTableToHtmlLines({ contentLines }))
 
     if (this.workspace.options.verbose) {
       console.log(`Writing classes index file ${filePath}...`)
