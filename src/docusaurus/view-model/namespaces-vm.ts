@@ -85,9 +85,12 @@ export class Namespaces extends CollectionBase {
     }
 
     // Create the top level namespace list.
-    for (const [, namespace] of this.collectionCompoundsById) {
+    for (const [namespaceId, namespace] of this.collectionCompoundsById) {
       if (namespace.parent === undefined) {
         if (namespace instanceof Namespace) {
+          if (this.workspace.options.debug) {
+            console.log('topLevelNamespaces:', namespaceId)
+          }
           this.topLevelNamespaces.push(namespace)
         }
       }

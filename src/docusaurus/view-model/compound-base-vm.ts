@@ -385,10 +385,6 @@ export abstract class CompoundBase {
       this.includes = includes
     }
 
-    if (this.id === 'group__micro-test-plus-c-api') {
-      console.log(this)
-    }
-
     for (const innerKey of Object.keys(compoundDef)) {
       if (
         innerKey.startsWith('inner') &&

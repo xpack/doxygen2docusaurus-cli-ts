@@ -350,9 +350,6 @@ export class Group extends CompoundBase {
       'html'
     )}`
 
-    if (this.id === 'group__micro-test-plus-c-api') {
-      console.log(this)
-    }
     // const hasIndices =
     //   this.hasSect1InDescription &&
     //   (this.hasInnerIndices() || this.hasSections())

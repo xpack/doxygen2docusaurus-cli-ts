@@ -302,7 +302,8 @@ export class Workspace extends Renderers {
           'compoundDefDataModel',
           compoundDefDataModel.kind,
           'not implemented yet in',
-          this.constructor.name
+          this.constructor.name,
+          'createVieModelObjects'
         )
       }
     }

@@ -89,19 +89,24 @@ export class Classes extends CollectionBase {
 
           classs.baseClasses.push(baseClass)
         } else {
+          if (this.workspace.options.debug) {
+            console.log(baseClass)
+          }
           console.warn(baseClassId, 'ignored as base class for', classId)
         }
       }
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+     
     for (const [classId, classs] of this.collectionCompoundsById) {
       if (!(classs instanceof Class)) {
         continue
       }
 
       if (classs.baseClassIds.size === 0) {
-        // console.log('topLevelClassId:', classId)
+        if (this.workspace.options.debug) {
+          console.log('topLevelClassId:', classId)
+        }
         this.topLevelClasses.push(classs)
       }
     }

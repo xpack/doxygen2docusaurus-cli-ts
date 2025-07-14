@@ -136,10 +136,12 @@ export class FilesAndFolders extends CollectionBase {
       }
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+     
     for (const [fileId, file] of this.compoundFilesById) {
       if (file.parent === undefined) {
-        // console.log('topFileId:', fileId)
+        if (this.workspace.options.debug) {
+          console.log('topFileId:', fileId)
+        }
         this.topLevelFiles.push(file)
       }
 
@@ -758,7 +760,6 @@ export class Folder extends CompoundBase {
       // console.log('has content children', this)
       return true
     }
-
     // if (!super.hasAnyContent()) {
     //   console.log('has no content', this)
     // }
