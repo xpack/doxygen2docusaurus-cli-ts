@@ -214,7 +214,7 @@ export class Workspace extends Renderers {
                 // console.error(
                 //   util.inspect(compoundDefDataModel, { compact: false, depth: 999 })
                 // )
-                console.error('compoundDefDataModel', compoundDefDataModel.kind, 'not implemented yet in', this.constructor.name);
+                console.error('compoundDefDataModel', compoundDefDataModel.kind, 'not implemented yet in', this.constructor.name, 'createVieModelObjects');
             }
         }
         if (this.options.verbose) {

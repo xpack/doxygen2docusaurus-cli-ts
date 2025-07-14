@@ -160,16 +160,17 @@ export class Groups extends CollectionBase {
         if (this.topLevelGroups.length === 0) {
             return [];
         }
+        const contentLines = [];
+        for (const group of this.topLevelGroups) {
+            contentLines.push(...this.generateIndexMdFileRecursively(group, 1));
+        }
+        if (contentLines.length === 0) {
+            return;
+        }
         const lines = [];
         const projectBrief = this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF');
         lines.push(`${projectBrief} topics with brief descriptions are:`);
-        lines.push('');
-        lines.push('<table class="doxyTreeTable">');
-        for (const group of this.topLevelGroups) {
-            lines.push(...this.generateIndexMdFileRecursively(group, 1));
-        }
-        lines.push('');
-        lines.push('</table>');
+        lines.push(...this.workspace.renderTreeTableToHtmlLines({ contentLines }));
         return lines;
     }
     // private generateTableRowRecursively (group: Group): collapsibleTableRow {
@@ -252,9 +253,6 @@ export class Group extends CompoundBase {
     renderToLines(frontMatter) {
         const lines = [];
         const descriptionTodo = `@defgroup ${this.collection.workspace.renderString(this.compoundName, 'html')}`;
-        if (this.id === 'group__micro-test-plus-c-api') {
-            console.log(this);
-        }
         // const hasIndices =
         //   this.hasSect1InDescription &&
         //   (this.hasInnerIndices() || this.hasSections())

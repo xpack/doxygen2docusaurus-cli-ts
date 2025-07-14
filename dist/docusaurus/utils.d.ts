@@ -12,4 +12,5 @@ export declare function stripLeadingAndTrailingNewLines(text: string): string;
 export declare function getPermalinkAnchor(refid: string): string;
 export declare function folderExists(folderPath: string): Promise<boolean>;
 export declare function joinWithLast(arr: string[], delimiter: string, lastDelimiter: string): string;
+export declare function isUrl(str: string): boolean;
 //# sourceMappingURL=utils.d.ts.map

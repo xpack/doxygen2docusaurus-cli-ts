@@ -267,6 +267,17 @@ export class Renderers {
         return lines;
     }
     // eslint-disable-next-line @typescript-eslint/class-methods-use-this
+    renderTreeTableToHtmlLines({ contentLines, }) {
+        const lines = [];
+        lines.push('');
+        lines.push('<table class="doxyTreeTable">');
+        lines.push('<colgroup><col style="width:40%"><col></colgroup>');
+        lines.push(...contentLines);
+        lines.push('');
+        lines.push('</table>');
+        return lines;
+    }
+    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     renderTreeTableRowToHtmlLines({ itemIconLetter, itemIconClass, itemLabel, itemLink, depth, description, }) {
         const lines = [];
         lines.push('<tr class="doxyTreeItem">');

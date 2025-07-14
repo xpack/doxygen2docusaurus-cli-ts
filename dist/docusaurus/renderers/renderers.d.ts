@@ -18,6 +18,9 @@ export declare class Renderers {
         name: string;
         childrenLines?: string[] | undefined;
     }): string[];
+    renderTreeTableToHtmlLines({ contentLines, }: {
+        contentLines: string[];
+    }): string[];
     renderTreeTableRowToHtmlLines({ itemIconLetter, itemIconClass, itemLabel, itemLink, depth, description, }: {
         itemIconLetter?: string;
         itemIconClass?: string;

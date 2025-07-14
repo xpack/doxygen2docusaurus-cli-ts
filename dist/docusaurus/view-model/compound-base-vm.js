@@ -275,9 +275,6 @@ export class CompoundBase {
         if (includes !== undefined) {
             this.includes = includes;
         }
-        if (this.id === 'group__micro-test-plus-c-api') {
-            console.log(this);
-        }
         for (const innerKey of Object.keys(compoundDef)) {
             if (innerKey.startsWith('inner') &&
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access

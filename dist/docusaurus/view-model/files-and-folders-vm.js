@@ -91,10 +91,11 @@ export class FilesAndFolders extends CollectionBase {
                 this.topLevelFolders.push(folder);
             }
         }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         for (const [fileId, file] of this.compoundFilesById) {
             if (file.parent === undefined) {
-                // console.log('topFileId:', fileId)
+                if (this.workspace.options.debug) {
+                    console.log('topFileId:', fileId);
+                }
                 this.topLevelFiles.push(file);
             }
             const { locationFilePath } = file;
@@ -328,10 +329,6 @@ export class FilesAndFolders extends CollectionBase {
             custom_edit_url: null,
             keywords: ['doxygen', 'files', 'folders', 'reference'],
         };
-        const lines = [];
-        lines.push('The files & folders that contributed content to this site are:');
-        lines.push('');
-        lines.push('<table class="doxyTreeTable">');
         const contentLines = [];
         for (const folder of this.topLevelFolders) {
             contentLines.push(...this.generateIndexMdFileRecursively(folder, 0));
@@ -342,9 +339,9 @@ export class FilesAndFolders extends CollectionBase {
         if (contentLines.length === 0) {
             return;
         }
-        lines.push(...contentLines);
-        lines.push('');
-        lines.push('</table>');
+        const lines = [];
+        lines.push('The files & folders that contributed content to this site are:');
+        lines.push(...this.workspace.renderTreeTableToHtmlLines({ contentLines }));
         if (this.workspace.options.verbose) {
             console.log(`Writing files index file ${filePath}...`);
         }
@@ -708,8 +705,10 @@ export class File extends CompoundBase {
             // console.log('has content includes', this)
             return true;
         }
-        // if (!super.hasAnyContent()) {
-        //   console.log('has no content', this)
+        // if (this.collection.workspace.options.renderProgramListing) {
+        //   if (this.programListing !== undefined) {
+        //     return true
+        //   }
         // }
         return super.hasAnyContent();
     }

@@ -784,8 +784,9 @@ export class Member extends MemberBase {
                         briefDescriptionHtmlString: this.briefDescriptionHtmlString,
                     }));
                 }
-                assert(this.enumHtmlLines !== undefined);
-                childrenLines.push(...this.enumHtmlLines);
+                if (this.enumHtmlLines !== undefined) {
+                    childrenLines.push(...this.enumHtmlLines);
+                }
                 if (this.detailedDescriptionHtmlLines !== undefined) {
                     childrenLines.push(...this.section.compound.renderDetailedDescriptionToHtmlLines({
                         detailedDescriptionHtmlLines: this.detailedDescriptionHtmlLines,

@@ -155,5 +155,15 @@ export function joinWithLast(arr, delimiter, lastDelimiter) {
         return arr[0];
     return arr.slice(0, -1).join(delimiter) + lastDelimiter + arr[arr.length - 1];
 }
+export function isUrl(str) {
+    try {
+        // eslint-disable-next-line no-new
+        new URL(str);
+        return true;
+    }
+    catch {
+        return false;
+    }
+}
 // ----------------------------------------------------------------------------
 //# sourceMappingURL=utils.js.map

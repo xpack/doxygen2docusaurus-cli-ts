@@ -56,9 +56,12 @@ export class Namespaces extends CollectionBase {
             }
         }
         // Create the top level namespace list.
-        for (const [, namespace] of this.collectionCompoundsById) {
+        for (const [namespaceId, namespace] of this.collectionCompoundsById) {
             if (namespace.parent === undefined) {
                 if (namespace instanceof Namespace) {
+                    if (this.workspace.options.debug) {
+                        console.log('topLevelNamespaces:', namespaceId);
+                    }
                     this.topLevelNamespaces.push(namespace);
                 }
             }
@@ -205,10 +208,6 @@ export class Namespaces extends CollectionBase {
             custom_edit_url: null,
             keywords: ['doxygen', 'namespaces', 'reference'],
         };
-        const lines = [];
-        lines.push('The namespaces used by this project are:');
-        lines.push('');
-        lines.push('<table class="doxyTreeTable">');
         const contentLines = [];
         for (const namespace of this.topLevelNamespaces) {
             contentLines.push(...this.generateIndexMdFileRecursively(namespace, 1));
@@ -216,9 +215,9 @@ export class Namespaces extends CollectionBase {
         if (contentLines.length === 0) {
             return;
         }
-        lines.push(...contentLines);
-        lines.push('');
-        lines.push('</table>');
+        const lines = [];
+        lines.push('The namespaces used by this project are:');
+        lines.push(...this.workspace.renderTreeTableToHtmlLines({ contentLines }));
         if (this.workspace.options.verbose) {
             console.log(`Writing namespaces index file ${filePath}...`);
         }

@@ -43,7 +43,7 @@ export interface CliOptions {
     /** Relative to the docs folder, like `api`, no initial/final slashes. */
     apiFolderPath: string;
     /** Site base URL, like / or /xxx/. */
-    baseUrl?: string;
+    baseUrl: string;
     /** Relative to the web home, like `docs`, without initial/final slashes. */
     docsBaseUrl: string;
     /** Relative to the docs home, like `api`, without initial/final slashes. */

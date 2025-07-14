@@ -15,7 +15,7 @@ import util from 'node:util';
 import { ElementLinesRendererBase, ElementStringRendererBase, } from './element-renderer-base.js';
 import { AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, AbstractDocImageType, AbstractDocMarkupType, AbstractDocRefTextType, AbstractDocURLLink, AbstractEmojiType, ParameterNameDataModel, ParameterTypeDataModel, HrulerDataModel, } from '../../doxygen/data-model/compounds/descriptiontype-dm.js';
 import { AbstractRefTextType } from '../../doxygen/data-model/compounds/reftexttype-dm.js';
-import { getPermalinkAnchor, stripLeadingAndTrailingNewLines, } from '../utils.js';
+import { getPermalinkAnchor, isUrl, stripLeadingAndTrailingNewLines, } from '../utils.js';
 import { AbstractDocHtmlOnlyType, LatexOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel, } from '../../doxygen/data-model/compounds/compounddef-dm.js';
 import { renderParagraphs } from '../options.js';
 import { AbstractDataModelBase } from '../../doxygen/data-model/types.js';
@@ -580,12 +580,19 @@ export class ImageStringRenderer extends ElementStringRendererBase {
             text += '<figure>\n';
             text += '  <img';
             if (element.name !== undefined) {
-                // eslint-disable-next-line @typescript-eslint/prefer-destructuring
-                let name = this.workspace.options.baseUrl;
-                name += this.workspace.options.imagesFolderPath;
-                name += '/';
-                name += element.name;
-                text += ` src="${name}"`;
+                const { name } = element;
+                let imageSrc = '';
+                if (isUrl(name)) {
+                    imageSrc = name;
+                }
+                else {
+                    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
+                    imageSrc = this.workspace.options.baseUrl;
+                    imageSrc += this.workspace.options.imagesFolderPath;
+                    imageSrc += '/';
+                    imageSrc += name;
+                }
+                text += ` src="${imageSrc}"`;
             }
             if (element.width !== undefined) {
                 text += ` width="${element.width}"`;

@@ -54,17 +54,21 @@ export class Classes extends CollectionBase {
                     classs.baseClasses.push(baseClass);
                 }
                 else {
+                    if (this.workspace.options.debug) {
+                        console.log(baseClass);
+                    }
                     console.warn(baseClassId, 'ignored as base class for', classId);
                 }
             }
         }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         for (const [classId, classs] of this.collectionCompoundsById) {
             if (!(classs instanceof Class)) {
                 continue;
             }
             if (classs.baseClassIds.size === 0) {
-                // console.log('topLevelClassId:', classId)
+                if (this.workspace.options.debug) {
+                    console.log('topLevelClassId:', classId);
+                }
                 this.topLevelClasses.push(classs);
             }
         }
@@ -212,16 +216,16 @@ export class Classes extends CollectionBase {
             custom_edit_url: null,
             keywords: ['doxygen', 'classes', 'reference'],
         };
+        const contentLines = [];
+        for (const classs of this.topLevelClasses) {
+            contentLines.push(...this.generateIndexMdFileRecursively(classs, 1));
+        }
+        if (contentLines.length === 0) {
+            return;
+        }
         const lines = [];
         lines.push('The classes, structs, union and interfaces used by this project are:');
-        lines.push('');
-        lines.push('<table class="doxyTreeTable">');
-        lines.push('<colgroup><col style="width:40%"><col></colgroup>');
-        for (const classs of this.topLevelClasses) {
-            lines.push(...this.generateIndexMdFileRecursively(classs, 1));
-        }
-        lines.push('');
-        lines.push('</table>');
+        lines.push(...this.workspace.renderTreeTableToHtmlLines({ contentLines }));
         if (this.workspace.options.verbose) {
             console.log(`Writing classes index file ${filePath}...`);
         }
