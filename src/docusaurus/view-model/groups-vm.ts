@@ -317,7 +317,10 @@ export class Group extends CompoundBase {
 
     // The group title must be short.
     const { title } = compoundDef
-    this.sidebarLabel = title ?? '???'
+    this.sidebarLabel =
+      title !== undefined && title.length > 0
+        ? title.trim().replace(/\.$/, '')
+        : '???'
 
     const { sidebarLabel } = this
     this.indexName = sidebarLabel
