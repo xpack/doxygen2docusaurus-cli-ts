@@ -442,11 +442,20 @@ export class CompoundBase {
                     }));
                 }
                 else {
+                    lines.push('');
+                    const itemType = 'class';
+                    const { text: itemName } = innerObject;
+                    lines.push(...this.collection.workspace.renderMembersIndexItemToHtmlLines({
+                        type: itemType,
+                        name: itemName,
+                        childrenLines: [],
+                    }));
                     if (this.collection.workspace.options.debug) {
                         console.warn(innerObject);
                     }
                     if (this.collection.workspace.options.verbose) {
-                        console.warn('Object not rendered in renderInnerIndicesToLines()');
+                        console.warn('Object definition not found, rendered summarily in ' +
+                            'renderInnerIndicesToLines()');
                     }
                 }
             }

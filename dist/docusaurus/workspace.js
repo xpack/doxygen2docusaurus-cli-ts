@@ -144,7 +144,7 @@ export class Workspace extends Renderers {
         const __dirname = path.dirname(fileURLToPath(import.meta.url));
         // doxygen2docusaurus
         this.projectPath = path.dirname(path.dirname(__dirname));
-        console.log(__dirname, this.projectPath);
+        // console.log(__dirname, this.projectPath)
         this.dataModel = dataModel;
         this.options = options;
         this.doxygenOptions = new DoxygenFileOptions(this.dataModel.doxyfile?.options);

@@ -47,14 +47,17 @@ export class Pages extends CollectionBase {
             collapsed: true,
             items: [],
         };
-        for (const [, page] of this.collectionCompoundsById) {
+        for (const [pageId, page] of this.collectionCompoundsById) {
             if (this.workspace.options.renderPagesAtTop &&
                 page instanceof Page &&
                 page.isTopPage()) {
                 continue;
             }
-            const { sidebarLabel: label } = page;
-            if (label === undefined) {
+            if (pageId === 'indexpage') {
+                continue;
+            }
+            const { sidebarLabel } = page;
+            if (sidebarLabel === undefined) {
                 continue;
             }
             if (page.docusaurusId === undefined) {
@@ -63,7 +66,7 @@ export class Pages extends CollectionBase {
             const id = this.workspace.sidebarBaseId + page.docusaurusId;
             const docItem = {
                 type: 'doc',
-                label,
+                label: sidebarLabel,
                 id,
             };
             pagesCategory.items.push(docItem);
@@ -74,11 +77,11 @@ export class Pages extends CollectionBase {
     }
     createTopPagesSidebarItems(sidebarCategory) {
         // Add pages to the sidebar.
+        if (!this.workspace.options.renderPagesAtTop) {
+            // Do not show pages to the top.
+            return;
+        }
         for (const [pageId, page] of this.collectionCompoundsById) {
-            if (!this.workspace.options.renderPagesAtTop) {
-                // Do not show pages to the top.
-                continue;
-            }
             // Skip special pages.
             if (pageId === 'indexpage' ||
                 !(page instanceof Page && page.isTopPage())) {

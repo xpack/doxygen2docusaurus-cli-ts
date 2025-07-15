@@ -64,7 +64,21 @@ export class Groups extends CollectionBase {
                 sidebarItems.push(item);
             }
         }
-        sidebarCategory.items.push(...sidebarItems);
+        if (this.topLevelGroups.length > 1) {
+            sidebarCategory.items.push({
+                type: 'category',
+                label: 'Topics',
+                link: {
+                    type: 'doc',
+                    id: `${this.workspace.sidebarBaseId}indices/groups/index`,
+                },
+                collapsed: true,
+                items: sidebarItems,
+            });
+        }
+        else {
+            sidebarCategory.items.push(...sidebarItems);
+        }
     }
     createSidebarItemRecursively(group) {
         if (group.sidebarLabel === undefined) {
@@ -100,62 +114,56 @@ export class Groups extends CollectionBase {
     }
     // --------------------------------------------------------------------------
     createMenuItems() {
-        const menuItems = [];
-        for (const topLevelGroup of this.topLevelGroups) {
+        if (this.topLevelGroups.length > 1) {
+            const menuItem = {
+                label: 'Topics',
+                to: `${this.workspace.menuBaseUrl}groups/`,
+            };
+            return [menuItem];
+        }
+        else {
+            // eslint-disable-next-line @typescript-eslint/prefer-destructuring
+            const topLevelGroup = this.topLevelGroups[0];
             const menuItem = {
                 label: `${topLevelGroup.sidebarLabel}`,
                 to: `${this.workspace.menuBaseUrl}${topLevelGroup.relativePermalink}/`,
             };
-            menuItems.push(menuItem);
+            return [menuItem];
         }
-        return menuItems;
     }
     // --------------------------------------------------------------------------
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this, @typescript-eslint/no-empty-function
-    async generateIndexDotMdFile() { }
-    // if (useCollapsibleTable) {
-    //   const jsonFilePath = `${outputFolderPath}${jsonFileName}`
-    //   const tableData: collapsibleTableRow[] = []
-    //   for (const group of this.topLevelGroups) {
-    //     tableData.push(this.generateTableRowRecursively(group))
-    //   }
-    //   const jsonString = JSON.stringify(tableData, null, 2)
-    //   console.log(`Writing groups index table file ${jsonFilePath}...`)
-    //   await fs.mkdir(path.dirname(jsonFilePath), { recursive: true })
-    //   const fileHandle = await fs.open(jsonFilePath, 'ax')
-    //   await fileHandle.write(jsonString)
-    //   await fileHandle.close()
-    // }
-    // const lines: string[] = []
-    // lines.push(`<p>${projectBrief} topics with brief descriptions are:</p>`)
-    // lines.push('')
-    // if (useCollapsibleTable) {
-    //   lines.push('<CollapsibleTreeTable rows={tableData} />')
-    // } else {
-    //   lines.push('<table class="doxyTreeTable">')
-    //   for (const group of this.topLevelGroups) {
-    //     lines.push(...this.generateIndexMdFileRecursively(group, 1))
-    //   }
-    //   lines.push('')
-    //   lines.push('</table>')
-    // }
-    // console.log(`Writing groups index file ${filePath}...`)
-    // if (useCollapsibleTable) {
-    //   await this.workspace.writeMdFile({
-    //     filePath,
-    //     frontMatter,
-    //     frontMatterCodeLines: [
-    //       `import tableData from './${jsonFileName}'`
-    //     ],
-    //     bodyLines: lines
-    //   })
-    // } else {
-    //   await this.workspace.writeMdFile({
-    //     filePath,
-    //     frontMatter,
-    //     bodyLines: lines
-    //   })
-    // }
+    async generateIndexDotMdFile() {
+        if (this.topLevelGroups.length <= 1) {
+            return;
+        }
+        const filePath = this.workspace.outputFolderPath + 'indices/groups/index.md';
+        const permalink = 'groups';
+        const frontMatter = {
+            title: 'The Topics Reference',
+            slug: `${this.workspace.slugBaseUrl}${permalink}`,
+            // description: '...', // TODO
+            custom_edit_url: null,
+            keywords: ['doxygen', 'topics', 'reference'],
+        };
+        const contentLines = [];
+        for (const group of this.topLevelGroups) {
+            contentLines.push(...this.generateIndexMdFileRecursively(group, 1));
+        }
+        if (contentLines.length === 0) {
+            return;
+        }
+        const lines = [];
+        lines.push('The topics defined in this project are:');
+        lines.push(...this.workspace.renderTreeTableToHtmlLines({ contentLines }));
+        if (this.workspace.options.verbose) {
+            console.log(`Writing groups index file ${filePath}...`);
+        }
+        await this.workspace.writeMdFile({
+            filePath,
+            frontMatter,
+            bodyLines: lines,
+        });
+    }
     generateTopicsTable() {
         if (this.topLevelGroups.length === 0) {
             return [];
@@ -165,7 +173,7 @@ export class Groups extends CollectionBase {
             contentLines.push(...this.generateIndexMdFileRecursively(group, 1));
         }
         if (contentLines.length === 0) {
-            return;
+            return [];
         }
         const lines = [];
         const projectBrief = this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF');
@@ -233,7 +241,10 @@ export class Group extends CompoundBase {
         }
         // The group title must be short.
         const { title } = compoundDef;
-        this.sidebarLabel = title ?? '???';
+        this.sidebarLabel =
+            title !== undefined && title.length > 0
+                ? title.trim().replace(/\.$/, '')
+                : '???';
         const { sidebarLabel } = this;
         this.indexName = sidebarLabel;
         this.pageTitle = `The ${this.sidebarLabel} Reference`;
