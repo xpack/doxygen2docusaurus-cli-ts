@@ -71,7 +71,7 @@ export class Pages extends CollectionBase {
       items: [],
     }
 
-    for (const [, page] of this.collectionCompoundsById) {
+    for (const [pageId, page] of this.collectionCompoundsById) {
       if (
         this.workspace.options.renderPagesAtTop &&
         page instanceof Page &&
@@ -80,8 +80,12 @@ export class Pages extends CollectionBase {
         continue
       }
 
-      const { sidebarLabel: label } = page
-      if (label === undefined) {
+      if (pageId === 'indexpage') {
+        continue
+      }
+
+      const { sidebarLabel } = page
+      if (sidebarLabel === undefined) {
         continue
       }
 
@@ -92,7 +96,7 @@ export class Pages extends CollectionBase {
       const id = this.workspace.sidebarBaseId + page.docusaurusId
       const docItem: SidebarDocItem = {
         type: 'doc',
-        label,
+        label: sidebarLabel,
         id,
       }
 
@@ -106,12 +110,12 @@ export class Pages extends CollectionBase {
 
   createTopPagesSidebarItems(sidebarCategory: SidebarCategory): void {
     // Add pages to the sidebar.
+    if (!this.workspace.options.renderPagesAtTop) {
+      // Do not show pages to the top.
+      return
+    }
 
     for (const [pageId, page] of this.collectionCompoundsById) {
-      if (!this.workspace.options.renderPagesAtTop) {
-        // Do not show pages to the top.
-        continue
-      }
       // Skip special pages.
       if (
         pageId === 'indexpage' ||
