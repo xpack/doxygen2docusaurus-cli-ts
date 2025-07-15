@@ -204,7 +204,7 @@ export class Workspace extends Renderers {
 
     // doxygen2docusaurus
     this.projectPath = path.dirname(path.dirname(__dirname))
-    console.log(__dirname, this.projectPath)
+    // console.log(__dirname, this.projectPath)
 
     this.dataModel = dataModel
     this.options = options
