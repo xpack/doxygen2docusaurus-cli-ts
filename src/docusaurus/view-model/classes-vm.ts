@@ -97,7 +97,6 @@ export class Classes extends CollectionBase {
       }
     }
 
-     
     for (const [classId, classs] of this.collectionCompoundsById) {
       if (!(classs instanceof Class)) {
         continue

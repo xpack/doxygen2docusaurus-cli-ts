@@ -136,7 +136,6 @@ export class FilesAndFolders extends CollectionBase {
       }
     }
 
-
     for (const [fileId, file] of this.compoundFilesById) {
       if (file.parent === undefined) {
         if (this.workspace.options.debug) {
