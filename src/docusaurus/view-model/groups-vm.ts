@@ -92,7 +92,20 @@ export class Groups extends CollectionBase {
       }
     }
 
-    sidebarCategory.items.push(...sidebarItems)
+    if (this.topLevelGroups.length > 1) {
+      sidebarCategory.items.push({
+        type: 'category',
+        label: 'Topics',
+        link: {
+          type: 'doc',
+          id: `${this.workspace.sidebarBaseId}indices/groups/index`,
+        },
+        collapsed: true,
+        items: sidebarItems,
+      })
+    } else {
+      sidebarCategory.items.push(...sidebarItems)
+    }
   }
 
   private createSidebarItemRecursively(group: Group): SidebarItem | undefined {
@@ -133,78 +146,67 @@ export class Groups extends CollectionBase {
   // --------------------------------------------------------------------------
 
   override createMenuItems(): MenuItem[] {
-    const menuItems: MenuItem[] = []
-    for (const topLevelGroup of this.topLevelGroups) {
+    if (this.topLevelGroups.length > 1) {
+      const menuItem: MenuItem = {
+        label: 'Topics',
+        to: `${this.workspace.menuBaseUrl}groups/`,
+      }
+      return [menuItem]
+    } else {
+      // eslint-disable-next-line @typescript-eslint/prefer-destructuring
+      const topLevelGroup = this.topLevelGroups[0]
       const menuItem: MenuItem = {
         label: `${topLevelGroup.sidebarLabel}`,
         to: `${this.workspace.menuBaseUrl}${topLevelGroup.relativePermalink}/`,
       }
-      menuItems.push(menuItem)
+      return [menuItem]
     }
-
-    return menuItems
   }
 
   // --------------------------------------------------------------------------
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this, @typescript-eslint/no-empty-function
-  override async generateIndexDotMdFile(): Promise<void> {}
+  override async generateIndexDotMdFile(): Promise<void> {
+    if (this.topLevelGroups.length <= 1) {
+      return
+    }
 
-  // if (useCollapsibleTable) {
-  //   const jsonFilePath = `${outputFolderPath}${jsonFileName}`
+    const filePath = this.workspace.outputFolderPath + 'indices/groups/index.md'
+    const permalink = 'groups'
 
-  //   const tableData: collapsibleTableRow[] = []
+    const frontMatter: FrontMatter = {
+      title: 'The Topics Reference',
+      slug: `${this.workspace.slugBaseUrl}${permalink}`,
+      // description: '...', // TODO
+      custom_edit_url: null,
+      keywords: ['doxygen', 'topics', 'reference'],
+    }
 
-  //   for (const group of this.topLevelGroups) {
-  //     tableData.push(this.generateTableRowRecursively(group))
-  //   }
-  //   const jsonString = JSON.stringify(tableData, null, 2)
+    const contentLines: string[] = []
 
-  //   console.log(`Writing groups index table file ${jsonFilePath}...`)
+    for (const group of this.topLevelGroups) {
+      contentLines.push(...this.generateIndexMdFileRecursively(group, 1))
+    }
 
-  //   await fs.mkdir(path.dirname(jsonFilePath), { recursive: true })
-  //   const fileHandle = await fs.open(jsonFilePath, 'ax')
+    if (contentLines.length === 0) {
+      return
+    }
 
-  //   await fileHandle.write(jsonString)
-  //   await fileHandle.close()
-  // }
+    const lines: string[] = []
 
-  // const lines: string[] = []
+    lines.push('The topics defined in this project are:')
 
-  // lines.push(`<p>${projectBrief} topics with brief descriptions are:</p>`)
+    lines.push(...this.workspace.renderTreeTableToHtmlLines({ contentLines }))
 
-  // lines.push('')
-  // if (useCollapsibleTable) {
-  //   lines.push('<CollapsibleTreeTable rows={tableData} />')
-  // } else {
-  //   lines.push('<table class="doxyTreeTable">')
+    if (this.workspace.options.verbose) {
+      console.log(`Writing groups index file ${filePath}...`)
+    }
 
-  //   for (const group of this.topLevelGroups) {
-  //     lines.push(...this.generateIndexMdFileRecursively(group, 1))
-  //   }
-
-  //   lines.push('')
-  //   lines.push('</table>')
-  // }
-
-  // console.log(`Writing groups index file ${filePath}...`)
-
-  // if (useCollapsibleTable) {
-  //   await this.workspace.writeMdFile({
-  //     filePath,
-  //     frontMatter,
-  //     frontMatterCodeLines: [
-  //       `import tableData from './${jsonFileName}'`
-  //     ],
-  //     bodyLines: lines
-  //   })
-  // } else {
-  //   await this.workspace.writeMdFile({
-  //     filePath,
-  //     frontMatter,
-  //     bodyLines: lines
-  //   })
-  // }
+    await this.workspace.writeMdFile({
+      filePath,
+      frontMatter,
+      bodyLines: lines,
+    })
+  }
 
   generateTopicsTable(): string[] {
     if (this.topLevelGroups.length === 0) {
@@ -217,7 +219,7 @@ export class Groups extends CollectionBase {
     }
 
     if (contentLines.length === 0) {
-      return
+      return []
     }
 
     const lines: string[] = []
