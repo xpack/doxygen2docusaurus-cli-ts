@@ -18,29 +18,16 @@
     "doxygen",
     "cli"
   ],
-  "homepage": "https://xpack.github.io/doxygen2docusaurus-ts",
-  "bugs": {
-    "url": "https://github.com/xpack/doxygen2docusaurus-ts/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/xpack/doxygen2docusaurus-ts.git"
-  },
-  "license": "MIT",
-  "author": {
-    "name": "Liviu Ionescu",
-    "email": "ilg@livius.net",
-    "url": "https://github.com/ilg-ul"
-  },
   "scripts": {
+    "generate-top-commons": "bash node_modules/@xpack/npm-packages-helper/maintenance-scripts/generate-top-commons.sh --xpack",
     "compile-watch": "tsc --build --verbose --watch src",
     "compile": "tsc --build --verbose src",
     "prettier": "prettier src --write",
-    "lint": "eslint --fix",
+    "fix": "eslint --fix",
+    "dev-cycle": "npm run fix && npm run compile && npm run test",
     "npm-install": "npm install",
+    "npm-link-helpers": "npm link @xpack/npm-packages-helper @xpack/docusaurus-template-liquid",
     "npm-link": "npm link",
-    "npm-link-deps": "echo none",
-    "npm-link-helpers": "echo none",
     "npm-outdated": "npm outdated",
     "npm-update": "npm update",
     "npm-pack": "npm pack",
@@ -48,22 +35,45 @@
     "npm-version-minor": "npm version minor",
     "postversion": "git push origin --all && git push origin --tags",
     "git-log": "git log --pretty='%cd * %h %s' --date=short",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint",
+    "prepare": "npm run prettier && npm run lint && npm run compile",
+    "test": "npm run test-coverage",
+    "prepublishOnly": "npm run lint && npm run test",
+    "postpublish": "git push origin --follow-tags",
+    "clean": "del-cli cjs 'tests/**/cjs' 'src/**/*.d.ts' 'src/**/*.d.ts.map' 'src/**/*.js' 'src/**/*.js.map' 'tests/**/*.d.ts' 'tests/**/*.d.ts.map' 'tests/**/*.js' 'tests/**/*.js.map' '**/tsconfig.tsbuildinfo' .nyc_output coverage",
+    "deep-clean": "npm run clean && rm -rf node_modules package-lock.json",
+    "dumpconf": "env | sort | uniq",
+    "show-versions": "echo $(which node) $(node --version) && echo $(which npm) $(npm --version)"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xpack/doxygen2docusaurus-ts.git"
+  },
+  "author": {
+    "name": "Liviu Ionescu",
+    "email": "ilg@livius.net",
+    "url": "https://github.com/ilg-ul"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xpack/doxygen2docusaurus-ts/issues"
+  },
+  "homepage": "https://xpack.github.io/doxygen2docusaurus-ts/",
   "dependencies": {
     "commander": "^14.0.0",
     "fast-xml-parser": "^5.2.5"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.6",
-    "@types/node": "^24.0.10",
+    "@types/node": "^24.0.14",
     "del-cli": "^6.0.0",
-    "eslint": "^9.30.1",
-    "eslint-config-love": "^121.0.0",
     "json": "^11.0.0",
-    "liquidjs": "^10.21.1",
-    "prettier": "3.6.2",
+    "liquidjs": "^10.19.1",
     "ts-node": "^10.9.2",
+    "eslint": "^9.31.0",
+    "eslint-config-love": "^121.0.0",
+    "prettier": "3.6.2",
+    "typedoc": "^0.28.7",
     "typescript": "^5.8.3"
   },
   "topConfig": {
