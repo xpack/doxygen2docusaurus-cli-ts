@@ -1,16 +1,3 @@
-/*
- * This file is part of the xPack project (http://xpack.github.io).
- * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
- *
- * Permission to use, copy, modify, and/or distribute this software
- * for any purpose is hereby granted, under the terms of the MIT license.
- *
- * If a copy of the license was not distributed with this file, it can
- * be obtained from https://opensource.org/licenses/MIT.
- */
-// ----------------------------------------------------------------------------
-/* eslint-disable max-lines */
-// import * as util from 'node:util'
 import assert from 'node:assert';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
@@ -18,22 +5,16 @@ import { flattenPath, sanitizeHierarchicalPath } from '../utils.js';
 import { FileTreeEntry } from './tree-entries-vm.js';
 import { Class } from './classes-vm.js';
 import { Namespace } from './namespaces-vm.js';
-// ----------------------------------------------------------------------------
 export class FilesAndFolders extends CollectionBase {
-    // compoundsById: Map<string, File | Folder>
     compoundFoldersById;
     compoundFilesById;
     topLevelFolders = [];
     topLevelFiles = [];
-    // folders: Folders
-    // --------------------------------------------------------------------------
     constructor(workspace) {
         super(workspace);
-        // this.compoundsById = new Map()
         this.compoundFoldersById = new Map();
         this.compoundFilesById = new Map();
     }
-    // --------------------------------------------------------------------------
     addChild(compoundDef) {
         if (compoundDef.kind === 'file') {
             const file = new File(this, compoundDef);
@@ -51,11 +32,7 @@ export class FilesAndFolders extends CollectionBase {
             throw new Error(`kind ${compoundDef.kind} not implemented in ${this.constructor.name}`);
         }
     }
-    // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
     createCompoundsHierarchies() {
-        // Recreate files and folders hierarchies.
-        // console.log(this.compoundsById.size)
         for (const [, folder] of this.compoundFoldersById) {
             for (const childFolderId of folder.childrenFolderIds) {
                 const childFolder = this.compoundFoldersById.get(childFolderId);
@@ -102,7 +79,6 @@ export class FilesAndFolders extends CollectionBase {
             assert(locationFilePath !== undefined);
             this.workspace.filesByPath.set(locationFilePath, file);
             if (this.workspace.options.debug) {
-                // console.log('filesByPath.set', path, file)
                 console.log('filesByPath.set', locationFilePath);
             }
         }
@@ -113,20 +89,11 @@ export class FilesAndFolders extends CollectionBase {
                     parentPath = `${this.getRelativePathRecursively(folder.parent)}/`;
                 }
             }
-            // console.log(folder.compoundName)
             folder.relativePath = `${parentPath}${folder.compoundName}`;
             const sanitizedPath = sanitizeHierarchicalPath(folder.relativePath);
             folder.relativePermalink = `folders/${sanitizedPath}`;
             folder.docusaurusId = `folders/${flattenPath(sanitizedPath)}`;
-            // console.log('0', folder.id)
-            // console.log('1', folder.compoundName)
-            // console.log('2', folder.relativePermalink)
-            // console.log('3', folder.docusaurusId)
-            // console.log('4', folder.sidebarLabel)
-            // console.log('5', folder.indexName)
-            // console.log()
         }
-        // Cannot be done in each object, since it needs the hierarchy.
         for (const [, file] of this.compoundFilesById) {
             let parentPath = '';
             if (file.parent !== undefined) {
@@ -134,18 +101,10 @@ export class FilesAndFolders extends CollectionBase {
                     parentPath = `${this.getRelativePathRecursively(file.parent)}/`;
                 }
             }
-            // console.log(file.compoundName)
             file.relativePath = `${parentPath}${file.compoundName}`;
             const sanitizedPath = sanitizeHierarchicalPath(file.relativePath);
             file.relativePermalink = `files/${sanitizedPath}`;
             file.docusaurusId = `files/${flattenPath(sanitizedPath)}`;
-            // console.log('0', file.id)
-            // console.log('1', file.compoundName)
-            // console.log('2', file.relativePermalink)
-            // console.log('3', file.docusaurusId)
-            // console.log('4', file.sidebarLabel)
-            // console.log('5', file.indexName)
-            // console.log()
         }
     }
     getRelativePathRecursively(folder) {
@@ -157,15 +116,11 @@ export class FilesAndFolders extends CollectionBase {
         }
         return `${parentPath}${folder.compoundName}`;
     }
-    // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
     addSidebarItems(sidebarCategory) {
         const indicesSet = this.workspace.indicesMaps.get('files');
         if (indicesSet === undefined) {
             return;
         }
-        // Add folders & files to the sidebar.
-        // Top level folders & files are added below a Files category
         const filesCategory = {
             type: 'category',
             label: 'Files',
@@ -186,7 +141,6 @@ export class FilesAndFolders extends CollectionBase {
         for (const folder of this.topLevelFolders) {
             const item = this.createFolderSidebarItemRecursively(folder);
             if (item !== undefined) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
                 ;
                 filesCategory.items[0].items.push(item);
             }
@@ -194,7 +148,6 @@ export class FilesAndFolders extends CollectionBase {
         for (const file of this.topLevelFiles) {
             const item = this.createFileSidebarItem(file);
             if (item !== undefined) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
                 ;
                 filesCategory.items[0].items.push(item);
             }
@@ -307,7 +260,6 @@ export class FilesAndFolders extends CollectionBase {
         };
         return docItem;
     }
-    // --------------------------------------------------------------------------
     createMenuItems() {
         const menuItem = {
             label: 'Files',
@@ -315,7 +267,6 @@ export class FilesAndFolders extends CollectionBase {
         };
         return [menuItem];
     }
-    // --------------------------------------------------------------------------
     async generateIndexDotMdFile() {
         if (this.topLevelFolders.length === 0 && this.topLevelFiles.length === 0) {
             return;
@@ -325,7 +276,6 @@ export class FilesAndFolders extends CollectionBase {
         const frontMatter = {
             title: 'The Files & Folders Reference',
             slug: `${this.workspace.slugBaseUrl}${permalink}`,
-            // description: '...', // TODO
             custom_edit_url: null,
             keywords: ['doxygen', 'files', 'folders', 'reference'],
         };
@@ -352,12 +302,10 @@ export class FilesAndFolders extends CollectionBase {
         });
     }
     generateIndexMdFileRecursively(folder, depth) {
-        // console.log(util.inspect(folder, { compact: false, depth: 999 }))
         const lines = [];
         const label = this.workspace.renderString(folder.compoundName, 'html');
         const permalink = this.workspace.getPagePermalink(folder.id);
         if (permalink === undefined || permalink.length === 0) {
-            // console.log(namespace)
             return [];
         }
         let description = '';
@@ -388,7 +336,6 @@ export class FilesAndFolders extends CollectionBase {
         return lines;
     }
     generateFileIndexMd(file, depth) {
-        // console.log(util.inspect(file, { compact: false, depth: 999 }))
         const lines = [];
         const label = this.workspace.renderString(file.compoundName, 'html');
         const permalink = this.workspace.getPagePermalink(file.id, true);
@@ -422,7 +369,6 @@ export class FilesAndFolders extends CollectionBase {
         console.log('none');
         return false;
     }
-    // eslint-disable-next-line complexity
     async generatePerInitialsIndexMdFiles() {
         if (this.topLevelFiles.length === 0) {
             return;
@@ -433,14 +379,9 @@ export class FilesAndFolders extends CollectionBase {
                 continue;
             }
             if (compound.innerCompounds !== undefined) {
-                // console.log(
-                //   compound.indexName,
-                //   Array.from(compound.innerCompounds.keys())
-                // )
                 const classCompoundDef = compound.innerCompounds.get('innerClasses');
                 if (classCompoundDef?.innerClasses !== undefined) {
                     for (const innerClass of classCompoundDef.innerClasses) {
-                        // console.log(innerClass.refid)
                         const compoundClass = this.workspace.compoundsById.get(innerClass.refid);
                         if (compoundClass instanceof Class) {
                             const classEntry = new FileTreeEntry(compoundClass, compound);
@@ -451,7 +392,6 @@ export class FilesAndFolders extends CollectionBase {
                 const namespaceCompoundDef = compound.innerCompounds.get('innerNamespaces');
                 if (namespaceCompoundDef?.innerNamespaces !== undefined) {
                     for (const innerNamespace of namespaceCompoundDef.innerNamespaces) {
-                        // console.log(innerNamespace.refid)
                         const compoundNamespace = this.workspace.compoundsById.get(innerNamespace.refid);
                         if (compoundNamespace instanceof Namespace) {
                             const namespaceEntry = new FileTreeEntry(compoundNamespace, compound);
@@ -473,7 +413,6 @@ export class FilesAndFolders extends CollectionBase {
                 }
             }
         }
-        // ------------------------------------------------------------------------
         await this.generateIndexFile({
             group: 'files',
             fileKind: 'all',
@@ -548,28 +487,20 @@ export class FilesAndFolders extends CollectionBase {
         });
     }
 }
-// ----------------------------------------------------------------------------
 export class Folder extends CompoundBase {
     childrenFileIds = [];
     childrenFolderIds = [];
     relativePath = '';
-    // --------------------------------------------------------------------------
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
-        // console.log('folder:', util.inspect(compoundDef))
-        // console.log('folder:', compoundDef.compoundName)
         if (Array.isArray(compoundDef.innerDirs)) {
             for (const ref of compoundDef.innerDirs) {
-                // console.log(
-                //   'component', compoundDef.id, 'has child folder', ref.refid
-                // )
                 this.childrenIds.push(ref.refid);
                 this.childrenFolderIds.push(ref.refid);
             }
         }
         if (Array.isArray(compoundDef.innerFiles)) {
             for (const ref of compoundDef.innerFiles) {
-                // console.log('component', compoundDef.id, 'has child file', ref.refid)
                 this.childrenIds.push(ref.refid);
                 this.childrenFileIds.push(ref.refid);
             }
@@ -593,21 +524,14 @@ export class Folder extends CompoundBase {
         return false;
     }
     hasAnyContent() {
-        // console.log('checking', this.compoundName)
         if (this.hasChildren()) {
-            // console.log('has content children', this)
             return true;
         }
-        // if (!super.hasAnyContent()) {
-        //   console.log('has no content', this)
-        // }
         return super.hasAnyContent();
     }
-    // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
         const lines = [];
         const descriptionTodo = `@dir ${this.collection.workspace.renderString(this.relativePath, 'html')}`;
-        // The Description header is always shown.
         const morePermalink = '#details';
         lines.push(this.renderBriefDescriptionToHtmlString({
             briefDescriptionHtmlString: this.briefDescriptionHtmlString,
@@ -630,7 +554,6 @@ export class Folder extends CompoundBase {
     }
     initializeLate() {
         super.initializeLate();
-        // console.log(this)
         if (!this.hasAnyContent()) {
             if (this.collection.workspace.options.debug) {
                 console.log(this.kind, this.compoundName, 'has no content, not shown');
@@ -641,16 +564,12 @@ export class Folder extends CompoundBase {
         }
     }
 }
-// ----------------------------------------------------------------------------
 export class File extends CompoundBase {
     relativePath = '';
     listingLineNumbers = new Set();
-    // Shortcut, use data model objects.
     programListing;
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
-        // console.log('file:', compoundDef.compoundName)
-        // The compoundName is the actual file name, without path.
         const { compoundName } = compoundDef;
         assert(compoundName.length > 0);
         this.sidebarLabel = compoundName;
@@ -661,14 +580,11 @@ export class File extends CompoundBase {
     }
     initializeLate() {
         super.initializeLate();
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const compoundDef = this._private._compoundDef;
         assert(compoundDef !== undefined);
         const { programListing } = compoundDef;
         this.programListing = programListing;
         if (this.collection.workspace.options.renderProgramListing) {
-            // Keep track of line number, since not all lines referred exist and
-            // this might result in broken links.
             if (this.programListing?.codelines !== undefined) {
                 for (const codeline of this.programListing.codelines) {
                     if (codeline.lineno !== undefined) {
@@ -677,7 +593,6 @@ export class File extends CompoundBase {
                 }
             }
         }
-        // console.log(this)
         if (!this.hasAnyContent()) {
             if (this.collection.workspace.options.debug) {
                 console.log(this.kind, this.compoundName, 'has no content, not shown');
@@ -688,35 +603,23 @@ export class File extends CompoundBase {
         }
     }
     hasAnyContent() {
-        // console.log('checking', this.compoundName)
         if (this.childrenIds.length > 0) {
-            // console.log('has content childrenIds', this)
             return true;
         }
         if (this.children.length > 0) {
-            // console.log('has content children.length', this)
             return true;
         }
         if (this.innerCompounds !== undefined) {
-            // console.log('has content innerCompounds', this)
             return true;
         }
         if (this.includes !== undefined) {
-            // console.log('has content includes', this)
             return true;
         }
-        // if (this.collection.workspace.options.renderProgramListing) {
-        //   if (this.programListing !== undefined) {
-        //     return true
-        //   }
-        // }
         return super.hasAnyContent();
     }
-    // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
         const lines = [];
         const descriptionTodo = `@file ${this.collection.workspace.renderString(this.relativePath, 'html')}`;
-        // The Description header is always shown.
         const morePermalink = '#details';
         lines.push(this.renderBriefDescriptionToHtmlString({
             briefDescriptionHtmlString: this.briefDescriptionHtmlString,
@@ -747,5 +650,4 @@ export class File extends CompoundBase {
         return lines;
     }
 }
-// ----------------------------------------------------------------------------
 //# sourceMappingURL=files-and-folders-vm.js.map

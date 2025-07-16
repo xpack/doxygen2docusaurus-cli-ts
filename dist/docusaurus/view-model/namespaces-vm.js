@@ -1,16 +1,3 @@
-/*
- * This file is part of the xPack project (http://xpack.github.io).
- * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
- *
- * Permission to use, copy, modify, and/or distribute this software
- * for any purpose is hereby granted, under the terms of the MIT license.
- *
- * If a copy of the license was not distributed with this file, it can
- * be obtained from https://opensource.org/licenses/MIT.
- */
-// ----------------------------------------------------------------------------
-/* eslint-disable max-lines */
-// import * as util from 'node:util'
 import assert from 'node:assert';
 import path from 'node:path';
 import { CompoundBase } from './compound-base-vm.js';
@@ -18,19 +5,10 @@ import { CollectionBase } from './collection-base.js';
 import { flattenPath, sanitizeAnonymousNamespace, sanitizeHierarchicalPath, } from '../utils.js';
 import { NamespaceTreeEntry } from './tree-entries-vm.js';
 import { Class } from './classes-vm.js';
-// ----------------------------------------------------------------------------
 export class Namespaces extends CollectionBase {
-    // compoundsById: Map<string, Namespace>
     topLevelNamespaces = [];
-    // --------------------------------------------------------------------------
-    // constructor (workspace: Workspace) {
-    //   super(workspace)
-    //   // this.compoundsById = new Map()
-    // }
-    // --------------------------------------------------------------------------
     addChild(compoundDef) {
         const namespace = new Namespace(this, compoundDef);
-        // Skip
         if (namespace.compoundName.length === 0) {
             if (namespace.children.length > 0) {
                 console.error('Anonymous namespace', namespace.id, ' with children?');
@@ -41,21 +19,15 @@ export class Namespaces extends CollectionBase {
         }
         return namespace;
     }
-    // --------------------------------------------------------------------------
     createCompoundsHierarchies() {
-        // Recreate namespaces hierarchies.
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         for (const [namespaceId, namespace] of this.collectionCompoundsById) {
             for (const childNamespaceId of namespace.childrenIds) {
                 const childNamespace = this.collectionCompoundsById.get(childNamespaceId);
                 assert(childNamespace !== undefined);
-                // console.log('namespaceId', childNamespaceId,'has parent',
-                // namespaceId)
                 childNamespace.parent = namespace;
                 namespace.children.push(childNamespace);
             }
         }
-        // Create the top level namespace list.
         for (const [namespaceId, namespace] of this.collectionCompoundsById) {
             if (namespace.parent === undefined) {
                 if (namespace instanceof Namespace) {
@@ -67,15 +39,11 @@ export class Namespaces extends CollectionBase {
             }
         }
     }
-    // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
     addSidebarItems(sidebarCategory) {
         const indicesSet = this.workspace.indicesMaps.get('namespaces');
         if (indicesSet === undefined) {
             return;
         }
-        // Add namespaces to the sidebar.
-        // Top level namespaces are added below a Namespaces category.
         const namespacesCategory = {
             type: 'category',
             label: 'Namespaces',
@@ -96,7 +64,6 @@ export class Namespaces extends CollectionBase {
         for (const namespace of this.topLevelNamespaces) {
             const item = this.createNamespaceItemRecursively(namespace);
             if (item !== undefined) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
                 ;
                 namespacesCategory.items[0].items.push(item);
             }
@@ -186,7 +153,6 @@ export class Namespaces extends CollectionBase {
             return categoryItem;
         }
     }
-    // --------------------------------------------------------------------------
     createMenuItems() {
         const menuItem = {
             label: 'Namespaces',
@@ -194,7 +160,6 @@ export class Namespaces extends CollectionBase {
         };
         return [menuItem];
     }
-    // --------------------------------------------------------------------------
     async generateIndexDotMdFile() {
         if (this.topLevelNamespaces.length === 0) {
             return;
@@ -204,7 +169,6 @@ export class Namespaces extends CollectionBase {
         const frontMatter = {
             title: 'The Namespaces Reference',
             slug: `${this.workspace.slugBaseUrl}${permalink}`,
-            // description: '...', // TODO
             custom_edit_url: null,
             keywords: ['doxygen', 'namespaces', 'reference'],
         };
@@ -228,15 +192,12 @@ export class Namespaces extends CollectionBase {
         });
     }
     generateIndexMdFileRecursively(namespace, depth) {
-        // console.log(util.inspect(namespace, { compact: false, depth: 999 }))
         const lines = [];
         const label = this.workspace.renderString(namespace.treeEntryName, 'html');
         const permalink = this.workspace.getPagePermalink(namespace.id);
         if (permalink === undefined || permalink.length === 0) {
-            // console.log(namespace)
             return [];
         }
-        // assert(permalink !== undefined && permalink.length > 1)
         let description = '';
         if (namespace.briefDescriptionHtmlString !== undefined &&
             namespace.briefDescriptionHtmlString.length > 0) {
@@ -259,8 +220,6 @@ export class Namespaces extends CollectionBase {
         }
         return lines;
     }
-    // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
     async generatePerInitialsIndexMdFiles() {
         if (this.topLevelNamespaces.length === 0) {
             return;
@@ -272,14 +231,10 @@ export class Namespaces extends CollectionBase {
             }
             const compoundEntry = new NamespaceTreeEntry(compound, compound);
             allUnorderedEntriesMap.set(compoundEntry.id, compoundEntry);
-            // console.log(compound.indexName)
             if (compound.innerCompounds !== undefined) {
-                // console.log(compound.indexName,
-                // Array.from(compound.innerCompounds.keys()))
                 const classCompoundDef = compound.innerCompounds.get('innerClasses');
                 if (classCompoundDef?.innerClasses !== undefined) {
                     for (const innerClass of classCompoundDef.innerClasses) {
-                        // console.log(innerClass.refid)
                         const compoundClass = this.workspace.compoundsById.get(innerClass.refid);
                         if (compoundClass instanceof Class) {
                             const classEntry = new NamespaceTreeEntry(compoundClass, compound);
@@ -301,7 +256,6 @@ export class Namespaces extends CollectionBase {
                 }
             }
         }
-        // ------------------------------------------------------------------------
         await this.generateIndexFile({
             group: 'namespaces',
             fileKind: 'all',
@@ -358,26 +312,18 @@ export class Namespaces extends CollectionBase {
             map: allUnorderedEntriesMap,
             filter: (kind) => kind === 'enumvalue',
         });
-        // ------------------------------------------------------------------------
     }
 }
-// ============================================================================
 export class Namespace extends CompoundBase {
     unqualifiedName = '???';
     isAnonymous = false;
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
-        // console.log('Namespace.constructor', util.inspect(compoundDef))
         if (Array.isArray(compoundDef.innerNamespaces)) {
             for (const ref of compoundDef.innerNamespaces) {
-                // console.log('component', compoundDef.id, 'has child', ref.refid)
                 this.childrenIds.push(ref.refid);
             }
         }
-        // Tricky case: namespace { namespace CU { ... }}
-        // id: "namespace_0d341223050020306256025223146376054302122106363020_1_1CU"
-        // compoundname: "::CU"
-        // location: "[generated]"
         if (/^namespace.*_0d\d{48}/.test(this.id)) {
             let fileName = '';
             if (compoundDef.location?.file !== undefined) {
@@ -404,10 +350,6 @@ export class Namespace extends CompoundBase {
                     this.indexName = unqualifiedName;
                 }
                 const sanitizedPath = sanitizeHierarchicalPath(this.indexName.replaceAll('::', '/'));
-                // if (compoundDef.location?.file !== undefined) {
-                //   sanitizedPath +=
-                //     `-${crypto.hash('md5', compoundDef.location?.file)}`
-                // }
                 this.pageTitle = `The \`${this.indexName}\` Namespace Reference`;
                 this.relativePermalink = `namespaces/${sanitizedPath}`;
                 this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`;
@@ -416,15 +358,11 @@ export class Namespace extends CompoundBase {
             }
         }
         else {
-            // The compoundName is the fully qualified namespace name.
-            // Keep only the last name.
             this.unqualifiedName = sanitizeAnonymousNamespace(compoundDef.compoundName.replace(/.*::/, ''));
             this.indexName = sanitizeAnonymousNamespace(this.compoundName.replace(/.*::/, ''));
             this.pageTitle = `The \`${this.unqualifiedName}\` Namespace Reference`;
             const sanitizedPath = sanitizeHierarchicalPath(sanitizeAnonymousNamespace(this.compoundName.replaceAll('::', '/')));
             if (compoundDef.compoundName.length > 0) {
-                // Skip un-named namespaces, and generated ones,
-                // since they can be duplicate.
                 this.relativePermalink = `namespaces/${sanitizedPath}`;
                 this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`;
                 const { unqualifiedName } = this;
@@ -437,17 +375,9 @@ export class Namespace extends CompoundBase {
         const { indexName } = this;
         this.treeEntryName = indexName;
         this.createSections();
-        // console.log('0 id', this.id)
-        // console.log('1 nm', this.compoundName)
-        // console.log('2 pl', this.relativePermalink)
-        // console.log('3 di', this.docusaurusId)
-        // console.log('4 sb', this.sidebarLabel)
-        // console.log('5 ix', this.indexName)
-        // console.log()
     }
     initializeLate() {
         super.initializeLate();
-        // console.log(this)
         if (!this.hasAnyContent()) {
             if (this.collection.workspace.options.debug) {
                 console.log(this.kind, this.compoundName, 'has no content, not shown');
@@ -458,36 +388,27 @@ export class Namespace extends CompoundBase {
         }
     }
     hasAnyContent() {
-        // console.log('checking', this.compoundName)
         for (const childNamespace of this.children) {
             if (childNamespace.hasAnyContent()) {
-                // console.log('has content', this)
                 return true;
             }
         }
         if (this.innerCompounds !== undefined) {
             if (this.innerCompounds.has('innerNamespaces')) {
                 if (this.innerCompounds.size > 1) {
-                    // console.log('has content innerCompounds 1', this)
                     return true;
                 }
             }
             else {
                 if (this.innerCompounds.size > 0) {
-                    // console.log('has content innerCompounds 2', this)
                     return true;
                 }
             }
         }
-        // if (!super.hasAnyContent()) {
-        //   console.log('has no content', this)
-        // }
         return super.hasAnyContent();
     }
-    // --------------------------------------------------------------------------
     renderToLines(frontMatter) {
         const lines = [];
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         const descriptionTodo = `@namespace ${workspace.renderString(this.compoundName, 'html')}`;
         const morePermalink = this.detailedDescriptionHtmlLines !== undefined ? '#details' : undefined;
@@ -524,5 +445,4 @@ export class Namespace extends CompoundBase {
         return lines;
     }
 }
-// ----------------------------------------------------------------------------
 //# sourceMappingURL=namespaces-vm.js.map

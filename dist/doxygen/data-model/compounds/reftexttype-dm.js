@@ -1,47 +1,17 @@
-/*
- * This file is part of the xPack project (http://xpack.github.io).
- * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
- *
- * Permission to use, copy, modify, and/or distribute this software
- * for any purpose is hereby granted, under the terms of the MIT license.
- *
- * If a copy of the license was not distributed with this file, it can
- * be obtained from https://opensource.org/licenses/MIT.
- */
-// ----------------------------------------------------------------------------
 import assert from 'node:assert';
 import util from 'node:util';
 import { AbstractDataModelBase } from '../types.js';
-// ----------------------------------------------------------------------------
-// <xsd:complexType name="refTextType">
-//   <xsd:simpleContent>
-//     <xsd:extension base="xsd:string">
-//      <xsd:attribute name="refid" type="xsd:string" />
-//      <xsd:attribute name="kindref" type="DoxRefKind" />
-//      <xsd:attribute name="external" type="xsd:string" use="optional"/>
-//      <xsd:attribute name="tooltip" type="xsd:string" use="optional"/>
-//     </xsd:extension>
-//   </xsd:simpleContent>
-// </xsd:complexType>
 export class AbstractRefTextType extends AbstractDataModelBase {
-    // Mandatory elements.
-    text = ''; // The name of the reference, passed as element text.
-    // Mandatory attributes.
+    text = '';
     refid = '';
-    kindref = ''; // DoxRefKind
-    // Optional attributes.
+    kindref = '';
     external;
     tooltip;
     constructor(xml, element, elementName) {
         super(elementName);
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
-        // ------------------------------------------------------------------------
-        // Process elements.
         assert(xml.isInnerElementText(element, elementName));
         this.text = xml.getInnerElementText(element, elementName);
         assert(this.text.length > 0);
-        // ------------------------------------------------------------------------
-        // Process attributes.
         assert(xml.hasAttributes(element));
         const attributesNames = xml.getAttributesNames(element);
         for (const attributeName of attributesNames) {
@@ -64,17 +34,11 @@ export class AbstractRefTextType extends AbstractDataModelBase {
         }
         assert(this.refid.length > 0);
         assert(this.kindref.length > 0);
-        // ------------------------------------------------------------------------
-        // console.log(util.inspect(this, { compact: false, depth: 999 }))
     }
 }
-// ----------------------------------------------------------------------------
-// <xsd:element name="ref" type="refTextType" minOccurs="0" maxOccurs="unbounded" />
 export class RefTextDataModel extends AbstractRefTextType {
     constructor(xml, element) {
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         super(xml, element, 'ref');
     }
 }
-// ----------------------------------------------------------------------------
 //# sourceMappingURL=reftexttype-dm.js.map

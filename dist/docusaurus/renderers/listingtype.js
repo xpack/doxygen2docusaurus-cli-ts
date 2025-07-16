@@ -1,22 +1,9 @@
-/*
- * This file is part of the xPack project (http://xpack.github.io).
- * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
- *
- * Permission to use, copy, modify, and/or distribute this software
- * for any purpose is hereby granted, under the terms of the MIT license.
- *
- * If a copy of the license was not distributed with this file, it can
- * be obtained from https://opensource.org/licenses/MIT.
- */
-// ----------------------------------------------------------------------------
 import assert from 'node:assert';
 import util from 'node:util';
 import { CodeLineDataModel, HighlightDataModel, MemberProgramListingDataModel, } from '../../doxygen/data-model/compounds/descriptiontype-dm.js';
 import { ElementLinesRendererBase } from './element-renderer-base.js';
-// ----------------------------------------------------------------------------
 export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
-        // console.log(util.inspect(element, { compact: false, depth: 999 }))
         if (element.codelines === undefined) {
             return [];
         }
@@ -29,8 +16,6 @@ export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
         lines.push('<div class="doxyProgramListing">');
         lines.push('');
         for (const codeline of element.codelines) {
-            // Explicit type, since it may come from a markdown environment,
-            // like in the Doxygen docblocks page.
             lines.push(renderCodeLinesToString(this.workspace, codeline, 'html', showAnchor));
         }
         lines.push('');
@@ -40,7 +25,6 @@ export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
     }
 }
 function renderCodeLinesToString(workspace, element, type, showAnchor) {
-    // console.log(util.inspect(element, { compact: false, depth: 999 }))
     assert(element instanceof CodeLineDataModel);
     if (element.external !== undefined) {
         console.error('external ignored in', element.constructor.name);
@@ -78,8 +62,6 @@ function renderCodeLinesToString(workspace, element, type, showAnchor) {
     text += '</div>';
     return text;
 }
-// Optimise this to directly generate plain html, to save the compiler/bundler
-// a lot of efforts, since the file references are very large.
 export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
     knownClasses = {
         normal: 'doxyHighlight',
@@ -96,11 +78,8 @@ export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
         vhdllogic: 'doxyHighlightVhdlLogic',
     };
     renderToLines(element, type) {
-        // console.log(util.inspect(element, { compact: false, depth: 999 }))
         assert(element instanceof HighlightDataModel);
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         let spanClass = this.knownClasses[element.classs];
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (spanClass === undefined) {
             console.error(util.inspect(element, { compact: false, depth: 999 }));
             console.error(element.classs, 'not implemented yet in', this.constructor.name);
@@ -116,5 +95,4 @@ export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
         return [text];
     }
 }
-// ----------------------------------------------------------------------------
 //# sourceMappingURL=listingtype.js.map

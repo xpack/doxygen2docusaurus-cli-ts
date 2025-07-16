@@ -1,36 +1,9 @@
-/*
- * This file is part of the xPack project (http://xpack.github.io).
- * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
- *
- * Permission to use, copy, modify, and/or distribute this software
- * for any purpose is hereby granted, under the terms of the MIT license.
- *
- * If a copy of the license was not distributed with this file, it can
- * be obtained from https://opensource.org/licenses/MIT.
- */
-// ----------------------------------------------------------------------------
 import assert from 'node:assert';
 import * as util from 'node:util';
 import { AbstractDataModelBase } from '../types.js';
-// ----------------------------------------------------------------------------
-// <xsd:complexType name="locationType">
-//   <xsd:attribute name="file" type="xsd:string" />
-//   <xsd:attribute name="line" type="xsd:integer" />
-//   <xsd:attribute name="column" type="xsd:integer" use="optional"/>
-//   <xsd:attribute name="declfile" type="xsd:string" use="optional"/>
-//   <xsd:attribute name="declline" type="xsd:integer" use="optional"/>
-//   <xsd:attribute name="declcolumn" type="xsd:integer" use="optional"/>
-//   <xsd:attribute name="bodyfile" type="xsd:string" />
-//   <xsd:attribute name="bodystart" type="xsd:integer" />
-//   <xsd:attribute name="bodyend" type="xsd:integer" />
-// </xsd:complexType>
 export class AbstractLocationType extends AbstractDataModelBase {
-    // Mandatory attributes.
     file = '';
-    // Optional elements.
-    // WARNING: The xsd specifies that `line` is mandatory, but in practice it is not.
     line;
-    // Optional attributes.
     column;
     declfile;
     declline;
@@ -40,19 +13,11 @@ export class AbstractLocationType extends AbstractDataModelBase {
     bodyend;
     constructor(xml, element, elementName) {
         super(elementName);
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
-        // ------------------------------------------------------------------------
-        // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
-        // There are no inner elements.
         assert(innerElements.length === 0);
-        // ------------------------------------------------------------------------
-        // Process attributes.
         assert(xml.hasAttributes(element));
         const attributesNames = xml.getAttributesNames(element);
-        // console.log(attributesNames)
         for (const attributeName of attributesNames) {
-            // console.log(attributeName)
             if (attributeName === '@_file') {
                 this.file = xml.getAttributeStringValue(element, '@_file');
             }
@@ -86,17 +51,11 @@ export class AbstractLocationType extends AbstractDataModelBase {
             }
         }
         assert(this.file.length > 0);
-        // ------------------------------------------------------------------------
-        // console.log(util.inspect(this, { compact: false, depth: 999 }))
     }
 }
-// ----------------------------------------------------------------------------
-// <xsd:element name="location" type="locationType" minOccurs="0" />
 export class LocationDataModel extends AbstractLocationType {
     constructor(xml, element) {
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         super(xml, element, 'location');
     }
 }
-// ----------------------------------------------------------------------------
 //# sourceMappingURL=locationtype-dm.js.map

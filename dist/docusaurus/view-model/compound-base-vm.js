@@ -1,16 +1,3 @@
-/*
- * This file is part of the xPack project (http://xpack.github.io).
- * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
- *
- * Permission to use, copy, modify, and/or distribute this software
- * for any purpose is hereby granted, under the terms of the MIT license.
- *
- * If a copy of the license was not distributed with this file, it can
- * be obtained from https://opensource.org/licenses/MIT.
- */
-// ----------------------------------------------------------------------------
-/* eslint-disable max-lines */
-// import * as util from 'node:util'
 import assert from 'node:assert';
 import path from 'node:path';
 import { ParaDataModel } from '../../doxygen/data-model/compounds/descriptiontype-dm.js';
@@ -18,55 +5,21 @@ import { joinWithLast, sanitizeAnonymousNamespace } from '../utils.js';
 import { Section } from './members-vm.js';
 import { RefTextDataModel } from '../../doxygen/data-model/compounds/reftexttype-dm.js';
 import { SectionDefByKindDataModel, } from '../../doxygen/data-model/compounds/sectiondeftype-dm.js';
-// ----------------------------------------------------------------------------
 export class CompoundBase {
     kind = '';
     compoundName = '';
     id = '';
-    // The collection this compound is part of.
     collection;
     titleHtmlString;
     locationFilePath;
-    // --------------------------------------------------------------------------
-    // Not used for classes, see Class.baseClasses.
     parent;
-    // Set in 2 steps, first the Ids and then, when all objects are in,
-    // the references.
-    // Folder objects use separate arrays for files and folders children.
     childrenIds = [];
     children = [];
-    /**
-     * @brief Relative path to the output folder.
-     *
-     * Starts with plural kind.
-     *
-     * If undefined, the compound must not
-     * be referred in the sidebar.
-     */
     docusaurusId;
-    /**
-     * @brief Short name, to fit the limited space in the sidebar.
-     *
-     * If undefined, the compound must not
-     * be referred in the sidebar.
-     */
     sidebarLabel;
-    /**
-     * @brief The part below outputFolderPath.
-     *
-     * No leading slash.
-     *
-     * If undefined, the MD file for the compound must not be generated.
-     */
     relativePermalink;
-    /** The name shown in the index section. */
     indexName = '';
-    /**
-     * @brief
-     * The named used in the tree entry rendered in the top index pages.
-     */
     treeEntryName = '';
-    /** The name shown in the page title. */
     pageTitle = '';
     briefDescriptionHtmlString;
     detailedDescriptionHtmlLines;
@@ -74,11 +27,9 @@ export class CompoundBase {
     locationLines;
     sections = [];
     locationSet = new Set();
-    // Shortcut
     includes;
     innerCompounds;
     _private = {};
-    // --------------------------------------------------------------------------
     constructor(collection, compoundDef) {
         this._private._compoundDef = compoundDef;
         this.collection = collection;
@@ -90,7 +41,6 @@ export class CompoundBase {
             this.titleHtmlString = this.collection.workspace.renderString(compoundDef.title, 'html');
         }
         if (compoundDef.location?.file !== undefined) {
-            // eslint-disable-next-line @typescript-eslint/prefer-destructuring
             const { file } = compoundDef.location;
             this.locationFilePath = file;
         }
@@ -105,7 +55,6 @@ export class CompoundBase {
             this.sections = sections.sort((a, b) => a.getSectionOrderByKind() - b.getSectionOrderByKind());
         }
     }
-    // eslint-disable-next-line complexity
     reorderSectionDefs(classUnqualifiedName) {
         const sectionDefs = this._private._compoundDef?.sectionDefs;
         if (sectionDefs === undefined) {
@@ -147,30 +96,10 @@ export class CompoundBase {
         resultSectionDefs.push(...sectionDefsByKind.values());
         return resultSectionDefs;
     }
-    // <xsd:simpleType name="DoxMemberKind">
-    //   <xsd:restriction base="xsd:string">
-    //     <xsd:enumeration value="define" />
-    //     <xsd:enumeration value="property" />
-    //     <xsd:enumeration value="event" />
-    //     <xsd:enumeration value="variable" />
-    //     <xsd:enumeration value="typedef" />
-    //     <xsd:enumeration value="enum" />
-    //     <xsd:enumeration value="function" />
-    //     <xsd:enumeration value="signal" />
-    //     <xsd:enumeration value="prototype" />
-    //     <xsd:enumeration value="friend" />
-    //     <xsd:enumeration value="dcop" />
-    //     <xsd:enumeration value="slot" />
-    //     <xsd:enumeration value="interface" />
-    //     <xsd:enumeration value="service" />
-    //   </xsd:restriction>
-    // </xsd:simpleType>
     adjustSectionKind(sectionDef, memberBase, classUnqualifiedName) {
-        // In general, adjust to member kind.
         let adjustedSectionKind = memberBase.kind;
         switch (memberBase.kind) {
             case 'function':
-                // If public/protected/private, preserve the prefix.
                 if (this.isOperator(memberBase.name)) {
                     adjustedSectionKind = sectionDef.computeAdjustedKind('operator');
                 }
@@ -198,35 +127,19 @@ export class CompoundBase {
             case 'slot':
                 adjustedSectionKind = sectionDef.computeAdjustedKind('slot');
                 break;
-            // case 'define':
-            // case 'property':
-            // case 'event':
-            // case 'enum':
-            // case 'signal':
-            // case 'prototype':
-            // case 'friend':
-            // case 'dcop':
-            // case 'interface':
-            // case 'service':
             default: {
-                // Adjust to member kind.
                 const { kind } = memberBase;
                 adjustedSectionKind = kind;
                 break;
             }
         }
-        // console.log('adjustedSectionKind:', memberBase.kind, adjustedSectionKind)
         return adjustedSectionKind;
     }
-    // eslint-disable-next-line complexity
     initializeLate() {
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const compoundDef = this._private._compoundDef;
         assert(compoundDef !== undefined);
         if (compoundDef.briefDescription !== undefined) {
-            // console.log(compoundDef.briefDescription)
             assert(compoundDef.briefDescription.children !== undefined);
             if (compoundDef.briefDescription.children.length > 1) {
                 assert(compoundDef.briefDescription.children[1] instanceof ParaDataModel);
@@ -241,14 +154,11 @@ export class CompoundBase {
             }
         }
         if (compoundDef.detailedDescription !== undefined) {
-            // console.log(compoundDef.detailedDescription)
             this.detailedDescriptionHtmlLines = workspace.renderElementToLines(compoundDef.detailedDescription, 'html');
         }
         if (this.kind === 'page') {
-            // The location for pages is not usable.
         }
         else if (this.kind === 'dir') {
-            // The location for folders is not used.
         }
         else {
             if (compoundDef.location !== undefined) {
@@ -260,7 +170,6 @@ export class CompoundBase {
                 if (sectionDef.memberDefs !== undefined) {
                     for (const memberDef of sectionDef.memberDefs) {
                         if (memberDef.location !== undefined) {
-                            // eslint-disable-next-line @typescript-eslint/prefer-destructuring
                             const { file } = memberDef.location;
                             this.locationSet.add(file);
                             if (memberDef.location.bodyfile !== undefined) {
@@ -277,23 +186,19 @@ export class CompoundBase {
         }
         for (const innerKey of Object.keys(compoundDef)) {
             if (innerKey.startsWith('inner') &&
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
                 compoundDef[innerKey] !== undefined) {
                 this.innerCompounds ??= new Map();
                 this.innerCompounds.set(innerKey, compoundDef);
             }
         }
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     isOperator(name) {
-        // Two word operators, like
         if (name.startsWith('operator') &&
             ' =!<>+-*/%&|^~,"(['.includes(name.charAt(8))) {
             return true;
         }
         return false;
     }
-    // --------------------------------------------------------------------------
     renderBriefDescriptionToHtmlString({ briefDescriptionHtmlString, todo = '', morePermalink, }) {
         let text = '';
         if (!this.collection.workspace.options.suggestToDoDescriptions) {
@@ -318,13 +223,11 @@ export class CompoundBase {
         }
         return text;
     }
-    // eslint-disable-next-line complexity
     renderDetailedDescriptionToHtmlLines({ briefDescriptionHtmlString, detailedDescriptionHtmlLines, todo = '', showHeader, showBrief = false, }) {
         const lines = [];
         if (!this.collection.workspace.options.suggestToDoDescriptions) {
             todo = '';
         }
-        // const workspace = this.collection.workspace
         if (showHeader) {
             if ((detailedDescriptionHtmlLines !== undefined &&
                 detailedDescriptionHtmlLines.length > 0) ||
@@ -342,16 +245,12 @@ export class CompoundBase {
             }
             if (briefDescriptionHtmlString !== undefined &&
                 briefDescriptionHtmlString.length > 0) {
-                // lines.push(`<p>${briefDescriptionNoParaString}</p>`)
                 lines.push(`<p>${briefDescriptionHtmlString}</p>`);
             }
             else if (todo.length > 0) {
                 lines.push(`TODO: add <code>@brief</code> to <code>${todo}</code>`);
             }
         }
-        // console.log(
-        //   util.inspect(detailedDescriptionLines, { compact: false, depth: 999 })
-        // )
         if (detailedDescriptionHtmlLines !== undefined &&
             detailedDescriptionHtmlLines.length > 0) {
             lines.push('');
@@ -363,11 +262,9 @@ export class CompoundBase {
         }
         return lines;
     }
-    // --------------------------------------------------------------------------
     hasInnerIndices() {
         return this.innerCompounds !== undefined && this.innerCompounds.size > 0;
     }
-    // eslint-disable-next-line complexity
     renderInnerIndicesToLines({ suffixes = [], }) {
         const lines = [];
         if (this.innerCompounds === undefined) {
@@ -382,7 +279,6 @@ export class CompoundBase {
                 }
             }
         }
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         for (const suffix of suffixes) {
             const innerKey = `inner${suffix}`;
@@ -390,9 +286,7 @@ export class CompoundBase {
             if (innerCompound === undefined) {
                 continue;
             }
-            const innerObjects = 
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
-            innerCompound[innerKey];
+            const innerObjects = innerCompound[innerKey];
             if (innerObjects === undefined || innerObjects.length === 0) {
                 continue;
             }
@@ -405,16 +299,11 @@ export class CompoundBase {
             lines.push('');
             lines.push('<table class="doxyMembersIndex">');
             for (const innerObject of innerObjects) {
-                // console.log(
-                //   util.inspect(innerObject, { compact: false, depth: 999 })
-                // )
                 const innerDataObject = workspace.compoundsById.get(innerObject.refid);
                 if (innerDataObject !== undefined) {
                     const { kind } = innerDataObject;
                     const itemType = kind === 'dir' ? 'folder' : kind === 'group' ? '&nbsp;' : kind;
                     const permalink = workspace.getPagePermalink(innerObject.refid);
-                    // Debatable. The compound name has the full namespace,
-                    // the index has the template signature.
                     const name = this.collection.workspace.renderString(innerDataObject.indexName, 'html');
                     let itemName = '';
                     if (permalink !== undefined && permalink.length > 0) {
@@ -470,15 +359,12 @@ export class CompoundBase {
     renderSectionIndicesToLines() {
         const lines = [];
         for (const section of this.sections) {
-            // console.log(sectionDef)
             lines.push(...section.renderIndexToLines());
         }
         return lines;
     }
-    // --------------------------------------------------------------------------
     renderIncludesIndexToLines() {
         const lines = [];
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         if (this.includes !== undefined) {
             const includeLines = workspace.renderElementsArrayToLines(this.includes, 'html');
@@ -493,7 +379,6 @@ export class CompoundBase {
         }
         return lines;
     }
-    // --------------------------------------------------------------------------
     renderSectionsToLines() {
         const lines = [];
         for (const section of this.sections) {
@@ -501,21 +386,14 @@ export class CompoundBase {
         }
         return lines;
     }
-    // eslint-disable-next-line complexity
     renderLocationToLines(location) {
         const lines = [];
         let text = '';
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         if (location !== undefined) {
-            // console.log('location.file:', location.file)
             if (location.file.includes('[')) {
-                // Ignore cases like `[generated]`, encountered in llvm.
                 return lines;
             }
-            // console.log(
-            //   'renderLocationToLines', this.kind, this.compoundName, this.id
-            // )
             const file = workspace.filesByPath.get(location.file);
             if (file !== undefined) {
                 const permalink = workspace.getPagePermalink(file.id);
@@ -559,7 +437,6 @@ export class CompoundBase {
                             const lineStart = `l${location.bodystart
                                 .toString()
                                 .padStart(5, '0')}`;
-                            // eslint-disable-next-line max-depth
                             if (definitionPermalink !== undefined &&
                                 definitionPermalink.length > 0 &&
                                 definitionFile.listingLineNumbers.has(location.bodystart.valueOf())) {
@@ -651,11 +528,9 @@ export class CompoundBase {
                 `following file${this.locationSet.size > 1 ? 's' : ''}:`);
             lines.push('');
             lines.push('<ul>');
-            // eslint-disable-next-line @typescript-eslint/prefer-destructuring
             const { workspace } = this.collection;
             const sortedFiles = [...this.locationSet].sort((a, b) => a.localeCompare(b));
             for (const fileName of sortedFiles) {
-                // console.log('search', fileName)
                 const fileNameEscaped = workspace.renderString(path.basename(fileName), 'html');
                 const file = workspace.filesByPath.get(fileName);
                 if (file !== undefined) {
@@ -680,7 +555,6 @@ export class CompoundBase {
         if (references === undefined || references.length === 0) {
             return '';
         }
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         const referenceLines = [];
         for (const reference of references) {
@@ -704,7 +578,6 @@ export class CompoundBase {
         if (referencedBy === undefined || referencedBy.length === 0) {
             return '';
         }
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         const referenceLines = [];
         for (const reference of referencedBy) {
@@ -718,20 +591,12 @@ export class CompoundBase {
         text += '\n';
         return text;
     }
-    // --------------------------------------------------------------------------
-    /**
-     * Return an array of types, like `class T`, or `class U = T`, or `N T::* MP`
-     * @param templateParamList
-     * @returns
-     */
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this, complexity
     collectTemplateParameters({ templateParamList, withDefaults = false, }) {
         if (templateParamList?.params === undefined) {
             return [];
         }
         const templateParameters = [];
         for (const param of templateParamList.params) {
-            // console.log(util.inspect(param, { compact: false, depth: 999 }))
             assert(param.type !== undefined);
             let paramString = '';
             assert(param.type.children !== undefined);
@@ -740,7 +605,6 @@ export class CompoundBase {
                     paramString += child;
                 }
                 else if (child instanceof RefTextDataModel) {
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
                     paramString += child.text;
                 }
             }
@@ -766,21 +630,17 @@ export class CompoundBase {
         }
         return templateParameters;
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     isTemplate(templateParamList) {
         return (templateParamList?.params ?? []).length > 0;
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     collectTemplateParameterNames(templateParamList) {
         if (templateParamList.params === undefined) {
             return [];
         }
         const templateParameterNames = [];
         for (const param of templateParamList.params) {
-            // console.log(util.inspect(param, { compact: false, depth: 999 }))
             assert(param.type !== undefined);
             let paramString = '';
-            // declname? defname? order?
             if (param.declname !== undefined) {
                 paramString += param.declname;
             }
@@ -788,11 +648,9 @@ export class CompoundBase {
                 assert(param.type.children !== undefined);
                 for (const child of param.type.children) {
                     if (typeof child === 'string') {
-                        // Extract the parameter name, passed as `class T`.
                         paramString += child;
                     }
                     else if (child instanceof RefTextDataModel) {
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
                         paramString += child.text;
                     }
                 }
@@ -827,25 +685,19 @@ export class CompoundBase {
         }
         return text;
     }
-    // --------------------------------------------------------------------------
-    // Override it
     hasAnyContent() {
         if (this.briefDescriptionHtmlString !== undefined &&
             this.briefDescriptionHtmlString.length > 0) {
-            // console.log('has content brief', this.compoundName)
             return true;
         }
         if (this.detailedDescriptionHtmlLines !== undefined &&
             this.detailedDescriptionHtmlLines.length > 0) {
-            // console.log('has content details', this.compoundName)
             return true;
         }
         if (this.sections.length > 0) {
-            // console.log('has content sections.length', this)
             return true;
         }
         return false;
     }
 }
-// ----------------------------------------------------------------------------
 //# sourceMappingURL=compound-base-vm.js.map

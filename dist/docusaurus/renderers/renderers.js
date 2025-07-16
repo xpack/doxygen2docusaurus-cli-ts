@@ -1,15 +1,3 @@
-/*
- * This file is part of the xPack project (http://xpack.github.io).
- * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
- *
- * Permission to use, copy, modify, and/or distribute this software
- * for any purpose is hereby granted, under the terms of the MIT license.
- *
- * If a copy of the license was not distributed with this file, it can
- * be obtained from https://opensource.org/licenses/MIT.
- */
-// ----------------------------------------------------------------------------
-/* eslint-disable max-lines */
 import * as util from 'node:util';
 import assert from 'node:assert';
 import { BlockquoteLinesRenderer, ComputerOutputDataModelStringRenderer, DescriptionTypeLinesRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeStringRenderer, DocMarkupTypeStringRenderer, DocParamListTypeLinesRenderer, DocParaTypeLinesRenderer, DocRefTextTypeStringRenderer, DocSimpleSectTypeLinesRenderer, DocURLLinkStringRenderer, EmojiStringRenderer, FormulaStringRenderer, HeadingLinesRenderer, HtmlOnlyStringRenderer, ImageStringRenderer, PreformattedStringRenderer, SpTypeStringRenderer, VerbatimStringRenderer, } from './descriptiontype.js';
@@ -28,12 +16,10 @@ import { SubstringDocMarkupTypeRenderer } from './substringtype.js';
 import { DocCaptionLinesRenderer, DocEntryTypeStringRenderer, DocRowTypeLinesRenderer, DocTableTypeLinesRenderer, } from './doctabletype.js';
 import { TocListLinesRenderer } from './tableofcontentstype.js';
 import { ReferenceTypeStringRenderer } from './referencetype.js';
-// ----------------------------------------------------------------------------
 export class Renderers {
     elementLinesRenderers = new Map();
     elementStringRenderers = new Map();
     registerRenderers(workspace) {
-        // Add renderers for the parsed xml elements (in alphabetical order).
         this.elementLinesRenderers.set('VariableListPairDataModel', new VariableListPairLinesRenderer(workspace));
         this.elementLinesRenderers.set('AbstractDescriptionType', new DescriptionTypeLinesRenderer(workspace));
         this.elementLinesRenderers.set('AbstractDocAnchorType', new DocAnchorTypeLinesRenderer(workspace));
@@ -62,7 +48,6 @@ export class Renderers {
         this.elementLinesRenderers.set('AbstractParamType', new ParamTypeLinesRenderer(workspace));
         this.elementLinesRenderers.set('AbstractProgramListingType', new ListingTypeLinesRenderer(workspace));
         this.elementLinesRenderers.set('AbstractRefType', new RefTypeLinesRenderer(workspace));
-        // console.log(this.elementGenerators.size, 'element generators')
         this.elementStringRenderers.set('ComputerOutputDataModel', new ComputerOutputDataModelStringRenderer(workspace));
         this.elementStringRenderers.set('AbstractDocEmptyType', new DocEmptyTypeStringRenderer(workspace));
         this.elementStringRenderers.set('AbstractDocEntryType', new DocEntryTypeStringRenderer(workspace));
@@ -82,37 +67,27 @@ export class Renderers {
         this.elementStringRenderers.set('SubstringDocMarkupType', new SubstringDocMarkupTypeRenderer(workspace));
     }
     getElementLinesRenderer(element) {
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         let elementClass = element.constructor;
         while (elementClass.name !== '') {
-            // console.log(elementClass.name)
-            // console.log(this.elementGenerators)
             const elementGenerator = this.elementLinesRenderers.get(elementClass.name);
             if (elementGenerator !== undefined) {
                 return elementGenerator;
             }
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             elementClass = Object.getPrototypeOf(elementClass);
         }
         return undefined;
     }
     getElementTextRenderer(element) {
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         let elementClass = element.constructor;
         while (elementClass.name !== '') {
-            // console.log(elementClass.name)
-            // console.log(this.elementGenerators)
             const elementGenerator = this.elementStringRenderers.get(elementClass.name);
             if (elementGenerator !== undefined) {
                 return elementGenerator;
             }
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             elementClass = Object.getPrototypeOf(elementClass);
         }
         return undefined;
     }
-    // --------------------------------------------------------------------------
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     renderString(element, type) {
         if (type === 'text') {
             return element;
@@ -122,12 +97,12 @@ export class Renderers {
                 .replaceAll(/&/g, '&amp;')
                 .replaceAll(/</g, '&lt;')
                 .replaceAll(/>/g, '&gt;')
-                .replaceAll(/\\/g, '\\\\') // Must be placed before \[ \]
+                .replaceAll(/\\/g, '\\\\')
                 .replaceAll(/\[/g, '\\[')
                 .replaceAll(/\]/g, '\\]')
-                .replaceAll(/\*/g, '\\*') // Markdown for bold
-                .replaceAll(/_/g, '\\_') // Markdown for italics
-                .replaceAll(/~/g, '\\~'); // Markdown for strikethrough in GFM
+                .replaceAll(/\*/g, '\\*')
+                .replaceAll(/_/g, '\\_')
+                .replaceAll(/~/g, '\\~');
         }
         else if (type === 'html') {
             return element
@@ -209,13 +184,6 @@ export class Renderers {
         if (textRenderer !== undefined) {
             return textRenderer.renderToString(element, type);
         }
-        // console.warn(
-        //   'trying element lines renderer for',
-        //   element.constructor.name,
-        //   'in',
-        //   this.constructor.name,
-        //   'renderElementToString'
-        // )
         const linesRenderer = this.getElementLinesRenderer(element);
         if (linesRenderer !== undefined) {
             return linesRenderer.renderToLines(element, type).join('\n');
@@ -224,7 +192,6 @@ export class Renderers {
         console.error('no element text renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToString');
         return '';
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     renderMembersIndexItemToHtmlLines({ template, type, name, childrenLines, }) {
         const lines = [];
         if (template !== undefined && template.length > 0) {
@@ -266,7 +233,6 @@ export class Renderers {
         lines.push('</tr>');
         return lines;
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     renderTreeTableToHtmlLines({ contentLines, }) {
         const lines = [];
         lines.push('');
@@ -277,7 +243,6 @@ export class Renderers {
         lines.push('</table>');
         return lines;
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     renderTreeTableRowToHtmlLines({ itemIconLetter, itemIconClass, itemLabel, itemLink, depth, description, }) {
         const lines = [];
         lines.push('<tr class="doxyTreeItem">');
@@ -304,5 +269,4 @@ export class Renderers {
         return lines;
     }
 }
-// ----------------------------------------------------------------------------
 //# sourceMappingURL=renderers.js.map

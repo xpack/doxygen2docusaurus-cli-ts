@@ -1,14 +1,3 @@
-/*
- * This file is part of the xPack project (http://xpack.github.io).
- * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
- *
- * Permission to use, copy, modify, and/or distribute this software
- * for any purpose is hereby granted, under the terms of the MIT license.
- *
- * If a copy of the license was not distributed with this file, it can
- * be obtained from https://opensource.org/licenses/MIT.
- */
-// ----------------------------------------------------------------------------
 import * as util from 'node:util';
 import assert from 'node:assert';
 import { IncludedByDataModel, IncludesDataModel } from './inctype-dm.js';
@@ -21,48 +10,31 @@ import { InnerClassDataModel, InnerDirDataModel, InnerFileDataModel, InnerGroupD
 import { LocationDataModel } from './locationtype-dm.js';
 import { AbstractDataModelBase } from '../types.js';
 import { TableOfContentsDataModel } from './tableofcontentstype-dm.js';
-// ----------------------------------------------------------------------------
-// Template, to be used for creating new objects.
 export class AbstractXyzType extends AbstractDataModelBase {
-    // If the object has a text.
     text = '';
-    // Mandatory elements.
     compoundName = '';
     colsCount = NaN;
     elm12 = false;
-    // elm13: BriefDescriptionDataModel
-    // Optional elements.
     elm20;
     elm21;
     elm22;
     briefDescription;
     includes;
-    // Mandatory attributes.
     id = '';
     rowsCount = NaN;
     thead = false;
-    // Optional attributes.
     language;
     final;
     lineno;
     attr23;
-    // ------------------------------------------
-    // children: Array<string | ParaDataModel | Sect5DataModel> = []
     constructor(xml, element, elementName) {
         super(elementName);
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
-        // ------------------------------------------------------------------------
-        // Process elements.
-        // If the object has only a text.
         assert(xml.isInnerElementText(element, elementName));
         this.text = xml.getInnerElementText(element, elementName);
-        // ------------------------------------------
-        // If the object has sub-elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
-                // Ignore texts.
             }
             else if (xml.isInnerElementText(innerElement, 'compoundname')) {
                 this.compoundName = xml.getInnerElementText(innerElement, 'compoundname');
@@ -71,7 +43,6 @@ export class AbstractXyzType extends AbstractDataModelBase {
                 this.briefDescription = new BriefDescriptionDataModel(xml, innerElement);
             }
             else if (xml.hasInnerElement(innerElement, 'includes')) {
-                // console.log(util.inspect(item))
                 if (this.includes === undefined) {
                     this.includes = [];
                 }
@@ -81,10 +52,6 @@ export class AbstractXyzType extends AbstractDataModelBase {
                 console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name);
             }
         }
-        // ------------------------------------------
-        // If the object has to keep trak of the order of mixed type children.
-        // const innerElements = xml.getInnerElements(element, elementName)
-        // assert(innerElements.length > 0)
         this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
@@ -101,16 +68,10 @@ export class AbstractXyzType extends AbstractDataModelBase {
                 console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name);
             }
         }
-        // ------------------------------------------------------------------------
-        // Process attributes.
-        // If the object has no attributes.
         assert(!xml.hasAttributes(element));
-        // ------------------------------------------
         assert(xml.hasAttributes(element));
         const attributesNames = xml.getAttributesNames(element);
-        // console.log(attributesNames)
         for (const attributeName of attributesNames) {
-            // console.log(attributeName)
             if (attributeName === '@_id') {
                 this.id = xml.getAttributeStringValue(element, '@_id');
             }
@@ -136,85 +97,15 @@ export class AbstractXyzType extends AbstractDataModelBase {
             }
         }
         assert(this.id.length > 0);
-        // ------------------------------------------------------------------------
-        // console.log(util.inspect(this, { compact: false, depth: 999 }))
     }
 }
 export class XyzDataModel extends AbstractXyzType {
     constructor(xml, element) {
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         super(xml, element, 'xyz');
     }
 }
-// ----------------------------------------------------------------------------
-// <xsd:complexType name="compounddefType">
-//   <xsd:sequence>
-//     <xsd:element name="compoundname" type="xsd:string"/>
-//     <xsd:element name="title" type="xsd:string" minOccurs="0" />
-//     <xsd:element name="basecompoundref" type="compoundRefType" minOccurs="0" maxOccurs="unbounded" />
-//     <xsd:element name="derivedcompoundref" type="compoundRefType" minOccurs="0" maxOccurs="unbounded" />
-//     <xsd:element name="includes" type="incType" minOccurs="0" maxOccurs="unbounded" />
-//     <xsd:element name="includedby" type="incType" minOccurs="0" maxOccurs="unbounded" />
-//     <xsd:element name="incdepgraph" type="graphType" minOccurs="0" />
-//     <xsd:element name="invincdepgraph" type="graphType" minOccurs="0" />
-//     <xsd:element name="innermodule" type="refType" minOccurs="0" maxOccurs="unbounded" />
-//     <xsd:element name="innerdir" type="refType" minOccurs="0" maxOccurs="unbounded" />
-//     <xsd:element name="innerfile" type="refType" minOccurs="0" maxOccurs="unbounded" />
-//     <xsd:element name="innerclass" type="refType" minOccurs="0" maxOccurs="unbounded" />
-//     <xsd:element name="innerconcept" type="refType" minOccurs="0" maxOccurs="unbounded" />
-//     <xsd:element name="innernamespace" type="refType" minOccurs="0" maxOccurs="unbounded" />
-//     <xsd:element name="innerpage" type="refType" minOccurs="0" maxOccurs="unbounded" />
-//     <xsd:element name="innergroup" type="refType" minOccurs="0" maxOccurs="unbounded" />
-//     <xsd:element name="qualifier" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
-//     <xsd:element name="templateparamlist" type="templateparamlistType" minOccurs="0" />
-//     <xsd:element name="sectiondef" type="sectiondefType" minOccurs="0" maxOccurs="unbounded" />
-//     <xsd:element name="tableofcontents" type="tableofcontentsType" minOccurs="0" maxOccurs="1" />
-//     <xsd:element name="requiresclause" type="linkedTextType" minOccurs="0" />
-//     <xsd:element name="initializer" type="linkedTextType" minOccurs="0" />
-//     <xsd:element name="briefdescription" type="descriptionType" minOccurs="0" />
-//     <xsd:element name="detaileddescription" type="descriptionType" minOccurs="0" />
-//     <xsd:element name="exports" type="exportsType" minOccurs="0" maxOccurs="1"/>
-//     <xsd:element name="inheritancegraph" type="graphType" minOccurs="0" />
-//     <xsd:element name="collaborationgraph" type="graphType" minOccurs="0" />
-//     <xsd:element name="programlisting" type="listingType" minOccurs="0" />
-//     <xsd:element name="location" type="locationType" minOccurs="0" />
-//     <xsd:element name="listofallmembers" type="listofallmembersType" minOccurs="0" />
-//   </xsd:sequence>
-//   <xsd:attribute name="id" type="xsd:string" />
-//   <xsd:attribute name="kind" type="DoxCompoundKind" />
-//   <xsd:attribute name="language" type="DoxLanguage" use="optional"/>
-//   <xsd:attribute name="prot" type="DoxProtectionKind" />
-//   <xsd:attribute name="final" type="DoxBool" use="optional"/>
-//   <xsd:attribute name="inline" type="DoxBool" use="optional"/>
-//   <xsd:attribute name="sealed" type="DoxBool" use="optional"/>
-//   <xsd:attribute name="abstract" type="DoxBool" use="optional"/>
-// </xsd:complexType>
-// <xsd:simpleType name="DoxCompoundKind">
-// <xsd:restriction base="xsd:string">
-//   <xsd:enumeration value="class" />
-//   <xsd:enumeration value="struct" />
-//   <xsd:enumeration value="union" />
-//   <xsd:enumeration value="interface" />
-//   <xsd:enumeration value="protocol" />
-//   <xsd:enumeration value="category" />
-//   <xsd:enumeration value="exception" />
-//   <xsd:enumeration value="service" />
-//   <xsd:enumeration value="singleton" />
-//   <xsd:enumeration value="module" />
-//   <xsd:enumeration value="type" />
-//   <xsd:enumeration value="file" />
-//   <xsd:enumeration value="namespace" />
-//   <xsd:enumeration value="group" />
-//   <xsd:enumeration value="page" />
-//   <xsd:enumeration value="example" />
-//   <xsd:enumeration value="dir" />
-//   <xsd:enumeration value="concept" />
-// </xsd:restriction>
-// </xsd:simpleType>
 export class AbstractCompoundDefType extends AbstractDataModelBase {
-    // Mandatory elements.
     compoundName = '';
-    // Optional elements.
     title;
     briefDescription;
     detailedDescription;
@@ -225,42 +116,29 @@ export class AbstractCompoundDefType extends AbstractDataModelBase {
     templateParamList;
     sectionDefs;
     tableOfContents;
-    // innerModules
     innerDirs;
     innerFiles;
     innerClasses;
-    // innerConcepts
     innerNamespaces;
     innerPages;
     innerGroups;
     programListing;
     location;
     listOfAllMembers;
-    // Mandatory attributes.
     id = '';
-    kind = ''; // DoxCompoundKind
-    // Optional attributes.
-    language; // DoxLanguage
-    // WARNING: This attribute is not marked as optional, but is not present.
+    kind = '';
+    language;
     prot;
     final;
     inline;
     sealed;
     abstract;
-    // Not in xsd.
-    // parentId: string = ''
-    // permalink: string = ''
     constructor(xml, element, elementName) {
         super(elementName);
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
-        // ------------------------------------------------------------------------
-        // Process elements.
-        // console.log(util.inspect(element, { compact: false, depth: 999 })
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
-                // Ignore texts.
             }
             else if (xml.isInnerElementText(innerElement, 'compoundname')) {
                 this.compoundName = xml.getInnerElementText(innerElement, 'compoundname');
@@ -287,24 +165,20 @@ export class AbstractCompoundDefType extends AbstractDataModelBase {
                 this.derivedCompoundRefs.push(new DerivedCompoundRefDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'includes')) {
-                // console.log(util.inspect(item))
                 if (this.includes === undefined) {
                     this.includes = [];
                 }
                 this.includes.push(new IncludesDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'includedby')) {
-                // console.log(util.inspect(item))
                 if (this.includedBy === undefined) {
                     this.includedBy = [];
                 }
                 this.includedBy.push(new IncludedByDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'incdepgraph')) {
-                // TODO: Ignored, not used for now.
             }
             else if (xml.hasInnerElement(innerElement, 'invincdepgraph')) {
-                // TODO: Ignored, not used for now.
             }
             else if (xml.hasInnerElement(innerElement, 'innerdir')) {
                 if (this.innerDirs === undefined) {
@@ -355,10 +229,8 @@ export class AbstractCompoundDefType extends AbstractDataModelBase {
                 this.tableOfContents = new TableOfContentsDataModel(xml, innerElement);
             }
             else if (xml.hasInnerElement(innerElement, 'inheritancegraph')) {
-                // TODO: Ignored, not used for now.
             }
             else if (xml.hasInnerElement(innerElement, 'collaborationgraph')) {
-                // TODO: Ignored, not used for now.
             }
             else if (xml.hasInnerElement(innerElement, 'programlisting')) {
                 assert(this.programListing === undefined);
@@ -374,15 +246,9 @@ export class AbstractCompoundDefType extends AbstractDataModelBase {
                 console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name);
             }
         }
-        // Moved down, depends on kind.
-        // assert(this.compoundName.length > 0)
-        // ------------------------------------------------------------------------
-        // Process attributes.
         assert(xml.hasAttributes(element));
         const attributesNames = xml.getAttributesNames(element);
-        // console.log(attributesNames)
         for (const attributeName of attributesNames) {
-            // console.log(attributeName)
             if (attributeName === '@_id') {
                 this.id = xml.getAttributeStringValue(element, '@_id');
             }
@@ -414,43 +280,23 @@ export class AbstractCompoundDefType extends AbstractDataModelBase {
         }
         assert(this.id.length > 0);
         assert(this.kind.length > 0);
-        // WARNING: The attribute is not marked as optional, but is not present.
-        // assert(this.prot.length > 0)
         if (this.kind !== 'namespace') {
             assert(this.compoundName.length > 0);
         }
-        // ------------------------------------------------------------------------
-        // console.log(util.inspect(this, { compact: false, depth: 999 }))
     }
 }
-// ----------------------------------------------------------------------------
-// <xsd:element name="compounddef" type="compounddefType" minOccurs="0" />
 export class CompoundDefDataModel extends AbstractCompoundDefType {
     constructor(xml, element) {
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         super(xml, element, 'compounddef');
     }
 }
-// ----------------------------------------------------------------------------
-// <xsd:complexType name="docHtmlOnlyType">
-//   <xsd:simpleContent>
-//     <xsd:extension base="xsd:string">
-//       <xsd:attribute name="block" type="xsd:string" />
-//     </xsd:extension>
-//   </xsd:simpleContent>
-// </xsd:complexType>
 export class AbstractDocHtmlOnlyType extends AbstractDataModelBase {
     text = '';
     block;
     constructor(xml, element, elementName) {
         super(elementName);
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
-        // ------------------------------------------------------------------------
-        // Process elements.
         assert(xml.isInnerElementText(element, elementName));
         this.text = xml.getInnerElementText(element, elementName);
-        // ------------------------------------------------------------------------
-        // Process attributes.
         if (xml.hasAttributes(element)) {
             const attributesNames = xml.getAttributesNames(element);
             for (const attributeName of attributesNames) {
@@ -463,53 +309,36 @@ export class AbstractDocHtmlOnlyType extends AbstractDataModelBase {
                 }
             }
         }
-        // ------------------------------------------------------------------------
-        // console.log(util.inspect(this, { compact: false, depth: 999 }))
     }
 }
-// ----------------------------------------------------------------------------
-// <xsd:element name="htmlonly" type="docHtmlOnlyType" />
 export class HtmlOnlyDataModel extends AbstractDocHtmlOnlyType {
     constructor(xml, element) {
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         super(xml, element, 'htmlonly');
     }
 }
-// Normally strings are properties, but these are unusual, so we keep them as objects.
-// <xsd:element name="manonly" type="xsd:string" />
-// <xsd:element name="xmlonly" type="xsd:string" />
-// <xsd:element name="rtfonly" type="xsd:string" />
-// <xsd:element name="latexonly" type="xsd:string" />
-// <xsd:element name="docbookonly" type="xsd:string" />
 export class ManOnlyDataModel extends AbstractStringType {
     constructor(xml, element) {
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         super(xml, element, 'manonly');
     }
 }
 export class XmlOnlyDataModel extends AbstractStringType {
     constructor(xml, element) {
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         super(xml, element, 'xmlonly');
     }
 }
 export class RtfOnlyDataModel extends AbstractStringType {
     constructor(xml, element) {
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         super(xml, element, 'rtfonly');
     }
 }
 export class LatexOnlyDataModel extends AbstractStringType {
     constructor(xml, element) {
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         super(xml, element, 'latexonly');
     }
 }
 export class DocBookOnlyDataModel extends AbstractStringType {
     constructor(xml, element) {
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         super(xml, element, 'docbookonly');
     }
 }
-// ----------------------------------------------------------------------------
 //# sourceMappingURL=compounddef-dm.js.map

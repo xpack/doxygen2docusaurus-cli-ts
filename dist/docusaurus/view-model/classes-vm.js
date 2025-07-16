@@ -1,55 +1,29 @@
-/*
- * This file is part of the xPack project (http://xpack.github.io).
- * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
- *
- * Permission to use, copy, modify, and/or distribute this software
- * for any purpose is hereby granted, under the terms of the MIT license.
- *
- * If a copy of the license was not distributed with this file, it can
- * be obtained from https://opensource.org/licenses/MIT.
- */
-// ----------------------------------------------------------------------------
-/* eslint-disable max-lines */
-// import * as util from 'node:util'
 import assert from 'node:assert';
 import crypto from 'node:crypto';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
 import { flattenPath, sanitizeAnonymousNamespace, sanitizeHierarchicalPath, } from '../utils.js';
 import { ClassTreeEntry } from './tree-entries-vm.js';
-// ----------------------------------------------------------------------------
 const kindsPlurals = {
     class: 'Classes',
     struct: 'Structs',
     union: 'Unions',
 };
-// ----------------------------------------------------------------------------
 export class Classes extends CollectionBase {
-    // compoundsById: Map<string, Class>
     topLevelClasses = [];
-    // --------------------------------------------------------------------------
-    // constructor (workspace: Workspace) {
-    //   super(workspace)
-    //   // this.compoundsById = new Map()
-    // }
-    // --------------------------------------------------------------------------
     addChild(compoundDef) {
         const classs = new Class(this, compoundDef);
         this.collectionCompoundsById.set(classs.id, classs);
         return classs;
     }
-    // --------------------------------------------------------------------------
     createCompoundsHierarchies() {
-        // Recreate classes hierarchies.
         for (const [classId, classs] of this.collectionCompoundsById) {
             if (!(classs instanceof Class)) {
                 continue;
             }
             for (const baseClassId of classs.baseClassIds) {
-                // console.log(classId, baseClassId)
                 const baseClass = this.collectionCompoundsById.get(baseClassId);
                 if (baseClass instanceof Class) {
-                    // console.log('baseClassId', baseClassId, 'has child', classId)
                     baseClass.children.push(classs);
                     classs.baseClasses.push(baseClass);
                 }
@@ -73,15 +47,11 @@ export class Classes extends CollectionBase {
             }
         }
     }
-    // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
     addSidebarItems(sidebarCategory) {
         const indicesSet = this.workspace.indicesMaps.get('classes');
         if (indicesSet === undefined) {
             return;
         }
-        // Add classes to the sidebar.
-        // Top level classes are added below a Class category
         const classesCategory = {
             type: 'category',
             label: 'Classes',
@@ -99,16 +69,13 @@ export class Classes extends CollectionBase {
                 },
             ],
         };
-        // Add the hierarchy.
         for (const classs of this.topLevelClasses) {
             const item = this.createSidebarItemRecursively(classs);
             if (item !== undefined) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
                 ;
                 classesCategory.items[0].items.push(item);
             }
         }
-        // Add the rest of the entries.
         if (indicesSet.has('classes')) {
             classesCategory.items.push({
                 type: 'doc',
@@ -194,7 +161,6 @@ export class Classes extends CollectionBase {
             return categoryItem;
         }
     }
-    // --------------------------------------------------------------------------
     createMenuItems() {
         const menuItem = {
             label: 'Classes',
@@ -202,7 +168,6 @@ export class Classes extends CollectionBase {
         };
         return [menuItem];
     }
-    // --------------------------------------------------------------------------
     async generateIndexDotMdFile() {
         if (this.topLevelClasses.length === 0) {
             return;
@@ -212,7 +177,6 @@ export class Classes extends CollectionBase {
         const frontMatter = {
             title: 'The Classes Reference',
             slug: `${this.workspace.slugBaseUrl}${permalink}`,
-            // description: '...', // TODO
             custom_edit_url: null,
             keywords: ['doxygen', 'classes', 'reference'],
         };
@@ -236,7 +200,6 @@ export class Classes extends CollectionBase {
         });
     }
     generateIndexMdFileRecursively(classs, depth) {
-        // console.log(util.inspect(classs, { compact: false, depth: 999 }))
         const lines = [];
         const permalink = this.workspace.getPagePermalink(classs.id);
         assert(permalink !== undefined && permalink.length > 0);
@@ -246,7 +209,6 @@ export class Classes extends CollectionBase {
             union: 'U',
         };
         let iconLetter = iconLetters[classs.kind];
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (iconLetter === undefined) {
             console.error('Icon kind', classs.kind, 'not supported yet in', this.constructor.name, '(using ?)');
             iconLetter = '?';
@@ -267,9 +229,7 @@ export class Classes extends CollectionBase {
         }));
         if (classs.children.length > 0) {
             for (const childClass of classs.children) {
-                lines.push(...this.generateIndexMdFileRecursively(
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-                childClass, depth + 1));
+                lines.push(...this.generateIndexMdFileRecursively(childClass, depth + 1));
             }
         }
         return lines;
@@ -298,7 +258,6 @@ export class Classes extends CollectionBase {
                 }
             }
         }
-        // ------------------------------------------------------------------------
         await this.generateIndexFile({
             group: 'classes',
             fileKind: 'all',
@@ -355,12 +314,9 @@ export class Classes extends CollectionBase {
             map: allUnorderedEntriesMap,
             filter: (kind) => kind === 'enumvalue',
         });
-        // ------------------------------------------------------------------------
     }
 }
-// ============================================================================
 export class Class extends CompoundBase {
-    // Due to multiple-inheritance, there can be multiple parents.
     baseClassIds = new Set();
     baseClasses = [];
     fullyQualifiedName = '???';
@@ -368,28 +324,20 @@ export class Class extends CompoundBase {
     templateParameters = '';
     classFullName = '???';
     template;
-    // Shortcuts, use data model objects.
-    // WARNING: May be duplicate.
     baseCompoundRefs;
     derivedCompoundRefs;
     templateParamList;
-    // --------------------------------------------------------------------------
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
-        // console.log('Class.constructor', util.inspect(compoundDef))
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         if (Array.isArray(compoundDef.baseCompoundRefs)) {
             for (const ref of compoundDef.baseCompoundRefs) {
-                // console.log('component', compoundDef.id, 'has base', ref.refid)
                 if (ref.refid !== undefined) {
                     this.baseClassIds.add(ref.refid);
                 }
             }
         }
-        // Remove the template parameters.
         this.fullyQualifiedName = sanitizeAnonymousNamespace(compoundDef.compoundName.replace(/<.*>/, ''));
-        // Remove the namespaces(s).
         this.unqualifiedName = this.fullyQualifiedName.replace(/.*::/, '');
         const index = compoundDef.compoundName.indexOf('<');
         let indexNameTemplateParameters = '';
@@ -421,34 +369,20 @@ export class Class extends CompoundBase {
             this.pageTitle += ' Template';
         }
         this.pageTitle += ' Reference';
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         assert(kindsPlurals[kind] !== undefined);
         const pluralKind = kindsPlurals[kind].toLowerCase();
-        // Turn the namespace into a hierarchical path. Keep the dot.
         let sanitizedPath = sanitizeHierarchicalPath(this.fullyQualifiedName.replaceAll(/::/g, '/'));
         if (this.templateParameters.length > 0) {
-            // sanitizedPath += sanitizeName(this.templateParameters)
             sanitizedPath += `-${crypto.hash('md5', this.templateParameters)}`;
         }
         this.relativePermalink = `${pluralKind}/${sanitizedPath}`;
-        // Replace slash with dash.
         this.docusaurusId = `${pluralKind}/${flattenPath(sanitizedPath)}`;
         this.createSections(this.unqualifiedName);
-        // console.log('0', compoundDef.id)
-        // console.log('1', compoundDef.compoundName)
-        // console.log('2', this.relativePermalink)
-        // console.log('3', this.docusaurusId)
-        // console.log('4', this.sidebarLabel)
-        // console.log('5', this.indexName)
-        // console.log('6', this.templateParameters)
-        // console.log()
     }
     initializeLate() {
         super.initializeLate();
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const compoundDef = this._private._compoundDef;
         assert(compoundDef !== undefined);
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         const { fullyQualifiedName } = this;
         let classFullName = fullyQualifiedName;
@@ -488,15 +422,11 @@ export class Class extends CompoundBase {
         }
         return super.hasAnyContent();
     }
-    // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
     renderToLines(frontMatter) {
         const lines = [];
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         const name = this.collection.workspace.renderString(this.compoundName, 'html');
         const descriptionTodo = `@${this.kind} ${name}`;
-        // The Description header is always shown.
         const morePermalink = '#details';
         lines.push(this.renderBriefDescriptionToHtmlString({
             briefDescriptionHtmlString: this.briefDescriptionHtmlString,
@@ -539,9 +469,6 @@ export class Class extends CompoundBase {
                 lines.push('');
                 lines.push('<table class="doxyMembersIndex">');
                 for (const baseCompoundRef of baseCompoundRefs.values()) {
-                    // console.log(
-                    //   util.inspect(baseCompoundRef, { compact: false, depth: 999 })
-                    // )
                     if (baseCompoundRef.refid !== undefined) {
                         const { collection } = this;
                         const baseClass = collection.collectionCompoundsById.get(baseCompoundRef.refid);
@@ -575,11 +502,6 @@ export class Class extends CompoundBase {
                     if (collection instanceof Classes) {
                         const baseClass = collection.collectionCompoundsById.get(baseClassId);
                         if (baseClass instanceof Class) {
-                            // console.log(
-                            //   util.inspect(
-                            //     derivedCompoundDef, { compact: false, depth: 999 }
-                            //   )
-                            // )
                             lines.push(...baseClass.renderIndexToLines());
                         }
                     }
@@ -593,9 +515,6 @@ export class Class extends CompoundBase {
                 lines.push('');
                 lines.push('<table class="doxyMembersIndex">');
                 for (const derivedCompoundRef of this.derivedCompoundRefs) {
-                    // console.log(
-                    //   util.inspect(derivedCompoundRef, { compact: false, depth: 999 })
-                    // )
                     if (derivedCompoundRef.refid !== undefined) {
                         let derivedClass = undefined;
                         if ('collectionCompoundsById' in this.collection &&
@@ -642,12 +561,6 @@ export class Class extends CompoundBase {
                     const { collection } = this;
                     const derivedClassCandidate = collection.collectionCompoundsById.get(derivedClassId);
                     if (derivedClassCandidate instanceof Class) {
-                        // console.log(
-                        //   util.inspect(
-                        //     derivedCompoundDef,
-                        //     { compact: false, depth: 999 }
-                        //   )
-                        // )
                         lines.push(...derivedClassCandidate.renderIndexToLines());
                     }
                     else {
@@ -677,9 +590,7 @@ export class Class extends CompoundBase {
         return lines;
     }
     renderIndexToLines() {
-        // console.log(util.inspect(this, { compact: false, depth: 999 }))
         const lines = [];
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         const permalink = workspace.getPagePermalink(this.id);
         const indexName = this.collection.workspace.renderString(this.indexName, 'html');
@@ -711,5 +622,4 @@ export class Class extends CompoundBase {
         return lines;
     }
 }
-// ----------------------------------------------------------------------------
 //# sourceMappingURL=classes-vm.js.map

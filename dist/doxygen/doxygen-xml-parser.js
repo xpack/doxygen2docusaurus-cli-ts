@@ -1,14 +1,3 @@
-/*
- * This file is part of the xPack project (http://xpack.github.io).
- * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
- *
- * Permission to use, copy, modify, and/or distribute this software
- * for any purpose is hereby granted, under the terms of the MIT license.
- *
- * If a copy of the license was not distributed with this file, it can
- * be obtained from https://opensource.org/licenses/MIT.
- */
-// ----------------------------------------------------------------------------
 import assert from 'node:assert';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
@@ -17,7 +6,6 @@ import { XMLParser } from 'fast-xml-parser';
 import { DoxygenIndexDataModel } from './data-model/index/indexdoxygentype-dm.js';
 import { DoxygenFileDataModel } from './data-model/doxyfile/doxyfiletype-dm.js';
 import { DoxygenDataModel } from './data-model/compounds/doxygentype-dm.js';
-// ----------------------------------------------------------------------------
 export class DoxygenXmlParser {
     options;
     parsedFilesCounter = 0;
@@ -37,36 +25,20 @@ export class DoxygenXmlParser {
         });
     }
     async parse() {
-        // The parser is configured to preserve the original, non-trimmed content
-        // and the original elements order. The downsize
-        // Some details are from the schematic documentation:
-        // https://github.com/NaturalIntelligence/fast-xml-parser/blob/master/README.md#documents
-        // The defaults are in the project source:
-        // https://github.com/NaturalIntelligence/fast-xml-parser/blob/master/src/xmlparser/OptionsBuilder.js
-        // console.log(folderPath)
-        // ------------------------------------------------------------------------
-        // Parse the top index.xml file.
         if (!this.options.verbose) {
             console.log('Parsing Doxygen generated .xml files...');
         }
         await this.parseDoxygenIndex();
         assert(this.dataModel.doxygenindex !== undefined);
-        // ------------------------------------------------------------------------
-        // Parse all compound *.xml files mentioned in the index.
         if (Array.isArray(this.dataModel.doxygenindex.compounds)) {
             for (const indexCompound of this.dataModel.doxygenindex.compounds) {
-                // Parallelise not possible, the order is relevant.
                 const parsedDoxygenElements = await this.parseFile({
                     fileName: `${indexCompound.refid}.xml`,
                 });
-                // console.log(util.inspect(parsedDoxygen))
-                // console.log(JSON.stringify(parsedDoxygen, null, '  '))
                 this.processCompoundDefs(indexCompound, parsedDoxygenElements);
             }
             this.processMemberdefs();
         }
-        // ------------------------------------------------------------------------
-        // Parse the Doxyfile.xml with the options.
         await this.parseDoxyfile();
         assert(this.dataModel.doxyfile);
         console.log(this.parsedFilesCounter, 'xml files parsed');
@@ -75,22 +47,16 @@ export class DoxygenXmlParser {
                 console.log(this.dataModel.images.length, 'images identified');
             }
         }
-        // ------------------------------------------------------------------------
         return this.dataModel;
     }
     async parseDoxygenIndex() {
         const parsedIndexElements = await this.parseFile({
             fileName: 'index.xml',
         });
-        // console.log(util.inspect(parsedIndex))
-        // console.log(util.inspect(parsedIndex[0]['?xml']))
-        // console.log(JSON.stringify(parsedIndex, null, '  '))
         for (const element of parsedIndexElements) {
             if (this.hasInnerElement(element, '?xml')) {
-                // Ignore the top xml prologue.
             }
             else if (this.hasInnerText(element)) {
-                // Ignore top texts.
             }
             else if (this.hasInnerElement(element, 'doxygenindex')) {
                 this.dataModel.doxygenindex = new DoxygenIndexDataModel(this, element);
@@ -104,10 +70,8 @@ export class DoxygenXmlParser {
     processCompoundDefs(indexCompound, parsedDoxygenElements) {
         for (const element of parsedDoxygenElements) {
             if (this.hasInnerElement(element, '?xml')) {
-                // Ignore the top xml prologue.
             }
             else if (this.hasInnerText(element)) {
-                // Ignore top texts.
             }
             else if (this.hasInnerElement(element, 'doxygen')) {
                 const doxygen = new DoxygenDataModel(this, element);
@@ -148,14 +112,10 @@ export class DoxygenXmlParser {
         const parsedDoxyfileElements = await this.parseFile({
             fileName: 'Doxyfile.xml',
         });
-        // console.log(util.inspect(parsedDoxyfile))
-        // console.log(JSON.stringify(parsedDoxyfile, null, '  '))
         for (const element of parsedDoxyfileElements) {
             if (this.hasInnerElement(element, '?xml')) {
-                // Ignore the top xml prologue.
             }
             else if (this.hasInnerElement(element, '#text')) {
-                // Ignore top texts.
             }
             else if (this.hasInnerElement(element, 'doxyfile')) {
                 this.dataModel.doxyfile = new DoxygenFileDataModel(this, element);
@@ -166,8 +126,6 @@ export class DoxygenXmlParser {
             }
         }
     }
-    // --------------------------------------------------------------------------
-    // Support methods.
     async parseFile({ fileName }) {
         const folderPath = this.options.doxygenXmlInputFolderPath;
         const filePath = path.join(folderPath, fileName);
@@ -178,7 +136,6 @@ export class DoxygenXmlParser {
         this.parsedFilesCounter += 1;
         return this.xmlParser.parse(xmlString);
     }
-    // --------------------------------------------------------------------------
     hasAttributes(element) {
         return Object.hasOwn(element, ':@');
     }
@@ -204,9 +161,6 @@ export class DoxygenXmlParser {
             }
             else if (attributeValue !== undefined &&
                 typeof attributeValue === 'number') {
-                // The xml parser returns attributes like `refid="21"` as numbers,
-                // but the DTD defines them as strings and the applications expects
-                // strings.
                 return String(attributeValue);
             }
         }
@@ -251,7 +205,6 @@ export class DoxygenXmlParser {
     isInnerElementText(element, name) {
         if (Object.hasOwn(element, name) === true) {
             const innerElements = element[name];
-            // console.log('isInnerElementText', util.inspect(element, { compact: false, depth: 999 })
             assert(innerElements !== undefined);
             if (innerElements.length === 1) {
                 assert(innerElements[0] !== undefined);
@@ -264,7 +217,6 @@ export class DoxygenXmlParser {
                 }
             }
             else if (innerElements.length === 0) {
-                // Empty string.
                 return true;
             }
         }
@@ -281,9 +233,7 @@ export class DoxygenXmlParser {
             return false;
         }
     }
-    // T must be an array of elements.
     getInnerElements(element, name) {
-        // assert(Object.hasOwn(element, name) === true && Array.isArray((element as { [name]: T })[name]))
         const innerElements = element[name];
         if (innerElements !== undefined) {
             return innerElements;
@@ -341,7 +291,6 @@ export class DoxygenXmlParser {
         }
     }
     getInnerText(element) {
-        // assert(Object.hasOwn(element, '#text') === true)
         const value = element['#text'];
         assert(typeof value === 'string' ||
             typeof value === 'number' ||
@@ -349,5 +298,4 @@ export class DoxygenXmlParser {
         return value.toString();
     }
 }
-// ----------------------------------------------------------------------------
 //# sourceMappingURL=doxygen-xml-parser.js.map

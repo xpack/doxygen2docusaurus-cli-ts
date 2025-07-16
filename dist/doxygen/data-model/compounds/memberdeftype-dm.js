@@ -1,14 +1,3 @@
-/*
- * This file is part of the xPack project (http://xpack.github.io).
- * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
- *
- * Permission to use, copy, modify, and/or distribute this software
- * for any purpose is hereby granted, under the terms of the MIT license.
- *
- * If a copy of the license was not distributed with this file, it can
- * be obtained from https://opensource.org/licenses/MIT.
- */
-// ----------------------------------------------------------------------------
 import assert from 'node:assert';
 import * as util from 'node:util';
 import { BriefDescriptionDataModel, DetailedDescriptionDataModel, InbodyDescriptionDataModel, } from './descriptiontype-dm.js';
@@ -21,42 +10,30 @@ import { EnumValueDataModel } from './enumvaluetype-dm.js';
 import { ReimplementDataModel, ReimplementedByDataModel, } from './reimplementtype-dm.js';
 import { ReferenceDataModel, ReferencedByDataModel, } from './referencetype-dm.js';
 export class AbstractMemberBaseType extends AbstractDataModelBase {
-    // Mandatory elements.
     name = '';
     kind = '';
 }
 export class AbstractMemberDefType extends AbstractMemberBaseType {
-    // Mandatory elements.
-    // name: string = '' (in parent)
     location;
-    // Mandatory attributes.
-    // kind: DoxMemberKind | '' = '' (in parent)
     id = '';
     prot = '';
     staticc;
-    // Optional elements.
     templateparamlist;
     type;
     definition;
     argsstring;
     qualifiedName;
-    // read?: string | undefined
-    // write?: string | undefined
     bitfield;
     reimplements;
     reimplementedBys;
-    // qualifier?: string[] | undefined
     params;
     enumvalues;
-    // requiresclause?: LinkedTextType | undefined
     initializer;
-    // exceptions?: LinkedTextType | undefined
     briefDescription;
     detailedDescription;
     inbodyDescription;
     references;
     referencedBy;
-    // Optional attributes.
     extern;
     strong;
     constt;
@@ -73,17 +50,12 @@ export class AbstractMemberDefType extends AbstractMemberBaseType {
     consteval;
     constinit;
     final;
-    // TODO: add more...
     constructor(xml, element, elementName) {
         super(elementName);
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
-        // ------------------------------------------------------------------------
-        // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
-                // Ignore texts.
             }
             else if (xml.isInnerElementText(innerElement, 'name')) {
                 this.name = xml.getInnerElementText(innerElement, 'name');
@@ -162,16 +134,10 @@ export class AbstractMemberDefType extends AbstractMemberBaseType {
                 console.error(`${elementName} element:`, Object.keys(innerElement), 'not implemented yet in', this.constructor.name);
             }
         }
-        // WARNING it may be empty.
-        // assert(this.name.length > 0)
         assert(this.location !== undefined);
-        // ------------------------------------------------------------------------
-        // Process attributes.
         assert(xml.hasAttributes(element));
         const attributesNames = xml.getAttributesNames(element);
-        // console.log(attributesNames)
         for (const attributeName of attributesNames) {
-            // console.log(attributeName)
             if (attributeName === '@_kind') {
                 this.kind = xml.getAttributeStringValue(element, '@_kind');
             }
@@ -240,17 +206,11 @@ export class AbstractMemberDefType extends AbstractMemberBaseType {
         assert(this.kind);
         assert(this.id);
         assert(this.prot);
-        // ------------------------------------------------------------------------
-        // console.log(util.inspect(this, { compact: false, depth: 999 }))
     }
 }
-// ----------------------------------------------------------------------------
-// <xsd:element name="memberdef" type="memberdefType" minOccurs="0" maxOccurs="unbounded" />
 export class MemberDefDataModel extends AbstractMemberDefType {
     constructor(xml, element) {
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         super(xml, element, 'memberdef');
     }
 }
-// ----------------------------------------------------------------------------
 //# sourceMappingURL=memberdeftype-dm.js.map

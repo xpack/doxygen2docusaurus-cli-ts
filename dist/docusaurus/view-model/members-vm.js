@@ -1,52 +1,36 @@
-/*
- * This file is part of the xPack project (http://xpack.github.io).
- * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
- *
- * Permission to use, copy, modify, and/or distribute this software
- * for any purpose is hereby granted, under the terms of the MIT license.
- *
- * If a copy of the license was not distributed with this file, it can
- * be obtained from https://opensource.org/licenses/MIT.
- */
-// ----------------------------------------------------------------------------
-/* eslint-disable max-lines */
 import * as util from 'node:util';
 import assert from 'node:assert';
 import { getPermalinkAnchor, sanitizeAnonymousNamespace } from '../utils.js';
 import { MemberProgramListingDataModel, ParaDataModel, } from '../../doxygen/data-model/compounds/descriptiontype-dm.js';
-// ----------------------------------------------------------------------------
 export const sectionHeaders = {
-    typedef: ['Typedefs', 100], // DoxMemberKind too
+    typedef: ['Typedefs', 100],
     'public-type': ['Public Member Typedefs', 110],
     'protected-type': ['Protected Member Typedefs', 120],
     'private-type': ['Private Member Typedefs', 130],
     'package-type': ['Package Member Typedefs', 140],
-    enum: ['Enumerations', 150], // DoxMemberKind too
-    friend: ['Friends', 160], // DoxMemberKind too
-    interface: ['Interfaces', 170], // DoxMemberKind only
-    // Extra, not present in Doxygen.
+    enum: ['Enumerations', 150],
+    friend: ['Friends', 160],
+    interface: ['Interfaces', 170],
     constructorr: ['Constructors', 200],
     'public-constructorr': ['Public Constructors', 200],
     'protected-constructorr': ['Protected Constructors', 210],
     'private-constructorr': ['Private Constructors', 220],
-    // Extra, not present in Doxygen.
     'public-destructor': ['Public Destructor', 230],
     'protected-destructor': ['Protected Destructor', 240],
     'private-destructor': ['Private Destructor', 250],
-    // Extra, not present in Doxygen.
     operator: ['Operators', 300],
     'public-operator': ['Public Operators', 310],
     'protected-operator': ['Protected Operators', 320],
     'private-operator': ['Private Operators', 330],
     'package-operator': ['Package Operators', 340],
     func: ['Functions', 350],
-    function: ['Functions', 350], // DoxMemberKind only
+    function: ['Functions', 350],
     'public-func': ['Public Member Functions', 360],
     'protected-func': ['Protected Member Functions', 370],
     'private-func': ['Private Member Functions', 380],
     'package-func': ['Package Member Functions', 390],
     var: ['Variables', 400],
-    variable: ['Variables', 400], // DoxMemberKind only
+    variable: ['Variables', 400],
     'public-attrib': ['Public Member Attributes', 410],
     'protected-attrib': ['Protected Member Attributes', 420],
     'private-attrib': ['Private Member Attributes', 430],
@@ -63,34 +47,29 @@ export const sectionHeaders = {
     'protected-static-attrib': ['Protected Static Attributes', 610],
     'private-static-attrib': ['Private Static Attributes', 620],
     'package-static-attrib': ['Package Static Attributes', 630],
-    slot: ['Slots', 700], // DoxMemberKind only
+    slot: ['Slots', 700],
     'public-slot': ['Public Slots', 700],
     'protected-slot': ['Protected Slot', 710],
     'private-slot': ['Private Slot', 720],
     related: ['Related', 800],
-    define: ['Macro Definitions', 810], // DoxMemberKind too
-    prototype: ['Prototypes', 820], // DoxMemberKind too
-    signal: ['Signals', 830], // DoxMemberKind too
-    // 'dcop-func': ['DCOP Functions', 840],
-    dcop: ['DCOP Functions', 840], // DoxMemberKind only
-    property: ['Properties', 850], // DoxMemberKind too
-    event: ['Events', 860], // DoxMemberKind too
-    service: ['Services', 870], // DoxMemberKind only
+    define: ['Macro Definitions', 810],
+    prototype: ['Prototypes', 820],
+    signal: ['Signals', 830],
+    dcop: ['DCOP Functions', 840],
+    property: ['Properties', 850],
+    event: ['Events', 860],
+    service: ['Services', 870],
     'user-defined': ['Definitions', 1000],
 };
-// ----------------------------------------------------------------------------
 export class Section {
     compound;
     kind;
     headerName;
     descriptionLines;
-    // Both references and definitions.
     indexMembers = [];
-    // Only definitions.
     definitionMembers = [];
     _private = {};
     constructor(compound, sectionDef) {
-        // console.log(compound.kind, compound.compoundName, sectionDef.kind)
         this._private._sectionDef = sectionDef;
         this.compound = compound;
         const { kind } = sectionDef;
@@ -102,8 +81,6 @@ export class Section {
             for (const memberDefDataModel of sectionDef.memberDefs) {
                 const member = new Member(this, memberDefDataModel);
                 members.push(member);
-                // Do not add it to the global map since additional checks are needed
-                // therefore the procedure is done in the global generator.
             }
         }
         if (sectionDef.members !== undefined) {
@@ -111,7 +88,6 @@ export class Section {
                 members.push(new MemberRef(this, memberRef));
             }
         }
-        // Original order.
         this.indexMembers = members;
         const definitionMembers = [];
         for (const member of this.indexMembers) {
@@ -119,66 +95,20 @@ export class Section {
                 definitionMembers.push(member);
             }
         }
-        // Sorted.
         this.definitionMembers = definitionMembers.sort((a, b) => a.name.localeCompare(b.name));
     }
     initializeLate() {
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.compound.collection;
         assert(this._private._sectionDef !== undefined);
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { _sectionDef: sectionDef } = this._private;
         if (sectionDef.description !== undefined) {
             this.descriptionLines = workspace.renderElementToLines(sectionDef.description, 'html');
-            // console.log(this.indexMembers, this.descriptionLines)
         }
     }
     hasDefinitionMembers() {
         return this.definitionMembers.length > 0;
     }
-    // --------------------------------------------------------------------------
-    // <xsd:simpleType name="DoxSectionKind">
-    //   <xsd:restriction base="xsd:string">
-    //     <xsd:enumeration value="user-defined" />
-    //     <xsd:enumeration value="public-type" />
-    //     <xsd:enumeration value="public-func" />
-    //     <xsd:enumeration value="public-attrib" />
-    //     <xsd:enumeration value="public-slot" />
-    //     <xsd:enumeration value="signal" />
-    //     <xsd:enumeration value="dcop-func" />
-    //     <xsd:enumeration value="property" />
-    //     <xsd:enumeration value="event" />
-    //     <xsd:enumeration value="public-static-func" />
-    //     <xsd:enumeration value="public-static-attrib" />
-    //     <xsd:enumeration value="protected-type" />
-    //     <xsd:enumeration value="protected-func" />
-    //     <xsd:enumeration value="protected-attrib" />
-    //     <xsd:enumeration value="protected-slot" />
-    //     <xsd:enumeration value="protected-static-func" />
-    //     <xsd:enumeration value="protected-static-attrib" />
-    //     <xsd:enumeration value="package-type" />
-    //     <xsd:enumeration value="package-func" />
-    //     <xsd:enumeration value="package-attrib" />
-    //     <xsd:enumeration value="package-static-func" />
-    //     <xsd:enumeration value="package-static-attrib" />
-    //     <xsd:enumeration value="private-type" />
-    //     <xsd:enumeration value="private-func" />
-    //     <xsd:enumeration value="private-attrib" />
-    //     <xsd:enumeration value="private-slot" />
-    //     <xsd:enumeration value="private-static-func" />
-    //     <xsd:enumeration value="private-static-attrib" />
-    //     <xsd:enumeration value="friend" />
-    //     <xsd:enumeration value="related" />
-    //     <xsd:enumeration value="define" />
-    //     <xsd:enumeration value="prototype" />
-    //     <xsd:enumeration value="typedef" />
-    //     <xsd:enumeration value="enum" />
-    //     <xsd:enumeration value="func" />
-    //     <xsd:enumeration value="var" />
-    //   </xsd:restriction>
-    // </xsd:simpleType>
     getHeaderNameByKind(sectionDef) {
-        // User defined sections have their own header.
         const { header, kind } = sectionDef;
         if (kind === 'user-defined') {
             if (header !== undefined) {
@@ -190,9 +120,7 @@ export class Section {
         if (header !== undefined) {
             console.warn('header', header, 'ignored in sectionDef of kind', kind);
         }
-        // ------------------------------------------------------------------------
         const sectionHeader = sectionHeaders[kind];
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (sectionHeader === undefined) {
             console.error(util.inspect(sectionDef, { compact: false, depth: 999 }));
             console.error(sectionDef.constructor.name, 'kind', kind, 'not yet rendered in', this.constructor.name, 'getHeaderNameByKind');
@@ -203,17 +131,14 @@ export class Section {
     getSectionOrderByKind() {
         const { kind } = this;
         if (kind === 'user-defined') {
-            return 1000; // At the end.
+            return 1000;
         }
         const header = sectionHeaders[kind];
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         assert(header !== undefined);
         return header[1];
     }
-    // --------------------------------------------------------------------------
     renderIndexToLines() {
         const lines = [];
-        // console.log(sectionDef)
         if (this.indexMembers.length > 0) {
             lines.push('');
             lines.push(`## ${this.headerName} Index`);
@@ -234,13 +159,11 @@ export class Section {
         }
         return lines;
     }
-    // --------------------------------------------------------------------------
     renderToLines() {
         const lines = [];
         if (!this.hasDefinitionMembers()) {
             return lines;
         }
-        // TODO: filter out members defined in other compounds.
         lines.push('');
         lines.push('<div class="doxySectionDef">');
         lines.push('');
@@ -260,7 +183,6 @@ export class Section {
         return lines;
     }
 }
-// ----------------------------------------------------------------------------
 class MemberBase {
     section;
     name;
@@ -268,8 +190,6 @@ class MemberBase {
         this.section = section;
         this.name = name;
     }
-    // Intentionally left blank for subclasses to override.
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this, @typescript-eslint/no-empty-function
     initializeLate() { }
 }
 export class Member extends MemberBase {
@@ -281,7 +201,6 @@ export class Member extends MemberBase {
     qualifiedName;
     definition;
     type;
-    // Markdown, since it may include constructs like []().
     initializerHtmlLines;
     locationMarkdownLines;
     templateParameters;
@@ -305,16 +224,12 @@ export class Member extends MemberBase {
         this.id = id;
         this.kind = kind;
     }
-    // eslint-disable-next-line complexity
     initializeLate() {
         super.initializeLate();
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { _memberDef: memberDef } = this._private;
         assert(memberDef !== undefined);
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.section.compound.collection;
         if (memberDef.briefDescription !== undefined) {
-            // console.log(memberDef.briefDescription)
             assert(memberDef.briefDescription.children !== undefined);
             for (const child of memberDef.briefDescription.children) {
                 if (child instanceof ParaDataModel) {
@@ -376,11 +291,9 @@ export class Member extends MemberBase {
         if (memberDef.virt !== undefined && memberDef.virt === 'virtual') {
             labels.push('virtual');
         }
-        // WARNING: there is no explicit attribute for 'delete'.
         if (memberDef.argsstring?.endsWith('=delete') ?? false) {
             labels.push('delete');
         }
-        // WARNING: there is no explicit attribute for 'default'.
         if (memberDef.argsstring?.endsWith('=default') ?? false) {
             labels.push('default');
         }
@@ -390,11 +303,9 @@ export class Member extends MemberBase {
         if (memberDef.mutable?.valueOf() ?? false) {
             labels.push('mutable');
         }
-        // WARNING: could not find how to generate 'inherited'.
         this.labels = labels;
         const type = this.type ?? '';
         const templateParamList = memberDef.templateparamlist ??
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
             this.section.compound.templateParamList;
         if (this.section.compound.isTemplate(templateParamList) &&
             (type.includes('decltype(') ||
@@ -438,12 +349,9 @@ export class Member extends MemberBase {
         }
         this.isStrong = memberDef.strong?.valueOf() ?? false;
         this.isConst = memberDef.constt?.valueOf() ?? false;
-        // Clear the reference, it is no longer needed.
         this._private._memberDef = undefined;
     }
     filterProgramListingForLocation(location) {
-        // console.log(location)
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.section.compound.collection;
         if (location === undefined) {
             return undefined;
@@ -474,38 +382,15 @@ export class Member extends MemberBase {
             else {
                 return undefined;
             }
-            // console.log(definitionFile.indexName, startLine, endLine)
             programListing = new MemberProgramListingDataModel(definitionFile.programListing, startLine, endLine);
-            // } else if (location.file !== undefined) {
-            //   definitionFile = workspace.filesByPath.get(location.file)
-            //   if (definitionFile === undefined) {
-            //     console.log('no definition')
-            //     return undefined
-            //   }
-            //   if (definitionFile.programListing === undefined) {
-            //     console.log('no listing')
-            //     return undefined
-            //   }
-            //   if (location.line !== undefined) {
-            //     startLine = location.line.valueOf()
-            //     endLine = startLine
-            //   } else {
-            //     return undefined
-            //   }
         }
         if (definitionFile?.programListing !== undefined) {
-            // console.log(definitionFile.indexName, startLine, endLine)
             programListing = new MemberProgramListingDataModel(definitionFile.programListing, startLine, endLine);
         }
-        // console.log(programListing)
         return programListing;
     }
-    // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
     renderIndexToLines() {
-        // console.log(util.inspect(this, { compact: false, depth: 999 }))
         const lines = [];
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const workspace = this.section.compound.collection.workspace;
         const permalink = workspace.getPermalink({
             refid: this.id,
@@ -544,10 +429,6 @@ export class Member extends MemberBase {
                 break;
             case 'function':
                 {
-                    // WARNING: the rule to decide which type is trailing is not
-                    // in the XMLs.
-                    // https://github.com/doxygen/doxygen/discussions/11568
-                    // TODO: improve.
                     const type = this.type ?? '';
                     if (this.isStatic) {
                         itemType += 'static ';
@@ -563,7 +444,6 @@ export class Member extends MemberBase {
                         if (!itemType.includes('auto')) {
                             itemType += 'auto ';
                         }
-                        // WARNING: Doxygen shows this, but the resulting line is too long.
                         itemName += workspace.renderString(' -> ', 'html');
                         itemName += type;
                     }
@@ -571,7 +451,6 @@ export class Member extends MemberBase {
                         itemType += type;
                     }
                     if (this.initializerHtmlLines !== undefined) {
-                        // Show only short initializers in the index.
                         itemName += ' ';
                         if (this.initializerHtmlLines.length === 1) {
                             itemName += this.initializerHtmlLines[0];
@@ -600,7 +479,6 @@ export class Member extends MemberBase {
                     itemName += this.argsstring;
                 }
                 if (this.initializerHtmlLines !== undefined) {
-                    // Show only short initializers in the index.
                     itemName += ' ';
                     if (this.initializerHtmlLines.length === 1) {
                         itemName += this.initializerHtmlLines[0];
@@ -611,7 +489,6 @@ export class Member extends MemberBase {
                 }
                 break;
             case 'enum':
-                // console.log(this)
                 itemType = '';
                 if (this.name.length === 0) {
                     itemType += 'anonymous ';
@@ -620,7 +497,6 @@ export class Member extends MemberBase {
                 if (this.isStrong) {
                     itemType += ' class';
                 }
-                // eslint-disable-next-line @typescript-eslint/prefer-destructuring
                 itemName = this.name;
                 if (this.type !== undefined && this.type.length > 0) {
                     itemName += ` : ${this.type}`;
@@ -630,11 +506,9 @@ export class Member extends MemberBase {
                 itemName += workspace.renderString(' }', 'html');
                 break;
             case 'friend':
-                // console.log(this)
                 itemType = this.type ?? 'class';
                 break;
             case 'define':
-                // console.log(this)
                 itemType = '#define';
                 if (this.parametersHtmlString !== undefined) {
                     itemName += `(${this.parametersHtmlString})`;
@@ -665,7 +539,7 @@ export class Member extends MemberBase {
             briefDescriptionString.length > 0) {
             childrenLines.push(this.section.compound.renderBriefDescriptionToHtmlString({
                 briefDescriptionHtmlString: briefDescriptionString,
-                morePermalink: permalink, // No #details, it is already an anchor.
+                morePermalink: permalink,
             }));
         }
         lines.push(...workspace.renderMembersIndexItemToHtmlLines({
@@ -676,11 +550,8 @@ export class Member extends MemberBase {
         }));
         return lines;
     }
-    // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
     renderToLines() {
         const lines = [];
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const workspace = this.section.compound.collection.workspace;
         const isFunction = this.section.kind.startsWith('func') ||
             this.section.kind.endsWith('func') ||
@@ -697,17 +568,13 @@ export class Member extends MemberBase {
         let prototype = undefined;
         const { labels } = this;
         const childrenLines = [];
-        // console.log(memberDef.kind)
         switch (this.kind) {
             case 'function':
             case 'typedef':
             case 'variable':
-                // WARNING: the rule to decide which type is trailing is not in XMLs.
-                // TODO: improve.
                 assert(this.definition !== undefined);
                 prototype = workspace.renderString(this.definition, 'html');
                 if (this.isStatic) {
-                    // The html pages show `static` only as a label; strip it.
                     prototype = prototype.replace(/^static /, '');
                 }
                 if (this.kind === 'function') {
@@ -745,8 +612,6 @@ export class Member extends MemberBase {
                         for (const initializerLine of this.initializerHtmlLines.slice(1)) {
                             if (initializerLine.trim().length > 0) {
                                 childrenLines.push(initializerLine);
-                                // } else {
-                                //   childrenLines.push('&nbsp;')
                             }
                         }
                         childrenLines.push('</div>');
@@ -805,7 +670,6 @@ export class Member extends MemberBase {
                 }
                 break;
             case 'friend':
-                // console.log(this)
                 prototype = `friend ${this.type} ${this.parametersHtmlString}`;
                 if (this.detailedDescriptionHtmlLines !== undefined) {
                     childrenLines.push(...this.section.compound.renderDetailedDescriptionToHtmlLines({
@@ -817,7 +681,6 @@ export class Member extends MemberBase {
                 }
                 break;
             case 'define':
-                // console.log(this)
                 prototype = `#define ${name}`;
                 if (this.parametersHtmlString !== undefined) {
                     prototype += `(${this.parametersHtmlString})`;
@@ -850,8 +713,6 @@ export class Member extends MemberBase {
                         for (const initializerLine of this.initializerHtmlLines.slice(1)) {
                             if (initializerLine.trim().length > 0) {
                                 childrenLines.push(initializerLine);
-                                // } else {
-                                //   childrenLines.push('&nbsp;')
                             }
                         }
                         childrenLines.push('</div>');
@@ -895,7 +756,6 @@ export class Member extends MemberBase {
         }
         return lines;
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     renderMemberDefinitionToLines({ template, prototype, labels, childrenLines, }) {
         const lines = [];
         lines.push('<div class="doxyMemberItem">');
@@ -925,13 +785,12 @@ export class Member extends MemberBase {
         lines.push('</table>');
         lines.push('</div>');
         lines.push('<div class="doxyMemberDoc">');
-        lines.push(''); // Required to make the first line a separate paragraph.
+        lines.push('');
         lines.push(...childrenLines);
         lines.push('</div>');
         lines.push('</div>');
         return lines;
     }
-    // --------------------------------------------------------------------------
     renderEnumToLines() {
         const lines = [];
         lines.push('');
@@ -943,18 +802,14 @@ export class Member extends MemberBase {
             for (const enumValue of this.enumValues) {
                 const anchor = getPermalinkAnchor(enumValue.id);
                 let enumBriefDescriptionHtmlString = (enumValue.briefDescriptionHtmlString ?? '').replace(/[.]$/, '');
-                // console.log(`|${enumBriefDescription}|`)
                 const { initializerHtmlString: value } = enumValue;
                 if (value !== undefined && value.length > 0) {
                     enumBriefDescriptionHtmlString += ` (${value})`;
                 }
                 lines.push('');
-                // lines.push(`<a id="${anchor}"></a>`)
                 lines.push('<tr class="doxyEnumItem">');
                 lines.push(`<td class="doxyEnumItemName">${enumValue.name}` +
                     `<a id="${anchor}"></a></td>`);
-                // lines.push(`<td class="doxyEnumItemDescription">`+
-                // `<p>${enumBriefDescription}</p></td>`)
                 if (!enumBriefDescriptionHtmlString.includes('\n')) {
                     lines.push(`<td class="doxyEnumItemDescription">` +
                         `${enumBriefDescriptionHtmlString}</td>`);
@@ -974,18 +829,14 @@ export class Member extends MemberBase {
         return lines;
     }
 }
-// ----------------------------------------------------------------------------
 export class MemberRef extends MemberBase {
-    // memberRef: MemberDataModel
     refid;
     constructor(section, memberRef) {
         super(section, memberRef.name);
-        // this.memberRef = memberRef
         const { refid } = memberRef;
         this.refid = refid;
     }
 }
-// ----------------------------------------------------------------------------
 export class EnumValue {
     name;
     id;
@@ -997,7 +848,6 @@ export class EnumValue {
         this.name = enumValue.name.trim();
         const { id } = enumValue;
         this.id = id;
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const workspace = member.section.compound.collection.workspace;
         if (enumValue.briefDescription !== undefined) {
             assert(enumValue.briefDescription.children != null);
@@ -1016,8 +866,6 @@ export class EnumValue {
         if (enumValue.initializer !== undefined) {
             this.initializerHtmlString = workspace.renderElementToString(enumValue.initializer, 'html');
         }
-        // console.log(this)
     }
 }
-// ----------------------------------------------------------------------------
 //# sourceMappingURL=members-vm.js.map
