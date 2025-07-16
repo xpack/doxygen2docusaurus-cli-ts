@@ -128,3 +128,36 @@ out
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# ----- custom -----
+
+xpacks/
+
+.tap
+
+cjs/
+**/*.js.map
+**/*.d.ts
+**/*.d.ts.map
+
+# /docs/
+
+tsconfig.tsbuildinfo
+
+tmp/
+
+.vscode/c_cpp_properties.json
+
+build*/
+!build-assets/
+
+Thumbs.db
+.DS_Store
+
+tests/top
+
+website/.docusaurus
+website/build
+website/html
+
+# ----- end -----

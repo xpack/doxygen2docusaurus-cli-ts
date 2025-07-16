@@ -69,6 +69,7 @@ lib/**/*.ts
 **/tsconfig*.json
 typedoc.json
 tsconfig.tsbuildinfo
+src/
 xpacks/
 node_modules/
 docs/
