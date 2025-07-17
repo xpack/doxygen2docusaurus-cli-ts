@@ -1,7 +1,7 @@
 {
   "name": "@xpack/doxygen2docusaurus",
   "version": "1.0.0",
-  "description": "A CLI application to convert Doxygen XMLs into Docusaurus docs.",
+  "description": "A CLI application to convert Doxygen XMLs into Docusaurus docs",
   "type": "module",
   "exports": {
     ".": "./dist/index.js"
@@ -67,19 +67,19 @@
     "@tsconfig/node20": "^20.1.6",
     "@types/node": "^24.0.14",
     "del-cli": "^6.0.0",
-    "json": "^11.0.0",
-    "liquidjs": "^10.19.1",
-    "ts-node": "^10.9.2",
     "eslint": "^9.31.0",
     "eslint-config-love": "^121.0.0",
+    "json": "^11.0.0",
+    "liquidjs": "^10.19.1",
     "prettier": "3.6.2",
-    "typedoc": "^0.28.7",
+    "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "topConfig": {
-    "descriptiveName": "CLI application to convert Doxygen XMLs into Docusaurus docs",
+    "descriptiveName": "doxygen2docusaurus",
     "permalinkName": "doxygen2docusaurus",
     "skipCiTests": "true",
+    "hasCli": "true",
     "useEslint": "true"
   },
   "prettier": {
