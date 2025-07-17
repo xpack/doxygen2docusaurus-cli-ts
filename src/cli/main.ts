@@ -45,6 +45,13 @@ interface GenericPackageConfiguration {
   doxygen2docusaurus?: CliConfigurationOptions
 }
 
+/**
+ * Main entry point for the doxygen2docusaurus CLI tool.
+ *
+ * @public
+ * @param argv - Command line arguments array
+ * @returns Promise that resolves to the exit code (0 for success, 1 for error)
+ */
 export async function main(argv: string[]): Promise<number> {
   const program = new Command()
 
@@ -148,6 +155,13 @@ function selectMultiConfiguration(
   return configurationOptions
 }
 
+/**
+ * Parses Doxygen XML files and creates a data model.
+ *
+ * @public
+ * @param options - Configuration options for parsing
+ * @returns Promise that resolves to the parsed data model
+ */
 export async function parseDoxygen({
   options,
 }: {
@@ -193,6 +207,14 @@ export async function parseDoxygen({
   return dataModel
 }
 
+/**
+ * Generates Docusaurus markdown files from the parsed data model.
+ *
+ * @public
+ * @param dataModel - The parsed Doxygen data model
+ * @param options - Configuration options for generation
+ * @returns Promise that resolves to the exit code (0 for success)
+ */
 export async function generateDocusaurusMd({
   dataModel,
   options,
