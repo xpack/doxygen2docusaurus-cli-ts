@@ -1,8 +1,20 @@
-const { readdir, createReadStream, writeFile } = require("fs-extra");
-const { createInterface } = require("readline");
-const { join, parse } = require("path");
-const path = require("path");
-const fs = require("fs/promises");
+/*
+ * This file is part of the xPack project (http://xpack.github.io).
+ * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
+ *
+ * Permission to use, copy, modify, and/or distribute this software
+ * for any purpose is hereby granted, under the terms of the MIT license.
+ *
+ * If a copy of the license was not distributed with this file, it can
+ * be obtained from https://opensource.org/licenses/MIT.
+ */
+
+const { readdir, createReadStream, writeFile } = require('fs-extra')
+const { createInterface } = require('readline')
+const { join, parse } = require('path')
+const path = require('path')
+const fs = require('fs/promises')
+const util = require('util')
 
 // This script is not part of faast.js, but rather a tool to rewrite some parts
 // of the generated docs from api-generator and api-documenter so they work with
@@ -10,100 +22,310 @@ const fs = require("fs/promises");
 
 function patchLine(line) {
   return line
-    .replaceAll(/\]\(\.\/(doxygen2docusaurus[^)]*)\)/g, '](/doxygen2docusaurus-ts/docs/api/$1)')
+    .replaceAll(
+      /\]\(\.\/(doxygen2docusaurus[^)]*)\)/g,
+      '](/doxygen2docusaurus-ts/docs/api/$1)'
+    )
     .replaceAll(/\.md\)/g, ')')
-    .replaceAll(/\]\(([^)]*)\)/g, (match, content) => `](${content.replace(/\./g, '/')})`)
+    .replaceAll(
+      /\]\(([^)]*)\)/g,
+      (match, content) => `](${content.replace(/\./g, '/')})`
+    )
     .replaceAll(/_constructor_/g, '$constructor$')
 }
 
-async function main() {
-    const inputFolderPath = 'api-extractor/markdown'
-    const outputFolderPath = "website/docs/api";
-    const mdFilesNames = await readdir(inputFolderPath);
-    for (const mdFileName of mdFilesNames) {
-        try {
-            const { name: id, ext } = parse(mdFileName);
-            if (ext !== ".md") {
-                continue;
-            }
+function pluralise(name) {
+  const plurals = {
+    Class: 'Classes',
+    Interface: 'Interfaces',
+    Function: 'Functions',
+    Variable: 'Variables',
+    'Type alias': 'Type aliases',
+    Namespace: 'Namespaces',
+    Enum: 'Enums',
+    Method: 'Methods',
+    Property: 'Properties',
+  }
 
-            const mdInputFilePath = join(inputFolderPath, mdFileName);
-            const inputStream = createReadStream(mdInputFilePath);
+  if (plurals[name] !== undefined) {
+    return plurals[name]
+  }
 
-            const output = [];
-            const lines = createInterface({
-                input: inputStream,
-                crlfDelay: Infinity
-            });
-
-            let title = "";
-            lines.on("line", line => {
-                let skip = false;
-                if (!title) {
-                    const titleLine = line.match(/## (.*)/);
-                    if (titleLine) {
-                        title = titleLine[1];
-                    }
-                }
-
-                if (line !== '[Home](./index.md)') {
-                  const homeLink = line.match(/\[Home\]\(.\/index\.md\) &gt; (.*)/);
-                  if (homeLink) {
-                      // Skip the breadcrumb for the toplevel index file.
-                      if (id !== "doxygen2docusaurus") {
-                          output.push(patchLine(homeLink[1]));
-                      }
-                      skip = true;
-                  }
-                } else {
-                  skip = true;
-                }
-                // See issue #4. api-documenter expects \| to escape table
-                // column delimiters, but docusaurus uses a markdown processor
-                // that doesn't support this. Replace with an escape sequence
-                // that renders |.
-                if (line.startsWith("|")) {
-                    line = line.replace(/\\\|/g, "&#124;");
-                }
-                line = patchLine(line)
-                if (!skip) {
-                    output.push(line);
-                }
-            });
-
-            await new Promise(resolve => lines.once("close", resolve));
-            inputStream.close();
-
-            const slug = id === 'index' ? '/api' : `/api/${id.replace(/\./g, '/').replaceAll(/_constructor_/g, '$constructor$')}`;
-
-            const header = [
-              "---",
-              `slug: ${slug}`,
-              `title: ${title}`,
-              `hide_title: true`,
-              "---",
-              "",
-              "<div class=\"tsdocPage\">",
-              "",
-            ];
-
-            const footer = [
-              "",
-              "</div>"
-            ];
-
-            const mdOutFilePath = id.replace(/\./g, '/').replaceAll(/_constructor_/g, '$constructor$') + ".md";
-            console.log(`Writing ${mdOutFilePath}...`);
-
-            const mdOutFolderPath = path.dirname(path.join(outputFolderPath,mdOutFilePath))
-            await fs.mkdir(mdOutFolderPath, { recursive: true });
-
-            const docFilePath = join(outputFolderPath, mdOutFilePath);
-            await writeFile(docFilePath, header.concat(output).concat(footer).join("\n"));
-        } catch (err) {
-            console.error(`Could not process ${mdFileName}: ${err}`);
-        }
-    }
+  console.warn(`No plural for ${name}, using default.`)
+  return name + 's?'
 }
 
-main();
+function generateSidebarCategory(apiDataModel) {
+  const entryPointsSet = new Set()
+  for (const entryPointDataModel of apiDataModel.members) {
+    // console.log(entryPointDataModel.kind, entryPointDataModel.canonicalReference);
+
+    const entryPoint = {
+      data: entryPointDataModel,
+      compoundsMap: new Map(), // Map of array of compounds, by kind (Class, Interface, ...)
+    }
+    entryPointsSet.add(entryPoint)
+
+    for (const compoundDataModel of entryPointDataModel.members) {
+      // console.log(compoundDataModel.kind, compoundDataModel.name, compoundDataModel.canonicalReference);
+
+      const compound = {
+        data: compoundDataModel,
+        membersMap: new Map(), // Map of array of members, by kind (Constructor, Property, ...)
+      }
+
+      let compoundsArray = entryPoint.compoundsMap.get(compoundDataModel.kind)
+      if (compoundsArray === undefined) {
+        compoundsArray = []
+        entryPoint.compoundsMap.set(compoundDataModel.kind, compoundsArray)
+      }
+      compoundsArray.push(compound)
+
+      if (compoundDataModel.members !== undefined) {
+        for (const memberDataModel of compoundDataModel.members) {
+          // console.log('  ', memberDataModel.kind, memberDataModel.name, memberDataModel.canonicalReference);
+
+          const member = {
+            data: memberDataModel,
+          }
+
+          let membersArray = compound.membersMap.get(memberDataModel.kind)
+          if (membersArray === undefined) {
+            membersArray = []
+            compound.membersMap.set(memberDataModel.kind, membersArray)
+          }
+
+          membersArray.push(member)
+        }
+      }
+    }
+  }
+
+  const sidebarTopCategory = {
+    type: 'category',
+    label: 'API Reference (TSDoc)',
+    link: {
+      type: 'doc',
+      id: 'api/index',
+    },
+    collapsed: false,
+    items: [],
+  }
+
+  for (const entryPoint of entryPointsSet) {
+    const entryPointLabel = entryPoint.data.canonicalReference.replace(
+      /[!]$/,
+      ''
+    )
+    const entryPointId = entryPointLabel.replace(/^.*\//, '').toLowerCase()
+    const entryPointCategory = {
+      type: 'category',
+      label: entryPointLabel,
+      link: {
+        type: 'doc',
+        id: `api/${entryPointId}`,
+      },
+      collapsed: false,
+      items: [],
+    }
+    sidebarTopCategory.items.push(entryPointCategory)
+
+    for (const [kind, compoundsArray] of entryPoint.compoundsMap) {
+      const compoundCategoryLabel = pluralise(kind)
+      const kindCategory = {
+        type: 'category',
+        label: compoundCategoryLabel,
+        collapsed: true,
+        items: [],
+      }
+      entryPointCategory.items.push(kindCategory)
+
+      for (const compound of compoundsArray) {
+        const compoundLabel = compound.data.name
+        const compoundId = compound.data.name.toLowerCase()
+
+        const compoundCategory = {
+          type: 'category',
+          label: compoundLabel,
+          link: {
+            type: 'doc',
+            id: `${entryPointCategory.link.id}/${compoundId}`,
+          },
+          collapsed: true,
+          items: [],
+        }
+        kindCategory.items.push(compoundCategory)
+
+        if (compound.membersMap !== undefined && compound.membersMap.size > 0) {
+          for (const [memberKind, membersArray] of compound.membersMap) {
+            for (const member of membersArray) {
+              if (member.data.name === undefined) {
+                // console.warn(`Skipping member without name in ${compoundLabel}: ${member.data.canonicalReference}`);
+                continue // Skip members without a name
+              }
+              // Replace non-alphanumeric characters with underscores for member IDs
+              let memberLabel = member.data.name
+
+              let memberId = memberLabel
+                .replaceAll(/[^a-zA-Z0-9]/g, '_')
+                .toLowerCase()
+              // Surround with $ if the original name contains non-alphanumeric characters
+              if (/[^a-zA-Z0-9]/.test(member.data.name)) {
+                memberId = `$${memberId}$`
+              }
+
+              if (memberKind === 'Constructor') {
+                memberLabel = 'constructor'
+                memberId = '$constructor$'
+              }
+              const memberDoc = {
+                type: 'doc',
+                id: `${entryPointCategory.link.id}/${compoundId}/${memberId}`,
+                label: memberLabel,
+              }
+              compoundCategory.items.push(memberDoc)
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return sidebarTopCategory
+}
+
+async function main() {
+  const apiJsonFilePath = '../api-extractor/doxygen2docusaurus.api.json'
+  const sidebarFilePath = 'sidebar-category-tsdoc.json'
+
+  // Parse the API JSON file
+  let apiDataModel = null
+  try {
+    const apiJsonContent = await fs.readFile(apiJsonFilePath, 'utf8')
+    apiDataModel = JSON.parse(apiJsonContent)
+  } catch (err) {
+    console.warn(
+      `Could not parse API JSON file ${apiJsonFilePath}: ${err.message}`
+    )
+    process.exit(1)
+  }
+
+  const sidebar = generateSidebarCategory(apiDataModel)
+  // console.log(util.inspect(sidebar, { compact: false, depth: 999 }));
+
+  // Write the sidebar to file
+  try {
+    console.log(`Writing sidebar file ${sidebarFilePath}`)
+    const sidebarJson = JSON.stringify(sidebar, null, 2)
+    await writeFile(sidebarFilePath, sidebarJson)
+  } catch (err) {
+    console.error(
+      `Could not write sidebar file ${sidebarFilePath}: ${err.message}`
+    )
+    process.exit(1)
+  }
+
+  // process.exit(0);
+
+  const inputFolderPath = '../api-extractor/markdown'
+  const outputFolderPath = 'docs/api'
+  const mdFilesNames = await readdir(inputFolderPath)
+  for (const mdFileName of mdFilesNames) {
+    try {
+      const { name: id, ext } = parse(mdFileName)
+      if (ext !== '.md') {
+        continue
+      }
+
+      const mdInputFilePath = join(inputFolderPath, mdFileName)
+      const inputStream = createReadStream(mdInputFilePath)
+
+      const output = []
+      const lines = createInterface({
+        input: inputStream,
+        crlfDelay: Infinity,
+      })
+
+      let title = ''
+      let firstH2 = false
+      let signature = false
+
+      lines.on('line', (line) => {
+        if (line.startsWith('## ') && !firstH2) {
+          firstH2 = true
+          const titleLine = line.match(/## (.*)/)
+          if (titleLine) {
+            title = titleLine[1]
+          }
+        } else {
+          const homeLink = line.match(/^\[Home\]\(\.\/index\.md\)/)
+          if (!homeLink) {
+            if (line.startsWith('**Signature:**') && !signature) {
+              signature = true
+              line = '## Signature'
+            }
+
+            // See issue #4. api-documenter expects \| to escape table
+            // column delimiters, but docusaurus uses a markdown processor
+            // that doesn't support this. Replace with an escape sequence
+            // that renders |.
+            if (line.startsWith('|')) {
+              line = line.replace(/\\\|/g, '&#124;')
+            }
+            line = patchLine(line)
+
+            output.push(line)
+          }
+        }
+      })
+
+      await new Promise((resolve) => lines.once('close', resolve))
+      inputStream.close()
+
+      const slug =
+        id === 'index'
+          ? '/api'
+          : `/api/${id.replace(/\./g, '/').replaceAll(/_constructor_/g, '$constructor$')}`
+
+      const header = [
+        '---',
+        `slug: ${slug}`,
+        `title: ${title}`,
+        'custom_edit_url: null',
+        '---',
+        '',
+        '<div class="tsdocPage">',
+        '',
+      ]
+
+      const footer = ['', '</div>']
+
+      const mdOutputId = id
+        .replace(/\./g, '/')
+        .replaceAll(/_constructor_/g, '$constructor$')
+      const mdOutputIdDirname = path.dirname(mdOutputId)
+      let mdOutputIdBasename = path.basename(mdOutputId)
+      if (/[^a-zA-Z0-9$]/.test(mdOutputIdBasename)) {
+        mdOutputIdBasename = `$${mdOutputIdBasename}$`
+      }
+
+      const mdOutFilePath = join(mdOutputIdDirname, mdOutputIdBasename) + '.md'
+
+      const mdOutFolderPath = path.dirname(
+        path.join(outputFolderPath, mdOutFilePath)
+      )
+      await fs.mkdir(mdOutFolderPath, { recursive: true })
+
+      const docFilePath = join(outputFolderPath, mdOutFilePath)
+      console.log(`Writing ${docFilePath}...`)
+      await writeFile(
+        docFilePath,
+        header.concat(output).concat(footer).join('\n')
+      )
+    } catch (err) {
+      console.error(`Could not process ${mdFileName}: ${err}`)
+    }
+  }
+}
+
+main()
