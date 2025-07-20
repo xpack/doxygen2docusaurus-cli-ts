@@ -1,6 +1,6 @@
 ---
-slug: /api/doxygen2docusaurus/abstractmemberdeftype/constexpr
-title: AbstractMemberDefType.constexpr property
+slug: /api/doxygen2docusaurus/xmlelement/__text_
+title: XmlElement."\#text" property
 custom_edit_url: null
 ---
 
@@ -13,7 +13,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-constexpr?: Boolean | undefined;
+'#text': string | number | boolean;
 ```
 
 </div>
