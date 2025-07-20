@@ -30,6 +30,8 @@ const outputFolderPath = `docs/${apiRelativeFolderPath}`
 
 const baseUrl = '/doxygen2docusaurus-ts/'
 
+// ----------------------------------------------------------------------------
+
 function patchLine(line) {
   return line
     .replaceAll(
@@ -65,29 +67,64 @@ function pluralise(name) {
   return name + 's?'
 }
 
-function generateSidebarCategory(apiDataModel) {
+// ----------------------------------------------------------------------------
+
+async function parseApiDataModel() {
+  // Parse the API JSON file
+  let apiDataModel = null
+  try {
+    const apiJsonContent = await fs.readFile(apiJsonFilePath, 'utf8')
+    apiDataModel = JSON.parse(apiJsonContent)
+  } catch (err) {
+    console.warn(
+      `Could not parse API JSON file ${apiJsonFilePath}: ${err.message}`
+    )
+    return null
+  }
+
+  return apiDataModel
+}
+
+function prepareApiViewModel(apiDataModel) {
   const entryPointsSet = new Set()
   for (const entryPointDataModel of apiDataModel.members) {
     // console.log(entryPointDataModel.kind, entryPointDataModel.canonicalReference);
 
+    entryPointKind = entryPointDataModel.kind
+    const entryPointLabel = entryPointDataModel.canonicalReference.replace(
+      /[!]$/,
+      ''
+    )
+    const entryPointId = entryPointLabel.replace(/^.*\//, '').toLowerCase()
+
     const entryPoint = {
-      data: entryPointDataModel,
+      kind: entryPointKind,
+      label: entryPointLabel,
+      id: entryPointId,
       compoundsMap: new Map(), // Map of array of compounds, by kind (Class, Interface, ...)
+      data: entryPointDataModel,
     }
     entryPointsSet.add(entryPoint)
 
     for (const compoundDataModel of entryPointDataModel.members) {
       // console.log(compoundDataModel.kind, compoundDataModel.name, compoundDataModel.canonicalReference);
 
+      const compoundKind = compoundDataModel.kind
+      const compoundLabel = compoundDataModel.name
+      const compoundId = compoundDataModel.name.toLowerCase()
+
       const compound = {
-        data: compoundDataModel,
+        kind: compoundKind,
+        label: compoundLabel,
+        id: compoundId,
         membersMap: new Map(), // Map of array of members, by kind (Constructor, Property, ...)
+        data: compoundDataModel,
       }
 
       let compoundsArray = entryPoint.compoundsMap.get(compoundDataModel.kind)
       if (compoundsArray === undefined) {
         compoundsArray = []
-        entryPoint.compoundsMap.set(compoundDataModel.kind, compoundsArray)
+        entryPoint.compoundsMap.set(compound.kind, compoundsArray)
       }
       compoundsArray.push(compound)
 
@@ -95,14 +132,36 @@ function generateSidebarCategory(apiDataModel) {
         for (const memberDataModel of compoundDataModel.members) {
           // console.log('  ', memberDataModel.kind, memberDataModel.name, memberDataModel.canonicalReference);
 
+          const memberKind = memberDataModel.kind
+          let memberLabel = memberDataModel.name
+
+          let memberId
+          if (memberLabel !== undefined) {
+            memberId = memberLabel
+              .replaceAll(/[^a-zA-Z0-9]/g, '_')
+              .toLowerCase()
+            // Surround with $ if the original name contains non-alphanumeric characters
+            if (/[^a-zA-Z0-9]/.test(memberDataModel.name)) {
+              memberId = `$${memberId}$`
+            }
+          }
+
+          if (memberKind === 'Constructor') {
+            memberLabel = 'constructor'
+            memberId = '$constructor$'
+          }
+
           const member = {
+            kind: memberKind,
+            label: memberLabel,
+            id: memberId,
             data: memberDataModel,
           }
 
-          let membersArray = compound.membersMap.get(memberDataModel.kind)
+          let membersArray = compound.membersMap.get(member.kind)
           if (membersArray === undefined) {
             membersArray = []
-            compound.membersMap.set(memberDataModel.kind, membersArray)
+            compound.membersMap.set(member.kind, membersArray)
           }
 
           membersArray.push(member)
@@ -110,6 +169,15 @@ function generateSidebarCategory(apiDataModel) {
       }
     }
   }
+  return {
+    entryPointsSet,
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+function generateSidebarCategory(apiViewModel) {
+  const entryPointsSet = apiViewModel.entryPointsSet
 
   const sidebarTopCategory = {
     type: 'category',
@@ -123,17 +191,12 @@ function generateSidebarCategory(apiDataModel) {
   }
 
   for (const entryPoint of entryPointsSet) {
-    const entryPointLabel = entryPoint.data.canonicalReference.replace(
-      /[!]$/,
-      ''
-    )
-    const entryPointId = entryPointLabel.replace(/^.*\//, '').toLowerCase()
     const entryPointCategory = {
       type: 'category',
-      label: entryPointLabel,
+      label: entryPoint.label,
       link: {
         type: 'doc',
-        id: `${apiRelativeFolderPath}/${entryPointId}`,
+        id: `${apiRelativeFolderPath}/${entryPoint.id}`,
       },
       collapsed: false,
       items: [],
@@ -151,15 +214,12 @@ function generateSidebarCategory(apiDataModel) {
       entryPointCategory.items.push(kindCategory)
 
       for (const compound of compoundsArray) {
-        const compoundLabel = compound.data.name
-        const compoundId = compound.data.name.toLowerCase()
-
         const compoundCategory = {
           type: 'category',
-          label: compoundLabel,
+          label: compound.label,
           link: {
             type: 'doc',
-            id: `${entryPointCategory.link.id}/${compoundId}`,
+            id: `${entryPointCategory.link.id}/${compound.id}`,
           },
           collapsed: true,
           items: [],
@@ -173,25 +233,10 @@ function generateSidebarCategory(apiDataModel) {
                 // console.warn(`Skipping member without name in ${compoundLabel}: ${member.data.canonicalReference}`);
                 continue // Skip members without a name
               }
-              // Replace non-alphanumeric characters with underscores for member IDs
-              let memberLabel = member.data.name
-
-              let memberId = memberLabel
-                .replaceAll(/[^a-zA-Z0-9]/g, '_')
-                .toLowerCase()
-              // Surround with $ if the original name contains non-alphanumeric characters
-              if (/[^a-zA-Z0-9]/.test(member.data.name)) {
-                memberId = `$${memberId}$`
-              }
-
-              if (memberKind === 'Constructor') {
-                memberLabel = 'constructor'
-                memberId = '$constructor$'
-              }
-              const memberDoc = {
+               const memberDoc = {
                 type: 'doc',
-                id: `${entryPointCategory.link.id}/${compoundId}/${memberId}`,
-                label: memberLabel,
+                id: `${entryPointCategory.link.id}/${compound.id}/${member.id}`,
+                label: member.label,
               }
               compoundCategory.items.push(memberDoc)
             }
@@ -235,6 +280,7 @@ async function main() {
 
   // process.exit(0);
 
+async function legacy() {
   const mdFilesNames = await readdir(inputFolderPath)
   for (const mdFileName of mdFilesNames) {
     try {
@@ -332,6 +378,54 @@ async function main() {
       console.error(`Could not process ${mdFileName}: ${err}`)
     }
   }
+
+}
+// ----------------------------------------------------------------------------
+
+async function main() {
+
+  // Parse the API JSON file
+  const apiDataModel = await parseApiDataModel()
+  if (apiDataModel === null) {
+    return 1
+  }
+
+  const apiViewModel = prepareApiViewModel(apiDataModel)
+
+  const sidebar = generateSidebarCategory(apiViewModel)
+  // console.log(util.inspect(sidebar, { compact: false, depth: 999 }));
+
+  // Write the sidebar to file
+  try {
+    console.log(`Writing sidebar file ${sidebarFilePath}`)
+    const sidebarJson = JSON.stringify(sidebar, null, 2)
+    await writeFile(sidebarFilePath, sidebarJson)
+  } catch (err) {
+    console.error(
+      `Could not write sidebar file ${sidebarFilePath}: ${err.message}`
+    )
+    return 1
+  }
+
+  // process.exit(0);
+
+  await generateMdFiles(apiViewModel)
+
+  await legacy()
+
+  return 0
 }
 
+// ----------------------------------------------------------------------------
+
 main()
+
+// try {
+//   process.exit(main())
+// } catch (err) {
+//   console.error(`Error in convert-docs.cjs: ${err.message}`);
+//   process.exit(1);
+// }
+
+// ----------------------------------------------------------------------------
+
