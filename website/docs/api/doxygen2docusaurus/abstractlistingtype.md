@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare abstract class AbstractListingType extends AbstractListingTypeBase 
+export declare abstract class AbstractListingType extends AbstractListingTypeBase
 ```
 **Extends:** [AbstractListingTypeBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/abstractlistingtypebase)
 

@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare class ReimplementDataModel extends AbstractReimplementType 
+export declare class ReimplementDataModel extends AbstractReimplementType
 ```
 **Extends:** [AbstractReimplementType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/abstractreimplementtype)
 

@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare abstract class AbstractTemplateParamListType extends AbstractDataModelBase 
+export declare abstract class AbstractTemplateParamListType extends AbstractDataModelBase
 ```
 **Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/abstractdatamodelbase)
 

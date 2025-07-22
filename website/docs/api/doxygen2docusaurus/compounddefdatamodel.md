@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare class CompoundDefDataModel extends AbstractCompoundDefType 
+export declare class CompoundDefDataModel extends AbstractCompoundDefType
 ```
 **Extends:** [AbstractCompoundDefType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/abstractcompounddeftype)
 

@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare class InitializerDataModel extends AbstractLinkedTextType 
+export declare class InitializerDataModel extends AbstractLinkedTextType
 ```
 **Extends:** [AbstractLinkedTextType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/abstractlinkedtexttype)
 

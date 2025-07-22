@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare class ListOfAllMembersDataModel extends AbstractListOfAllMembersType 
+export declare class ListOfAllMembersDataModel extends AbstractListOfAllMembersType
 ```
 **Extends:** [AbstractListOfAllMembersType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/abstractlistofallmemberstype)
 

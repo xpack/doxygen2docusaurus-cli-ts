@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export interface DataModel 
+export interface DataModel
 ```
 
 ## Properties

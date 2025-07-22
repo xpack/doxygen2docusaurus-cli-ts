@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare class ReferenceDataModel extends AbstractReferenceType 
+export declare class ReferenceDataModel extends AbstractReferenceType
 ```
 **Extends:** [AbstractReferenceType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/abstractreferencetype)
 

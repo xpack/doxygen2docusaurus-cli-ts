@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare class InnerDirDataModel extends AbstractRefType 
+export declare class InnerDirDataModel extends AbstractRefType
 ```
 **Extends:** [AbstractRefType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/abstractreftype)
 

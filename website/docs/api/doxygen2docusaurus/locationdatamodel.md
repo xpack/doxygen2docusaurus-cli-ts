@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare class LocationDataModel extends AbstractLocationType 
+export declare class LocationDataModel extends AbstractLocationType
 ```
 **Extends:** [AbstractLocationType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/abstractlocationtype)
 

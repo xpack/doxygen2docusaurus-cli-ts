@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare class HighlightDataModel extends AbstractHighlightType 
+export declare class HighlightDataModel extends AbstractHighlightType
 ```
 **Extends:** [AbstractHighlightType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/abstracthighlighttype)
 

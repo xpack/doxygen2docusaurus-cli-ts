@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare class CodeLineDataModel extends AbstractCodeLineType 
+export declare class CodeLineDataModel extends AbstractCodeLineType
 ```
 **Extends:** [AbstractCodeLineType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/abstractcodelinetype)
 

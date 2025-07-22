@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare class DoxygenFileDataModel extends AbstractDoxygenFileType 
+export declare class DoxygenFileDataModel extends AbstractDoxygenFileType
 ```
 **Extends:** [AbstractDoxygenFileType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/abstractdoxygenfiletype)
 

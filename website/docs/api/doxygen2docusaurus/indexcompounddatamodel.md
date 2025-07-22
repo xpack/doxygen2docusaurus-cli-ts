@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare class IndexCompoundDataModel extends AbstractIndexCompoundType 
+export declare class IndexCompoundDataModel extends AbstractIndexCompoundType
 ```
 **Extends:** [AbstractIndexCompoundType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/abstractindexcompoundtype)
 

@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare class EnumValueDataModel extends AbstractEnumValueType 
+export declare class EnumValueDataModel extends AbstractEnumValueType
 ```
 **Extends:** [AbstractEnumValueType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/abstractenumvaluetype)
 

@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare class IncludesDataModel extends AbstractIncType 
+export declare class IncludesDataModel extends AbstractIncType
 ```
 **Extends:** [AbstractIncType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/abstractinctype)
 

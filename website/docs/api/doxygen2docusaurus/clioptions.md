@@ -15,7 +15,7 @@ Options, as seen by the application.
 ## Signature
 
 ```typescript
-export interface CliOptions 
+export interface CliOptions
 ```
 
 ## Properties

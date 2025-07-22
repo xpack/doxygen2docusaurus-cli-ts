@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare class TocSectDataModel extends AbstractTableOfContentsKindType 
+export declare class TocSectDataModel extends AbstractTableOfContentsKindType
 ```
 **Extends:** [AbstractTableOfContentsKindType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/abstracttableofcontentskindtype)
 

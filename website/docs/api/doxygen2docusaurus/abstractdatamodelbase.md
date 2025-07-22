@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare abstract class AbstractDataModelBase 
+export declare abstract class AbstractDataModelBase
 ```
 
 ## Constructors

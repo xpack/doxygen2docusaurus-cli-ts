@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export interface XmlElement 
+export interface XmlElement
 ```
 
 ## Properties

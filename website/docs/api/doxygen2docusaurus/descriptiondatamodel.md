@@ -14,7 +14,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-export declare class DescriptionDataModel extends AbstractDescriptionType 
+export declare class DescriptionDataModel extends AbstractDescriptionType
 ```
 **Extends:** [AbstractDescriptionType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/abstractdescriptiontype)
 

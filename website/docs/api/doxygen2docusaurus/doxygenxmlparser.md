@@ -15,7 +15,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 ## Signature
 
 ```typescript
-export declare class DoxygenXmlParser 
+export declare class DoxygenXmlParser
 ```
 
 ## Remarks
