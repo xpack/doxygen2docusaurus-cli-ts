@@ -25,8 +25,9 @@ const apiJsonFilePath = '../api-extractor/doxygen2docusaurus.api.json'
 const sidebarFilePath = 'sidebar-category-tsdoc.json'
 
 const inputFolderPath = '../api-extractor/markdown'
+const docsRelativeFolderPath = 'docs'
 const apiRelativeFolderPath = 'api'
-const outputFolderPath = `docs/${apiRelativeFolderPath}`
+const outputFolderPath = `${docsRelativeFolderPath}/${apiRelativeFolderPath}`
 
 const baseUrl = '/doxygen2docusaurus-ts/'
 
@@ -132,6 +133,7 @@ function prepareApiViewModel(apiDataModel) {
         for (const memberDataModel of compoundDataModel.members) {
           // console.log('  ', memberDataModel.kind, memberDataModel.name, memberDataModel.canonicalReference);
 
+          const memberName = memberDataModel.name
           const memberKind = memberDataModel.kind
           let memberLabel = memberDataModel.name
 
@@ -140,6 +142,7 @@ function prepareApiViewModel(apiDataModel) {
             memberId = memberLabel
               .replaceAll(/[^a-zA-Z0-9]/g, '_')
               .toLowerCase()
+
             // Surround with $ if the original name contains non-alphanumeric characters
             if (/[^a-zA-Z0-9]/.test(memberDataModel.name)) {
               memberId = `$${memberId}$`
@@ -153,6 +156,7 @@ function prepareApiViewModel(apiDataModel) {
 
           const member = {
             kind: memberKind,
+            name: memberName,
             label: memberLabel,
             id: memberId,
             data: memberDataModel,
@@ -171,6 +175,179 @@ function prepareApiViewModel(apiDataModel) {
   }
   return {
     entryPointsSet,
+  }
+}
+
+// ----------------------------------------------------------------------------
+
+async function readInputFileLines(filePath) {
+  const inputData = await fs.readFile(filePath, 'utf8')
+  return inputData.split('\n')
+}
+
+async function writeOutputFile(filePath, frontMatter, lines) {
+  const header = [
+    '---',
+    // '',
+    // '# DO NOT EDIT!',
+    // '# Automatically generated via tsdoc2docusaurus by API Documenter.',
+    // '',
+    `slug: ${frontMatter.slug}`,
+    `title: ${frontMatter.title}`,
+    'custom_edit_url: null',
+    '---',
+    '',
+    '<div class="tsdocPage">',
+    '',
+  ]
+
+  const footer = ['</div>']
+
+  const outputContent = header.concat(lines).concat(footer).join('\n')
+  await fs.mkdir(path.dirname(filePath), { recursive: true })
+  await fs.writeFile(filePath, outputContent, 'utf8')
+  console.log(`Writing ${filePath}...`)
+}
+
+function patchLines(lines) {
+  const outLines = []
+
+  let firstH2 = false
+
+  for (const line of lines) {
+    if (line.match(/^\[Home\]\(\.\/index\.md\)/)) {
+      continue // Skip the home link
+    } else if (!firstH2 && line.startsWith('## ')) {
+      firstH2 = true
+      continue
+    } else if (line.startsWith('**Signature:**')) {
+      // Convert the signature line to a H2
+      outLines.push('## Signature')
+    } else {
+      // Patch links and other formatting
+      outLines.push(patchLine(line))
+    }
+  }
+  return outLines
+}
+
+async function generateMdFiles(apiViewModel) {
+  const entryPointsSet = apiViewModel.entryPointsSet
+
+  {
+    const lines = await readInputFileLines(`${inputFolderPath}/index.md`)
+    const frontMatter = {
+      slug: `/api`,
+      title: `API Reference`,
+    }
+    const patchLinesLines = patchLines(lines)
+    await writeOutputFile(
+      `${outputFolderPath}/index.md`,
+      frontMatter,
+      patchLinesLines
+    )
+  }
+
+  for (const entryPoint of entryPointsSet) {
+    // console.log(entryPoint)
+
+    const lines = await readInputFileLines(
+      `${inputFolderPath}/${entryPoint.id}.md`
+    )
+    const patchLinesLines = patchLines(lines)
+    const frontMatter = {
+      slug: `/api/${entryPoint.id}`,
+      title: `${entryPoint.id} package`,
+    }
+    await writeOutputFile(
+      `${outputFolderPath}/${entryPoint.id}.md`,
+      frontMatter,
+      patchLinesLines
+    )
+
+    for (const [compoundKind, compoundsArray] of entryPoint.compoundsMap) {
+      const compoundCategoryLabel = pluralise(compoundKind)
+      // console.log(`  ${compoundCategoryLabel}`)
+
+      for (const compound of compoundsArray) {
+        // console.log(`    ${compound.label}`)
+        const lines = await readInputFileLines(
+          `${inputFolderPath}/${entryPoint.id}.${compound.id}.md`
+        )
+        const patchLinesLines = patchLines(lines)
+        let comoundTitle = compound.label
+        if (compound.kind === 'Function') {
+          comoundTitle += '()'
+        }
+        const frontMatter = {
+          slug: `/api/${entryPoint.id}/${compound.id}`,
+          title: `${comoundTitle} ${compound.kind.toLowerCase()}`,
+        }
+
+        // TODO: Insert members into compound (future improvement).
+
+        await writeOutputFile(
+          `${outputFolderPath}/${entryPoint.id}/${compound.id}.md`,
+          frontMatter,
+          patchLinesLines
+        )
+
+        if (compound.membersMap !== undefined && compound.membersMap.size > 0) {
+          for (const [memberKind, membersArray] of compound.membersMap) {
+            for (const member of membersArray) {
+              if (member.kind === 'CallSignature') {
+                continue
+              }
+              const memberLabel = member.label
+              // console.log(`      ${memberLabel} ${member.name} ${member.id}`)
+
+              let originalMemberId = member.id
+              let memberTitle = memberLabel
+              if (member.id === '$constructor$') {
+                originalMemberId = '_constructor_'
+                memberTitle = '(constructor)'
+              } else if (member.id.startsWith('$') && member.id.endsWith('$')) {
+                originalMemberId = member.id.slice(1, -1)
+              } else if (member.kind === 'Method') {
+                memberTitle += '()'
+              }
+
+              const lines = await readInputFileLines(
+                `${inputFolderPath}/${entryPoint.id}.${compound.id}.${originalMemberId}.md`
+              )
+
+              const patchLinesLines = patchLines(lines)
+
+              const slug = `/api/${entryPoint.id}/${compound.id}/${member.id}`
+              let titleKind = member.kind
+              if (titleKind === 'PropertySignature') {
+                titleKind = 'Property'
+              }
+
+              const title =
+                member.kind !== 'Constructor'
+                  ? `${compound.label}.${memberTitle} ${titleKind.toLowerCase()}`
+                  : `${compound.label}.${memberTitle}`
+              const frontMatter = {
+                slug,
+                title,
+              }
+
+              let memberId = member.id
+              // if (/[^a-zA-Z0-9]/.test(memberId)) {
+              //   memberId = `$${memberId}$`
+              // }
+
+              await writeOutputFile(
+                `${outputFolderPath}/${entryPoint.id}/${compound.id}/${memberId}.md`,
+                frontMatter,
+                patchLinesLines
+              )
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -229,14 +406,24 @@ function generateSidebarCategory(apiViewModel) {
         if (compound.membersMap !== undefined && compound.membersMap.size > 0) {
           for (const [memberKind, membersArray] of compound.membersMap) {
             for (const member of membersArray) {
-              if (member.data.name === undefined) {
-                // console.warn(`Skipping member without name in ${compoundLabel}: ${member.data.canonicalReference}`);
-                continue // Skip members without a name
+              let memberLabel = member.label
+              let memberId = member.id
+
+              if (member.kind === 'Constructor') {
+                memberId = '$constructor$'
+                memberLabel = '(constructor)'
               }
-               const memberDoc = {
+              if (memberId === undefined) {
+                // console.warn(`Skipping member without name in ${compoundLabel}: ${member.data.canonicalReference}`);
+                continue // Skip members without an id
+              }
+              // if (/[^a-zA-Z0-9]/.test(memberId)) {
+              //   memberId = `$${memberId}$`
+              // }
+              const memberDoc = {
                 type: 'doc',
-                id: `${entryPointCategory.link.id}/${compound.id}/${member.id}`,
-                label: member.label,
+                id: `${entryPointCategory.link.id}/${compound.id}/${memberId}`,
+                label: memberLabel,
               }
               compoundCategory.items.push(memberDoc)
             }
@@ -249,36 +436,7 @@ function generateSidebarCategory(apiViewModel) {
   return sidebarTopCategory
 }
 
-async function main() {
-
-  // Parse the API JSON file
-  let apiDataModel = null
-  try {
-    const apiJsonContent = await fs.readFile(apiJsonFilePath, 'utf8')
-    apiDataModel = JSON.parse(apiJsonContent)
-  } catch (err) {
-    console.warn(
-      `Could not parse API JSON file ${apiJsonFilePath}: ${err.message}`
-    )
-    process.exit(1)
-  }
-
-  const sidebar = generateSidebarCategory(apiDataModel)
-  // console.log(util.inspect(sidebar, { compact: false, depth: 999 }));
-
-  // Write the sidebar to file
-  try {
-    console.log(`Writing sidebar file ${sidebarFilePath}`)
-    const sidebarJson = JSON.stringify(sidebar, null, 2)
-    await writeFile(sidebarFilePath, sidebarJson)
-  } catch (err) {
-    console.error(
-      `Could not write sidebar file ${sidebarFilePath}: ${err.message}`
-    )
-    process.exit(1)
-  }
-
-  // process.exit(0);
+// ----------------------------------------------------------------------------
 
 async function legacy() {
   const mdFilesNames = await readdir(inputFolderPath)
@@ -369,7 +527,7 @@ async function legacy() {
       await fs.mkdir(mdOutFolderPath, { recursive: true })
 
       const docFilePath = join(outputFolderPath, mdOutFilePath)
-      console.log(`Writing ${docFilePath}...`)
+      // console.log(`Writing ${docFilePath}...`)
       await writeFile(
         docFilePath,
         header.concat(output).concat(footer).join('\n')
@@ -378,12 +536,11 @@ async function legacy() {
       console.error(`Could not process ${mdFileName}: ${err}`)
     }
   }
-
 }
+
 // ----------------------------------------------------------------------------
 
 async function main() {
-
   // Parse the API JSON file
   const apiDataModel = await parseApiDataModel()
   if (apiDataModel === null) {
@@ -411,7 +568,7 @@ async function main() {
 
   await generateMdFiles(apiViewModel)
 
-  await legacy()
+  // await legacy()
 
   return 0
 }
@@ -428,4 +585,3 @@ main()
 // }
 
 // ----------------------------------------------------------------------------
-
