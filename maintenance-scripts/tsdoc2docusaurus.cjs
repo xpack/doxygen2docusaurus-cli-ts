@@ -326,6 +326,9 @@ function patchLines(lines, permalinksMapByPath) {
     } else if (line.startsWith('**Signature:**')) {
       // Convert the signature line to a H2
       outLines.push('## Signature')
+    } else if (line.startsWith('**Returns:**')) {
+      // Convert the returns line to a H2
+      outLines.push('## Returns')
     } else {
       // Patch links and other formatting
       outLines.push(patchPermalinks(line, permalinksMapByPath))
