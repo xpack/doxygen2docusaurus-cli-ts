@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(elementName, kind)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/$constructor$)
+[(constructor)(elementName, kind)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/constructor)
 
 
 </td><td>

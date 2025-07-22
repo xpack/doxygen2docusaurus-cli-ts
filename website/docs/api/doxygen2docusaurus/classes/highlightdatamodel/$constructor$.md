@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/highlightdatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/highlightdatamodel/constructor
 title: HighlightDataModel.(constructor)
 custom_edit_url: null
 ---

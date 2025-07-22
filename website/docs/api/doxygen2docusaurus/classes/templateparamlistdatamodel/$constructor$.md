@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/templateparamlistdatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/templateparamlistdatamodel/constructor
 title: TemplateParamListDataModel.(constructor)
 custom_edit_url: null
 ---

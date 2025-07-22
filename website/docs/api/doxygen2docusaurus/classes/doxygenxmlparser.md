@@ -50,7 +50,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)({ options })](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/$constructor$)
+[(constructor)({ options })](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/constructor)
 
 
 </td><td>

@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/inbodydescriptiondatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/inbodydescriptiondatamodel/constructor
 title: InbodyDescriptionDataModel.(constructor)
 custom_edit_url: null
 ---

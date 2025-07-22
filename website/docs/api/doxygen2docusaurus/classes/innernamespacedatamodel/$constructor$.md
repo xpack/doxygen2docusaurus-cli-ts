@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/innernamespacedatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/innernamespacedatamodel/constructor
 title: InnerNamespaceDataModel.(constructor)
 custom_edit_url: null
 ---

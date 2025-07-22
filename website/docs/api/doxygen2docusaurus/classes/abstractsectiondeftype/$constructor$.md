@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/abstractsectiondeftype/$constructor$
+slug: /api/doxygen2docusaurus/classes/abstractsectiondeftype/constructor
 title: AbstractSectionDefType.(constructor)
 custom_edit_url: null
 ---

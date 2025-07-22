@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/codelinedatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/codelinedatamodel/constructor
 title: CodeLineDataModel.(constructor)
 custom_edit_url: null
 ---

@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/typeconstraintdatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/typeconstraintdatamodel/constructor
 title: TypeConstraintDataModel.(constructor)
 custom_edit_url: null
 ---

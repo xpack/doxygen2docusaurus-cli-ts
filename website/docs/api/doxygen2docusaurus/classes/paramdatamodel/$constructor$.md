@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/paramdatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/paramdatamodel/constructor
 title: ParamDataModel.(constructor)
 custom_edit_url: null
 ---

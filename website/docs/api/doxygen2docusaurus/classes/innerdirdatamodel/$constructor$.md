@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/innerdirdatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/innerdirdatamodel/constructor
 title: InnerDirDataModel.(constructor)
 custom_edit_url: null
 ---

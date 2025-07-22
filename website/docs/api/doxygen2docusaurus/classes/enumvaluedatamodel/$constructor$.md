@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/enumvaluedatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/enumvaluedatamodel/constructor
 title: EnumValueDataModel.(constructor)
 custom_edit_url: null
 ---

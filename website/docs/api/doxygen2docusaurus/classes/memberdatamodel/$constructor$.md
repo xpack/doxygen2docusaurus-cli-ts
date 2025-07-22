@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/memberdatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/memberdatamodel/constructor
 title: MemberDataModel.(constructor)
 custom_edit_url: null
 ---

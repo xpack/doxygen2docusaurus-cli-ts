@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/locationdatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/locationdatamodel/constructor
 title: LocationDataModel.(constructor)
 custom_edit_url: null
 ---

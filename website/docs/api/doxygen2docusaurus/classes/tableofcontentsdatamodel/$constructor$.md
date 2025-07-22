@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/tableofcontentsdatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/tableofcontentsdatamodel/constructor
 title: TableOfContentsDataModel.(constructor)
 custom_edit_url: null
 ---

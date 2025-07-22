@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/abstracttableofcontentstype/$constructor$
+slug: /api/doxygen2docusaurus/classes/abstracttableofcontentstype/constructor
 title: AbstractTableOfContentsType.(constructor)
 custom_edit_url: null
 ---

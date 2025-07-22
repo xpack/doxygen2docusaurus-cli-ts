@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/sectiondefdatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/sectiondefdatamodel/constructor
 title: SectionDefDataModel.(constructor)
 custom_edit_url: null
 ---

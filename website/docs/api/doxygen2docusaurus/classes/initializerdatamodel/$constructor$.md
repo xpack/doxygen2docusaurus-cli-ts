@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/initializerdatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/initializerdatamodel/constructor
 title: InitializerDataModel.(constructor)
 custom_edit_url: null
 ---

@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/abstractcodelinetype/$constructor$
+slug: /api/doxygen2docusaurus/classes/abstractcodelinetype/constructor
 title: AbstractCodeLineType.(constructor)
 custom_edit_url: null
 ---

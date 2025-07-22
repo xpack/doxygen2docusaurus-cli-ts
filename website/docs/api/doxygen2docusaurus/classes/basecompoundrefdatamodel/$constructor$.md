@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/basecompoundrefdatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/basecompoundrefdatamodel/constructor
 title: BaseCompoundRefDataModel.(constructor)
 custom_edit_url: null
 ---

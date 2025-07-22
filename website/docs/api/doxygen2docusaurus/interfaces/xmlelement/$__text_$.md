@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/interfaces/xmlelement/$__text_$
+slug: /api/doxygen2docusaurus/interfaces/xmlelement/__text_
 title: XmlElement."#text" property
 custom_edit_url: null
 ---

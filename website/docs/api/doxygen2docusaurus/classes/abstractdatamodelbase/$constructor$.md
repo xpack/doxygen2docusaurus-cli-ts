@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/abstractdatamodelbase/$constructor$
+slug: /api/doxygen2docusaurus/classes/abstractdatamodelbase/constructor
 title: AbstractDataModelBase.(constructor)
 custom_edit_url: null
 ---

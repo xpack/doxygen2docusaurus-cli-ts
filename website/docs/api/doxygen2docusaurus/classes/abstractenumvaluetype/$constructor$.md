@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/abstractenumvaluetype/$constructor$
+slug: /api/doxygen2docusaurus/classes/abstractenumvaluetype/constructor
 title: AbstractEnumValueType.(constructor)
 custom_edit_url: null
 ---

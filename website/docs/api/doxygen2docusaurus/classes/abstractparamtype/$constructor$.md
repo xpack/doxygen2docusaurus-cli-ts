@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/abstractparamtype/$constructor$
+slug: /api/doxygen2docusaurus/classes/abstractparamtype/constructor
 title: AbstractParamType.(constructor)
 custom_edit_url: null
 ---

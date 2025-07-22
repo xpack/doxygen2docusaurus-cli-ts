@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/abstractlinkedtexttype/$constructor$
+slug: /api/doxygen2docusaurus/classes/abstractlinkedtexttype/constructor
 title: AbstractLinkedTextType.(constructor)
 custom_edit_url: null
 ---

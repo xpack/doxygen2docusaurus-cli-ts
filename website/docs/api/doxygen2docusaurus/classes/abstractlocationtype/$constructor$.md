@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/abstractlocationtype/$constructor$
+slug: /api/doxygen2docusaurus/classes/abstractlocationtype/constructor
 title: AbstractLocationType.(constructor)
 custom_edit_url: null
 ---

@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/programlistingdatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/programlistingdatamodel/constructor
 title: ProgramListingDataModel.(constructor)
 custom_edit_url: null
 ---

@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/reimplementdatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/reimplementdatamodel/constructor
 title: ReimplementDataModel.(constructor)
 custom_edit_url: null
 ---

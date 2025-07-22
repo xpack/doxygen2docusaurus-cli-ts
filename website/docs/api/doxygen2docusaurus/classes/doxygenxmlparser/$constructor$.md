@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/doxygenxmlparser/$constructor$
+slug: /api/doxygen2docusaurus/classes/doxygenxmlparser/constructor
 title: DoxygenXmlParser.(constructor)
 custom_edit_url: null
 ---

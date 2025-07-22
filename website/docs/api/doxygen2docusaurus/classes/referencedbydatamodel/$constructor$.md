@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/referencedbydatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/referencedbydatamodel/constructor
 title: ReferencedByDataModel.(constructor)
 custom_edit_url: null
 ---

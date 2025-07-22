@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/innerclassdatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/innerclassdatamodel/constructor
 title: InnerClassDataModel.(constructor)
 custom_edit_url: null
 ---

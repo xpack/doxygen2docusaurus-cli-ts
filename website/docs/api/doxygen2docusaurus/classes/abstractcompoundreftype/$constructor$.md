@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/abstractcompoundreftype/$constructor$
+slug: /api/doxygen2docusaurus/classes/abstractcompoundreftype/constructor
 title: AbstractCompoundRefType.(constructor)
 custom_edit_url: null
 ---

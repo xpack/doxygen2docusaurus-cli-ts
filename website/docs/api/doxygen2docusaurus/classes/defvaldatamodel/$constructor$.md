@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/defvaldatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/defvaldatamodel/constructor
 title: DefValDataModel.(constructor)
 custom_edit_url: null
 ---

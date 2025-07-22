@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/tocsectdatamodel/$constructor$
+slug: /api/doxygen2docusaurus/classes/tocsectdatamodel/constructor
 title: TocSectDataModel.(constructor)
 custom_edit_url: null
 ---

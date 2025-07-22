@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/abstracthighlighttype/$constructor$
+slug: /api/doxygen2docusaurus/classes/abstracthighlighttype/constructor
 title: AbstractHighlightType.(constructor)
 custom_edit_url: null
 ---

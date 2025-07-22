@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/abstractreimplementtype/$constructor$
+slug: /api/doxygen2docusaurus/classes/abstractreimplementtype/constructor
 title: AbstractReimplementType.(constructor)
 custom_edit_url: null
 ---

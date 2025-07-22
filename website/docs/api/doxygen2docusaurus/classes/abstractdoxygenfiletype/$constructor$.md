@@ -1,5 +1,5 @@
 ---
-slug: /api/doxygen2docusaurus/classes/abstractdoxygenfiletype/$constructor$
+slug: /api/doxygen2docusaurus/classes/abstractdoxygenfiletype/constructor
 title: AbstractDoxygenFileType.(constructor)
 custom_edit_url: null
 ---
