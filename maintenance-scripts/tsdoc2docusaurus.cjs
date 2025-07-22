@@ -122,11 +122,13 @@ function prepareApiViewModel(apiDataModel) {
       const compoundLabel = compoundDataModel.name
       const compoundId = compoundDataModel.name.toLowerCase()
 
+      const compoundCategoryId = pluralise(compoundKind).toLowerCase()
+
       const inputFilePath = `${entryPointId}.${compoundId}.md`
-      const permalink = `${baseUrl}${outputFolderPath}/${entryPointId}/${compoundId}`
+      const permalink = `${baseUrl}${outputFolderPath}/${entryPointId}/${compoundCategoryId}/${compoundId}`
       permalinksMapByPath.set(inputFilePath, permalink)
 
-      const frontMatterSlug = `/api/${entryPointId}/${compoundId}`
+      const frontMatterSlug = `/api/${entryPointId}/${compoundCategoryId}/${compoundId}`
 
       let compoundTitle = compoundLabel
       if (compoundKind === 'Function') {
@@ -136,9 +138,9 @@ function prepareApiViewModel(apiDataModel) {
       const frontMatterTitle = `${compoundTitle} ${compoundKind.toLowerCase()}`
 
       const sidebarLabel = compoundLabel
-      const sidebarId = `${apiRelativeFolderPath}/${entryPointId}/${compoundId}`
+      const sidebarId = `${apiRelativeFolderPath}/${entryPointId}/${compoundCategoryId}/${compoundId}`
 
-      const outputFilePath = `${entryPointId}/${compoundId}.md`
+      const outputFilePath = `${entryPointId}/${compoundCategoryId}/${compoundId}.md`
 
       const compound = {
         kind: compoundKind,
@@ -189,10 +191,12 @@ function prepareApiViewModel(apiDataModel) {
             }
           }
 
+          // const memberCategoryId = pluralise(memberKind).toLowerCase()
+          // console.log(memberCategoryId)
+
           let memberTitle = memberLabel
 
           if (memberKind === 'Constructor') {
-            memberLabel = 'constructor'
             memberId = '$constructor$'
             memberTitle = '(constructor)'
             originalMemberId = '_constructor_'
@@ -203,7 +207,7 @@ function prepareApiViewModel(apiDataModel) {
           // }
 
           const inputFilePath = `${entryPointId}.${compoundId}.${originalMemberId}.md`
-          const permalink = `${baseUrl}${outputFolderPath}/${entryPointId}/${compoundId}/${memberId}`
+          const permalink = `${baseUrl}${outputFolderPath}/${entryPointId}/${compoundCategoryId}/${compoundId}/${memberId}`
           if (memberKind !== 'CallSignature') {
             // if(originalMemberId === undefined) {
             //   console.log(memberDataModel)
@@ -211,7 +215,7 @@ function prepareApiViewModel(apiDataModel) {
             permalinksMapByPath.set(inputFilePath, permalink)
           }
 
-          const frontMatterSlug = `/api/${entryPointId}/${compoundId}/${memberId}`
+          const frontMatterSlug = `/api/${entryPointId}/${compoundCategoryId}/${compoundId}/${memberId}`
 
           if (memberKind === 'Method') {
             memberTitle += '()'
@@ -228,9 +232,9 @@ function prepareApiViewModel(apiDataModel) {
               : `${compoundLabel}.${memberTitle}`
 
           const sidebarLabel = memberTitle
-          const sidebarId = `${apiRelativeFolderPath}/${entryPointId}/${compoundId}/${memberId}`
+          const sidebarId = `${apiRelativeFolderPath}/${entryPointId}/${compoundCategoryId}/${compoundId}/${memberId}`
 
-          const outputFilePath = `${entryPointId}/${compoundId}/${memberId}.md`
+          const outputFilePath = `${entryPointId}/${compoundCategoryId}/${compoundId}/${memberId}.md`
 
           const member = {
             kind: memberKind,
