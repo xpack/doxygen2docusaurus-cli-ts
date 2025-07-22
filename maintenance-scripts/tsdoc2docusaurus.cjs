@@ -33,43 +33,6 @@ const baseUrl = '/doxygen2docusaurus-ts/'
 
 // ----------------------------------------------------------------------------
 
-function patchLine(line) {
-  return line
-    .replaceAll(
-      /\]\(\.\/([a-z0-9]*[^)]*)\)/g,
-      `](${baseUrl}${outputFolderPath}/$1)`
-    )
-    .replaceAll(/\.md\)/g, ')')
-    .replaceAll(
-      /\]\(([^)]*)\)/g,
-      (match, content) => `](${content.replace(/\./g, '/')})`
-    )
-    .replaceAll(/_constructor_/g, '$constructor$')
-}
-
-function pluralise(name) {
-  const plurals = {
-    Class: 'Classes',
-    Interface: 'Interfaces',
-    Function: 'Functions',
-    Variable: 'Variables',
-    'Type alias': 'Type aliases',
-    Namespace: 'Namespaces',
-    Enum: 'Enums',
-    Method: 'Methods',
-    Property: 'Properties',
-  }
-
-  if (plurals[name] !== undefined) {
-    return plurals[name]
-  }
-
-  console.warn(`No plural for ${name}, using default.`)
-  return name + 's?'
-}
-
-// ----------------------------------------------------------------------------
-
 async function parseApiDataModel() {
   // Parse the API JSON file
   let apiDataModel = null
@@ -86,8 +49,31 @@ async function parseApiDataModel() {
   return apiDataModel
 }
 
+// ----------------------------------------------------------------------------
+
 function prepareApiViewModel(apiDataModel) {
   const entryPointsSet = new Set()
+
+  // Key paths do not start with '/', permalinks are absolute (start with baseUrl).
+  const permalinksMapByPath = new Map()
+
+  const topIndex = {
+    kind: 'TopIndex',
+
+    inputFilePath: 'index.md',
+    permalink: `${baseUrl}${outputFolderPath}`,
+
+    frontMatterSlug: '/api',
+    frontMatterTitle: 'API Reference',
+
+    sidebarLabel: 'API Reference (TSDoc',
+    sidebarId: `${apiRelativeFolderPath}/index`,
+
+    outputFilePath: 'index.md',
+  }
+
+  permalinksMapByPath.set(topIndex.inputFilePath, topIndex.permalink)
+
   for (const entryPointDataModel of apiDataModel.members) {
     // console.log(entryPointDataModel.kind, entryPointDataModel.canonicalReference);
 
@@ -98,10 +84,32 @@ function prepareApiViewModel(apiDataModel) {
     )
     const entryPointId = entryPointLabel.replace(/^.*\//, '').toLowerCase()
 
+    const inputFilePath = `${entryPointId}.md`
+    const permalink = `${baseUrl}${outputFolderPath}/${entryPointId}`
+    permalinksMapByPath.set(inputFilePath, permalink)
+
+    const frontMatterSlug = `/api/${entryPointId}`
+    const frontMatterTitle = `${entryPointId} package`
+
+    const sidebarLabel = entryPointLabel
+    const sidebarId = `${apiRelativeFolderPath}/${entryPointId}`
+
+    const outputFilePath = `${entryPointId}.md`
+
     const entryPoint = {
       kind: entryPointKind,
-      label: entryPointLabel,
-      id: entryPointId,
+
+      inputFilePath,
+      permalink,
+
+      frontMatterSlug,
+      frontMatterTitle,
+
+      sidebarLabel,
+      sidebarId,
+
+      outputFilePath,
+
       compoundsMap: new Map(), // Map of array of compounds, by kind (Class, Interface, ...)
       data: entryPointDataModel,
     }
@@ -114,10 +122,38 @@ function prepareApiViewModel(apiDataModel) {
       const compoundLabel = compoundDataModel.name
       const compoundId = compoundDataModel.name.toLowerCase()
 
+      const inputFilePath = `${entryPointId}.${compoundId}.md`
+      const permalink = `${baseUrl}${outputFolderPath}/${entryPointId}/${compoundId}`
+      permalinksMapByPath.set(inputFilePath, permalink)
+
+      const frontMatterSlug = `/api/${entryPointId}/${compoundId}`
+
+      let compoundTitle = compoundLabel
+      if (compoundKind === 'Function') {
+        compoundTitle += '()'
+      }
+
+      const frontMatterTitle = `${compoundTitle} ${compoundKind.toLowerCase()}`
+
+      const sidebarLabel = compoundLabel
+      const sidebarId = `${apiRelativeFolderPath}/${entryPointId}/${compoundId}`
+
+      const outputFilePath = `${entryPointId}/${compoundId}.md`
+
       const compound = {
         kind: compoundKind,
-        label: compoundLabel,
-        id: compoundId,
+
+        inputFilePath,
+        permalink,
+
+        frontMatterSlug,
+        frontMatterTitle,
+
+        sidebarLabel,
+        sidebarId,
+
+        outputFilePath,
+
         membersMap: new Map(), // Map of array of members, by kind (Constructor, Property, ...)
         data: compoundDataModel,
       }
@@ -133,33 +169,88 @@ function prepareApiViewModel(apiDataModel) {
         for (const memberDataModel of compoundDataModel.members) {
           // console.log('  ', memberDataModel.kind, memberDataModel.name, memberDataModel.canonicalReference);
 
-          const memberName = memberDataModel.name
           const memberKind = memberDataModel.kind
           let memberLabel = memberDataModel.name
 
+          let originalMemberId = memberDataModel.name
+
           let memberId
           if (memberLabel !== undefined) {
-            memberId = memberLabel
+            originalMemberId = memberLabel
               .replaceAll(/[^a-zA-Z0-9]/g, '_')
               .toLowerCase()
 
+            memberId = originalMemberId
+
+            // Docusaurus ignores files that start with an underscore.
             // Surround with $ if the original name contains non-alphanumeric characters
-            if (/[^a-zA-Z0-9]/.test(memberDataModel.name)) {
+            if (/^_/.test(originalMemberId)) {
               memberId = `$${memberId}$`
             }
           }
 
+          let memberTitle = memberLabel
+
           if (memberKind === 'Constructor') {
             memberLabel = 'constructor'
             memberId = '$constructor$'
+            memberTitle = '(constructor)'
+            originalMemberId = '_constructor_'
           }
+
+          // if (originalMemberId === undefined) {
+          //   console.log(memberDataModel)
+          // }
+
+          const inputFilePath = `${entryPointId}.${compoundId}.${originalMemberId}.md`
+          const permalink = `${baseUrl}${outputFolderPath}/${entryPointId}/${compoundId}/${memberId}`
+          if (memberKind !== 'CallSignature') {
+            // if(originalMemberId === undefined) {
+            //   console.log(memberDataModel)
+            // }
+            permalinksMapByPath.set(inputFilePath, permalink)
+          }
+
+          const frontMatterSlug = `/api/${entryPointId}/${compoundId}/${memberId}`
+
+          if (memberKind === 'Method') {
+            memberTitle += '()'
+          }
+
+          let titleKind = memberKind
+          if (titleKind === 'PropertySignature') {
+            titleKind = 'Property'
+          }
+
+          const frontMatterTitle =
+            memberKind !== 'Constructor'
+              ? `${compoundLabel}.${memberTitle} ${titleKind.toLowerCase()}`
+              : `${compoundLabel}.${memberTitle}`
+
+          const sidebarLabel = memberTitle
+          const sidebarId = `${apiRelativeFolderPath}/${entryPointId}/${compoundId}/${memberId}`
+
+          const outputFilePath = `${entryPointId}/${compoundId}/${memberId}.md`
 
           const member = {
             kind: memberKind,
-            name: memberName,
-            label: memberLabel,
-            id: memberId,
+
+            inputFilePath,
+            permalink,
+
+            frontMatterSlug,
+            frontMatterTitle,
+
+            sidebarLabel,
+            sidebarId,
+
+            outputFilePath,
+
             data: memberDataModel,
+          }
+
+          if (memberId === undefined) {
+            member.isHidden = true
           }
 
           let membersArray = compound.membersMap.get(member.kind)
@@ -173,8 +264,15 @@ function prepareApiViewModel(apiDataModel) {
       }
     }
   }
+
+  // for (const [keyPath, permalink] of permalinksMapByPath) {
+  //   console.log(keyPath, '=>', permalink)
+  // }
+
   return {
+    topIndex,
     entryPointsSet,
+    permalinksMapByPath,
   }
 }
 
@@ -182,7 +280,7 @@ function prepareApiViewModel(apiDataModel) {
 
 async function readInputFileLines(filePath) {
   const inputData = await fs.readFile(filePath, 'utf8')
-  return inputData.split('\n').map((line) => line.trimEnd());
+  return inputData.split('\n').map((line) => line.trimEnd())
 }
 
 async function writeOutputFile(filePath, frontMatter, lines) {
@@ -209,7 +307,7 @@ async function writeOutputFile(filePath, frontMatter, lines) {
   console.log(`Writing ${filePath}...`)
 }
 
-function patchLines(lines) {
+function patchLines(lines, permalinksMapByPath) {
   const outLines = []
 
   let firstH2 = false
@@ -225,45 +323,85 @@ function patchLines(lines) {
       outLines.push('## Signature')
     } else {
       // Patch links and other formatting
-      outLines.push(patchLine(line))
+      outLines.push(patchPermalinks(line, permalinksMapByPath))
     }
   }
   return outLines
+}
+
+function patchPermalinks(line, permalinksMapByPath) {
+  let patchedLine = line
+
+  const matches = [...line.matchAll(/\]\([^\(<>\)]*\)/g)]
+  if (matches.length > 0) {
+    // console.log(matches)
+    for (const match of matches) {
+      const link = match[0]
+      const linkPath = link.slice(2, -1) // Remove the leading `](` and trailing `)`
+      if (linkPath.startsWith('./')) {
+        // Relative link, patch it
+        const relativePath = linkPath.slice(2)
+        if (permalinksMapByPath.has(relativePath)) {
+          const permalink = permalinksMapByPath.get(relativePath)
+          // console.log(relativePath, '->', permalink)
+          patchedLine = patchedLine.replace(link, `](${permalink})`)
+          // console.log(patchedLine)
+        } else {
+          console.warn(`No permalink for ${relativePath}, skipping patch.`)
+        }
+      }
+    }
+  }
+
+  return patchedLine
 }
 
 async function generateMdFiles(apiViewModel) {
   const entryPointsSet = apiViewModel.entryPointsSet
 
   {
-    const lines = await readInputFileLines(`${inputFolderPath}/index.md`)
+    const topIndex = apiViewModel.topIndex
+    const lines = await readInputFileLines(
+      `${inputFolderPath}/${topIndex.inputFilePath}`
+    )
+
+    const patchLinesLines = patchLines(lines, apiViewModel.permalinksMapByPath)
+
     const frontMatter = {
-      slug: `/api`,
-      title: `API Reference`,
+      slug: topIndex.frontMatterSlug,
+      title: topIndex.frontMatterTitle,
     }
-    const patchLinesLines = patchLines(lines)
+
     await writeOutputFile(
-      `${outputFolderPath}/index.md`,
+      `${outputFolderPath}/${topIndex.outputFilePath}`,
       frontMatter,
       patchLinesLines
     )
   }
 
+  // --------------------------------------------------------------------------
+
   for (const entryPoint of entryPointsSet) {
     // console.log(entryPoint)
 
     const lines = await readInputFileLines(
-      `${inputFolderPath}/${entryPoint.id}.md`
+      `${inputFolderPath}/${entryPoint.inputFilePath}`
     )
-    const patchLinesLines = patchLines(lines)
+
+    const patchLinesLines = patchLines(lines, apiViewModel.permalinksMapByPath)
+
     const frontMatter = {
-      slug: `/api/${entryPoint.id}`,
-      title: `${entryPoint.id} package`,
+      slug: entryPoint.frontMatterSlug,
+      title: entryPoint.frontMatterTitle,
     }
+
     await writeOutputFile(
-      `${outputFolderPath}/${entryPoint.id}.md`,
+      `${outputFolderPath}/${entryPoint.outputFilePath}`,
       frontMatter,
       patchLinesLines
     )
+
+    // ------------------------------------------------------------------------
 
     for (const [compoundKind, compoundsArray] of entryPoint.compoundsMap) {
       const compoundCategoryLabel = pluralise(compoundKind)
@@ -271,75 +409,56 @@ async function generateMdFiles(apiViewModel) {
 
       for (const compound of compoundsArray) {
         // console.log(`    ${compound.label}`)
+
         const lines = await readInputFileLines(
-          `${inputFolderPath}/${entryPoint.id}.${compound.id}.md`
+          `${inputFolderPath}/${compound.inputFilePath}`
         )
-        const patchLinesLines = patchLines(lines)
-        let comoundTitle = compound.label
-        if (compound.kind === 'Function') {
-          comoundTitle += '()'
-        }
+
+        const patchLinesLines = patchLines(
+          lines,
+          apiViewModel.permalinksMapByPath
+        )
+
         const frontMatter = {
-          slug: `/api/${entryPoint.id}/${compound.id}`,
-          title: `${comoundTitle} ${compound.kind.toLowerCase()}`,
+          slug: compound.frontMatterSlug,
+          title: compound.frontMatterTitle,
         }
 
         // TODO: Insert members into compound (future improvement).
 
         await writeOutputFile(
-          `${outputFolderPath}/${entryPoint.id}/${compound.id}.md`,
+          `${outputFolderPath}/${compound.outputFilePath}`,
           frontMatter,
           patchLinesLines
         )
 
+        // --------------------------------------------------------------------
+
         if (compound.membersMap !== undefined && compound.membersMap.size > 0) {
           for (const [memberKind, membersArray] of compound.membersMap) {
             for (const member of membersArray) {
-              if (member.kind === 'CallSignature') {
+              if (member.isHidden) {
                 continue
               }
-              const memberLabel = member.label
-              // console.log(`      ${memberLabel} ${member.name} ${member.id}`)
 
-              let originalMemberId = member.id
-              let memberTitle = memberLabel
-              if (member.id === '$constructor$') {
-                originalMemberId = '_constructor_'
-                memberTitle = '(constructor)'
-              } else if (member.id.startsWith('$') && member.id.endsWith('$')) {
-                originalMemberId = member.id.slice(1, -1)
-              } else if (member.kind === 'Method') {
-                memberTitle += '()'
-              }
+              // console.log(`      ${member.label} ${member.name} ${member.id}`)
 
               const lines = await readInputFileLines(
-                `${inputFolderPath}/${entryPoint.id}.${compound.id}.${originalMemberId}.md`
+                `${inputFolderPath}/${member.inputFilePath}`
               )
 
-              const patchLinesLines = patchLines(lines)
+              const patchLinesLines = patchLines(
+                lines,
+                apiViewModel.permalinksMapByPath
+              )
 
-              const slug = `/api/${entryPoint.id}/${compound.id}/${member.id}`
-              let titleKind = member.kind
-              if (titleKind === 'PropertySignature') {
-                titleKind = 'Property'
-              }
-
-              const title =
-                member.kind !== 'Constructor'
-                  ? `${compound.label}.${memberTitle} ${titleKind.toLowerCase()}`
-                  : `${compound.label}.${memberTitle}`
               const frontMatter = {
-                slug,
-                title,
+                slug: member.frontMatterSlug,
+                title: member.frontMatterTitle,
               }
-
-              let memberId = member.id
-              // if (/[^a-zA-Z0-9]/.test(memberId)) {
-              //   memberId = `$${memberId}$`
-              // }
 
               await writeOutputFile(
-                `${outputFolderPath}/${entryPoint.id}/${compound.id}/${memberId}.md`,
+                `${outputFolderPath}/${member.outputFilePath}`,
                 frontMatter,
                 patchLinesLines
               )
@@ -356,12 +475,14 @@ async function generateMdFiles(apiViewModel) {
 function generateSidebarCategory(apiViewModel) {
   const entryPointsSet = apiViewModel.entryPointsSet
 
+  const topIndex = apiViewModel.topIndex
+
   const sidebarTopCategory = {
     type: 'category',
-    label: 'API Reference (TSDoc)',
+    label: topIndex.sidebarLabel,
     link: {
       type: 'doc',
-      id: `${apiRelativeFolderPath}/index`,
+      id: topIndex.sidebarId,
     },
     collapsed: false,
     items: [],
@@ -370,10 +491,10 @@ function generateSidebarCategory(apiViewModel) {
   for (const entryPoint of entryPointsSet) {
     const entryPointCategory = {
       type: 'category',
-      label: entryPoint.label,
+      label: entryPoint.sidebarLabel,
       link: {
         type: 'doc',
-        id: `${apiRelativeFolderPath}/${entryPoint.id}`,
+        id: entryPoint.sidebarId,
       },
       collapsed: false,
       items: [],
@@ -393,10 +514,10 @@ function generateSidebarCategory(apiViewModel) {
       for (const compound of compoundsArray) {
         const compoundCategory = {
           type: 'category',
-          label: compound.label,
+          label: compound.sidebarLabel,
           link: {
             type: 'doc',
-            id: `${entryPointCategory.link.id}/${compound.id}`,
+            id: compound.sidebarId,
           },
           collapsed: true,
           items: [],
@@ -406,24 +527,15 @@ function generateSidebarCategory(apiViewModel) {
         if (compound.membersMap !== undefined && compound.membersMap.size > 0) {
           for (const [memberKind, membersArray] of compound.membersMap) {
             for (const member of membersArray) {
-              let memberLabel = member.label
-              let memberId = member.id
-
-              if (member.kind === 'Constructor') {
-                memberId = '$constructor$'
-                memberLabel = '(constructor)'
-              }
-              if (memberId === undefined) {
+              if (member.isHidden) {
                 // console.warn(`Skipping member without name in ${compoundLabel}: ${member.data.canonicalReference}`);
-                continue // Skip members without an id
+                continue
               }
-              // if (/[^a-zA-Z0-9]/.test(memberId)) {
-              //   memberId = `$${memberId}$`
-              // }
+
               const memberDoc = {
                 type: 'doc',
-                id: `${entryPointCategory.link.id}/${compound.id}/${memberId}`,
-                label: memberLabel,
+                id: `${member.sidebarId}`,
+                label: member.sidebarLabel,
               }
               compoundCategory.items.push(memberDoc)
             }
@@ -482,7 +594,7 @@ async function legacy() {
             if (line.startsWith('|')) {
               line = line.replace(/\\\|/g, '&#124;')
             }
-            line = patchLine(line)
+            line = patchPermalinks(line)
 
             output.push(line)
           }
@@ -536,6 +648,29 @@ async function legacy() {
       console.error(`Could not process ${mdFileName}: ${err}`)
     }
   }
+}
+
+// ----------------------------------------------------------------------------
+
+function pluralise(name) {
+  const plurals = {
+    Class: 'Classes',
+    Interface: 'Interfaces',
+    Function: 'Functions',
+    Variable: 'Variables',
+    'Type alias': 'Type aliases',
+    Namespace: 'Namespaces',
+    Enum: 'Enums',
+    Method: 'Methods',
+    Property: 'Properties',
+  }
+
+  if (plurals[name] !== undefined) {
+    return plurals[name]
+  }
+
+  console.warn(`No plural for ${name}, using default.`)
+  return name + 's?'
 }
 
 // ----------------------------------------------------------------------------
