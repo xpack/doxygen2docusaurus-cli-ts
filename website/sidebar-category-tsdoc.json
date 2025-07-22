@@ -2334,7 +2334,7 @@
           "items": [
             {
               "type": "category",
-              "label": "generateDocusaurusMd",
+              "label": "generateDocusaurusMd()",
               "link": {
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/functions/generatedocusaurusmd"
@@ -2344,7 +2344,7 @@
             },
             {
               "type": "category",
-              "label": "main",
+              "label": "main()",
               "link": {
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/functions/main"
@@ -2354,7 +2354,7 @@
             },
             {
               "type": "category",
-              "label": "parseDoxygen",
+              "label": "parseDoxygen()",
               "link": {
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/functions/parsedoxygen"
