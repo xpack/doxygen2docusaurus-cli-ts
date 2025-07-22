@@ -220,22 +220,22 @@ function prepareApiViewModel(apiDataModel) {
             titleKind = 'Property'
           }
 
+          let escapedMemberId = memberId
+          // Docusaurus ignores files that start with an underscore.
+          // Surround with $ if the original name contains non-alphanumeric characters
+          if (/^_/.test(originalMemberId)) {
+            escapedMemberId = `$${escapedMemberId}$`
+          }
+
           const frontMatterTitle =
             memberKind !== 'Constructor'
               ? `${compoundLabel}.${memberTitle} ${titleKind.toLowerCase()}`
               : `${compoundLabel}.${memberTitle}`
 
           const sidebarLabel = memberTitle
-          const sidebarId = `${apiRelativeFolderPath}/${entryPointId}/${compoundCategoryId}/${compoundId}/${memberId}`
+          const sidebarId = `${apiRelativeFolderPath}/${entryPointId}/${compoundCategoryId}/${compoundId}/${escapedMemberId}`
 
-          let outputFileMemberId = memberId
-          // Docusaurus ignores files that start with an underscore.
-          // Surround with $ if the original name contains non-alphanumeric characters
-          if (/^_/.test(originalMemberId)) {
-            outputFileMemberId = `$${outputFileMemberId}$`
-          }
-
-          const outputFilePath = `${entryPointId}/${compoundCategoryId}/${compoundId}/${outputFileMemberId}.md`
+          const outputFilePath = `${entryPointId}/${compoundCategoryId}/${compoundId}/${escapedMemberId}.md`
 
           const member = {
             kind: memberKind,
