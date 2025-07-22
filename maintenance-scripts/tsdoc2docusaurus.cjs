@@ -137,7 +137,7 @@ function prepareApiViewModel(apiDataModel) {
 
       const frontMatterTitle = `${compoundTitle} ${compoundKind.toLowerCase()}`
 
-      const sidebarLabel = compoundLabel
+      const sidebarLabel = compoundTitle
       const sidebarId = `${apiRelativeFolderPath}/${entryPointId}/${compoundCategoryId}/${compoundId}`
 
       const outputFilePath = `${entryPointId}/${compoundCategoryId}/${compoundId}.md`
