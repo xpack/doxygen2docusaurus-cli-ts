@@ -182,7 +182,7 @@ function prepareApiViewModel(apiDataModel) {
 
 async function readInputFileLines(filePath) {
   const inputData = await fs.readFile(filePath, 'utf8')
-  return inputData.split('\n')
+  return inputData.split('\n').map((line) => line.trimEnd());
 }
 
 async function writeOutputFile(filePath, frontMatter, lines) {
