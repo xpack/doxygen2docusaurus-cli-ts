@@ -15,7 +15,7 @@ custom_edit_url: null
 ```typescript
 hasMembers(): boolean;
 ```
-**Returns:**
+## Returns
 
 boolean
 

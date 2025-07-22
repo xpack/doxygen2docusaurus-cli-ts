@@ -70,7 +70,7 @@ The name of the inner element to check for
 </td></tr>
 </tbody></table>
 
-**Returns:**
+## Returns
 
 boolean
 

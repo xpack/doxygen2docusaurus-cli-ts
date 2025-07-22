@@ -54,7 +54,7 @@ The XML element to retrieve text from
 </td></tr>
 </tbody></table>
 
-**Returns:**
+## Returns
 
 string
 

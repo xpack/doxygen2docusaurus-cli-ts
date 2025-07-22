@@ -17,7 +17,7 @@ Parses the main Doxygen index XML file and initialises the index data model.
 ```typescript
 parseDoxygenIndex(): Promise<void>;
 ```
-**Returns:**
+## Returns
 
 Promise&lt;void&gt;
 

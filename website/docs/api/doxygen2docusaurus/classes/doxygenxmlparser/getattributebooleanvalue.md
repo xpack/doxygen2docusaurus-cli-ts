@@ -70,7 +70,7 @@ The name of the attribute to retrieve
 </td></tr>
 </tbody></table>
 
-**Returns:**
+## Returns
 
 boolean
 

@@ -17,7 +17,7 @@ Parses the Doxyfile XML and initialises the configuration data model.
 ```typescript
 parseDoxyfile(): Promise<void>;
 ```
-**Returns:**
+## Returns
 
 Promise&lt;void&gt;
 

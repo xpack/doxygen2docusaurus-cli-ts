@@ -17,7 +17,7 @@ Parses all relevant Doxygen-generated XML files and constructs the internal data
 ```typescript
 parse(): Promise<DataModel>;
 ```
-**Returns:**
+## Returns
 
 Promise&lt;[DataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/interfaces/datamodel)<!-- -->&gt;
 

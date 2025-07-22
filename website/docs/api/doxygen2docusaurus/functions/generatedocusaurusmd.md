@@ -55,7 +55,7 @@ Description
 </td></tr>
 </tbody></table>
 
-**Returns:**
+## Returns
 
 Promise&lt;number&gt;
 

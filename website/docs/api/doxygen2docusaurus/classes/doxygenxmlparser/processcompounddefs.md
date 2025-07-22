@@ -70,7 +70,7 @@ The array of parsed XML elements for the compound
 </td></tr>
 </tbody></table>
 
-**Returns:**
+## Returns
 
 void
 

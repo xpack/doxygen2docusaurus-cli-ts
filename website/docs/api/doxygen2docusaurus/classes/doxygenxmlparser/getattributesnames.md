@@ -50,7 +50,7 @@ Object
 </td></tr>
 </tbody></table>
 
-**Returns:**
+## Returns
 
 string\[\]
 

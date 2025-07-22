@@ -54,7 +54,7 @@ Description
 </td></tr>
 </tbody></table>
 
-**Returns:**
+## Returns
 
 Promise&lt;[DataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/interfaces/datamodel)<!-- -->&gt;
 

@@ -17,7 +17,7 @@ Processes member definitions and updates member kinds where necessary.
 ```typescript
 processMemberdefs(): void;
 ```
-**Returns:**
+## Returns
 
 void
 

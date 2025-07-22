@@ -54,7 +54,7 @@ Command line arguments array
 </td></tr>
 </tbody></table>
 
-**Returns:**
+## Returns
 
 Promise&lt;number&gt;
 

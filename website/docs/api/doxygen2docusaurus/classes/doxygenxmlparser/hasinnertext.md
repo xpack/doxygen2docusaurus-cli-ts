@@ -54,7 +54,7 @@ The XML element to inspect
 </td></tr>
 </tbody></table>
 
-**Returns:**
+## Returns
 
 boolean
 

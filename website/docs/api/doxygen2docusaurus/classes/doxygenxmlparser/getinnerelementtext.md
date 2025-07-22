@@ -70,7 +70,7 @@ The name of the child element
 </td></tr>
 </tbody></table>
 
-**Returns:**
+## Returns
 
 string
 
