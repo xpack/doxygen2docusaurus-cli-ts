@@ -42,7 +42,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[":@"?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/xmlelement/____)
+[":@"?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/xmlelement/$____$)
 
 
 </td><td>
@@ -61,7 +61,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-["\#text"](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/xmlelement/__text_)
+["\#text"](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/xmlelement/$__text_$)
 
 
 </td><td>
