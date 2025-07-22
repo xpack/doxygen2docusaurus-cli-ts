@@ -1,0 +1,2370 @@
+{
+  "type": "category",
+  "label": "API Reference (TSDoc",
+  "link": {
+    "type": "doc",
+    "id": "api/index"
+  },
+  "collapsed": false,
+  "items": [
+    {
+      "type": "category",
+      "label": "@xpack/doxygen2docusaurus",
+      "link": {
+        "type": "doc",
+        "id": "api/doxygen2docusaurus"
+      },
+      "collapsed": false,
+      "items": [
+        {
+          "type": "category",
+          "label": "Classes",
+          "collapsed": true,
+          "items": [
+            {
+              "type": "category",
+              "label": "AbstractCodeLineType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractcodelinetype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/external",
+                  "label": "external"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/highlights",
+                  "label": "highlights"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/lineno",
+                  "label": "lineno"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/refid",
+                  "label": "refid"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/refkind",
+                  "label": "refkind"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractCompoundDefType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/abstract",
+                  "label": "abstract"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/basecompoundrefs",
+                  "label": "baseCompoundRefs"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/briefdescription",
+                  "label": "briefDescription"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/compoundname",
+                  "label": "compoundName"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/derivedcompoundrefs",
+                  "label": "derivedCompoundRefs"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/detaileddescription",
+                  "label": "detailedDescription"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/final",
+                  "label": "final"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/id",
+                  "label": "id"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/includedby",
+                  "label": "includedBy"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/includes",
+                  "label": "includes"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/inline",
+                  "label": "inline"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innerclasses",
+                  "label": "innerClasses"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innerdirs",
+                  "label": "innerDirs"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innerfiles",
+                  "label": "innerFiles"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innergroups",
+                  "label": "innerGroups"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innernamespaces",
+                  "label": "innerNamespaces"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innerpages",
+                  "label": "innerPages"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/kind",
+                  "label": "kind"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/language",
+                  "label": "language"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/listofallmembers",
+                  "label": "listOfAllMembers"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/location",
+                  "label": "location"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/programlisting",
+                  "label": "programListing"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/prot",
+                  "label": "prot"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/sealed",
+                  "label": "sealed"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/sectiondefs",
+                  "label": "sectionDefs"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/tableofcontents",
+                  "label": "tableOfContents"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/templateparamlist",
+                  "label": "templateParamList"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/title",
+                  "label": "title"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractCompoundRefType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractcompoundreftype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompoundreftype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompoundreftype/prot",
+                  "label": "prot"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompoundreftype/refid",
+                  "label": "refid"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompoundreftype/text",
+                  "label": "text"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompoundreftype/virt",
+                  "label": "virt"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractDataModelBase",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractdatamodelbase"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdatamodelbase/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdatamodelbase/children",
+                  "label": "children"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdatamodelbase/elementname",
+                  "label": "elementName"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdatamodelbase/skippara",
+                  "label": "skipPara"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractDescriptionType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractdescriptiontype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdescriptiontype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdescriptiontype/title",
+                  "label": "title"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractDocImageType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractdocimagetype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/alt",
+                  "label": "alt"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/caption",
+                  "label": "caption"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/height",
+                  "label": "height"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/inline",
+                  "label": "inline"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/name",
+                  "label": "name"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/type",
+                  "label": "type"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/width",
+                  "label": "width"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractDoxygenFileOptionType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/default",
+                  "label": "default"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/id",
+                  "label": "id"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/type",
+                  "label": "type"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/values",
+                  "label": "values"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractDoxygenFileType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractdoxygenfiletype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfiletype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfiletype/lang",
+                  "label": "lang"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfiletype/nonamespaceschemalocation",
+                  "label": "noNamespaceSchemaLocation"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfiletype/options",
+                  "label": "options"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfiletype/version",
+                  "label": "version"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractEnumValueType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/briefdescription",
+                  "label": "briefDescription"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/detaileddescription",
+                  "label": "detailedDescription"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/id",
+                  "label": "id"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/initializer",
+                  "label": "initializer"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/name",
+                  "label": "name"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/prot",
+                  "label": "prot"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractHighlightType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstracthighlighttype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstracthighlighttype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstracthighlighttype/classs",
+                  "label": "classs"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractIncType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractinctype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractinctype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractinctype/local",
+                  "label": "local"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractinctype/refid",
+                  "label": "refId"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractinctype/text",
+                  "label": "text"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractIndexCompoundType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractindexcompoundtype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexcompoundtype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexcompoundtype/kind",
+                  "label": "kind"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexcompoundtype/members",
+                  "label": "members"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexcompoundtype/name",
+                  "label": "name"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexcompoundtype/refid",
+                  "label": "refid"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractIndexDoxygenType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractindexdoxygentype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexdoxygentype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexdoxygentype/compounds",
+                  "label": "compounds"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexdoxygentype/lang",
+                  "label": "lang"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexdoxygentype/nonamespaceschemalocation",
+                  "label": "noNamespaceSchemaLocation"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexdoxygentype/version",
+                  "label": "version"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractIndexMemberType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractindexmembertype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexmembertype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexmembertype/kind",
+                  "label": "kind"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexmembertype/name",
+                  "label": "name"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexmembertype/refid",
+                  "label": "refid"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractLinkedTextType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractlinkedtexttype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractlinkedtexttype/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractListingType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractlistingtype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractlistingtype/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractListingTypeBase",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractlistingtypebase"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractlistingtypebase/codelines",
+                  "label": "codelines"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractlistingtypebase/filename",
+                  "label": "filename"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractListOfAllMembersType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractlistofallmemberstype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractlistofallmemberstype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractlistofallmemberstype/memberrefs",
+                  "label": "memberRefs"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractLocationType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractlocationtype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/bodyend",
+                  "label": "bodyend"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/bodyfile",
+                  "label": "bodyfile"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/bodystart",
+                  "label": "bodystart"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/column",
+                  "label": "column"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/declcolumn",
+                  "label": "declcolumn"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/declfile",
+                  "label": "declfile"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/declline",
+                  "label": "declline"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/file",
+                  "label": "file"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/line",
+                  "label": "line"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractMemberBaseType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractmemberbasetype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberbasetype/kind",
+                  "label": "kind"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberbasetype/name",
+                  "label": "name"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractMemberDefType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/argsstring",
+                  "label": "argsstring"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/bitfield",
+                  "label": "bitfield"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/briefdescription",
+                  "label": "briefDescription"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/consteval",
+                  "label": "consteval"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/constexpr",
+                  "label": "constexpr"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/constinit",
+                  "label": "constinit"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/constt",
+                  "label": "constt"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/definition",
+                  "label": "definition"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/detaileddescription",
+                  "label": "detailedDescription"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/enumvalues",
+                  "label": "enumvalues"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/explicit",
+                  "label": "explicit"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/extern",
+                  "label": "extern"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/final",
+                  "label": "final"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/id",
+                  "label": "id"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/inbodydescription",
+                  "label": "inbodyDescription"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/initializer",
+                  "label": "initializer"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/inline",
+                  "label": "inline"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/location",
+                  "label": "location"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/mutable",
+                  "label": "mutable"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/nodiscard",
+                  "label": "nodiscard"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/noexcept",
+                  "label": "noexcept"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/noexceptexpression",
+                  "label": "noexceptexpression"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/params",
+                  "label": "params"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/prot",
+                  "label": "prot"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/qualifiedname",
+                  "label": "qualifiedName"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/referencedby",
+                  "label": "referencedBy"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/references",
+                  "label": "references"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/refqual",
+                  "label": "refqual"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/reimplementedbys",
+                  "label": "reimplementedBys"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/reimplements",
+                  "label": "reimplements"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/staticc",
+                  "label": "staticc"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/strong",
+                  "label": "strong"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/templateparamlist",
+                  "label": "templateparamlist"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/type",
+                  "label": "type"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/virt",
+                  "label": "virt"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/volatile",
+                  "label": "volatile"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractMemberRefType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractmemberreftype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/ambiguityscope",
+                  "label": "ambiguityscope"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/name",
+                  "label": "name"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/prot",
+                  "label": "prot"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/refid",
+                  "label": "refid"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/scope",
+                  "label": "scope"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/virt",
+                  "label": "virt"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractMemberType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractmembertype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmembertype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractmembertype/refid",
+                  "label": "refid"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractParamType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractparamtype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/array",
+                  "label": "array"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/attributes",
+                  "label": "attributes"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/briefdescription",
+                  "label": "briefdescription"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/declname",
+                  "label": "declname"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/defname",
+                  "label": "defname"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/defval",
+                  "label": "defval"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/type",
+                  "label": "type"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/typeconstraint",
+                  "label": "typeconstraint"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractReferenceType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractreferencetype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/compoundref",
+                  "label": "compoundref"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/endline",
+                  "label": "endline"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/refid",
+                  "label": "refid"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/startline",
+                  "label": "startline"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/text",
+                  "label": "text"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractRefType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractreftype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractreftype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractreftype/inline",
+                  "label": "inline"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractreftype/prot",
+                  "label": "prot"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractreftype/refid",
+                  "label": "refid"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractreftype/text",
+                  "label": "text"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractReimplementType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractreimplementtype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractreimplementtype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractreimplementtype/refid",
+                  "label": "refId"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractreimplementtype/text",
+                  "label": "text"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractSectionDefType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractsectiondeftype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftype/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractSectionDefTypeBase",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/computeadjustedkind",
+                  "label": "computeAdjustedKind()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/hasmembers",
+                  "label": "hasMembers()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/description",
+                  "label": "description"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/header",
+                  "label": "header"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/kind",
+                  "label": "kind"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/memberdefs",
+                  "label": "memberDefs"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/members",
+                  "label": "members"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractTableOfContentsKindType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstracttableofcontentskindtype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentskindtype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentskindtype/name",
+                  "label": "name"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentskindtype/reference",
+                  "label": "reference"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentskindtype/tableofcontents",
+                  "label": "tableOfContents"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractTableOfContentsType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstracttableofcontentstype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentstype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentstype/tableofcontents",
+                  "label": "tableOfContents"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentstype/tocsect",
+                  "label": "tocSect"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractTemplateParamListType",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/abstracttemplateparamlisttype"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstracttemplateparamlisttype/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/abstracttemplateparamlisttype/params",
+                  "label": "params"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "BaseCompoundRefDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/basecompoundrefdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/basecompoundrefdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "BriefDescriptionDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/briefdescriptiondatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/briefdescriptiondatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "CodeLineDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/codelinedatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/codelinedatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "CompoundDefDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/compounddefdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/compounddefdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "DefValDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/defvaldatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/defvaldatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "DerivedCompoundRefDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/derivedcompoundrefdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/derivedcompoundrefdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "DescriptionDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/descriptiondatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/descriptiondatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "DetailedDescriptionDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/detaileddescriptiondatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/detaileddescriptiondatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "DoxygenFileDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/doxygenfiledatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenfiledatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "DoxygenFileOptionDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/doxygenfileoptiondatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenfileoptiondatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "DoxygenIndexDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/doxygenindexdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenindexdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "DoxygenXmlParser",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/doxygenxmlparser"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/$constructor$",
+                  "label": "(constructor)"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/datamodel",
+                  "label": "dataModel"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/options",
+                  "label": "options"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/parsedfilescounter",
+                  "label": "parsedFilesCounter"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/xmlparser",
+                  "label": "xmlParser"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getattributebooleanvalue",
+                  "label": "getAttributeBooleanValue()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getattributenumbervalue",
+                  "label": "getAttributeNumberValue()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getattributesnames",
+                  "label": "getAttributesNames()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getattributestringvalue",
+                  "label": "getAttributeStringValue()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getinnerelementboolean",
+                  "label": "getInnerElementBoolean()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getinnerelementnumber",
+                  "label": "getInnerElementNumber()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getinnerelements",
+                  "label": "getInnerElements()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getinnerelementtext",
+                  "label": "getInnerElementText()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getinnertext",
+                  "label": "getInnerText()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/hasattribute",
+                  "label": "hasAttribute()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/hasattributes",
+                  "label": "hasAttributes()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/hasinnerelement",
+                  "label": "hasInnerElement()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/hasinnertext",
+                  "label": "hasInnerText()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/isinnerelementtext",
+                  "label": "isInnerElementText()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/parse",
+                  "label": "parse()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/parsedoxyfile",
+                  "label": "parseDoxyfile()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/parsedoxygenindex",
+                  "label": "parseDoxygenIndex()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/parsefile",
+                  "label": "parseFile()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/processcompounddefs",
+                  "label": "processCompoundDefs()"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/processmemberdefs",
+                  "label": "processMemberdefs()"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "EnumValueDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/enumvaluedatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/enumvaluedatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "HighlightDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/highlightdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/highlightdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "InbodyDescriptionDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/inbodydescriptiondatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/inbodydescriptiondatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "IncludedByDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/includedbydatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/includedbydatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "IncludesDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/includesdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/includesdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "IndexCompoundDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/indexcompounddatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/indexcompounddatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "IndexMemberDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/indexmemberdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/indexmemberdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "InitializerDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/initializerdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/initializerdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "InnerClassDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/innerclassdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/innerclassdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "InnerDirDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/innerdirdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/innerdirdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "InnerFileDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/innerfiledatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/innerfiledatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "InnerGroupDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/innergroupdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/innergroupdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "InnerNamespaceDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/innernamespacedatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/innernamespacedatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "InnerPageDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/innerpagedatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/innerpagedatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "ListOfAllMembersDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/listofallmembersdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/listofallmembersdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "LocationDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/locationdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/locationdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "MemberDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/memberdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/memberdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "MemberDefDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/memberdefdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/memberdefdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "MemberRefDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/memberrefdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/memberrefdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "ParamDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/paramdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/paramdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "ProgramListingDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/programlistingdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/programlistingdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "ReferenceDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/referencedatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/referencedatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "ReferencedByDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/referencedbydatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/referencedbydatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "ReimplementDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/reimplementdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/reimplementdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "SectionDefDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/sectiondefdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/sectiondefdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "TableOfContentsDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/tableofcontentsdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/tableofcontentsdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "TemplateParamListDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/templateparamlistdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/templateparamlistdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "TocSectDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/tocsectdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/tocsectdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "TypeConstraintDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/typeconstraintdatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/typeconstraintdatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "TypeDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/typedatamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/classes/typedatamodel/$constructor$",
+                  "label": "(constructor)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Interfaces",
+          "collapsed": true,
+          "items": [
+            {
+              "type": "category",
+              "label": "CliOptions",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/interfaces/clioptions"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/apibaseurl",
+                  "label": "apiBaseUrl"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/apifolderpath",
+                  "label": "apiFolderPath"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/baseurl",
+                  "label": "baseUrl"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/compatibilityredirectsoutputfolderpath",
+                  "label": "compatibilityRedirectsOutputFolderPath"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/customcssfilepath",
+                  "label": "customCssFilePath"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/debug",
+                  "label": "debug"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/docsbaseurl",
+                  "label": "docsBaseUrl"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/docsfolderpath",
+                  "label": "docsFolderPath"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/doxygenxmlinputfolderpath",
+                  "label": "doxygenXmlInputFolderPath"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/id",
+                  "label": "id"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/imagesfolderpath",
+                  "label": "imagesFolderPath"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/mainpagetitle",
+                  "label": "mainPageTitle"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/menudropdownfilepath",
+                  "label": "menuDropdownFilePath"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/menudropdownlabel",
+                  "label": "menuDropdownLabel"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/originalpagesnote",
+                  "label": "originalPagesNote"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/renderpagesattop",
+                  "label": "renderPagesAtTop"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/renderprogramlisting",
+                  "label": "renderProgramListing"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/renderprogramlistinginline",
+                  "label": "renderProgramListingInline"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/sidebarcategoryfilepath",
+                  "label": "sidebarCategoryFilePath"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/sidebarcategorylabel",
+                  "label": "sidebarCategoryLabel"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/suggesttododescriptions",
+                  "label": "suggestToDoDescriptions"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/clioptions/verbose",
+                  "label": "verbose"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "DataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/interfaces/datamodel"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/datamodel/compounddefs",
+                  "label": "compoundDefs"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/datamodel/doxyfile",
+                  "label": "doxyfile"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/datamodel/doxygenindex",
+                  "label": "doxygenindex"
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/datamodel/images",
+                  "label": "images"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "XmlElement",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/interfaces/xmlelement"
+              },
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/xmlelement/$____$",
+                  "label": "\":@\""
+                },
+                {
+                  "type": "doc",
+                  "id": "api/doxygen2docusaurus/interfaces/xmlelement/$__text_$",
+                  "label": "\"#text\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Functions",
+          "collapsed": true,
+          "items": [
+            {
+              "type": "category",
+              "label": "generateDocusaurusMd",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/functions/generatedocusaurusmd"
+              },
+              "collapsed": true,
+              "items": []
+            },
+            {
+              "type": "category",
+              "label": "main",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/functions/main"
+              },
+              "collapsed": true,
+              "items": []
+            },
+            {
+              "type": "category",
+              "label": "parseDoxygen",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/functions/parsedoxygen"
+              },
+              "collapsed": true,
+              "items": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
