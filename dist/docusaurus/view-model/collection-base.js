@@ -1,16 +1,33 @@
+/*
+ * This file is part of the xPack project (http://xpack.github.io).
+ * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
+ *
+ * Permission to use, copy, modify, and/or distribute this software
+ * for any purpose is hereby granted, under the terms of the MIT license.
+ *
+ * If a copy of the license was not distributed with this file, it can
+ * be obtained from https://opensource.org/licenses/MIT.
+ */
+// ----------------------------------------------------------------------------
+// import * as fs from 'node:fs/promises'
 import assert from 'node:assert';
 export class CollectionBase {
     workspace;
     collectionCompoundsById;
+    // --------------------------------------------------------------------------
     constructor(workspace) {
         this.workspace = workspace;
         this.collectionCompoundsById = new Map();
     }
+    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     async generatePerInitialsIndexMdFiles() {
+        // Nothing at this level. Override it where needed.
     }
     isVisibleInSidebar() {
         return this.collectionCompoundsById.size > 0;
     }
+    // --------------------------------------------------------------------------
+    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     orderPerInitials(entriesMap) {
         const entriesPerInitialsMap = new Map();
         for (const [, entry] of entriesMap) {
@@ -50,6 +67,7 @@ export class CollectionBase {
         }
         return orderedMap;
     }
+    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     outputEntries(entriesPerInitialsMap) {
         const lines = [];
         let totalCount = 0;
@@ -104,19 +122,23 @@ export class CollectionBase {
             }
         }
         if (filteredMap.size === 0) {
+            // There are no index entries.
             return;
         }
         if (!this.workspace.indicesMaps.has(group)) {
+            // Add the empty set at the first usage.
             this.workspace.indicesMaps.set(group, new Set());
         }
         this.workspace.indicesMaps.get(group)?.add(fileKind);
         const orderedEntries = this.orderPerInitials(filteredMap);
+        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { outputFolderPath } = this.workspace;
         const filePath = `${outputFolderPath}indices/${group}/${fileKind}.md`;
         const permalink = `indices/${group}/${fileKind}`;
         const frontMatter = {
             title,
             slug: `${this.workspace.slugBaseUrl}${permalink}`,
+            // description: '...', // TODO
             custom_edit_url: null,
             keywords: ['doxygen', group, 'index'],
         };
@@ -133,4 +155,5 @@ export class CollectionBase {
         });
     }
 }
+// ----------------------------------------------------------------------------
 //# sourceMappingURL=collection-base.js.map

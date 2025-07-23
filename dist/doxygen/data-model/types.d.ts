@@ -10,11 +10,17 @@ export interface XmlPrologue {
         '@_standalone': string;
     };
 }
+/**
+ * @public
+ */
 export interface XmlAttributes {
     ':@': {
         [key: string]: string | number | boolean;
     };
 }
+/**
+ * @public
+ */
 export interface XmlElement {
     (key: string): XmlElement[];
     '#text': string | number | boolean;
@@ -33,6 +39,9 @@ export interface XmlNameElement {
         '#text': string;
     };
 }
+/**
+ * @public
+ */
 export declare abstract class AbstractDataModelBase {
     elementName: string;
     skipPara?: boolean;
@@ -40,6 +49,9 @@ export declare abstract class AbstractDataModelBase {
     constructor(elementName: string);
 }
 export type DataModelElement = AbstractDataModelBase | string;
+/**
+ * @public
+ */
 export interface DataModel {
     doxygenindex?: DoxygenIndexDataModel;
     compoundDefs: CompoundDefDataModel[];

@@ -1,5 +1,8 @@
 import { DoxygenXmlParser } from '../../doxygen-xml-parser.js';
 import { AbstractDataModelBase } from '../types.js';
+/**
+ * @public
+ */
 export declare abstract class AbstractLocationType extends AbstractDataModelBase {
     file: string;
     line?: Number | undefined;
@@ -12,6 +15,9 @@ export declare abstract class AbstractLocationType extends AbstractDataModelBase
     bodyend?: Number | undefined;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
+/**
+ * @public
+ */
 export declare class LocationDataModel extends AbstractLocationType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }

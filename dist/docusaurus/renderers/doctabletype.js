@@ -1,6 +1,21 @@
+/*
+ * This file is part of the xPack project (http://xpack.github.io).
+ * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
+ *
+ * Permission to use, copy, modify, and/or distribute this software
+ * for any purpose is hereby granted, under the terms of the MIT license.
+ *
+ * If a copy of the license was not distributed with this file, it can
+ * be obtained from https://opensource.org/licenses/MIT.
+ */
+// ----------------------------------------------------------------------------
+// import assert from 'node:assert'
+// import * as util from 'node:util'
 import { ElementLinesRendererBase, ElementStringRendererBase, } from './element-renderer-base.js';
+// ----------------------------------------------------------------------------
 export class DocTableTypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
+        // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
         lines.push('');
         lines.push('<table class="doxyTable">');
@@ -14,6 +29,7 @@ export class DocTableTypeLinesRenderer extends ElementLinesRendererBase {
 }
 export class DocCaptionLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
+        // console.log(util.inspect(element, { compact: false, depth: 999 }))
         let text = '';
         let attributes = '';
         if (element.id.length > 0) {
@@ -29,6 +45,7 @@ export class DocCaptionLinesRenderer extends ElementLinesRendererBase {
 }
 export class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
+        // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
         lines.push('<tr>');
         lines.push(...this.workspace.renderElementsArrayToLines(element.entries, 'html'));
@@ -38,6 +55,7 @@ export class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
 }
 export class DocEntryTypeStringRenderer extends ElementStringRendererBase {
     renderToString(element, type) {
+        // console.log(util.inspect(element, { compact: false, depth: 999 }))
         let text = '';
         let attributes = '';
         if (element.colspan !== undefined) {
@@ -71,4 +89,5 @@ export class DocEntryTypeStringRenderer extends ElementStringRendererBase {
         return text;
     }
 }
+// ----------------------------------------------------------------------------
 //# sourceMappingURL=doctabletype.js.map

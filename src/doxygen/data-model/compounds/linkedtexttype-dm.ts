@@ -26,6 +26,9 @@ import { AbstractDataModelBase } from '../types.js'
 //   </xsd:sequence>
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractLinkedTextType extends AbstractDataModelBase {
   // Any sequence of them.
   // children: Array<string | AbstractRefTextType> = []
@@ -85,6 +88,9 @@ export abstract class AbstractLinkedTextType extends AbstractDataModelBase {
 // <xsd:element name="defval" type="linkedTextType" minOccurs="0" />
 // <xsd:element name="typeconstraint" type="linkedTextType" minOccurs="0" />
 
+/**
+ * @public
+ */
 export class InitializerDataModel extends AbstractLinkedTextType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -92,6 +98,9 @@ export class InitializerDataModel extends AbstractLinkedTextType {
   }
 }
 
+/**
+ * @public
+ */
 export class TypeDataModel extends AbstractLinkedTextType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -99,6 +108,9 @@ export class TypeDataModel extends AbstractLinkedTextType {
   }
 }
 
+/**
+ * @public
+ */
 export class DefValDataModel extends AbstractLinkedTextType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -106,6 +118,9 @@ export class DefValDataModel extends AbstractLinkedTextType {
   }
 }
 
+/**
+ * @public
+ */
 export class TypeConstraintDataModel extends AbstractLinkedTextType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

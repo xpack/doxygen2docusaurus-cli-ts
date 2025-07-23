@@ -16,7 +16,9 @@ export interface Redirects {
   to: string
 }
 
-/** As written by the user. All are optional. */
+/**
+ * Options, as written by the user. All are optional.
+ */
 export interface CliConfigurationOptions {
   doxygenXmlInputFolderPath?: string
   docsFolderPath?: string
@@ -44,7 +46,11 @@ export interface CliConfigurationOptions {
   id?: string
 }
 
-/** As seen by the application. */
+/**
+ * Options, as seen by the application.
+ *
+ * @public
+ */
 export interface CliOptions {
   /**
    * Relative to the current website folder, like `doxygen/xml`, no initial/

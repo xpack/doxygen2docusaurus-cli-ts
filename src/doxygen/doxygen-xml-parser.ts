@@ -43,7 +43,6 @@ import { CliOptions, maxParallelPromises } from '../docusaurus/options.js'
 // ----------------------------------------------------------------------------
 
 /**
- * @class
  * The DoxygenXmlParser class is responsible for parsing
  * Doxygen-generated XML files and constructing the internal data model.
  *
@@ -54,19 +53,36 @@ import { CliOptions, maxParallelPromises } from '../docusaurus/options.js'
  * parsed and stores the resulting data model.
  *
  * @example
+ * ```typescript
  * const parser = new DoxygenXmlParser({ options });
+ * const dataModel = await parser.parse();
+ * ```
+ *
+ * @public
  */
 export class DoxygenXmlParser {
-  /** The global configuration options. */
+  /**
+   * The global configuration options.
+   */
   options: CliOptions
 
-  /** Tracks the number of XML files parsed. */
+  /**
+   * Tracks the number of XML files parsed.
+   *
+   * @defaultValue 0
+   */
   parsedFilesCounter: number = 0
 
-  /** The XML parser instance configured for Doxygen XML. */
+  /**
+   * The XML parser instance configured for Doxygen XML.
+   */
   xmlParser: XMLParser
 
-  /** The internal data model constructed from the XML files. */
+  /**
+   * The internal data model constructed from the XML files.
+   *
+   * @defaultValue `{ compoundDefs: [] }`
+   */
   dataModel: DataModel = {
     compoundDefs: [],
   }
@@ -74,7 +90,7 @@ export class DoxygenXmlParser {
   /**
    * Constructs a new instance of the DoxygenXmlParser class.
    *
-   * @param options - The global configuration options.
+   * @param options - The global configuration options
    *
    * @remarks
    * This constructor initialises the XML parser with settings that preserve the
@@ -99,7 +115,7 @@ export class DoxygenXmlParser {
   /**
    * Parses all relevant Doxygen-generated XML files and constructs the internal data model.
    *
-   * @returns {Promise<DataModel>} A promise that resolves to the populated data model.
+   * @returns A promise that resolves to the populated data model
    *
    * @remarks
    * This method sequentially parses the main index XML file, all compound XML files referenced
@@ -168,8 +184,6 @@ export class DoxygenXmlParser {
   /**
    * Parses the main Doxygen index XML file and initialises the index data model.
    *
-   * @returns {Promise<void>} A promise that resolves when the index has been parsed.
-   *
    * @remarks
    * This method reads and parses the `index.xml` file, ignoring the XML prologue and
    * top-level text nodes. It extracts the `doxygenindex` element and constructs the
@@ -205,8 +219,8 @@ export class DoxygenXmlParser {
   /**
    * Processes compound definitions from the parsed Doxygen XML elements.
    *
-   * @param indexCompound - The compound index data model.
-   * @param parsedDoxygenElements - The array of parsed XML elements for the compound.
+   * @param indexCompound - The compound index data model
+   * @param parsedDoxygenElements - The array of parsed XML elements for the compound
    *
    * @remarks
    * This method iterates through the parsed XML elements, ignoring the XML prologue and
@@ -277,8 +291,6 @@ export class DoxygenXmlParser {
   /**
    * Parses the Doxyfile XML and initialises the configuration data model.
    *
-   * @returns {Promise<void>} A promise that resolves when the Doxyfile has been parsed.
-   *
    * @remarks
    * This method reads and parses the `Doxyfile.xml` file, ignoring the XML prologue
    * and top-level text nodes. It extracts the `doxyfile` element and constructs the
@@ -317,8 +329,8 @@ export class DoxygenXmlParser {
   /**
    * Reads and parses the specified XML file, returning the parsed content.
    *
-   * @param fileName - The name of the XML file to be parsed.
-   * @returns {Promise<any>} A promise that resolves to the parsed XML content.
+   * @param fileName - The name of the XML file to be parsed
+   * @returns A promise that resolves to the parsed XML content
    *
    * @remarks
    * This method constructs the full file path using the configured input folder,
@@ -341,10 +353,36 @@ export class DoxygenXmlParser {
 
   // --------------------------------------------------------------------------
 
+  /**
+   * Determines whether the specified XML element has any attributes.
+   *
+   * @param element - The XML element to inspect for attributes
+   * @returns True if the element has attributes; otherwise, false
+   *
+   * @remarks
+   * This method checks for the presence of the ':\@' property on the XML element,
+   * which is the convention used by the XML parser for storing attributes. If this
+   * property exists, the element has attributes; if not, the element has no attributes.
+   * This is a prerequisite check before calling {@link DoxygenXmlParser.getAttributesNames} or other
+   * attribute-related methods.
+   */
   hasAttributes(element: Object): boolean {
     return Object.hasOwn(element, ':@')
   }
 
+  /**
+   * Retrieves the names of all attributes present on the specified XML element.
+   *
+   * @param element - The XML element to inspect for attribute names
+   * @returns An array of strings containing the names of all attributes
+   *
+   * @remarks
+   * This method accesses the ':\@' property of the XML element, which is the convention
+   * used by the XML parser for storing attributes, and returns the keys of this object
+   * as an array of attribute names. The method assumes the element has attributes and
+   * does not perform validation - use {@link DoxygenXmlParser.hasAttributes} to check for attribute
+   * presence first.
+   */
   getAttributesNames(element: Object): string[] {
     return Object.keys((element as { ':@': {} })[':@'])
   }
@@ -352,12 +390,12 @@ export class DoxygenXmlParser {
   /**
    * Determines whether the specified attribute exists on the given XML element.
    *
-   * @param element - The XML element to inspect.
-   * @param name - The name of the attribute to check for.
-   * @returns {boolean} True if the attribute exists; otherwise, false.
+   * @param element - The XML element to inspect
+   * @param name - The name of the attribute to check for
+   * @returns True if the attribute exists; otherwise, false
    *
    * @remarks
-   * This method checks for the presence of an attribute within the ':@' property
+   * This method checks for the presence of an attribute within the ':\@' property
    * of the XML element, which is the convention used by the XML parser for storing
    * attributes. It returns true if the attribute is found, otherwise false.
    */
@@ -373,6 +411,21 @@ export class DoxygenXmlParser {
     }
   }
 
+  /**
+   * Retrieves the value of a named attribute as a string.
+   *
+   * @param element - The XML element containing the attribute
+   * @param name - The name of the attribute to retrieve
+   * @returns The attribute value as a string
+   * @throws If the attribute does not exist
+   *
+   * @remarks
+   * This method checks whether the specified attribute exists on the XML element
+   * and returns its value as a string. If the attribute value is originally a number
+   * (as the XML parser may return numeric strings as numbers), it is converted to a
+   * string to maintain consistency with the DTD specification. If the attribute is
+   * missing, an error is thrown to indicate the absence.
+   */
   getAttributeStringValue(element: Object, name: string): string {
     if (this.hasAttribute(element, name)) {
       const elementWithNamedAttribute = (
@@ -399,10 +452,10 @@ export class DoxygenXmlParser {
   /**
    * Retrieves the value of a named attribute as a number.
    *
-   * @param element - The XML element containing the attribute.
-   * @param name - The name of the attribute to retrieve.
-   * @returns {number} The attribute value as a number.
-   * @throws If the attribute does not exist or is not a number.
+   * @param element - The XML element containing the attribute
+   * @param name - The name of the attribute to retrieve
+   * @returns The attribute value as a number
+   * @throws If the attribute does not exist or is not a number
    *
    * @remarks
    * This method checks whether the specified attribute exists on the XML element
@@ -427,10 +480,10 @@ export class DoxygenXmlParser {
   /**
    * Retrieves the value of a named attribute as a boolean.
    *
-   * @param element - The XML element containing the attribute.
-   * @param name - The name of the attribute to retrieve.
-   * @returns {boolean} True if the attribute value is 'yes' (case-insensitive); otherwise, false.
-   * @throws If the attribute does not exist or is not a string.
+   * @param element - The XML element containing the attribute
+   * @param name - The name of the attribute to retrieve
+   * @returns True if the attribute value is 'yes' (case-insensitive); otherwise, false
+   * @throws If the attribute does not exist or is not a string
    *
    * @remarks
    * This method checks whether the specified attribute exists on the XML element,
@@ -455,9 +508,9 @@ export class DoxygenXmlParser {
   /**
    * Determines whether the specified inner element exists on the given XML element.
    *
-   * @param element - The XML element to inspect.
-   * @param name - The name of the inner element to check for.
-   * @returns {boolean} True if the inner element exists; otherwise, false.
+   * @param element - The XML element to inspect
+   * @param name - The name of the inner element to check for
+   * @returns True if the inner element exists; otherwise, false
    *
    * @remarks
    * This method checks for the presence of a named property on the XML element.
@@ -484,9 +537,9 @@ export class DoxygenXmlParser {
   /**
    * Determines whether a named inner element contains text.
    *
-   * @param element - The XML element to inspect.
-   * @param name - The name of the inner element.
-   * @returns {boolean} True if the inner element contains text or is empty; otherwise, false.
+   * @param element - The XML element to inspect
+   * @param name - The name of the inner element
+   * @returns True if the inner element contains text or is empty; otherwise, false
    *
    * @remarks
    * This method checks if the specified inner element exists and contains a single text node,
@@ -522,8 +575,8 @@ export class DoxygenXmlParser {
   /**
    * Determines whether the XML element contains a text node.
    *
-   * @param element - The XML element to inspect.
-   * @returns {boolean} True if the element contains a text node; otherwise, false.
+   * @param element - The XML element to inspect
+   * @returns True if the element contains a text node; otherwise, false
    *
    * @remarks
    * This method checks for the presence of a '#text' property on the XML element,
@@ -545,11 +598,11 @@ export class DoxygenXmlParser {
   /**
    * Retrieves an array of named child elements from the given XML element.
    *
-   * @template T - The expected type of the child elements array.
-   * @param element - The XML element containing the child elements.
-   * @param name - The name of the child elements to retrieve.
-   * @returns {T} The array of child elements.
-   * @throws If the child elements do not exist.
+   * @typeParam T - The expected type of the child elements array (defaults to XmlElement[])
+   * @param element - The XML element containing the child elements
+   * @param name - The name of the child elements to retrieve
+   * @returns The array of child elements
+   * @throws If the child elements do not exist
    *
    * @remarks
    * This method accesses the specified property on the XML element and returns it
@@ -570,10 +623,10 @@ export class DoxygenXmlParser {
   /**
    * Retrieves the text content of a named child element.
    *
-   * @param element - The XML element containing the child element.
-   * @param name - The name of the child element.
-   * @returns {string} The text content of the child element.
-   * @throws If the child element does not exist or contains more than one element.
+   * @param element - The XML element containing the child element
+   * @param name - The name of the child element
+   * @returns The text content of the child element
+   * @throws If the child element does not exist or contains more than one element
    *
    * @remarks
    * This method accesses the specified child element and returns its text content.
@@ -602,10 +655,10 @@ export class DoxygenXmlParser {
   /**
    * Retrieves the numeric value of a named child element.
    *
-   * @param element - The XML element containing the child element.
-   * @param name - The name of the child element.
-   * @returns {number} The numeric value of the child element.
-   * @throws If the child element does not exist or contains more than one element.
+   * @param element - The XML element containing the child element
+   * @param name - The name of the child element
+   * @returns The numeric value of the child element
+   * @throws If the child element does not exist or contains more than one element
    *
    * @remarks
    * This method accesses the specified child element and returns its value as a number.
@@ -634,10 +687,10 @@ export class DoxygenXmlParser {
   /**
    * Retrieves the boolean value of a named child element.
    *
-   * @param element - The XML element containing the child element.
-   * @param name - The name of the child element.
-   * @returns {boolean} True if the child element's text is 'true' (case-insensitive); otherwise, false.
-   * @throws If the child element does not exist or contains more than one element.
+   * @param element - The XML element containing the child element
+   * @param name - The name of the child element
+   * @returns True if the child element's text is 'true' (case-insensitive); otherwise, false
+   * @throws If the child element does not exist or contains more than one element
    *
    * @remarks
    * This method accesses the specified child element and returns its value as a boolean.
@@ -668,9 +721,9 @@ export class DoxygenXmlParser {
   /**
    * Retrieves the text content of the XML element.
    *
-   * @param element - The XML element to retrieve text from.
-   * @returns {string} The text content of the element.
-   * @throws If the element does not contain a valid text node.
+   * @param element - The XML element to retrieve text from
+   * @returns The text content of the element
+   * @throws If the element does not contain a valid text node
    *
    * @remarks
    * This method accesses the '#text' property of the XML element and returns its value

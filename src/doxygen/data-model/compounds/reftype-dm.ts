@@ -38,6 +38,9 @@ import { AbstractDataModelBase } from '../types.js'
 // </xsd:restriction>
 // </xsd:simpleType>
 
+/**
+ * @public
+ */
 export abstract class AbstractRefType extends AbstractDataModelBase {
   // Mandatory elements.
   text: string = '' // The name of the reference, passed as element text.
@@ -112,6 +115,9 @@ export class InnerModuleDataModel extends AbstractRefType {
   }
 }
 
+/**
+ * @public
+ */
 export class InnerDirDataModel extends AbstractRefType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -119,6 +125,9 @@ export class InnerDirDataModel extends AbstractRefType {
   }
 }
 
+/**
+ * @public
+ */
 export class InnerFileDataModel extends AbstractRefType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -126,6 +135,9 @@ export class InnerFileDataModel extends AbstractRefType {
   }
 }
 
+/**
+ * @public
+ */
 export class InnerClassDataModel extends AbstractRefType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -140,6 +152,9 @@ export class InnerConceptDataModel extends AbstractRefType {
   }
 }
 
+/**
+ * @public
+ */
 export class InnerNamespaceDataModel extends AbstractRefType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -147,6 +162,9 @@ export class InnerNamespaceDataModel extends AbstractRefType {
   }
 }
 
+/**
+ * @public
+ */
 export class InnerPageDataModel extends AbstractRefType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -154,6 +172,9 @@ export class InnerPageDataModel extends AbstractRefType {
   }
 }
 
+/**
+ * @public
+ */
 export class InnerGroupDataModel extends AbstractRefType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

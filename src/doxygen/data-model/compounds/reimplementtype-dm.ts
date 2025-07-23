@@ -27,6 +27,9 @@ import { AbstractDataModelBase } from '../types.js'
 //   </xsd:simpleContent>
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractReimplementType extends AbstractDataModelBase {
   // Mandatory elements.
   text: string = '' // Passed as element text.
@@ -80,6 +83,9 @@ export abstract class AbstractReimplementType extends AbstractDataModelBase {
 //     <xsd:element name="reimplements" type="reimplementType" minOccurs="0" maxOccurs="unbounded" />
 //     <xsd:element name="reimplementedby" type="reimplementType" minOccurs="0" maxOccurs="unbounded" />
 
+/**
+ * @public
+ */
 export class ReimplementDataModel extends AbstractReimplementType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

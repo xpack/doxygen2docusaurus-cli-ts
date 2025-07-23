@@ -26,6 +26,9 @@ import { AbstractDataModelBase } from '../types.js'
 //   <xsd:attribute name="endline" type="xsd:integer" />
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractReferenceType extends AbstractDataModelBase {
   // WARNING: not in DTD?
   text: string = ''
@@ -94,6 +97,9 @@ export abstract class AbstractReferenceType extends AbstractDataModelBase {
 // <xsd:element name="references" type="referenceType" minOccurs="0" maxOccurs="unbounded" />
 // <xsd:element name="referencedby" type="referenceType" minOccurs="0" maxOccurs="unbounded" />
 
+/**
+ * @public
+ */
 export class ReferenceDataModel extends AbstractReferenceType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -101,6 +107,9 @@ export class ReferenceDataModel extends AbstractReferenceType {
   }
 }
 
+/**
+ * @public
+ */
 export class ReferencedByDataModel extends AbstractReferenceType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

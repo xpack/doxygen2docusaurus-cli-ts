@@ -38,6 +38,9 @@ import { AbstractDataModelBase } from '../types.js'
 //   </xsd:sequence>
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractParamType extends AbstractDataModelBase {
   // Optional elements.
   attributes?: string | undefined
@@ -126,6 +129,9 @@ export abstract class AbstractParamType extends AbstractDataModelBase {
 
 // <xsd:element name="param" type="paramType" minOccurs="0" maxOccurs="unbounded" />
 
+/**
+ * @public
+ */
 export class ParamDataModel extends AbstractParamType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

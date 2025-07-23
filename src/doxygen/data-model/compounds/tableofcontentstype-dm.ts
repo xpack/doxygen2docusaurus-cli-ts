@@ -32,6 +32,9 @@ import {
 //   </xsd:sequence>
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractTableOfContentsType extends AbstractDataModelBase {
   // xsd:choice, only one of them.
   tocSect: TocSectDataModel[] | undefined
@@ -89,6 +92,9 @@ export abstract class AbstractTableOfContentsType extends AbstractDataModelBase 
 
 // <xsd:element name="tableofcontents" type="tableofcontentsType" minOccurs="0" maxOccurs="1" />
 
+/**
+ * @public
+ */
 export class TableOfContentsDataModel extends AbstractTableOfContentsType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -106,6 +112,9 @@ export class TableOfContentsDataModel extends AbstractTableOfContentsType {
 //   </xsd:sequence>
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractTableOfContentsKindType extends AbstractDataModelBase {
   // Mandatory elements.
   name: string = ''
@@ -165,6 +174,9 @@ export abstract class AbstractTableOfContentsKindType extends AbstractDataModelB
 
 // <xsd:element name="tocsect" type="tableofcontentsKindType" minOccurs="1" maxOccurs="unbounded" />
 
+/**
+ * @public
+ */
 export class TocSectDataModel extends AbstractTableOfContentsKindType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

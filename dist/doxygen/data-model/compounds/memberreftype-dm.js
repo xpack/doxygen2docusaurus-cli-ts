@@ -1,19 +1,51 @@
+/*
+ * This file is part of the xPack project (http://xpack.github.io).
+ * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
+ *
+ * Permission to use, copy, modify, and/or distribute this software
+ * for any purpose is hereby granted, under the terms of the MIT license.
+ *
+ * If a copy of the license was not distributed with this file, it can
+ * be obtained from https://opensource.org/licenses/MIT.
+ */
+// ----------------------------------------------------------------------------
 import assert from 'node:assert';
 import * as util from 'node:util';
 import { AbstractDataModelBase } from '../types.js';
+// ----------------------------------------------------------------------------
+// <xsd:complexType name="memberRefType">
+//   <xsd:sequence>
+//     <xsd:element name="scope" type="xsd:string" />
+//     <xsd:element name="name" type="xsd:string" />
+//   </xsd:sequence>
+//   <xsd:attribute name="refid" type="xsd:string" />
+//   <xsd:attribute name="prot" type="DoxProtectionKind" />
+//   <xsd:attribute name="virt" type="DoxVirtualKind" />
+//   <xsd:attribute name="ambiguityscope" type="xsd:string" />
+// </xsd:complexType>
+/**
+ * @public
+ */
 export class AbstractMemberRefType extends AbstractDataModelBase {
-    scope = '';
+    // Mandatory elements.
+    scope = ''; // This acts as the namespace.
     name = '';
+    // Mandatory attributes.
     refid = '';
     prot = '';
     virt = '';
+    // WARNING: Deviation from xsd, there it is not optional.
     ambiguityscope;
     constructor(xml, element, elementName) {
         super(elementName);
+        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+        // ------------------------------------------------------------------------
+        // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
+                // Ignore texts.
             }
             else if (xml.isInnerElementText(innerElement, 'scope')) {
                 this.scope = xml.getInnerElementText(innerElement, 'scope');
@@ -28,6 +60,8 @@ export class AbstractMemberRefType extends AbstractDataModelBase {
         }
         assert(this.scope.length > 0);
         assert(this.name.length > 0);
+        // ------------------------------------------------------------------------
+        // Process attributes.
         assert(xml.hasAttributes(element));
         const attributesNames = xml.getAttributesNames(element);
         for (const attributeName of attributesNames) {
@@ -51,11 +85,21 @@ export class AbstractMemberRefType extends AbstractDataModelBase {
         assert(this.refid.length > 0);
         assert(this.prot.length > 0);
         assert(this.virt.length > 0);
+        // assert(this.ambiguityscope)
+        // ------------------------------------------------------------------------
+        // console.log(util.inspect(this, { compact: false, depth: 999 }))
     }
 }
+// ----------------------------------------------------------------------------
+// <xsd:element name="member" type="memberRefType" minOccurs="0" maxOccurs="unbounded" />
+/**
+ * @public
+ */
 export class MemberRefDataModel extends AbstractMemberRefType {
     constructor(xml, element) {
+        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
         super(xml, element, 'member');
     }
 }
+// ----------------------------------------------------------------------------
 //# sourceMappingURL=memberreftype-dm.js.map

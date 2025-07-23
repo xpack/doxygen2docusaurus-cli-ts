@@ -30,6 +30,9 @@ import { AbstractDataModelBase } from '../types.js'
 //   <xsd:attribute name="ambiguityscope" type="xsd:string" />
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractMemberRefType extends AbstractDataModelBase {
   // Mandatory elements.
   scope: string = '' // This acts as the namespace.
@@ -119,6 +122,9 @@ export abstract class AbstractMemberRefType extends AbstractDataModelBase {
 
 // <xsd:element name="member" type="memberRefType" minOccurs="0" maxOccurs="unbounded" />
 
+/**
+ * @public
+ */
 export class MemberRefDataModel extends AbstractMemberRefType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

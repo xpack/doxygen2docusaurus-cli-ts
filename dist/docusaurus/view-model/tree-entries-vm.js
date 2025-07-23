@@ -1,23 +1,58 @@
+/*
+ * This file is part of the xPack project (http://xpack.github.io).
+ * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
+ *
+ * Permission to use, copy, modify, and/or distribute this software
+ * for any purpose is hereby granted, under the terms of the MIT license.
+ *
+ * If a copy of the license was not distributed with this file, it can
+ * be obtained from https://opensource.org/licenses/MIT.
+ */
+// ----------------------------------------------------------------------------
 import { Class } from './classes-vm.js';
 import { EnumValue, Member } from './members-vm.js';
 import { Namespace } from './namespaces-vm.js';
 import { sanitizeAnonymousNamespace } from '../utils.js';
+// ----------------------------------------------------------------------------
 export class TreeEntryBase {
+    /** @brief The short name shown in the left part of the index lines. */
     name = '???';
+    /** @brief The full name, used internally as the second sort criteria. */
     longName = '???';
+    /** @brief The internal id, used to compute the permalink. */
     id;
+    /**
+     * @brief The compound or member kind.
+     *
+     * @details
+     * classes: `class`, `struct`, `union`
+     * namespaces: `namespace`
+     * members: `function`, `variable`, `typedef`, `enum`, ...
+     * enumvalue: `enumvalue`
+     * */
     kind = '???';
+    /** @brief displayed outside the link */
     linkKind = '';
+    /** @brief The name of the linked target object. */
     linkName = '???';
+    /**
+     * @brief The short name of the linked target object,
+     * to be compared with name.
+     */
     comparableLinkName = '';
+    /** @brief The URL of the target object, including the anchor. */
     permalink;
     constructor(entry) {
         if (entry instanceof Class) {
             const { id, collection, treeEntryName, fullyQualifiedName, kind } = entry;
             this.id = id;
+            // this.name = entry.unqualifiedName
             this.name = collection.workspace.renderString(treeEntryName, 'html');
             this.longName = fullyQualifiedName;
-            this.kind = kind;
+            // console.log(this.name, '    |   ', entry.indexName,
+            // entry.unqualifiedName, entry.fullyQualifiedName, entry.compoundName,
+            // entry.classFullName)
+            this.kind = kind; // class, struct, union
             this.linkKind = kind;
             this.linkName = fullyQualifiedName;
             this.permalink = collection.workspace.getPermalink({
@@ -30,7 +65,7 @@ export class TreeEntryBase {
             this.id = id;
             this.name = treeEntryName;
             this.longName = unqualifiedName;
-            this.kind = kind;
+            this.kind = kind; // namespace
             this.linkKind = kind;
             this.linkName = treeEntryName;
             this.permalink = collection.workspace.getPermalink({
@@ -66,6 +101,7 @@ export class TreeEntryBase {
         }
         else {
             this.id = '???';
+            // Fallback for unknown object types.
             console.error('object type', typeof entry, 'not supported in', this.constructor.name);
         }
     }
@@ -77,6 +113,7 @@ export class ClassTreeEntry extends TreeEntryBase {
         this.linkKind = kind;
         this.linkName = classFullName;
         this.comparableLinkName = collection.workspace.renderString(treeEntryName, 'html');
+        // console.log(this)
     }
 }
 export class NamespaceTreeEntry extends TreeEntryBase {
@@ -86,6 +123,7 @@ export class NamespaceTreeEntry extends TreeEntryBase {
         this.linkName = sanitizeAnonymousNamespace(namespace.compoundName);
         const { treeEntryName } = namespace;
         this.comparableLinkName = treeEntryName;
+        // console.log(this)
     }
 }
 export class FileTreeEntry extends TreeEntryBase {
@@ -94,6 +132,8 @@ export class FileTreeEntry extends TreeEntryBase {
         this.linkKind = 'file';
         const { relativePath } = file;
         this.linkName = relativePath;
+        // console.log(this)
     }
 }
+// ----------------------------------------------------------------------------
 //# sourceMappingURL=tree-entries-vm.js.map

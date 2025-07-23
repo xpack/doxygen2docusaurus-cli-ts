@@ -35,6 +35,9 @@ import { InitializerDataModel } from './linkedtexttype-dm.js'
 //   <xsd:attribute name="prot" type="DoxProtectionKind" />
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractEnumValueType extends AbstractDataModelBase {
   // Mandatory elements.
   name: string = ''
@@ -121,6 +124,9 @@ export abstract class AbstractEnumValueType extends AbstractDataModelBase {
 
 //     <xsd:element name="enumvalue" type="enumvalueType" minOccurs="0" maxOccurs="unbounded" />
 
+/**
+ * @public
+ */
 export class EnumValueDataModel extends AbstractEnumValueType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

@@ -33,6 +33,9 @@ import { AbstractDataModelBase } from '../types.js'
 //   <xsd:attribute name="kind" type="DoxSectionKind" />
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractSectionDefTypeBase extends AbstractDataModelBase {
   // Mandatory attributes.
   kind: string = ''
@@ -75,6 +78,9 @@ export abstract class AbstractSectionDefTypeBase extends AbstractDataModelBase {
   }
 }
 
+/**
+ * @public
+ */
 export abstract class AbstractSectionDefType extends AbstractSectionDefTypeBase {
   constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName, '')
@@ -150,6 +156,9 @@ export abstract class AbstractSectionDefType extends AbstractSectionDefTypeBase 
 
 // <xsd:element name="sectiondef" type="sectiondefType" minOccurs="0" maxOccurs="unbounded" />
 
+/**
+ * @public
+ */
 export class SectionDefDataModel extends AbstractSectionDefType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

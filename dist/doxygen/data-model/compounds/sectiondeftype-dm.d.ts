@@ -3,6 +3,9 @@ import { DescriptionDataModel } from './descriptiontype-dm.js';
 import { MemberDefDataModel } from './memberdeftype-dm.js';
 import { MemberDataModel } from './membertype-dm.js';
 import { AbstractDataModelBase } from '../types.js';
+/**
+ * @public
+ */
 export declare abstract class AbstractSectionDefTypeBase extends AbstractDataModelBase {
     kind: string;
     header?: string | undefined;
@@ -13,9 +16,15 @@ export declare abstract class AbstractSectionDefTypeBase extends AbstractDataMod
     hasMembers(): boolean;
     computeAdjustedKind(sectionSuffix: string, memberSuffix?: string): string;
 }
+/**
+ * @public
+ */
 export declare abstract class AbstractSectionDefType extends AbstractSectionDefTypeBase {
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
+/**
+ * @public
+ */
 export declare class SectionDefDataModel extends AbstractSectionDefType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }

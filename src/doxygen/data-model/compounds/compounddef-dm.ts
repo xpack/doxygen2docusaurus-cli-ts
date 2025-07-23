@@ -275,6 +275,9 @@ export class XyzDataModel extends AbstractXyzType {
 // </xsd:restriction>
 // </xsd:simpleType>
 
+/**
+ * @public
+ */
 export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
   // Mandatory elements.
   compoundName: string = ''
@@ -504,6 +507,9 @@ export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
 
 // <xsd:element name="compounddef" type="compounddefType" minOccurs="0" />
 
+/**
+ * @public
+ */
 export class CompoundDefDataModel extends AbstractCompoundDefType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

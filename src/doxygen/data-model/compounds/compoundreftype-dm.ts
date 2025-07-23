@@ -29,6 +29,9 @@ import { AbstractDataModelBase } from '../types.js'
 //   </xsd:simpleContent>
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractCompoundRefType extends AbstractDataModelBase {
   // Mandatory elements.
   text: string = '' // Passed as element text.
@@ -116,6 +119,9 @@ export type DoxVirtualKind = 'non-virtual' | 'virtual' | 'pure-virtual'
 // <xsd:element name="basecompoundref" type="compoundRefType" minOccurs="0" maxOccurs="unbounded" />
 // <xsd:element name="derivedcompoundref" type="compoundRefType" minOccurs="0" maxOccurs="unbounded" />
 
+/**
+ * @public
+ */
 export class BaseCompoundRefDataModel extends AbstractCompoundRefType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -123,6 +129,9 @@ export class BaseCompoundRefDataModel extends AbstractCompoundRefType {
   }
 }
 
+/**
+ * @public
+ */
 export class DerivedCompoundRefDataModel extends AbstractCompoundRefType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

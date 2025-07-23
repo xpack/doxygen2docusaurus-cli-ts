@@ -1,19 +1,31 @@
 import { DoxygenXmlParser } from '../../doxygen-xml-parser.js';
 import { AbstractDataModelBase } from '../types.js';
+/**
+ * @public
+ */
 export declare abstract class AbstractTableOfContentsType extends AbstractDataModelBase {
     tocSect: TocSectDataModel[] | undefined;
     tableOfContents: TableOfContentsDataModel[] | undefined;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
+/**
+ * @public
+ */
 export declare class TableOfContentsDataModel extends AbstractTableOfContentsType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+/**
+ * @public
+ */
 export declare abstract class AbstractTableOfContentsKindType extends AbstractDataModelBase {
     name: string;
     reference: string;
     tableOfContents: TableOfContentsDataModel[] | undefined;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
+/**
+ * @public
+ */
 export declare class TocSectDataModel extends AbstractTableOfContentsKindType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }

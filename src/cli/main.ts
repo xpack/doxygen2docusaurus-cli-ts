@@ -48,9 +48,10 @@ interface GenericPackageConfiguration {
 /**
  * Main entry point for the doxygen2docusaurus CLI tool.
  *
- * @public
  * @param argv - Command line arguments array
  * @returns Promise that resolves to the exit code (0 for success, 1 for error)
+ *
+ * @public
  */
 export async function main(argv: string[]): Promise<number> {
   const program = new Command()

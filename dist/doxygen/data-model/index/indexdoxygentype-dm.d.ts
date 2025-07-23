@@ -1,6 +1,9 @@
 import { DoxygenXmlParser } from '../../doxygen-xml-parser.js';
 import { IndexCompoundDataModel } from './indexcompoundtype-dm.js';
 import { AbstractDataModelBase } from '../types.js';
+/**
+ * @public
+ */
 export declare abstract class AbstractIndexDoxygenType extends AbstractDataModelBase {
     version: string;
     lang: string;
@@ -8,6 +11,9 @@ export declare abstract class AbstractIndexDoxygenType extends AbstractDataModel
     noNamespaceSchemaLocation?: string | undefined;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
+/**
+ * @public
+ */
 export declare class DoxygenIndexDataModel extends AbstractIndexDoxygenType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }

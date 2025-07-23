@@ -31,6 +31,9 @@ export declare abstract class AbstractXyzType extends AbstractDataModelBase {
 export declare class XyzDataModel extends AbstractXyzType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+/**
+ * @public
+ */
 export declare abstract class AbstractCompoundDefType extends AbstractDataModelBase {
     compoundName: string;
     title?: string | undefined;
@@ -62,6 +65,9 @@ export declare abstract class AbstractCompoundDefType extends AbstractDataModelB
     abstract?: Boolean | undefined;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
+/**
+ * @public
+ */
 export declare class CompoundDefDataModel extends AbstractCompoundDefType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }

@@ -28,6 +28,9 @@ import { AbstractDataModelBase } from '../types.js'
 //   </xsd:simpleContent>
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractIncType extends AbstractDataModelBase {
   // Mandatory elements.
   text: string = '' // Passed as element text.
@@ -84,6 +87,9 @@ export abstract class AbstractIncType extends AbstractDataModelBase {
 // <xsd:element name="includes" type="incType" minOccurs="0" maxOccurs="unbounded" />
 // <xsd:element name="includedby" type="incType" minOccurs="0" maxOccurs="unbounded" />
 
+/**
+ * @public
+ */
 export class IncludesDataModel extends AbstractIncType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -91,6 +97,9 @@ export class IncludesDataModel extends AbstractIncType {
   }
 }
 
+/**
+ * @public
+ */
 export class IncludedByDataModel extends AbstractIncType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

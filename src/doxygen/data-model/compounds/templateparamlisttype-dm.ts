@@ -26,6 +26,9 @@ import { AbstractDataModelBase } from '../types.js'
 //   </xsd:sequence>
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractTemplateParamListType extends AbstractDataModelBase {
   // Optional elements.
   params?: ParamDataModel[] | undefined
@@ -76,6 +79,9 @@ export abstract class AbstractTemplateParamListType extends AbstractDataModelBas
 
 // <xsd:element name="templateparamlist" type="templateparamlistType" minOccurs="0" />
 
+/**
+ * @public
+ */
 export class TemplateParamListDataModel extends AbstractTemplateParamListType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

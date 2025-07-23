@@ -27,6 +27,9 @@ import { AbstractDataModelBase } from '../types.js'
 //   <xsd:attribute name="kind" type="MemberKind" use="required"/>
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractIndexMemberType extends AbstractDataModelBase {
   // Mandatory elements.
   name: string = ''
@@ -136,6 +139,9 @@ export type IndexMemberKind =
 // The name clashes with a similar definition in compound.xsd.
 // <xsd:element name="member" type="MemberType" minOccurs="0" maxOccurs="unbounded" />
 
+/**
+ * @public
+ */
 export class IndexMemberDataModel extends AbstractIndexMemberType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

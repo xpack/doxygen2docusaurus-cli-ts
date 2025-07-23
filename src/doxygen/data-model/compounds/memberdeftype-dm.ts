@@ -157,12 +157,18 @@ export type DoxMemberKind =
   | 'interface'
   | 'service'
 
+/**
+ * @public
+ */
 export abstract class AbstractMemberBaseType extends AbstractDataModelBase {
   // Mandatory elements.
   name: string = ''
   kind: string = ''
 }
 
+/**
+ * @public
+ */
 export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
   // Mandatory elements.
   // name: string = '' (in parent)
@@ -408,6 +414,9 @@ export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
 
 // <xsd:element name="memberdef" type="memberdefType" minOccurs="0" maxOccurs="unbounded" />
 
+/**
+ * @public
+ */
 export class MemberDefDataModel extends AbstractMemberDefType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

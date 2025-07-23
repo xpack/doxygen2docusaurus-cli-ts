@@ -32,6 +32,25 @@ export declare class Workspace extends Renderers {
     writtenHtmlFilesCounter: number;
     mainPage: Page | undefined;
     filesByPath: Map<string, File>;
+    /**
+     * @brief Map to keep track of indices that have content.
+     *
+     * @details
+     * The map keys are:
+     * - classes
+     * - namespaces
+     * - files
+     *
+     * and the Set may include:
+     * - all
+     * - classes
+     * - namespaces
+     * - functions
+     * - variables
+     * - typedefs
+     * - enums
+     * - enumvalues
+     */
     indicesMaps: Map<string, Set<string>>;
     constructor({ dataModel, options, }: {
         dataModel: DataModel;
@@ -43,6 +62,9 @@ export declare class Workspace extends Renderers {
     initializeCompoundsLate(): void;
     createMembersMap(): void;
     initializeMemberLate(): void;
+    /**
+     * @brief Validate the uniqueness of permalinks.
+     */
     validatePermalinks(): void;
     cleanups(): void;
     writeMdFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title, pagePermalink, }: {

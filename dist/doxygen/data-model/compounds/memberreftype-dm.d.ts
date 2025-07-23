@@ -1,5 +1,8 @@
 import { DoxygenXmlParser } from '../../doxygen-xml-parser.js';
 import { AbstractDataModelBase } from '../types.js';
+/**
+ * @public
+ */
 export declare abstract class AbstractMemberRefType extends AbstractDataModelBase {
     scope: string;
     name: string;
@@ -9,6 +12,9 @@ export declare abstract class AbstractMemberRefType extends AbstractDataModelBas
     ambiguityscope?: string | undefined;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
+/**
+ * @public
+ */
 export declare class MemberRefDataModel extends AbstractMemberRefType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }

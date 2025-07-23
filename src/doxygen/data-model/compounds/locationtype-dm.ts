@@ -31,6 +31,9 @@ import { AbstractDataModelBase } from '../types.js'
 //   <xsd:attribute name="bodyend" type="xsd:integer" />
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractLocationType extends AbstractDataModelBase {
   // Mandatory attributes.
   file: string = ''
@@ -114,6 +117,9 @@ export abstract class AbstractLocationType extends AbstractDataModelBase {
 
 // <xsd:element name="location" type="locationType" minOccurs="0" />
 
+/**
+ * @public
+ */
 export class LocationDataModel extends AbstractLocationType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

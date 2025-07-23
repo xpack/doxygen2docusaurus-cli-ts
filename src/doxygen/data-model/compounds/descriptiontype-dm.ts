@@ -63,6 +63,9 @@ export abstract class AbstractStringType extends AbstractDataModelBase {
 //   </xsd:sequence>
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractDescriptionType extends AbstractDataModelBase {
   // Optional elements.
   title?: string | undefined // Only one.
@@ -126,6 +129,9 @@ export abstract class AbstractDescriptionType extends AbstractDataModelBase {
 // <xsd:attribute name="filename" type="xsd:string" use="optional"/>
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractListingTypeBase extends AbstractDataModelBase {
   // Optional elements.
   codelines?: CodeLineDataModel[] | undefined
@@ -134,6 +140,9 @@ export abstract class AbstractListingTypeBase extends AbstractDataModelBase {
   filename?: string | undefined
 }
 
+/**
+ * @public
+ */
 export abstract class AbstractListingType extends AbstractListingTypeBase {
   constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
     super(elementName)
@@ -193,6 +202,9 @@ export abstract class AbstractListingType extends AbstractListingTypeBase {
 
 //  <xsd:element name="programlisting" type="listingType" />
 
+/**
+ * @public
+ */
 export class ProgramListingDataModel extends AbstractListingType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     super(xml, element, 'programlisting')
@@ -236,6 +248,9 @@ export class MemberProgramListingDataModel extends AbstractListingTypeBase {
 // <xsd:attribute name="external" type="DoxBool" />
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractCodeLineType extends AbstractDataModelBase {
   // Optional elements.
   highlights?: HighlightDataModel[] | undefined
@@ -312,6 +327,9 @@ export abstract class AbstractCodeLineType extends AbstractDataModelBase {
 
 // <xsd:element name="codeline" type="codelineType" minOccurs="0" maxOccurs="unbounded" />
 
+/**
+ * @public
+ */
 export class CodeLineDataModel extends AbstractCodeLineType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     super(xml, element, 'codeline')
@@ -359,6 +377,9 @@ export type DoxHighlightClass =
   | 'vhdlchar'
   | 'vhdldigit'
 
+/**
+ * @public
+ */
 export abstract class AbstractHighlightType extends AbstractDataModelBase {
   // Any sequence of them.
   // children: Array<string | SpDataModel | RefTextDataModel> = []
@@ -427,6 +448,9 @@ export abstract class AbstractHighlightType extends AbstractDataModelBase {
 
 // <xsd:element name="highlight" type="highlightType" minOccurs="0" maxOccurs="unbounded" />
 
+/**
+ * @public
+ */
 export class HighlightDataModel extends AbstractHighlightType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     super(xml, element, 'highlight')
@@ -6224,6 +6248,9 @@ export class HeadingDataModel extends AbstractDocHeadingType {
 //   </xsd:restriction>
 // </xsd:simpleType>
 
+/**
+ * @public
+ */
 export abstract class AbstractDocImageType extends AbstractDataModelBase {
   // Any sequence of them.
   // children: Array<string | DocTitleCmdGroup> = []
@@ -6963,24 +6990,36 @@ export class EmojiDataModel extends AbstractEmojiType {
 
 // <xsd:element name="parameterdescription" type="descriptionType" />
 
+/**
+ * @public
+ */
 export class BriefDescriptionDataModel extends AbstractDescriptionType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     super(xml, element, 'briefdescription')
   }
 }
 
+/**
+ * @public
+ */
 export class DetailedDescriptionDataModel extends AbstractDescriptionType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     super(xml, element, 'detaileddescription')
   }
 }
 
+/**
+ * @public
+ */
 export class InbodyDescriptionDataModel extends AbstractDescriptionType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     super(xml, element, 'inbodydescription')
   }
 }
 
+/**
+ * @public
+ */
 export class DescriptionDataModel extends AbstractDescriptionType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     super(xml, element, 'description')

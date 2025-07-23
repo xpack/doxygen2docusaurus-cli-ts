@@ -5,23 +5,38 @@ export declare abstract class AbstractStringType extends AbstractDataModelBase {
     text: string;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
+/**
+ * @public
+ */
 export declare abstract class AbstractDescriptionType extends AbstractDataModelBase {
     title?: string | undefined;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
+/**
+ * @public
+ */
 export declare abstract class AbstractListingTypeBase extends AbstractDataModelBase {
     codelines?: CodeLineDataModel[] | undefined;
     filename?: string | undefined;
 }
+/**
+ * @public
+ */
 export declare abstract class AbstractListingType extends AbstractListingTypeBase {
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
+/**
+ * @public
+ */
 export declare class ProgramListingDataModel extends AbstractListingType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
 export declare class MemberProgramListingDataModel extends AbstractListingTypeBase {
     constructor(programListing: ProgramListingDataModel, startLine: number, endLine: number);
 }
+/**
+ * @public
+ */
 export declare abstract class AbstractCodeLineType extends AbstractDataModelBase {
     highlights?: HighlightDataModel[] | undefined;
     lineno?: Number | undefined;
@@ -30,14 +45,23 @@ export declare abstract class AbstractCodeLineType extends AbstractDataModelBase
     external?: Boolean | undefined;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
+/**
+ * @public
+ */
 export declare class CodeLineDataModel extends AbstractCodeLineType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
 export type DoxHighlightClass = 'comment' | 'normal' | 'preprocessor' | 'keyword' | 'keywordtype' | 'keywordflow' | 'stringliteral' | 'xmlcdata' | 'charliteral' | 'vhdlkeyword' | 'vhdllogic' | 'vhdlchar' | 'vhdldigit';
+/**
+ * @public
+ */
 export declare abstract class AbstractHighlightType extends AbstractDataModelBase {
     classs: string;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
+/**
+ * @public
+ */
 export declare class HighlightDataModel extends AbstractHighlightType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
@@ -960,6 +984,9 @@ export declare class AbstractDocHeadingType extends AbstractDataModelBase {
 export declare class HeadingDataModel extends AbstractDocHeadingType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+/**
+ * @public
+ */
 export declare abstract class AbstractDocImageType extends AbstractDataModelBase {
     type?: string | undefined;
     name?: string | undefined;
@@ -1034,15 +1061,27 @@ export declare abstract class AbstractEmojiType extends AbstractDataModelBase {
 export declare class EmojiDataModel extends AbstractEmojiType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+/**
+ * @public
+ */
 export declare class BriefDescriptionDataModel extends AbstractDescriptionType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+/**
+ * @public
+ */
 export declare class DetailedDescriptionDataModel extends AbstractDescriptionType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+/**
+ * @public
+ */
 export declare class InbodyDescriptionDataModel extends AbstractDescriptionType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }
+/**
+ * @public
+ */
 export declare class DescriptionDataModel extends AbstractDescriptionType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }

@@ -32,12 +32,18 @@ export interface XmlPrologue {
 // ----------------------------------------------------------------------------
 // Generic types.
 
+/**
+ * @public
+ */
 export interface XmlAttributes {
   ':@': {
     [key: string]: string | number | boolean
   }
 }
 
+/**
+ * @public
+ */
 export interface XmlElement {
   // Each element has only one key mapped to an array.
   (key: string): XmlElement[]
@@ -63,6 +69,9 @@ export interface XmlNameElement {
 
 // ----------------------------------------------------------------------------
 
+/**
+ * @public
+ */
 export abstract class AbstractDataModelBase {
   elementName: string
   skipPara?: boolean
@@ -79,6 +88,9 @@ export type DataModelElement = AbstractDataModelBase | string
 // Top structure to hold the parsed Doxygen xml data as JS objects.
 // All objects are defined in the `data-model` folder.
 
+/**
+ * @public
+ */
 export interface DataModel {
   doxygenindex?: DoxygenIndexDataModel // from index.xml
   compoundDefs: CompoundDefDataModel[] // from `${'@_refid'}.xml`

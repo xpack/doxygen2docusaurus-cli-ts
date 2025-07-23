@@ -1,5 +1,8 @@
 import { DoxygenXmlParser } from '../../doxygen-xml-parser.js';
 import { AbstractDataModelBase } from '../types.js';
+/**
+ * @public
+ */
 export declare abstract class AbstractDoxygenFileOptionType extends AbstractDataModelBase {
     values: string[] | undefined;
     id: string;
@@ -9,6 +12,9 @@ export declare abstract class AbstractDoxygenFileOptionType extends AbstractData
 }
 export type DoxyfileDefaultType = 'yes' | 'no';
 export type DoxyfileTypeType = 'int' | 'bool' | 'string' | 'stringlist';
+/**
+ * @public
+ */
 export declare class DoxygenFileOptionDataModel extends AbstractDoxygenFileOptionType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }

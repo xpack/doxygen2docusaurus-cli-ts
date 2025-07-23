@@ -1,5 +1,18 @@
+/*
+ * This file is part of the xPack project (http://xpack.github.io).
+ * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
+ *
+ * Permission to use, copy, modify, and/or distribute this software
+ * for any purpose is hereby granted, under the terms of the MIT license.
+ *
+ * If a copy of the license was not distributed with this file, it can
+ * be obtained from https://opensource.org/licenses/MIT.
+ */
+// ----------------------------------------------------------------------------
+/* eslint-disable max-lines */
 import assert from 'node:assert';
 import * as fs from 'node:fs/promises';
+// import * as util from 'node:util'
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { AbstractCompoundDefType } from '../doxygen/data-model/compounds/compounddef-dm.js';
@@ -16,28 +29,75 @@ import { Namespaces } from './view-model/namespaces-vm.js';
 import { DoxygenFileOptions } from './view-model/options.js';
 import { Pages } from './view-model/pages-vm.js';
 import { stripPermalinkHexAnchor, getPermalinkAnchor, stripPermalinkTextAnchor, } from './utils.js';
+// ----------------------------------------------------------------------------
+// <xsd:simpleType name="DoxCompoundKind">
+//   <xsd:restriction base="xsd:string">
+//     <xsd:enumeration value="class" />
+//     <xsd:enumeration value="struct" />
+//     <xsd:enumeration value="union" />
+//     <xsd:enumeration value="interface" />
+//     <xsd:enumeration value="protocol" />
+//     <xsd:enumeration value="category" />
+//     <xsd:enumeration value="exception" />
+//     <xsd:enumeration value="service" />
+//     <xsd:enumeration value="singleton" />
+//     <xsd:enumeration value="module" />
+//     <xsd:enumeration value="type" />
+//     <xsd:enumeration value="file" />
+//     <xsd:enumeration value="namespace" />
+//     <xsd:enumeration value="group" />
+//     <xsd:enumeration value="page" />
+//     <xsd:enumeration value="example" />
+//     <xsd:enumeration value="dir" />
+//     <xsd:enumeration value="concept" />
+//   </xsd:restriction>
+// </xsd:simpleType>
+// ----------------------------------------------------------------------------
 export class Workspace extends Renderers {
+    // The doxygen2docusaurus project path.
     projectPath;
+    // The data parsed from the Doxygen XML files.
     dataModel;
+    // From the project docusaurus.config.ts or defaults.
     options;
     collectionNamesByKind = {
         class: 'classes',
         struct: 'classes',
         union: 'classes',
+        // interface
+        // protocol
+        // category
+        // exception
+        // service
+        // singleton
+        // module
+        // type
         file: 'files',
         namespace: 'namespaces',
         group: 'groups',
         page: 'pages',
+        // example
         dir: 'files',
+        // concept
     };
+    // The key is one of the above collection names.
+    // groups, classes, namespaces, files, pages.
     viewModel;
+    // The many options used by Doxygen during build.
     doxygenOptions;
+    // Like `/micro-os-plus/docs/api/`.
     absoluteBaseUrl;
+    // Like `/micro-os-plus/docs/api/`.
     pageBaseUrl;
+    // Like `/api/`.
     slugBaseUrl;
+    // Like `/docs/api/`.
     menuBaseUrl;
+    // Like `docs/api/`.
     outputFolderPath;
+    // like `api/`.
     sidebarBaseId;
+    // The order of entries in the sidebar and in the top menu dropdown.
     sidebarCollectionNames = [
         'groups',
         'namespaces',
@@ -45,6 +105,7 @@ export class Workspace extends Renderers {
         'files',
         'pages',
     ];
+    // View model objects.
     compoundsById = new Map();
     membersById = new Map();
     descriptionTocLists = [];
@@ -54,12 +115,36 @@ export class Workspace extends Renderers {
     writtenHtmlFilesCounter = 0;
     mainPage;
     filesByPath = new Map();
+    /**
+     * @brief Map to keep track of indices that have content.
+     *
+     * @details
+     * The map keys are:
+     * - classes
+     * - namespaces
+     * - files
+     *
+     * and the Set may include:
+     * - all
+     * - classes
+     * - namespaces
+     * - functions
+     * - variables
+     * - typedefs
+     * - enums
+     * - enumvalues
+     */
     indicesMaps = new Map();
+    // --------------------------------------------------------------------------
     constructor({ dataModel, options, }) {
         super();
         console.log();
+        // Like .../doxygen2docusaurus/dist/src/docusaurus/generator
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const __dirname = path.dirname(fileURLToPath(import.meta.url));
+        // doxygen2docusaurus
         this.projectPath = path.dirname(path.dirname(__dirname));
+        // console.log(__dirname, this.projectPath)
         this.dataModel = dataModel;
         this.options = options;
         this.doxygenOptions = new DoxygenFileOptions(this.dataModel.doxyfile?.options);
@@ -84,6 +169,8 @@ export class Workspace extends Renderers {
         this.pageBaseUrl = `${this.options.baseUrl}${docsBaseUrl}/${apiBaseUrl}`;
         this.slugBaseUrl = `/${apiBaseUrl}`;
         this.menuBaseUrl = `/${docsBaseUrl}/${apiBaseUrl}`;
+        // console.log('absoluteBaseUrl:', this.absoluteBaseUrl)
+        // Create the view-model objects.
         this.viewModel = new Map();
         this.viewModel.set('groups', new Groups(this));
         this.viewModel.set('namespaces', new Namespaces(this));
@@ -99,6 +186,7 @@ export class Workspace extends Renderers {
         this.validatePermalinks();
         this.cleanups();
     }
+    // --------------------------------------------------------------------------
     createVieModelObjects() {
         console.log('Creating view model objects...');
         for (const compoundDefDataModel of this.dataModel.compoundDefs) {
@@ -107,8 +195,14 @@ export class Workspace extends Renderers {
             const collectionName = this.collectionNamesByKind[kind];
             const collection = this.viewModel.get(collectionName);
             if (collection !== undefined) {
+                // Create the compound object and add it to the parent collection.
+                // console.log(
+                //   compoundDefDataModel.kind, compoundDefDataModel.compoundName
+                // )
                 compound = collection.addChild(compoundDefDataModel);
+                // Also add it to the global compounds map.
                 this.compoundsById.set(compound.id, compound);
+                // console.log('compoundsById.set', compound.kind, compound.id)
             }
             if (compound !== undefined) {
                 if (compoundDefDataModel instanceof AbstractCompoundDefType &&
@@ -117,20 +211,27 @@ export class Workspace extends Renderers {
                 }
             }
             else {
+                // console.error(
+                //   util.inspect(compoundDefDataModel, { compact: false, depth: 999 })
+                // )
                 console.error('compoundDefDataModel', compoundDefDataModel.kind, 'not implemented yet in', this.constructor.name, 'createVieModelObjects');
             }
         }
         if (this.options.verbose) {
             console.log(this.compoundsById.size, 'compound definitions');
         }
+        // console.log(this.descriptionTocLists)
     }
+    // eslint-disable-next-line complexity
     findDescriptionIdsRecursively(compound, element) {
+        // console.log(compound.id, typeof element)
         if (element.children === undefined) {
             return;
         }
         for (const childDataModel of element.children) {
             if (childDataModel instanceof TocListDataModel) {
                 const tocList = new DescriptionTocList(compound);
+                // console.log(elementChild)
                 assert(childDataModel.tocItems !== undefined);
                 for (const tocItemDataModel of childDataModel.tocItems) {
                     if (tocItemDataModel instanceof TocItemDataModel) {
@@ -149,25 +250,36 @@ export class Workspace extends Renderers {
                 this.findDescriptionIdsRecursively(compound, childDataModel);
             }
             else if (childDataModel instanceof AbstractDocAnchorType) {
+                // console.log(childDataModel)
                 if (childDataModel.id.length > 0) {
                     const section = new DescriptionAnchor(compound, childDataModel.id);
                     this.descriptionAnchorsById.set(section.id, section);
                 }
             }
             else if (childDataModel instanceof AbstractDataModelBase) {
+                // if (childDataModel instanceof AbstractDocEntryType) {
+                //   console.log(childDataModel)
+                // }
                 this.findDescriptionIdsRecursively(compound, childDataModel);
             }
         }
     }
+    // --------------------------------------------------------------------------
     createCompoundsHierarchies() {
         console.log('Creating compounds hierarchies...');
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         for (const [collectionName, collection] of this.viewModel) {
+            // console.log('createHierarchies:', collectionName)
             collection.createCompoundsHierarchies();
         }
     }
+    // --------------------------------------------------------------------------
+    // Required since references can be resolved only after all objects are in.
     initializeCompoundsLate() {
         console.log('Performing compounds late initializations...');
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         for (const [collectionName, collection] of this.viewModel) {
+            // console.log('createHierarchies:', collectionName)
             for (const [, compound] of collection.collectionCompoundsById) {
                 if (this.options.debug) {
                     console.log(compound.kind, compound.compoundName);
@@ -176,17 +288,28 @@ export class Workspace extends Renderers {
             }
         }
     }
+    // --------------------------------------------------------------------------
     createMembersMap() {
         console.log('Creating member definitions map...');
         for (const [, compound] of this.compoundsById) {
+            // console.log(compound.kind, compound.compoundName, compound.id)
             for (const section of compound.sections) {
+                // console.log('  ', sectionDef.kind)
                 for (const member of section.indexMembers) {
                     if (member instanceof Member) {
                         const memberCompoundId = stripPermalinkHexAnchor(member.id);
                         if (memberCompoundId !== compound.id) {
+                            // Skip member definitions from different compounds.
+                            // Hopefully they are defined properly there.
+                            // console.log(
+                            //   'member from another compound', compoundId, 'skipped'
+                            // )
                         }
                         else {
+                            // console.log('    ', memberDef.kind, memberDef.id)
+                            // eslint-disable-next-line max-depth
                             if (this.membersById.has(member.id)) {
+                                // eslint-disable-next-line max-depth
                                 if (this.options.verbose) {
                                     console.warn('member already in map', member.id, 'in', this.membersById.get(member.id)?.name);
                                 }
@@ -203,6 +326,8 @@ export class Workspace extends Renderers {
             console.log(this.membersById.size, 'member definitions');
         }
     }
+    // --------------------------------------------------------------------------
+    // Required since references can be resolved only after all objects are in.
     initializeMemberLate() {
         console.log('Performing members late initializations...');
         for (const [, compound] of this.compoundsById) {
@@ -225,11 +350,19 @@ export class Workspace extends Renderers {
             }
         }
     }
+    // --------------------------------------------------------------------------
+    /**
+     * @brief Validate the uniqueness of permalinks.
+     */
+    // eslint-disable-next-line complexity
     validatePermalinks() {
         console.log('Validating permalinks...');
         const pagePermalinksById = new Map();
         const compoundsByPermalink = new Map();
         for (const compoundDefDataModel of this.dataModel.compoundDefs) {
+            // console.log(
+            //   compoundDefDataModel.kind, compoundDefDataModel.compoundName
+            // )
             const { id } = compoundDefDataModel;
             if (pagePermalinksById.has(id)) {
                 console.warn('Duplicate id', id);
@@ -239,8 +372,10 @@ export class Workspace extends Renderers {
                 console.error('compoundDefDataModel', id, 'not yet processed in', this.constructor.name, 'validatePermalinks');
                 continue;
             }
+            // eslint-disable-next-line @typescript-eslint/prefer-destructuring
             const permalink = compound.relativePermalink;
             if (permalink !== undefined) {
+                // console.log('permalink:', permalink)
                 let compoundsMap = compoundsByPermalink.get(permalink);
                 if (compoundsMap === undefined) {
                     compoundsMap = new Map();
@@ -270,11 +405,14 @@ export class Workspace extends Renderers {
             }
         }
     }
+    // --------------------------------------------------------------------------
     cleanups() {
         for (const [, compound] of this.compoundsById) {
             compound._private._compoundDef = undefined;
         }
     }
+    // --------------------------------------------------------------------------
+    // eslint-disable-next-line complexity
     async writeMdFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title, pagePermalink, }) {
         const lines = [];
         lines.push('');
@@ -298,10 +436,16 @@ export class Workspace extends Renderers {
         lines.push('');
         lines.push('</div>');
         lines.push('');
+        // Hack to prevent Docusaurus replace legit content with emojis.
         let text = lines.join('\n');
         if (pagePermalink !== undefined && pagePermalink.length > 0) {
+            // Strip local page permalink from anchors.
             text = text.replaceAll(`"${pagePermalink}/#`, '"#');
         }
+        // No longer needed for `.md`.
+        // text = text.replaceAll(':thread:', "{':thread:'}")
+        //   .replaceAll(':flags:', "{':flags:'}")
+        // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter
         const frontMatterLines = [];
         frontMatterLines.push('---');
         frontMatterLines.push('');
@@ -323,6 +467,9 @@ export class Workspace extends Renderers {
             }
         }
         frontMatterLines.push('');
+        // Skip date, to avoid unnecessary git commits.
+        // frontMatterText += `date: ${formatDate(new Date())}\n`
+        // frontMatterText += '\n'
         frontMatterLines.push('---');
         frontMatterLines.push('');
         if (frontMatterCodeLines !== undefined && frontMatterCodeLines.length > 0) {
@@ -338,6 +485,8 @@ export class Workspace extends Renderers {
         await fileHandle.close();
         this.writtenMdFilesCounter += 1;
     }
+    // --------------------------------------------------------------------------
+    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     skipElementsPara(elements) {
         if (elements === undefined) {
             return;
@@ -348,7 +497,9 @@ export class Workspace extends Renderers {
             }
         }
     }
+    // --------------------------------------------------------------------------
     getPermalink({ refid, kindref, }) {
+        // console.log(refid, kindref)
         let permalink = undefined;
         if (kindref === 'compound') {
             permalink = this.getPagePermalink(refid);
@@ -356,6 +507,9 @@ export class Workspace extends Renderers {
         else if (kindref === 'member') {
             const anchor = getPermalinkAnchor(refid);
             const compoundId = stripPermalinkHexAnchor(refid);
+            // console.log(
+            //   'refid:', refid, 'compoundId:', compoundId, 'anchor:', anchor
+            // )
             permalink = this.getPagePermalink(compoundId, true);
             if (permalink !== undefined) {
                 permalink += `/#${anchor}`;
@@ -388,10 +542,15 @@ export class Workspace extends Renderers {
                     }
                 }
             }
+            // console.log(permalink)
+            // }
         }
         else if (kindref === 'xrefsect') {
             const anchor = getPermalinkAnchor(refid);
             const compoundId = stripPermalinkTextAnchor(refid);
+            // console.log(
+            //   'refid:', refid, 'compoundId:', compoundId, 'anchor:', anchor
+            // )
             permalink = this.getPagePermalink(compoundId, true);
             if (permalink !== undefined) {
                 permalink += `/#${anchor}`;
@@ -399,6 +558,8 @@ export class Workspace extends Renderers {
             else {
                 console.error('Unknown permalink for', refid, 'in', this.constructor.name, 'getPermalink');
             }
+            // console.log(permalink)
+            // }
         }
         else {
             console.error('Unsupported kindref', kindref, 'for', refid, 'in', this.constructor.name, 'getPermalink');
@@ -413,6 +574,7 @@ export class Workspace extends Renderers {
             }
             return undefined;
         }
+        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const pagePermalink = dataObject.relativePermalink;
         if (pagePermalink === undefined) {
             if (this.options.verbose && !noWarn) {
@@ -423,9 +585,19 @@ export class Workspace extends Renderers {
         return `${this.pageBaseUrl}${pagePermalink}`;
     }
     getXrefPermalink(id) {
+        // console.log('1', id, this.currentCompoundDef.id)
         const pagePart = id.replace(/_1.*/, '');
         const anchorPart = id.replace(/.*_1/, '');
+        // console.log('2', part1, part2)
+        // if (
+        //   this.currentCompound !== undefined &&
+        //   pagePart === this.currentCompound.id
+        // ) {
+        //   return `#${anchorPart}`
+        // } else {
         return `${this.pageBaseUrl}pages/${pagePart}/#${anchorPart}`;
+        // }
     }
 }
+// ----------------------------------------------------------------------------
 //# sourceMappingURL=workspace.js.map

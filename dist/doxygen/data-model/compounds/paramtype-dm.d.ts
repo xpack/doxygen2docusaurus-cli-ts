@@ -2,6 +2,9 @@ import { DoxygenXmlParser } from '../../doxygen-xml-parser.js';
 import { BriefDescriptionDataModel } from './descriptiontype-dm.js';
 import { DefValDataModel, TypeDataModel, TypeConstraintDataModel } from './linkedtexttype-dm.js';
 import { AbstractDataModelBase } from '../types.js';
+/**
+ * @public
+ */
 export declare abstract class AbstractParamType extends AbstractDataModelBase {
     attributes?: string | undefined;
     type?: TypeDataModel | undefined;
@@ -13,6 +16,9 @@ export declare abstract class AbstractParamType extends AbstractDataModelBase {
     briefdescription?: BriefDescriptionDataModel | undefined;
     constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
 }
+/**
+ * @public
+ */
 export declare class ParamDataModel extends AbstractParamType {
     constructor(xml: DoxygenXmlParser, element: Object);
 }

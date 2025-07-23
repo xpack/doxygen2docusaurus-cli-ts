@@ -28,6 +28,9 @@ import { AbstractDataModelBase } from '../types.js'
 //   <xsd:attribute name="type" type="typeType" use="required"/>
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractDoxygenFileOptionType extends AbstractDataModelBase {
   // Optional elements.
   values: string[] | undefined // [0-n] valueType
@@ -147,6 +150,9 @@ export type DoxyfileTypeType = 'int' | 'bool' | 'string' | 'stringlist'
 
 // <xsd:element name="option" type="OptionType" minOccurs="0" maxOccurs="unbounded"/>
 
+/**
+ * @public
+ */
 export class DoxygenFileOptionDataModel extends AbstractDoxygenFileOptionType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

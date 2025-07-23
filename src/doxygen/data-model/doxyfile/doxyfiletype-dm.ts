@@ -28,6 +28,9 @@ import { AbstractDataModelBase } from '../types.js'
 //   <xsd:attribute ref="xml:lang" use="required"/>
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractDoxygenFileType extends AbstractDataModelBase {
   // Mandatory attributes.
   version: string = ''
@@ -107,6 +110,9 @@ export abstract class AbstractDoxygenFileType extends AbstractDataModelBase {
 
 // <xsd:element name="doxyfile" type="DoxygenFileType"/>
 
+/**
+ * @public
+ */
 export class DoxygenFileDataModel extends AbstractDoxygenFileType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

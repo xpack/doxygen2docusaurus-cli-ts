@@ -26,6 +26,9 @@ import { AbstractMemberBaseType } from './memberdeftype-dm.js'
 //   <xsd:attribute name="kind" type="MemberKind" use="required"/>
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractMemberType extends AbstractMemberBaseType {
   // Mandatory elements.
   // name: string = '' (in parent)
@@ -133,6 +136,9 @@ export type MemberKind =
 
 // <xsd:element name="member" type="MemberType" minOccurs="0" maxOccurs="unbounded" />
 
+/**
+ * @public
+ */
 export class MemberDataModel extends AbstractMemberType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))

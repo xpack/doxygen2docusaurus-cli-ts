@@ -26,6 +26,9 @@ import { AbstractDataModelBase } from '../types.js'
 //   </xsd:sequence>
 // </xsd:complexType>
 
+/**
+ * @public
+ */
 export abstract class AbstractListOfAllMembersType extends AbstractDataModelBase {
   // Optional elements.
   memberRefs?: MemberRefDataModel[] | undefined
@@ -76,6 +79,9 @@ export abstract class AbstractListOfAllMembersType extends AbstractDataModelBase
 
 // <xsd:element name="listofallmembers" type="listofallmembersType" minOccurs="0" />
 
+/**
+ * @public
+ */
 export class ListOfAllMembersDataModel extends AbstractListOfAllMembersType {
   constructor(xml: DoxygenXmlParser, element: Object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
