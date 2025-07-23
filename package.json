@@ -1,11 +1,10 @@
 {
   "name": "@xpack/doxygen2docusaurus",
   "version": "1.0.0",
-  "description": "A CLI application to convert Doxygen XMLs into Docusaurus docs",
+  "description": "A CLI application to convert Doxygen XML files into Docusaurus documentation",
   "type": "module",
-  "exports": {
-    ".": "./dist/index.js"
-  },
+  "main": "./dist/index.js",
+  "typings": "./dist/doxygen2docusaurus.d.ts",
   "bin": {
     "doxygen2docusaurus": "./bin/doxygen2docusaurus.js"
   },
@@ -24,6 +23,7 @@
     "compile": "tsc --build --verbose src",
     "prettier": "prettier src --write",
     "fix": "eslint --fix",
+    "generate-tsdoc": "api-extractor run --local --verbose && api-documenter markdown --input-folder api-extractor --output-folder api-extractor/markdown",
     "dev-cycle": "npm run fix && npm run compile && npm run test",
     "npm-install": "npm install",
     "npm-link-helpers": "npm link @xpack/npm-packages-helper @xpack/docusaurus-template-liquid",
@@ -40,7 +40,7 @@
     "test": "echo 'No tests defined'",
     "prepublishOnly": "npm run lint && npm run test",
     "postpublish": "git push origin --follow-tags",
-    "clean": "del-cli cjs 'tests/**/cjs' 'src/**/*.d.ts' 'src/**/*.d.ts.map' 'src/**/*.js' 'src/**/*.js.map' 'tests/**/*.d.ts' 'tests/**/*.d.ts.map' 'tests/**/*.js' 'tests/**/*.js.map' '**/tsconfig.tsbuildinfo' .nyc_output coverage",
+    "clean": "del-cli dist cjs 'tests/**/cjs' 'src/**/*.d.ts' 'src/**/*.d.ts.map' 'src/**/*.js' 'src/**/*.js.map' 'tests/**/*.d.ts' 'tests/**/*.d.ts.map' 'tests/**/*.js' 'tests/**/*.js.map' '**/tsconfig.tsbuildinfo' .nyc_output coverage",
     "deep-clean": "npm run clean && rm -rf node_modules package-lock.json",
     "dumpconf": "env | sort | uniq",
     "show-versions": "echo $(which node) $(node --version) && echo $(which npm) $(npm --version)"
@@ -64,11 +64,14 @@
     "fast-xml-parser": "^5.2.5"
   },
   "devDependencies": {
+    "@microsoft/api-documenter": "^7.26.29",
+    "@microsoft/api-extractor": "^7.52.8",
     "@tsconfig/node20": "^20.1.6",
     "@types/node": "^24.0.14",
     "del-cli": "^6.0.0",
     "eslint": "^9.31.0",
     "eslint-config-love": "^121.0.0",
+    "fs-extra": "^11.3.0",
     "json": "^11.0.0",
     "liquidjs": "^10.19.1",
     "prettier": "3.6.2",
