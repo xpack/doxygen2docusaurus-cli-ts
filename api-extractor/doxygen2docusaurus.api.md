@@ -597,7 +597,6 @@ export class DoxygenXmlParser {
     dataModel: DataModel;
     getAttributeBooleanValue(element: Object, name: string): boolean;
     getAttributeNumberValue(element: Object, name: string): number;
-    // (undocumented)
     getAttributesNames(element: Object): string[];
     getAttributeStringValue(element: Object, name: string): string;
     getInnerElementBoolean(element: Object, name: string): boolean;
@@ -606,7 +605,6 @@ export class DoxygenXmlParser {
     getInnerElementText(element: Object, name: string): string;
     getInnerText(element: Object): string;
     hasAttribute(element: Object, name: string): boolean;
-    // (undocumented)
     hasAttributes(element: Object): boolean;
     hasInnerElement(element: Object, name: string): boolean;
     hasInnerText(element: Object): boolean;

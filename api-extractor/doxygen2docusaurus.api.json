@@ -10429,7 +10429,7 @@
             {
               "kind": "Method",
               "canonicalReference": "@xpack/doxygen2docusaurus!DoxygenXmlParser#getAttributesNames:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * Retrieves the names of all attributes present on the specified XML element.\n *\n * @remarks\n *\n * This method accesses the ':\\@' property of the XML element, which is the convention used by the XML parser for storing attributes, and returns the keys of this object as an array of attribute names. The method assumes the element has attributes and does not perform validation - use {@link DoxygenXmlParser.hasAttributes} to check for attribute presence first.\n *\n * @param element - The XML element to inspect for attribute names\n *\n * @returns An array of strings containing the names of all attributes\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -10943,7 +10943,7 @@
             {
               "kind": "Method",
               "canonicalReference": "@xpack/doxygen2docusaurus!DoxygenXmlParser#hasAttributes:member(1)",
-              "docComment": "",
+              "docComment": "/**\n * Determines whether the specified XML element has any attributes.\n *\n * @remarks\n *\n * This method checks for the presence of the ':\\@' property on the XML element, which is the convention used by the XML parser for storing attributes. If this property exists, the element has attributes; if not, the element has no attributes. This is a prerequisite check before calling {@link DoxygenXmlParser.getAttributesNames} or other attribute-related methods.\n *\n * @param element - The XML element to inspect for attributes\n *\n * @returns True if the element has attributes; otherwise, false\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
