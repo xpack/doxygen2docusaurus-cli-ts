@@ -12,38 +12,17 @@
 // ----------------------------------------------------------------------------
 
 import assert from 'node:assert'
-import * as fs from 'node:fs/promises'
 import * as path from 'node:path'
 import * as util from 'node:util'
 
 // https://www.npmjs.com/package/commander
-import { Command } from 'commander'
-import type {
-  CliConfigurationOptions,
-  CliOptions,
-} from '../docusaurus/options.js'
-import {
-  getInstanceDefaultOptions,
-  defaultOptions,
-} from '../docusaurus/options.js'
+import { CliOptions } from '../docusaurus/options.js'
 import { formatDuration } from '../docusaurus/utils.js'
 import type { DataModel } from '../doxygen/data-model/types.js'
 import { DoxygenXmlParser } from '../doxygen/doxygen-xml-parser.js'
 import { DocusaurusGenerator } from '../docusaurus/generator.js'
 
 // ----------------------------------------------------------------------------
-
-// Combine single-configuration with multi-configurations.
-type MultiConfigurations =
-  | CliConfigurationOptions
-  | Record<string, CliConfigurationOptions>
-  | undefined
-
-// Prefer config.doxygen2docusaurus, but also accept doxygen2docusaurus.
-interface GenericPackageConfiguration {
-  config?: { doxygen2docusaurus: CliConfigurationOptions }
-  doxygen2docusaurus?: CliConfigurationOptions
-}
 
 /**
  * Main entry point for the doxygen2docusaurus CLI tool.
@@ -54,63 +33,22 @@ interface GenericPackageConfiguration {
  * @public
  */
 export async function main(argv: string[]): Promise<number> {
-  const program = new Command()
-
-  program.option('--id <name>', 'id, for multi-configurations')
-  program.parse(argv)
-
-  const programOptions = program.opts()
-
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-  const id: string | undefined = programOptions.id as string | undefined
-
-  let configurationOptions: CliConfigurationOptions | undefined = undefined
-
-  try {
-    // Try to get the configuration from package.json/config/doxygen2docusaurus.
-    const userPackageJsonPath = path.resolve(process.cwd(), 'package.json')
-    const pkgJsonRaw = await fs.readFile(userPackageJsonPath, 'utf8')
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const pkgJson: GenericPackageConfiguration = JSON.parse(pkgJsonRaw)
-
-    const multiConfigurations: MultiConfigurations =
-      pkgJson.config?.doxygen2docusaurus ?? pkgJson.doxygen2docusaurus
-
-    configurationOptions = selectMultiConfiguration(multiConfigurations, id)
-  } catch (err) {
-    // try to get the configuration from doxygen2docusaurus.json.
-    const userPackageJsonPath = path.resolve(
-      process.cwd(),
-      'doxygen2docusaurus.json'
-    )
-    const pkgJsonRaw = await fs.readFile(userPackageJsonPath, 'utf8')
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const multiConfigurations: MultiConfigurations = JSON.parse(pkgJsonRaw)
-
-    configurationOptions = selectMultiConfiguration(multiConfigurations, id)
-  }
-
-  // console.log(configurationOptions)
-
-  let options: CliOptions = defaultOptions
-  if (configurationOptions !== undefined) {
-    options = {
-      ...getInstanceDefaultOptions(configurationOptions.id),
-      ...configurationOptions,
-    }
-  }
-
   const startTime = Date.now()
 
-  const commandLine =
-    `${path.basename(argv[1] ?? 'doxygen2docusaurus')} ` +
-    argv.slice(2).join(' ')
+  let commandLine: string = path.basename(argv[1] ?? 'doxygen2docusaurus')
+  if (argv.length > 2) {
+    commandLine += ` ${argv.slice(2).join(' ')}`
+  }
 
   console.log(`Running '${commandLine}'...`)
 
+  const options = new CliOptions(argv)
+  await options.parse()
+
   let exitCode = 0
+
+  console.log()
+
   try {
     const dataModel: DataModel = await parseDoxygen({ options })
 
@@ -134,26 +72,6 @@ export async function main(argv: string[]): Promise<number> {
   }
 
   return exitCode
-}
-
-function selectMultiConfiguration(
-  multiConfigurations: MultiConfigurations,
-  id: string | undefined
-): CliConfigurationOptions | undefined {
-  let configurationOptions: CliConfigurationOptions | undefined = undefined
-  if (id !== undefined) {
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
-    configurationOptions =
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-      (multiConfigurations as Record<string, CliConfigurationOptions>)[id]
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (configurationOptions !== undefined) {
-      configurationOptions.id = id
-    }
-  } else {
-    configurationOptions = multiConfigurations
-  }
-  return configurationOptions
 }
 
 /**

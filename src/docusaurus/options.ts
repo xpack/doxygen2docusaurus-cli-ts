@@ -11,6 +11,16 @@
 
 // ----------------------------------------------------------------------------
 
+import assert from 'node:assert'
+import * as fs from 'node:fs/promises'
+import * as path from 'node:path'
+import * as util from 'node:util'
+
+// https://www.npmjs.com/package/commander
+import { Command } from 'commander'
+
+// ----------------------------------------------------------------------------
+
 export interface Redirects {
   from: string | string[]
   to: string
@@ -18,116 +28,106 @@ export interface Redirects {
 
 /**
  * Options, as written by the user. All are optional.
- */
-export interface CliConfigurationOptions {
-  doxygenXmlInputFolderPath?: string
-  docsFolderPath?: string
-  apiFolderPath?: string
-  baseUrl?: string
-  docsBaseUrl?: string
-  apiBaseUrl?: string
-  imagesFolderPath?: string
-  compatibilityRedirectsOutputFolderPath?: string
-  mainPageTitle?: string
-  sidebarCategoryFilePath?: string
-  sidebarCategoryLabel?: string
-  menuDropdownFilePath?: string
-  menuDropdownLabel?: string
-  customCssFilePath?: string
-  verbose?: boolean
-  debug?: boolean
-  runOnStart?: boolean
-  suggestToDoDescriptions?: boolean
-  renderPagesAtTop?: boolean
-  renderProgramListing?: boolean
-  renderProgramListingInline?: boolean
-  originalPagesNote?: string
-  // redirects?: Redirects[]
-  id?: string
-}
-
-/**
- * Options, as seen by the application.
  *
  * @public
  */
-export interface CliOptions {
+export type CliConfigurationOptions = Record<string, string | boolean>
+
+/**
+ * Options, when multi-configurations are used.
+ *
+ * @public
+ */
+export type MultiConfigurations = Record<string, CliConfigurationOptions>
+
+// Prefer config.doxygen2docusaurus, but also accept doxygen2docusaurus.
+interface GenericPackageConfiguration {
+  config?: { doxygen2docusaurus: CliConfigurationOptions }
+  doxygen2docusaurus?: CliConfigurationOptions
+}
+
+/**
+ * Options, as seen by the application. Most are mandatory.
+ *
+ * @public
+ */
+export class CliOptions {
   /**
    * Relative to the current website folder, like `doxygen/xml`, no initial/
    * final slashes.
    */
-  doxygenXmlInputFolderPath: string
+  doxygenXmlInputFolderPath = 'doxygen/xml'
 
   /**
    * Relative to the current website folder, like `docs`, no initial/final
    * slashes.
    */
-  docsFolderPath: string
+  docsFolderPath = 'docs'
 
   /** Relative to the docs folder, like `api`, no initial/final slashes. */
-  apiFolderPath: string
+  apiFolderPath = 'api'
 
   /** Site base URL, like / or /xxx/. */
-  baseUrl: string
+  baseUrl = '/'
 
   /** Relative to the web home, like `docs`, without initial/final slashes. */
-  docsBaseUrl: string
+  docsBaseUrl = 'docs'
 
   /** Relative to the docs home, like `api`, without initial/final slashes. */
-  apiBaseUrl: string
+  apiBaseUrl = 'api'
 
   /** Relative to `static` */
-  imagesFolderPath: string
+  imagesFolderPath = 'img/doxygen'
 
   /**  Relative to the current `website/static` folder, like `reference`. */
   compatibilityRedirectsOutputFolderPath?: string | undefined
 
   /** The title to be displayed on the main page. */
-  mainPageTitle: string
+  mainPageTitle = ''
 
   /**
    * Relative to the current website folder, default
    * `sidebar-category-doxygen.json`.
    */
-  sidebarCategoryFilePath: string
+  sidebarCategoryFilePath = 'sidebar-category-doxygen.json'
 
   /** Short text to be displayed in the sidebar. */
-  sidebarCategoryLabel: string
+  sidebarCategoryLabel = 'API Reference (Doxygen)'
 
   /**
    * Relative to the current website folder, default
    * `docusaurus-config-doxygen-menu-dropdown.json`.
    */
-  menuDropdownFilePath: string
+  menuDropdownFilePath = 'docusaurus-config-menu-doxygen.json'
 
   /** Short text to be displayed in the menu. */
-  menuDropdownLabel: string
+  menuDropdownLabel = 'Reference'
 
   /**
    * Relative to the current website folder, default
    * `src/css/custom-doxygen.css`
    */
-  customCssFilePath: string
+  customCssFilePath = 'src/css/custom-doxygen2docusaurus.css'
 
   /** Boolean to control verbosity. */
-  verbose: boolean
+  verbose = false
 
   /** Boolean to control debug verbosity. */
-  debug: boolean
+  debug = false
 
   /** Boolean to control if the TODO suggestions are shown. */
-  suggestToDoDescriptions: boolean
+  suggestToDoDescriptions = false
 
   /** Boolean to render the pages to the top. */
-  renderPagesAtTop: boolean
+  renderPagesAtTop = true
 
   /** Boolean to render the program listing in the File pages. */
-  renderProgramListing: boolean
+  renderProgramListing = true
 
   /**
    * Boolean to render the program listing in the member definitions sections.
    */
-  renderProgramListingInline?: boolean
+  renderProgramListingInline = true
 
   /**
    * Location of original Doxygen pages
@@ -137,44 +137,162 @@ export interface CliOptions {
   originalPagesNote?: string
 
   /** String identifier in case of multiple instances. */
-  id: string
-}
+  id = 'default'
 
-export const defaultOptions: CliOptions = {
-  doxygenXmlInputFolderPath: 'doxygen/xml',
-  docsFolderPath: 'docs',
-  apiFolderPath: 'api',
-  baseUrl: '/',
-  docsBaseUrl: 'docs',
-  apiBaseUrl: 'api',
-  imagesFolderPath: 'img/doxygen',
-  mainPageTitle: '',
-  sidebarCategoryFilePath: 'sidebar-category-doxygen.json',
-  sidebarCategoryLabel: 'API Reference (Doxygen)',
-  menuDropdownFilePath: 'docusaurus-config-menu-doxygen.json',
-  menuDropdownLabel: 'Reference',
-  customCssFilePath: 'src/css/custom-doxygen2docusaurus.css',
-  verbose: false,
-  debug: false,
-  suggestToDoDescriptions: false,
-  renderPagesAtTop: true,
-  renderProgramListing: true,
-  renderProgramListingInline: true,
-  id: 'default',
-}
+  constructor(argv: string[]) {
+    const program = new Command()
 
-export function getInstanceDefaultOptions(id: string | undefined): CliOptions {
-  const options = { ...defaultOptions }
+    program.option('--id <name>', 'id, for multi-configurations')
+    program.parse(argv)
 
-  if (id !== undefined && id.length > 0) {
-    options.apiFolderPath = id
-    options.apiBaseUrl = id
-    options.imagesFolderPath = `img/doxygen-${id}`
-    options.sidebarCategoryFilePath = `sidebar-category-doxygen-${id}.json`
-    options.menuDropdownFilePath = `docusaurus-config-menu-doxygen-${id}.json`
+    const programOptions = program.opts()
+
+    this.id = (programOptions.id as string | undefined) ?? 'default'
+
+    if (this.id !== 'default') {
+      this.apiFolderPath = this.id
+      this.apiBaseUrl = this.id
+      this.imagesFolderPath = `img/doxygen-${this.id}`
+      this.sidebarCategoryFilePath = `sidebar-category-doxygen-${this.id}.json`
+      this.menuDropdownFilePath = `docusaurus-config-navbar-doxygen-${this.id}.json`
+    } else {
+      this.apiFolderPath = 'api'
+      this.apiBaseUrl = 'api'
+      this.imagesFolderPath = `img/doxygen`
+      this.sidebarCategoryFilePath = `sidebar-category-doxygen.json`
+      this.menuDropdownFilePath = `docusaurus-config-navbar-doxygen.json`
+    }
   }
 
-  return options
+  async parse(): Promise<void> {
+    let configurationOptions: CliConfigurationOptions | undefined = undefined
+
+    try {
+      const userPackageJsonPath = path.resolve(
+        process.cwd(),
+        'config',
+        'doxygen2docusaurus.json'
+      )
+      const pkgJsonRaw = await fs.readFile(userPackageJsonPath, 'utf8')
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const multiConfigurations: MultiConfigurations = JSON.parse(pkgJsonRaw)
+
+      configurationOptions = this.selectMultiConfiguration(multiConfigurations)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      /* Cannot read/parse JSON */
+    }
+
+    if (configurationOptions === undefined) {
+      try {
+        const userPackageJsonPath = path.resolve(
+          process.cwd(),
+          'doxygen2docusaurus.json'
+        )
+        const pkgJsonRaw = await fs.readFile(userPackageJsonPath, 'utf8')
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const multiConfigurations: MultiConfigurations = JSON.parse(pkgJsonRaw)
+
+        configurationOptions =
+          this.selectMultiConfiguration(multiConfigurations)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        /* Cannot read/parse JSON */
+      }
+    }
+
+    if (configurationOptions === undefined) {
+      try {
+        // Try to get the configuration from
+        // package.json/[config/]doxygen2docusaurus.
+        const userPackageJsonPath = path.resolve(process.cwd(), 'package.json')
+        const pkgJsonRaw = await fs.readFile(userPackageJsonPath, 'utf8')
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const pkgJson: GenericPackageConfiguration = JSON.parse(pkgJsonRaw)
+
+        const multiConfigurations:
+          | CliConfigurationOptions
+          | MultiConfigurations
+          | undefined =
+          pkgJson.config?.doxygen2docusaurus ?? pkgJson.doxygen2docusaurus
+
+        if (multiConfigurations !== undefined) {
+          configurationOptions =
+            this.selectMultiConfiguration(multiConfigurations)
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        /* Cannot read/parse JSON */
+      }
+    }
+
+    console.log(configurationOptions)
+
+    if (configurationOptions !== undefined) {
+      // Override only properties that exist in CliOptions
+      const thisProperties = Object.getOwnPropertyNames(this)
+
+      for (const key of thisProperties) {
+        const value: unknown = configurationOptions[key]
+        // console.log(key, value)
+        if (value !== undefined) {
+          const thisProperty = (this as Record<string, unknown>)[key]
+          const thisType = typeof thisProperty
+          const valueType = typeof value
+
+          // Only override if types match
+          if (thisType === valueType) {
+            ;(this as Record<string, unknown>)[key] = value
+          }
+        }
+      }
+    }
+
+    if (this.verbose) {
+      console.log()
+      console.log('configuration:', util.inspect(this))
+    }
+
+    assert(
+      this.doxygenXmlInputFolderPath.length > 0,
+      'doxygenXmlInputFolderPath is required'
+    )
+
+    assert(this.docsFolderPath.length > 0, 'docsFolderPath is required')
+    assert(this.apiFolderPath.length > 0, 'apiFolderPath is required')
+
+    assert(this.docsBaseUrl.length > 0, 'docsBaseUrl is required')
+    // assert(this.apiBaseUrl.length > 0, 'apiBaseUrl is required')
+
+    assert(
+      this.sidebarCategoryFilePath.length > 0,
+      'sidebarCategoryFilePath is required'
+    )
+  }
+
+  selectMultiConfiguration(
+    multiConfigurations: CliConfigurationOptions | MultiConfigurations
+  ): CliConfigurationOptions | undefined {
+    let configurationOptions: CliConfigurationOptions | undefined = undefined
+    if (this.id !== 'default') {
+      configurationOptions = (
+        multiConfigurations as Record<
+          string,
+          CliConfigurationOptions | undefined
+        >
+      )[this.id]
+
+      if (configurationOptions !== undefined) {
+        configurationOptions.id = this.id
+      }
+    } else {
+      configurationOptions = multiConfigurations as CliConfigurationOptions
+    }
+    return configurationOptions
+  }
 }
 
 // Was used during development. Now stick to true.
