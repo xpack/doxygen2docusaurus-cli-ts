@@ -251,7 +251,7 @@ export class Namespaces extends CollectionBase {
     const permalink = 'namespaces'
 
     const frontMatter: FrontMatter = {
-      title: 'The Namespaces Reference',
+      title: 'Namespaces',
       slug: `${this.workspace.slugBaseUrl}${permalink}`,
       // description: '...', // TODO
       custom_edit_url: null,
@@ -389,7 +389,7 @@ export class Namespaces extends CollectionBase {
     await this.generateIndexFile({
       group: 'namespaces',
       fileKind: 'all',
-      title: 'The Namespaces Definitions Index',
+      title: 'Namespaces Definitions Index',
       description: 'The definitions part of the namespaces are:',
       map: allUnorderedEntriesMap,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -399,7 +399,7 @@ export class Namespaces extends CollectionBase {
     await this.generateIndexFile({
       group: 'namespaces',
       fileKind: 'classes',
-      title: 'The Namespaces Classes Index',
+      title: 'Namespaces Classes Index',
       description:
         'The classes, structs, unions defined in the namespaces are:',
       map: allUnorderedEntriesMap,
@@ -410,7 +410,7 @@ export class Namespaces extends CollectionBase {
     await this.generateIndexFile({
       group: 'namespaces',
       fileKind: 'functions',
-      title: 'The Namespaces Functions Index',
+      title: 'Namespaces Functions Index',
       description: 'The functions defined in the namespaces are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => kind === 'function',
@@ -419,7 +419,7 @@ export class Namespaces extends CollectionBase {
     await this.generateIndexFile({
       group: 'namespaces',
       fileKind: 'variables',
-      title: 'The Namespaces Variables Index',
+      title: 'Namespaces Variables Index',
       description: 'The variables defined in the namespaces are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => kind === 'variable',
@@ -428,7 +428,7 @@ export class Namespaces extends CollectionBase {
     await this.generateIndexFile({
       group: 'namespaces',
       fileKind: 'typedefs',
-      title: 'The Namespaces Type Definitions Index',
+      title: 'Namespaces Type Definitions Index',
       description: 'The typedefs defined in the namespaces are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => kind === 'typedef',
@@ -437,7 +437,7 @@ export class Namespaces extends CollectionBase {
     await this.generateIndexFile({
       group: 'namespaces',
       fileKind: 'enums',
-      title: 'The Namespaces Enums Index',
+      title: 'Namespaces Enums Index',
       description: 'The enums defined in the namespaces are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => kind === 'enum',
@@ -446,7 +446,7 @@ export class Namespaces extends CollectionBase {
     await this.generateIndexFile({
       group: 'namespaces',
       fileKind: 'enumvalues',
-      title: 'The Namespaces Enum Values Index',
+      title: 'Namespaces Enum Values Index',
       description: 'The enum values defined in the namespaces are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => kind === 'enumvalue',
@@ -494,7 +494,7 @@ export class Namespace extends CompoundBase {
           this.indexName.replaceAll('::', '/')
         )
 
-        this.pageTitle = `The \`${this.indexName}\` Namespace Reference`
+        this.pageTitle = `\`${this.indexName}\` Namespace`
 
         this.relativePermalink = `namespaces/${sanitizedPath}`
         this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
@@ -520,7 +520,7 @@ export class Namespace extends CompoundBase {
         //     `-${crypto.hash('md5', compoundDef.location?.file)}`
         // }
 
-        this.pageTitle = `The \`${this.indexName}\` Namespace Reference`
+        this.pageTitle = `\`${this.indexName}\` Namespace`
 
         this.relativePermalink = `namespaces/${sanitizedPath}`
         this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
@@ -538,7 +538,7 @@ export class Namespace extends CompoundBase {
         this.compoundName.replace(/.*::/, '')
       )
 
-      this.pageTitle = `The \`${this.unqualifiedName}\` Namespace Reference`
+      this.pageTitle = `\`${this.unqualifiedName}\` Namespace`
 
       const sanitizedPath: string = sanitizeHierarchicalPath(
         sanitizeAnonymousNamespace(this.compoundName.replaceAll('::', '/'))

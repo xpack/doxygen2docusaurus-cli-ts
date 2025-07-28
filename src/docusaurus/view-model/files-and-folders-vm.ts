@@ -406,7 +406,7 @@ export class FilesAndFolders extends CollectionBase {
     const permalink = 'files'
 
     const frontMatter: FrontMatter = {
-      title: 'The Files & Folders Reference',
+      title: 'Files & Folders',
       slug: `${this.workspace.slugBaseUrl}${permalink}`,
       // description: '...', // TODO
       custom_edit_url: null,
@@ -609,7 +609,7 @@ export class FilesAndFolders extends CollectionBase {
     await this.generateIndexFile({
       group: 'files',
       fileKind: 'all',
-      title: 'The Files Definitions Index',
+      title: 'Files Definitions Index',
       description: 'The definitions part of the files are:',
       map: allUnorderedEntriesMap,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -619,7 +619,7 @@ export class FilesAndFolders extends CollectionBase {
     await this.generateIndexFile({
       group: 'files',
       fileKind: 'classes',
-      title: 'The Files Classes Index',
+      title: 'Files Classes Index',
       description: 'The classes, structs, unions defined in the project are:',
       map: allUnorderedEntriesMap,
       filter: (kind) =>
@@ -629,7 +629,7 @@ export class FilesAndFolders extends CollectionBase {
     await this.generateIndexFile({
       group: 'files',
       fileKind: 'namespaces',
-      title: 'The Files Namespaces Index',
+      title: 'Files Namespaces Index',
       description: 'The namespaces defined in the project are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => kind === 'namespace',
@@ -638,7 +638,7 @@ export class FilesAndFolders extends CollectionBase {
     await this.generateIndexFile({
       group: 'files',
       fileKind: 'functions',
-      title: 'The Files Functions Index',
+      title: 'Files Functions Index',
       description: 'The functions defined in the project are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => kind === 'function',
@@ -647,7 +647,7 @@ export class FilesAndFolders extends CollectionBase {
     await this.generateIndexFile({
       group: 'files',
       fileKind: 'variables',
-      title: 'The Files Variables Index',
+      title: 'Files Variables Index',
       description: 'The variables defined in the project are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => kind === 'variable',
@@ -656,7 +656,7 @@ export class FilesAndFolders extends CollectionBase {
     await this.generateIndexFile({
       group: 'files',
       fileKind: 'typedefs',
-      title: 'The Files Type Definitions Index',
+      title: 'Files Type Definitions Index',
       description: 'The typedefs defined in the project are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => kind === 'typedef',
@@ -665,7 +665,7 @@ export class FilesAndFolders extends CollectionBase {
     await this.generateIndexFile({
       group: 'files',
       fileKind: 'enums',
-      title: 'The Files Enums Index',
+      title: 'Files Enums Index',
       description: 'The enums defined in the project are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => kind === 'enum',
@@ -674,7 +674,7 @@ export class FilesAndFolders extends CollectionBase {
     await this.generateIndexFile({
       group: 'files',
       fileKind: 'enumvalues',
-      title: 'The Files Enum Values Index',
+      title: 'Files Enum Values Index',
       description: 'The enum values defined in the project are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => kind === 'enumvalue',
@@ -683,7 +683,7 @@ export class FilesAndFolders extends CollectionBase {
     await this.generateIndexFile({
       group: 'files',
       fileKind: 'defines',
-      title: 'The Files Macro Definitions Index',
+      title: 'Files Macro Definitions Index',
       description: 'The macros defined in the project are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => kind === 'define',
@@ -731,7 +731,7 @@ export class Folder extends CompoundBase {
     this.indexName = compoundName
     this.treeEntryName = compoundName
 
-    this.pageTitle = `The \`${this.sidebarLabel}\` Folder Reference`
+    this.pageTitle = `\`${this.sidebarLabel}\` Folder`
 
     this.createSections()
   }
@@ -842,7 +842,7 @@ export class File extends CompoundBase {
     this.indexName = compoundName
     this.treeEntryName = compoundName
 
-    this.pageTitle = `The \`${this.sidebarLabel}\` File Reference`
+    this.pageTitle = `\`${this.sidebarLabel}\` File`
 
     this.createSections()
   }

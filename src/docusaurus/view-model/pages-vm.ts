@@ -171,7 +171,6 @@ export class Page extends CompoundBase {
     this.indexName = sidebarLabel
     this.treeEntryName = sidebarLabel
 
-    // this.pageTitle = `The ${this.sidebarLabel}`
     this.pageTitle = sidebarLabel
 
     const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundName)

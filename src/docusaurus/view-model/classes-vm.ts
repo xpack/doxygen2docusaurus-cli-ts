@@ -265,7 +265,7 @@ export class Classes extends CollectionBase {
     const permalink = 'classes'
 
     const frontMatter: FrontMatter = {
-      title: 'The Classes Reference',
+      title: 'Classes',
       slug: `${this.workspace.slugBaseUrl}${permalink}`,
       // description: '...', // TODO
       custom_edit_url: null,
@@ -395,7 +395,7 @@ export class Classes extends CollectionBase {
     await this.generateIndexFile({
       group: 'classes',
       fileKind: 'all',
-      title: 'The Classes and Members Index',
+      title: 'Classes and Members Index',
       description: 'The classes, structs, unions and their members are:',
       map: allUnorderedEntriesMap,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -405,7 +405,7 @@ export class Classes extends CollectionBase {
     await this.generateIndexFile({
       group: 'classes',
       fileKind: 'classes',
-      title: 'The Classes Index',
+      title: 'Classes Index',
       description: 'The classes, structs, unions defined in the project are:',
       map: allUnorderedEntriesMap,
       filter: (kind) =>
@@ -415,7 +415,7 @@ export class Classes extends CollectionBase {
     await this.generateIndexFile({
       group: 'classes',
       fileKind: 'functions',
-      title: 'The Class Functions Index',
+      title: 'Class Functions Index',
       description: 'The class member functions defined in the project are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => kind === 'function',
@@ -424,7 +424,7 @@ export class Classes extends CollectionBase {
     await this.generateIndexFile({
       group: 'classes',
       fileKind: 'variables',
-      title: 'The Class Variables Index',
+      title: 'Class Variables Index',
       description: 'The class member variables defined in the project are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => kind === 'variable',
@@ -433,7 +433,7 @@ export class Classes extends CollectionBase {
     await this.generateIndexFile({
       group: 'classes',
       fileKind: 'typedefs',
-      title: 'The Class Type Definitions Index',
+      title: 'Class Type Definitions Index',
       description: 'The class member typedefs defined in the project are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => kind === 'typedef',
@@ -442,7 +442,7 @@ export class Classes extends CollectionBase {
     await this.generateIndexFile({
       group: 'classes',
       fileKind: 'enums',
-      title: 'The Class Enums Index',
+      title: 'Class Enums Index',
       description: 'The class member enums defined in the project are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => kind === 'enum',
@@ -451,7 +451,7 @@ export class Classes extends CollectionBase {
     await this.generateIndexFile({
       group: 'classes',
       fileKind: 'enumvalues',
-      title: 'The Class Enum Values Index',
+      title: 'Class Enum Values Index',
       description: 'The class member enum values defined in the project are:',
       map: allUnorderedEntriesMap,
       filter: (kind) => kind === 'enumvalue',
@@ -538,11 +538,10 @@ export class Class extends CompoundBase {
       kind.charAt(0).toUpperCase() + kind.slice(1).toLowerCase()
 
     const nameHtml = workspace.renderString(this.unqualifiedName, 'html')
-    this.pageTitle = `The \`${nameHtml}\` ${kindCapitalised}`
+    this.pageTitle = `\`${nameHtml}\` ${kindCapitalised}`
     if (compoundDef.templateParamList !== undefined) {
       this.pageTitle += ' Template'
     }
-    this.pageTitle += ' Reference'
 
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     assert(kindsPlurals[kind] !== undefined)
