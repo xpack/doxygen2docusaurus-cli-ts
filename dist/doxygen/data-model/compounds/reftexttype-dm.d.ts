@@ -1,4 +1,4 @@
-import { DoxygenXmlParser } from '../../doxygen-xml-parser.js';
+import { DoxygenXmlParser } from '../doxygen-xml-parser.js';
 import { AbstractDataModelBase } from '../types.js';
 export declare abstract class AbstractRefTextType extends AbstractDataModelBase {
     text: string;

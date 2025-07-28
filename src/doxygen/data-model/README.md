@@ -10,4 +10,4 @@ Where necessary, object types should be distinguished using `instanceof`.
 
 The `elementName` property is retained for debugging purposes and may be removed in the final release; it should therefore not be relied upon.
 
-Parsing is initiated from `doxygen-xml-parser.ts` by creating the top-level objects for each category. These objects then recursively instantiate their respective child objects.
+Parsing is initiated from `data-model.ts` by creating the top-level objects for each category. These objects then recursively instantiate their respective child objects.

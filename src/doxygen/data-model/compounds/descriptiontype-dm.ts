@@ -14,7 +14,7 @@
 import assert from 'node:assert'
 import * as util from 'node:util'
 
-import { DoxygenXmlParser } from '../../doxygen-xml-parser.js'
+import { DoxygenXmlParser } from '../doxygen-xml-parser.js'
 import { AbstractDataModelBase } from '../types.js'
 import { RefTextDataModel } from './reftexttype-dm.js'
 import { VariableListDataModel } from './docvarlistentrytype-dm.js'
@@ -6255,8 +6255,7 @@ export abstract class AbstractDocImageType extends AbstractDataModelBase {
 
     // Keep track of html images, to copy them to the output.
     if (this.type === 'html' && this.name !== undefined && !isUrl(this.name)) {
-      xml.dataModel.images ??= []
-      xml.dataModel.images.push(this)
+      xml.images.push(this)
     }
 
     // console.log(util.inspect(this, { compact: false, depth: 999 }))

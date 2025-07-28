@@ -24,8 +24,9 @@
 // The top entry point into the plugin, mentioned in `package.json`.
 import { AbstractCompoundDefType, CompoundDefDataModel, } from './doxygen/data-model/compounds/compounddef-dm.js';
 import { AbstractDataModelBase, } from './doxygen/data-model/types.js';
-import { CliOptions } from './docusaurus/options.js';
-import { DoxygenXmlParser } from './doxygen/doxygen-xml-parser.js';
+import { DataModel } from './doxygen/data-model/data-model.js';
+import { CliOptions } from './docusaurus/cli-options.js';
+import { DoxygenXmlParser } from './doxygen/data-model/doxygen-xml-parser.js';
 import { DoxygenFileDataModel, AbstractDoxygenFileType, } from './doxygen/data-model/doxyfile/doxyfiletype-dm.js';
 import { DoxygenIndexDataModel, AbstractIndexDoxygenType, } from './doxygen/data-model/index/indexdoxygentype-dm.js';
 import { AbstractDocImageType, AbstractListingType, AbstractDescriptionType, AbstractListingTypeBase, CodeLineDataModel, DescriptionDataModel, AbstractCodeLineType, HighlightDataModel, InbodyDescriptionDataModel, AbstractHighlightType, } from './doxygen/data-model/compounds/descriptiontype-dm.js';
@@ -52,7 +53,7 @@ import { EnumValueDataModel, AbstractEnumValueType, } from './doxygen/data-model
 export * from './cli/main.js';
 export { 
 // Core classes
-CompoundDefDataModel, AbstractCompoundDefType, CliOptions, DoxygenXmlParser, DoxygenFileDataModel, DoxygenIndexDataModel, AbstractIncType, AbstractIndexCompoundType, AbstractDocImageType, AbstractDoxygenFileType, AbstractIndexDoxygenType, AbstractDataModelBase, AbstractListingType, AbstractListOfAllMembersType, AbstractLocationType, AbstractRefType, AbstractSectionDefType, AbstractTableOfContentsType, AbstractTemplateParamListType, 
+CompoundDefDataModel, AbstractCompoundDefType, DataModel, CliOptions, DoxygenXmlParser, DoxygenFileDataModel, DoxygenIndexDataModel, AbstractIncType, AbstractIndexCompoundType, AbstractDocImageType, AbstractDoxygenFileType, AbstractIndexDoxygenType, AbstractDataModelBase, AbstractListingType, AbstractListOfAllMembersType, AbstractLocationType, AbstractRefType, AbstractSectionDefType, AbstractTableOfContentsType, AbstractTemplateParamListType, 
 // Missing symbols for API Extractor
 IndexMemberDataModel, AbstractListingTypeBase, MemberRefDataModel, AbstractSectionDefTypeBase, TocSectDataModel, ParamDataModel, AbstractCompoundRefType, AbstractDescriptionType, AbstractDoxygenFileOptionType, AbstractTableOfContentsKindType, CodeLineDataModel, DescriptionDataModel, MemberDefDataModel, MemberDataModel, AbstractIndexMemberType, AbstractMemberRefType, AbstractParamType, DefValDataModel, TypeDataModel, TypeConstraintDataModel, AbstractCodeLineType, AbstractMemberType, AbstractMemberDefType, HighlightDataModel, AbstractMemberBaseType, EnumValueDataModel, InbodyDescriptionDataModel, InitializerDataModel, ReferencedByDataModel, ReferenceDataModel, ReimplementDataModel, AbstractLinkedTextType, AbstractEnumValueType, AbstractHighlightType, AbstractReferenceType, AbstractReimplementType, 
 // Description types

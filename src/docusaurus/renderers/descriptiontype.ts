@@ -54,7 +54,7 @@ import {
   RtfOnlyDataModel,
   XmlOnlyDataModel,
 } from '../../doxygen/data-model/compounds/compounddef-dm.js'
-import { renderParagraphs } from '../options.js'
+import { renderParagraphs } from '../cli-options.js'
 import { AbstractDataModelBase } from '../../doxygen/data-model/types.js'
 
 // ----------------------------------------------------------------------------

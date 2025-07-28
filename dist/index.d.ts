@@ -11,9 +11,10 @@
  * @packageDocumentation
  */
 import { AbstractCompoundDefType, CompoundDefDataModel } from './doxygen/data-model/compounds/compounddef-dm.js';
-import { DataModel, XmlElement, AbstractDataModelBase } from './doxygen/data-model/types.js';
-import { CliOptions } from './docusaurus/options.js';
-import { DoxygenXmlParser } from './doxygen/doxygen-xml-parser.js';
+import { XmlElement, AbstractDataModelBase } from './doxygen/data-model/types.js';
+import { DataModel } from './doxygen/data-model/data-model.js';
+import { CliOptions } from './docusaurus/cli-options.js';
+import { DoxygenXmlParser } from './doxygen/data-model/doxygen-xml-parser.js';
 import { DoxygenFileDataModel, AbstractDoxygenFileType } from './doxygen/data-model/doxyfile/doxyfiletype-dm.js';
 import { DoxygenIndexDataModel, AbstractIndexDoxygenType } from './doxygen/data-model/index/indexdoxygentype-dm.js';
 import { AbstractDocImageType, AbstractListingType, AbstractDescriptionType, AbstractListingTypeBase, CodeLineDataModel, DescriptionDataModel, AbstractCodeLineType, HighlightDataModel, InbodyDescriptionDataModel, AbstractHighlightType } from './doxygen/data-model/compounds/descriptiontype-dm.js';

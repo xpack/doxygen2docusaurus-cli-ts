@@ -1,4 +1,4 @@
-import { DoxygenXmlParser } from '../../doxygen-xml-parser.js';
+import { DoxygenXmlParser } from '../doxygen-xml-parser.js';
 import { AbstractDataModelBase } from '../types.js';
 import { ListItemDataModel, TermDataModel } from './descriptiontype-dm.js';
 export declare abstract class AbstractDocVarListEntryType extends AbstractDataModelBase {

@@ -11,11 +11,6 @@
 
 // ----------------------------------------------------------------------------
 
-import { CompoundDefDataModel } from './compounds/compounddef-dm.js'
-import { type AbstractDocImageType } from './compounds/descriptiontype-dm.js'
-import { DoxygenFileDataModel } from './doxyfile/doxyfiletype-dm.js'
-import { DoxygenIndexDataModel } from './index/indexdoxygentype-dm.js'
-
 // ----------------------------------------------------------------------------
 
 // <?xml version='1.0' encoding='UTF-8' standalone='no'?>
@@ -79,20 +74,5 @@ export abstract class AbstractDataModelBase {
 }
 
 export type DataModelElement = AbstractDataModelBase | string
-
-// ----------------------------------------------------------------------------
-// Top structure to hold the parsed Doxygen xml data as JS objects.
-// All objects are defined in the `data-model` folder.
-
-/**
- * @public
- */
-export interface DataModel {
-  doxygenindex?: DoxygenIndexDataModel // from index.xml
-  compoundDefs: CompoundDefDataModel[] // from `${'@_refid'}.xml`
-  doxyfile?: DoxygenFileDataModel // from Doxyfile.xml
-
-  images?: AbstractDocImageType[]
-}
 
 // ----------------------------------------------------------------------------

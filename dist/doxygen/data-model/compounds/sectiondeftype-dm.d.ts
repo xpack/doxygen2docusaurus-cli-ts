@@ -1,4 +1,4 @@
-import { DoxygenXmlParser } from '../../doxygen-xml-parser.js';
+import { DoxygenXmlParser } from '../doxygen-xml-parser.js';
 import { DescriptionDataModel } from './descriptiontype-dm.js';
 import { MemberDefDataModel } from './memberdeftype-dm.js';
 import { MemberDataModel } from './membertype-dm.js';

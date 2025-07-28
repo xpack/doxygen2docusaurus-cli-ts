@@ -1,14 +1,11 @@
 import { Workspace } from './workspace.js';
-import type { DataModel } from '../doxygen/data-model/types.js';
-import { type CliOptions } from './options.js';
+import { CliOptions } from './cli-options.js';
 import type { CompoundBase } from './view-model/compound-base-vm.js';
 export declare class DocusaurusGenerator {
     workspace: Workspace;
-    constructor({ dataModel, options, }: {
-        dataModel: DataModel;
-        options: CliOptions;
-    });
-    generate(): Promise<void>;
+    options: CliOptions;
+    constructor(workspace: Workspace);
+    run(): Promise<number>;
     prepareOutputFolder(): Promise<void>;
     generateSidebarFile(): Promise<void>;
     generateMenuFile(): Promise<void>;

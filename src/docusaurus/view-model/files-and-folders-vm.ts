@@ -121,7 +121,7 @@ export class FilesAndFolders extends CollectionBase {
     }
 
     for (const [fileId, file] of this.compoundFilesById) {
-      this.workspace.compoundsById.set(fileId, file)
+      this.workspace.viewModel.compoundsById.set(fileId, file)
     }
 
     for (const [folderId, folder] of this.compoundFoldersById) {
@@ -436,7 +436,7 @@ export class FilesAndFolders extends CollectionBase {
       console.log(`Writing files index file ${filePath}...`)
     }
 
-    await this.workspace.writeMdFile({
+    await this.workspace.writeOutputMdFile({
       filePath,
       frontMatter,
       bodyLines: lines,
@@ -563,7 +563,7 @@ export class FilesAndFolders extends CollectionBase {
         if (classCompoundDef?.innerClasses !== undefined) {
           for (const innerClass of classCompoundDef.innerClasses) {
             // console.log(innerClass.refid)
-            const compoundClass = this.workspace.compoundsById.get(
+            const compoundClass = this.workspace.viewModel.compoundsById.get(
               innerClass.refid
             )
             if (compoundClass instanceof Class) {
@@ -577,9 +577,8 @@ export class FilesAndFolders extends CollectionBase {
         if (namespaceCompoundDef?.innerNamespaces !== undefined) {
           for (const innerNamespace of namespaceCompoundDef.innerNamespaces) {
             // console.log(innerNamespace.refid)
-            const compoundNamespace = this.workspace.compoundsById.get(
-              innerNamespace.refid
-            )
+            const compoundNamespace =
+              this.workspace.viewModel.compoundsById.get(innerNamespace.refid)
             if (compoundNamespace instanceof Namespace) {
               const namespaceEntry = new FileTreeEntry(
                 compoundNamespace,

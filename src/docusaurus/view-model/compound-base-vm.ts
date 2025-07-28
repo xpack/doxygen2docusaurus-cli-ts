@@ -578,7 +578,9 @@ export abstract class CompoundBase {
         // console.log(
         //   util.inspect(innerObject, { compact: false, depth: 999 })
         // )
-        const innerDataObject = workspace.compoundsById.get(innerObject.refid)
+        const innerDataObject = workspace.viewModel.compoundsById.get(
+          innerObject.refid
+        )
         if (innerDataObject !== undefined) {
           const { kind } = innerDataObject
           const itemType =

@@ -1,4 +1,4 @@
-import { DoxygenXmlParser } from '../../doxygen-xml-parser.js';
+import { DoxygenXmlParser } from '../doxygen-xml-parser.js';
 import { BriefDescriptionDataModel, DetailedDescriptionDataModel, InbodyDescriptionDataModel } from './descriptiontype-dm.js';
 import { InitializerDataModel, TypeDataModel } from './linkedtexttype-dm.js';
 import { LocationDataModel } from './locationtype-dm.js';

@@ -144,7 +144,7 @@ export class CollectionBase {
         if (this.workspace.options.verbose) {
             console.log(`Writing ${group} index file ${filePath}...`);
         }
-        await this.workspace.writeMdFile({
+        await this.workspace.writeOutputMdFile({
             filePath,
             frontMatter,
             bodyLines: lines,

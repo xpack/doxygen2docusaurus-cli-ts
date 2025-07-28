@@ -1,7 +1,3 @@
-import { CompoundDefDataModel } from './compounds/compounddef-dm.js';
-import { type AbstractDocImageType } from './compounds/descriptiontype-dm.js';
-import { DoxygenFileDataModel } from './doxyfile/doxyfiletype-dm.js';
-import { DoxygenIndexDataModel } from './index/indexdoxygentype-dm.js';
 export interface XmlPrologue {
     '?xml': [XmlText];
     ':@': {
@@ -45,13 +41,4 @@ export declare abstract class AbstractDataModelBase {
     constructor(elementName: string);
 }
 export type DataModelElement = AbstractDataModelBase | string;
-/**
- * @public
- */
-export interface DataModel {
-    doxygenindex?: DoxygenIndexDataModel;
-    compoundDefs: CompoundDefDataModel[];
-    doxyfile?: DoxygenFileDataModel;
-    images?: AbstractDocImageType[];
-}
 //# sourceMappingURL=types.d.ts.map

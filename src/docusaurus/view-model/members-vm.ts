@@ -303,7 +303,9 @@ export class Section {
           lines.push(...member.renderIndexToLines())
         } else if (member instanceof MemberRef) {
           const referredMember =
-            this.compound.collection.workspace.membersById.get(member.refid)
+            this.compound.collection.workspace.viewModel.membersById.get(
+              member.refid
+            )
           assert(referredMember !== undefined)
           lines.push(...referredMember.renderIndexToLines())
         }

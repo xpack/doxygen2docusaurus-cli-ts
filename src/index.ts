@@ -30,12 +30,12 @@ import {
   CompoundDefDataModel,
 } from './doxygen/data-model/compounds/compounddef-dm.js'
 import {
-  DataModel,
   XmlElement,
   AbstractDataModelBase,
 } from './doxygen/data-model/types.js'
-import { CliOptions } from './docusaurus/options.js'
-import { DoxygenXmlParser } from './doxygen/doxygen-xml-parser.js'
+import { DataModel } from './doxygen/data-model/data-model.js'
+import { CliOptions } from './docusaurus/cli-options.js'
+import { DoxygenXmlParser } from './doxygen/data-model/doxygen-xml-parser.js'
 import {
   DoxygenFileDataModel,
   AbstractDoxygenFileType,

@@ -13,7 +13,7 @@
 
 import assert from 'node:assert'
 import * as util from 'node:util'
-import { DoxygenXmlParser } from '../../doxygen-xml-parser.js'
+import { DoxygenXmlParser } from '../doxygen-xml-parser.js'
 import { DescriptionDataModel } from './descriptiontype-dm.js'
 import { MemberDefDataModel } from './memberdeftype-dm.js'
 import { MemberDataModel } from './membertype-dm.js'

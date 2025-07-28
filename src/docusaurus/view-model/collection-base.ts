@@ -210,7 +210,7 @@ export abstract class CollectionBase {
       console.log(`Writing ${group} index file ${filePath}...`)
     }
 
-    await this.workspace.writeMdFile({
+    await this.workspace.writeOutputMdFile({
       filePath,
       frontMatter,
       bodyLines: lines,

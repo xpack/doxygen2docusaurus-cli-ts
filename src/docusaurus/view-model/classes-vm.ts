@@ -293,7 +293,7 @@ export class Classes extends CollectionBase {
       console.log(`Writing classes index file ${filePath}...`)
     }
 
-    await this.workspace.writeMdFile({
+    await this.workspace.writeOutputMdFile({
       filePath,
       frontMatter,
       bodyLines: lines,

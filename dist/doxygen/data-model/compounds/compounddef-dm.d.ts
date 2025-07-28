@@ -7,7 +7,7 @@ import { AbstractStringType, BriefDescriptionDataModel, DetailedDescriptionDataM
 import { InnerClassDataModel, InnerDirDataModel, InnerFileDataModel, InnerGroupDataModel, InnerNamespaceDataModel, InnerPageDataModel } from './reftype-dm.js';
 import { LocationDataModel } from './locationtype-dm.js';
 import { AbstractDataModelBase } from '../types.js';
-import { DoxygenXmlParser } from '../../doxygen-xml-parser.js';
+import { DoxygenXmlParser } from '../doxygen-xml-parser.js';
 import { TableOfContentsDataModel } from './tableofcontentstype-dm.js';
 export declare abstract class AbstractXyzType extends AbstractDataModelBase {
     text: string;

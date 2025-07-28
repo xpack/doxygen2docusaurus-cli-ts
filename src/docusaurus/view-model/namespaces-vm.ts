@@ -278,7 +278,7 @@ export class Namespaces extends CollectionBase {
       console.log(`Writing namespaces index file ${filePath}...`)
     }
 
-    await this.workspace.writeMdFile({
+    await this.workspace.writeOutputMdFile({
       filePath,
       frontMatter,
       bodyLines: lines,
@@ -359,7 +359,7 @@ export class Namespaces extends CollectionBase {
         if (classCompoundDef?.innerClasses !== undefined) {
           for (const innerClass of classCompoundDef.innerClasses) {
             // console.log(innerClass.refid)
-            const compoundClass = this.workspace.compoundsById.get(
+            const compoundClass = this.workspace.viewModel.compoundsById.get(
               innerClass.refid
             )
             if (compoundClass instanceof Class) {

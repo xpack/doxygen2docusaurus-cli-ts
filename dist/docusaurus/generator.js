@@ -13,36 +13,34 @@
 import assert from 'node:assert';
 import path from 'node:path';
 import * as fs from 'node:fs/promises';
-import { Workspace } from './workspace.js';
-import { maxParallelPromises } from './options.js';
+import { maxParallelPromises } from './cli-options.js';
 import { folderExists } from './utils.js';
 import { Page } from './view-model/pages-vm.js';
 // import type { File } from '../view-model/files-and-folders-vm.js'
 // ----------------------------------------------------------------------------
 export class DocusaurusGenerator {
     workspace;
+    options;
     // --------------------------------------------------------------------------
-    constructor({ dataModel, options, }) {
-        this.workspace = new Workspace({
-            dataModel,
-            options,
-        });
+    constructor(workspace) {
+        this.workspace = workspace;
+        this.options = workspace.options;
     }
     // --------------------------------------------------------------------------
-    async generate() {
+    async run() {
         console.log();
         await this.prepareOutputFolder();
         // No longer used with CommonMarkdown output.
         // await this.generateConfigurationFile()
         console.log();
-        if (this.workspace.options.verbose) {
+        if (this.options.verbose) {
             console.log('Writing Docusaurus .md pages (object -> url)...');
         }
         else {
             console.log('Writing Docusaurus .md pages...');
         }
         await this.generatePages();
-        if (this.workspace.options.verbose) {
+        if (this.options.verbose) {
             console.log();
         }
         await this.generateTopIndexDotMdFile();
@@ -56,6 +54,7 @@ export class DocusaurusGenerator {
         await this.generateCompatibilityRedirectFiles();
         await this.copyFiles();
         await this.copyImageFiles();
+        return 0;
     }
     // --------------------------------------------------------------------------
     // https://nodejs.org/en/learn/manipulating-files/working-with-folders-in-nodejs
@@ -78,7 +77,7 @@ export class DocusaurusGenerator {
     async generateSidebarFile() {
         const sidebarCategory = {
             type: 'category',
-            label: this.workspace.options.sidebarCategoryLabel,
+            label: this.options.sidebarCategoryLabel,
             link: {
                 type: 'doc',
                 id: `${this.workspace.sidebarBaseId}index`,
@@ -86,13 +85,13 @@ export class DocusaurusGenerator {
             collapsed: false,
             items: [],
         };
-        const pages = this.workspace.viewModel.get('pages');
+        const pages = this.workspace.viewModel.collections.get('pages');
         pages.createTopPagesSidebarItems(sidebarCategory);
         // The order in sidebarCollectionNames also gives the the order
         // of items in the sidebar.
         for (const collectionName of this.workspace.sidebarCollectionNames) {
             // console.log(collectionName)
-            const collection = this.workspace.viewModel.get(collectionName);
+            const collection = this.workspace.viewModel.collections.get(collectionName);
             if (collection?.isVisibleInSidebar() === true) {
                 collection.addSidebarItems(sidebarCategory);
             }
@@ -101,7 +100,7 @@ export class DocusaurusGenerator {
         //   'sidebar:', util.inspect(sidebar, { compact: false, depth: 999 })
         // )
         const jsonString = JSON.stringify(sidebarCategory, null, 2);
-        const { sidebarCategoryFilePath } = this.workspace.options;
+        const { sidebarCategoryFilePath } = this.options;
         const relativeFilePath = sidebarCategoryFilePath;
         const absoluteFilePath = path.resolve(relativeFilePath);
         // Superfluous if done after prepareOutputFolder()
@@ -111,7 +110,7 @@ export class DocusaurusGenerator {
     }
     // --------------------------------------------------------------------------
     async generateMenuFile() {
-        const { menuDropdownFilePath, menuDropdownLabel: label } = this.workspace.options;
+        const { menuDropdownFilePath, menuDropdownLabel: label } = this.options;
         if (menuDropdownFilePath.trim().length === 0) {
             return;
         }
@@ -126,7 +125,7 @@ export class DocusaurusGenerator {
         // This is the order of items in the sidebar.
         for (const collectionName of this.workspace.sidebarCollectionNames) {
             // console.log(collectionName)
-            const collection = this.workspace.viewModel.get(collectionName);
+            const collection = this.workspace.viewModel.collections.get(collectionName);
             if (collection?.isVisibleInSidebar() === true) {
                 assert(navbarEntry.items !== undefined);
                 const items = collection.createMenuItems();
@@ -159,7 +158,8 @@ export class DocusaurusGenerator {
     // --------------------------------------------------------------------------
     async generateCollectionsIndexDotMdFiles() {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        for (const [collectionName, collection] of this.workspace.viewModel) {
+        for (const [collectionName, collection] of this.workspace.viewModel
+            .collections) {
             // console.log(collectionName)
             await collection.generateIndexDotMdFile();
         }
@@ -170,8 +170,8 @@ export class DocusaurusGenerator {
         const { outputFolderPath } = this.workspace;
         const filePath = `${outputFolderPath}index.md`;
         const projectBrief = this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF');
-        const title = this.workspace.options.mainPageTitle.length > 0
-            ? this.workspace.options.mainPageTitle
+        const title = this.options.mainPageTitle.length > 0
+            ? this.options.mainPageTitle
             : `${projectBrief} API Reference`;
         const permalink = ''; // The root of the API sub-site.
         // This is the top index.md file (@mainpage)
@@ -183,7 +183,7 @@ export class DocusaurusGenerator {
             keywords: ['doxygen', 'reference'],
         };
         const lines = [];
-        const groups = this.workspace.viewModel.get('groups');
+        const groups = this.workspace.viewModel.collections.get('groups');
         const topicsLines = groups.generateTopicsTable();
         lines.push(...topicsLines);
         const { mainPage } = this.workspace;
@@ -204,16 +204,16 @@ export class DocusaurusGenerator {
                 }));
             }
         }
-        if (this.workspace.options.originalPagesNote.length > 0) {
+        if (this.options.originalPagesNote.length > 0) {
             lines.push('');
             lines.push(':::note');
-            lines.push(this.workspace.options.originalPagesNote);
+            lines.push(this.options.originalPagesNote);
             lines.push(':::');
         }
-        if (this.workspace.options.verbose) {
+        if (this.options.verbose) {
             console.log(`Writing top index file ${filePath}...`);
         }
-        await this.workspace.writeMdFile({
+        await this.workspace.writeOutputMdFile({
             filePath,
             frontMatter,
             bodyLines: lines,
@@ -222,7 +222,8 @@ export class DocusaurusGenerator {
     // --------------------------------------------------------------------------
     async generatePerInitialsIndexMdFiles() {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        for (const [collectionName, collection] of this.workspace.viewModel) {
+        for (const [collectionName, collection] of this.workspace.viewModel
+            .collections) {
             // console.log(collectionName)
             await collection.generatePerInitialsIndexMdFiles();
         }
@@ -231,7 +232,7 @@ export class DocusaurusGenerator {
     // --------------------------------------------------------------------------
     async generatePages() {
         const promises = [];
-        for (const [, compound] of this.workspace.compoundsById) {
+        for (const [, compound] of this.workspace.viewModel.compoundsById) {
             if (compound instanceof Page) {
                 if (compound.id === 'indexpage') {
                     // This is the @mainpage. We diverge from Doxygen and generate
@@ -244,16 +245,16 @@ export class DocusaurusGenerator {
             const permalink = compound.relativePermalink;
             const { docusaurusId } = compound;
             if (permalink === undefined || docusaurusId === undefined) {
-                if (this.workspace.options.verbose) {
+                if (this.options.verbose) {
                     console.warn('Skip', compound.id, 'no permalink');
                 }
                 continue;
             }
             // assert(permalink !== undefined)
-            if (this.workspace.options.verbose) {
+            if (this.options.verbose) {
                 console.log(`${compound.kind}: ${compound.compoundName.replaceAll(/[ ]*/g, '')}`, '->', `${this.workspace.absoluteBaseUrl}${permalink}...`);
             }
-            if (this.workspace.options.debug) {
+            if (this.options.debug) {
                 await this.generatePage(compound);
             }
             else {
@@ -288,7 +289,7 @@ export class DocusaurusGenerator {
         const bodyLines = compound.renderToLines(frontMatter);
         assert(compound.relativePermalink !== undefined);
         const pagePermalink = this.workspace.pageBaseUrl + compound.relativePermalink;
-        await this.workspace.writeMdFile({
+        await this.workspace.writeOutputMdFile({
             filePath,
             frontMatter,
             bodyLines,
@@ -298,7 +299,7 @@ export class DocusaurusGenerator {
     }
     // --------------------------------------------------------------------------
     async generateCompatibilityRedirectFiles() {
-        const redirectsOutputFolderPath = this.workspace.options.compatibilityRedirectsOutputFolderPath;
+        const redirectsOutputFolderPath = this.options.compatibilityRedirectsOutputFolderPath;
         if (redirectsOutputFolderPath === undefined) {
             return;
         }
@@ -308,9 +309,9 @@ export class DocusaurusGenerator {
             force: true,
         });
         console.log('Writing redirect files...');
-        const compoundIds = Array.from(this.workspace.compoundsById.keys()).sort();
+        const compoundIds = Array.from(this.workspace.viewModel.compoundsById.keys()).sort();
         for (const compoundId of compoundIds) {
-            const compound = this.workspace.compoundsById.get(compoundId);
+            const compound = this.workspace.viewModel.compoundsById.get(compoundId);
             assert(compound !== undefined);
             const filePathBase = `static/${redirectsOutputFolderPath}/${compoundId}`;
             const filePath = `${filePathBase}.html`;
@@ -359,7 +360,7 @@ export class DocusaurusGenerator {
                 permalink,
             });
         }
-        if (this.workspace.options.verbose) {
+        if (this.options.verbose) {
             console.log(this.workspace.writtenHtmlFilesCounter, 'html files written');
         }
     }
@@ -418,7 +419,7 @@ export class DocusaurusGenerator {
         console.log('Copying image file', toFilePath);
         await fs.copyFile(fromFilePath, toFilePath);
         fromFilePath = path.join(this.workspace.projectPath, 'template', 'css', 'custom.css');
-        toFilePath = this.workspace.options.customCssFilePath;
+        toFilePath = this.options.customCssFilePath;
         if (!(await folderExists(path.dirname(toFilePath)))) {
             await fs.mkdir(path.dirname(toFilePath), { recursive: true });
         }
@@ -427,16 +428,18 @@ export class DocusaurusGenerator {
     }
     // --------------------------------------------------------------------------
     async copyImageFiles() {
-        if (this.workspace.dataModel.images === undefined) {
+        if (this.workspace.dataModel.xml.images.length > 0) {
             return;
         }
-        if (!this.workspace.options.verbose) {
-            console.log('Copying', this.workspace.dataModel.images.length, 'image files...');
+        if (!this.options.verbose) {
+            if (this.workspace.dataModel.xml.images.length > 0) {
+                console.log('Copying', this.workspace.dataModel.xml.images.length, 'image files...');
+            }
         }
-        const destImgFolderPath = path.join('static', ...this.workspace.options.imagesFolderPath.split('/'));
+        const destImgFolderPath = path.join('static', ...this.options.imagesFolderPath.split('/'));
         await fs.mkdir(destImgFolderPath, { recursive: true });
         const images = new Set();
-        for (const image of this.workspace.dataModel.images) {
+        for (const image of this.workspace.dataModel.xml.images) {
             if (image.name !== undefined && image.name.length > 0) {
                 images.add(image.name);
             }
@@ -445,9 +448,9 @@ export class DocusaurusGenerator {
         let fromFilePath = '';
         let toFilePath = '';
         for (const name of uniqueNames) {
-            fromFilePath = path.join(this.workspace.options.doxygenXmlInputFolderPath, name);
+            fromFilePath = path.join(this.options.doxygenXmlInputFolderPath, name);
             toFilePath = path.join(destImgFolderPath, name);
-            if (this.workspace.options.verbose) {
+            if (this.options.verbose) {
                 console.log('Copying image file', toFilePath);
             }
             await fs.copyFile(fromFilePath, toFilePath);

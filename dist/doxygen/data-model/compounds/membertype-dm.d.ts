@@ -1,4 +1,4 @@
-import { DoxygenXmlParser } from '../../doxygen-xml-parser.js';
+import { DoxygenXmlParser } from '../doxygen-xml-parser.js';
 import { AbstractMemberBaseType } from './memberdeftype-dm.js';
 /**
  * @public

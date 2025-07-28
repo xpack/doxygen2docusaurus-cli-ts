@@ -14,7 +14,7 @@
 import assert from 'node:assert'
 import * as fs from 'node:fs/promises'
 import * as path from 'node:path'
-import * as util from 'node:util'
+// import * as util from 'node:util'
 
 // https://www.npmjs.com/package/commander
 import { Command } from 'commander'
@@ -261,7 +261,7 @@ export class CliOptions {
 
     if (this.verbose) {
       console.log()
-      console.log('configuration:', util.inspect(this))
+      console.log(this)
     }
 
     assert(

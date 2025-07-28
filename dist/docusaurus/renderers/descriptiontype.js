@@ -17,7 +17,7 @@ import { AbstractDocAnchorType, AbstractDocEmptyType, AbstractDocFormulaType, Ab
 import { AbstractRefTextType } from '../../doxygen/data-model/compounds/reftexttype-dm.js';
 import { getPermalinkAnchor, isUrl, stripLeadingAndTrailingNewLines, } from '../utils.js';
 import { AbstractDocHtmlOnlyType, LatexOnlyDataModel, ManOnlyDataModel, RtfOnlyDataModel, XmlOnlyDataModel, } from '../../doxygen/data-model/compounds/compounddef-dm.js';
-import { renderParagraphs } from '../options.js';
+import { renderParagraphs } from '../cli-options.js';
 import { AbstractDataModelBase } from '../../doxygen/data-model/types.js';
 // ----------------------------------------------------------------------------
 export class DescriptionTypeLinesRenderer extends ElementLinesRendererBase {

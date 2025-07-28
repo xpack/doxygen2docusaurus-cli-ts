@@ -17,45 +17,22 @@ import * as fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { AbstractCompoundDefType } from '../doxygen/data-model/compounds/compounddef-dm.js'
-import {
-  AbstractDocSectType,
-  AbstractDocAnchorType,
-  ParaDataModel,
-} from '../doxygen/data-model/compounds/descriptiontype-dm.js'
-import {
-  TocListDataModel,
-  TocItemDataModel,
-} from '../doxygen/data-model/compounds/tableofcontentstype-dm.js'
-import {
-  type DataModel,
-  AbstractDataModelBase,
-} from '../doxygen/data-model/types.js'
+import { ParaDataModel } from '../doxygen/data-model/compounds/descriptiontype-dm.js'
+import { AbstractDataModelBase } from '../doxygen/data-model/types.js'
+import { type DataModel } from '../doxygen/data-model/data-model.js'
 import { Renderers } from './renderers/renderers.js'
-import type { CliOptions } from './options.js'
+import type { CliOptions } from './cli-options.js'
 import type { FrontMatter } from './types.js'
-import { Classes } from './view-model/classes-vm.js'
-import type { CollectionBase } from './view-model/collection-base.js'
 import type { CompoundBase } from './view-model/compound-base-vm.js'
-import {
-  DescriptionTocList,
-  DescriptionTocItem,
-  DescriptionAnchor,
-} from './view-model/description-anchors.js'
-import {
-  type File,
-  FilesAndFolders,
-} from './view-model/files-and-folders-vm.js'
-import { Groups } from './view-model/groups-vm.js'
-import { Member } from './view-model/members-vm.js'
-import { Namespaces } from './view-model/namespaces-vm.js'
+import { type File } from './view-model/files-and-folders-vm.js'
 import { DoxygenFileOptions } from './view-model/options.js'
-import { type Page, Pages } from './view-model/pages-vm.js'
+import { type Page } from './view-model/pages-vm.js'
 import {
   stripPermalinkHexAnchor,
   getPermalinkAnchor,
   stripPermalinkTextAnchor,
 } from './utils.js'
+import { ViewModel } from './view-model/view-model.js'
 
 // ----------------------------------------------------------------------------
 // <xsd:simpleType name="DoxCompoundKind">
@@ -83,38 +60,16 @@ import {
 // ----------------------------------------------------------------------------
 
 export class Workspace extends Renderers {
-  // The doxygen2docusaurus project path.
-  projectPath: string
-
-  // The data parsed from the Doxygen XML files.
-  dataModel: DataModel
   // From the project docusaurus.config.ts or defaults.
   options: CliOptions
 
-  collectionNamesByKind: Record<string, string> = {
-    class: 'classes',
-    struct: 'classes',
-    union: 'classes',
-    // interface
-    // protocol
-    // category
-    // exception
-    // service
-    // singleton
-    // module
-    // type
-    file: 'files',
-    namespace: 'namespaces',
-    group: 'groups',
-    page: 'pages',
-    // example
-    dir: 'files',
-    // concept
-  }
+  // The data parsed from the Doxygen XML files.
+  dataModel: DataModel
 
-  // The key is one of the above collection names.
-  // groups, classes, namespaces, files, pages.
-  viewModel: Map<string, CollectionBase>
+  viewModel: ViewModel
+
+  // The doxygen2docusaurus project path.
+  projectPath: string
 
   // The many options used by Doxygen during build.
   doxygenOptions: DoxygenFileOptions
@@ -136,28 +91,6 @@ export class Workspace extends Renderers {
 
   // like `api/`.
   sidebarBaseId: string
-
-  // The order of entries in the sidebar and in the top menu dropdown.
-  sidebarCollectionNames: string[] = [
-    'groups',
-    'namespaces',
-    'classes',
-    'files',
-    'pages',
-  ]
-
-  // View model objects.
-  compoundsById = new Map<string, CompoundBase>()
-
-  membersById = new Map<string, Member>()
-
-  descriptionTocLists: DescriptionTocList[] = []
-  descriptionTocItemsById = new Map<string, DescriptionTocItem>()
-
-  descriptionAnchorsById = new Map<string, DescriptionAnchor>()
-
-  writtenMdFilesCounter = 0
-  writtenHtmlFilesCounter = 0
 
   mainPage: Page | undefined
 
@@ -184,28 +117,54 @@ export class Workspace extends Renderers {
    */
   indicesMaps = new Map<string, Set<string>>()
 
+  writtenMdFilesCounter = 0
+  writtenHtmlFilesCounter = 0
+
+  collectionNamesByKind: Record<string, string> = {
+    class: 'classes',
+    struct: 'classes',
+    union: 'classes',
+    // interface
+    // protocol
+    // category
+    // exception
+    // service
+    // singleton
+    // module
+    // type
+    file: 'files',
+    namespace: 'namespaces',
+    group: 'groups',
+    page: 'pages',
+    // example
+    dir: 'files',
+    // concept
+  }
+
+  // The order of entries in the sidebar and in the top menu dropdown.
+  sidebarCollectionNames: string[] = [
+    'groups',
+    'namespaces',
+    'classes',
+    'files',
+    'pages',
+  ]
+
   // --------------------------------------------------------------------------
 
-  constructor({
-    dataModel,
-    options,
-  }: {
-    dataModel: DataModel
-    options: CliOptions
-  }) {
+  constructor(dataModel: DataModel) {
     super()
     console.log()
 
-    // Like .../doxygen2docusaurus/dist/src/docusaurus/generator
+    this.dataModel = dataModel
+    this.options = dataModel.options
 
+    // Like .../doxygen2docusaurus/dist/src/docusaurus/generator
     const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
     // doxygen2docusaurus
     this.projectPath = path.dirname(path.dirname(__dirname))
     // console.log(__dirname, this.projectPath)
-
-    this.dataModel = dataModel
-    this.options = options
 
     this.doxygenOptions = new DoxygenFileOptions(
       this.dataModel.doxyfile?.options
@@ -236,304 +195,16 @@ export class Workspace extends Renderers {
     this.pageBaseUrl = `${this.options.baseUrl}${docsBaseUrl}/${apiBaseUrl}`
     this.slugBaseUrl = `/${apiBaseUrl}`
     this.menuBaseUrl = `/${docsBaseUrl}/${apiBaseUrl}`
-    // console.log('absoluteBaseUrl:', this.absoluteBaseUrl)
-    // Create the view-model objects.
-    this.viewModel = new Map()
-
-    this.viewModel.set('groups', new Groups(this))
-    this.viewModel.set('namespaces', new Namespaces(this))
-    this.viewModel.set('classes', new Classes(this))
-    this.viewModel.set('files', new FilesAndFolders(this))
-    this.viewModel.set('pages', new Pages(this))
 
     this.registerRenderers(this)
 
-    this.createVieModelObjects()
-    this.createCompoundsHierarchies()
-
-    this.createMembersMap()
-
-    this.initializeCompoundsLate()
-    this.initializeMemberLate()
-
-    this.validatePermalinks()
-
-    this.cleanups()
-  }
-
-  // --------------------------------------------------------------------------
-  createVieModelObjects(): void {
-    console.log('Creating view model objects...')
-    for (const compoundDefDataModel of this.dataModel.compoundDefs) {
-      let compound: CompoundBase | undefined = undefined
-      const { kind } = compoundDefDataModel
-
-      const collectionName: string | undefined =
-        this.collectionNamesByKind[kind]
-      const collection = this.viewModel.get(collectionName)
-      if (collection !== undefined) {
-        // Create the compound object and add it to the parent collection.
-        // console.log(
-        //   compoundDefDataModel.kind, compoundDefDataModel.compoundName
-        // )
-        compound = collection.addChild(compoundDefDataModel)
-        // Also add it to the global compounds map.
-        this.compoundsById.set(compound.id, compound)
-        // console.log('compoundsById.set', compound.kind, compound.id)
-      }
-
-      if (compound !== undefined) {
-        if (
-          compoundDefDataModel instanceof AbstractCompoundDefType &&
-          compoundDefDataModel.detailedDescription !== undefined
-        ) {
-          this.findDescriptionIdsRecursively(
-            compound,
-            compoundDefDataModel.detailedDescription
-          )
-        }
-      } else {
-        // console.error(
-        //   util.inspect(compoundDefDataModel, { compact: false, depth: 999 })
-        // )
-        console.error(
-          'compoundDefDataModel',
-          compoundDefDataModel.kind,
-          'not implemented yet in',
-          this.constructor.name,
-          'createVieModelObjects'
-        )
-      }
-    }
-    if (this.options.verbose) {
-      console.log(this.compoundsById.size, 'compound definitions')
-    }
-    // console.log(this.descriptionTocLists)
-  }
-
-  findDescriptionIdsRecursively(
-    compound: CompoundBase,
-    element: AbstractDataModelBase
-  ): void {
-    // console.log(compound.id, typeof element)
-    if (element.children === undefined) {
-      return
-    }
-
-    for (const childDataModel of element.children) {
-      if (childDataModel instanceof TocListDataModel) {
-        const tocList = new DescriptionTocList(compound)
-        // console.log(elementChild)
-        assert(childDataModel.tocItems !== undefined)
-        for (const tocItemDataModel of childDataModel.tocItems) {
-          if (tocItemDataModel instanceof TocItemDataModel) {
-            const tocItem = new DescriptionTocItem(tocItemDataModel.id, tocList)
-            tocList.tocItems.push(tocItem)
-            this.descriptionTocItemsById.set(tocItem.id, tocItem)
-          }
-        }
-        this.descriptionTocLists.push(tocList)
-      } else if (childDataModel instanceof AbstractDocSectType) {
-        if (childDataModel.id !== undefined) {
-          const anchor = new DescriptionAnchor(compound, childDataModel.id)
-          this.descriptionAnchorsById.set(anchor.id, anchor)
-        }
-        this.findDescriptionIdsRecursively(compound, childDataModel)
-      } else if (childDataModel instanceof AbstractDocAnchorType) {
-        // console.log(childDataModel)
-        if (childDataModel.id.length > 0) {
-          const section = new DescriptionAnchor(compound, childDataModel.id)
-          this.descriptionAnchorsById.set(section.id, section)
-        }
-      } else if (childDataModel instanceof AbstractDataModelBase) {
-        // if (childDataModel instanceof AbstractDocEntryType) {
-        //   console.log(childDataModel)
-        // }
-        this.findDescriptionIdsRecursively(compound, childDataModel)
-      }
-    }
-  }
-
-  // --------------------------------------------------------------------------
-  createCompoundsHierarchies(): void {
-    console.log('Creating compounds hierarchies...')
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    for (const [collectionName, collection] of this.viewModel) {
-      // console.log('createHierarchies:', collectionName)
-      collection.createCompoundsHierarchies()
-    }
-  }
-
-  // --------------------------------------------------------------------------
-  // Required since references can be resolved only after all objects are in.
-  initializeCompoundsLate(): void {
-    console.log('Performing compounds late initializations...')
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    for (const [collectionName, collection] of this.viewModel) {
-      // console.log('createHierarchies:', collectionName)
-      for (const [, compound] of collection.collectionCompoundsById) {
-        if (this.options.debug) {
-          console.log(compound.kind, compound.compoundName)
-        }
-        compound.initializeLate()
-      }
-    }
-  }
-
-  // --------------------------------------------------------------------------
-  createMembersMap(): void {
-    console.log('Creating member definitions map...')
-    for (const [, compound] of this.compoundsById) {
-      // console.log(compound.kind, compound.compoundName, compound.id)
-      for (const section of compound.sections) {
-        // console.log('  ', sectionDef.kind)
-        for (const member of section.indexMembers) {
-          if (member instanceof Member) {
-            const memberCompoundId = stripPermalinkHexAnchor(member.id)
-            if (memberCompoundId !== compound.id) {
-              // Skip member definitions from different compounds.
-              // Hopefully they are defined properly there.
-              // console.log(
-              //   'member from another compound', compoundId, 'skipped'
-              // )
-            } else {
-              // console.log('    ', memberDef.kind, memberDef.id)
-
-              if (this.membersById.has(member.id)) {
-                if (this.options.verbose) {
-                  console.warn(
-                    'member already in map',
-                    member.id,
-                    'in',
-                    this.membersById.get(member.id)?.name
-                  )
-                }
-              } else {
-                this.membersById.set(member.id, member)
-              }
-            }
-          }
-        }
-      }
-    }
-    if (this.options.verbose) {
-      console.log(this.membersById.size, 'member definitions')
-    }
-  }
-
-  // --------------------------------------------------------------------------
-  // Required since references can be resolved only after all objects are in.
-  initializeMemberLate(): void {
-    console.log('Performing members late initializations...')
-    for (const [, compound] of this.compoundsById) {
-      if (this.options.debug) {
-        console.log(compound.kind, compound.compoundName, compound.id)
-      }
-      for (const section of compound.sections) {
-        section.initializeLate()
-
-        if (this.options.debug) {
-          console.log('  ', section.kind)
-        }
-        for (const member of section.indexMembers) {
-          if (member instanceof Member) {
-            if (this.options.debug) {
-              console.log('    ', member.kind, member.id)
-            }
-            member.initializeLate()
-          }
-        }
-      }
-    }
-  }
-
-  // --------------------------------------------------------------------------
-  /**
-   * @brief Validate the uniqueness of permalinks.
-   */
-
-  validatePermalinks(): void {
-    console.log('Validating permalinks...')
-
-    const pagePermalinksById = new Map<string, string>()
-    const compoundsByPermalink = new Map<string, Map<string, CompoundBase>>()
-
-    for (const compoundDefDataModel of this.dataModel.compoundDefs) {
-      // console.log(
-      //   compoundDefDataModel.kind, compoundDefDataModel.compoundName
-      // )
-      const { id } = compoundDefDataModel
-      if (pagePermalinksById.has(id)) {
-        console.warn('Duplicate id', id)
-      }
-
-      const compound: CompoundBase | undefined = this.compoundsById.get(id)
-      if (compound === undefined) {
-        console.error(
-          'compoundDefDataModel',
-          id,
-          'not yet processed in',
-          this.constructor.name,
-          'validatePermalinks'
-        )
-        continue
-      }
-
-      const permalink = compound.relativePermalink
-      if (permalink !== undefined) {
-        // console.log('permalink:', permalink)
-        let compoundsMap = compoundsByPermalink.get(permalink)
-        if (compoundsMap === undefined) {
-          compoundsMap = new Map()
-          compoundsByPermalink.set(permalink, compoundsMap)
-        }
-        pagePermalinksById.set(id, permalink)
-        if (!compoundsMap.has(compound.id)) {
-          compoundsMap.set(compound.id, compound)
-        }
-      }
-    }
-
-    for (const [permalink, compoundsMap] of compoundsByPermalink) {
-      if (compoundsMap.size > 1) {
-        if (this.options.verbose) {
-          console.warn(
-            'Permalink',
-            permalink,
-            'has',
-            compoundsMap.size,
-            'occurrences:'
-          )
-        }
-        let count = 1
-        for (const [, compound] of compoundsMap) {
-          const suffix = `-${count.toString()}`
-          count += 1
-          assert(compound.relativePermalink !== undefined)
-          compound.relativePermalink += suffix
-          assert(compound.docusaurusId !== undefined)
-          compound.docusaurusId += suffix
-
-          if (this.options.verbose) {
-            console.warn('-', compound.relativePermalink, compound.id)
-          }
-        }
-      }
-    }
-  }
-
-  // --------------------------------------------------------------------------
-  cleanups(): void {
-    for (const [, compound] of this.compoundsById) {
-      compound._private._compoundDef = undefined
-    }
+    this.viewModel = new ViewModel(this)
+    this.viewModel.create()
   }
 
   // --------------------------------------------------------------------------
 
-  async writeMdFile({
+  async writeOutputMdFile({
     filePath,
     bodyLines,
     frontMatter,
@@ -655,6 +326,7 @@ export class Workspace extends Renderers {
   }
 
   // --------------------------------------------------------------------------
+
   getPermalink({
     refid,
     kindref,
@@ -676,7 +348,7 @@ export class Workspace extends Renderers {
       if (permalink !== undefined) {
         permalink += `/#${anchor}`
       } else {
-        const tocItem = this.descriptionTocItemsById.get(refid)
+        const tocItem = this.viewModel.descriptionTocItemsById.get(refid)
         if (tocItem !== undefined) {
           const { tocList } = tocItem
           permalink = this.getPagePermalink(tocList.compound.id)
@@ -694,7 +366,8 @@ export class Workspace extends Renderers {
             )
           }
         } else {
-          const descriptionSection = this.descriptionAnchorsById.get(refid)
+          const descriptionSection =
+            this.viewModel.descriptionAnchorsById.get(refid)
           if (descriptionSection !== undefined) {
             permalink = this.getPagePermalink(descriptionSection.compound.id)
             if (permalink !== undefined) {
@@ -759,7 +432,8 @@ export class Workspace extends Renderers {
   }
 
   getPagePermalink(refid: string, noWarn = false): string | undefined {
-    const dataObject: CompoundBase | undefined = this.compoundsById.get(refid)
+    const dataObject: CompoundBase | undefined =
+      this.viewModel.compoundsById.get(refid)
     if (dataObject === undefined) {
       if (this.options.debug && !noWarn) {
         console.warn('refid', refid, 'is not a known compound, no permalink')
