@@ -554,15 +554,27 @@ export class CompoundDefDataModel extends AbstractCompoundDefType {
 }
 
 // @public (undocumented)
-export interface DataModel {
+export class DataModel {
+    constructor(options: CliOptions);
     // (undocumented)
     compoundDefs: CompoundDefDataModel[];
     // (undocumented)
     doxyfile?: DoxygenFileDataModel;
     // (undocumented)
     doxygenindex?: DoxygenIndexDataModel;
+    options: CliOptions;
     // (undocumented)
-    images?: AbstractDocImageType[];
+    parse(): Promise<void>;
+    parsedFilesCounter: number;
+    parseDoxyfile(): Promise<void>;
+    parseDoxygenIndex(): Promise<void>;
+    parseFile({ fileName }: {
+        fileName: string;
+    }): Promise<any>;
+    processCompoundDefs(indexCompound: IndexCompoundDataModel, parsedDoxygenElements: XmlElement[]): void;
+    processMemberdefs(): void;
+    // (undocumented)
+    xml: DoxygenXmlParser;
 }
 
 // @public (undocumented)
@@ -602,10 +614,7 @@ export class DoxygenIndexDataModel extends AbstractIndexDoxygenType {
 
 // @public
 export class DoxygenXmlParser {
-    constructor({ options }: {
-        options: CliOptions;
-    });
-    dataModel: DataModel;
+    constructor(options: CliOptions);
     getAttributeBooleanValue(element: object, name: string): boolean;
     getAttributeNumberValue(element: object, name: string): number;
     getAttributesNames(element: object): string[];
@@ -619,17 +628,10 @@ export class DoxygenXmlParser {
     hasAttributes(element: object): boolean;
     hasInnerElement(element: object, name: string): boolean;
     hasInnerText(element: object): boolean;
+    // (undocumented)
+    images: AbstractDocImageType[];
     isInnerElementText(element: object, name: string): boolean;
     options: CliOptions;
-    parse(): Promise<DataModel>;
-    parsedFilesCounter: number;
-    parseDoxyfile(): Promise<void>;
-    parseDoxygenIndex(): Promise<void>;
-    parseFile({ fileName }: {
-        fileName: string;
-    }): Promise<any>;
-    processCompoundDefs(indexCompound: IndexCompoundDataModel, parsedDoxygenElements: XmlElement[]): void;
-    processMemberdefs(): void;
     xmlParser: XMLParser;
 }
 
@@ -637,12 +639,6 @@ export class DoxygenXmlParser {
 export class EnumValueDataModel extends AbstractEnumValueType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
-
-// @public
-export function generateDocusaurusMd({ dataModel, options, }: {
-    dataModel: DataModel;
-    options: CliOptions;
-}): Promise<number>;
 
 // @public (undocumented)
 export class HighlightDataModel extends AbstractHighlightType {
@@ -744,11 +740,6 @@ type MultiConfigurations = Record<string, CliConfigurationOptions>;
 export class ParamDataModel extends AbstractParamType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
-
-// @public
-export function parseDoxygen({ options, }: {
-    options: CliOptions;
-}): Promise<DataModel>;
 
 // @public (undocumented)
 export class ProgramListingDataModel extends AbstractListingType {
