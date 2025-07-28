@@ -84,7 +84,7 @@ Description
 
 </td><td>
 
-Array&lt;string \| [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)<!-- -->&gt;
+(string \| [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)<!-- -->)\[\]
 
 
 </td><td>

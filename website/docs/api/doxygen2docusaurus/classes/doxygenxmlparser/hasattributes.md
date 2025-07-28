@@ -10,10 +10,12 @@ custom_edit_url: null
 
 
 
+Determines whether the specified XML element has any attributes.
+
 ## Signature
 
 ```typescript
-hasAttributes(element: Object): boolean;
+hasAttributes(element: object): boolean;
 ```
 
 ## Parameters
@@ -41,10 +43,12 @@ element
 
 </td><td>
 
-Object
+object
 
 
 </td><td>
+
+The XML element to inspect for attributes
 
 
 </td></tr>
@@ -53,6 +57,12 @@ Object
 ## Returns
 
 boolean
+
+True if the element has attributes; otherwise, false
+
+## Remarks
+
+This method checks for the presence of the ':<!-- -->@<!-- -->' property on the XML element, which is the convention used by the XML parser for storing attributes. If this property exists, the element has attributes; if not, the element has no attributes. This is a prerequisite check before calling [DoxygenXmlParser.getAttributesNames()](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/getattributesnames) or other attribute-related methods.
 
 
 </div>

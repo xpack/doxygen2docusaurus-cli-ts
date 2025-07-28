@@ -15,7 +15,7 @@ Determines whether the specified attribute exists on the given XML element.
 ## Signature
 
 ```typescript
-hasAttribute(element: Object, name: string): boolean;
+hasAttribute(element: object, name: string): boolean;
 ```
 
 ## Parameters
@@ -43,7 +43,7 @@ element
 
 </td><td>
 
-Object
+object
 
 
 </td><td>

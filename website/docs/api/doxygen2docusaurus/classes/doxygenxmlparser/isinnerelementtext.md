@@ -15,7 +15,7 @@ Determines whether a named inner element contains text.
 ## Signature
 
 ```typescript
-isInnerElementText(element: Object, name: string): boolean;
+isInnerElementText(element: object, name: string): boolean;
 ```
 
 ## Parameters
@@ -43,7 +43,7 @@ element
 
 </td><td>
 
-Object
+object
 
 
 </td><td>

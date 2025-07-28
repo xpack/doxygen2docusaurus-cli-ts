@@ -104,7 +104,7 @@ _(Optional)_
 
 </td><td>
 
-Number \| undefined
+number \| undefined
 
 
 </td><td>
@@ -138,7 +138,7 @@ string
 
 </td><td>
 
-Number \| undefined
+number \| undefined
 
 
 </td><td>

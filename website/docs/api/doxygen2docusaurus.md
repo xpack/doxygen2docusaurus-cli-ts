@@ -51,6 +51,17 @@ Description
 </td></tr>
 <tr><td>
 
+[CliOptions](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions)
+
+
+</td><td>
+
+Options, as seen by the application. Most are mandatory.
+
+
+</td></tr>
+<tr><td>
+
 [CodeLineDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/codelinedatamodel)
 
 
@@ -62,6 +73,16 @@ Description
 <tr><td>
 
 [CompoundDefDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/compounddefdatamodel)
+
+
+</td><td>
+
+
+
+</td></tr>
+<tr><td>
+
+[DataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/datamodel)
 
 
 </td><td>
@@ -802,34 +823,12 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[generateDocusaurusMd({ dataModel, options, })](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/functions/generatedocusaurusmd)
-
-
-</td><td>
-
-Generates Docusaurus markdown files from the parsed data model.
-
-
-</td></tr>
-<tr><td>
-
 [main(argv)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/functions/main)
 
 
 </td><td>
 
 Main entry point for the doxygen2docusaurus CLI tool.
-
-
-</td></tr>
-<tr><td>
-
-[parseDoxygen({ options, })](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/functions/parsedoxygen)
-
-
-</td><td>
-
-Parses Doxygen XML files and creates a data model.
 
 
 </td></tr>
@@ -850,32 +849,48 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[CliOptions](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/interfaces/clioptions)
-
-
-</td><td>
-
-Options, as seen by the application.
-
-
-</td></tr>
-<tr><td>
-
-[DataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/interfaces/datamodel)
-
-
-</td><td>
-
-
-
-</td></tr>
-<tr><td>
-
 [XmlElement](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/interfaces/xmlelement)
 
 
 </td><td>
 
+
+
+</td></tr>
+</tbody></table>
+
+## Type Aliases
+
+<table><thead><tr><th>
+
+Type Alias
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[CliConfigurationOptions](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/type aliases/cliconfigurationoptions)
+
+
+</td><td>
+
+Options, as written by the user. All are optional.
+
+
+</td></tr>
+<tr><td>
+
+[MultiConfigurations](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/type aliases/multiconfigurations)
+
+
+</td><td>
+
+Options, when multi-configurations are used.
 
 
 </td></tr>

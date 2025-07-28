@@ -15,7 +15,7 @@ Retrieves the value of a named attribute as a number.
 ## Signature
 
 ```typescript
-getAttributeNumberValue(element: Object, name: string): number;
+getAttributeNumberValue(element: object, name: string): number;
 ```
 
 ## Parameters
@@ -43,7 +43,7 @@ element
 
 </td><td>
 
-Object
+object
 
 
 </td><td>

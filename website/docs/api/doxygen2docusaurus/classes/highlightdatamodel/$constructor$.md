@@ -15,7 +15,7 @@ Constructs a new instance of the `HighlightDataModel` class
 ## Signature
 
 ```typescript
-constructor(xml: DoxygenXmlParser, element: Object);
+constructor(xml: DoxygenXmlParser, element: object);
 ```
 
 ## Parameters
@@ -57,7 +57,7 @@ element
 
 </td><td>
 
-Object
+object
 
 
 </td><td>

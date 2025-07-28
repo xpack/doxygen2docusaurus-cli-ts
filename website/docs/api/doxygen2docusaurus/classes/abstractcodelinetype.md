@@ -85,7 +85,7 @@ Description
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>
@@ -123,7 +123,7 @@ _(Optional)_
 
 </td><td>
 
-Number \| undefined
+number \| undefined
 
 
 </td><td>

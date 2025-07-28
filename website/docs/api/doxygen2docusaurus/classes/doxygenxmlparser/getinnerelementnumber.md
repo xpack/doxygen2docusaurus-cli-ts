@@ -15,7 +15,7 @@ Retrieves the numeric value of a named child element.
 ## Signature
 
 ```typescript
-getInnerElementNumber(element: Object, name: string): number;
+getInnerElementNumber(element: object, name: string): number;
 ```
 
 ## Parameters
@@ -43,7 +43,7 @@ element
 
 </td><td>
 
-Object
+object
 
 
 </td><td>

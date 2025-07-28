@@ -15,7 +15,7 @@ Determines whether the XML element contains a text node.
 ## Signature
 
 ```typescript
-hasInnerText(element: Object): boolean;
+hasInnerText(element: object): boolean;
 ```
 
 ## Parameters
@@ -43,7 +43,7 @@ element
 
 </td><td>
 
-Object
+object
 
 
 </td><td>

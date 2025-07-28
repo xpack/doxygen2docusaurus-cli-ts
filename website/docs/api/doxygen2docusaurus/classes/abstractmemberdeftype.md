@@ -142,7 +142,7 @@ _(Optional)_
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>
@@ -161,7 +161,7 @@ _(Optional)_
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>
@@ -180,7 +180,7 @@ _(Optional)_
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>
@@ -199,7 +199,7 @@ _(Optional)_
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>
@@ -275,7 +275,7 @@ _(Optional)_
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>
@@ -294,7 +294,7 @@ _(Optional)_
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>
@@ -313,7 +313,7 @@ _(Optional)_
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>
@@ -387,7 +387,7 @@ _(Optional)_
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>
@@ -423,7 +423,7 @@ _(Optional)_
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>
@@ -442,7 +442,7 @@ _(Optional)_
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>
@@ -461,7 +461,7 @@ _(Optional)_
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>
@@ -480,7 +480,7 @@ _(Optional)_
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>
@@ -592,7 +592,7 @@ _(Optional)_
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>
@@ -649,7 +649,7 @@ _(Optional)_
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>
@@ -666,7 +666,7 @@ Boolean \| undefined
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>
@@ -742,7 +742,7 @@ _(Optional)_
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>

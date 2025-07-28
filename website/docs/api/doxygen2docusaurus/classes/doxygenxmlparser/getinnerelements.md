@@ -15,7 +15,7 @@ Retrieves an array of named child elements from the given XML element.
 ## Signature
 
 ```typescript
-getInnerElements<T = XmlElement[]>(element: Object, name: string): T;
+getInnerElements<T = XmlElement[]>(element: object, name: string): T;
 ```
 
 ## Parameters
@@ -43,7 +43,7 @@ element
 
 </td><td>
 
-Object
+object
 
 
 </td><td>

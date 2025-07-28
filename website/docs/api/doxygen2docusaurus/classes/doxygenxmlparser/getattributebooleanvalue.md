@@ -15,7 +15,7 @@ Retrieves the value of a named attribute as a boolean.
 ## Signature
 
 ```typescript
-getAttributeBooleanValue(element: Object, name: string): boolean;
+getAttributeBooleanValue(element: object, name: string): boolean;
 ```
 
 ## Parameters
@@ -43,7 +43,7 @@ element
 
 </td><td>
 
-Object
+object
 
 
 </td><td>

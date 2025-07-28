@@ -1,10 +1,11 @@
 {
   "type": "category",
-  "label": "API Reference (TSDoc",
+  "label": "API Reference (TSDoc)",
   "link": {
     "type": "doc",
     "id": "api/index"
   },
+  "className": "tsdocEllipsis",
   "collapsed": false,
   "items": [
     {
@@ -14,11 +15,13 @@
         "type": "doc",
         "id": "api/doxygen2docusaurus"
       },
+      "className": "tsdocEllipsis",
       "collapsed": false,
       "items": [
         {
           "type": "category",
           "label": "Classes",
+          "className": "tsdocEllipsis",
           "collapsed": true,
           "items": [
             {
@@ -28,37 +31,44 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractcodelinetype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/external",
-                  "label": "external"
+                  "label": "external",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/external"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/highlights",
-                  "label": "highlights"
+                  "label": "highlights",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/highlights"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/lineno",
-                  "label": "lineno"
+                  "label": "lineno",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/lineno"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/refid",
-                  "label": "refid"
+                  "label": "refid",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/refid"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/refkind",
-                  "label": "refkind"
+                  "label": "refkind",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcodelinetype/refkind"
                 }
               ]
             },
@@ -69,152 +79,182 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/abstract",
-                  "label": "abstract"
+                  "label": "abstract",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/abstract"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/basecompoundrefs",
-                  "label": "baseCompoundRefs"
+                  "label": "baseCompoundRefs",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/basecompoundrefs"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/briefdescription",
-                  "label": "briefDescription"
+                  "label": "briefDescription",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/briefdescription"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/compoundname",
-                  "label": "compoundName"
+                  "label": "compoundName",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/compoundname"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/derivedcompoundrefs",
-                  "label": "derivedCompoundRefs"
+                  "label": "derivedCompoundRefs",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/derivedcompoundrefs"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/detaileddescription",
-                  "label": "detailedDescription"
+                  "label": "detailedDescription",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/detaileddescription"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/final",
-                  "label": "final"
+                  "label": "final",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/final"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/id",
-                  "label": "id"
+                  "label": "id",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/id"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/includedby",
-                  "label": "includedBy"
+                  "label": "includedBy",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/includedby"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/includes",
-                  "label": "includes"
+                  "label": "includes",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/includes"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/inline",
-                  "label": "inline"
+                  "label": "inline",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/inline"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innerclasses",
-                  "label": "innerClasses"
+                  "label": "innerClasses",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innerclasses"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innerdirs",
-                  "label": "innerDirs"
+                  "label": "innerDirs",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innerdirs"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innerfiles",
-                  "label": "innerFiles"
+                  "label": "innerFiles",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innerfiles"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innergroups",
-                  "label": "innerGroups"
+                  "label": "innerGroups",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innergroups"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innernamespaces",
-                  "label": "innerNamespaces"
+                  "label": "innerNamespaces",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innernamespaces"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innerpages",
-                  "label": "innerPages"
+                  "label": "innerPages",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/innerpages"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/kind",
-                  "label": "kind"
+                  "label": "kind",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/kind"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/language",
-                  "label": "language"
+                  "label": "language",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/language"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/listofallmembers",
-                  "label": "listOfAllMembers"
+                  "label": "listOfAllMembers",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/listofallmembers"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/location",
-                  "label": "location"
+                  "label": "location",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/location"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/programlisting",
-                  "label": "programListing"
+                  "label": "programListing",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/programlisting"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/prot",
-                  "label": "prot"
+                  "label": "prot",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/prot"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/sealed",
-                  "label": "sealed"
+                  "label": "sealed",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/sealed"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/sectiondefs",
-                  "label": "sectionDefs"
+                  "label": "sectionDefs",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/sectiondefs"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/tableofcontents",
-                  "label": "tableOfContents"
+                  "label": "tableOfContents",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/tableofcontents"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/templateparamlist",
-                  "label": "templateParamList"
+                  "label": "templateParamList",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/templateparamlist"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/title",
-                  "label": "title"
+                  "label": "title",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompounddeftype/title"
                 }
               ]
             },
@@ -225,32 +265,38 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractcompoundreftype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompoundreftype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompoundreftype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompoundreftype/prot",
-                  "label": "prot"
+                  "label": "prot",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompoundreftype/prot"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompoundreftype/refid",
-                  "label": "refid"
+                  "label": "refid",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompoundreftype/refid"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompoundreftype/text",
-                  "label": "text"
+                  "label": "text",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompoundreftype/text"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractcompoundreftype/virt",
-                  "label": "virt"
+                  "label": "virt",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractcompoundreftype/virt"
                 }
               ]
             },
@@ -261,27 +307,32 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractdatamodelbase"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdatamodelbase/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdatamodelbase/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdatamodelbase/children",
-                  "label": "children"
+                  "label": "children",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdatamodelbase/children"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdatamodelbase/elementname",
-                  "label": "elementName"
+                  "label": "elementName",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdatamodelbase/elementname"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdatamodelbase/skippara",
-                  "label": "skipPara"
+                  "label": "skipPara",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdatamodelbase/skippara"
                 }
               ]
             },
@@ -292,17 +343,20 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractdescriptiontype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdescriptiontype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdescriptiontype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdescriptiontype/title",
-                  "label": "title"
+                  "label": "title",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdescriptiontype/title"
                 }
               ]
             },
@@ -313,47 +367,56 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractdocimagetype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/alt",
-                  "label": "alt"
+                  "label": "alt",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/alt"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/caption",
-                  "label": "caption"
+                  "label": "caption",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/caption"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/height",
-                  "label": "height"
+                  "label": "height",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/height"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/inline",
-                  "label": "inline"
+                  "label": "inline",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/inline"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/name",
-                  "label": "name"
+                  "label": "name",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/name"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/type",
-                  "label": "type"
+                  "label": "type",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/type"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/width",
-                  "label": "width"
+                  "label": "width",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdocimagetype/width"
                 }
               ]
             },
@@ -364,32 +427,38 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/default",
-                  "label": "default"
+                  "label": "default",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/default"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/id",
-                  "label": "id"
+                  "label": "id",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/id"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/type",
-                  "label": "type"
+                  "label": "type",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/type"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/values",
-                  "label": "values"
+                  "label": "values",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/values"
                 }
               ]
             },
@@ -400,32 +469,38 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractdoxygenfiletype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfiletype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfiletype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfiletype/lang",
-                  "label": "lang"
+                  "label": "lang",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfiletype/lang"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfiletype/nonamespaceschemalocation",
-                  "label": "noNamespaceSchemaLocation"
+                  "label": "noNamespaceSchemaLocation",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfiletype/nonamespaceschemalocation"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfiletype/options",
-                  "label": "options"
+                  "label": "options",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfiletype/options"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfiletype/version",
-                  "label": "version"
+                  "label": "version",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractdoxygenfiletype/version"
                 }
               ]
             },
@@ -436,42 +511,50 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/briefdescription",
-                  "label": "briefDescription"
+                  "label": "briefDescription",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/briefdescription"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/detaileddescription",
-                  "label": "detailedDescription"
+                  "label": "detailedDescription",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/detaileddescription"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/id",
-                  "label": "id"
+                  "label": "id",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/id"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/initializer",
-                  "label": "initializer"
+                  "label": "initializer",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/initializer"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/name",
-                  "label": "name"
+                  "label": "name",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/name"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/prot",
-                  "label": "prot"
+                  "label": "prot",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractenumvaluetype/prot"
                 }
               ]
             },
@@ -482,17 +565,20 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstracthighlighttype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstracthighlighttype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstracthighlighttype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstracthighlighttype/classs",
-                  "label": "classs"
+                  "label": "classs",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstracthighlighttype/classs"
                 }
               ]
             },
@@ -503,27 +589,32 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractinctype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractinctype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractinctype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractinctype/local",
-                  "label": "local"
+                  "label": "local",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractinctype/local"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractinctype/refid",
-                  "label": "refId"
+                  "label": "refId",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractinctype/refid"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractinctype/text",
-                  "label": "text"
+                  "label": "text",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractinctype/text"
                 }
               ]
             },
@@ -534,32 +625,38 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractindexcompoundtype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractindexcompoundtype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexcompoundtype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractindexcompoundtype/kind",
-                  "label": "kind"
+                  "label": "kind",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexcompoundtype/kind"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractindexcompoundtype/members",
-                  "label": "members"
+                  "label": "members",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexcompoundtype/members"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractindexcompoundtype/name",
-                  "label": "name"
+                  "label": "name",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexcompoundtype/name"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractindexcompoundtype/refid",
-                  "label": "refid"
+                  "label": "refid",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexcompoundtype/refid"
                 }
               ]
             },
@@ -570,32 +667,38 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractindexdoxygentype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractindexdoxygentype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexdoxygentype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractindexdoxygentype/compounds",
-                  "label": "compounds"
+                  "label": "compounds",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexdoxygentype/compounds"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractindexdoxygentype/lang",
-                  "label": "lang"
+                  "label": "lang",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexdoxygentype/lang"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractindexdoxygentype/nonamespaceschemalocation",
-                  "label": "noNamespaceSchemaLocation"
+                  "label": "noNamespaceSchemaLocation",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexdoxygentype/nonamespaceschemalocation"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractindexdoxygentype/version",
-                  "label": "version"
+                  "label": "version",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexdoxygentype/version"
                 }
               ]
             },
@@ -606,27 +709,32 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractindexmembertype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractindexmembertype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexmembertype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractindexmembertype/kind",
-                  "label": "kind"
+                  "label": "kind",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexmembertype/kind"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractindexmembertype/name",
-                  "label": "name"
+                  "label": "name",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexmembertype/name"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractindexmembertype/refid",
-                  "label": "refid"
+                  "label": "refid",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractindexmembertype/refid"
                 }
               ]
             },
@@ -637,12 +745,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractlinkedtexttype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractlinkedtexttype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractlinkedtexttype/$constructor$"
                 }
               ]
             },
@@ -653,12 +763,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractlistingtype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractlistingtype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractlistingtype/$constructor$"
                 }
               ]
             },
@@ -669,17 +781,20 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractlistingtypebase"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractlistingtypebase/codelines",
-                  "label": "codelines"
+                  "label": "codelines",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractlistingtypebase/codelines"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractlistingtypebase/filename",
-                  "label": "filename"
+                  "label": "filename",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractlistingtypebase/filename"
                 }
               ]
             },
@@ -690,17 +805,20 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractlistofallmemberstype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractlistofallmemberstype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractlistofallmemberstype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractlistofallmemberstype/memberrefs",
-                  "label": "memberRefs"
+                  "label": "memberRefs",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractlistofallmemberstype/memberrefs"
                 }
               ]
             },
@@ -711,57 +829,68 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractlocationtype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/bodyend",
-                  "label": "bodyend"
+                  "label": "bodyend",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/bodyend"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/bodyfile",
-                  "label": "bodyfile"
+                  "label": "bodyfile",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/bodyfile"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/bodystart",
-                  "label": "bodystart"
+                  "label": "bodystart",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/bodystart"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/column",
-                  "label": "column"
+                  "label": "column",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/column"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/declcolumn",
-                  "label": "declcolumn"
+                  "label": "declcolumn",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/declcolumn"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/declfile",
-                  "label": "declfile"
+                  "label": "declfile",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/declfile"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/declline",
-                  "label": "declline"
+                  "label": "declline",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/declline"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/file",
-                  "label": "file"
+                  "label": "file",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/file"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/line",
-                  "label": "line"
+                  "label": "line",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractlocationtype/line"
                 }
               ]
             },
@@ -772,17 +901,20 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractmemberbasetype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberbasetype/kind",
-                  "label": "kind"
+                  "label": "kind",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberbasetype/kind"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberbasetype/name",
-                  "label": "name"
+                  "label": "name",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberbasetype/name"
                 }
               ]
             },
@@ -793,192 +925,230 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/argsstring",
-                  "label": "argsstring"
+                  "label": "argsstring",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/argsstring"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/bitfield",
-                  "label": "bitfield"
+                  "label": "bitfield",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/bitfield"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/briefdescription",
-                  "label": "briefDescription"
+                  "label": "briefDescription",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/briefdescription"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/consteval",
-                  "label": "consteval"
+                  "label": "consteval",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/consteval"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/constexpr",
-                  "label": "constexpr"
+                  "label": "constexpr",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/constexpr"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/constinit",
-                  "label": "constinit"
+                  "label": "constinit",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/constinit"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/constt",
-                  "label": "constt"
+                  "label": "constt",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/constt"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/definition",
-                  "label": "definition"
+                  "label": "definition",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/definition"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/detaileddescription",
-                  "label": "detailedDescription"
+                  "label": "detailedDescription",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/detaileddescription"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/enumvalues",
-                  "label": "enumvalues"
+                  "label": "enumvalues",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/enumvalues"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/explicit",
-                  "label": "explicit"
+                  "label": "explicit",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/explicit"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/extern",
-                  "label": "extern"
+                  "label": "extern",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/extern"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/final",
-                  "label": "final"
+                  "label": "final",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/final"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/id",
-                  "label": "id"
+                  "label": "id",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/id"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/inbodydescription",
-                  "label": "inbodyDescription"
+                  "label": "inbodyDescription",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/inbodydescription"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/initializer",
-                  "label": "initializer"
+                  "label": "initializer",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/initializer"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/inline",
-                  "label": "inline"
+                  "label": "inline",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/inline"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/location",
-                  "label": "location"
+                  "label": "location",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/location"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/mutable",
-                  "label": "mutable"
+                  "label": "mutable",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/mutable"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/nodiscard",
-                  "label": "nodiscard"
+                  "label": "nodiscard",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/nodiscard"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/noexcept",
-                  "label": "noexcept"
+                  "label": "noexcept",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/noexcept"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/noexceptexpression",
-                  "label": "noexceptexpression"
+                  "label": "noexceptexpression",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/noexceptexpression"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/params",
-                  "label": "params"
+                  "label": "params",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/params"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/prot",
-                  "label": "prot"
+                  "label": "prot",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/prot"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/qualifiedname",
-                  "label": "qualifiedName"
+                  "label": "qualifiedName",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/qualifiedname"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/referencedby",
-                  "label": "referencedBy"
+                  "label": "referencedBy",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/referencedby"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/references",
-                  "label": "references"
+                  "label": "references",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/references"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/refqual",
-                  "label": "refqual"
+                  "label": "refqual",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/refqual"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/reimplementedbys",
-                  "label": "reimplementedBys"
+                  "label": "reimplementedBys",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/reimplementedbys"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/reimplements",
-                  "label": "reimplements"
+                  "label": "reimplements",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/reimplements"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/staticc",
-                  "label": "staticc"
+                  "label": "staticc",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/staticc"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/strong",
-                  "label": "strong"
+                  "label": "strong",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/strong"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/templateparamlist",
-                  "label": "templateparamlist"
+                  "label": "templateparamlist",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/templateparamlist"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/type",
-                  "label": "type"
+                  "label": "type",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/type"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/virt",
-                  "label": "virt"
+                  "label": "virt",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/virt"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/volatile",
-                  "label": "volatile"
+                  "label": "volatile",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberdeftype/volatile"
                 }
               ]
             },
@@ -989,42 +1159,50 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractmemberreftype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/ambiguityscope",
-                  "label": "ambiguityscope"
+                  "label": "ambiguityscope",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/ambiguityscope"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/name",
-                  "label": "name"
+                  "label": "name",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/name"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/prot",
-                  "label": "prot"
+                  "label": "prot",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/prot"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/refid",
-                  "label": "refid"
+                  "label": "refid",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/refid"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/scope",
-                  "label": "scope"
+                  "label": "scope",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/scope"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/virt",
-                  "label": "virt"
+                  "label": "virt",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmemberreftype/virt"
                 }
               ]
             },
@@ -1035,17 +1213,20 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractmembertype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmembertype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmembertype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractmembertype/refid",
-                  "label": "refid"
+                  "label": "refid",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractmembertype/refid"
                 }
               ]
             },
@@ -1056,52 +1237,62 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractparamtype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/array",
-                  "label": "array"
+                  "label": "array",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/array"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/attributes",
-                  "label": "attributes"
+                  "label": "attributes",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/attributes"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/briefdescription",
-                  "label": "briefdescription"
+                  "label": "briefdescription",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/briefdescription"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/declname",
-                  "label": "declname"
+                  "label": "declname",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/declname"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/defname",
-                  "label": "defname"
+                  "label": "defname",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/defname"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/defval",
-                  "label": "defval"
+                  "label": "defval",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/defval"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/type",
-                  "label": "type"
+                  "label": "type",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/type"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/typeconstraint",
-                  "label": "typeconstraint"
+                  "label": "typeconstraint",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractparamtype/typeconstraint"
                 }
               ]
             },
@@ -1112,37 +1303,44 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractreferencetype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/compoundref",
-                  "label": "compoundref"
+                  "label": "compoundref",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/compoundref"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/endline",
-                  "label": "endline"
+                  "label": "endline",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/endline"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/refid",
-                  "label": "refid"
+                  "label": "refid",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/refid"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/startline",
-                  "label": "startline"
+                  "label": "startline",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/startline"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/text",
-                  "label": "text"
+                  "label": "text",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractreferencetype/text"
                 }
               ]
             },
@@ -1153,32 +1351,38 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractreftype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractreftype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractreftype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractreftype/inline",
-                  "label": "inline"
+                  "label": "inline",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractreftype/inline"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractreftype/prot",
-                  "label": "prot"
+                  "label": "prot",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractreftype/prot"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractreftype/refid",
-                  "label": "refid"
+                  "label": "refid",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractreftype/refid"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractreftype/text",
-                  "label": "text"
+                  "label": "text",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractreftype/text"
                 }
               ]
             },
@@ -1189,22 +1393,26 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractreimplementtype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractreimplementtype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractreimplementtype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractreimplementtype/refid",
-                  "label": "refId"
+                  "label": "refId",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractreimplementtype/refid"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractreimplementtype/text",
-                  "label": "text"
+                  "label": "text",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractreimplementtype/text"
                 }
               ]
             },
@@ -1215,12 +1423,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractsectiondeftype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftype/$constructor$"
                 }
               ]
             },
@@ -1231,47 +1441,56 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/computeadjustedkind",
-                  "label": "computeAdjustedKind()"
+                  "label": "computeAdjustedKind()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/computeadjustedkind"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/hasmembers",
-                  "label": "hasMembers()"
+                  "label": "hasMembers()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/hasmembers"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/description",
-                  "label": "description"
+                  "label": "description",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/description"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/header",
-                  "label": "header"
+                  "label": "header",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/header"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/kind",
-                  "label": "kind"
+                  "label": "kind",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/kind"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/memberdefs",
-                  "label": "memberDefs"
+                  "label": "memberDefs",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/memberdefs"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/members",
-                  "label": "members"
+                  "label": "members",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstractsectiondeftypebase/members"
                 }
               ]
             },
@@ -1282,27 +1501,32 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstracttableofcontentskindtype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentskindtype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentskindtype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentskindtype/name",
-                  "label": "name"
+                  "label": "name",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentskindtype/name"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentskindtype/reference",
-                  "label": "reference"
+                  "label": "reference",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentskindtype/reference"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentskindtype/tableofcontents",
-                  "label": "tableOfContents"
+                  "label": "tableOfContents",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentskindtype/tableofcontents"
                 }
               ]
             },
@@ -1313,22 +1537,26 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstracttableofcontentstype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentstype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentstype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentstype/tableofcontents",
-                  "label": "tableOfContents"
+                  "label": "tableOfContents",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentstype/tableofcontents"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentstype/tocsect",
-                  "label": "tocSect"
+                  "label": "tocSect",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstracttableofcontentstype/tocsect"
                 }
               ]
             },
@@ -1339,17 +1567,20 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/abstracttemplateparamlisttype"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstracttemplateparamlisttype/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstracttemplateparamlisttype/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/abstracttemplateparamlisttype/params",
-                  "label": "params"
+                  "label": "params",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/abstracttemplateparamlisttype/params"
                 }
               ]
             },
@@ -1360,12 +1591,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/basecompoundrefdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/basecompoundrefdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/basecompoundrefdatamodel/$constructor$"
                 }
               ]
             },
@@ -1376,12 +1609,176 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/briefdescriptiondatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/briefdescriptiondatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/briefdescriptiondatamodel/$constructor$"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "CliOptions",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/clioptions"
+              },
+              "className": "tsdocEllipsis",
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/$constructor$"
+                },
+                {
+                  "type": "doc",
+                  "label": "apiBaseUrl",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/apibaseurl"
+                },
+                {
+                  "type": "doc",
+                  "label": "apiFolderPath",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/apifolderpath"
+                },
+                {
+                  "type": "doc",
+                  "label": "baseUrl",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/baseurl"
+                },
+                {
+                  "type": "doc",
+                  "label": "compatibilityRedirectsOutputFolderPath",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/compatibilityredirectsoutputfolderpath"
+                },
+                {
+                  "type": "doc",
+                  "label": "customCssFilePath",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/customcssfilepath"
+                },
+                {
+                  "type": "doc",
+                  "label": "debug",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/debug"
+                },
+                {
+                  "type": "doc",
+                  "label": "docsBaseUrl",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/docsbaseurl"
+                },
+                {
+                  "type": "doc",
+                  "label": "docsFolderPath",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/docsfolderpath"
+                },
+                {
+                  "type": "doc",
+                  "label": "doxygenXmlInputFolderPath",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/doxygenxmlinputfolderpath"
+                },
+                {
+                  "type": "doc",
+                  "label": "id",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/id"
+                },
+                {
+                  "type": "doc",
+                  "label": "imagesFolderPath",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/imagesfolderpath"
+                },
+                {
+                  "type": "doc",
+                  "label": "mainPageTitle",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/mainpagetitle"
+                },
+                {
+                  "type": "doc",
+                  "label": "menuDropdownFilePath",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/menudropdownfilepath"
+                },
+                {
+                  "type": "doc",
+                  "label": "menuDropdownLabel",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/menudropdownlabel"
+                },
+                {
+                  "type": "doc",
+                  "label": "originalPagesNote",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/originalpagesnote"
+                },
+                {
+                  "type": "doc",
+                  "label": "renderPagesAtTop",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/renderpagesattop"
+                },
+                {
+                  "type": "doc",
+                  "label": "renderProgramListing",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/renderprogramlisting"
+                },
+                {
+                  "type": "doc",
+                  "label": "renderProgramListingInline",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/renderprogramlistinginline"
+                },
+                {
+                  "type": "doc",
+                  "label": "sidebarCategoryFilePath",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/sidebarcategoryfilepath"
+                },
+                {
+                  "type": "doc",
+                  "label": "sidebarCategoryLabel",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/sidebarcategorylabel"
+                },
+                {
+                  "type": "doc",
+                  "label": "suggestToDoDescriptions",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/suggesttododescriptions"
+                },
+                {
+                  "type": "doc",
+                  "label": "verbose",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/verbose"
+                },
+                {
+                  "type": "doc",
+                  "label": "parse()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/parse"
+                },
+                {
+                  "type": "doc",
+                  "label": "selectMultiConfiguration()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/selectmulticonfiguration"
                 }
               ]
             },
@@ -1392,12 +1789,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/codelinedatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/codelinedatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/codelinedatamodel/$constructor$"
                 }
               ]
             },
@@ -1408,12 +1807,104 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/compounddefdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/compounddefdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/compounddefdatamodel/$constructor$"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "DataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/classes/datamodel"
+              },
+              "className": "tsdocEllipsis",
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/datamodel/$constructor$"
+                },
+                {
+                  "type": "doc",
+                  "label": "compoundDefs",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/datamodel/compounddefs"
+                },
+                {
+                  "type": "doc",
+                  "label": "doxyfile",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/datamodel/doxyfile"
+                },
+                {
+                  "type": "doc",
+                  "label": "doxygenindex",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/datamodel/doxygenindex"
+                },
+                {
+                  "type": "doc",
+                  "label": "options",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/datamodel/options"
+                },
+                {
+                  "type": "doc",
+                  "label": "parsedFilesCounter",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/datamodel/parsedfilescounter"
+                },
+                {
+                  "type": "doc",
+                  "label": "xml",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/datamodel/xml"
+                },
+                {
+                  "type": "doc",
+                  "label": "parse()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/datamodel/parse"
+                },
+                {
+                  "type": "doc",
+                  "label": "parseDoxyfile()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/datamodel/parsedoxyfile"
+                },
+                {
+                  "type": "doc",
+                  "label": "parseDoxygenIndex()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/datamodel/parsedoxygenindex"
+                },
+                {
+                  "type": "doc",
+                  "label": "parseFile()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/datamodel/parsefile"
+                },
+                {
+                  "type": "doc",
+                  "label": "processCompoundDefs()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/datamodel/processcompounddefs"
+                },
+                {
+                  "type": "doc",
+                  "label": "processMemberdefs()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/datamodel/processmemberdefs"
                 }
               ]
             },
@@ -1424,12 +1915,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/defvaldatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/defvaldatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/defvaldatamodel/$constructor$"
                 }
               ]
             },
@@ -1440,12 +1933,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/derivedcompoundrefdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/derivedcompoundrefdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/derivedcompoundrefdatamodel/$constructor$"
                 }
               ]
             },
@@ -1456,12 +1951,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/descriptiondatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/descriptiondatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/descriptiondatamodel/$constructor$"
                 }
               ]
             },
@@ -1472,12 +1969,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/detaileddescriptiondatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/detaileddescriptiondatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/detaileddescriptiondatamodel/$constructor$"
                 }
               ]
             },
@@ -1488,12 +1987,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/doxygenfiledatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenfiledatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenfiledatamodel/$constructor$"
                 }
               ]
             },
@@ -1504,12 +2005,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/doxygenfileoptiondatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenfileoptiondatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenfileoptiondatamodel/$constructor$"
                 }
               ]
             },
@@ -1520,12 +2023,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/doxygenindexdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenindexdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenindexdatamodel/$constructor$"
                 }
               ]
             },
@@ -1536,132 +2041,116 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/doxygenxmlparser"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/$constructor$"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/datamodel",
-                  "label": "dataModel"
+                  "label": "getAttributeBooleanValue()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getattributebooleanvalue"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/options",
-                  "label": "options"
+                  "label": "getAttributeNumberValue()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getattributenumbervalue"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/parsedfilescounter",
-                  "label": "parsedFilesCounter"
+                  "label": "getAttributesNames()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getattributesnames"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/xmlparser",
-                  "label": "xmlParser"
+                  "label": "getAttributeStringValue()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getattributestringvalue"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getattributebooleanvalue",
-                  "label": "getAttributeBooleanValue()"
+                  "label": "getInnerElementBoolean()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getinnerelementboolean"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getattributenumbervalue",
-                  "label": "getAttributeNumberValue()"
+                  "label": "getInnerElementNumber()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getinnerelementnumber"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getattributesnames",
-                  "label": "getAttributesNames()"
+                  "label": "getInnerElements()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getinnerelements"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getattributestringvalue",
-                  "label": "getAttributeStringValue()"
+                  "label": "getInnerElementText()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getinnerelementtext"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getinnerelementboolean",
-                  "label": "getInnerElementBoolean()"
+                  "label": "getInnerText()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getinnertext"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getinnerelementnumber",
-                  "label": "getInnerElementNumber()"
+                  "label": "hasAttribute()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/hasattribute"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getinnerelements",
-                  "label": "getInnerElements()"
+                  "label": "hasAttributes()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/hasattributes"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getinnerelementtext",
-                  "label": "getInnerElementText()"
+                  "label": "hasInnerElement()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/hasinnerelement"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/getinnertext",
-                  "label": "getInnerText()"
+                  "label": "hasInnerText()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/hasinnertext"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/hasattribute",
-                  "label": "hasAttribute()"
+                  "label": "isInnerElementText()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/isinnerelementtext"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/hasattributes",
-                  "label": "hasAttributes()"
+                  "label": "images",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/images"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/hasinnerelement",
-                  "label": "hasInnerElement()"
+                  "label": "options",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/options"
                 },
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/hasinnertext",
-                  "label": "hasInnerText()"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/isinnerelementtext",
-                  "label": "isInnerElementText()"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/parse",
-                  "label": "parse()"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/parsedoxyfile",
-                  "label": "parseDoxyfile()"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/parsedoxygenindex",
-                  "label": "parseDoxygenIndex()"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/parsefile",
-                  "label": "parseFile()"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/processcompounddefs",
-                  "label": "processCompoundDefs()"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/processmemberdefs",
-                  "label": "processMemberdefs()"
+                  "label": "xmlParser",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/doxygenxmlparser/xmlparser"
                 }
               ]
             },
@@ -1672,12 +2161,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/enumvaluedatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/enumvaluedatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/enumvaluedatamodel/$constructor$"
                 }
               ]
             },
@@ -1688,12 +2179,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/highlightdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/highlightdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/highlightdatamodel/$constructor$"
                 }
               ]
             },
@@ -1704,12 +2197,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/inbodydescriptiondatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/inbodydescriptiondatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/inbodydescriptiondatamodel/$constructor$"
                 }
               ]
             },
@@ -1720,12 +2215,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/includedbydatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/includedbydatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/includedbydatamodel/$constructor$"
                 }
               ]
             },
@@ -1736,12 +2233,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/includesdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/includesdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/includesdatamodel/$constructor$"
                 }
               ]
             },
@@ -1752,12 +2251,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/indexcompounddatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/indexcompounddatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/indexcompounddatamodel/$constructor$"
                 }
               ]
             },
@@ -1768,12 +2269,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/indexmemberdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/indexmemberdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/indexmemberdatamodel/$constructor$"
                 }
               ]
             },
@@ -1784,12 +2287,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/initializerdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/initializerdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/initializerdatamodel/$constructor$"
                 }
               ]
             },
@@ -1800,12 +2305,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/innerclassdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/innerclassdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/innerclassdatamodel/$constructor$"
                 }
               ]
             },
@@ -1816,12 +2323,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/innerdirdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/innerdirdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/innerdirdatamodel/$constructor$"
                 }
               ]
             },
@@ -1832,12 +2341,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/innerfiledatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/innerfiledatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/innerfiledatamodel/$constructor$"
                 }
               ]
             },
@@ -1848,12 +2359,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/innergroupdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/innergroupdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/innergroupdatamodel/$constructor$"
                 }
               ]
             },
@@ -1864,12 +2377,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/innernamespacedatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/innernamespacedatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/innernamespacedatamodel/$constructor$"
                 }
               ]
             },
@@ -1880,12 +2395,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/innerpagedatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/innerpagedatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/innerpagedatamodel/$constructor$"
                 }
               ]
             },
@@ -1896,12 +2413,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/listofallmembersdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/listofallmembersdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/listofallmembersdatamodel/$constructor$"
                 }
               ]
             },
@@ -1912,12 +2431,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/locationdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/locationdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/locationdatamodel/$constructor$"
                 }
               ]
             },
@@ -1928,12 +2449,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/memberdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/memberdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/memberdatamodel/$constructor$"
                 }
               ]
             },
@@ -1944,12 +2467,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/memberdefdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/memberdefdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/memberdefdatamodel/$constructor$"
                 }
               ]
             },
@@ -1960,12 +2485,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/memberrefdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/memberrefdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/memberrefdatamodel/$constructor$"
                 }
               ]
             },
@@ -1976,12 +2503,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/paramdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/paramdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/paramdatamodel/$constructor$"
                 }
               ]
             },
@@ -1992,12 +2521,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/programlistingdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/programlistingdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/programlistingdatamodel/$constructor$"
                 }
               ]
             },
@@ -2008,12 +2539,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/referencedatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/referencedatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/referencedatamodel/$constructor$"
                 }
               ]
             },
@@ -2024,12 +2557,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/referencedbydatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/referencedbydatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/referencedbydatamodel/$constructor$"
                 }
               ]
             },
@@ -2040,12 +2575,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/reimplementdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/reimplementdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/reimplementdatamodel/$constructor$"
                 }
               ]
             },
@@ -2056,12 +2593,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/sectiondefdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/sectiondefdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/sectiondefdatamodel/$constructor$"
                 }
               ]
             },
@@ -2072,12 +2611,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/tableofcontentsdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/tableofcontentsdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/tableofcontentsdatamodel/$constructor$"
                 }
               ]
             },
@@ -2088,12 +2629,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/templateparamlistdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/templateparamlistdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/templateparamlistdatamodel/$constructor$"
                 }
               ]
             },
@@ -2104,12 +2647,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/tocsectdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/tocsectdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/tocsectdatamodel/$constructor$"
                 }
               ]
             },
@@ -2120,12 +2665,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/typeconstraintdatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/typeconstraintdatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/typeconstraintdatamodel/$constructor$"
                 }
               ]
             },
@@ -2136,12 +2683,14 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/classes/typedatamodel"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": [
                 {
                   "type": "doc",
-                  "id": "api/doxygen2docusaurus/classes/typedatamodel/$constructor$",
-                  "label": "(constructor)"
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/typedatamodel/$constructor$"
                 }
               ]
             }
@@ -2149,199 +2698,40 @@
         },
         {
           "type": "category",
-          "label": "Interfaces",
+          "label": "Type Aliases",
+          "className": "tsdocEllipsis",
           "collapsed": true,
           "items": [
             {
               "type": "category",
-              "label": "CliOptions",
+              "label": "CliConfigurationOptions",
               "link": {
                 "type": "doc",
-                "id": "api/doxygen2docusaurus/interfaces/clioptions"
+                "id": "api/doxygen2docusaurus/type aliases/cliconfigurationoptions"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
-              "items": [
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/apibaseurl",
-                  "label": "apiBaseUrl"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/apifolderpath",
-                  "label": "apiFolderPath"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/baseurl",
-                  "label": "baseUrl"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/compatibilityredirectsoutputfolderpath",
-                  "label": "compatibilityRedirectsOutputFolderPath"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/customcssfilepath",
-                  "label": "customCssFilePath"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/debug",
-                  "label": "debug"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/docsbaseurl",
-                  "label": "docsBaseUrl"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/docsfolderpath",
-                  "label": "docsFolderPath"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/doxygenxmlinputfolderpath",
-                  "label": "doxygenXmlInputFolderPath"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/id",
-                  "label": "id"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/imagesfolderpath",
-                  "label": "imagesFolderPath"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/mainpagetitle",
-                  "label": "mainPageTitle"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/menudropdownfilepath",
-                  "label": "menuDropdownFilePath"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/menudropdownlabel",
-                  "label": "menuDropdownLabel"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/originalpagesnote",
-                  "label": "originalPagesNote"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/renderpagesattop",
-                  "label": "renderPagesAtTop"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/renderprogramlisting",
-                  "label": "renderProgramListing"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/renderprogramlistinginline",
-                  "label": "renderProgramListingInline"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/sidebarcategoryfilepath",
-                  "label": "sidebarCategoryFilePath"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/sidebarcategorylabel",
-                  "label": "sidebarCategoryLabel"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/suggesttododescriptions",
-                  "label": "suggestToDoDescriptions"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/clioptions/verbose",
-                  "label": "verbose"
-                }
-              ]
+              "items": []
             },
             {
               "type": "category",
-              "label": "DataModel",
+              "label": "MultiConfigurations",
               "link": {
                 "type": "doc",
-                "id": "api/doxygen2docusaurus/interfaces/datamodel"
+                "id": "api/doxygen2docusaurus/type aliases/multiconfigurations"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
-              "items": [
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/datamodel/compounddefs",
-                  "label": "compoundDefs"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/datamodel/doxyfile",
-                  "label": "doxyfile"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/datamodel/doxygenindex",
-                  "label": "doxygenindex"
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/datamodel/images",
-                  "label": "images"
-                }
-              ]
-            },
-            {
-              "type": "category",
-              "label": "XmlElement",
-              "link": {
-                "type": "doc",
-                "id": "api/doxygen2docusaurus/interfaces/xmlelement"
-              },
-              "collapsed": true,
-              "items": [
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/xmlelement/$____$",
-                  "label": "\":@\""
-                },
-                {
-                  "type": "doc",
-                  "id": "api/doxygen2docusaurus/interfaces/xmlelement/$__text_$",
-                  "label": "\"#text\""
-                }
-              ]
+              "items": []
             }
           ]
         },
         {
           "type": "category",
           "label": "Functions",
+          "className": "tsdocEllipsis",
           "collapsed": true,
           "items": [
-            {
-              "type": "category",
-              "label": "generateDocusaurusMd()",
-              "link": {
-                "type": "doc",
-                "id": "api/doxygen2docusaurus/functions/generatedocusaurusmd"
-              },
-              "collapsed": true,
-              "items": []
-            },
             {
               "type": "category",
               "label": "main()",
@@ -2349,18 +2739,41 @@
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/functions/main"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
               "items": []
-            },
+            }
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Interfaces",
+          "className": "tsdocEllipsis",
+          "collapsed": true,
+          "items": [
             {
               "type": "category",
-              "label": "parseDoxygen()",
+              "label": "XmlElement",
               "link": {
                 "type": "doc",
-                "id": "api/doxygen2docusaurus/functions/parsedoxygen"
+                "id": "api/doxygen2docusaurus/interfaces/xmlelement"
               },
+              "className": "tsdocEllipsis",
               "collapsed": true,
-              "items": []
+              "items": [
+                {
+                  "type": "doc",
+                  "label": "\":@\"",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/interfaces/xmlelement/$____$"
+                },
+                {
+                  "type": "doc",
+                  "label": "\"#text\"",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/interfaces/xmlelement/$__text_$"
+                }
+              ]
             }
           ]
         }

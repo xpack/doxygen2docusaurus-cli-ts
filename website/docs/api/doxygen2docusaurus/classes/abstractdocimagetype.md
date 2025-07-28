@@ -142,7 +142,7 @@ _(Optional)_
 
 </td><td>
 
-Boolean \| undefined
+boolean \| undefined
 
 
 </td><td>

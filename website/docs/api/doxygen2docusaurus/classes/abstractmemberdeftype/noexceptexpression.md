@@ -13,7 +13,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-noexceptexpression?: Boolean | undefined;
+noexceptexpression?: boolean | undefined;
 ```
 
 </div>

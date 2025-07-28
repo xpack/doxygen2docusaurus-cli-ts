@@ -15,7 +15,7 @@ Constructs a new instance of the `AbstractSectionDefType` class
 ## Signature
 
 ```typescript
-constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 ```
 
 ## Parameters
@@ -57,7 +57,7 @@ element
 
 </td><td>
 
-Object
+object
 
 
 </td><td>

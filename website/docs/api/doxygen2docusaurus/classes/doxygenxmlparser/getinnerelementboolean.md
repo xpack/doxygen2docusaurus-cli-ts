@@ -15,7 +15,7 @@ Retrieves the boolean value of a named child element.
 ## Signature
 
 ```typescript
-getInnerElementBoolean(element: Object, name: string): boolean;
+getInnerElementBoolean(element: object, name: string): boolean;
 ```
 
 ## Parameters
@@ -43,7 +43,7 @@ element
 
 </td><td>
 
-Object
+object
 
 
 </td><td>

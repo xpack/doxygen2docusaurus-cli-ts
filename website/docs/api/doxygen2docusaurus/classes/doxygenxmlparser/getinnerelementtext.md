@@ -15,7 +15,7 @@ Retrieves the text content of a named child element.
 ## Signature
 
 ```typescript
-getInnerElementText(element: Object, name: string): string;
+getInnerElementText(element: object, name: string): string;
 ```
 
 ## Parameters
@@ -43,7 +43,7 @@ element
 
 </td><td>
 
-Object
+object
 
 
 </td><td>

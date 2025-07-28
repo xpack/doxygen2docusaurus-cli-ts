@@ -15,7 +15,7 @@ Determines whether the specified inner element exists on the given XML element.
 ## Signature
 
 ```typescript
-hasInnerElement(element: Object, name: string): boolean;
+hasInnerElement(element: object, name: string): boolean;
 ```
 
 ## Parameters
@@ -43,7 +43,7 @@ element
 
 </td><td>
 
-Object
+object
 
 
 </td><td>

@@ -13,7 +13,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-nodiscard?: Boolean | undefined;
+nodiscard?: boolean | undefined;
 ```
 
 </div>

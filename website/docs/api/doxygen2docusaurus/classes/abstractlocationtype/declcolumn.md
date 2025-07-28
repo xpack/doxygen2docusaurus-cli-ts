@@ -13,7 +13,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-declcolumn?: Number | undefined;
+declcolumn?: number | undefined;
 ```
 
 </div>

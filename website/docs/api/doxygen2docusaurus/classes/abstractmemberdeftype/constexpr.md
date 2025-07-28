@@ -13,7 +13,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-constexpr?: Boolean | undefined;
+constexpr?: boolean | undefined;
 ```
 
 </div>

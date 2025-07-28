@@ -13,7 +13,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-children?: Array<string | AbstractDataModelBase>;
+children?: (string | AbstractDataModelBase)[];
 ```
 
 </div>

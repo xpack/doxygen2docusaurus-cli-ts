@@ -15,9 +15,7 @@ Constructs a new instance of the DoxygenXmlParser class.
 ## Signature
 
 ```typescript
-constructor({ options }: {
-        options: CliOptions;
-    });
+constructor(options: CliOptions);
 ```
 
 ## Parameters
@@ -40,15 +38,17 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-{ options }
+options
 
 
 </td><td>
 
-{ options: [CliOptions](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/interfaces/clioptions)<!-- -->; }
+[CliOptions](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions)
 
 
 </td><td>
+
+The global configuration options
 
 
 </td></tr>

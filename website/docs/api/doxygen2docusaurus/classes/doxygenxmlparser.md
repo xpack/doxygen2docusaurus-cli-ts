@@ -50,7 +50,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)({ options })](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/constructor)
+[(constructor)(options)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/constructor)
 
 
 </td><td>
@@ -89,7 +89,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[dataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/datamodel)
+[images](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/images)
 
 
 </td><td>
@@ -97,12 +97,10 @@ Description
 
 </td><td>
 
-[DataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/interfaces/datamodel)
+[AbstractDocImageType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype)<!-- -->\[\]
 
 
 </td><td>
-
-The internal data model constructed from the XML files.
 
 
 </td></tr>
@@ -116,31 +114,12 @@ The internal data model constructed from the XML files.
 
 </td><td>
 
-[CliOptions](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/interfaces/clioptions)
+[CliOptions](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions)
 
 
 </td><td>
 
 The global configuration options.
-
-
-</td></tr>
-<tr><td>
-
-[parsedFilesCounter](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/parsedfilescounter)
-
-
-</td><td>
-
-
-</td><td>
-
-number
-
-
-</td><td>
-
-Tracks the number of XML files parsed.
 
 
 </td></tr>
@@ -220,6 +199,8 @@ Retrieves the value of a named attribute as a number.
 
 
 </td><td>
+
+Retrieves the names of all attributes present on the specified XML element.
 
 
 </td></tr>
@@ -331,6 +312,8 @@ Determines whether the specified attribute exists on the given XML element.
 
 </td><td>
 
+Determines whether the specified XML element has any attributes.
+
 
 </td></tr>
 <tr><td>
@@ -372,90 +355,6 @@ Determines whether the XML element contains a text node.
 </td><td>
 
 Determines whether a named inner element contains text.
-
-
-</td></tr>
-<tr><td>
-
-[parse()](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/parse)
-
-
-</td><td>
-
-
-</td><td>
-
-Parses all relevant Doxygen-generated XML files and constructs the internal data model.
-
-
-</td></tr>
-<tr><td>
-
-[parseDoxyfile()](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/parsedoxyfile)
-
-
-</td><td>
-
-
-</td><td>
-
-Parses the Doxyfile XML and initialises the configuration data model.
-
-
-</td></tr>
-<tr><td>
-
-[parseDoxygenIndex()](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/parsedoxygenindex)
-
-
-</td><td>
-
-
-</td><td>
-
-Parses the main Doxygen index XML file and initialises the index data model.
-
-
-</td></tr>
-<tr><td>
-
-[parseFile({ fileName })](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/parsefile)
-
-
-</td><td>
-
-
-</td><td>
-
-Reads and parses the specified XML file, returning the parsed content.
-
-
-</td></tr>
-<tr><td>
-
-[processCompoundDefs(indexCompound, parsedDoxygenElements)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/processcompounddefs)
-
-
-</td><td>
-
-
-</td><td>
-
-Processes compound definitions from the parsed Doxygen XML elements.
-
-
-</td></tr>
-<tr><td>
-
-[processMemberdefs()](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/processmemberdefs)
-
-
-</td><td>
-
-
-</td><td>
-
-Processes member definitions and updates member kinds where necessary.
 
 
 </td></tr>

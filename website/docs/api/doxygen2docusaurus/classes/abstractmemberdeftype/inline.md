@@ -13,7 +13,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-inline?: Boolean | undefined;
+inline?: boolean | undefined;
 ```
 
 </div>

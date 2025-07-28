@@ -50,7 +50,7 @@ Description
 
 </td><td>
 
-{ \[key: string\]: string \| number \| boolean; }
+Record&lt;string, string \| number \| boolean&gt;
 
 
 </td><td>

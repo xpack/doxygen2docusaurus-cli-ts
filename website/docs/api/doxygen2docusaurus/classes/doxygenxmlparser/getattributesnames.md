@@ -10,10 +10,12 @@ custom_edit_url: null
 
 
 
+Retrieves the names of all attributes present on the specified XML element.
+
 ## Signature
 
 ```typescript
-getAttributesNames(element: Object): string[];
+getAttributesNames(element: object): string[];
 ```
 
 ## Parameters
@@ -41,10 +43,12 @@ element
 
 </td><td>
 
-Object
+object
 
 
 </td><td>
+
+The XML element to inspect for attribute names
 
 
 </td></tr>
@@ -53,6 +57,12 @@ Object
 ## Returns
 
 string\[\]
+
+An array of strings containing the names of all attributes
+
+## Remarks
+
+This method accesses the ':<!-- -->@<!-- -->' property of the XML element, which is the convention used by the XML parser for storing attributes, and returns the keys of this object as an array of attribute names. The method assumes the element has attributes and does not perform validation - use [DoxygenXmlParser.hasAttributes()](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/hasattributes) to check for attribute presence first.
 
 
 </div>

@@ -13,7 +13,7 @@ custom_edit_url: null
 ## Signature
 
 ```typescript
-startline: Number | undefined;
+startline: number | undefined;
 ```
 
 </div>

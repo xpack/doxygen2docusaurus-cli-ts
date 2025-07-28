@@ -15,7 +15,7 @@ Retrieves the text content of the XML element.
 ## Signature
 
 ```typescript
-getInnerText(element: Object): string;
+getInnerText(element: object): string;
 ```
 
 ## Parameters
@@ -43,7 +43,7 @@ element
 
 </td><td>
 
-Object
+object
 
 
 </td><td>
