@@ -11,7 +11,7 @@ export declare class Section {
     kind: string;
     headerName: string;
     descriptionLines: string[] | undefined;
-    indexMembers: Array<MemberRef | Member>;
+    indexMembers: (MemberRef | Member)[];
     definitionMembers: Member[];
     _private: {
         _sectionDef?: SectionDefDataModel;

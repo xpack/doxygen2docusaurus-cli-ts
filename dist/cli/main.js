@@ -10,15 +10,14 @@
  */
 // ----------------------------------------------------------------------------
 import assert from 'node:assert';
-import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 import * as util from 'node:util';
 // https://www.npmjs.com/package/commander
-import { Command } from 'commander';
-import { getInstanceDefaultOptions, defaultOptions, } from '../docusaurus/options.js';
+import { CliOptions } from '../docusaurus/options.js';
 import { formatDuration } from '../docusaurus/utils.js';
 import { DoxygenXmlParser } from '../doxygen/doxygen-xml-parser.js';
 import { DocusaurusGenerator } from '../docusaurus/generator.js';
+// ----------------------------------------------------------------------------
 /**
  * Main entry point for the doxygen2docusaurus CLI tool.
  *
@@ -28,43 +27,16 @@ import { DocusaurusGenerator } from '../docusaurus/generator.js';
  * @public
  */
 export async function main(argv) {
-    const program = new Command();
-    program.option('--id <name>', 'id, for multi-configurations');
-    program.parse(argv);
-    const programOptions = program.opts();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-    const id = programOptions.id;
-    let configurationOptions = undefined;
-    try {
-        // Try to get the configuration from package.json/config/doxygen2docusaurus.
-        const userPackageJsonPath = path.resolve(process.cwd(), 'package.json');
-        const pkgJsonRaw = await fs.readFile(userPackageJsonPath, 'utf8');
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const pkgJson = JSON.parse(pkgJsonRaw);
-        const multiConfigurations = pkgJson.config?.doxygen2docusaurus ?? pkgJson.doxygen2docusaurus;
-        configurationOptions = selectMultiConfiguration(multiConfigurations, id);
-    }
-    catch (err) {
-        // try to get the configuration from doxygen2docusaurus.json.
-        const userPackageJsonPath = path.resolve(process.cwd(), 'doxygen2docusaurus.json');
-        const pkgJsonRaw = await fs.readFile(userPackageJsonPath, 'utf8');
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const multiConfigurations = JSON.parse(pkgJsonRaw);
-        configurationOptions = selectMultiConfiguration(multiConfigurations, id);
-    }
-    // console.log(configurationOptions)
-    let options = defaultOptions;
-    if (configurationOptions !== undefined) {
-        options = {
-            ...getInstanceDefaultOptions(configurationOptions.id),
-            ...configurationOptions,
-        };
-    }
     const startTime = Date.now();
-    const commandLine = `${path.basename(argv[1] ?? 'doxygen2docusaurus')} ` +
-        argv.slice(2).join(' ');
+    let commandLine = path.basename(argv[1] ?? 'doxygen2docusaurus');
+    if (argv.length > 2) {
+        commandLine += ` ${argv.slice(2).join(' ')}`;
+    }
     console.log(`Running '${commandLine}'...`);
+    const options = new CliOptions(argv);
+    await options.parse();
     let exitCode = 0;
+    console.log();
     try {
         const dataModel = await parseDoxygen({ options });
         exitCode = await generateDocusaurusMd({
@@ -83,23 +55,6 @@ export async function main(argv) {
             `in ${durationString}.`);
     }
     return exitCode;
-}
-function selectMultiConfiguration(multiConfigurations, id) {
-    let configurationOptions = undefined;
-    if (id !== undefined) {
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
-        configurationOptions =
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-            multiConfigurations[id];
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        if (configurationOptions !== undefined) {
-            configurationOptions.id = id;
-        }
-    }
-    else {
-        configurationOptions = multiConfigurations;
-    }
-    return configurationOptions;
 }
 /**
  * Parses Doxygen XML files and creates a data model.

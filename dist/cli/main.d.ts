@@ -1,4 +1,4 @@
-import type { CliOptions } from '../docusaurus/options.js';
+import { CliOptions } from '../docusaurus/options.js';
 import type { DataModel } from '../doxygen/data-model/types.js';
 /**
  * Main entry point for the doxygen2docusaurus CLI tool.

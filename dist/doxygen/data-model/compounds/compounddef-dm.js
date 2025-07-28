@@ -72,9 +72,7 @@ export class AbstractXyzType extends AbstractDataModelBase {
             }
             else if (xml.hasInnerElement(innerElement, 'includes')) {
                 // console.log(util.inspect(item))
-                if (this.includes === undefined) {
-                    this.includes = [];
-                }
+                this.includes ??= [];
                 this.includes.push(new IncludesDataModel(xml, innerElement));
             }
             else {
@@ -278,29 +276,21 @@ export class AbstractCompoundDefType extends AbstractDataModelBase {
                 this.detailedDescription = new DetailedDescriptionDataModel(xml, innerElement);
             }
             else if (xml.hasInnerElement(innerElement, 'basecompoundref')) {
-                if (this.baseCompoundRefs === undefined) {
-                    this.baseCompoundRefs = [];
-                }
+                this.baseCompoundRefs ??= [];
                 this.baseCompoundRefs.push(new BaseCompoundRefDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'derivedcompoundref')) {
-                if (this.derivedCompoundRefs === undefined) {
-                    this.derivedCompoundRefs = [];
-                }
+                this.derivedCompoundRefs ??= [];
                 this.derivedCompoundRefs.push(new DerivedCompoundRefDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'includes')) {
                 // console.log(util.inspect(item))
-                if (this.includes === undefined) {
-                    this.includes = [];
-                }
+                this.includes ??= [];
                 this.includes.push(new IncludesDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'includedby')) {
                 // console.log(util.inspect(item))
-                if (this.includedBy === undefined) {
-                    this.includedBy = [];
-                }
+                this.includedBy ??= [];
                 this.includedBy.push(new IncludedByDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'incdepgraph')) {
@@ -310,48 +300,34 @@ export class AbstractCompoundDefType extends AbstractDataModelBase {
                 // TODO: Ignored, not used for now.
             }
             else if (xml.hasInnerElement(innerElement, 'innerdir')) {
-                if (this.innerDirs === undefined) {
-                    this.innerDirs = [];
-                }
+                this.innerDirs ??= [];
                 this.innerDirs.push(new InnerDirDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'innerfile')) {
-                if (this.innerFiles === undefined) {
-                    this.innerFiles = [];
-                }
+                this.innerFiles ??= [];
                 this.innerFiles.push(new InnerFileDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'innerclass')) {
-                if (this.innerClasses === undefined) {
-                    this.innerClasses = [];
-                }
+                this.innerClasses ??= [];
                 this.innerClasses.push(new InnerClassDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'innernamespace')) {
-                if (this.innerNamespaces === undefined) {
-                    this.innerNamespaces = [];
-                }
+                this.innerNamespaces ??= [];
                 this.innerNamespaces.push(new InnerNamespaceDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'innerpage')) {
-                if (this.innerPages === undefined) {
-                    this.innerPages = [];
-                }
+                this.innerPages ??= [];
                 this.innerPages.push(new InnerPageDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'innergroup')) {
-                if (this.innerGroups === undefined) {
-                    this.innerGroups = [];
-                }
+                this.innerGroups ??= [];
                 this.innerGroups.push(new InnerGroupDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'templateparamlist')) {
                 this.templateParamList = new TemplateParamListDataModel(xml, innerElement);
             }
             else if (xml.hasInnerElement(innerElement, 'sectiondef')) {
-                if (this.sectionDefs === undefined) {
-                    this.sectionDefs = [];
-                }
+                this.sectionDefs ??= [];
                 this.sectionDefs.push(new SectionDefDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'tableofcontents')) {
@@ -481,7 +457,8 @@ export class HtmlOnlyDataModel extends AbstractDocHtmlOnlyType {
         super(xml, element, 'htmlonly');
     }
 }
-// Normally strings are properties, but these are unusual, so we keep them as objects.
+// Normally strings are properties, but these are unusual, so we keep them
+// as objects.
 // <xsd:element name="manonly" type="xsd:string" />
 // <xsd:element name="xmlonly" type="xsd:string" />
 // <xsd:element name="rtfonly" type="xsd:string" />

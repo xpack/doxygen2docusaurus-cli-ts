@@ -31,19 +31,19 @@ import { AbstractDataModelBase } from '../types.js'
  */
 export abstract class AbstractReferenceType extends AbstractDataModelBase {
   // WARNING: not in DTD?
-  text: string = ''
+  text = ''
 
   // Mandatory attributes.
-  refid: string = ''
+  refid = ''
   // WARNING: may be missing
-  startline: Number | undefined
+  startline: number | undefined
   // WARNING: may be missing
-  endline: Number | undefined
+  endline: number | undefined
 
   // Optional attributes.
   compoundref?: string | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -101,7 +101,7 @@ export abstract class AbstractReferenceType extends AbstractDataModelBase {
  * @public
  */
 export class ReferenceDataModel extends AbstractReferenceType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'references')
   }
@@ -111,7 +111,7 @@ export class ReferenceDataModel extends AbstractReferenceType {
  * @public
  */
 export class ReferencedByDataModel extends AbstractReferenceType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'referencedby')
   }

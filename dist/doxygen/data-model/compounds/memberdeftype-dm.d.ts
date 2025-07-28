@@ -23,7 +23,7 @@ export declare abstract class AbstractMemberDefType extends AbstractMemberBaseTy
     location: LocationDataModel | undefined;
     id: string;
     prot: string;
-    staticc: Boolean | undefined;
+    staticc: boolean | undefined;
     templateparamlist?: TemplateParamListDataModel | undefined;
     type?: TypeDataModel | undefined;
     definition?: string | undefined;
@@ -40,28 +40,28 @@ export declare abstract class AbstractMemberDefType extends AbstractMemberBaseTy
     inbodyDescription?: InbodyDescriptionDataModel | undefined;
     references?: ReferenceDataModel[] | undefined;
     referencedBy?: ReferencedByDataModel[] | undefined;
-    extern?: Boolean | undefined;
-    strong?: Boolean | undefined;
-    constt?: Boolean | undefined;
-    explicit?: Boolean | undefined;
-    inline?: Boolean | undefined;
-    refqual?: Boolean | undefined;
+    extern?: boolean | undefined;
+    strong?: boolean | undefined;
+    constt?: boolean | undefined;
+    explicit?: boolean | undefined;
+    inline?: boolean | undefined;
+    refqual?: boolean | undefined;
     virt?: string | undefined;
-    volatile?: Boolean | undefined;
-    mutable?: Boolean | undefined;
-    noexcept?: Boolean | undefined;
-    noexceptexpression?: Boolean | undefined;
-    nodiscard?: Boolean | undefined;
-    constexpr?: Boolean | undefined;
-    consteval?: Boolean | undefined;
-    constinit?: Boolean | undefined;
-    final?: Boolean | undefined;
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    volatile?: boolean | undefined;
+    mutable?: boolean | undefined;
+    noexcept?: boolean | undefined;
+    noexceptexpression?: boolean | undefined;
+    nodiscard?: boolean | undefined;
+    constexpr?: boolean | undefined;
+    consteval?: boolean | undefined;
+    constinit?: boolean | undefined;
+    final?: boolean | undefined;
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 /**
  * @public
  */
 export declare class MemberDefDataModel extends AbstractMemberDefType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 //# sourceMappingURL=memberdeftype-dm.d.ts.map

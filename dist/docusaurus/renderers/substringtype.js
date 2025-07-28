@@ -14,7 +14,7 @@
 import { ElementStringRendererBase } from './element-renderer-base.js';
 // ----------------------------------------------------------------------------
 export class SubstringDocMarkupTypeRenderer extends ElementStringRendererBase {
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToString(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         return element.substring;

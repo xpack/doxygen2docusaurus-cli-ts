@@ -22,6 +22,7 @@ import { AbstractDataModelBase } from '../types.js';
 /**
  * @public
  */
+// eslint-disable-next-line max-len
 export class AbstractListOfAllMembersType extends AbstractDataModelBase {
     // Optional elements.
     memberRefs;
@@ -38,9 +39,7 @@ export class AbstractListOfAllMembersType extends AbstractDataModelBase {
                 // Ignore texts
             }
             else if (xml.hasInnerElement(innerElement, 'member')) {
-                if (this.memberRefs === undefined) {
-                    this.memberRefs = [];
-                }
+                this.memberRefs ??= [];
                 this.memberRefs.push(new MemberRefDataModel(xml, innerElement));
             }
             else {

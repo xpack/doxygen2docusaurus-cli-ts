@@ -6,10 +6,10 @@ export declare abstract class AbstractRefTextType extends AbstractDataModelBase 
     kindref: string;
     external?: string | undefined;
     tooltip?: string | undefined;
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 export type DoxRefKind = 'compound' | 'member';
 export declare class RefTextDataModel extends AbstractRefTextType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 //# sourceMappingURL=reftexttype-dm.d.ts.map

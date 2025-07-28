@@ -11,8 +11,6 @@
 
 // ----------------------------------------------------------------------------
 
-/* eslint-disable max-lines */
-
 // import * as util from 'node:util'
 import assert from 'node:assert'
 import crypto from 'node:crypto'
@@ -113,7 +111,6 @@ export class Classes extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  // eslint-disable-next-line complexity
   override addSidebarItems(sidebarCategory: SidebarCategory): void {
     const indicesSet = this.workspace.indicesMaps.get('classes')
     if (indicesSet === undefined) {
@@ -144,7 +141,6 @@ export class Classes extends CollectionBase {
     for (const classs of this.topLevelClasses) {
       const item = this.createSidebarItemRecursively(classs)
       if (item !== undefined) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
         ;(classesCategory.items[0] as SidebarCategoryItem).items.push(item)
       }
     }
@@ -214,6 +210,7 @@ export class Classes extends CollectionBase {
       return undefined
     }
 
+    assert(classs.docusaurusId !== undefined)
     if (classs.children.length === 0) {
       const docItem: SidebarDocItem = {
         type: 'doc',
@@ -357,11 +354,7 @@ export class Classes extends CollectionBase {
     if (classs.children.length > 0) {
       for (const childClass of classs.children) {
         lines.push(
-          ...this.generateIndexMdFileRecursively(
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-            childClass as Class,
-            depth + 1
-          )
+          ...this.generateIndexMdFileRecursively(childClass as Class, depth + 1)
         )
       }
     }
@@ -405,6 +398,7 @@ export class Classes extends CollectionBase {
       title: 'The Classes and Members Index',
       description: 'The classes, structs, unions and their members are:',
       map: allUnorderedEntriesMap,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       filter: (kind) => true,
     })
 
@@ -495,7 +489,6 @@ export class Class extends CompoundBase {
 
     // console.log('Class.constructor', util.inspect(compoundDef))
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { workspace } = this.collection
 
     if (Array.isArray(compoundDef.baseCompoundRefs)) {
@@ -583,11 +576,9 @@ export class Class extends CompoundBase {
   override initializeLate(): void {
     super.initializeLate()
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const compoundDef = this._private._compoundDef
     assert(compoundDef !== undefined)
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { workspace } = this.collection
 
     const { fullyQualifiedName } = this
@@ -643,11 +634,10 @@ export class Class extends CompoundBase {
 
   // --------------------------------------------------------------------------
 
-  // eslint-disable-next-line complexity
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override renderToLines(frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { workspace } = this.collection
 
     const name = this.collection.workspace.renderString(
@@ -898,7 +888,6 @@ export class Class extends CompoundBase {
     // console.log(util.inspect(this, { compact: false, depth: 999 }))
     const lines: string[] = []
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { workspace } = this.collection
 
     const permalink = workspace.getPagePermalink(this.id)
@@ -918,6 +907,7 @@ export class Class extends CompoundBase {
     lines.push('')
 
     const childrenLines: string[] = []
+    assert(permalink !== undefined)
     const morePermalink =
       this.detailedDescriptionHtmlLines !== undefined
         ? `${permalink}/#details`

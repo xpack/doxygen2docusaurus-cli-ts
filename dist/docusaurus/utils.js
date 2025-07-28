@@ -20,11 +20,12 @@ export function formatDate(date) {
     const hours = String(date.getUTCHours()).padStart(2, '0');
     const minutes = String(date.getUTCMinutes()).padStart(2, '0');
     const seconds = String(date.getUTCSeconds()).padStart(2, '0');
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds} +0000`;
+    return (`${year.toString()}-${month}-${day} ${hours}:${minutes}:${seconds} ` +
+        '+0000');
 }
 export function formatDuration(n) {
     if (n < 1000) {
-        return `${n} ms`;
+        return `${n.toString()} ms`;
     }
     else if (n < 100000) {
         return `${(n / 1000).toFixed(1)} sec`;
@@ -157,7 +158,6 @@ export function joinWithLast(arr, delimiter, lastDelimiter) {
 }
 export function isUrl(str) {
     try {
-        // eslint-disable-next-line no-new
         new URL(str);
         return true;
     }

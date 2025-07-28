@@ -12,7 +12,7 @@
 import assert from 'node:assert';
 import * as util from 'node:util';
 import { AbstractDataModelBase } from '../types.js';
-import { parseDocTitleCmdGroup, } from './descriptiontype-dm.js';
+import { parseDocTitleCmdGroup } from './descriptiontype-dm.js';
 // ----------------------------------------------------------------------------
 // <xsd:complexType name="tableofcontentsType">
 //   <xsd:sequence>
@@ -25,6 +25,7 @@ import { parseDocTitleCmdGroup, } from './descriptiontype-dm.js';
 /**
  * @public
  */
+// eslint-disable-next-line max-len
 export class AbstractTableOfContentsType extends AbstractDataModelBase {
     // xsd:choice, only one of them.
     tocSect;
@@ -42,16 +43,12 @@ export class AbstractTableOfContentsType extends AbstractDataModelBase {
             }
             else if (xml.hasInnerElement(innerElement, 'tocsect')) {
                 // console.log(util.inspect(item))
-                if (this.tocSect === undefined) {
-                    this.tocSect = [];
-                }
+                this.tocSect ??= [];
                 this.tocSect.push(new TocSectDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'tableofcontents')) {
                 // console.log(util.inspect(item))
-                if (this.tableOfContents === undefined) {
-                    this.tableOfContents = [];
-                }
+                this.tableOfContents ??= [];
                 this.tableOfContents.push(new TableOfContentsDataModel(xml, innerElement));
             }
             else {
@@ -87,6 +84,7 @@ export class TableOfContentsDataModel extends AbstractTableOfContentsType {
 /**
  * @public
  */
+// eslint-disable-next-line max-len
 export class AbstractTableOfContentsKindType extends AbstractDataModelBase {
     // Mandatory elements.
     name = '';
@@ -115,9 +113,7 @@ export class AbstractTableOfContentsKindType extends AbstractDataModelBase {
             }
             else if (xml.hasInnerElement(innerElement, 'tableofcontents')) {
                 // console.log(util.inspect(item))
-                if (this.tableOfContents === undefined) {
-                    this.tableOfContents = [];
-                }
+                this.tableOfContents ??= [];
                 this.tableOfContents.push(new TableOfContentsDataModel(xml, innerElement));
             }
             else {
@@ -212,9 +208,7 @@ export class AbstractDocTocListType extends AbstractDataModelBase {
             }
             else if (xml.hasInnerElement(innerElement, 'tocitem')) {
                 // console.log(util.inspect(item))
-                if (this.tocItems === undefined) {
-                    this.tocItems = [];
-                }
+                this.tocItems ??= [];
                 this.tocItems.push(new TocItemDataModel(xml, innerElement));
             }
             else {

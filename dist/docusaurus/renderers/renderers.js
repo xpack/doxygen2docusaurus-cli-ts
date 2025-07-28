@@ -9,7 +9,6 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 // ----------------------------------------------------------------------------
-/* eslint-disable max-lines */
 import * as util from 'node:util';
 import assert from 'node:assert';
 import { BlockquoteLinesRenderer, ComputerOutputDataModelStringRenderer, DescriptionTypeLinesRenderer, DocAnchorTypeLinesRenderer, DocEmptyTypeStringRenderer, DocMarkupTypeStringRenderer, DocParamListTypeLinesRenderer, DocParaTypeLinesRenderer, DocRefTextTypeStringRenderer, DocSimpleSectTypeLinesRenderer, DocURLLinkStringRenderer, EmojiStringRenderer, FormulaStringRenderer, HeadingLinesRenderer, HtmlOnlyStringRenderer, ImageStringRenderer, PreformattedStringRenderer, SpTypeStringRenderer, VerbatimStringRenderer, } from './descriptiontype.js';
@@ -82,7 +81,6 @@ export class Renderers {
         this.elementStringRenderers.set('SubstringDocMarkupType', new SubstringDocMarkupTypeRenderer(workspace));
     }
     getElementLinesRenderer(element) {
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         let elementClass = element.constructor;
         while (elementClass.name !== '') {
             // console.log(elementClass.name)
@@ -97,7 +95,6 @@ export class Renderers {
         return undefined;
     }
     getElementTextRenderer(element) {
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         let elementClass = element.constructor;
         while (elementClass.name !== '') {
             // console.log(elementClass.name)
@@ -112,7 +109,6 @@ export class Renderers {
         return undefined;
     }
     // --------------------------------------------------------------------------
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     renderString(element, type) {
         if (type === 'text') {
             return element;
@@ -224,7 +220,6 @@ export class Renderers {
         console.error('no element text renderer for', element.constructor.name, 'in', this.constructor.name, 'renderElementToString');
         return '';
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     renderMembersIndexItemToHtmlLines({ template, type, name, childrenLines, }) {
         const lines = [];
         if (template !== undefined && template.length > 0) {
@@ -247,6 +242,7 @@ export class Renderers {
         }
         else {
             lines.push('<tr class="doxyMemberIndexItem">');
+            assert(type !== undefined);
             lines.push(`<td class="doxyMemberIndexItemType" align="left" valign="top">` +
                 `${type}</td>`);
             lines.push(`<td class="doxyMemberIndexItemName" align="left" valign="top">` +
@@ -266,7 +262,6 @@ export class Renderers {
         lines.push('</tr>');
         return lines;
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     renderTreeTableToHtmlLines({ contentLines, }) {
         const lines = [];
         lines.push('');
@@ -277,12 +272,12 @@ export class Renderers {
         lines.push('</table>');
         return lines;
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     renderTreeTableRowToHtmlLines({ itemIconLetter, itemIconClass, itemLabel, itemLink, depth, description, }) {
         const lines = [];
         lines.push('<tr class="doxyTreeItem">');
         lines.push('<td class="doxyTreeItemLeft" align="left" valign="top">');
-        lines.push(`<span style="width: ${depth * 12}px; display: inline-block;"></span>`);
+        const depthStr = (depth * 12).toString();
+        lines.push(`<span style="width: ${depthStr}px; display: inline-block;"></span>`);
         if (itemIconLetter !== undefined && itemIconLetter.length > 0) {
             lines.push(`<span class="doxyTreeIconBox">` +
                 `<span class="doxyTreeIcon">${itemIconLetter}</span>` +

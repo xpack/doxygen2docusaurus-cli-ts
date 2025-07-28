@@ -11,8 +11,6 @@
 
 // ----------------------------------------------------------------------------
 
-/* eslint-disable max-lines */
-
 // import * as util from 'node:util'
 import assert from 'node:assert'
 import path from 'node:path'
@@ -99,7 +97,6 @@ export class Namespaces extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  // eslint-disable-next-line complexity
   override addSidebarItems(sidebarCategory: SidebarCategory): void {
     const indicesSet = this.workspace.indicesMaps.get('namespaces')
     if (indicesSet === undefined) {
@@ -129,7 +126,6 @@ export class Namespaces extends CollectionBase {
     for (const namespace of this.topLevelNamespaces) {
       const item = this.createNamespaceItemRecursively(namespace)
       if (item !== undefined) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
         ;(namespacesCategory.items[0] as SidebarCategoryItem).items.push(item)
       }
     }
@@ -200,6 +196,7 @@ export class Namespaces extends CollectionBase {
       return undefined
     }
 
+    assert(namespace.docusaurusId !== undefined)
     if (namespace.children.length === 0) {
       const docItem: SidebarDocItem = {
         type: 'doc',
@@ -339,7 +336,6 @@ export class Namespaces extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  // eslint-disable-next-line complexity
   override async generatePerInitialsIndexMdFiles(): Promise<void> {
     if (this.topLevelNamespaces.length === 0) {
       return
@@ -396,6 +392,7 @@ export class Namespaces extends CollectionBase {
       title: 'The Namespaces Definitions Index',
       description: 'The definitions part of the namespaces are:',
       map: allUnorderedEntriesMap,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       filter: (kind) => true,
     })
 
@@ -623,10 +620,10 @@ export class Namespace extends CompoundBase {
 
   // --------------------------------------------------------------------------
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override renderToLines(frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { workspace } = this.collection
 
     const descriptionTodo = `@namespace ${workspace.renderString(

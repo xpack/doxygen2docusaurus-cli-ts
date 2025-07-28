@@ -32,15 +32,16 @@ import { AbstractDataModelBase } from '../types.js'
  */
 export abstract class AbstractReimplementType extends AbstractDataModelBase {
   // Mandatory elements.
-  text: string = '' // Passed as element text.
+  text = '' // Passed as element text.
 
   // Mandatory attributes.
-  refId: string = ''
+  refId = ''
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
-    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))ect(element))
+    // console.log(elementName, util.inspect(element,
+    //   { compact: false, depth: 999 }))
 
     // ------------------------------------------------------------------------
     // Process elements.
@@ -87,14 +88,14 @@ export abstract class AbstractReimplementType extends AbstractDataModelBase {
  * @public
  */
 export class ReimplementDataModel extends AbstractReimplementType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'reimplements')
   }
 }
 
 export class ReimplementedByDataModel extends AbstractReimplementType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'reimplementedby')
   }

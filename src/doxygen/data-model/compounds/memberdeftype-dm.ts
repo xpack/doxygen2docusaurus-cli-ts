@@ -162,8 +162,8 @@ export type DoxMemberKind =
  */
 export abstract class AbstractMemberBaseType extends AbstractDataModelBase {
   // Mandatory elements.
-  name: string = ''
-  kind: string = ''
+  name = ''
+  kind = ''
 }
 
 /**
@@ -176,9 +176,9 @@ export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
 
   // Mandatory attributes.
   // kind: DoxMemberKind | '' = '' (in parent)
-  id: string = ''
-  prot: string = ''
-  staticc: Boolean | undefined
+  id = ''
+  prot = ''
+  staticc: boolean | undefined
 
   // Optional elements.
   templateparamlist?: TemplateParamListDataModel | undefined
@@ -204,25 +204,25 @@ export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
   referencedBy?: ReferencedByDataModel[] | undefined
 
   // Optional attributes.
-  extern?: Boolean | undefined
-  strong?: Boolean | undefined
-  constt?: Boolean | undefined
-  explicit?: Boolean | undefined
-  inline?: Boolean | undefined
-  refqual?: Boolean | undefined
+  extern?: boolean | undefined
+  strong?: boolean | undefined
+  constt?: boolean | undefined
+  explicit?: boolean | undefined
+  inline?: boolean | undefined
+  refqual?: boolean | undefined
   virt?: string | undefined
-  volatile?: Boolean | undefined
-  mutable?: Boolean | undefined
-  noexcept?: Boolean | undefined
-  noexceptexpression?: Boolean | undefined
-  nodiscard?: Boolean | undefined
-  constexpr?: Boolean | undefined
-  consteval?: Boolean | undefined
-  constinit?: Boolean | undefined
-  final?: Boolean | undefined
+  volatile?: boolean | undefined
+  mutable?: boolean | undefined
+  noexcept?: boolean | undefined
+  noexceptexpression?: boolean | undefined
+  nodiscard?: boolean | undefined
+  constexpr?: boolean | undefined
+  consteval?: boolean | undefined
+  constinit?: boolean | undefined
+  final?: boolean | undefined
   // TODO: add more...
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -259,26 +259,18 @@ export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
           'qualifiedname'
         )
       } else if (xml.hasInnerElement(innerElement, 'reimplements')) {
-        if (this.reimplements === undefined) {
-          this.reimplements = []
-        }
+        this.reimplements ??= []
         this.reimplements.push(new ReimplementDataModel(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'reimplementedby')) {
-        if (this.reimplementedBys === undefined) {
-          this.reimplementedBys = []
-        }
+        this.reimplementedBys ??= []
         this.reimplementedBys.push(
           new ReimplementedByDataModel(xml, innerElement)
         )
       } else if (xml.hasInnerElement(innerElement, 'param')) {
-        if (this.params === undefined) {
-          this.params = []
-        }
+        this.params ??= []
         this.params.push(new ParamDataModel(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'enumvalue')) {
-        if (this.enumvalues === undefined) {
-          this.enumvalues = []
-        }
+        this.enumvalues ??= []
         this.enumvalues.push(new EnumValueDataModel(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'initializer')) {
         this.initializer = new InitializerDataModel(xml, innerElement)
@@ -295,14 +287,10 @@ export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
           innerElement
         )
       } else if (xml.hasInnerElement(innerElement, 'references')) {
-        if (this.references === undefined) {
-          this.references = []
-        }
+        this.references ??= []
         this.references.push(new ReferenceDataModel(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'referencedby')) {
-        if (this.referencedBy === undefined) {
-          this.referencedBy = []
-        }
+        this.referencedBy ??= []
         this.referencedBy.push(new ReferencedByDataModel(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
@@ -418,7 +406,7 @@ export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
  * @public
  */
 export class MemberDefDataModel extends AbstractMemberDefType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'memberdef')
   }

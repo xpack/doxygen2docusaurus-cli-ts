@@ -20,6 +20,7 @@ import type { AbstractDocXRefSectType } from '../../doxygen/data-model/compounds
 // ----------------------------------------------------------------------------
 
 export class DocXRefSectLinesRenderer extends ElementLinesRendererBase {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   renderToLines(element: AbstractDocXRefSectType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

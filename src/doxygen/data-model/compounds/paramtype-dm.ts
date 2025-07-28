@@ -52,7 +52,7 @@ export abstract class AbstractParamType extends AbstractDataModelBase {
   typeconstraint?: TypeConstraintDataModel | undefined
   briefdescription?: BriefDescriptionDataModel | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -75,7 +75,6 @@ export abstract class AbstractParamType extends AbstractDataModelBase {
         )
         // console.log(util.inspect(defvalElements))
         assert(attributesElements.length === 1)
-        assert(attributesElements[0] !== undefined)
         this.attributes = xml.getInnerText(attributesElements[0])
       } else if (xml.hasInnerElement(innerElement, 'type')) {
         this.type = new TypeDataModel(xml, innerElement)
@@ -83,19 +82,16 @@ export abstract class AbstractParamType extends AbstractDataModelBase {
         const declnameElements = xml.getInnerElements(innerElement, 'declname')
         // console.log(util.inspect(defvalElements))
         assert(declnameElements.length === 1)
-        assert(declnameElements[0] !== undefined)
         this.declname = xml.getInnerText(declnameElements[0])
       } else if (xml.hasInnerElement(innerElement, 'defname')) {
         const defnameElements = xml.getInnerElements(innerElement, 'defname')
         // console.log(util.inspect(defvalElements))
         assert(defnameElements.length === 1)
-        assert(defnameElements[0] !== undefined)
         this.declname = xml.getInnerText(defnameElements[0])
       } else if (xml.hasInnerElement(innerElement, 'array')) {
         const arrayElements = xml.getInnerElements(innerElement, 'array')
         // console.log(util.inspect(defvalElements))
         assert(arrayElements.length === 1)
-        assert(arrayElements[0] !== undefined)
         this.array = xml.getInnerText(arrayElements[0])
       } else if (xml.hasInnerElement(innerElement, 'defval')) {
         this.defval = new DefValDataModel(xml, innerElement)
@@ -133,7 +129,7 @@ export abstract class AbstractParamType extends AbstractDataModelBase {
  * @public
  */
 export class ParamDataModel extends AbstractParamType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'param')
   }

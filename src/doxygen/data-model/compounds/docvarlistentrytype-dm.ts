@@ -26,14 +26,16 @@ import { ListItemDataModel, TermDataModel } from './descriptiontype-dm.js'
 //   </xsd:sequence>
 // </xsd:complexType>
 
+// eslint-disable-next-line max-len
 export abstract class AbstractDocVarListEntryType extends AbstractDataModelBase {
   // Mandatory elements.
   term: TermDataModel | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
-    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))ect(element))
+    // console.log(elementName, util.inspect(element,
+    //   { compact: false, depth: 999 }))
 
     // ------------------------------------------------------------------------
     // Process elements.
@@ -76,7 +78,7 @@ export abstract class AbstractDocVarListEntryType extends AbstractDataModelBase 
 // <xsd:element name="varlistentry" type="docVarListEntryType" />
 
 export class VarListEntryDataModel extends AbstractDocVarListEntryType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'varlistentry')
   }
@@ -115,10 +117,11 @@ export class VariableListPairDataModel extends AbstractDataModelBase {
 //   </xsd:sequence>
 // </xsd:complexType>
 
+// eslint-disable-next-line max-len
 export abstract class AbstractDocVariableListType extends AbstractDataModelBase {
   // children: VariableListPairDataModel[] = []
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -176,7 +179,7 @@ export abstract class AbstractDocVariableListType extends AbstractDataModelBase 
 //  <xsd:element name="variablelist" type="docVariableListType" />
 
 export class VariableListDataModel extends AbstractDocVariableListType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'variablelist')
   }

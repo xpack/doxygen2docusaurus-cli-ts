@@ -29,11 +29,12 @@ import { AbstractDataModelBase } from '../types.js'
 /**
  * @public
  */
+// eslint-disable-next-line max-len
 export abstract class AbstractTemplateParamListType extends AbstractDataModelBase {
   // Optional elements.
   params?: ParamDataModel[] | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -49,9 +50,7 @@ export abstract class AbstractTemplateParamListType extends AbstractDataModelBas
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts
       } else if (xml.hasInnerElement(innerElement, 'param')) {
-        if (this.params === undefined) {
-          this.params = []
-        }
+        this.params ??= []
         this.params.push(new ParamDataModel(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
@@ -83,7 +82,7 @@ export abstract class AbstractTemplateParamListType extends AbstractDataModelBas
  * @public
  */
 export class TemplateParamListDataModel extends AbstractTemplateParamListType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'templateparamlist')
   }

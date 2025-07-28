@@ -31,16 +31,17 @@ import { AbstractDataModelBase } from '../types.js'
 /**
  * @public
  */
+// eslint-disable-next-line max-len
 export abstract class AbstractDoxygenFileOptionType extends AbstractDataModelBase {
   // Optional elements.
   values: string[] | undefined // [0-n] valueType
 
   // Mandatory attributes.
-  id: string = '' // idType
-  default: string = '' // defaultType
-  type: string = '' // typeType
+  id = '' // idType
+  default = '' // defaultType
+  type = '' // typeType
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -55,9 +56,7 @@ export abstract class AbstractDoxygenFileOptionType extends AbstractDataModelBas
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts.
       } else if (xml.isInnerElementText(innerElement, 'value')) {
-        if (this.values === undefined) {
-          this.values = []
-        }
+        this.values ??= []
         this.values.push(xml.getInnerElementText(innerElement, 'value'))
       } else {
         console.error(util.inspect(innerElement))
@@ -154,7 +153,7 @@ export type DoxyfileTypeType = 'int' | 'bool' | 'string' | 'stringlist'
  * @public
  */
 export class DoxygenFileOptionDataModel extends AbstractDoxygenFileOptionType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'option')
   }

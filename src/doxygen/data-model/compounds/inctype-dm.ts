@@ -33,15 +33,15 @@ import { AbstractDataModelBase } from '../types.js'
  */
 export abstract class AbstractIncType extends AbstractDataModelBase {
   // Mandatory elements.
-  text: string = '' // Passed as element text.
+  text = '' // Passed as element text.
 
   // Mandatory attributes.
-  local: boolean = false // It means to use "..." instead of <...>.
+  local = false // It means to use "..." instead of <...>.
 
   // Optional attributes.
   refId?: string | undefined // file id
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))ect(element))
@@ -91,7 +91,7 @@ export abstract class AbstractIncType extends AbstractDataModelBase {
  * @public
  */
 export class IncludesDataModel extends AbstractIncType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'includes')
   }
@@ -101,7 +101,7 @@ export class IncludesDataModel extends AbstractIncType {
  * @public
  */
 export class IncludedByDataModel extends AbstractIncType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'includedby')
   }

@@ -9,7 +9,6 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 // ----------------------------------------------------------------------------
-/* eslint-disable max-lines */
 // import * as util from 'node:util'
 import assert from 'node:assert';
 import path from 'node:path';
@@ -68,7 +67,6 @@ export class Namespaces extends CollectionBase {
         }
     }
     // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
     addSidebarItems(sidebarCategory) {
         const indicesSet = this.workspace.indicesMaps.get('namespaces');
         if (indicesSet === undefined) {
@@ -96,7 +94,6 @@ export class Namespaces extends CollectionBase {
         for (const namespace of this.topLevelNamespaces) {
             const item = this.createNamespaceItemRecursively(namespace);
             if (item !== undefined) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
                 ;
                 namespacesCategory.items[0].items.push(item);
             }
@@ -156,6 +153,7 @@ export class Namespaces extends CollectionBase {
         if (namespace.sidebarLabel === undefined) {
             return undefined;
         }
+        assert(namespace.docusaurusId !== undefined);
         if (namespace.children.length === 0) {
             const docItem = {
                 type: 'doc',
@@ -260,7 +258,6 @@ export class Namespaces extends CollectionBase {
         return lines;
     }
     // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
     async generatePerInitialsIndexMdFiles() {
         if (this.topLevelNamespaces.length === 0) {
             return;
@@ -308,6 +305,7 @@ export class Namespaces extends CollectionBase {
             title: 'The Namespaces Definitions Index',
             description: 'The definitions part of the namespaces are:',
             map: allUnorderedEntriesMap,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             filter: (kind) => true,
         });
         await this.generateIndexFile({
@@ -485,9 +483,9 @@ export class Namespace extends CompoundBase {
         return super.hasAnyContent();
     }
     // --------------------------------------------------------------------------
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToLines(frontMatter) {
         const lines = [];
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         const descriptionTodo = `@namespace ${workspace.renderString(this.compoundName, 'html')}`;
         const morePermalink = this.detailedDescriptionHtmlLines !== undefined ? '#details' : undefined;

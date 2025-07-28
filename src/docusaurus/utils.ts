@@ -25,12 +25,15 @@ export function formatDate(date: Date): string {
   const minutes = String(date.getUTCMinutes()).padStart(2, '0')
   const seconds = String(date.getUTCSeconds()).padStart(2, '0')
 
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds} +0000`
+  return (
+    `${year.toString()}-${month}-${day} ${hours}:${minutes}:${seconds} ` +
+    '+0000'
+  )
 }
 
 export function formatDuration(n: number): string {
   if (n < 1000) {
-    return `${n} ms`
+    return `${n.toString()} ms`
   } else if (n < 100000) {
     return `${(n / 1000).toFixed(1)} sec`
   } else {
@@ -182,7 +185,6 @@ export function joinWithLast(
 
 export function isUrl(str: string): boolean {
   try {
-    // eslint-disable-next-line no-new
     new URL(str)
     return true
   } catch {

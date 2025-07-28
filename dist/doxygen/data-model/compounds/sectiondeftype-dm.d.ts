@@ -20,13 +20,13 @@ export declare abstract class AbstractSectionDefTypeBase extends AbstractDataMod
  * @public
  */
 export declare abstract class AbstractSectionDefType extends AbstractSectionDefTypeBase {
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 /**
  * @public
  */
 export declare class SectionDefDataModel extends AbstractSectionDefType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 export declare class SectionDefByKindDataModel extends AbstractSectionDefTypeBase {
     constructor(kind: string);

@@ -60,13 +60,13 @@ export class DocusaurusGenerator {
     // --------------------------------------------------------------------------
     // https://nodejs.org/en/learn/manipulating-files/working-with-folders-in-nodejs
     async prepareOutputFolder() {
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { outputFolderPath } = this.workspace;
         try {
             await fs.access(outputFolderPath);
             // Remove the folder if it exist.
             console.log(`Removing existing folder ${outputFolderPath}...`);
             await fs.rm(outputFolderPath, { recursive: true, force: true });
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         }
         catch (err) {
             // The folder does not exist, nothing to remove.
@@ -86,7 +86,6 @@ export class DocusaurusGenerator {
             collapsed: false,
             items: [],
         };
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
         const pages = this.workspace.viewModel.get('pages');
         pages.createTopPagesSidebarItems(sidebarCategory);
         // The order in sidebarCollectionNames also gives the the order
@@ -102,7 +101,6 @@ export class DocusaurusGenerator {
         //   'sidebar:', util.inspect(sidebar, { compact: false, depth: 999 })
         // )
         const jsonString = JSON.stringify(sidebarCategory, null, 2);
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { sidebarCategoryFilePath } = this.workspace.options;
         const relativeFilePath = sidebarCategoryFilePath;
         const absoluteFilePath = path.resolve(relativeFilePath);
@@ -113,7 +111,6 @@ export class DocusaurusGenerator {
     }
     // --------------------------------------------------------------------------
     async generateMenuFile() {
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { menuDropdownFilePath, menuDropdownLabel: label } = this.workspace.options;
         if (menuDropdownFilePath.trim().length === 0) {
             return;
@@ -170,7 +167,6 @@ export class DocusaurusGenerator {
     }
     // --------------------------------------------------------------------------
     async generateTopIndexDotMdFile() {
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { outputFolderPath } = this.workspace;
         const filePath = `${outputFolderPath}index.md`;
         const projectBrief = this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF');
@@ -187,11 +183,9 @@ export class DocusaurusGenerator {
             keywords: ['doxygen', 'reference'],
         };
         const lines = [];
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
         const groups = this.workspace.viewModel.get('groups');
         const topicsLines = groups.generateTopicsTable();
         lines.push(...topicsLines);
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { mainPage } = this.workspace;
         if (mainPage !== undefined) {
             if (topicsLines.length > 0) {
@@ -210,7 +204,7 @@ export class DocusaurusGenerator {
                 }));
             }
         }
-        if (this.workspace.options.originalPagesNote !== undefined) {
+        if (this.workspace.options.originalPagesNote.length > 0) {
             lines.push('');
             lines.push(':::note');
             lines.push(this.workspace.options.originalPagesNote);
@@ -235,7 +229,6 @@ export class DocusaurusGenerator {
         // TODO: parallelize
     }
     // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
     async generatePages() {
         const promises = [];
         for (const [, compound] of this.workspace.compoundsById) {
@@ -277,10 +270,12 @@ export class DocusaurusGenerator {
     }
     async generatePage(compound) {
         const { docusaurusId } = compound;
+        assert(docusaurusId !== undefined);
         const fileName = `${docusaurusId}.md`;
         // console.log('fileName:', fileName)
         const filePath = `${this.workspace.outputFolderPath}${fileName}`;
         const permalink = compound.relativePermalink;
+        assert(permalink !== undefined);
         const slug = `${this.workspace.slugBaseUrl}${permalink}`;
         const frontMatter = {
             // title: `${dataObject.pageTitle ?? compound.compoundName}`,
@@ -291,6 +286,7 @@ export class DocusaurusGenerator {
             keywords: ['doxygen', 'reference', compound.kind],
         };
         const bodyLines = compound.renderToLines(frontMatter);
+        assert(compound.relativePermalink !== undefined);
         const pagePermalink = this.workspace.pageBaseUrl + compound.relativePermalink;
         await this.workspace.writeMdFile({
             filePath,
@@ -302,7 +298,6 @@ export class DocusaurusGenerator {
     }
     // --------------------------------------------------------------------------
     async generateCompatibilityRedirectFiles() {
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const redirectsOutputFolderPath = this.workspace.options.compatibilityRedirectsOutputFolderPath;
         if (redirectsOutputFolderPath === undefined) {
             return;
@@ -322,7 +317,6 @@ export class DocusaurusGenerator {
             if (compound.relativePermalink === undefined) {
                 continue;
             }
-            // eslint-disable-next-line @typescript-eslint/prefer-destructuring
             const { absoluteBaseUrl } = this.workspace;
             const permalink = `${absoluteBaseUrl}${compound.relativePermalink}/`;
             await this.generateRedirectFile({
@@ -424,7 +418,6 @@ export class DocusaurusGenerator {
         console.log('Copying image file', toFilePath);
         await fs.copyFile(fromFilePath, toFilePath);
         fromFilePath = path.join(this.workspace.projectPath, 'template', 'css', 'custom.css');
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         toFilePath = this.workspace.options.customCssFilePath;
         if (!(await folderExists(path.dirname(toFilePath)))) {
             await fs.mkdir(path.dirname(toFilePath), { recursive: true });

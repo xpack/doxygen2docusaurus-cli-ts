@@ -28,9 +28,9 @@ import { isUrl } from '../../../docusaurus/utils.js'
 // However, for consistency reasons, for objects like XXXonly perhaps it is
 // better to use objects,
 export abstract class AbstractStringType extends AbstractDataModelBase {
-  text: string = ''
+  text = ''
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -70,10 +70,7 @@ export abstract class AbstractDescriptionType extends AbstractDataModelBase {
   // Optional elements.
   title?: string | undefined // Only one.
 
-  // Any sequence of them.
-  // children: Array<string | ParaDataModel | InternalDataModel | Sect1DataModel> = []
-
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -144,7 +141,7 @@ export abstract class AbstractListingTypeBase extends AbstractDataModelBase {
  * @public
  */
 export abstract class AbstractListingType extends AbstractListingTypeBase {
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -159,9 +156,7 @@ export abstract class AbstractListingType extends AbstractListingTypeBase {
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts.
       } else if (xml.hasInnerElement(innerElement, 'codeline')) {
-        if (this.codelines === undefined) {
-          this.codelines = []
-        }
+        this.codelines ??= []
         this.codelines.push(new CodeLineDataModel(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
@@ -206,7 +201,7 @@ export abstract class AbstractListingType extends AbstractListingTypeBase {
  * @public
  */
 export class ProgramListingDataModel extends AbstractListingType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'programlisting')
   }
 }
@@ -256,12 +251,12 @@ export abstract class AbstractCodeLineType extends AbstractDataModelBase {
   highlights?: HighlightDataModel[] | undefined
 
   // Optional attributes.
-  lineno?: Number | undefined
+  lineno?: number | undefined
   refid?: string | undefined
   refkind?: string | undefined
-  external?: Boolean | undefined
+  external?: boolean | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -276,9 +271,7 @@ export abstract class AbstractCodeLineType extends AbstractDataModelBase {
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts.
       } else if (xml.hasInnerElement(innerElement, 'highlight')) {
-        if (this.highlights === undefined) {
-          this.highlights = []
-        }
+        this.highlights ??= []
         this.highlights.push(new HighlightDataModel(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
@@ -331,7 +324,7 @@ export abstract class AbstractCodeLineType extends AbstractDataModelBase {
  * @public
  */
 export class CodeLineDataModel extends AbstractCodeLineType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'codeline')
   }
 }
@@ -385,9 +378,9 @@ export abstract class AbstractHighlightType extends AbstractDataModelBase {
   // children: Array<string | SpDataModel | RefTextDataModel> = []
 
   // Mandatory attributes.
-  classs: string = ''
+  classs = ''
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -452,7 +445,7 @@ export abstract class AbstractHighlightType extends AbstractDataModelBase {
  * @public
  */
 export class HighlightDataModel extends AbstractHighlightType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'highlight')
   }
 }
@@ -462,12 +455,12 @@ export class HighlightDataModel extends AbstractHighlightType {
 // </xsd:complexType>
 
 export abstract class AbstractSpType extends AbstractDataModelBase {
-  text: string = ''
+  text = ''
 
   // Optional attributes.
-  value?: Number | undefined
+  value?: number | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -507,7 +500,7 @@ export abstract class AbstractSpType extends AbstractDataModelBase {
 // <xsd:element name="sp" type="spType" />
 
 export class SpDataModel extends AbstractSpType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sp')
   }
 }
@@ -529,9 +522,6 @@ export class SpDataModel extends AbstractSpType {
 export abstract class AbstractDocSectType extends AbstractDataModelBase {
   title?: TitleDataModel | undefined
 
-  // Any sequence of them.
-  // children: Array<string | ParaDataModel | InternalS1DataModel | Sect2DataModel> = []
-
   // Optional attribute.
   id: string | undefined
 
@@ -541,7 +531,7 @@ export abstract class AbstractDocSectType extends AbstractDataModelBase {
 }
 
 export abstract class AbstractDocSect1Type extends AbstractDocSectType {
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -618,7 +608,7 @@ export abstract class AbstractDocSect1Type extends AbstractDocSectType {
 // </xsd:complexType>
 
 export abstract class AbstractDocSect2Type extends AbstractDocSectType {
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -695,7 +685,7 @@ export abstract class AbstractDocSect2Type extends AbstractDocSectType {
 // </xsd:complexType>
 
 export abstract class AbstractDocSect3Type extends AbstractDocSectType {
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -772,7 +762,7 @@ export abstract class AbstractDocSect3Type extends AbstractDocSectType {
 // </xsd:complexType>
 
 export abstract class AbstractDocSect4Type extends AbstractDocSectType {
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -849,7 +839,7 @@ export abstract class AbstractDocSect4Type extends AbstractDocSectType {
 // </xsd:complexType>
 
 export abstract class AbstractDocSect5Type extends AbstractDocSectType {
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -925,7 +915,7 @@ export abstract class AbstractDocSect5Type extends AbstractDocSectType {
 // </xsd:complexType>
 
 export abstract class AbstractDocSect6Type extends AbstractDocSectType {
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -998,7 +988,7 @@ export abstract class AbstractDocInternalType extends AbstractDataModelBase {
   // Any sequence of them.
   // children: Array<string | ParaDataModel | Sect1DataModel> = []
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -1053,7 +1043,7 @@ export abstract class AbstractDocInternalS1Type extends AbstractDataModelBase {
   // Any sequence of them.
   // children: Array<string | ParaDataModel | Sect2DataModel> = []
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -1108,7 +1098,7 @@ export abstract class AbstractDocInternalS2Type extends AbstractDataModelBase {
   // Any sequence of them.
   // children: Array<string | ParaDataModel | Sect3DataModel> = []
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -1163,7 +1153,7 @@ export abstract class AbstractDocInternalS3Type extends AbstractDataModelBase {
   // Any sequence of them.
   // children: Array<string | ParaDataModel | Sect4DataModel> = []
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -1218,7 +1208,7 @@ export abstract class AbstractDocInternalS4Type extends AbstractDataModelBase {
   // Any sequence of them.
   // children: Array<string | ParaDataModel | Sect5DataModel> = []
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -1275,7 +1265,7 @@ export abstract class AbstractDocInternalS5Type extends AbstractDataModelBase {
   // Any sequence of them.
   // children: Array<string | ParaDataModel | Sect6DataModel> = []
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -1329,7 +1319,7 @@ export abstract class AbstractDocInternalS6Type extends AbstractDataModelBase {
   // Any sequence of them.
   // children: Array<string | ParaDataModel> = []
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -1672,7 +1662,7 @@ export type DocTitleCmdGroup =
 
 export function parseDocTitleCmdGroup(
   xml: DoxygenXmlParser,
-  element: Object,
+  element: object,
   elementName: string
 ): DocTitleCmdGroup[] {
   const children: DocTitleCmdGroup[] = []
@@ -1693,8 +1683,6 @@ export function parseDocTitleCmdGroup(
     children.push(new SubscriptDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'superscript')) {
     children.push(new SuperscriptDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'center')) {
-    children.push(new CenterDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'center')) {
     children.push(new CenterDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'small')) {
@@ -1769,14 +1757,6 @@ export function parseDocTitleCmdGroup(
     children.push(new SectDocMarkupDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'umlaut')) {
     children.push(new UmlautDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'nzwj')) {
-    children.push(new NzwjDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'zwj')) {
-    children.push(new ZwjDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'ndash')) {
-    children.push(new NdashDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'mdash')) {
-    children.push(new MdashDocMarkupDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'ordf')) {
     children.push(new OrdfDocMarkupDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'laquo')) {
@@ -1949,20 +1929,6 @@ export function parseDocTitleCmdGroup(
     children.push(new YumlautSmallDocMarkupDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'divide')) {
     children.push(new DivideDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'oslash')) {
-    children.push(new OslashSmallDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'ugrave')) {
-    children.push(new UgraveSmallDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'uacute')) {
-    children.push(new UacuteSmallDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'ucirc')) {
-    children.push(new UcircSmallDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'uumlaut')) {
-    children.push(new UumlautSmallDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'yacute')) {
-    children.push(new YacuteSmallDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'thorn')) {
-    children.push(new ThornSmallDocMarkupDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'fnof')) {
     children.push(new FnofDocMarkupDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'Alpha')) {
@@ -2280,7 +2246,7 @@ export class AbstractDocTitleType extends AbstractDataModelBase {
   // Any sequence of them.
   // children: Array<string | DocTitleCmdGroup> = []
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -2658,11 +2624,10 @@ export type DocCmdGroup =
   | VariableListDataModel
   | SubstringDocMarkupType
   | DocTableDataModel
-  | ParameterListDataModel
 
 function parseDocCmdGroup(
   xml: DoxygenXmlParser,
-  element: Object,
+  element: object,
   elementName: string
 ): DocCmdGroup[] {
   const children: DocCmdGroup[] = []
@@ -2685,8 +2650,6 @@ function parseDocCmdGroup(
     children.push(new SubscriptDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'superscript')) {
     children.push(new SuperscriptDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'center')) {
-    children.push(new CenterDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'center')) {
     children.push(new CenterDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'small')) {
@@ -2762,14 +2725,6 @@ function parseDocCmdGroup(
     children.push(new SectDocMarkupDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'umlaut')) {
     children.push(new UmlautDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'nzwj')) {
-    children.push(new NzwjDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'zwj')) {
-    children.push(new ZwjDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'ndash')) {
-    children.push(new NdashDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'mdash')) {
-    children.push(new MdashDocMarkupDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'ordf')) {
     children.push(new OrdfDocMarkupDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'laquo')) {
@@ -2942,20 +2897,6 @@ function parseDocCmdGroup(
     children.push(new YumlautSmallDocMarkupDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'divide')) {
     children.push(new DivideDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'oslash')) {
-    children.push(new OslashSmallDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'ugrave')) {
-    children.push(new UgraveSmallDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'uacute')) {
-    children.push(new UacuteSmallDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'ucirc')) {
-    children.push(new UcircSmallDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'uumlaut')) {
-    children.push(new UumlautSmallDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'yacute')) {
-    children.push(new YacuteSmallDocMarkupDataModel(xml, element))
-  } else if (xml.hasInnerElement(element, 'thorn')) {
-    children.push(new ThornSmallDocMarkupDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'fnof')) {
     children.push(new FnofDocMarkupDataModel(xml, element))
   } else if (xml.hasInnerElement(element, 'Alpha')) {
@@ -3316,7 +3257,7 @@ function parseDocCmdGroup(
 export abstract class AbstractDocParaType extends AbstractDataModelBase {
   // children: Array<string | DocCmdGroup> = []
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -3358,7 +3299,7 @@ export class AbstractDocMarkupType extends AbstractDataModelBase {
   // Any sequence of them.
   // children: Array<string | DocCmdGroup> = []
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -3395,7 +3336,7 @@ export class SubstringDocMarkupType extends AbstractDocMarkupType {
   substring: string
   constructor(
     xml: DoxygenXmlParser,
-    element: Object,
+    element: object,
     elementName: string,
     substring: string
   ) {
@@ -3410,1743 +3351,1743 @@ export class SubstringDocMarkupType extends AbstractDocMarkupType {
 
 // copyright
 export class CopyDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'copy', '\u00A9')
   }
 }
 
 // inverted exclamation mark
 export class IexclDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'iexcl', '\u00A1')
   }
 }
 
 // cent
 export class CentDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'cent', '\u00A2')
   }
 }
 
 // pound
 export class PoundDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'pound', '\u00A3')
   }
 }
 
 // curren
 export class CurrenDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'curren', '\u00A4')
   }
 }
 
 // yen
 export class YenDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'yen', '\u00A5')
   }
 }
 
 // brvbar
 export class BrvbarDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'brvbar', '\u00A6')
   }
 }
 
 // sect
 export class SectDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sect', '\u00A7')
   }
 }
 
 // umlaut (diaeresis)
 export class UmlautDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'umlaut', '\u00A8')
   }
 }
 
 // Zero Width Non-Joiner
 export class NzwjDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'nzwj', '\u200C')
   }
 }
 
 // Zero Width Joiner.
 export class ZwjDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'zwj', '\u200D')
   }
 }
 
 // en dash.
 export class NdashDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ndash', '\u2013') // '–'
   }
 }
 
 // em dash.
 export class MdashDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'mdash', '\u2014') // '—'
   }
 }
 
 // ordfeminine
 export class OrdfDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ordf', '\u00AA')
   }
 }
 
 // left-pointing double angle quotation mark
 export class LaquoDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'laquo', '\u00AB')
   }
 }
 
 // not sign
 export class NotDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'not', '\u00AC')
   }
 }
 
 // soft hyphen
 export class ShyDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'shy', '\u00AD')
   }
 }
 
 // registered sign
 export class RegisteredDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'registered', '\u00AE')
   }
 }
 
 // macron
 export class MacrDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'macr', '\u00AF')
   }
 }
 
 // degree sign
 export class DegDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'deg', '\u00B0')
   }
 }
 
 // plus-minus sign
 export class PlusmnDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'plusmn', '\u00B1')
   }
 }
 
 // superscript two
 export class Sup2DocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sup2', '\u00B2')
   }
 }
 
 // superscript three
 export class Sup3DocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sup3', '\u00B3')
   }
 }
 
 // acute accent
 export class AcuteDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'acute', '\u00B4')
   }
 }
 
 // micro sign
 export class MicroDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'micro', '\u00B5')
   }
 }
 
 // pilcrow/paragraph sign
 export class ParaDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'para', '\u00B6')
   }
 }
 
 // middle dot
 export class MiddotDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'middot', '\u00B7')
   }
 }
 
 // cedilla
 export class CedilDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'cedil', '\u00B8')
   }
 }
 
 // superscript one
 export class Sup1DocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sup1', '\u00B9')
   }
 }
 
 // masculine ordinal indicator
 export class OrdmDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ordm', '\u00BA')
   }
 }
 
 // right-pointing double angle quotation mark
 export class RaquoDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'raquo', '\u00BB')
   }
 }
 
 // fraction one quarter
 export class Frac14DocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'frac14', '\u00BC')
   }
 }
 
 // fraction one half
 export class Frac12DocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'frac12', '\u00BD')
   }
 }
 
 // fraction three quarters
 export class Frac34DocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'frac34', '\u00BE')
   }
 }
 
 // inverted question mark
 export class IquestDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'iquest', '\u00BF')
   }
 }
 
 // Latin capital letter A with grave
 export class AgraveDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Agrave', '\u00C0')
   }
 }
 
 // Latin capital letter A with acute
 export class AacuteDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Aacute', '\u00C1')
   }
 }
 
 // Latin capital letter A with circumflex
 export class AcircDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Acirc', '\u00C2')
   }
 }
 
 // Latin capital letter A with tilde
 export class AtildeDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Atilde', '\u00C3')
   }
 }
 
 // Latin capital letter A with diaeresis (umlaut)
 export class AumlautDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Aumlaut', '\u00C4')
   }
 }
 
 // Latin capital letter A with ring above
 export class AringDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Aring', '\u00C5')
   }
 }
 
 // Latin capital letter AE
 export class AEligDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'AElig', '\u00C6')
   }
 }
 
 // Latin capital letter C with cedilla
 export class CcedilDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Ccedil', '\u00C7')
   }
 }
 
 // Latin capital letter E with grave
 export class EgraveDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Egrave', '\u00C8')
   }
 }
 
 // Latin capital letter E with acute
 export class EacuteDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Eacute', '\u00C9')
   }
 }
 
 // Latin capital letter E with circumflex
 export class EcircDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Ecirc', '\u00CA')
   }
 }
 
 // Latin capital letter E with diaeresis (umlaut)
 export class EumlautDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Eumlaut', '\u00CB')
   }
 }
 
 // Latin capital letter I with grave
 export class IgraveDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Igrave', '\u00CC')
   }
 }
 
 // Latin capital letter I with acute
 export class IacuteDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Iacute', '\u00CD')
   }
 }
 
 // Latin capital letter I with circumflex
 export class IcircDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Icirc', '\u00CE')
   }
 }
 
 // Latin capital letter I with diaeresis (umlaut)
 export class IumlautDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Iumlaut', '\u00CF')
   }
 }
 
 // Latin capital letter ETH
 export class ETHDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ETH', '\u00D0')
   }
 }
 
 // Latin capital letter N with tilde
 export class NtildeDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Ntilde', '\u00D1')
   }
 }
 
 // Latin capital letter O with grave
 export class OgraveDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Ograve', '\u00D2')
   }
 }
 
 // Latin capital letter O with acute
 export class OacuteDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Oacute', '\u00D3')
   }
 }
 
 // Latin capital letter O with circumflex
 export class OcircDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Ocirc', '\u00D4')
   }
 }
 
 // Latin capital letter O with tilde
 export class OtildeDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Otilde', '\u00D5')
   }
 }
 
 // Latin capital letter O with diaeresis (umlaut)
 export class OumlautDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Oumlaut', '\u00D6')
   }
 }
 
 // multiplication sign
 export class TimesDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'times', '\u00D7')
   }
 }
 
 // Latin capital letter O with stroke
 export class OslashDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Oslash', '\u00D8')
   }
 }
 
 // Latin capital letter U with grave
 export class UgraveDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Ugrave', '\u00D9')
   }
 }
 
 // Latin capital letter U with acute
 export class UacuteDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Uacute', '\u00DA')
   }
 }
 
 // Latin capital letter U with circumflex
 export class UcircDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Ucirc', '\u00DB')
   }
 }
 
 // Latin capital letter U with diaeresis (umlaut)
 export class UumlautDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Uumlaut', '\u00DC')
   }
 }
 
 // Latin capital letter Y with acute
 export class YacuteDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Yacute', '\u00DD')
   }
 }
 
 // Latin capital letter Thorn
 export class THORNDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'THORN', '\u00DE')
   }
 }
 
 // Latin small letter sharp s (eszett)
 export class SzligDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'szlig', '\u00DF')
   }
 }
 
 // Latin small letter a with grave
 export class AgraveSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'agrave', '\u00E0')
   }
 }
 
 // Latin small letter a with acute
 export class AacuteSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'aacute', '\u00E1')
   }
 }
 
 // Latin small letter a with circumflex
 export class AcircSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'acirc', '\u00E2')
   }
 }
 
 // Latin small letter a with tilde
 export class AtildeSmallDocMarkupType extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'atilde', '\u00E3')
   }
 }
 
 // Latin small letter a with diaeresis (umlaut)
 export class AumlautSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'aumlaut', '\u00E4')
   }
 }
 
 // Latin small letter a with ring above
 export class AringSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'aring', '\u00E5')
   }
 }
 
 // Latin small letter ae
 export class AeligSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'aelig', '\u00E6')
   }
 }
 
 // Latin small letter c with cedilla
 export class CcedilSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ccedil', '\u00E7')
   }
 }
 
 // Latin small letter e with grave
 export class EgraveSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'egrave', '\u00E8')
   }
 }
 
 // Latin small letter e with acute
 export class EacuteSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'eacute', '\u00E9')
   }
 }
 
 // Latin small letter e with circumflex
 export class EcircSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ecirc', '\u00EA')
   }
 }
 
 // Latin small letter e with diaeresis (umlaut)
 export class EumlautSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'eumlaut', '\u00EB')
   }
 }
 
 // Latin small letter i with grave
 export class IgraveSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'igrave', '\u00EC')
   }
 }
 
 // Latin small letter i with acute
 export class IacuteSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'iacute', '\u00ED')
   }
 }
 
 // Latin small letter i with circumflex
 export class IcircSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'icirc', '\u00EE')
   }
 }
 
 // Latin small letter i with diaeresis (umlaut)
 export class IumlautSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'iumlaut', '\u00EF')
   }
 }
 
 // Latin small letter eth
 export class EthSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'eth', '\u00F0')
   }
 }
 
 // Latin small letter n with tilde
 export class NtildeSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ntilde', '\u00F1')
   }
 }
 
 // Latin small letter o with grave
 export class OgraveSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ograve', '\u00F2')
   }
 }
 
 // Latin small letter o with acute
 export class OacuteSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'oacute', '\u00F3')
   }
 }
 
 // Latin small letter o with circumflex
 export class OcircSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ocirc', '\u00F4')
   }
 }
 
 // Latin small letter o with tilde
 export class OtildeSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'otilde', '\u00F5')
   }
 }
 
 // Latin small letter o with diaeresis (umlaut)
 export class OumlautSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'oumlaut', '\u00F6')
   }
 }
 
 // division sign
 export class DivideDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'divide', '\u00F7')
   }
 }
 
 // Latin small letter o with stroke
 export class OslashSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'oslash', '\u00F8')
   }
 }
 
 // Latin small letter u with grave
 export class UgraveSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ugrave', '\u00F9')
   }
 }
 
 // Latin small letter u with acute
 export class UacuteSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'uacute', '\u00FA')
   }
 }
 
 // Latin small letter u with circumflex
 export class UcircSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ucirc', '\u00FB')
   }
 }
 
 // Latin small letter u with diaeresis (umlaut)
 export class UumlautSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'uumlaut', '\u00FC')
   }
 }
 
 // Latin small letter y with acute
 export class YacuteSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'yacute', '\u00FD')
   }
 }
 
 // Latin small letter thorn
 export class ThornSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'thorn', '\u00FE')
   }
 }
 
 // Latin small letter y with diaeresis (umlaut)
 export class YumlautSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'yumlaut', '\u00FF')
   }
 }
 
 // Latin small letter f with hook (function)
 export class FnofDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'fnof', '\u0192')
   }
 }
 
 // Greek capital letter Alpha
 export class AlphaDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Alpha', '\u0391')
   }
 }
 
 // Greek capital letter Beta
 export class BetaDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Beta', '\u0392')
   }
 }
 
 // Greek capital letter Gamma
 export class GammaDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Gamma', '\u0393')
   }
 }
 
 // Greek capital letter Delta
 export class DeltaDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Delta', '\u0394')
   }
 }
 
 // Greek capital letter Epsilon
 export class EpsilonDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Epsilon', '\u0395')
   }
 }
 
 // Greek capital letter Zeta
 export class ZetaDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Zeta', '\u0396')
   }
 }
 
 // Greek capital letter Eta
 export class EtaDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Eta', '\u0397')
   }
 }
 
 // Greek capital letter Theta
 export class ThetaDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Theta', '\u0398')
   }
 }
 
 // Greek capital letter Iota
 export class IotaDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Iota', '\u0399')
   }
 }
 
 // Greek capital letter Kappa
 export class KappaDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Kappa', '\u039A')
   }
 }
 
 // Greek capital letter Lambda
 export class LambdaDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Lambda', '\u039B')
   }
 }
 
 // Greek capital letter Mu
 export class MuDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Mu', '\u039C')
   }
 }
 
 // Greek capital letter Nu
 export class NuDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Nu', '\u039D')
   }
 }
 
 // Greek capital letter Xi
 export class XiDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Xi', '\u039E')
   }
 }
 
 // Greek capital letter Omicron
 export class OmicronDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Omicron', '\u039F')
   }
 }
 
 // Greek capital letter Pi
 export class PiDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Pi', '\u03A0')
   }
 }
 
 // Greek capital letter Rho
 export class RhoDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Rho', '\u03A1')
   }
 }
 
 // Greek capital letter Sigma
 export class SigmaDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Sigma', '\u03A3')
   }
 }
 
 // Greek capital letter Tau
 export class TauDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Tau', '\u03A4')
   }
 }
 
 // Greek capital letter Upsilon
 export class UpsilonDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Upsilon', '\u03A5')
   }
 }
 
 // Greek capital letter Phi
 export class PhiDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Phi', '\u03A6')
   }
 }
 
 // Greek capital letter Chi
 export class ChiDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Chi', '\u03A7')
   }
 }
 
 // Greek capital letter Psi
 export class PsiDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Psi', '\u03A8')
   }
 }
 
 // Greek capital letter Omega
 export class OmegaDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Omega', '\u03A9')
   }
 }
 
 // Greek small letter alpha
 export class AlphaSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'alpha', '\u03B1')
   }
 }
 
 // Greek small letter beta
 export class BetaSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'beta', '\u03B2')
   }
 }
 
 // Greek small letter gamma
 export class GammaSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'gamma', '\u03B3')
   }
 }
 
 // Greek small letter delta
 export class DeltaSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'delta', '\u03B4')
   }
 }
 
 // Greek small letter epsilon
 export class EpsilonSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'epsilon', '\u03B5')
   }
 }
 
 // Greek small letter zeta
 export class ZetaSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'zeta', '\u03B6')
   }
 }
 
 // Greek small letter eta
 export class EtaSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'eta', '\u03B7')
   }
 }
 
 // Greek small letter theta
 export class ThetaSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'theta', '\u03B8')
   }
 }
 
 // Greek small letter iota
 export class IotaSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'iota', '\u03B9')
   }
 }
 
 // Greek small letter kappa
 export class KappaSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'kappa', '\u03BA')
   }
 }
 
 // Greek small letter lambda
 export class LambdaSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'lambda', '\u03BB')
   }
 }
 
 // Greek small letter mu
 export class MuSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'mu', '\u03BC')
   }
 }
 
 // Greek small letter nu
 export class NuSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'nu', '\u03BD')
   }
 }
 
 // Greek small letter xi
 export class XiSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'xi', '\u03BE')
   }
 }
 
 // Greek small letter omicron
 export class OmicronSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'omicron', '\u03BF')
   }
 }
 
 // Greek small letter pi
 export class PiSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'pi', '\u03C0')
   }
 }
 
 // Greek small letter rho
 export class RhoSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'rho', '\u03C1')
   }
 }
 
 // Greek small letter sigma
 export class SigmaSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sigma', '\u03C3')
   }
 }
 
 // Greek small letter sigmaf
 export class SigmafSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sigmaf', '\u03C2')
   }
 }
 
 // Greek small letter tau
 export class TauSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'tau', '\u03C4')
   }
 }
 
 // Greek small letter upsilon
 export class UpsilonSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'upsilon', '\u03C5')
   }
 }
 
 // Greek small letter phi
 export class PhiSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'phi', '\u03C6')
   }
 }
 
 // Greek small letter chi
 export class ChiSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'chi', '\u03C7')
   }
 }
 
 // Greek small letter psi
 export class PsiSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'psi', '\u03C8')
   }
 }
 
 // Greek small letter omega
 export class OmegaSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'omega', '\u03C9')
   }
 }
 
 // Greek small letter theta symbol
 export class ThetasymDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'thetasym', '\u03D1')
   }
 }
 
 // Greek upsilon with hook symbol
 export class UpsihDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'upsih', '\u03D2')
   }
 }
 
 // Greek pi symbol (variant)
 export class PivDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'piv', '\u03D6')
   }
 }
 
 // Bullet
 export class BullDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'bull', '\u2022')
   }
 }
 
 // Horizontal ellipsis
 export class HellipDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'hellip', '\u2026')
   }
 }
 
 // Prime (minutes, feet)
 export class PrimeDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'prime', '\u2032')
   }
 }
 
 // Double prime (seconds, inches)
 export class PrimeUpperDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Prime', '\u2033')
   }
 }
 
 // Overline
 export class OlineDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'oline', '\u203E')
   }
 }
 
 // Fraction slash
 export class FraslDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'frasl', '\u2044')
   }
 }
 
 // Script capital P (Weierstrass p)
 export class WeierpDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'weierp', '\u2118')
   }
 }
 
 // Imaginary part
 export class ImaginaryDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'imaginary', '\u2111')
   }
 }
 
 // Real part
 export class RealDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'real', '\u211C')
   }
 }
 
 // Trademark
 export class TrademarkDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'trademark', '\u2122')
   }
 }
 
 // Alef symbol
 export class AlefsymDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'alefsym', '\u2135')
   }
 }
 
 // Leftwards arrow
 export class LarrDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'larr', '\u2190')
   }
 }
 
 // Upwards arrow
 export class UarrDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'uarr', '\u2191')
   }
 }
 
 // Rightwards arrow
 export class RarrDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'rarr', '\u2192')
   }
 }
 
 // Downwards arrow
 export class DarrDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'darr', '\u2193')
   }
 }
 
 // Left right arrow
 export class HarrDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'harr', '\u2194')
   }
 }
 
 // Downwards arrow with corner leftwards (carriage return)
 export class CrarrDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'crarr', '\u21B5')
   }
 }
 
 // Leftwards double arrow
 export class LArrDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'lArr', '\u21D0')
   }
 }
 
 // Upwards double arrow
 export class UArrDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'uArr', '\u21D1')
   }
 }
 
 // Rightwards double arrow
 export class RArrDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'rArr', '\u21D2')
   }
 }
 
 // Downwards double arrow
 export class DArrDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'dArr', '\u21D3')
   }
 }
 
 // Left right double arrow
 export class HArrDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'hArr', '\u21D4')
   }
 }
 
 // For all
 export class ForallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'forall', '\u2200')
   }
 }
 
 // Partial differential
 export class PartDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'part', '\u2202')
   }
 }
 
 // There exists
 export class ExistDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'exist', '\u2203')
   }
 }
 
 // Empty set
 export class EmptyDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'empty', '\u2205')
   }
 }
 
 // Nabla
 export class NablaDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'nabla', '\u2207')
   }
 }
 
 // Element of
 export class IsinDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'isin', '\u2208')
   }
 }
 
 // Not an element of
 export class NotinDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'notin', '\u2209')
   }
 }
 
 // Contains as member
 export class NiDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ni', '\u220B')
   }
 }
 
 // N-ary product
 export class ProdDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'prod', '\u220F')
   }
 }
 
 // N-ary summation
 export class SumDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sum', '\u2211')
   }
 }
 
 // Minus sign
 export class MinusDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'minus', '\u2212')
   }
 }
 
 // Asterisk operator
 export class LowastDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'lowast', '\u2217')
   }
 }
 
 // Square root
 export class RadicDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'radic', '\u221A')
   }
 }
 
 // Proportional to
 export class PropDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'prop', '\u221D')
   }
 }
 
 // Infinity
 export class InfinDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'infin', '\u221E')
   }
 }
 
 // Angle
 export class AngDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ang', '\u2220')
   }
 }
 
 // Logical and
 export class AndDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'and', '\u2227')
   }
 }
 
 // Logical or
 export class OrDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'or', '\u2228')
   }
 }
 
 // Intersection
 export class CapDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'cap', '\u2229')
   }
 }
 
 // Union
 export class CupDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'cup', '\u222A')
   }
 }
 
 // Integral
 export class IntDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'int', '\u222B')
   }
 }
 
 // Therefore
 export class There4DocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'there4', '\u2234')
   }
 }
 
 // Tilde operator
 export class SimDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sim', '\u223C')
   }
 }
 
 // Approximately equal to
 export class CongDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'cong', '\u2245')
   }
 }
 
 // Almost equal to
 export class AsympDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'asymp', '\u2248')
   }
 }
 
 // Not equal to
 export class NeDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ne', '\u2260')
   }
 }
 
 // Identical to
 export class EquivDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'equiv', '\u2261')
   }
 }
 
 // Less-than or equal to
 export class LeDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'le', '\u2264')
   }
 }
 
 // Greater-than or equal to
 export class GeDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ge', '\u2265')
   }
 }
 
 // Subset of
 export class SubDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sub', '\u2282')
   }
 }
 
 // Superset of
 export class SupDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sup', '\u2283')
   }
 }
 
 // Not a subset of
 export class NsubDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'nsub', '\u2284')
   }
 }
 
 // Subset of or equal to
 export class SubeDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sube', '\u2286')
   }
 }
 
 // Superset of or equal to
 export class SupeDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'supe', '\u2287')
   }
 }
 
 // Circled plus
 export class OplusDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'oplus', '\u2295')
   }
 }
 
 // Circled times
 export class OtimesDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'otimes', '\u2297')
   }
 }
 
 // Perpendicular
 export class PerpDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'perp', '\u22A5')
   }
 }
 
 // Dot operator
 export class SdotDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sdot', '\u22C5')
   }
 }
 
 // Left ceiling
 export class LceilDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'lceil', '\u2308')
   }
 }
 
 // Right ceiling
 export class RceilDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'rceil', '\u2309')
   }
 }
 
 // Left floor
 export class LfloorDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'lfloor', '\u230A')
   }
 }
 
 // Right floor
 export class RfloorDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'rfloor', '\u230B')
   }
 }
 
 // Left-pointing angle bracket
 export class LangDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'lang', '\u2329')
   }
 }
 
 // Right-pointing angle bracket
 export class RangDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'rang', '\u232A')
   }
 }
 
 // Lozenge
 export class LozDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'loz', '\u25CA')
   }
 }
 
 // Black spade suit
 export class SpadesDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'spades', '\u2660')
   }
 }
 
 // Black club suit
 export class ClubsDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'clubs', '\u2663')
   }
 }
 
 // Black heart suit
 export class HeartsDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'hearts', '\u2665')
   }
 }
 
 // Black diamond suit
 export class DiamsDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'diams', '\u2666')
   }
 }
 
 // Latin capital ligature OE
 export class OEligDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'OElig', '\u0152')
   }
 }
 
 // Latin small ligature oe
 export class OeligDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'oelig', '\u0153')
   }
 }
 
 // Latin capital letter S with caron
 export class ScaronDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Scaron', '\u0160')
   }
 }
 
 // Latin small letter s with caron
 export class ScaronSmallDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'scaron', '\u0161')
   }
 }
 
 // Latin capital letter Y with diaeresis (umlaut)
 export class YumlautDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Yumlaut', '\u0178')
   }
 }
 
 // Modifier letter circumflex accent
 export class CircDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'circ', '\u02C6')
   }
 }
 
 // Small tilde
 export class TildeDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'tilde', '\u02DC')
   }
 }
 
 // En space
 export class EnspDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ensp', '\u2002')
   }
 }
 
 // Em space
 export class EmspDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'emsp', '\u2003')
   }
 }
 
 // Thin space
 export class ThinspDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'thinsp', '\u2009')
   }
 }
 
 // Zero width non-joiner
 export class ZwnjDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'zwnj', '\u200C')
   }
 }
 
 // Left-to-right mark
 export class LrmDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'lrm', '\u200E')
   }
 }
 
 // Right-to-left mark
 export class RlmDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'rlm', '\u200F')
   }
 }
 
 // Single low-9 quotation mark
 export class SbquoDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sbquo', '\u201A')
   }
 }
 
 // Left double quotation mark
 export class LdquoDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ldquo', '\u201C')
   }
 }
 
 // Right double quotation mark
 export class RdquoDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'rdquo', '\u201D')
   }
 }
 
 // Double low-9 quotation mark
 export class BdquoDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'bdquo', '\u201E')
   }
 }
 
 // Dagger
 export class DaggerDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'dagger', '\u2020')
   }
 }
 
 // Double dagger
 export class DaggerUpperDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'Dagger', '\u2021')
   }
 }
 
 // Per mille sign
 export class PermilDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'permil', '\u2030')
   }
 }
 
 // Single left-pointing angle quotation mark
 export class LsaquoDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'lsaquo', '\u2039')
   }
 }
 
 // Single right-pointing angle quotation mark
 export class RsaquoDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'rsaquo', '\u203A')
   }
 }
 
 // Euro sign
 export class EuroDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'euro', '\u20AC')
   }
 }
 
 // Trade mark sign
 export class TmDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'tm', '\u2122')
   }
 }
 
 // Left single quote.
 export class LsquoDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'lsquo', '\u2018') // '‘'
   }
 }
 
 // Right single quote.
 export class RsquoDocMarkupDataModel extends SubstringDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'rsquo', '\u0060') // '`'
   }
 }
@@ -5162,9 +5103,9 @@ export class AbstractDocURLLink extends AbstractDataModelBase {
   // children: Array<string | DocTitleCmdGroup> = []
 
   // Mandatory attributes.
-  url: string = ''
+  url = ''
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -5218,7 +5159,7 @@ export class AbstractDocURLLink extends AbstractDataModelBase {
 // <xsd:element name="ulink" type="docURLLink" />
 
 export class UlinkDataModel extends AbstractDocURLLink {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ulink')
   }
 }
@@ -5233,9 +5174,9 @@ export class AbstractDocAnchorType extends AbstractDataModelBase {
   // children: string[] = []
 
   // Mandatory attributes.
-  id: string = ''
+  id = ''
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -5300,7 +5241,7 @@ export class AbstractDocAnchorType extends AbstractDataModelBase {
 // <xsd:element name="anchor" type="docAnchorType" />
 
 export class AnchorDataModel extends AbstractDocAnchorType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'anchor')
   }
 }
@@ -5313,12 +5254,12 @@ export class AnchorDataModel extends AbstractDocAnchorType {
 
 export abstract class AbstractDocFormulaType extends AbstractDataModelBase {
   // Mandatory elements.
-  text: string = '' // The name of the reference, passed as element text.
+  text = '' // The name of the reference, passed as element text.
 
   // Mandatory attributes.
-  id: string = ''
+  id = ''
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -5362,7 +5303,7 @@ export abstract class AbstractDocFormulaType extends AbstractDataModelBase {
 // <xsd:element name="formula" type="docFormulaType" />
 
 export class FormulaDataModel extends AbstractDocFormulaType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'formula')
   }
@@ -5379,10 +5320,10 @@ export class FormulaDataModel extends AbstractDocFormulaType {
 
 export abstract class AbstractDocIndexEntryType extends AbstractDataModelBase {
   // Mandatory elements.
-  primaryie: string = ''
-  secondaryie: string = ''
+  primaryie = ''
+  secondaryie = ''
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -5429,7 +5370,7 @@ export abstract class AbstractDocIndexEntryType extends AbstractDataModelBase {
 // <xsd:element name="indexentry" type="docIndexEntryType" />
 
 export class IndexEntryDataModel extends AbstractDocIndexEntryType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'indexentry')
   }
@@ -5462,10 +5403,10 @@ export abstract class AbstractDocListType extends AbstractDataModelBase {
   listItems: ListItemDataModel[] = []
 
   // Optional attributes.
-  type: string = ''
-  start: Number | undefined
+  type = ''
+  start: number | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -5539,9 +5480,9 @@ export abstract class AbstractDocListItemType extends AbstractDataModelBase {
 
   // Optional attributes.
   override: string | undefined
-  value: Number | undefined
+  value: number | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -5557,9 +5498,7 @@ export abstract class AbstractDocListItemType extends AbstractDataModelBase {
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts.
       } else if (xml.hasInnerElement(innerElement, 'para')) {
-        if (this.paras === undefined) {
-          this.paras = []
-        }
+        this.paras ??= []
         this.paras.push(new ParaDataModel(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
@@ -5604,7 +5543,7 @@ export abstract class AbstractDocListItemType extends AbstractDataModelBase {
 // <xsd:element name="listitem" type="docListItemType" maxOccurs="unbounded" />
 
 export class ListItemDataModel extends AbstractDocListItemType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'listitem')
   }
 }
@@ -5629,9 +5568,9 @@ export abstract class AbstractDocSimpleSectType extends AbstractDataModelBase {
   // children: Array<string | ParaDataModel> = []
 
   // Mandatory attributes.
-  kind: string = ''
+  kind = ''
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -5722,13 +5661,13 @@ export abstract class AbstractDocRefTextType extends AbstractDataModelBase {
   // children: Array<string | DocTitleCmdGroup> = []
 
   // Mandatory attributes.
-  refid: string = ''
-  kindref: string = '' // DoxRefKind
+  refid = ''
+  kindref = '' // DoxRefKind
 
   // Optional attributes.
   external?: string | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -5789,7 +5728,7 @@ export abstract class AbstractDocRefTextType extends AbstractDataModelBase {
 // <xsd:element name="ref" type="docRefTextType" />
 
 export class RefDataModel extends AbstractDocRefTextType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ref')
   }
 }
@@ -5809,13 +5748,13 @@ export abstract class AbstractDocTableType extends AbstractDataModelBase {
   rows?: DocRowDataModel[] = undefined
 
   // Mandatory attributes.
-  rowsCount: number = NaN
-  colsCount: number = NaN
+  rowsCount = NaN
+  colsCount = NaN
 
   // Optional
   width: string | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -5835,9 +5774,7 @@ export abstract class AbstractDocTableType extends AbstractDataModelBase {
         assert(this.caption === undefined)
         this.caption = new DocCaptionDataModel(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'row')) {
-        if (this.rows === undefined) {
-          this.rows = []
-        }
+        this.rows ??= []
         const docRow = new DocRowDataModel(xml, innerElement)
         this.rows.push(docRow)
         this.children.push(docRow)
@@ -5891,7 +5828,7 @@ export abstract class AbstractDocTableType extends AbstractDataModelBase {
 // <xsd:element name="table" type="docTableType" />
 
 export class DocTableDataModel extends AbstractDocTableType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'table')
   }
 }
@@ -5906,7 +5843,7 @@ export abstract class AbstractDocRowType extends AbstractDataModelBase {
   // Optional elements.
   entries?: DocEntryDataModel[] | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -5923,9 +5860,7 @@ export abstract class AbstractDocRowType extends AbstractDataModelBase {
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts.
       } else if (xml.hasInnerElement(innerElement, 'entry')) {
-        if (this.entries === undefined) {
-          this.entries = []
-        }
+        this.entries ??= []
         const docEntry = new DocEntryDataModel(xml, innerElement)
         this.entries.push(docEntry)
         this.children.push(docEntry)
@@ -5954,7 +5889,7 @@ export abstract class AbstractDocRowType extends AbstractDataModelBase {
 // <xsd:element name="row" type="docRowType" minOccurs="0" maxOccurs="unbounded" />
 
 export class DocRowDataModel extends AbstractDocRowType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'row')
   }
 }
@@ -5978,15 +5913,15 @@ export abstract class AbstractDocEntryType extends AbstractDataModelBase {
   paras?: ParaDataModel[] | undefined
 
   // Mandatory attributes.
-  thead: boolean = false
-  colspan?: Number | undefined
-  rowspan?: Number | undefined
+  thead = false
+  colspan?: number | undefined
+  rowspan?: number | undefined
   align?: string | undefined
   valign?: string | undefined
   width?: string | undefined
   classs?: string | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -6003,9 +5938,7 @@ export abstract class AbstractDocEntryType extends AbstractDataModelBase {
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts.
       } else if (xml.hasInnerElement(innerElement, 'para')) {
-        if (this.paras === undefined) {
-          this.paras = []
-        }
+        this.paras ??= []
         const para = new ParaDataModel(xml, innerElement)
         this.paras.push(para)
         this.children.push(para)
@@ -6070,7 +6003,7 @@ export abstract class AbstractDocEntryType extends AbstractDataModelBase {
 // <xsd:element name="entry" type="docEntryType" minOccurs="0" maxOccurs="unbounded" />
 
 export class DocEntryDataModel extends AbstractDocEntryType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'entry')
   }
 }
@@ -6085,9 +6018,9 @@ export abstract class AbstractDocCaptionType extends AbstractDataModelBase {
   // children: Array<string | DocTitleCmdGroup> = []
 
   // Mandatory attributes.
-  id: string = ''
+  id = ''
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -6142,7 +6075,7 @@ export abstract class AbstractDocCaptionType extends AbstractDataModelBase {
 // <xsd:element name="row" type="docRowType" minOccurs="0" maxOccurs="unbounded" />
 
 export class DocCaptionDataModel extends AbstractDocCaptionType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'caption')
   }
 }
@@ -6166,9 +6099,9 @@ export class AbstractDocHeadingType extends AbstractDataModelBase {
   // children: Array<string | DocTitleCmdGroup> = []
 
   // Mandatory attributes.
-  level: number = NaN
+  level = NaN
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -6220,7 +6153,7 @@ export class AbstractDocHeadingType extends AbstractDataModelBase {
 // <xsd:element name="heading" type="docHeadingType" />
 
 export class HeadingDataModel extends AbstractDocHeadingType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'heading')
   }
 }
@@ -6261,10 +6194,10 @@ export abstract class AbstractDocImageType extends AbstractDataModelBase {
   width?: string | undefined
   height?: string | undefined
   alt?: string | undefined
-  inline?: Boolean | undefined
+  inline?: boolean | undefined
   caption?: string | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -6322,9 +6255,7 @@ export abstract class AbstractDocImageType extends AbstractDataModelBase {
 
     // Keep track of html images, to copy them to the output.
     if (this.type === 'html' && this.name !== undefined && !isUrl(this.name)) {
-      if (xml.dataModel.images === undefined) {
-        xml.dataModel.images = []
-      }
+      xml.dataModel.images ??= []
       xml.dataModel.images.push(this)
     }
 
@@ -6335,7 +6266,7 @@ export abstract class AbstractDocImageType extends AbstractDataModelBase {
 // <xsd:element name="image" type="docImageType" />
 
 export class ImageDataModel extends AbstractDocImageType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'image')
   }
 }
@@ -6400,9 +6331,9 @@ export abstract class AbstractDocParamListType extends AbstractDataModelBase {
   parameterItems?: ParameterItemDataModel[] | undefined
 
   // Mandatory attributes.
-  kind: string = ''
+  kind = ''
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -6417,9 +6348,7 @@ export abstract class AbstractDocParamListType extends AbstractDataModelBase {
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts.
       } else if (xml.hasInnerElement(innerElement, 'parameteritem')) {
-        if (this.parameterItems === undefined) {
-          this.parameterItems = []
-        }
+        this.parameterItems ??= []
         this.parameterItems.push(new ParameterItemDataModel(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
@@ -6461,7 +6390,7 @@ export abstract class AbstractDocParamListType extends AbstractDataModelBase {
 // <xsd:element name="parameterlist" type="docParamListType" />
 
 export class ParameterListDataModel extends AbstractDocParamListType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'parameterlist')
   }
 }
@@ -6482,7 +6411,7 @@ export class AbstractDocParamListItem extends AbstractDataModelBase {
   // Optional elements.
   parameterNameList?: ParameterNamelistDataModel[] | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -6497,9 +6426,7 @@ export class AbstractDocParamListItem extends AbstractDataModelBase {
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts.
       } else if (xml.hasInnerElement(innerElement, 'parameternamelist')) {
-        if (this.parameterNameList === undefined) {
-          this.parameterNameList = []
-        }
+        this.parameterNameList ??= []
         this.parameterNameList.push(
           new ParameterNamelistDataModel(xml, innerElement)
         )
@@ -6535,7 +6462,7 @@ export class AbstractDocParamListItem extends AbstractDataModelBase {
 //  <xsd:element name="parameteritem" type="docParamListItem" minOccurs="0" maxOccurs="unbounded" />
 
 export class ParameterItemDataModel extends AbstractDocParamListItem {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'parameteritem')
   }
 }
@@ -6552,7 +6479,7 @@ export class AbstractDocParamNameList extends AbstractDataModelBase {
   // Any sequence of them.
   // children: Array<ParameterTypeDataModel | ParameterNameDataModel> = []
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -6597,7 +6524,7 @@ export class AbstractDocParamNameList extends AbstractDataModelBase {
 // <xsd:element name="parameternamelist" type="docParamNameList" minOccurs="0" maxOccurs="unbounded" />
 
 export class ParameterNamelistDataModel extends AbstractDocParamNameList {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'parameternamelist')
   }
 }
@@ -6612,7 +6539,7 @@ export class AbstractDocParamType extends AbstractDataModelBase {
   // Any sequence of them.
   // children: Array<string | RefTextDataModel> = []
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -6655,7 +6582,7 @@ export class AbstractDocParamType extends AbstractDataModelBase {
 //  <xsd:element name="parametertype" type="docParamType" minOccurs="0" maxOccurs="unbounded" />
 
 export class ParameterTypeDataModel extends AbstractDocParamType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'parametertype')
   }
 }
@@ -6674,7 +6601,7 @@ export class AbstractDocParamName extends AbstractDataModelBase {
   // Optional attributes.
   direction: string | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -6732,7 +6659,7 @@ export class AbstractDocParamName extends AbstractDataModelBase {
 //  <xsd:element name="parametername" type="docParamName" minOccurs="0" maxOccurs="unbounded" />
 
 export class ParameterNameDataModel extends AbstractDocParamName {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'parametername')
   }
 }
@@ -6753,12 +6680,13 @@ export abstract class AbstractDocXRefSectType extends AbstractDataModelBase {
   xrefdescription: XrefDescriptionDataModel | undefined
 
   // Mandatory attributes.
-  id: string = ''
+  id = ''
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
-    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))ect(element))
+    // console.log(elementName, util.inspect(element,
+    //   { compact: false, depth: 999 }))
 
     // ------------------------------------------------------------------------
     // Process elements.
@@ -6816,7 +6744,7 @@ export abstract class AbstractDocXRefSectType extends AbstractDataModelBase {
 //     <xsd:element name="xrefsect" type="docXRefSectType" />
 
 export class XrefSectDataModel extends AbstractDocXRefSectType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'xrefsect')
   }
 }
@@ -6851,7 +6779,7 @@ export class AbstractDocBlockQuoteType extends AbstractDataModelBase {
   // Any sequence of them.
   // children: Array<string | ParaDataModel> = []
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -6893,7 +6821,7 @@ export class AbstractDocBlockQuoteType extends AbstractDataModelBase {
 }
 
 export class BlockquoteDataModel extends AbstractDocBlockQuoteType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'blockquote')
   }
 }
@@ -6910,7 +6838,7 @@ export class BlockquoteDataModel extends AbstractDocBlockQuoteType {
 // <xsd:complexType name="docEmptyType"/>
 
 export class AbstractDocEmptyType extends AbstractDataModelBase {
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // Empty.
@@ -6925,10 +6853,10 @@ export class AbstractDocEmptyType extends AbstractDataModelBase {
 // </xsd:complexType>
 
 export abstract class AbstractEmojiType extends AbstractDataModelBase {
-  name: string = ''
-  unicode: string = ''
+  name = ''
+  unicode = ''
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -6972,7 +6900,7 @@ export abstract class AbstractEmojiType extends AbstractDataModelBase {
 // <xsd:element name="emoji" type="docEmojiType" />
 
 export class EmojiDataModel extends AbstractEmojiType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'emoji')
   }
 }
@@ -6994,7 +6922,7 @@ export class EmojiDataModel extends AbstractEmojiType {
  * @public
  */
 export class BriefDescriptionDataModel extends AbstractDescriptionType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'briefdescription')
   }
 }
@@ -7003,7 +6931,7 @@ export class BriefDescriptionDataModel extends AbstractDescriptionType {
  * @public
  */
 export class DetailedDescriptionDataModel extends AbstractDescriptionType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'detaileddescription')
   }
 }
@@ -7012,7 +6940,7 @@ export class DetailedDescriptionDataModel extends AbstractDescriptionType {
  * @public
  */
 export class InbodyDescriptionDataModel extends AbstractDescriptionType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'inbodydescription')
   }
 }
@@ -7021,19 +6949,19 @@ export class InbodyDescriptionDataModel extends AbstractDescriptionType {
  * @public
  */
 export class DescriptionDataModel extends AbstractDescriptionType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'description')
   }
 }
 
 export class XrefDescriptionDataModel extends AbstractDescriptionType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'xrefdescription')
   }
 }
 
 export class ParameterDescriptionDataModel extends AbstractDescriptionType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'parameterdescription')
   }
 }
@@ -7057,91 +6985,91 @@ export class ParameterDescriptionDataModel extends AbstractDescriptionType {
 // <xsd:element name="term" type="docTitleType" />
 
 export class InternalDataModel extends AbstractDocInternalType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'internal')
   }
 }
 
 export class InternalS1DataModel extends AbstractDocInternalS1Type {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'internal')
   }
 }
 
 export class InternalS2DataModel extends AbstractDocInternalS2Type {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'internal')
   }
 }
 
 export class InternalS3DataModel extends AbstractDocInternalS3Type {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'internal')
   }
 }
 
 export class InternalS4DataModel extends AbstractDocInternalS4Type {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'internal')
   }
 }
 
 export class InternalS5DataModel extends AbstractDocInternalS5Type {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'internal')
   }
 }
 
 export class InternalS6DataModel extends AbstractDocInternalS6Type {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'internal')
   }
 }
 
 export class Sect1DataModel extends AbstractDocSect1Type {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sect1')
   }
 }
 
 export class Sect2DataModel extends AbstractDocSect2Type {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sect2')
   }
 }
 
 export class Sect3DataModel extends AbstractDocSect3Type {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sect3')
   }
 }
 
 export class Sect4DataModel extends AbstractDocSect4Type {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sect4')
   }
 }
 
 export class Sect5DataModel extends AbstractDocSect5Type {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sect5')
   }
 }
 
 export class Sect6DataModel extends AbstractDocSect6Type {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'sect6')
   }
 }
 
 export class TitleDataModel extends AbstractDocTitleType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'title')
   }
 }
 
 export class TermDataModel extends AbstractDocTitleType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'term')
   }
 }
@@ -7151,7 +7079,7 @@ export class TermDataModel extends AbstractDocTitleType {
 // <xsd:element name="para" type="docParaType" minOccurs="0" maxOccurs="unbounded" />
 
 export class ParaDataModel extends AbstractDocParaType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'para')
   }
 }
@@ -7164,77 +7092,77 @@ export class ParaDataModel extends AbstractDocParaType {
 // <xsd:element name="computeroutput" type="docMarkupType" />
 
 export class BoldDataModel extends AbstractDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'bold')
   }
 }
 
 export class SDataModel extends AbstractDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 's')
   }
 }
 
 export class StrikeDataModel extends AbstractDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'strike')
   }
 }
 
 export class UnderlineDataModel extends AbstractDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'underline')
   }
 }
 
 export class EmphasisDataModel extends AbstractDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'emphasis')
   }
 }
 
 export class ComputerOutputDataModel extends AbstractDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'computeroutput')
   }
 }
 
 export class SubscriptDataModel extends AbstractDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'subscript')
   }
 }
 
 export class SuperscriptDataModel extends AbstractDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'superscript')
   }
 }
 
 export class CenterDataModel extends AbstractDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'center')
   }
 }
 
 export class SmallDataModel extends AbstractDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'small')
   }
 }
 
 export class CiteDataModel extends AbstractDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'cite')
   }
 }
 export class DelDataModel extends AbstractDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'del')
   }
 }
 export class InsDataModel extends AbstractDocMarkupType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'ins')
   }
 }
@@ -7244,7 +7172,7 @@ export class InsDataModel extends AbstractDocMarkupType {
 // <xsd:element name="simplesect" type="docSimpleSectType" />
 
 export class SimpleSectDataModel extends AbstractDocSimpleSectType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'simplesect')
   }
 }
@@ -7254,7 +7182,7 @@ export class SimpleSectDataModel extends AbstractDocSimpleSectType {
 // <xsd:element name="itemizedlist" type="docListType" />
 
 export class ItemizedListDataModel extends AbstractDocListType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'itemizedlist')
   }
 }
@@ -7262,7 +7190,7 @@ export class ItemizedListDataModel extends AbstractDocListType {
 // <xsd:element name="orderedlist" type="docListType" />
 
 export class OrderedListDataModel extends AbstractDocListType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'orderedlist')
   }
 }
@@ -7273,19 +7201,19 @@ export class OrderedListDataModel extends AbstractDocListType {
 // <xsd:element name="hruler" type="docEmptyType" />
 
 export class LineBreakDataModel extends AbstractDocEmptyType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'linebreak')
   }
 }
 
 export class HrulerDataModel extends AbstractDocEmptyType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'hruler')
   }
 }
 
 export class NonBreakableSpaceDataModel extends AbstractDocEmptyType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'nonbreakablespace')
   }
 }
@@ -7294,7 +7222,7 @@ export class NonBreakableSpaceDataModel extends AbstractDocEmptyType {
 // <xsd:element name="para" type="docEmptyType" />
 
 export class ParaEmptyDataModel extends AbstractDocEmptyType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'para')
   }
 }
@@ -7302,7 +7230,7 @@ export class ParaEmptyDataModel extends AbstractDocEmptyType {
 // ----------------------------------------------------------------------------
 
 export abstract class AbstractVerbatimType extends AbstractDataModelBase {
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -7341,7 +7269,7 @@ export abstract class AbstractVerbatimType extends AbstractDataModelBase {
 // <xsd:element name="verbatim" type="xsd:string" />
 
 export class VerbatimDataModel extends AbstractVerbatimType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'verbatim')
   }
 }
@@ -7349,7 +7277,7 @@ export class VerbatimDataModel extends AbstractVerbatimType {
 // ----------------------------------------------------------------------------
 
 export abstract class AbstractPreformattedType extends AbstractDataModelBase {
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -7386,7 +7314,7 @@ export abstract class AbstractPreformattedType extends AbstractDataModelBase {
 // <xsd:element name="preformatted" type="docMarkupType" />
 
 export class PreformattedDataModel extends AbstractPreformattedType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     super(xml, element, 'preformatted')
   }
 }

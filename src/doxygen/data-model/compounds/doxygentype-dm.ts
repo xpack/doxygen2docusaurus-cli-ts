@@ -30,8 +30,8 @@ import { AbstractDataModelBase } from '../types.js'
 
 export abstract class AbstractDoxygenType extends AbstractDataModelBase {
   // Mandatory attributes.
-  version: string = ''
-  lang: string = ''
+  version = ''
+  lang = ''
 
   // Optional elements.
   compoundDefs?: CompoundDefDataModel[] | undefined
@@ -39,10 +39,11 @@ export abstract class AbstractDoxygenType extends AbstractDataModelBase {
   // Optional attributes.
   noNamespaceSchemaLocation?: string | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
-    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))ect(element))
+    // console.log(elementName, util.inspect(element,
+    //   { compact: false, depth: 999 }))
 
     const innerElements = xml.getInnerElements(element, elementName)
     assert(innerElements.length > 0)
@@ -51,9 +52,7 @@ export abstract class AbstractDoxygenType extends AbstractDataModelBase {
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts.
       } else if (xml.hasInnerElement(innerElement, 'compounddef')) {
-        if (this.compoundDefs === undefined) {
-          this.compoundDefs = []
-        }
+        this.compoundDefs ??= []
         this.compoundDefs.push(new CompoundDefDataModel(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
@@ -108,7 +107,7 @@ export abstract class AbstractDoxygenType extends AbstractDataModelBase {
 // <xsd:element name="doxygen" type="DoxygenType"/>
 
 export class DoxygenDataModel extends AbstractDoxygenType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'doxygen')
   }

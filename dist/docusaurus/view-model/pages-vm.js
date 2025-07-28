@@ -32,7 +32,6 @@ export class Pages extends CollectionBase {
         return page;
     }
     // --------------------------------------------------------------------------
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     createCompoundsHierarchies() {
         // There are no pages hierarchies.
     }
@@ -104,14 +103,12 @@ export class Pages extends CollectionBase {
         }
     }
     // --------------------------------------------------------------------------
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     createMenuItems() {
         // Pages do not show on the menu.
         // Reference 'this' to satisfy the linter.
         return [];
     }
     // --------------------------------------------------------------------------
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     async generateIndexDotMdFile() {
         // There is no pages index.
     }
@@ -149,6 +146,7 @@ export class Page extends CompoundBase {
         return true;
     }
     // --------------------------------------------------------------------------
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToLines(frontMatter) {
         const lines = [];
         const morePermalink = this.detailedDescriptionHtmlLines !== undefined ? '#details' : undefined;

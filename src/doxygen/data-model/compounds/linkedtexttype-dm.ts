@@ -33,7 +33,7 @@ export abstract class AbstractLinkedTextType extends AbstractDataModelBase {
   // Any sequence of them.
   // children: Array<string | AbstractRefTextType> = []
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -92,7 +92,7 @@ export abstract class AbstractLinkedTextType extends AbstractDataModelBase {
  * @public
  */
 export class InitializerDataModel extends AbstractLinkedTextType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'initializer')
   }
@@ -102,7 +102,7 @@ export class InitializerDataModel extends AbstractLinkedTextType {
  * @public
  */
 export class TypeDataModel extends AbstractLinkedTextType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'type')
   }
@@ -112,7 +112,7 @@ export class TypeDataModel extends AbstractLinkedTextType {
  * @public
  */
 export class DefValDataModel extends AbstractLinkedTextType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'defval')
   }
@@ -122,7 +122,7 @@ export class DefValDataModel extends AbstractLinkedTextType {
  * @public
  */
 export class TypeConstraintDataModel extends AbstractLinkedTextType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'typeconstraint')
   }

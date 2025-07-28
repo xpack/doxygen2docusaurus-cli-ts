@@ -16,10 +16,7 @@ import * as util from 'node:util'
 
 import { DoxygenXmlParser } from '../../doxygen-xml-parser.js'
 import { AbstractDataModelBase } from '../types.js'
-import {
-  DocTitleCmdGroup,
-  parseDocTitleCmdGroup,
-} from './descriptiontype-dm.js'
+import { parseDocTitleCmdGroup } from './descriptiontype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -35,12 +32,13 @@ import {
 /**
  * @public
  */
+// eslint-disable-next-line max-len
 export abstract class AbstractTableOfContentsType extends AbstractDataModelBase {
   // xsd:choice, only one of them.
   tocSect: TocSectDataModel[] | undefined
   tableOfContents: TableOfContentsDataModel[] | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -56,15 +54,11 @@ export abstract class AbstractTableOfContentsType extends AbstractDataModelBase 
         // Ignore texts.
       } else if (xml.hasInnerElement(innerElement, 'tocsect')) {
         // console.log(util.inspect(item))
-        if (this.tocSect === undefined) {
-          this.tocSect = []
-        }
+        this.tocSect ??= []
         this.tocSect.push(new TocSectDataModel(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'tableofcontents')) {
         // console.log(util.inspect(item))
-        if (this.tableOfContents === undefined) {
-          this.tableOfContents = []
-        }
+        this.tableOfContents ??= []
         this.tableOfContents.push(
           new TableOfContentsDataModel(xml, innerElement)
         )
@@ -96,7 +90,7 @@ export abstract class AbstractTableOfContentsType extends AbstractDataModelBase 
  * @public
  */
 export class TableOfContentsDataModel extends AbstractTableOfContentsType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'tableofcontents')
   }
@@ -115,14 +109,15 @@ export class TableOfContentsDataModel extends AbstractTableOfContentsType {
 /**
  * @public
  */
+// eslint-disable-next-line max-len
 export abstract class AbstractTableOfContentsKindType extends AbstractDataModelBase {
   // Mandatory elements.
-  name: string = ''
-  reference: string = ''
+  name = ''
+  reference = ''
   // docs:
   tableOfContents: TableOfContentsDataModel[] | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -144,9 +139,7 @@ export abstract class AbstractTableOfContentsKindType extends AbstractDataModelB
         // WARNING not in dtd, type unknown.
       } else if (xml.hasInnerElement(innerElement, 'tableofcontents')) {
         // console.log(util.inspect(item))
-        if (this.tableOfContents === undefined) {
-          this.tableOfContents = []
-        }
+        this.tableOfContents ??= []
         this.tableOfContents.push(
           new TableOfContentsDataModel(xml, innerElement)
         )
@@ -178,7 +171,7 @@ export abstract class AbstractTableOfContentsKindType extends AbstractDataModelB
  * @public
  */
 export class TocSectDataModel extends AbstractTableOfContentsKindType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'tocsect')
   }
@@ -196,9 +189,9 @@ export abstract class AbstractTocDocItemType extends AbstractDataModelBase {
   // children: Array<string | DocTitleCmdGroup> = []
 
   // Mandatory attributes.
-  id: string = ''
+  id = ''
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -253,7 +246,7 @@ export abstract class AbstractTocDocItemType extends AbstractDataModelBase {
 // <xsd:element name="tocitem" type="docTocItemType" minOccurs="0" maxOccurs="unbounded" />
 
 export class TocItemDataModel extends AbstractTocDocItemType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'tocitem')
   }
@@ -270,7 +263,7 @@ export class TocItemDataModel extends AbstractTocDocItemType {
 export abstract class AbstractDocTocListType extends AbstractDataModelBase {
   tocItems?: TocItemDataModel[] | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     const innerElements = xml.getInnerElements(element, elementName)
@@ -281,9 +274,7 @@ export abstract class AbstractDocTocListType extends AbstractDataModelBase {
         // Ignore texts.
       } else if (xml.hasInnerElement(innerElement, 'tocitem')) {
         // console.log(util.inspect(item))
-        if (this.tocItems === undefined) {
-          this.tocItems = []
-        }
+        this.tocItems ??= []
         this.tocItems.push(new TocItemDataModel(xml, innerElement))
       } else {
         console.error(
@@ -312,7 +303,7 @@ export abstract class AbstractDocTocListType extends AbstractDataModelBase {
 // <xsd:element name="toclist" type="docTocListType" />
 
 export class TocListDataModel extends AbstractDocTocListType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'toclist')
   }

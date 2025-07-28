@@ -20,7 +20,7 @@ import type { SubstringDocMarkupType } from '../../doxygen/data-model/compounds/
 // ----------------------------------------------------------------------------
 
 export class SubstringDocMarkupTypeRenderer extends ElementStringRendererBase {
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   renderToString(element: SubstringDocMarkupType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

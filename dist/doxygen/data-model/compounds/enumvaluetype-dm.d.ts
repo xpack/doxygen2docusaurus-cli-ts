@@ -12,12 +12,12 @@ export declare abstract class AbstractEnumValueType extends AbstractDataModelBas
     detailedDescription?: DetailedDescriptionDataModel | undefined;
     id: string;
     prot: string;
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 /**
  * @public
  */
 export declare class EnumValueDataModel extends AbstractEnumValueType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 //# sourceMappingURL=enumvaluetype-dm.d.ts.map

@@ -4,38 +4,22 @@ export interface Redirects {
 }
 /**
  * Options, as written by the user. All are optional.
- */
-export interface CliConfigurationOptions {
-    doxygenXmlInputFolderPath?: string;
-    docsFolderPath?: string;
-    apiFolderPath?: string;
-    baseUrl?: string;
-    docsBaseUrl?: string;
-    apiBaseUrl?: string;
-    imagesFolderPath?: string;
-    compatibilityRedirectsOutputFolderPath?: string;
-    mainPageTitle?: string;
-    sidebarCategoryFilePath?: string;
-    sidebarCategoryLabel?: string;
-    menuDropdownFilePath?: string;
-    menuDropdownLabel?: string;
-    customCssFilePath?: string;
-    verbose?: boolean;
-    debug?: boolean;
-    runOnStart?: boolean;
-    suggestToDoDescriptions?: boolean;
-    renderPagesAtTop?: boolean;
-    renderProgramListing?: boolean;
-    renderProgramListingInline?: boolean;
-    originalPagesNote?: string;
-    id?: string;
-}
-/**
- * Options, as seen by the application.
  *
  * @public
  */
-export interface CliOptions {
+export type CliConfigurationOptions = Record<string, string | boolean>;
+/**
+ * Options, when multi-configurations are used.
+ *
+ * @public
+ */
+export type MultiConfigurations = Record<string, CliConfigurationOptions>;
+/**
+ * Options, as seen by the application. Most are mandatory.
+ *
+ * @public
+ */
+export declare class CliOptions {
     /**
      * Relative to the current website folder, like `doxygen/xml`, no initial/
      * final slashes.
@@ -92,18 +76,23 @@ export interface CliOptions {
     /**
      * Boolean to render the program listing in the member definitions sections.
      */
-    renderProgramListingInline?: boolean;
+    renderProgramListingInline: boolean;
     /**
      * Location of original Doxygen pages
      *
-     * 'For comparison, the original Doxygen html pages, styled with the <a href="https://jothepro.github.io/doxygen-awesome-css/">doxygen-awesome-css</a> plugin, continue to be available via the <a href="pathname:///doxygen/topics.html"><code>.../doxygen/*.html</b></code> URLs.'
+     * 'For comparison, the original Doxygen html pages, styled with the
+     * <a href="https://jothepro.github.io/doxygen-awesome-css/">doxygen-awesome-css</a>
+     * plugin, continue to be available via the
+     * <a href="pathname:///doxygen/topics.html"><code>.../doxygen/*.html</b></code>
+     * URLs.'
      */
-    originalPagesNote?: string;
+    originalPagesNote: string;
     /** String identifier in case of multiple instances. */
     id: string;
+    constructor(argv: string[]);
+    parse(): Promise<void>;
+    selectMultiConfiguration(multiConfigurations: CliConfigurationOptions | MultiConfigurations): CliConfigurationOptions | undefined;
 }
-export declare const defaultOptions: CliOptions;
-export declare function getInstanceDefaultOptions(id: string | undefined): CliOptions;
 export declare const renderParagraphs = true;
 export declare const maxParallelPromises = 42;
 //# sourceMappingURL=options.d.ts.map

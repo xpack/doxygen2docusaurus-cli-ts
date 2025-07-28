@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  * This file is part of the xPack project (http://xpack.github.io).
  * Copyright (c) 2025 Liviu Ionescu. All rights reserved.
@@ -10,8 +11,6 @@
  */
 
 // ----------------------------------------------------------------------------
-
-/* eslint-disable max-lines */
 
 import assert from 'node:assert'
 import util from 'node:util'
@@ -80,7 +79,6 @@ export class DescriptionTypeLinesRenderer extends ElementLinesRendererBase {
 // ----------------------------------------------------------------------------
 
 export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
-  // eslint-disable-next-line complexity
   renderToLines(element: AbstractDocParaType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
     // console.log(element)
@@ -140,7 +138,7 @@ export class DocParaTypeLinesRenderer extends ElementLinesRendererBase {
   }
 
   // docCmdGroup: 2109
-  // eslint-disable-next-line complexity, @typescript-eslint/class-methods-use-this
+
   isParagraph(element: string | AbstractDataModelBase): boolean {
     if (typeof element === 'string') {
       return true
@@ -314,7 +312,6 @@ export class DocRefTextTypeStringRenderer extends ElementStringRendererBase {
 // </xsd:simpleType>
 
 export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
-  // eslint-disable-next-line complexity
   renderToLines(element: AbstractDocSimpleSectType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -346,7 +343,7 @@ export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (DoxSimpleSectKind[element.kind] !== undefined) {
       const { kind } = element
-      // eslint-disable-next-line @typescript-eslint/prefer-destructuring
+
       const title = DoxSimpleSectKind[kind]
       const body = this.workspace
         .renderElementsArrayToString(element.children, 'html')
@@ -458,7 +455,6 @@ export class DocSimpleSectTypeLinesRenderer extends ElementLinesRendererBase {
 // ----------------------------------------------------------------------------
 
 export class SpTypeStringRenderer extends ElementStringRendererBase {
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   renderToString(element: AbstractSpType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -517,7 +513,6 @@ export class DocEmptyTypeStringRenderer extends ElementStringRendererBase {
 // ----------------------------------------------------------------------------
 
 export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
-  // eslint-disable-next-line complexity
   renderToLines(element: AbstractDocParamListType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -532,7 +527,7 @@ export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
       }
 
       const { kind } = element
-      // eslint-disable-next-line @typescript-eslint/prefer-destructuring
+
       const title = titlesByKind[kind]
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (title === undefined) {
@@ -560,7 +555,6 @@ export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
 
             const names: string[] = []
             if (parameterItem.parameterNameList !== undefined) {
-              /* eslint-disable max-depth */
               for (const parameterName of parameterItem.parameterNameList) {
                 // console.log(util.inspect(parameterName.children,
                 // { compact: false, depth: 999 }))
@@ -610,7 +604,6 @@ export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
                   }
                 }
               }
-              /* eslint-enable max-depth */
             }
 
             const parameters = this.workspace
@@ -650,7 +643,6 @@ export class DocParamListTypeLinesRenderer extends ElementLinesRendererBase {
 // ----------------------------------------------------------------------------
 
 export class DocAnchorTypeLinesRenderer extends ElementLinesRendererBase {
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   renderToLines(element: AbstractDocAnchorType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -737,7 +729,6 @@ export class FormulaStringRenderer extends ElementStringRendererBase {
 // ----------------------------------------------------------------------------
 
 export class ImageStringRenderer extends ElementStringRendererBase {
-  // eslint-disable-next-line complexity
   renderToString(element: AbstractDocImageType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -752,7 +743,6 @@ export class ImageStringRenderer extends ElementStringRendererBase {
         if (isUrl(name)) {
           imageSrc = name
         } else {
-          // eslint-disable-next-line @typescript-eslint/prefer-destructuring
           imageSrc = this.workspace.options.baseUrl
           imageSrc += this.workspace.options.imagesFolderPath
           imageSrc += '/'
@@ -849,7 +839,6 @@ export class HeadingLinesRenderer extends ElementLinesRendererBase {
 // ----------------------------------------------------------------------------
 
 export class EmojiStringRenderer extends ElementStringRendererBase {
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   renderToString(element: AbstractEmojiType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

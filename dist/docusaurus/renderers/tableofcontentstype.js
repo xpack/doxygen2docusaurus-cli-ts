@@ -15,6 +15,7 @@ import { ElementLinesRendererBase } from './element-renderer-base.js';
 import { getPermalinkAnchor } from '../utils.js';
 // ----------------------------------------------------------------------------
 export class TocListLinesRenderer extends ElementLinesRendererBase {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];

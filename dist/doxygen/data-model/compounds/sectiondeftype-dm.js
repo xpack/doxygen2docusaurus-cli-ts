@@ -66,6 +66,7 @@ export class AbstractSectionDefTypeBase extends AbstractDataModelBase {
 /**
  * @public
  */
+// eslint-disable-next-line max-len
 export class AbstractSectionDefType extends AbstractSectionDefTypeBase {
     constructor(xml, element, elementName) {
         super(elementName, '');
@@ -87,15 +88,11 @@ export class AbstractSectionDefType extends AbstractSectionDefTypeBase {
                 this.description = new DescriptionDataModel(xml, innerElement);
             }
             else if (xml.hasInnerElement(innerElement, 'memberdef')) {
-                if (this.memberDefs === undefined) {
-                    this.memberDefs = [];
-                }
+                this.memberDefs ??= [];
                 this.memberDefs.push(new MemberDefDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'member')) {
-                if (this.members === undefined) {
-                    this.members = [];
-                }
+                this.members ??= [];
                 this.members.push(new MemberDataModel(xml, innerElement));
             }
             else {

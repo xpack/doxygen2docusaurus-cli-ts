@@ -9,12 +9,14 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 /**
- * A CLI application to convert Doxygen XML files into Docusaurus documentation.
+ * A CLI application to convert Doxygen XML files into Docusaurus
+ * documentation.
  *
  * @remarks
- * This tool facilitates the integration of Doxygen reference pages into Docusaurus
- * documentation sites. It parses Doxygen-generated XML files and produces Docusaurus
- * `.md` documents, along with the corresponding sidebars and menu entries.
+ * This tool facilitates the integration of Doxygen reference pages into
+ * Docusaurus documentation sites. It parses Doxygen-generated XML files and
+ * produces Docusaurus `.md` documents, along with the corresponding sidebars
+ * and menu entries.
  *
  * @packageDocumentation
  */
@@ -22,6 +24,7 @@
 // The top entry point into the plugin, mentioned in `package.json`.
 import { AbstractCompoundDefType, CompoundDefDataModel, } from './doxygen/data-model/compounds/compounddef-dm.js';
 import { AbstractDataModelBase, } from './doxygen/data-model/types.js';
+import { CliOptions } from './docusaurus/options.js';
 import { DoxygenXmlParser } from './doxygen/doxygen-xml-parser.js';
 import { DoxygenFileDataModel, AbstractDoxygenFileType, } from './doxygen/data-model/doxyfile/doxyfiletype-dm.js';
 import { DoxygenIndexDataModel, AbstractIndexDoxygenType, } from './doxygen/data-model/index/indexdoxygentype-dm.js';
@@ -49,7 +52,7 @@ import { EnumValueDataModel, AbstractEnumValueType, } from './doxygen/data-model
 export * from './cli/main.js';
 export { 
 // Core classes
-CompoundDefDataModel, AbstractCompoundDefType, DoxygenXmlParser, DoxygenFileDataModel, DoxygenIndexDataModel, AbstractIncType, AbstractIndexCompoundType, AbstractDocImageType, AbstractDoxygenFileType, AbstractIndexDoxygenType, AbstractDataModelBase, AbstractListingType, AbstractListOfAllMembersType, AbstractLocationType, AbstractRefType, AbstractSectionDefType, AbstractTableOfContentsType, AbstractTemplateParamListType, 
+CompoundDefDataModel, AbstractCompoundDefType, CliOptions, DoxygenXmlParser, DoxygenFileDataModel, DoxygenIndexDataModel, AbstractIncType, AbstractIndexCompoundType, AbstractDocImageType, AbstractDoxygenFileType, AbstractIndexDoxygenType, AbstractDataModelBase, AbstractListingType, AbstractListOfAllMembersType, AbstractLocationType, AbstractRefType, AbstractSectionDefType, AbstractTableOfContentsType, AbstractTemplateParamListType, 
 // Missing symbols for API Extractor
 IndexMemberDataModel, AbstractListingTypeBase, MemberRefDataModel, AbstractSectionDefTypeBase, TocSectDataModel, ParamDataModel, AbstractCompoundRefType, AbstractDescriptionType, AbstractDoxygenFileOptionType, AbstractTableOfContentsKindType, CodeLineDataModel, DescriptionDataModel, MemberDefDataModel, MemberDataModel, AbstractIndexMemberType, AbstractMemberRefType, AbstractParamType, DefValDataModel, TypeDataModel, TypeConstraintDataModel, AbstractCodeLineType, AbstractMemberType, AbstractMemberDefType, HighlightDataModel, AbstractMemberBaseType, EnumValueDataModel, InbodyDescriptionDataModel, InitializerDataModel, ReferencedByDataModel, ReferenceDataModel, ReimplementDataModel, AbstractLinkedTextType, AbstractEnumValueType, AbstractHighlightType, AbstractReferenceType, AbstractReimplementType, 
 // Description types

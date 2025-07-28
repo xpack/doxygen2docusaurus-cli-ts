@@ -5,20 +5,20 @@ import { AbstractDataModelBase } from '../types.js';
  */
 export declare abstract class AbstractLocationType extends AbstractDataModelBase {
     file: string;
-    line?: Number | undefined;
-    column?: Number | undefined;
+    line?: number | undefined;
+    column?: number | undefined;
     declfile?: string | undefined;
-    declline?: Number | undefined;
-    declcolumn?: Number | undefined;
+    declline?: number | undefined;
+    declcolumn?: number | undefined;
     bodyfile?: string | undefined;
-    bodystart?: Number | undefined;
-    bodyend?: Number | undefined;
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    bodystart?: number | undefined;
+    bodyend?: number | undefined;
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 /**
  * @public
  */
 export declare class LocationDataModel extends AbstractLocationType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 //# sourceMappingURL=locationtype-dm.d.ts.map

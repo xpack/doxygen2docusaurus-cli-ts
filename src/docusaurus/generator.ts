@@ -87,13 +87,13 @@ export class DocusaurusGenerator {
 
   // https://nodejs.org/en/learn/manipulating-files/working-with-folders-in-nodejs
   async prepareOutputFolder(): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { outputFolderPath } = this.workspace
     try {
       await fs.access(outputFolderPath)
       // Remove the folder if it exist.
       console.log(`Removing existing folder ${outputFolderPath}...`)
       await fs.rm(outputFolderPath, { recursive: true, force: true })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       // The folder does not exist, nothing to remove.
     }
@@ -115,7 +115,6 @@ export class DocusaurusGenerator {
       items: [],
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
     const pages = this.workspace.viewModel.get('pages') as Pages
     pages.createTopPagesSidebarItems(sidebarCategory)
 
@@ -134,7 +133,6 @@ export class DocusaurusGenerator {
     // )
     const jsonString = JSON.stringify(sidebarCategory, null, 2)
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { sidebarCategoryFilePath } = this.workspace.options
     const relativeFilePath = sidebarCategoryFilePath
     const absoluteFilePath = path.resolve(relativeFilePath)
@@ -149,7 +147,6 @@ export class DocusaurusGenerator {
   // --------------------------------------------------------------------------
 
   async generateMenuFile(): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { menuDropdownFilePath, menuDropdownLabel: label } =
       this.workspace.options
     if (menuDropdownFilePath.trim().length === 0) {
@@ -218,7 +215,6 @@ export class DocusaurusGenerator {
   // --------------------------------------------------------------------------
 
   async generateTopIndexDotMdFile(): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { outputFolderPath } = this.workspace
     const filePath = `${outputFolderPath}index.md`
 
@@ -241,13 +237,11 @@ export class DocusaurusGenerator {
 
     const lines: string[] = []
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
     const groups = this.workspace.viewModel.get('groups') as Groups
 
     const topicsLines = groups.generateTopicsTable()
     lines.push(...topicsLines)
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { mainPage } = this.workspace
 
     if (mainPage !== undefined) {
@@ -275,7 +269,7 @@ export class DocusaurusGenerator {
       }
     }
 
-    if (this.workspace.options.originalPagesNote !== undefined) {
+    if (this.workspace.options.originalPagesNote.length > 0) {
       lines.push('')
       lines.push(':::note')
       lines.push(this.workspace.options.originalPagesNote)
@@ -306,9 +300,8 @@ export class DocusaurusGenerator {
 
   // --------------------------------------------------------------------------
 
-  // eslint-disable-next-line complexity
   async generatePages(): Promise<void> {
-    const promises: Array<Promise<void>> = []
+    const promises: Promise<void>[] = []
 
     for (const [, compound] of this.workspace.compoundsById) {
       if (compound instanceof Page) {
@@ -356,10 +349,12 @@ export class DocusaurusGenerator {
 
   async generatePage(compound: CompoundBase): Promise<void> {
     const { docusaurusId } = compound
+    assert(docusaurusId !== undefined)
     const fileName = `${docusaurusId}.md`
     // console.log('fileName:', fileName)
     const filePath = `${this.workspace.outputFolderPath}${fileName}`
     const permalink: string | undefined = compound.relativePermalink
+    assert(permalink !== undefined)
     const slug = `${this.workspace.slugBaseUrl}${permalink}`
 
     const frontMatter: FrontMatter = {
@@ -372,6 +367,7 @@ export class DocusaurusGenerator {
     }
 
     const bodyLines = compound.renderToLines(frontMatter)
+    assert(compound.relativePermalink !== undefined)
     const pagePermalink =
       this.workspace.pageBaseUrl + compound.relativePermalink
 
@@ -386,7 +382,6 @@ export class DocusaurusGenerator {
   // --------------------------------------------------------------------------
 
   async generateCompatibilityRedirectFiles(): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const redirectsOutputFolderPath =
       this.workspace.options.compatibilityRedirectsOutputFolderPath
     if (redirectsOutputFolderPath === undefined) {
@@ -416,7 +411,6 @@ export class DocusaurusGenerator {
         continue
       }
 
-      // eslint-disable-next-line @typescript-eslint/prefer-destructuring
       const { absoluteBaseUrl } = this.workspace
       const permalink = `${absoluteBaseUrl}${compound.relativePermalink}/`
 
@@ -564,7 +558,7 @@ export class DocusaurusGenerator {
       'css',
       'custom.css'
     )
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
+
     toFilePath = this.workspace.options.customCssFilePath
     if (!(await folderExists(path.dirname(toFilePath)))) {
       await fs.mkdir(path.dirname(toFilePath), { recursive: true })

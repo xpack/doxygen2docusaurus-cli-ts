@@ -42,7 +42,6 @@ export abstract class CollectionBase {
   abstract createMenuItems(): MenuItem[]
   abstract generateIndexDotMdFile(): Promise<void>
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   async generatePerInitialsIndexMdFiles(): Promise<void> {
     // Nothing at this level. Override it where needed.
   }
@@ -53,7 +52,6 @@ export abstract class CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   orderPerInitials(
     entriesMap: Map<string, TreeEntryBase>
   ): Map<string, TreeEntryBase[]> {
@@ -99,7 +97,6 @@ export abstract class CollectionBase {
     return orderedMap
   }
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   outputEntries(entriesPerInitialsMap: Map<string, TreeEntryBase[]>): string[] {
     const lines: string[] = []
 
@@ -144,13 +141,13 @@ export abstract class CollectionBase {
       lines.push('</ul>')
 
       if (mapArray.length > 1) {
-        lines.push(`<p>${mapArray.length} entries</p>`)
+        lines.push(`<p>${mapArray.length.toString()} entries</p>`)
       }
       totalCount += mapArray.length
     }
 
     lines.push('<br/>')
-    lines.push(`<p>Total: ${totalCount} entries.</p>`)
+    lines.push(`<p>Total: ${totalCount.toString()} entries.</p>`)
 
     return lines
   }
@@ -190,7 +187,6 @@ export abstract class CollectionBase {
 
     const orderedEntries = this.orderPerInitials(filteredMap)
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { outputFolderPath } = this.workspace
 
     const filePath = `${outputFolderPath}indices/${group}/${fileKind}.md`

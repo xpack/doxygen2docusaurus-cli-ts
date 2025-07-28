@@ -53,7 +53,6 @@ export class Pages extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   override createCompoundsHierarchies(): void {
     // There are no pages hierarchies.
   }
@@ -145,7 +144,6 @@ export class Pages extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   override createMenuItems(): MenuItem[] {
     // Pages do not show on the menu.
     // Reference 'this' to satisfy the linter.
@@ -154,7 +152,6 @@ export class Pages extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   override async generateIndexDotMdFile(): Promise<void> {
     // There is no pages index.
   }
@@ -205,6 +202,7 @@ export class Page extends CompoundBase {
 
   // --------------------------------------------------------------------------
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override renderToLines(frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 

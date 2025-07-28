@@ -10,12 +10,12 @@ export declare abstract class AbstractMemberRefType extends AbstractDataModelBas
     prot: string;
     virt: string;
     ambiguityscope?: string | undefined;
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 /**
  * @public
  */
 export declare class MemberRefDataModel extends AbstractMemberRefType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 //# sourceMappingURL=memberreftype-dm.d.ts.map

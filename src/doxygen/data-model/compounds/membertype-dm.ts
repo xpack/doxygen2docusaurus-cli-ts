@@ -34,10 +34,10 @@ export abstract class AbstractMemberType extends AbstractMemberBaseType {
   // name: string = '' (in parent)
 
   // Mandatory attributes.
-  refid: string = ''
+  refid = ''
   // kind: string = '' // MemberKind (in parent)
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -140,7 +140,7 @@ export type MemberKind =
  * @public
  */
 export class MemberDataModel extends AbstractMemberType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'member')
   }

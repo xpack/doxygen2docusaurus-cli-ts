@@ -29,11 +29,12 @@ import { AbstractDataModelBase } from '../types.js'
 /**
  * @public
  */
+// eslint-disable-next-line max-len
 export abstract class AbstractListOfAllMembersType extends AbstractDataModelBase {
   // Optional elements.
   memberRefs?: MemberRefDataModel[] | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -49,9 +50,7 @@ export abstract class AbstractListOfAllMembersType extends AbstractDataModelBase
       if (xml.hasInnerText(innerElement)) {
         // Ignore texts
       } else if (xml.hasInnerElement(innerElement, 'member')) {
-        if (this.memberRefs === undefined) {
-          this.memberRefs = []
-        }
+        this.memberRefs ??= []
         this.memberRefs.push(new MemberRefDataModel(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
@@ -83,7 +82,7 @@ export abstract class AbstractListOfAllMembersType extends AbstractDataModelBase
  * @public
  */
 export class ListOfAllMembersDataModel extends AbstractListOfAllMembersType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'listofallmembers')
   }

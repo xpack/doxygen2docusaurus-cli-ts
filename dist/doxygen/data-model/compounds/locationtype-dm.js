@@ -31,7 +31,8 @@ export class AbstractLocationType extends AbstractDataModelBase {
     // Mandatory attributes.
     file = '';
     // Optional elements.
-    // WARNING: The xsd specifies that `line` is mandatory, but in practice it is not.
+    // WARNING: The xsd specifies that `line` is mandatory,
+    // but in practice it is not.
     line;
     // Optional attributes.
     column;

@@ -9,7 +9,6 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 // ----------------------------------------------------------------------------
-/* eslint-disable max-lines */
 import assert from 'node:assert';
 import * as fs from 'node:fs/promises';
 // import * as util from 'node:util'
@@ -140,7 +139,6 @@ export class Workspace extends Renderers {
         super();
         console.log();
         // Like .../doxygen2docusaurus/dist/src/docusaurus/generator
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         const __dirname = path.dirname(fileURLToPath(import.meta.url));
         // doxygen2docusaurus
         this.projectPath = path.dirname(path.dirname(__dirname));
@@ -222,7 +220,6 @@ export class Workspace extends Renderers {
         }
         // console.log(this.descriptionTocLists)
     }
-    // eslint-disable-next-line complexity
     findDescriptionIdsRecursively(compound, element) {
         // console.log(compound.id, typeof element)
         if (element.children === undefined) {
@@ -307,9 +304,7 @@ export class Workspace extends Renderers {
                         }
                         else {
                             // console.log('    ', memberDef.kind, memberDef.id)
-                            // eslint-disable-next-line max-depth
                             if (this.membersById.has(member.id)) {
-                                // eslint-disable-next-line max-depth
                                 if (this.options.verbose) {
                                     console.warn('member already in map', member.id, 'in', this.membersById.get(member.id)?.name);
                                 }
@@ -354,7 +349,6 @@ export class Workspace extends Renderers {
     /**
      * @brief Validate the uniqueness of permalinks.
      */
-    // eslint-disable-next-line complexity
     validatePermalinks() {
         console.log('Validating permalinks...');
         const pagePermalinksById = new Map();
@@ -372,7 +366,6 @@ export class Workspace extends Renderers {
                 console.error('compoundDefDataModel', id, 'not yet processed in', this.constructor.name, 'validatePermalinks');
                 continue;
             }
-            // eslint-disable-next-line @typescript-eslint/prefer-destructuring
             const permalink = compound.relativePermalink;
             if (permalink !== undefined) {
                 // console.log('permalink:', permalink)
@@ -394,9 +387,11 @@ export class Workspace extends Renderers {
                 }
                 let count = 1;
                 for (const [, compound] of compoundsMap) {
-                    const suffix = `-${count}`;
+                    const suffix = `-${count.toString()}`;
                     count += 1;
+                    assert(compound.relativePermalink !== undefined);
                     compound.relativePermalink += suffix;
+                    assert(compound.docusaurusId !== undefined);
                     compound.docusaurusId += suffix;
                     if (this.options.verbose) {
                         console.warn('-', compound.relativePermalink, compound.id);
@@ -412,7 +407,6 @@ export class Workspace extends Renderers {
         }
     }
     // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
     async writeMdFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title, pagePermalink, }) {
         const lines = [];
         lines.push('');
@@ -426,11 +420,12 @@ export class Workspace extends Renderers {
         lines.push('');
         lines.push('<hr/>');
         lines.push('');
+        assert(this.dataModel.doxygenindex?.version !== undefined);
         lines.push('<p class="doxyGeneratedBy">Generated via ' +
             '<a href="https://github.com/xpack/doxygen2docusaurus">' +
             'doxygen2docusaurus</a> by ' +
             '<a href="https://www.doxygen.nl">Doxygen</a> ' +
-            this.dataModel.doxygenindex?.version +
+            this.dataModel.doxygenindex.version +
             '.' +
             '</p>');
         lines.push('');
@@ -462,8 +457,11 @@ export class Workspace extends Renderers {
             else if (typeof value === 'boolean') {
                 frontMatterLines.push(`${key}: ${value ? 'true' : 'false'}`);
             }
+            else if (value == null) {
+                frontMatterLines.push(`${key}: null`);
+            }
             else {
-                frontMatterLines.push(`${key}: ${value}`);
+                frontMatterLines.push(`${key}: ${value.toString()}`);
             }
         }
         frontMatterLines.push('');
@@ -486,7 +484,6 @@ export class Workspace extends Renderers {
         this.writtenMdFilesCounter += 1;
     }
     // --------------------------------------------------------------------------
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     skipElementsPara(elements) {
         if (elements === undefined) {
             return;
@@ -574,7 +571,6 @@ export class Workspace extends Renderers {
             }
             return undefined;
         }
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const pagePermalink = dataObject.relativePermalink;
         if (pagePermalink === undefined) {
             if (this.options.verbose && !noWarn) {

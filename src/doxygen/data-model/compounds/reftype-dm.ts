@@ -43,16 +43,16 @@ import { AbstractDataModelBase } from '../types.js'
  */
 export abstract class AbstractRefType extends AbstractDataModelBase {
   // Mandatory elements.
-  text: string = '' // The name of the reference, passed as element text.
+  text = '' // The name of the reference, passed as element text.
 
   // Mandatory attributes.
-  refid: string = ''
+  refid = ''
 
   // Optional attributes.
   prot?: string | undefined // DoxProtectionKind
-  inline?: Boolean | undefined // DoxBool
+  inline?: boolean | undefined // DoxBool
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -109,7 +109,7 @@ export abstract class AbstractRefType extends AbstractDataModelBase {
 // <xsd:element name="innergroup" type="refType" minOccurs="0" maxOccurs="unbounded" />
 
 export class InnerModuleDataModel extends AbstractRefType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'innermodule')
   }
@@ -119,7 +119,7 @@ export class InnerModuleDataModel extends AbstractRefType {
  * @public
  */
 export class InnerDirDataModel extends AbstractRefType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'innerdir')
   }
@@ -129,7 +129,7 @@ export class InnerDirDataModel extends AbstractRefType {
  * @public
  */
 export class InnerFileDataModel extends AbstractRefType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'innerfile')
   }
@@ -139,14 +139,14 @@ export class InnerFileDataModel extends AbstractRefType {
  * @public
  */
 export class InnerClassDataModel extends AbstractRefType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'innerclass')
   }
 }
 
 export class InnerConceptDataModel extends AbstractRefType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'innerconcept')
   }
@@ -156,7 +156,7 @@ export class InnerConceptDataModel extends AbstractRefType {
  * @public
  */
 export class InnerNamespaceDataModel extends AbstractRefType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'innernamespace')
   }
@@ -166,7 +166,7 @@ export class InnerNamespaceDataModel extends AbstractRefType {
  * @public
  */
 export class InnerPageDataModel extends AbstractRefType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'innerpage')
   }
@@ -176,7 +176,7 @@ export class InnerPageDataModel extends AbstractRefType {
  * @public
  */
 export class InnerGroupDataModel extends AbstractRefType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'innergroup')
   }

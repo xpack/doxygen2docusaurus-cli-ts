@@ -48,37 +48,37 @@ import { TableOfContentsDataModel } from './tableofcontentstype-dm.js'
 // Template, to be used for creating new objects.
 export abstract class AbstractXyzType extends AbstractDataModelBase {
   // If the object has a text.
-  text: string = ''
+  text = ''
 
   // Mandatory elements.
-  compoundName: string = ''
-  colsCount: number = NaN
-  elm12: boolean = false
+  compoundName = ''
+  colsCount = NaN
+  elm12 = false
   // elm13: BriefDescriptionDataModel
 
   // Optional elements.
   elm20?: string | undefined
-  elm21?: Boolean | undefined
-  elm22?: Number | undefined
+  elm21?: boolean | undefined
+  elm22?: number | undefined
   briefDescription: BriefDescriptionDataModel | undefined
   includes?: IncludesDataModel[] | undefined
 
   // Mandatory attributes.
-  id: string = ''
-  rowsCount: number = NaN
-  thead: boolean = false
+  id = ''
+  rowsCount = NaN
+  thead = false
 
   // Optional attributes.
   language?: string | undefined
-  final?: Boolean | undefined
-  lineno?: Number | undefined
+  final?: boolean | undefined
+  lineno?: number | undefined
   attr23?: string[] | undefined
 
   // ------------------------------------------
 
   // children: Array<string | ParaDataModel | Sect5DataModel> = []
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -108,9 +108,7 @@ export abstract class AbstractXyzType extends AbstractDataModelBase {
         this.briefDescription = new BriefDescriptionDataModel(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'includes')) {
         // console.log(util.inspect(item))
-        if (this.includes === undefined) {
-          this.includes = []
-        }
+        this.includes ??= []
         this.includes.push(new IncludesDataModel(xml, innerElement))
       } else {
         console.error(
@@ -195,7 +193,7 @@ export abstract class AbstractXyzType extends AbstractDataModelBase {
 }
 
 export class XyzDataModel extends AbstractXyzType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'xyz')
   }
@@ -280,7 +278,7 @@ export class XyzDataModel extends AbstractXyzType {
  */
 export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
   // Mandatory elements.
-  compoundName: string = ''
+  compoundName = ''
 
   // Optional elements.
   title?: string | undefined
@@ -306,23 +304,23 @@ export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
   listOfAllMembers?: ListOfAllMembersDataModel | undefined
 
   // Mandatory attributes.
-  id: string = ''
-  kind: string = '' // DoxCompoundKind
+  id = ''
+  kind = '' // DoxCompoundKind
 
   // Optional attributes.
   language?: string | undefined // DoxLanguage
   // WARNING: This attribute is not marked as optional, but is not present.
   prot?: string | undefined
-  final?: Boolean | undefined
-  inline?: Boolean | undefined
-  sealed?: Boolean | undefined
-  abstract?: Boolean | undefined
+  final?: boolean | undefined
+  inline?: boolean | undefined
+  sealed?: boolean | undefined
+  abstract?: boolean | undefined
 
   // Not in xsd.
   // parentId: string = ''
   // permalink: string = ''
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -352,66 +350,46 @@ export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
           innerElement
         )
       } else if (xml.hasInnerElement(innerElement, 'basecompoundref')) {
-        if (this.baseCompoundRefs === undefined) {
-          this.baseCompoundRefs = []
-        }
+        this.baseCompoundRefs ??= []
         this.baseCompoundRefs.push(
           new BaseCompoundRefDataModel(xml, innerElement)
         )
       } else if (xml.hasInnerElement(innerElement, 'derivedcompoundref')) {
-        if (this.derivedCompoundRefs === undefined) {
-          this.derivedCompoundRefs = []
-        }
+        this.derivedCompoundRefs ??= []
         this.derivedCompoundRefs.push(
           new DerivedCompoundRefDataModel(xml, innerElement)
         )
       } else if (xml.hasInnerElement(innerElement, 'includes')) {
         // console.log(util.inspect(item))
-        if (this.includes === undefined) {
-          this.includes = []
-        }
+        this.includes ??= []
         this.includes.push(new IncludesDataModel(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'includedby')) {
         // console.log(util.inspect(item))
-        if (this.includedBy === undefined) {
-          this.includedBy = []
-        }
+        this.includedBy ??= []
         this.includedBy.push(new IncludedByDataModel(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'incdepgraph')) {
         // TODO: Ignored, not used for now.
       } else if (xml.hasInnerElement(innerElement, 'invincdepgraph')) {
         // TODO: Ignored, not used for now.
       } else if (xml.hasInnerElement(innerElement, 'innerdir')) {
-        if (this.innerDirs === undefined) {
-          this.innerDirs = []
-        }
+        this.innerDirs ??= []
         this.innerDirs.push(new InnerDirDataModel(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'innerfile')) {
-        if (this.innerFiles === undefined) {
-          this.innerFiles = []
-        }
+        this.innerFiles ??= []
         this.innerFiles.push(new InnerFileDataModel(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'innerclass')) {
-        if (this.innerClasses === undefined) {
-          this.innerClasses = []
-        }
+        this.innerClasses ??= []
         this.innerClasses.push(new InnerClassDataModel(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'innernamespace')) {
-        if (this.innerNamespaces === undefined) {
-          this.innerNamespaces = []
-        }
+        this.innerNamespaces ??= []
         this.innerNamespaces.push(
           new InnerNamespaceDataModel(xml, innerElement)
         )
       } else if (xml.hasInnerElement(innerElement, 'innerpage')) {
-        if (this.innerPages === undefined) {
-          this.innerPages = []
-        }
+        this.innerPages ??= []
         this.innerPages.push(new InnerPageDataModel(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'innergroup')) {
-        if (this.innerGroups === undefined) {
-          this.innerGroups = []
-        }
+        this.innerGroups ??= []
         this.innerGroups.push(new InnerGroupDataModel(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'templateparamlist')) {
         this.templateParamList = new TemplateParamListDataModel(
@@ -419,9 +397,7 @@ export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
           innerElement
         )
       } else if (xml.hasInnerElement(innerElement, 'sectiondef')) {
-        if (this.sectionDefs === undefined) {
-          this.sectionDefs = []
-        }
+        this.sectionDefs ??= []
         this.sectionDefs.push(new SectionDefDataModel(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'tableofcontents')) {
         this.tableOfContents = new TableOfContentsDataModel(xml, innerElement)
@@ -511,7 +487,7 @@ export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
  * @public
  */
 export class CompoundDefDataModel extends AbstractCompoundDefType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'compounddef')
   }
@@ -528,11 +504,11 @@ export class CompoundDefDataModel extends AbstractCompoundDefType {
 // </xsd:complexType>
 
 export abstract class AbstractDocHtmlOnlyType extends AbstractDataModelBase {
-  text: string = ''
+  text = ''
 
   block?: string | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -574,13 +550,14 @@ export abstract class AbstractDocHtmlOnlyType extends AbstractDataModelBase {
 // <xsd:element name="htmlonly" type="docHtmlOnlyType" />
 
 export class HtmlOnlyDataModel extends AbstractDocHtmlOnlyType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'htmlonly')
   }
 }
 
-// Normally strings are properties, but these are unusual, so we keep them as objects.
+// Normally strings are properties, but these are unusual, so we keep them
+// as objects.
 // <xsd:element name="manonly" type="xsd:string" />
 // <xsd:element name="xmlonly" type="xsd:string" />
 // <xsd:element name="rtfonly" type="xsd:string" />
@@ -588,35 +565,35 @@ export class HtmlOnlyDataModel extends AbstractDocHtmlOnlyType {
 // <xsd:element name="docbookonly" type="xsd:string" />
 
 export class ManOnlyDataModel extends AbstractStringType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'manonly')
   }
 }
 
 export class XmlOnlyDataModel extends AbstractStringType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'xmlonly')
   }
 }
 
 export class RtfOnlyDataModel extends AbstractStringType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'rtfonly')
   }
 }
 
 export class LatexOnlyDataModel extends AbstractStringType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'latexonly')
   }
 }
 
 export class DocBookOnlyDataModel extends AbstractStringType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'docbookonly')
   }

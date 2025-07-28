@@ -24,6 +24,7 @@ import { AbstractDataModelBase } from '../types.js';
 /**
  * @public
  */
+// eslint-disable-next-line max-len
 export class AbstractDoxygenFileOptionType extends AbstractDataModelBase {
     // Optional elements.
     values; // [0-n] valueType
@@ -43,9 +44,7 @@ export class AbstractDoxygenFileOptionType extends AbstractDataModelBase {
                 // Ignore texts.
             }
             else if (xml.isInnerElementText(innerElement, 'value')) {
-                if (this.values === undefined) {
-                    this.values = [];
-                }
+                this.values ??= [];
                 this.values.push(xml.getInnerElementText(innerElement, 'value'));
             }
             else {

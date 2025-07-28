@@ -15,21 +15,21 @@ export declare abstract class AbstractXyzType extends AbstractDataModelBase {
     colsCount: number;
     elm12: boolean;
     elm20?: string | undefined;
-    elm21?: Boolean | undefined;
-    elm22?: Number | undefined;
+    elm21?: boolean | undefined;
+    elm22?: number | undefined;
     briefDescription: BriefDescriptionDataModel | undefined;
     includes?: IncludesDataModel[] | undefined;
     id: string;
     rowsCount: number;
     thead: boolean;
     language?: string | undefined;
-    final?: Boolean | undefined;
-    lineno?: Number | undefined;
+    final?: boolean | undefined;
+    lineno?: number | undefined;
     attr23?: string[] | undefined;
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 export declare class XyzDataModel extends AbstractXyzType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 /**
  * @public
@@ -59,39 +59,39 @@ export declare abstract class AbstractCompoundDefType extends AbstractDataModelB
     kind: string;
     language?: string | undefined;
     prot?: string | undefined;
-    final?: Boolean | undefined;
-    inline?: Boolean | undefined;
-    sealed?: Boolean | undefined;
-    abstract?: Boolean | undefined;
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    final?: boolean | undefined;
+    inline?: boolean | undefined;
+    sealed?: boolean | undefined;
+    abstract?: boolean | undefined;
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 /**
  * @public
  */
 export declare class CompoundDefDataModel extends AbstractCompoundDefType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 export declare abstract class AbstractDocHtmlOnlyType extends AbstractDataModelBase {
     text: string;
     block?: string | undefined;
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 export declare class HtmlOnlyDataModel extends AbstractDocHtmlOnlyType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 export declare class ManOnlyDataModel extends AbstractStringType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 export declare class XmlOnlyDataModel extends AbstractStringType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 export declare class RtfOnlyDataModel extends AbstractStringType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 export declare class LatexOnlyDataModel extends AbstractStringType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 export declare class DocBookOnlyDataModel extends AbstractStringType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 //# sourceMappingURL=compounddef-dm.d.ts.map

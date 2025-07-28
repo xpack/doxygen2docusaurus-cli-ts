@@ -113,6 +113,7 @@ export class Groups extends CollectionBase {
       return undefined
     }
 
+    assert(group.docusaurusId !== undefined)
     if (group.children.length === 0) {
       const docItem: SidebarDocItem = {
         type: 'doc',
@@ -153,10 +154,11 @@ export class Groups extends CollectionBase {
       }
       return [menuItem]
     } else {
-      // eslint-disable-next-line @typescript-eslint/prefer-destructuring
       const topLevelGroup = this.topLevelGroups[0]
+      assert(topLevelGroup.sidebarLabel !== undefined)
+      assert(topLevelGroup.relativePermalink !== undefined)
       const menuItem: MenuItem = {
-        label: `${topLevelGroup.sidebarLabel}`,
+        label: topLevelGroup.sidebarLabel,
         to: `${this.workspace.menuBaseUrl}${topLevelGroup.relativePermalink}/`,
       }
       return [menuItem]
@@ -347,6 +349,7 @@ export class Group extends CompoundBase {
 
   // --------------------------------------------------------------------------
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override renderToLines(frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 

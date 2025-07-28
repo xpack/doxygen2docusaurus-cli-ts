@@ -6,9 +6,9 @@ export declare abstract class AbstractDoxygenType extends AbstractDataModelBase 
     lang: string;
     compoundDefs?: CompoundDefDataModel[] | undefined;
     noNamespaceSchemaLocation?: string | undefined;
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 export declare class DoxygenDataModel extends AbstractDoxygenType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 //# sourceMappingURL=doxygentype-dm.d.ts.map

@@ -8,7 +8,7 @@ export declare abstract class AbstractDoxygenFileOptionType extends AbstractData
     id: string;
     default: string;
     type: string;
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 export type DoxyfileDefaultType = 'yes' | 'no';
 export type DoxyfileTypeType = 'int' | 'bool' | 'string' | 'stringlist';
@@ -16,6 +16,6 @@ export type DoxyfileTypeType = 'int' | 'bool' | 'string' | 'stringlist';
  * @public
  */
 export declare class DoxygenFileOptionDataModel extends AbstractDoxygenFileOptionType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 //# sourceMappingURL=doxyfileoptiontype-dm.d.ts.map

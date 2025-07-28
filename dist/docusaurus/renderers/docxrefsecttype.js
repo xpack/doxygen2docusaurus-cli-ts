@@ -14,6 +14,7 @@ import assert from 'node:assert';
 import { ElementLinesRendererBase } from './element-renderer-base.js';
 // ----------------------------------------------------------------------------
 export class DocXRefSectLinesRenderer extends ElementLinesRendererBase {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];

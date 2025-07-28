@@ -26,7 +26,7 @@ import {
 // ItemizedListDataModel - regular unordered
 // OrderedListDataModel - regular ordered
 export class DocListTypeLinesRenderer extends ElementLinesRendererBase {
-  // eslint-disable-next-line complexity
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override renderToLines(element: AbstractDocListType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
     // console.log(element)

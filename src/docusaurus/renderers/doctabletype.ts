@@ -30,6 +30,7 @@ import type {
 export class DocTableTypeLinesRenderer extends ElementLinesRendererBase {
   override renderToLines(
     element: AbstractDocTableType,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type: string
   ): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
@@ -51,6 +52,7 @@ export class DocTableTypeLinesRenderer extends ElementLinesRendererBase {
 }
 
 export class DocCaptionLinesRenderer extends ElementLinesRendererBase {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   renderToLines(element: AbstractDocCaptionType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -71,6 +73,7 @@ export class DocCaptionLinesRenderer extends ElementLinesRendererBase {
 }
 
 export class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override renderToLines(element: AbstractDocRowType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -87,6 +90,7 @@ export class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
 }
 
 export class DocEntryTypeStringRenderer extends ElementStringRendererBase {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   renderToString(element: AbstractDocEntryType, type: string): string {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -94,10 +98,10 @@ export class DocEntryTypeStringRenderer extends ElementStringRendererBase {
 
     let attributes = ''
     if (element.colspan !== undefined) {
-      attributes += ` colspan="${element.colspan.valueOf()}"`
+      attributes += ` colspan="${element.colspan.toString()}"`
     }
     if (element.rowspan !== undefined) {
-      attributes += ` rowspan="${element.rowspan.valueOf()}"`
+      attributes += ` rowspan="${element.rowspan.toString()}"`
     }
     if (element.align !== undefined) {
       attributes += ` align="${element.align}"`

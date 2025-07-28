@@ -19,7 +19,6 @@ export class CollectionBase {
         this.workspace = workspace;
         this.collectionCompoundsById = new Map();
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     async generatePerInitialsIndexMdFiles() {
         // Nothing at this level. Override it where needed.
     }
@@ -27,7 +26,6 @@ export class CollectionBase {
         return this.collectionCompoundsById.size > 0;
     }
     // --------------------------------------------------------------------------
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     orderPerInitials(entriesMap) {
         const entriesPerInitialsMap = new Map();
         for (const [, entry] of entriesMap) {
@@ -67,7 +65,6 @@ export class CollectionBase {
         }
         return orderedMap;
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     outputEntries(entriesPerInitialsMap) {
         const lines = [];
         let totalCount = 0;
@@ -106,12 +103,12 @@ export class CollectionBase {
             }
             lines.push('</ul>');
             if (mapArray.length > 1) {
-                lines.push(`<p>${mapArray.length} entries</p>`);
+                lines.push(`<p>${mapArray.length.toString()} entries</p>`);
             }
             totalCount += mapArray.length;
         }
         lines.push('<br/>');
-        lines.push(`<p>Total: ${totalCount} entries.</p>`);
+        lines.push(`<p>Total: ${totalCount.toString()} entries.</p>`);
         return lines;
     }
     async generateIndexFile({ group, fileKind, title, description, map, filter, }) {
@@ -131,7 +128,6 @@ export class CollectionBase {
         }
         this.workspace.indicesMaps.get(group)?.add(fileKind);
         const orderedEntries = this.orderPerInitials(filteredMap);
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { outputFolderPath } = this.workspace;
         const filePath = `${outputFolderPath}indices/${group}/${fileKind}.md`;
         const permalink = `indices/${group}/${fileKind}`;

@@ -38,7 +38,7 @@ import { AbstractDataModelBase } from '../types.js'
  */
 export abstract class AbstractSectionDefTypeBase extends AbstractDataModelBase {
   // Mandatory attributes.
-  kind: string = ''
+  kind = ''
 
   // Optional elements.
   header?: string | undefined
@@ -81,8 +81,9 @@ export abstract class AbstractSectionDefTypeBase extends AbstractDataModelBase {
 /**
  * @public
  */
+// eslint-disable-next-line max-len
 export abstract class AbstractSectionDefType extends AbstractSectionDefTypeBase {
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName, '')
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -103,14 +104,10 @@ export abstract class AbstractSectionDefType extends AbstractSectionDefTypeBase 
         assert(this.description === undefined)
         this.description = new DescriptionDataModel(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'memberdef')) {
-        if (this.memberDefs === undefined) {
-          this.memberDefs = []
-        }
+        this.memberDefs ??= []
         this.memberDefs.push(new MemberDefDataModel(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'member')) {
-        if (this.members === undefined) {
-          this.members = []
-        }
+        this.members ??= []
         this.members.push(new MemberDataModel(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
@@ -160,7 +157,7 @@ export abstract class AbstractSectionDefType extends AbstractSectionDefTypeBase 
  * @public
  */
 export class SectionDefDataModel extends AbstractSectionDefType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'sectiondef')
   }

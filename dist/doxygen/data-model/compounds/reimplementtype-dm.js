@@ -30,7 +30,8 @@ export class AbstractReimplementType extends AbstractDataModelBase {
     refId = '';
     constructor(xml, element, elementName) {
         super(elementName);
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))ect(element))
+        // console.log(elementName, util.inspect(element,
+        //   { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         assert(xml.isInnerElementText(element, elementName));

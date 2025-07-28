@@ -34,14 +34,14 @@ import { AbstractDataModelBase } from '../types.js'
  */
 export abstract class AbstractIndexCompoundType extends AbstractDataModelBase {
   // Mandatory elements.
-  name: string = ''
+  name = ''
   members: IndexMemberDataModel[] | undefined // [0-n]
 
   // Mandatory attributes.
-  refid: string = ''
-  kind: string = '' // CompoundKind
+  refid = ''
+  kind = '' // CompoundKind
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -59,9 +59,7 @@ export abstract class AbstractIndexCompoundType extends AbstractDataModelBase {
         assert(this.name.length === 0)
         this.name = xml.getInnerElementText(innerElement, 'name')
       } else if (xml.hasInnerElement(innerElement, 'member')) {
-        if (this.members === undefined) {
-          this.members = []
-        }
+        this.members ??= []
         this.members.push(new IndexMemberDataModel(xml, innerElement))
       } else {
         console.error(util.inspect(innerElement))
@@ -141,11 +139,6 @@ export type IndexCompoundKind =
   | 'exception'
   | 'file'
   | 'namespace'
-  | 'protocol'
-  | 'category'
-  | 'exception'
-  | 'file'
-  | 'namespace'
   | 'group'
   | 'page'
   | 'example'
@@ -162,7 +155,7 @@ export type IndexCompoundKind =
  * @public
  */
 export class IndexCompoundDataModel extends AbstractIndexCompoundType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'compound')
   }

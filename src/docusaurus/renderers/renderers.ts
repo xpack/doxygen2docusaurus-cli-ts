@@ -11,8 +11,6 @@
 
 // ----------------------------------------------------------------------------
 
-/* eslint-disable max-lines */
-
 import * as util from 'node:util'
 import assert from 'node:assert'
 
@@ -275,7 +273,6 @@ export class Renderers {
   getElementLinesRenderer(
     element: object
   ): ElementLinesRendererBase | undefined {
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     let elementClass = element.constructor
     while (elementClass.name !== '') {
       // console.log(elementClass.name)
@@ -294,7 +291,6 @@ export class Renderers {
   getElementTextRenderer(
     element: object
   ): ElementStringRendererBase | undefined {
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     let elementClass = element.constructor
     while (elementClass.name !== '') {
       // console.log(elementClass.name)
@@ -314,7 +310,6 @@ export class Renderers {
 
   // --------------------------------------------------------------------------
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   renderString(element: string, type: string): string {
     if (type === 'text') {
       return element
@@ -470,7 +465,6 @@ export class Renderers {
     return ''
   }
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   renderMembersIndexItemToHtmlLines({
     template,
     type,
@@ -511,6 +505,7 @@ export class Renderers {
       lines.push('</tr>')
     } else {
       lines.push('<tr class="doxyMemberIndexItem">')
+      assert(type !== undefined)
       lines.push(
         `<td class="doxyMemberIndexItemType" align="left" valign="top">` +
           `${type}</td>`
@@ -538,7 +533,6 @@ export class Renderers {
     return lines
   }
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   renderTreeTableToHtmlLines({
     contentLines,
   }: {
@@ -558,7 +552,6 @@ export class Renderers {
     return lines
   }
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   renderTreeTableRowToHtmlLines({
     itemIconLetter,
     itemIconClass,
@@ -578,8 +571,9 @@ export class Renderers {
 
     lines.push('<tr class="doxyTreeItem">')
     lines.push('<td class="doxyTreeItemLeft" align="left" valign="top">')
+    const depthStr = (depth * 12).toString()
     lines.push(
-      `<span style="width: ${depth * 12}px; display: inline-block;"></span>`
+      `<span style="width: ${depthStr}px; display: inline-block;"></span>`
     )
     if (itemIconLetter !== undefined && itemIconLetter.length > 0) {
       lines.push(

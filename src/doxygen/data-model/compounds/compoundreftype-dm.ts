@@ -34,16 +34,16 @@ import { AbstractDataModelBase } from '../types.js'
  */
 export abstract class AbstractCompoundRefType extends AbstractDataModelBase {
   // Mandatory elements.
-  text: string = '' // Passed as element text.
+  text = '' // Passed as element text.
 
   // Mandatory attributes.
-  prot: string = ''
-  virt: string = ''
+  prot = ''
+  virt = ''
 
   // Optional attributes.
   refid?: string | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -123,7 +123,7 @@ export type DoxVirtualKind = 'non-virtual' | 'virtual' | 'pure-virtual'
  * @public
  */
 export class BaseCompoundRefDataModel extends AbstractCompoundRefType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'basecompoundref')
   }
@@ -133,7 +133,7 @@ export class BaseCompoundRefDataModel extends AbstractCompoundRefType {
  * @public
  */
 export class DerivedCompoundRefDataModel extends AbstractCompoundRefType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'derivedcompoundref')
   }

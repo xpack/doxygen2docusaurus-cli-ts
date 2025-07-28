@@ -32,17 +32,17 @@ import { AbstractDataModelBase } from '../types.js'
 
 export abstract class AbstractRefTextType extends AbstractDataModelBase {
   // Mandatory elements.
-  text: string = '' // The name of the reference, passed as element text.
+  text = '' // The name of the reference, passed as element text.
 
   // Mandatory attributes.
-  refid: string = ''
-  kindref: string = '' // DoxRefKind
+  refid = ''
+  kindref = '' // DoxRefKind
 
   // Optional attributes.
   external?: string | undefined
   tooltip?: string | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -106,7 +106,7 @@ export type DoxRefKind = 'compound' | 'member'
 // <xsd:element name="ref" type="refTextType" minOccurs="0" maxOccurs="unbounded" />
 
 export class RefTextDataModel extends AbstractRefTextType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'ref')
   }

@@ -30,6 +30,7 @@ import type { Workspace } from '../workspace.js'
 export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
   override renderToLines(
     element: AbstractListingTypeBase,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type: string
   ): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
@@ -142,7 +143,6 @@ export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
     assert(element instanceof HighlightDataModel)
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     let spanClass = this.knownClasses[element.classs]
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (spanClass === undefined) {

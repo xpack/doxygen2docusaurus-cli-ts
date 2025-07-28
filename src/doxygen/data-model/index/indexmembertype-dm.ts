@@ -32,13 +32,13 @@ import { AbstractDataModelBase } from '../types.js'
  */
 export abstract class AbstractIndexMemberType extends AbstractDataModelBase {
   // Mandatory elements.
-  name: string = ''
+  name = ''
 
   // Mandatory attributes.
-  refid: string = ''
-  kind: string = '' // MemberKind
+  refid = ''
+  kind = '' // MemberKind
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -143,7 +143,7 @@ export type IndexMemberKind =
  * @public
  */
 export class IndexMemberDataModel extends AbstractIndexMemberType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'member')
   }

@@ -116,27 +116,19 @@ export class AbstractMemberDefType extends AbstractMemberBaseType {
                 this.qualifiedName = xml.getInnerElementText(innerElement, 'qualifiedname');
             }
             else if (xml.hasInnerElement(innerElement, 'reimplements')) {
-                if (this.reimplements === undefined) {
-                    this.reimplements = [];
-                }
+                this.reimplements ??= [];
                 this.reimplements.push(new ReimplementDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'reimplementedby')) {
-                if (this.reimplementedBys === undefined) {
-                    this.reimplementedBys = [];
-                }
+                this.reimplementedBys ??= [];
                 this.reimplementedBys.push(new ReimplementedByDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'param')) {
-                if (this.params === undefined) {
-                    this.params = [];
-                }
+                this.params ??= [];
                 this.params.push(new ParamDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'enumvalue')) {
-                if (this.enumvalues === undefined) {
-                    this.enumvalues = [];
-                }
+                this.enumvalues ??= [];
                 this.enumvalues.push(new EnumValueDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'initializer')) {
@@ -152,15 +144,11 @@ export class AbstractMemberDefType extends AbstractMemberBaseType {
                 this.inbodyDescription = new InbodyDescriptionDataModel(xml, innerElement);
             }
             else if (xml.hasInnerElement(innerElement, 'references')) {
-                if (this.references === undefined) {
-                    this.references = [];
-                }
+                this.references ??= [];
                 this.references.push(new ReferenceDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'referencedby')) {
-                if (this.referencedBy === undefined) {
-                    this.referencedBy = [];
-                }
+                this.referencedBy ??= [];
                 this.referencedBy.push(new ReferencedByDataModel(xml, innerElement));
             }
             else {

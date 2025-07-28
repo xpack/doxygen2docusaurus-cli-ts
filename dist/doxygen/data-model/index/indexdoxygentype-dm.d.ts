@@ -9,12 +9,12 @@ export declare abstract class AbstractIndexDoxygenType extends AbstractDataModel
     lang: string;
     compounds?: IndexCompoundDataModel[] | undefined;
     noNamespaceSchemaLocation?: string | undefined;
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 /**
  * @public
  */
 export declare class DoxygenIndexDataModel extends AbstractIndexDoxygenType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 //# sourceMappingURL=indexdoxygentype-dm.d.ts.map

@@ -31,7 +31,8 @@ export class AbstractDoxygenType extends AbstractDataModelBase {
     noNamespaceSchemaLocation;
     constructor(xml, element, elementName) {
         super(elementName);
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))ect(element))
+        // console.log(elementName, util.inspect(element,
+        //   { compact: false, depth: 999 }))
         const innerElements = xml.getInnerElements(element, elementName);
         assert(innerElements.length > 0);
         for (const innerElement of innerElements) {
@@ -39,9 +40,7 @@ export class AbstractDoxygenType extends AbstractDataModelBase {
                 // Ignore texts.
             }
             else if (xml.hasInnerElement(innerElement, 'compounddef')) {
-                if (this.compoundDefs === undefined) {
-                    this.compoundDefs = [];
-                }
+                this.compoundDefs ??= [];
                 this.compoundDefs.push(new CompoundDefDataModel(xml, innerElement));
             }
             else {

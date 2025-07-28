@@ -40,7 +40,7 @@ import { InitializerDataModel } from './linkedtexttype-dm.js'
  */
 export abstract class AbstractEnumValueType extends AbstractDataModelBase {
   // Mandatory elements.
-  name: string = ''
+  name = ''
 
   // Optional elements.
   initializer?: InitializerDataModel | undefined
@@ -48,10 +48,10 @@ export abstract class AbstractEnumValueType extends AbstractDataModelBase {
   detailedDescription?: DetailedDescriptionDataModel | undefined
 
   // Mandatory attributes.
-  id: string = ''
-  prot: string = '' // DoxProtectionKind
+  id = ''
+  prot = '' // DoxProtectionKind
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -128,7 +128,7 @@ export abstract class AbstractEnumValueType extends AbstractDataModelBase {
  * @public
  */
 export class EnumValueDataModel extends AbstractEnumValueType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'enumvalue')
   }

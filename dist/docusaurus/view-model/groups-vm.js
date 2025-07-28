@@ -84,6 +84,7 @@ export class Groups extends CollectionBase {
         if (group.sidebarLabel === undefined) {
             return undefined;
         }
+        assert(group.docusaurusId !== undefined);
         if (group.children.length === 0) {
             const docItem = {
                 type: 'doc',
@@ -122,10 +123,11 @@ export class Groups extends CollectionBase {
             return [menuItem];
         }
         else {
-            // eslint-disable-next-line @typescript-eslint/prefer-destructuring
             const topLevelGroup = this.topLevelGroups[0];
+            assert(topLevelGroup.sidebarLabel !== undefined);
+            assert(topLevelGroup.relativePermalink !== undefined);
             const menuItem = {
-                label: `${topLevelGroup.sidebarLabel}`,
+                label: topLevelGroup.sidebarLabel,
                 to: `${this.workspace.menuBaseUrl}${topLevelGroup.relativePermalink}/`,
             };
             return [menuItem];
@@ -261,6 +263,7 @@ export class Group extends CompoundBase {
         // console.log()
     }
     // --------------------------------------------------------------------------
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToLines(frontMatter) {
         const lines = [];
         const descriptionTodo = `@defgroup ${this.collection.workspace.renderString(this.compoundName, 'html')}`;

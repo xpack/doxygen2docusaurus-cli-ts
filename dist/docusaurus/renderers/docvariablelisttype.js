@@ -14,6 +14,7 @@
 import { ElementLinesRendererBase } from './element-renderer-base.js';
 // ----------------------------------------------------------------------------
 export class DocVariableListTypeLinesRenderer extends ElementLinesRendererBase {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
@@ -25,7 +26,9 @@ export class DocVariableListTypeLinesRenderer extends ElementLinesRendererBase {
     }
 }
 export class VariableListPairLinesRenderer extends ElementLinesRendererBase {
-    renderToLines(element, type) {
+    renderToLines(element, 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
         // console.log(element.varlistentry.term)

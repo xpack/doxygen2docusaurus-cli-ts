@@ -14,7 +14,9 @@
 import { ElementLinesRendererBase, ElementStringRendererBase, } from './element-renderer-base.js';
 // ----------------------------------------------------------------------------
 export class DocTableTypeLinesRenderer extends ElementLinesRendererBase {
-    renderToLines(element, type) {
+    renderToLines(element, 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
         lines.push('');
@@ -28,6 +30,7 @@ export class DocTableTypeLinesRenderer extends ElementLinesRendererBase {
     }
 }
 export class DocCaptionLinesRenderer extends ElementLinesRendererBase {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         let text = '';
@@ -44,6 +47,7 @@ export class DocCaptionLinesRenderer extends ElementLinesRendererBase {
     }
 }
 export class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         const lines = [];
@@ -54,15 +58,16 @@ export class DocRowTypeLinesRenderer extends ElementLinesRendererBase {
     }
 }
 export class DocEntryTypeStringRenderer extends ElementStringRendererBase {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToString(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         let text = '';
         let attributes = '';
         if (element.colspan !== undefined) {
-            attributes += ` colspan="${element.colspan.valueOf()}"`;
+            attributes += ` colspan="${element.colspan.toString()}"`;
         }
         if (element.rowspan !== undefined) {
-            attributes += ` rowspan="${element.rowspan.valueOf()}"`;
+            attributes += ` rowspan="${element.rowspan.toString()}"`;
         }
         if (element.align !== undefined) {
             attributes += ` align="${element.align}"`;

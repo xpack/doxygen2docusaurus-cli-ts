@@ -11,8 +11,6 @@
 
 // ----------------------------------------------------------------------------
 
-/* eslint-disable max-lines */
-
 // import * as util from 'node:util'
 import assert from 'node:assert'
 
@@ -81,7 +79,6 @@ export class FilesAndFolders extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  // eslint-disable-next-line complexity
   override createCompoundsHierarchies(): void {
     // Recreate files and folders hierarchies.
     // console.log(this.compoundsById.size)
@@ -219,7 +216,6 @@ export class FilesAndFolders extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  // eslint-disable-next-line complexity
   override addSidebarItems(sidebarCategory: SidebarCategory): void {
     const indicesSet = this.workspace.indicesMaps.get('files')
     if (indicesSet === undefined) {
@@ -249,7 +245,6 @@ export class FilesAndFolders extends CollectionBase {
     for (const folder of this.topLevelFolders) {
       const item = this.createFolderSidebarItemRecursively(folder)
       if (item !== undefined) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
         ;(filesCategory.items[0] as SidebarCategoryItem).items.push(item)
       }
     }
@@ -257,7 +252,6 @@ export class FilesAndFolders extends CollectionBase {
     for (const file of this.topLevelFiles) {
       const item = this.createFileSidebarItem(file)
       if (item !== undefined) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
         ;(filesCategory.items[0] as SidebarCategoryItem).items.push(item)
       }
     }
@@ -344,6 +338,7 @@ export class FilesAndFolders extends CollectionBase {
       return undefined
     }
 
+    assert(folder.docusaurusId !== undefined)
     const categoryItem: SidebarCategoryItem = {
       type: 'category',
       label: folder.sidebarLabel,
@@ -381,6 +376,7 @@ export class FilesAndFolders extends CollectionBase {
       return undefined
     }
 
+    assert(file.docusaurusId !== undefined)
     const docItem: SidebarDocItem = {
       type: 'doc',
       label: file.sidebarLabel,
@@ -546,7 +542,6 @@ export class FilesAndFolders extends CollectionBase {
     return false
   }
 
-  // eslint-disable-next-line complexity
   override async generatePerInitialsIndexMdFiles(): Promise<void> {
     if (this.topLevelFiles.length === 0) {
       return
@@ -618,6 +613,7 @@ export class FilesAndFolders extends CollectionBase {
       title: 'The Files Definitions Index',
       description: 'The definitions part of the files are:',
       map: allUnorderedEntriesMap,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       filter: (kind) => true,
     })
 
@@ -767,6 +763,7 @@ export class Folder extends CompoundBase {
 
   // --------------------------------------------------------------------------
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override renderToLines(frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 
@@ -854,7 +851,6 @@ export class File extends CompoundBase {
   override initializeLate(): void {
     super.initializeLate()
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const compoundDef = this._private._compoundDef
     assert(compoundDef !== undefined)
 
@@ -915,6 +911,7 @@ export class File extends CompoundBase {
 
   // --------------------------------------------------------------------------
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override renderToLines(frontMatter: FrontMatter): string[] {
     const lines: string[] = []
 

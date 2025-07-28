@@ -9,12 +9,12 @@ export declare abstract class AbstractDoxygenFileType extends AbstractDataModelB
     lang: string;
     options?: DoxygenFileOptionDataModel[] | undefined;
     noNamespaceSchemaLocation?: string | undefined;
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 /**
  * @public
  */
 export declare class DoxygenFileDataModel extends AbstractDoxygenFileType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 //# sourceMappingURL=doxyfiletype-dm.d.ts.map

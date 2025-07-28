@@ -22,6 +22,7 @@ import { AbstractDataModelBase } from '../types.js';
 /**
  * @public
  */
+// eslint-disable-next-line max-len
 export class AbstractTemplateParamListType extends AbstractDataModelBase {
     // Optional elements.
     params;
@@ -38,9 +39,7 @@ export class AbstractTemplateParamListType extends AbstractDataModelBase {
                 // Ignore texts
             }
             else if (xml.hasInnerElement(innerElement, 'param')) {
-                if (this.params === undefined) {
-                    this.params = [];
-                }
+                this.params ??= [];
                 this.params.push(new ParamDataModel(xml, innerElement));
             }
             else {

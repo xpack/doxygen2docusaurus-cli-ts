@@ -43,9 +43,7 @@ export class AbstractIndexDoxygenType extends AbstractDataModelBase {
                 // Ignore texts.
             }
             else if (xml.hasInnerElement(innerElement, 'compound')) {
-                if (this.compounds === undefined) {
-                    this.compounds = [];
-                }
+                this.compounds ??= [];
                 this.compounds.push(new IndexCompoundDataModel(xml, innerElement));
             }
             else {

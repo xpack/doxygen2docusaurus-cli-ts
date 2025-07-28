@@ -6,12 +6,12 @@ import { AbstractDataModelBase } from '../types.js';
  */
 export declare abstract class AbstractListOfAllMembersType extends AbstractDataModelBase {
     memberRefs?: MemberRefDataModel[] | undefined;
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 /**
  * @public
  */
 export declare class ListOfAllMembersDataModel extends AbstractListOfAllMembersType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 //# sourceMappingURL=listofallmemberstype-dm.d.ts.map

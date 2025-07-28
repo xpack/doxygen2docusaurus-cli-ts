@@ -42,9 +42,7 @@ export class AbstractDoxygenFileType extends AbstractDataModelBase {
                 // Ignore texts.
             }
             else if (xml.hasInnerElement(innerElement, 'option')) {
-                if (this.options === undefined) {
-                    this.options = [];
-                }
+                this.options ??= [];
                 this.options.push(new DoxygenFileOptionDataModel(xml, innerElement));
             }
             else {

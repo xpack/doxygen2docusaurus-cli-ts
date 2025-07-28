@@ -15,7 +15,9 @@ import { CodeLineDataModel, HighlightDataModel, MemberProgramListingDataModel, }
 import { ElementLinesRendererBase } from './element-renderer-base.js';
 // ----------------------------------------------------------------------------
 export class ListingTypeLinesRenderer extends ElementLinesRendererBase {
-    renderToLines(element, type) {
+    renderToLines(element, 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         if (element.codelines === undefined) {
             return [];
@@ -98,7 +100,6 @@ export class HighlightTypeLinesRenderer extends ElementLinesRendererBase {
     renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         assert(element instanceof HighlightDataModel);
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         let spanClass = this.knownClasses[element.classs];
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (spanClass === undefined) {

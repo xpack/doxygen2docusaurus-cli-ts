@@ -11,8 +11,6 @@
 
 // ----------------------------------------------------------------------------
 
-/* eslint-disable max-lines */
-
 // import * as util from 'node:util'
 import assert from 'node:assert'
 import path from 'node:path'
@@ -143,7 +141,6 @@ export abstract class CompoundBase {
     }
 
     if (compoundDef.location?.file !== undefined) {
-      // eslint-disable-next-line @typescript-eslint/prefer-destructuring
       const { file } = compoundDef.location
       this.locationFilePath = file
     }
@@ -163,7 +160,6 @@ export abstract class CompoundBase {
     }
   }
 
-  // eslint-disable-next-line complexity
   private reorderSectionDefs(
     classUnqualifiedName?: string
   ): SectionDefDataModel[] | undefined {
@@ -315,12 +311,9 @@ export abstract class CompoundBase {
     return adjustedSectionKind
   }
 
-  // eslint-disable-next-line complexity
   initializeLate(): void {
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { workspace } = this.collection
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const compoundDef = this._private._compoundDef
     assert(compoundDef !== undefined)
 
@@ -368,7 +361,6 @@ export abstract class CompoundBase {
         if (sectionDef.memberDefs !== undefined) {
           for (const memberDef of sectionDef.memberDefs) {
             if (memberDef.location !== undefined) {
-              // eslint-disable-next-line @typescript-eslint/prefer-destructuring
               const { file } = memberDef.location
               this.locationSet.add(file)
               if (memberDef.location.bodyfile !== undefined) {
@@ -388,7 +380,7 @@ export abstract class CompoundBase {
     for (const innerKey of Object.keys(compoundDef)) {
       if (
         innerKey.startsWith('inner') &&
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
         (compoundDef as any)[innerKey] !== undefined
       ) {
         this.innerCompounds ??= new Map()
@@ -397,7 +389,6 @@ export abstract class CompoundBase {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   isOperator(name: string): boolean {
     // Two word operators, like
     if (
@@ -453,7 +444,6 @@ export abstract class CompoundBase {
     return text
   }
 
-  // eslint-disable-next-line complexity
   renderDetailedDescriptionToHtmlLines({
     briefDescriptionHtmlString,
     detailedDescriptionHtmlLines,
@@ -526,7 +516,6 @@ export abstract class CompoundBase {
     return this.innerCompounds !== undefined && this.innerCompounds.size > 0
   }
 
-  // eslint-disable-next-line complexity
   renderInnerIndicesToLines({
     suffixes = [],
   }: {
@@ -553,7 +542,6 @@ export abstract class CompoundBase {
       }
     }
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { workspace } = this.collection
 
     for (const suffix of suffixes) {
@@ -565,7 +553,7 @@ export abstract class CompoundBase {
       }
 
       const innerObjects =
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
         (innerCompound as any)[innerKey] as AbstractRefType[] | undefined
 
       if (innerObjects === undefined || innerObjects.length === 0) {
@@ -614,6 +602,7 @@ export abstract class CompoundBase {
 
           const childrenLines: string[] = []
 
+          assert(permalink !== undefined)
           const morePermalink =
             innerDataObject.detailedDescriptionHtmlLines !== undefined
               ? `${permalink}/#details`
@@ -692,7 +681,6 @@ export abstract class CompoundBase {
   renderIncludesIndexToLines(): string[] {
     const lines: string[] = []
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { workspace } = this.collection
 
     if (this.includes !== undefined) {
@@ -728,12 +716,10 @@ export abstract class CompoundBase {
     return lines
   }
 
-  // eslint-disable-next-line complexity
   renderLocationToLines(location: LocationDataModel | undefined): string[] {
     const lines: string[] = []
     let text = ''
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { workspace } = this.collection
 
     if (location !== undefined) {
@@ -800,7 +786,7 @@ export abstract class CompoundBase {
               const lineStart = `l${location.bodystart
                 .toString()
                 .padStart(5, '0')}`
-              // eslint-disable-next-line max-depth
+
               if (
                 definitionPermalink !== undefined &&
                 definitionPermalink.length > 0 &&
@@ -908,7 +894,6 @@ export abstract class CompoundBase {
 
       lines.push('<ul>')
 
-      // eslint-disable-next-line @typescript-eslint/prefer-destructuring
       const { workspace } = this.collection
 
       const sortedFiles = [...this.locationSet].sort((a, b) =>
@@ -949,7 +934,6 @@ export abstract class CompoundBase {
       return ''
     }
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { workspace } = this.collection
 
     const referenceLines: string[] = []
@@ -981,7 +965,6 @@ export abstract class CompoundBase {
       return ''
     }
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { workspace } = this.collection
 
     const referenceLines: string[] = []
@@ -1007,7 +990,7 @@ export abstract class CompoundBase {
    * @param templateParamList
    * @returns
    */
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this, complexity
+
   collectTemplateParameters({
     templateParamList,
     withDefaults = false,
@@ -1031,7 +1014,6 @@ export abstract class CompoundBase {
         if (typeof child === 'string') {
           paramString += child
         } else if ((child as object) instanceof RefTextDataModel) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
           paramString += (child as RefTextDataModel).text
         }
       }
@@ -1061,14 +1043,12 @@ export abstract class CompoundBase {
     return templateParameters
   }
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   isTemplate(
     templateParamList: TemplateParamListDataModel | undefined
   ): boolean {
     return (templateParamList?.params ?? []).length > 0
   }
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   collectTemplateParameterNames(
     templateParamList: TemplateParamListDataModel
   ): string[] {
@@ -1094,7 +1074,6 @@ export abstract class CompoundBase {
             // Extract the parameter name, passed as `class T`.
             paramString += child
           } else if ((child as object) instanceof RefTextDataModel) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
             paramString += (child as RefTextDataModel).text
           }
         }

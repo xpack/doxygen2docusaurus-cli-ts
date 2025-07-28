@@ -36,22 +36,23 @@ import { AbstractDataModelBase } from '../types.js'
  */
 export abstract class AbstractLocationType extends AbstractDataModelBase {
   // Mandatory attributes.
-  file: string = ''
+  file = ''
 
   // Optional elements.
-  // WARNING: The xsd specifies that `line` is mandatory, but in practice it is not.
-  line?: Number | undefined
+  // WARNING: The xsd specifies that `line` is mandatory,
+  // but in practice it is not.
+  line?: number | undefined
 
   // Optional attributes.
-  column?: Number | undefined
+  column?: number | undefined
   declfile?: string | undefined
-  declline?: Number | undefined
-  declcolumn?: Number | undefined
+  declline?: number | undefined
+  declcolumn?: number | undefined
   bodyfile?: string | undefined
-  bodystart?: Number | undefined
-  bodyend?: Number | undefined
+  bodystart?: number | undefined
+  bodyend?: number | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -121,7 +122,7 @@ export abstract class AbstractLocationType extends AbstractDataModelBase {
  * @public
  */
 export class LocationDataModel extends AbstractLocationType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'location')
   }

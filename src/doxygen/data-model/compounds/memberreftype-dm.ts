@@ -35,18 +35,18 @@ import { AbstractDataModelBase } from '../types.js'
  */
 export abstract class AbstractMemberRefType extends AbstractDataModelBase {
   // Mandatory elements.
-  scope: string = '' // This acts as the namespace.
-  name: string = ''
+  scope = '' // This acts as the namespace.
+  name = ''
 
   // Mandatory attributes.
-  refid: string = ''
-  prot: string = ''
-  virt: string = ''
+  refid = ''
+  prot = ''
+  virt = ''
 
   // WARNING: Deviation from xsd, there it is not optional.
   ambiguityscope?: string | undefined
 
-  constructor(xml: DoxygenXmlParser, element: Object, elementName: string) {
+  constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -126,7 +126,7 @@ export abstract class AbstractMemberRefType extends AbstractDataModelBase {
  * @public
  */
 export class MemberRefDataModel extends AbstractMemberRefType {
-  constructor(xml: DoxygenXmlParser, element: Object) {
+  constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'member')
   }

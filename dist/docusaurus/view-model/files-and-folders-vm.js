@@ -9,7 +9,6 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 // ----------------------------------------------------------------------------
-/* eslint-disable max-lines */
 // import * as util from 'node:util'
 import assert from 'node:assert';
 import { CompoundBase } from './compound-base-vm.js';
@@ -52,7 +51,6 @@ export class FilesAndFolders extends CollectionBase {
         }
     }
     // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
     createCompoundsHierarchies() {
         // Recreate files and folders hierarchies.
         // console.log(this.compoundsById.size)
@@ -158,7 +156,6 @@ export class FilesAndFolders extends CollectionBase {
         return `${parentPath}${folder.compoundName}`;
     }
     // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
     addSidebarItems(sidebarCategory) {
         const indicesSet = this.workspace.indicesMaps.get('files');
         if (indicesSet === undefined) {
@@ -186,7 +183,6 @@ export class FilesAndFolders extends CollectionBase {
         for (const folder of this.topLevelFolders) {
             const item = this.createFolderSidebarItemRecursively(folder);
             if (item !== undefined) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
                 ;
                 filesCategory.items[0].items.push(item);
             }
@@ -194,7 +190,6 @@ export class FilesAndFolders extends CollectionBase {
         for (const file of this.topLevelFiles) {
             const item = this.createFileSidebarItem(file);
             if (item !== undefined) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
                 ;
                 filesCategory.items[0].items.push(item);
             }
@@ -268,6 +263,7 @@ export class FilesAndFolders extends CollectionBase {
         if (folder.sidebarLabel === undefined) {
             return undefined;
         }
+        assert(folder.docusaurusId !== undefined);
         const categoryItem = {
             type: 'category',
             label: folder.sidebarLabel,
@@ -300,6 +296,7 @@ export class FilesAndFolders extends CollectionBase {
         if (file.sidebarLabel === undefined) {
             return undefined;
         }
+        assert(file.docusaurusId !== undefined);
         const docItem = {
             type: 'doc',
             label: file.sidebarLabel,
@@ -422,7 +419,6 @@ export class FilesAndFolders extends CollectionBase {
         console.log('none');
         return false;
     }
-    // eslint-disable-next-line complexity
     async generatePerInitialsIndexMdFiles() {
         if (this.topLevelFiles.length === 0) {
             return;
@@ -480,6 +476,7 @@ export class FilesAndFolders extends CollectionBase {
             title: 'The Files Definitions Index',
             description: 'The definitions part of the files are:',
             map: allUnorderedEntriesMap,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             filter: (kind) => true,
         });
         await this.generateIndexFile({
@@ -604,6 +601,7 @@ export class Folder extends CompoundBase {
         return super.hasAnyContent();
     }
     // --------------------------------------------------------------------------
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToLines(frontMatter) {
         const lines = [];
         const descriptionTodo = `@dir ${this.collection.workspace.renderString(this.relativePath, 'html')}`;
@@ -661,7 +659,6 @@ export class File extends CompoundBase {
     }
     initializeLate() {
         super.initializeLate();
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const compoundDef = this._private._compoundDef;
         assert(compoundDef !== undefined);
         const { programListing } = compoundDef;
@@ -713,6 +710,7 @@ export class File extends CompoundBase {
         return super.hasAnyContent();
     }
     // --------------------------------------------------------------------------
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToLines(frontMatter) {
         const lines = [];
         const descriptionTodo = `@file ${this.collection.workspace.renderString(this.relativePath, 'html')}`;

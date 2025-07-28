@@ -9,7 +9,6 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 // ----------------------------------------------------------------------------
-/* eslint-disable max-lines */
 // import * as util from 'node:util'
 import assert from 'node:assert';
 import crypto from 'node:crypto';
@@ -74,7 +73,6 @@ export class Classes extends CollectionBase {
         }
     }
     // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
     addSidebarItems(sidebarCategory) {
         const indicesSet = this.workspace.indicesMaps.get('classes');
         if (indicesSet === undefined) {
@@ -103,7 +101,6 @@ export class Classes extends CollectionBase {
         for (const classs of this.topLevelClasses) {
             const item = this.createSidebarItemRecursively(classs);
             if (item !== undefined) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
                 ;
                 classesCategory.items[0].items.push(item);
             }
@@ -164,6 +161,7 @@ export class Classes extends CollectionBase {
         if (classs.sidebarLabel === undefined) {
             return undefined;
         }
+        assert(classs.docusaurusId !== undefined);
         if (classs.children.length === 0) {
             const docItem = {
                 type: 'doc',
@@ -267,9 +265,7 @@ export class Classes extends CollectionBase {
         }));
         if (classs.children.length > 0) {
             for (const childClass of classs.children) {
-                lines.push(...this.generateIndexMdFileRecursively(
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-                childClass, depth + 1));
+                lines.push(...this.generateIndexMdFileRecursively(childClass, depth + 1));
             }
         }
         return lines;
@@ -305,6 +301,7 @@ export class Classes extends CollectionBase {
             title: 'The Classes and Members Index',
             description: 'The classes, structs, unions and their members are:',
             map: allUnorderedEntriesMap,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             filter: (kind) => true,
         });
         await this.generateIndexFile({
@@ -377,7 +374,6 @@ export class Class extends CompoundBase {
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
         // console.log('Class.constructor', util.inspect(compoundDef))
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         if (Array.isArray(compoundDef.baseCompoundRefs)) {
             for (const ref of compoundDef.baseCompoundRefs) {
@@ -445,10 +441,8 @@ export class Class extends CompoundBase {
     }
     initializeLate() {
         super.initializeLate();
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const compoundDef = this._private._compoundDef;
         assert(compoundDef !== undefined);
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         const { fullyQualifiedName } = this;
         let classFullName = fullyQualifiedName;
@@ -489,10 +483,9 @@ export class Class extends CompoundBase {
         return super.hasAnyContent();
     }
     // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToLines(frontMatter) {
         const lines = [];
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         const name = this.collection.workspace.renderString(this.compoundName, 'html');
         const descriptionTodo = `@${this.kind} ${name}`;
@@ -679,7 +672,6 @@ export class Class extends CompoundBase {
     renderIndexToLines() {
         // console.log(util.inspect(this, { compact: false, depth: 999 }))
         const lines = [];
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         const permalink = workspace.getPagePermalink(this.id);
         const indexName = this.collection.workspace.renderString(this.indexName, 'html');
@@ -693,6 +685,7 @@ export class Class extends CompoundBase {
         }
         lines.push('');
         const childrenLines = [];
+        assert(permalink !== undefined);
         const morePermalink = this.detailedDescriptionHtmlLines !== undefined
             ? `${permalink}/#details`
             : undefined;

@@ -3,10 +3,10 @@ import { AbstractDataModelBase } from '../types.js';
 import { ListItemDataModel, TermDataModel } from './descriptiontype-dm.js';
 export declare abstract class AbstractDocVarListEntryType extends AbstractDataModelBase {
     term: TermDataModel | undefined;
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 export declare class VarListEntryDataModel extends AbstractDocVarListEntryType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 export declare class VariableListPairDataModel extends AbstractDataModelBase {
     varlistentry: VarListEntryDataModel;
@@ -14,9 +14,9 @@ export declare class VariableListPairDataModel extends AbstractDataModelBase {
     constructor(varlistentry: VarListEntryDataModel, listitem: ListItemDataModel);
 }
 export declare abstract class AbstractDocVariableListType extends AbstractDataModelBase {
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 export declare class VariableListDataModel extends AbstractDocVariableListType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 //# sourceMappingURL=docvarlistentrytype-dm.d.ts.map

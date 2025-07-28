@@ -19,12 +19,14 @@ import { ListItemDataModel, TermDataModel } from './descriptiontype-dm.js';
 //     <xsd:element name="term" type="docTitleType" />
 //   </xsd:sequence>
 // </xsd:complexType>
+// eslint-disable-next-line max-len
 export class AbstractDocVarListEntryType extends AbstractDataModelBase {
     // Mandatory elements.
     term;
     constructor(xml, element, elementName) {
         super(elementName);
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))ect(element))
+        // console.log(elementName, util.inspect(element,
+        //   { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         // console.log(util.inspect(element, { compact: false, depth: 999 })
@@ -82,6 +84,7 @@ export class VariableListPairDataModel extends AbstractDataModelBase {
 //     <xsd:group ref="docVariableListGroup" maxOccurs="unbounded" />
 //   </xsd:sequence>
 // </xsd:complexType>
+// eslint-disable-next-line max-len
 export class AbstractDocVariableListType extends AbstractDataModelBase {
     // children: VariableListPairDataModel[] = []
     constructor(xml, element, elementName) {

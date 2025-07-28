@@ -9,7 +9,6 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 // ----------------------------------------------------------------------------
-/* eslint-disable max-lines */
 import * as util from 'node:util';
 import assert from 'node:assert';
 import { getPermalinkAnchor, sanitizeAnonymousNamespace } from '../utils.js';
@@ -123,10 +122,8 @@ export class Section {
         this.definitionMembers = definitionMembers.sort((a, b) => a.name.localeCompare(b.name));
     }
     initializeLate() {
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.compound.collection;
         assert(this._private._sectionDef !== undefined);
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { _sectionDef: sectionDef } = this._private;
         if (sectionDef.description !== undefined) {
             this.descriptionLines = workspace.renderElementToLines(sectionDef.description, 'html');
@@ -269,7 +266,7 @@ class MemberBase {
         this.name = name;
     }
     // Intentionally left blank for subclasses to override.
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this, @typescript-eslint/no-empty-function
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     initializeLate() { }
 }
 export class Member extends MemberBase {
@@ -305,13 +302,10 @@ export class Member extends MemberBase {
         this.id = id;
         this.kind = kind;
     }
-    // eslint-disable-next-line complexity
     initializeLate() {
         super.initializeLate();
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { _memberDef: memberDef } = this._private;
         assert(memberDef !== undefined);
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.section.compound.collection;
         if (memberDef.briefDescription !== undefined) {
             // console.log(memberDef.briefDescription)
@@ -338,7 +332,7 @@ export class Member extends MemberBase {
         }
         if (memberDef.location !== undefined) {
             this.locationMarkdownLines = this.section.compound.renderLocationToLines(memberDef.location);
-            if (workspace.options.renderProgramListingInline ?? false) {
+            if (workspace.options.renderProgramListingInline) {
                 this.programListing = this.filterProgramListingForLocation(memberDef.location);
             }
         }
@@ -394,7 +388,6 @@ export class Member extends MemberBase {
         this.labels = labels;
         const type = this.type ?? '';
         const templateParamList = memberDef.templateparamlist ??
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
             this.section.compound.templateParamList;
         if (this.section.compound.isTemplate(templateParamList) &&
             (type.includes('decltype(') ||
@@ -443,7 +436,6 @@ export class Member extends MemberBase {
     }
     filterProgramListingForLocation(location) {
         // console.log(location)
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.section.compound.collection;
         if (location === undefined) {
             return undefined;
@@ -501,11 +493,9 @@ export class Member extends MemberBase {
         return programListing;
     }
     // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
     renderIndexToLines() {
         // console.log(util.inspect(this, { compact: false, depth: 999 }))
         const lines = [];
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const workspace = this.section.compound.collection.workspace;
         const permalink = workspace.getPermalink({
             refid: this.id,
@@ -529,6 +519,8 @@ export class Member extends MemberBase {
             case 'typedef':
                 if (this.definition?.startsWith('typedef') ?? false) {
                     itemType = 'typedef';
+                    assert(this.type !== undefined);
+                    assert(this.argsstring !== undefined);
                     itemName = `${this.type} ${itemName}${this.argsstring}`;
                 }
                 else if (this.definition?.startsWith('using') ?? false) {
@@ -589,6 +581,7 @@ export class Member extends MemberBase {
                 if (this.isConstexpr) {
                     itemType += 'constexpr ';
                 }
+                assert(this.type !== undefined);
                 itemType += this.type;
                 if (this.definition?.startsWith('struct ') ?? false) {
                     itemType = workspace.renderString('struct { ... }', 'html');
@@ -620,7 +613,6 @@ export class Member extends MemberBase {
                 if (this.isStrong) {
                     itemType += ' class';
                 }
-                // eslint-disable-next-line @typescript-eslint/prefer-destructuring
                 itemName = this.name;
                 if (this.type !== undefined && this.type.length > 0) {
                     itemName += ` : ${this.type}`;
@@ -677,10 +669,8 @@ export class Member extends MemberBase {
         return lines;
     }
     // --------------------------------------------------------------------------
-    // eslint-disable-next-line complexity
     renderToLines() {
         const lines = [];
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const workspace = this.section.compound.collection.workspace;
         const isFunction = this.section.kind.startsWith('func') ||
             this.section.kind.endsWith('func') ||
@@ -806,6 +796,8 @@ export class Member extends MemberBase {
                 break;
             case 'friend':
                 // console.log(this)
+                assert(this.type !== undefined);
+                assert(this.parametersHtmlString !== undefined);
                 prototype = `friend ${this.type} ${this.parametersHtmlString}`;
                 if (this.detailedDescriptionHtmlLines !== undefined) {
                     childrenLines.push(...this.section.compound.renderDetailedDescriptionToHtmlLines({
@@ -895,7 +887,6 @@ export class Member extends MemberBase {
         }
         return lines;
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     renderMemberDefinitionToLines({ template, prototype, labels, childrenLines, }) {
         const lines = [];
         lines.push('<div class="doxyMemberItem">');
@@ -997,7 +988,6 @@ export class EnumValue {
         this.name = enumValue.name.trim();
         const { id } = enumValue;
         this.id = id;
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const workspace = member.section.compound.collection.workspace;
         if (enumValue.briefDescription !== undefined) {
             assert(enumValue.briefDescription.children != null);

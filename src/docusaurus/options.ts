@@ -132,9 +132,13 @@ export class CliOptions {
   /**
    * Location of original Doxygen pages
    *
-   * 'For comparison, the original Doxygen html pages, styled with the <a href="https://jothepro.github.io/doxygen-awesome-css/">doxygen-awesome-css</a> plugin, continue to be available via the <a href="pathname:///doxygen/topics.html"><code>.../doxygen/*.html</b></code> URLs.'
+   * 'For comparison, the original Doxygen html pages, styled with the
+   * <a href="https://jothepro.github.io/doxygen-awesome-css/">doxygen-awesome-css</a>
+   * plugin, continue to be available via the
+   * <a href="pathname:///doxygen/topics.html"><code>.../doxygen/*.html</b></code>
+   * URLs.'
    */
-  originalPagesNote?: string
+  originalPagesNote = ''
 
   /** String identifier in case of multiple instances. */
   id = 'default'
@@ -153,8 +157,10 @@ export class CliOptions {
       this.apiFolderPath = this.id
       this.apiBaseUrl = this.id
       this.imagesFolderPath = `img/doxygen-${this.id}`
-      this.sidebarCategoryFilePath = `sidebar-category-doxygen-${this.id}.json`
-      this.menuDropdownFilePath = `docusaurus-config-navbar-doxygen-${this.id}.json`
+      this.sidebarCategoryFilePath =
+        'sidebar-category-doxygen' + `-${this.id}.json`
+      this.menuDropdownFilePath =
+        'docusaurus-config-navbar-doxygen' + `-${this.id}.json`
     } else {
       this.apiFolderPath = 'api'
       this.apiBaseUrl = 'api'
@@ -229,16 +235,18 @@ export class CliOptions {
       }
     }
 
-    console.log(configurationOptions)
+    if (this.debug) {
+      console.log(configurationOptions)
+    }
 
     if (configurationOptions !== undefined) {
       // Override only properties that exist in CliOptions
       const thisProperties = Object.getOwnPropertyNames(this)
 
-      for (const key of thisProperties) {
+      for (const key of Object.keys(configurationOptions)) {
         const value: unknown = configurationOptions[key]
         // console.log(key, value)
-        if (value !== undefined) {
+        if (value !== undefined && thisProperties.includes(key)) {
           const thisProperty = (this as Record<string, unknown>)[key]
           const thisType = typeof thisProperty
           const valueType = typeof value

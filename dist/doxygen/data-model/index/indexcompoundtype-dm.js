@@ -48,9 +48,7 @@ export class AbstractIndexCompoundType extends AbstractDataModelBase {
                 this.name = xml.getInnerElementText(innerElement, 'name');
             }
             else if (xml.hasInnerElement(innerElement, 'member')) {
-                if (this.members === undefined) {
-                    this.members = [];
-                }
+                this.members ??= [];
                 this.members.push(new IndexMemberDataModel(xml, innerElement));
             }
             else {

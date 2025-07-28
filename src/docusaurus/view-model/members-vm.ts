@@ -11,8 +11,6 @@
 
 // ----------------------------------------------------------------------------
 
-/* eslint-disable max-lines */
-
 import * as util from 'node:util'
 import assert from 'node:assert'
 
@@ -123,7 +121,7 @@ export class Section {
   descriptionLines: string[] | undefined
 
   // Both references and definitions.
-  indexMembers: Array<MemberRef | Member> = []
+  indexMembers: (MemberRef | Member)[] = []
 
   // Only definitions.
   definitionMembers: Member[] = []
@@ -144,7 +142,7 @@ export class Section {
     this.headerName = this.getHeaderNameByKind(sectionDef)
     assert(this.headerName.length > 0)
 
-    const members: Array<Member | MemberRef> = []
+    const members: (Member | MemberRef)[] = []
 
     if (sectionDef.memberDefs !== undefined) {
       for (const memberDefDataModel of sectionDef.memberDefs) {
@@ -178,10 +176,9 @@ export class Section {
   }
 
   initializeLate(): void {
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { workspace } = this.compound.collection
     assert(this._private._sectionDef !== undefined)
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
+
     const { _sectionDef: sectionDef } = this._private
     if (sectionDef.description !== undefined) {
       this.descriptionLines = workspace.renderElementToLines(
@@ -368,7 +365,7 @@ class MemberBase {
   }
 
   // Intentionally left blank for subclasses to override.
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this, @typescript-eslint/no-empty-function
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   initializeLate(): void {}
 }
 
@@ -420,15 +417,12 @@ export class Member extends MemberBase {
     this.kind = kind
   }
 
-  // eslint-disable-next-line complexity
   override initializeLate(): void {
     super.initializeLate()
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { _memberDef: memberDef } = this._private
     assert(memberDef !== undefined)
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { workspace } = this.section.compound.collection
 
     if (memberDef.briefDescription !== undefined) {
@@ -471,7 +465,7 @@ export class Member extends MemberBase {
         memberDef.location
       )
 
-      if (workspace.options.renderProgramListingInline ?? false) {
+      if (workspace.options.renderProgramListingInline) {
         this.programListing = this.filterProgramListingForLocation(
           memberDef.location
         )
@@ -538,7 +532,6 @@ export class Member extends MemberBase {
     const type = this.type ?? ''
     const templateParamList =
       memberDef.templateparamlist ??
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
       (this.section.compound as Class).templateParamList
 
     if (
@@ -609,7 +602,6 @@ export class Member extends MemberBase {
   ): MemberProgramListingDataModel | undefined {
     // console.log(location)
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const { workspace } = this.section.compound.collection
 
     if (location === undefined) {
@@ -690,12 +682,10 @@ export class Member extends MemberBase {
 
   // --------------------------------------------------------------------------
 
-  // eslint-disable-next-line complexity
   renderIndexToLines(): string[] {
     // console.log(util.inspect(this, { compact: false, depth: 999 }))
     const lines: string[] = []
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const workspace = this.section.compound.collection.workspace
 
     const permalink = workspace.getPermalink({
@@ -727,6 +717,8 @@ export class Member extends MemberBase {
       case 'typedef':
         if (this.definition?.startsWith('typedef') ?? false) {
           itemType = 'typedef'
+          assert(this.type !== undefined)
+          assert(this.argsstring !== undefined)
           itemName = `${this.type} ${itemName}${this.argsstring}`
         } else if (this.definition?.startsWith('using') ?? false) {
           itemType = 'using'
@@ -793,6 +785,7 @@ export class Member extends MemberBase {
           itemType += 'constexpr '
         }
 
+        assert(this.type !== undefined)
         itemType += this.type
         if (this.definition?.startsWith('struct ') ?? false) {
           itemType = workspace.renderString('struct { ... }', 'html')
@@ -826,7 +819,6 @@ export class Member extends MemberBase {
           itemType += ' class'
         }
 
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         itemName = this.name
         if (this.type !== undefined && this.type.length > 0) {
           itemName += ` : ${this.type}`
@@ -909,11 +901,9 @@ export class Member extends MemberBase {
 
   // --------------------------------------------------------------------------
 
-  // eslint-disable-next-line complexity
   renderToLines(): string[] {
     const lines: string[] = []
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const workspace = this.section.compound.collection.workspace
 
     const isFunction: boolean =
@@ -1080,6 +1070,8 @@ export class Member extends MemberBase {
 
       case 'friend':
         // console.log(this)
+        assert(this.type !== undefined)
+        assert(this.parametersHtmlString !== undefined)
         prototype = `friend ${this.type} ${this.parametersHtmlString}`
 
         if (this.detailedDescriptionHtmlLines !== undefined) {
@@ -1211,7 +1203,6 @@ export class Member extends MemberBase {
     return lines
   }
 
-  // eslint-disable-next-line @typescript-eslint/class-methods-use-this
   private renderMemberDefinitionToLines({
     template,
     prototype,
@@ -1345,7 +1336,6 @@ export class EnumValue {
     const { id } = enumValue
     this.id = id
 
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const workspace = member.section.compound.collection.workspace
 
     if (enumValue.briefDescription !== undefined) {

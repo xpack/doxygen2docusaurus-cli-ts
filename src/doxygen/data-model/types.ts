@@ -36,9 +36,7 @@ export interface XmlPrologue {
  * @public
  */
 export interface XmlAttributes {
-  ':@': {
-    [key: string]: string | number | boolean
-  }
+  ':@': Record<string, string | number | boolean>
 }
 
 /**
@@ -48,9 +46,7 @@ export interface XmlElement {
   // Each element has only one key mapped to an array.
   (key: string): XmlElement[]
   '#text': string | number | boolean
-  ':@'?: {
-    [key: string]: string | number | boolean
-  }
+  ':@'?: Record<string, string | number | boolean>
 }
 
 export interface XmlText {
@@ -75,7 +71,7 @@ export interface XmlNameElement {
 export abstract class AbstractDataModelBase {
   elementName: string
   skipPara?: boolean
-  children?: Array<string | AbstractDataModelBase>
+  children?: (string | AbstractDataModelBase)[]
 
   constructor(elementName: string) {
     this.elementName = elementName

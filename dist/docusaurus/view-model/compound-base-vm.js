@@ -9,7 +9,6 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 // ----------------------------------------------------------------------------
-/* eslint-disable max-lines */
 // import * as util from 'node:util'
 import assert from 'node:assert';
 import path from 'node:path';
@@ -90,7 +89,6 @@ export class CompoundBase {
             this.titleHtmlString = this.collection.workspace.renderString(compoundDef.title, 'html');
         }
         if (compoundDef.location?.file !== undefined) {
-            // eslint-disable-next-line @typescript-eslint/prefer-destructuring
             const { file } = compoundDef.location;
             this.locationFilePath = file;
         }
@@ -105,7 +103,6 @@ export class CompoundBase {
             this.sections = sections.sort((a, b) => a.getSectionOrderByKind() - b.getSectionOrderByKind());
         }
     }
-    // eslint-disable-next-line complexity
     reorderSectionDefs(classUnqualifiedName) {
         const sectionDefs = this._private._compoundDef?.sectionDefs;
         if (sectionDefs === undefined) {
@@ -218,11 +215,8 @@ export class CompoundBase {
         // console.log('adjustedSectionKind:', memberBase.kind, adjustedSectionKind)
         return adjustedSectionKind;
     }
-    // eslint-disable-next-line complexity
     initializeLate() {
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const compoundDef = this._private._compoundDef;
         assert(compoundDef !== undefined);
         if (compoundDef.briefDescription !== undefined) {
@@ -260,7 +254,6 @@ export class CompoundBase {
                 if (sectionDef.memberDefs !== undefined) {
                     for (const memberDef of sectionDef.memberDefs) {
                         if (memberDef.location !== undefined) {
-                            // eslint-disable-next-line @typescript-eslint/prefer-destructuring
                             const { file } = memberDef.location;
                             this.locationSet.add(file);
                             if (memberDef.location.bodyfile !== undefined) {
@@ -277,14 +270,13 @@ export class CompoundBase {
         }
         for (const innerKey of Object.keys(compoundDef)) {
             if (innerKey.startsWith('inner') &&
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
                 compoundDef[innerKey] !== undefined) {
                 this.innerCompounds ??= new Map();
                 this.innerCompounds.set(innerKey, compoundDef);
             }
         }
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     isOperator(name) {
         // Two word operators, like
         if (name.startsWith('operator') &&
@@ -318,7 +310,6 @@ export class CompoundBase {
         }
         return text;
     }
-    // eslint-disable-next-line complexity
     renderDetailedDescriptionToHtmlLines({ briefDescriptionHtmlString, detailedDescriptionHtmlLines, todo = '', showHeader, showBrief = false, }) {
         const lines = [];
         if (!this.collection.workspace.options.suggestToDoDescriptions) {
@@ -367,7 +358,6 @@ export class CompoundBase {
     hasInnerIndices() {
         return this.innerCompounds !== undefined && this.innerCompounds.size > 0;
     }
-    // eslint-disable-next-line complexity
     renderInnerIndicesToLines({ suffixes = [], }) {
         const lines = [];
         if (this.innerCompounds === undefined) {
@@ -382,7 +372,6 @@ export class CompoundBase {
                 }
             }
         }
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         for (const suffix of suffixes) {
             const innerKey = `inner${suffix}`;
@@ -391,7 +380,7 @@ export class CompoundBase {
                 continue;
             }
             const innerObjects = 
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
             innerCompound[innerKey];
             if (innerObjects === undefined || innerObjects.length === 0) {
                 continue;
@@ -424,6 +413,7 @@ export class CompoundBase {
                         itemName = name;
                     }
                     const childrenLines = [];
+                    assert(permalink !== undefined);
                     const morePermalink = innerDataObject.detailedDescriptionHtmlLines !== undefined
                         ? `${permalink}/#details`
                         : undefined;
@@ -478,7 +468,6 @@ export class CompoundBase {
     // --------------------------------------------------------------------------
     renderIncludesIndexToLines() {
         const lines = [];
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         if (this.includes !== undefined) {
             const includeLines = workspace.renderElementsArrayToLines(this.includes, 'html');
@@ -501,11 +490,9 @@ export class CompoundBase {
         }
         return lines;
     }
-    // eslint-disable-next-line complexity
     renderLocationToLines(location) {
         const lines = [];
         let text = '';
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         if (location !== undefined) {
             // console.log('location.file:', location.file)
@@ -559,7 +546,6 @@ export class CompoundBase {
                             const lineStart = `l${location.bodystart
                                 .toString()
                                 .padStart(5, '0')}`;
-                            // eslint-disable-next-line max-depth
                             if (definitionPermalink !== undefined &&
                                 definitionPermalink.length > 0 &&
                                 definitionFile.listingLineNumbers.has(location.bodystart.valueOf())) {
@@ -651,7 +637,6 @@ export class CompoundBase {
                 `following file${this.locationSet.size > 1 ? 's' : ''}:`);
             lines.push('');
             lines.push('<ul>');
-            // eslint-disable-next-line @typescript-eslint/prefer-destructuring
             const { workspace } = this.collection;
             const sortedFiles = [...this.locationSet].sort((a, b) => a.localeCompare(b));
             for (const fileName of sortedFiles) {
@@ -680,7 +665,6 @@ export class CompoundBase {
         if (references === undefined || references.length === 0) {
             return '';
         }
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         const referenceLines = [];
         for (const reference of references) {
@@ -704,7 +688,6 @@ export class CompoundBase {
         if (referencedBy === undefined || referencedBy.length === 0) {
             return '';
         }
-        // eslint-disable-next-line @typescript-eslint/prefer-destructuring
         const { workspace } = this.collection;
         const referenceLines = [];
         for (const reference of referencedBy) {
@@ -724,7 +707,6 @@ export class CompoundBase {
      * @param templateParamList
      * @returns
      */
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this, complexity
     collectTemplateParameters({ templateParamList, withDefaults = false, }) {
         if (templateParamList?.params === undefined) {
             return [];
@@ -740,7 +722,6 @@ export class CompoundBase {
                     paramString += child;
                 }
                 else if (child instanceof RefTextDataModel) {
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
                     paramString += child.text;
                 }
             }
@@ -766,11 +747,9 @@ export class CompoundBase {
         }
         return templateParameters;
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     isTemplate(templateParamList) {
         return (templateParamList?.params ?? []).length > 0;
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     collectTemplateParameterNames(templateParamList) {
         if (templateParamList.params === undefined) {
             return [];
@@ -792,7 +771,6 @@ export class CompoundBase {
                         paramString += child;
                     }
                     else if (child instanceof RefTextDataModel) {
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
                         paramString += child.text;
                     }
                 }

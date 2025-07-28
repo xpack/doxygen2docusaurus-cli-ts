@@ -23,6 +23,7 @@ import type {
 // ----------------------------------------------------------------------------
 
 export class DocVariableListTypeLinesRenderer extends ElementLinesRendererBase {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   renderToLines(element: AbstractDocVariableListType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
@@ -42,6 +43,7 @@ export class DocVariableListTypeLinesRenderer extends ElementLinesRendererBase {
 export class VariableListPairLinesRenderer extends ElementLinesRendererBase {
   override renderToLines(
     element: VariableListPairDataModel,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type: string
   ): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))

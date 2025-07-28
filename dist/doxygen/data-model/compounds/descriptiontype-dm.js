@@ -52,8 +52,6 @@ export class AbstractStringType extends AbstractDataModelBase {
 export class AbstractDescriptionType extends AbstractDataModelBase {
     // Optional elements.
     title; // Only one.
-    // Any sequence of them.
-    // children: Array<string | ParaDataModel | InternalDataModel | Sect1DataModel> = []
     constructor(xml, element, elementName) {
         super(elementName);
         // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
@@ -123,9 +121,7 @@ export class AbstractListingType extends AbstractListingTypeBase {
                 // Ignore texts.
             }
             else if (xml.hasInnerElement(innerElement, 'codeline')) {
-                if (this.codelines === undefined) {
-                    this.codelines = [];
-                }
+                this.codelines ??= [];
                 this.codelines.push(new CodeLineDataModel(xml, innerElement));
             }
             else {
@@ -213,9 +209,7 @@ export class AbstractCodeLineType extends AbstractDataModelBase {
                 // Ignore texts.
             }
             else if (xml.hasInnerElement(innerElement, 'highlight')) {
-                if (this.highlights === undefined) {
-                    this.highlights = [];
-                }
+                this.highlights ??= [];
                 this.highlights.push(new HighlightDataModel(xml, innerElement));
             }
             else {
@@ -370,8 +364,6 @@ export class SpDataModel extends AbstractSpType {
 // </xsd:complexType>
 export class AbstractDocSectType extends AbstractDataModelBase {
     title;
-    // Any sequence of them.
-    // children: Array<string | ParaDataModel | InternalS1DataModel | Sect2DataModel> = []
     // Optional attribute.
     id;
 }
@@ -1029,9 +1021,6 @@ export function parseDocTitleCmdGroup(xml, element, elementName) {
     else if (xml.hasInnerElement(element, 'center')) {
         children.push(new CenterDataModel(xml, element));
     }
-    else if (xml.hasInnerElement(element, 'center')) {
-        children.push(new CenterDataModel(xml, element));
-    }
     else if (xml.hasInnerElement(element, 'small')) {
         children.push(new SmallDataModel(xml, element));
     }
@@ -1135,18 +1124,6 @@ export function parseDocTitleCmdGroup(xml, element, elementName) {
     }
     else if (xml.hasInnerElement(element, 'umlaut')) {
         children.push(new UmlautDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'nzwj')) {
-        children.push(new NzwjDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'zwj')) {
-        children.push(new ZwjDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'ndash')) {
-        children.push(new NdashDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'mdash')) {
-        children.push(new MdashDocMarkupDataModel(xml, element));
     }
     else if (xml.hasInnerElement(element, 'ordf')) {
         children.push(new OrdfDocMarkupDataModel(xml, element));
@@ -1405,27 +1382,6 @@ export function parseDocTitleCmdGroup(xml, element, elementName) {
     }
     else if (xml.hasInnerElement(element, 'divide')) {
         children.push(new DivideDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'oslash')) {
-        children.push(new OslashSmallDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'ugrave')) {
-        children.push(new UgraveSmallDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'uacute')) {
-        children.push(new UacuteSmallDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'ucirc')) {
-        children.push(new UcircSmallDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'uumlaut')) {
-        children.push(new UumlautSmallDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'yacute')) {
-        children.push(new YacuteSmallDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'thorn')) {
-        children.push(new ThornSmallDocMarkupDataModel(xml, element));
     }
     else if (xml.hasInnerElement(element, 'fnof')) {
         children.push(new FnofDocMarkupDataModel(xml, element));
@@ -1937,9 +1893,6 @@ function parseDocCmdGroup(xml, element, elementName) {
     else if (xml.hasInnerElement(element, 'center')) {
         children.push(new CenterDataModel(xml, element));
     }
-    else if (xml.hasInnerElement(element, 'center')) {
-        children.push(new CenterDataModel(xml, element));
-    }
     else if (xml.hasInnerElement(element, 'small')) {
         children.push(new SmallDataModel(xml, element));
     }
@@ -2044,18 +1997,6 @@ function parseDocCmdGroup(xml, element, elementName) {
     }
     else if (xml.hasInnerElement(element, 'umlaut')) {
         children.push(new UmlautDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'nzwj')) {
-        children.push(new NzwjDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'zwj')) {
-        children.push(new ZwjDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'ndash')) {
-        children.push(new NdashDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'mdash')) {
-        children.push(new MdashDocMarkupDataModel(xml, element));
     }
     else if (xml.hasInnerElement(element, 'ordf')) {
         children.push(new OrdfDocMarkupDataModel(xml, element));
@@ -2314,27 +2255,6 @@ function parseDocCmdGroup(xml, element, elementName) {
     }
     else if (xml.hasInnerElement(element, 'divide')) {
         children.push(new DivideDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'oslash')) {
-        children.push(new OslashSmallDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'ugrave')) {
-        children.push(new UgraveSmallDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'uacute')) {
-        children.push(new UacuteSmallDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'ucirc')) {
-        children.push(new UcircSmallDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'uumlaut')) {
-        children.push(new UumlautSmallDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'yacute')) {
-        children.push(new YacuteSmallDocMarkupDataModel(xml, element));
-    }
-    else if (xml.hasInnerElement(element, 'thorn')) {
-        children.push(new ThornSmallDocMarkupDataModel(xml, element));
     }
     else if (xml.hasInnerElement(element, 'fnof')) {
         children.push(new FnofDocMarkupDataModel(xml, element));
@@ -4694,9 +4614,7 @@ export class AbstractDocListItemType extends AbstractDataModelBase {
                 // Ignore texts.
             }
             else if (xml.hasInnerElement(innerElement, 'para')) {
-                if (this.paras === undefined) {
-                    this.paras = [];
-                }
+                this.paras ??= [];
                 this.paras.push(new ParaDataModel(xml, innerElement));
             }
             else {
@@ -4903,9 +4821,7 @@ export class AbstractDocTableType extends AbstractDataModelBase {
                 this.caption = new DocCaptionDataModel(xml, innerElement);
             }
             else if (xml.hasInnerElement(innerElement, 'row')) {
-                if (this.rows === undefined) {
-                    this.rows = [];
-                }
+                this.rows ??= [];
                 const docRow = new DocRowDataModel(xml, innerElement);
                 this.rows.push(docRow);
                 this.children.push(docRow);
@@ -4970,9 +4886,7 @@ export class AbstractDocRowType extends AbstractDataModelBase {
                 // Ignore texts.
             }
             else if (xml.hasInnerElement(innerElement, 'entry')) {
-                if (this.entries === undefined) {
-                    this.entries = [];
-                }
+                this.entries ??= [];
                 const docEntry = new DocEntryDataModel(xml, innerElement);
                 this.entries.push(docEntry);
                 this.children.push(docEntry);
@@ -5032,9 +4946,7 @@ export class AbstractDocEntryType extends AbstractDataModelBase {
                 // Ignore texts.
             }
             else if (xml.hasInnerElement(innerElement, 'para')) {
-                if (this.paras === undefined) {
-                    this.paras = [];
-                }
+                this.paras ??= [];
                 const para = new ParaDataModel(xml, innerElement);
                 this.paras.push(para);
                 this.children.push(para);
@@ -5280,9 +5192,7 @@ export class AbstractDocImageType extends AbstractDataModelBase {
         // ------------------------------------------------------------------------
         // Keep track of html images, to copy them to the output.
         if (this.type === 'html' && this.name !== undefined && !isUrl(this.name)) {
-            if (xml.dataModel.images === undefined) {
-                xml.dataModel.images = [];
-            }
+            xml.dataModel.images ??= [];
             xml.dataModel.images.push(this);
         }
         // console.log(util.inspect(this, { compact: false, depth: 999 }))
@@ -5358,9 +5268,7 @@ export class AbstractDocParamListType extends AbstractDataModelBase {
                 // Ignore texts.
             }
             else if (xml.hasInnerElement(innerElement, 'parameteritem')) {
-                if (this.parameterItems === undefined) {
-                    this.parameterItems = [];
-                }
+                this.parameterItems ??= [];
                 this.parameterItems.push(new ParameterItemDataModel(xml, innerElement));
             }
             else {
@@ -5415,9 +5323,7 @@ export class AbstractDocParamListItem extends AbstractDataModelBase {
                 // Ignore texts.
             }
             else if (xml.hasInnerElement(innerElement, 'parameternamelist')) {
-                if (this.parameterNameList === undefined) {
-                    this.parameterNameList = [];
-                }
+                this.parameterNameList ??= [];
                 this.parameterNameList.push(new ParameterNamelistDataModel(xml, innerElement));
             }
             else if (xml.hasInnerElement(innerElement, 'parameterdescription')) {
@@ -5600,7 +5506,8 @@ export class AbstractDocXRefSectType extends AbstractDataModelBase {
     id = '';
     constructor(xml, element, elementName) {
         super(elementName);
-        // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))ect(element))ect(element))
+        // console.log(elementName, util.inspect(element,
+        //   { compact: false, depth: 999 }))
         // ------------------------------------------------------------------------
         // Process elements.
         const innerElements = xml.getInnerElements(element, elementName);

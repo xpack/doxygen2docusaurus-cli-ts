@@ -75,7 +75,7 @@ export declare class Workspace extends Renderers {
         title?: string;
         pagePermalink?: string;
     }): Promise<void>;
-    skipElementsPara(elements: Array<AbstractDataModelBase | string> | undefined): void;
+    skipElementsPara(elements: (AbstractDataModelBase | string)[] | undefined): void;
     getPermalink({ refid, kindref, }: {
         refid: string;
         kindref: string;

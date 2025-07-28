@@ -10,12 +10,14 @@
  */
 
 /**
- * A CLI application to convert Doxygen XML files into Docusaurus documentation.
+ * A CLI application to convert Doxygen XML files into Docusaurus
+ * documentation.
  *
  * @remarks
- * This tool facilitates the integration of Doxygen reference pages into Docusaurus
- * documentation sites. It parses Doxygen-generated XML files and produces Docusaurus
- * `.md` documents, along with the corresponding sidebars and menu entries.
+ * This tool facilitates the integration of Doxygen reference pages into
+ * Docusaurus documentation sites. It parses Doxygen-generated XML files and
+ * produces Docusaurus `.md` documents, along with the corresponding sidebars
+ * and menu entries.
  *
  * @packageDocumentation
  */

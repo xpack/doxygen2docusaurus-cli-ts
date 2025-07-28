@@ -14,12 +14,12 @@ export declare abstract class AbstractParamType extends AbstractDataModelBase {
     defval?: DefValDataModel | undefined;
     typeconstraint?: TypeConstraintDataModel | undefined;
     briefdescription?: BriefDescriptionDataModel | undefined;
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 /**
  * @public
  */
 export declare class ParamDataModel extends AbstractParamType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 //# sourceMappingURL=paramtype-dm.d.ts.map

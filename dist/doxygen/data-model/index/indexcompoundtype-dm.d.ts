@@ -9,13 +9,13 @@ export declare abstract class AbstractIndexCompoundType extends AbstractDataMode
     members: IndexMemberDataModel[] | undefined;
     refid: string;
     kind: string;
-    constructor(xml: DoxygenXmlParser, element: Object, elementName: string);
+    constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
-export type IndexCompoundKind = 'class' | 'struct' | 'union' | 'interface' | 'protocol' | 'category' | 'exception' | 'file' | 'namespace' | 'protocol' | 'category' | 'exception' | 'file' | 'namespace' | 'group' | 'page' | 'example' | 'dir' | 'type' | 'concept' | 'module';
+export type IndexCompoundKind = 'class' | 'struct' | 'union' | 'interface' | 'protocol' | 'category' | 'exception' | 'file' | 'namespace' | 'group' | 'page' | 'example' | 'dir' | 'type' | 'concept' | 'module';
 /**
  * @public
  */
 export declare class IndexCompoundDataModel extends AbstractIndexCompoundType {
-    constructor(xml: DoxygenXmlParser, element: Object);
+    constructor(xml: DoxygenXmlParser, element: object);
 }
 //# sourceMappingURL=indexcompoundtype-dm.d.ts.map
