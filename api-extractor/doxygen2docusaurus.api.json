@@ -217,9 +217,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -274,13 +273,8 @@
                   "text": "external?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -293,7 +287,7 @@
               "name": "external",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -344,13 +338,8 @@
                   "text": "lineno?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Number",
-                  "canonicalReference": "!Number:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "number | undefined"
                 },
                 {
                   "kind": "Content",
@@ -363,7 +352,7 @@
               "name": "lineno",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -480,9 +469,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -537,13 +525,8 @@
                   "text": "abstract?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -556,7 +539,7 @@
               "name": "abstract",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -742,13 +725,8 @@
                   "text": "final?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -761,7 +739,7 @@
               "name": "final",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -877,13 +855,8 @@
                   "text": "inline?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -896,7 +869,7 @@
               "name": "inline",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -1317,13 +1290,8 @@
                   "text": "sealed?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -1336,7 +1304,7 @@
               "name": "sealed",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -1528,9 +1496,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -1760,13 +1727,8 @@
                   "text": "children?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Array",
-                  "canonicalReference": "!Array:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": "<string | "
+                  "text": "(string | "
                 },
                 {
                   "kind": "Reference",
@@ -1775,7 +1737,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": ">"
+                  "text": ")[]"
                 },
                 {
                   "kind": "Content",
@@ -1788,7 +1750,7 @@
               "name": "children",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 5
+                "endIndex": 4
               },
               "isStatic": false,
               "isProtected": false,
@@ -1901,9 +1863,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -2029,9 +1990,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -2176,13 +2136,8 @@
                   "text": "inline?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -2195,7 +2150,7 @@
               "name": "inline",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -2342,9 +2297,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -2560,9 +2514,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -2783,9 +2736,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -3076,9 +3028,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -3204,9 +3155,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -3392,9 +3342,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -3615,9 +3564,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -3838,9 +3786,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -4026,9 +3973,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -4124,9 +4070,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -4319,9 +4264,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -4452,9 +4396,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -4509,13 +4452,8 @@
                   "text": "bodyend?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Number",
-                  "canonicalReference": "!Number:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "number | undefined"
                 },
                 {
                   "kind": "Content",
@@ -4528,7 +4466,7 @@
               "name": "bodyend",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -4574,13 +4512,8 @@
                   "text": "bodystart?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Number",
-                  "canonicalReference": "!Number:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "number | undefined"
                 },
                 {
                   "kind": "Content",
@@ -4593,7 +4526,7 @@
               "name": "bodystart",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -4609,13 +4542,8 @@
                   "text": "column?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Number",
-                  "canonicalReference": "!Number:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "number | undefined"
                 },
                 {
                   "kind": "Content",
@@ -4628,7 +4556,7 @@
               "name": "column",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -4644,13 +4572,8 @@
                   "text": "declcolumn?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Number",
-                  "canonicalReference": "!Number:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "number | undefined"
                 },
                 {
                   "kind": "Content",
@@ -4663,7 +4586,7 @@
               "name": "declcolumn",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -4709,13 +4632,8 @@
                   "text": "declline?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Number",
-                  "canonicalReference": "!Number:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "number | undefined"
                 },
                 {
                   "kind": "Content",
@@ -4728,7 +4646,7 @@
               "name": "declline",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -4774,13 +4692,8 @@
                   "text": "line?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Number",
-                  "canonicalReference": "!Number:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "number | undefined"
                 },
                 {
                   "kind": "Content",
@@ -4793,7 +4706,7 @@
               "name": "line",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -4942,9 +4855,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -5094,13 +5006,8 @@
                   "text": "consteval?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -5113,7 +5020,7 @@
               "name": "consteval",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -5129,13 +5036,8 @@
                   "text": "constexpr?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -5148,7 +5050,7 @@
               "name": "constexpr",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -5164,13 +5066,8 @@
                   "text": "constinit?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -5183,7 +5080,7 @@
               "name": "constinit",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -5199,13 +5096,8 @@
                   "text": "constt?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -5218,7 +5110,7 @@
               "name": "constt",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -5334,13 +5226,8 @@
                   "text": "explicit?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -5353,7 +5240,7 @@
               "name": "explicit",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -5369,13 +5256,8 @@
                   "text": "extern?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -5388,7 +5270,7 @@
               "name": "extern",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -5404,13 +5286,8 @@
                   "text": "final?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -5423,7 +5300,7 @@
               "name": "final",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -5539,13 +5416,8 @@
                   "text": "inline?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -5558,7 +5430,7 @@
               "name": "inline",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -5609,13 +5481,8 @@
                   "text": "mutable?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -5628,7 +5495,7 @@
               "name": "mutable",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -5644,13 +5511,8 @@
                   "text": "nodiscard?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -5663,7 +5525,7 @@
               "name": "nodiscard",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -5679,13 +5541,8 @@
                   "text": "noexcept?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -5698,7 +5555,7 @@
               "name": "noexcept",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -5714,13 +5571,8 @@
                   "text": "noexceptexpression?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -5733,7 +5585,7 @@
               "name": "noexceptexpression",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -5914,13 +5766,8 @@
                   "text": "refqual?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -5933,7 +5780,7 @@
               "name": "refqual",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -6019,13 +5866,8 @@
                   "text": "staticc: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -6038,7 +5880,7 @@
               "name": "staticc",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -6054,13 +5896,8 @@
                   "text": "strong?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -6073,7 +5910,7 @@
               "name": "strong",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -6189,13 +6026,8 @@
                   "text": "volatile?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -6208,7 +6040,7 @@
               "name": "volatile",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -6265,9 +6097,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -6543,9 +6374,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -6671,9 +6501,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -7029,9 +6858,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -7116,13 +6944,8 @@
                   "text": "endline: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Number",
-                  "canonicalReference": "!Number:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "number | undefined"
                 },
                 {
                   "kind": "Content",
@@ -7135,7 +6958,7 @@
               "name": "endline",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -7181,13 +7004,8 @@
                   "text": "startline: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Number",
-                  "canonicalReference": "!Number:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "number | undefined"
                 },
                 {
                   "kind": "Content",
@@ -7200,7 +7018,7 @@
               "name": "startline",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -7287,9 +7105,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -7344,13 +7161,8 @@
                   "text": "inline?: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Boolean",
-                  "canonicalReference": "!Boolean:interface"
-                },
-                {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": "boolean | undefined"
                 },
                 {
                   "kind": "Content",
@@ -7363,7 +7175,7 @@
               "name": "inline",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 2
               },
               "isStatic": false,
               "isProtected": false,
@@ -7510,9 +7322,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -7668,9 +7479,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -8106,9 +7916,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -8299,9 +8108,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -8467,9 +8275,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -8600,9 +8407,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -8682,9 +8488,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -8721,22 +8526,86 @@
           "implementsTokenRanges": []
         },
         {
-          "kind": "Interface",
-          "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions:interface",
-          "docComment": "/**\n * Options, as seen by the application.\n *\n * @public\n */\n",
+          "kind": "TypeAlias",
+          "canonicalReference": "@xpack/doxygen2docusaurus!~CliConfigurationOptions:type",
+          "docComment": "/**\n * Options, as written by the user. All are optional.\n *\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface CliOptions "
+              "text": "export type CliConfigurationOptions = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, string | boolean>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
             }
           ],
           "fileUrlPath": "src/docusaurus/options.ts",
           "releaseTag": "Public",
+          "name": "CliConfigurationOptions",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 3
+          }
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions:class",
+          "docComment": "/**\n * Options, as seen by the application. Most are mandatory.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class CliOptions "
+            }
+          ],
+          "fileUrlPath": "src/docusaurus/options.ts",
+          "releaseTag": "Public",
+          "isAbstract": false,
           "name": "CliOptions",
           "preserveMemberOrder": false,
           "members": [
             {
-              "kind": "PropertySignature",
+              "kind": "Constructor",
+              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `CliOptions` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(argv: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "argv",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ]
+            },
+            {
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#apiBaseUrl:member",
               "docComment": "/**\n * Relative to the docs home, like `api`, without initial/final slashes.\n */\n",
               "excerptTokens": [
@@ -8760,10 +8629,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#apiFolderPath:member",
               "docComment": "/**\n * Relative to the docs folder, like `api`, no initial/final slashes.\n */\n",
               "excerptTokens": [
@@ -8787,10 +8659,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#baseUrl:member",
               "docComment": "/**\n * Site base URL, like / or /xxx/.\n */\n",
               "excerptTokens": [
@@ -8814,10 +8689,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#compatibilityRedirectsOutputFolderPath:member",
               "docComment": "/**\n * Relative to the current `website/static` folder, like `reference`.\n */\n",
               "excerptTokens": [
@@ -8841,10 +8719,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#customCssFilePath:member",
               "docComment": "/**\n * Relative to the current website folder, default `src/css/custom-doxygen.css`\n */\n",
               "excerptTokens": [
@@ -8868,10 +8749,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#debug:member",
               "docComment": "/**\n * Boolean to control debug verbosity.\n */\n",
               "excerptTokens": [
@@ -8895,10 +8779,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#docsBaseUrl:member",
               "docComment": "/**\n * Relative to the web home, like `docs`, without initial/final slashes.\n */\n",
               "excerptTokens": [
@@ -8922,10 +8809,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#docsFolderPath:member",
               "docComment": "/**\n * Relative to the current website folder, like `docs`, no initial/final slashes.\n */\n",
               "excerptTokens": [
@@ -8949,10 +8839,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#doxygenXmlInputFolderPath:member",
               "docComment": "/**\n * Relative to the current website folder, like `doxygen/xml`, no initial/ final slashes.\n */\n",
               "excerptTokens": [
@@ -8976,10 +8869,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#id:member",
               "docComment": "/**\n * String identifier in case of multiple instances.\n */\n",
               "excerptTokens": [
@@ -9003,10 +8899,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#imagesFolderPath:member",
               "docComment": "/**\n * Relative to `static`\n */\n",
               "excerptTokens": [
@@ -9030,10 +8929,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#mainPageTitle:member",
               "docComment": "/**\n * The title to be displayed on the main page.\n */\n",
               "excerptTokens": [
@@ -9057,10 +8959,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#menuDropdownFilePath:member",
               "docComment": "/**\n * Relative to the current website folder, default `docusaurus-config-doxygen-menu-dropdown.json`.\n */\n",
               "excerptTokens": [
@@ -9084,10 +8989,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#menuDropdownLabel:member",
               "docComment": "/**\n * Short text to be displayed in the menu.\n */\n",
               "excerptTokens": [
@@ -9111,16 +9019,19 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#originalPagesNote:member",
               "docComment": "/**\n * Location of original Doxygen pages\n *\n * 'For comparison, the original Doxygen html pages, styled with the <a href=\"https://jothepro.github.io/doxygen-awesome-css/\">doxygen-awesome-css</a> plugin, continue to be available via the <a href=\"pathname:///doxygen/topics.html\"><code>.../doxygen/*.html</b></code> URLs.'\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "originalPagesNote?: "
+                  "text": "originalPagesNote: "
                 },
                 {
                   "kind": "Content",
@@ -9132,16 +9043,55 @@
                 }
               ],
               "isReadonly": false,
-              "isOptional": true,
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "originalPagesNote",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Method",
+              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#parse:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "parse(): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<void>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "parse"
+            },
+            {
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#renderPagesAtTop:member",
               "docComment": "/**\n * Boolean to render the pages to the top.\n */\n",
               "excerptTokens": [
@@ -9165,10 +9115,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#renderProgramListing:member",
               "docComment": "/**\n * Boolean to render the program listing in the File pages.\n */\n",
               "excerptTokens": [
@@ -9192,16 +9145,19 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#renderProgramListingInline:member",
               "docComment": "/**\n * Boolean to render the program listing in the member definitions sections.\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "renderProgramListingInline?: "
+                  "text": "renderProgramListingInline: "
                 },
                 {
                   "kind": "Content",
@@ -9213,16 +9169,82 @@
                 }
               ],
               "isReadonly": false,
-              "isOptional": true,
+              "isOptional": false,
               "releaseTag": "Public",
               "name": "renderProgramListingInline",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Method",
+              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#selectMultiConfiguration:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "selectMultiConfiguration(multiConfigurations: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "CliConfigurationOptions",
+                  "canonicalReference": "@xpack/doxygen2docusaurus!~CliConfigurationOptions:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": " | "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "MultiConfigurations",
+                  "canonicalReference": "@xpack/doxygen2docusaurus!~MultiConfigurations:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "CliConfigurationOptions",
+                  "canonicalReference": "@xpack/doxygen2docusaurus!~CliConfigurationOptions:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": " | undefined"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "multiConfigurations",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "selectMultiConfiguration"
+            },
+            {
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#sidebarCategoryFilePath:member",
               "docComment": "/**\n * Relative to the current website folder, default `sidebar-category-doxygen.json`.\n */\n",
               "excerptTokens": [
@@ -9246,10 +9268,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#sidebarCategoryLabel:member",
               "docComment": "/**\n * Short text to be displayed in the sidebar.\n */\n",
               "excerptTokens": [
@@ -9273,10 +9298,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#suggestToDoDescriptions:member",
               "docComment": "/**\n * Boolean to control if the TODO suggestions are shown.\n */\n",
               "excerptTokens": [
@@ -9300,10 +9328,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             },
             {
-              "kind": "PropertySignature",
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#verbose:member",
               "docComment": "/**\n * Boolean to control verbosity.\n */\n",
               "excerptTokens": [
@@ -9327,10 +9358,13 @@
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
-              }
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
             }
           ],
-          "extendsTokenRanges": []
+          "implementsTokenRanges": []
         },
         {
           "kind": "Class",
@@ -9376,9 +9410,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -9458,9 +9491,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -9678,9 +9710,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -9760,9 +9791,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -9842,9 +9872,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -9924,9 +9953,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -10006,9 +10034,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -10088,9 +10115,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -10170,9 +10196,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -10240,7 +10265,7 @@
                 {
                   "kind": "Reference",
                   "text": "CliOptions",
-                  "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions:interface"
+                  "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions:class"
                 },
                 {
                   "kind": "Content",
@@ -10306,9 +10331,8 @@
                   "text": "getAttributeBooleanValue(element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -10371,9 +10395,8 @@
                   "text": "getAttributeNumberValue(element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -10436,9 +10459,8 @@
                   "text": "getAttributesNames(element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -10485,9 +10507,8 @@
                   "text": "getAttributeStringValue(element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -10550,9 +10571,8 @@
                   "text": "getInnerElementBoolean(element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -10615,9 +10635,8 @@
                   "text": "getInnerElementNumber(element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -10693,9 +10712,8 @@
                   "text": ">(element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -10771,9 +10789,8 @@
                   "text": "getInnerElementText(element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -10836,9 +10853,8 @@
                   "text": "getInnerText(element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -10885,9 +10901,8 @@
                   "text": "hasAttribute(element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -10950,9 +10965,8 @@
                   "text": "hasAttributes(element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -10999,9 +11013,8 @@
                   "text": "hasInnerElement(element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -11064,9 +11077,8 @@
                   "text": "hasInnerText(element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -11113,9 +11125,8 @@
                   "text": "isInnerElementText(element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -11180,7 +11191,7 @@
                 {
                   "kind": "Reference",
                   "text": "CliOptions",
-                  "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions:interface"
+                  "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions:class"
                 },
                 {
                   "kind": "Content",
@@ -11578,9 +11589,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -11641,7 +11651,7 @@
             {
               "kind": "Reference",
               "text": "CliOptions",
-              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions:interface"
+              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions:class"
             },
             {
               "kind": "Content",
@@ -11728,9 +11738,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -11810,9 +11819,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -11892,9 +11900,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -11974,9 +11981,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -12056,9 +12062,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -12138,9 +12143,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -12220,9 +12224,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -12302,9 +12305,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -12384,9 +12386,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -12466,9 +12467,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -12548,9 +12548,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -12630,9 +12629,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -12712,9 +12710,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -12794,9 +12791,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -12876,9 +12872,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -13008,9 +13003,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -13090,9 +13084,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -13172,9 +13165,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -13209,6 +13201,46 @@
             "endIndex": 2
           },
           "implementsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@xpack/doxygen2docusaurus!~MultiConfigurations:type",
+          "docComment": "/**\n * Options, when multi-configurations are used.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type MultiConfigurations = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, "
+            },
+            {
+              "kind": "Reference",
+              "text": "CliConfigurationOptions",
+              "canonicalReference": "@xpack/doxygen2docusaurus!~CliConfigurationOptions:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/docusaurus/options.ts",
+          "releaseTag": "Public",
+          "name": "MultiConfigurations",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
         },
         {
           "kind": "Class",
@@ -13254,9 +13286,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -13308,7 +13339,7 @@
             {
               "kind": "Reference",
               "text": "CliOptions",
-              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions:interface"
+              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions:class"
             },
             {
               "kind": "Content",
@@ -13404,9 +13435,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -13486,9 +13516,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -13568,9 +13597,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -13650,9 +13678,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -13732,9 +13759,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -13814,9 +13840,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -13896,9 +13921,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -13978,9 +14002,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -14060,9 +14083,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -14142,9 +14164,8 @@
                   "text": ", element: "
                 },
                 {
-                  "kind": "Reference",
-                  "text": "Object",
-                  "canonicalReference": "!Object:interface"
+                  "kind": "Content",
+                  "text": "object"
                 },
                 {
                   "kind": "Content",
@@ -14205,8 +14226,13 @@
                   "text": "':@'?: "
                 },
                 {
+                  "kind": "Reference",
+                  "text": "Record",
+                  "canonicalReference": "!Record:type"
+                },
+                {
                   "kind": "Content",
-                  "text": "{\n        [key: string]: string | number | boolean;\n    }"
+                  "text": "<string, string | number | boolean>"
                 },
                 {
                   "kind": "Content",
@@ -14219,7 +14245,7 @@
               "name": "\":@\"",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 2
+                "endIndex": 3
               }
             },
             {
