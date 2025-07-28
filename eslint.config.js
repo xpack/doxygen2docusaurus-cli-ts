@@ -1,29 +1,36 @@
+// https://typescript-eslint.io/packages/typescript-eslint/
 // https://eslint.org/docs/latest/use/configure/configuration-files
-// https://github.com/mightyiam/eslint-config-love
 
-import love from 'eslint-config-love'
+// @ts-check
 
-export default [
-  {
-    ignores: ['dist/**'],
+import eslint from '@eslint/js'
+import prettierConfig from 'eslint-config-prettier'
+import tseslint from 'typescript-eslint'
+
+export default tseslint.config({
+  extends: [
+    eslint.configs.recommended,
+    tseslint.configs.strictTypeChecked,
+    tseslint.configs.stylisticTypeChecked,
+    prettierConfig,
+  ],
+  rules: {
+    'max-len': [
+      'warn',
+      80,
+      {
+        ignoreUrls: true,
+        ignorePattern:
+          '^\\s*// eslint-disable-next-line|^\\s*// console\\.log|^\\s*//\\s*<xsd:|^\\s*import\\s+\\{[^}]+\\}\\s+from\\s+[\'"][^\'"]+[\'"]|^\\s*import\\s+type\\s+\\{[^}]+\\}\\s+from\\s+[\'"][^\'"]+[\'"]|^export class .+ extends .+\\{$',
+      },
+    ],
   },
-  {
-    ...love,
-    files: ['src/cli/*.ts', 'src/docusaurus/**/*.ts'],
-    rules: {
-      ...love.rules,
-      'eslint-comments/require-description': 'off',
-      'no-console': 'off',
-      '@typescript-eslint/no-magic-numbers': 'off',
-      'max-len': [
-        'warn',
-        80,
-        {
-          ignoreUrls: true,
-          ignorePattern:
-            '^\\s*// eslint-disable-next-line|^\\s*import\\s+\\{[^}]+\\}\\s+from\\s+[\'"][^\'"]+[\'"]|^\\s*import\\s+type\\s+\\{[^}]+\\}\\s+from\\s+[\'"][^\'"]+[\'"]|^export class .+ extends .+\\{$',
-        },
-      ],
+  languageOptions: {
+    parserOptions: {
+      // ask TypeScript's type checking service for each source file's type information
+      projectService: true,
+      // tells our parser the absolute path of your project's root directory
+      tsconfigRootDir: import.meta.dirname,
     },
   },
-]
+})

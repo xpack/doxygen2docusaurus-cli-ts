@@ -90,4 +90,8 @@ extras/
 inspiration/
 maintenance-scripts/
 
+.prettierignore
+api-extractor.json
+eslint.config.js
+
 #end

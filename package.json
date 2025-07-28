@@ -19,10 +19,12 @@
   ],
   "scripts": {
     "generate-top-commons": "bash node_modules/@xpack/npm-packages-helper/maintenance-scripts/generate-top-commons.sh --xpack",
+    "api-extractor": "api-extractor run --local --verbose",
+    "prepare": "del-cli dist && npm run prettier && npm run lint && npm run compile",
     "compile-watch": "tsc --build --verbose --watch src",
     "compile": "tsc --build --verbose src",
     "prettier": "prettier src --write",
-    "fix": "eslint --fix",
+    "fix": "eslint --fix src",
     "generate-tsdoc": "api-extractor run --local --verbose && api-documenter markdown --input-folder api-extractor --output-folder api-extractor/markdown",
     "dev-cycle": "npm run fix && npm run compile && npm run test",
     "npm-install": "npm install",
@@ -35,8 +37,7 @@
     "npm-version-minor": "npm version minor",
     "postversion": "git push origin --all && git push origin --tags",
     "git-log": "git log --pretty='%cd * %h %s' --date=short",
-    "lint": "eslint",
-    "prepare": "npm run prettier && npm run lint && npm run compile",
+    "lint": "eslint src",
     "test": "echo 'No tests defined'",
     "prepublishOnly": "npm run lint && npm run test",
     "postpublish": "git push origin --follow-tags",
@@ -64,19 +65,20 @@
     "fast-xml-parser": "^5.2.5"
   },
   "devDependencies": {
-    "@microsoft/api-documenter": "^7.26.29",
     "@microsoft/api-extractor": "^7.52.8",
     "@tsconfig/node20": "^20.1.6",
     "@types/node": "^24.0.14",
     "del-cli": "^6.0.0",
     "eslint": "^9.31.0",
-    "eslint-config-love": "^121.0.0",
+    "eslint-config-prettier": "^10.1.8",
     "fs-extra": "^11.3.0",
     "json": "^11.0.0",
     "liquidjs": "^10.19.1",
     "prettier": "3.6.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.38.0",
+    "@eslint/js": "^9.31.0"
   },
   "topConfig": {
     "descriptiveName": "doxygen2docusaurus",

@@ -1,0 +1,106 @@
+# -----------------------------------------------------------------------------
+# DO NOT EDIT!
+# Automatically generated from npm-packages-helper/templates/*.
+#
+# This file is part of the xPack project (http://xpack.github.io).
+# Copyright (c) 2021 Liviu Ionescu. All rights reserved.
+#
+# Permission to use, copy, modify, and/or distribute this software
+# for any purpose is hereby granted, under the terms of the MIT license.
+#
+# If a copy of the license was not distributed with this file, it can
+# be obtained from https://opensource.org/licenses/mit.
+#
+# -----------------------------------------------------------------------------
+
+# https://xpack.github.io/doxygen2docusaurus-ts/
+# https://github.com/xpack/doxygen2docusaurus-ts/actions/workflows/publish-github-pages.yml
+
+# Workflow for deploying static content to GitHub Pages.
+name: GitHub Pages
+
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+# https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
+
+on:
+  # Runs on pushes, if all conditions are met:
+  push:
+    # ... on the `website` branch ...
+    branches:
+      - 'master'
+    # ... skip tags only ...
+    tags-ignore:
+      - '**'
+    # ... any of these files changes ...
+    paths:
+      - 'website/**'
+      - 'typedoc.json'
+      - '**/tsconfig*.json'
+      - 'src/**/*.ts'
+      - 'README.md'
+      - '.github/workflows/publish-github-pages.yml'
+      - 'package.json'
+
+  # Allows you to run this workflow manually from the Actions tab.
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment.
+# https://docs.github.com/en/actions/using-jobs/using-concurrency
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  # Single deploy job since we're just deploying.
+  # https://docs.github.com/en/actions/using-github-hosted-runners/using-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{steps.deployment.outputs.page_url}}
+    # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        # https://github.com/actions/checkout
+        uses: actions/checkout@v4
+        with:
+          # The full history, required to compute lastUpdatedAt
+          fetch-depth: 0
+
+      - name: Use Nodejs
+        # https://github.com/actions/setup-node
+        uses: actions/setup-node@v4
+        with:
+          # Node LTS version.
+          node-version: 20
+
+      - name: Install dependencies
+        run: (cd website; npm ci)
+
+      - name: Build the Docusaurus site
+        run: (cd website; npm run generate-doxygen; npm run build)
+
+      - name: Setup Pages
+        # https://github.com/actions/configure-pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        # https://github.com/actions/upload-pages-artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: './website/build'
+
+      - name: Deploy to GitHub Pages
+        id: deployment # referred by environment above, to get the URL.
+        # https://github.com/actions/deploy-pages
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages
