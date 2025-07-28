@@ -346,6 +346,7 @@ export class FilesAndFolders extends CollectionBase {
         type: 'doc',
         id: `${this.workspace.sidebarBaseId}${folder.docusaurusId}`,
       },
+      className: 'doxyEllipsis',
       collapsed: true,
       items: [],
     }
@@ -380,6 +381,7 @@ export class FilesAndFolders extends CollectionBase {
     const docItem: SidebarDocItem = {
       type: 'doc',
       label: file.sidebarLabel,
+      className: 'doxyEllipsis',
       id: `${this.workspace.sidebarBaseId}${file.docusaurusId}`,
     }
     return docItem

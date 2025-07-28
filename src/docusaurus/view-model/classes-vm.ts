@@ -215,6 +215,7 @@ export class Classes extends CollectionBase {
       const docItem: SidebarDocItem = {
         type: 'doc',
         label: classs.sidebarLabel,
+        className: 'doxyEllipsis',
         id: `${this.workspace.sidebarBaseId}${classs.docusaurusId}`,
       }
       return docItem
@@ -226,6 +227,7 @@ export class Classes extends CollectionBase {
           type: 'doc',
           id: `${this.workspace.sidebarBaseId}${classs.docusaurusId}`,
         },
+        className: 'doxyEllipsis',
         collapsed: true,
         items: [],
       }

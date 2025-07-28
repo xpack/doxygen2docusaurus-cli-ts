@@ -886,4 +886,23 @@ dl.doxyVariableList dd {
   padding-bottom: 8px;
 }
 
+/* Make the sidebar not wrap and display ellipsis for long items */
+
+.doxyEllipsis .menu__list-item {
+  overflow: hidden;         /* Hide overflowing content */
+}
+
+.doxyEllipsis .menu__link {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: block !important; /* Ensure it's a block element for ellipsis to work */
+  margin-right: 0px;
+}
+
+.doxyEllipsis .menu__caret {
+  flex-shrink: 0;           /* Prevent the button from shrinking */
+  margin-left: 4px;         /* Add some space between text and button */
+}
+
 /* --- */

@@ -212,6 +212,7 @@ export class Namespaces extends CollectionBase {
           type: 'doc',
           id: `${this.workspace.sidebarBaseId}${namespace.docusaurusId}`,
         },
+        className: 'doxyEllipsis',
         collapsed: true,
         items: [],
       }
