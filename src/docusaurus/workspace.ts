@@ -159,7 +159,7 @@ export class Workspace extends Renderers {
     this.dataModel = dataModel
     this.options = dataModel.options
 
-    // Like .../doxygen2docusaurus/dist/src/docusaurus/generator
+    // Like .../doxygen2docusaurus/dist/docusaurus/generator
     const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
     // doxygen2docusaurus

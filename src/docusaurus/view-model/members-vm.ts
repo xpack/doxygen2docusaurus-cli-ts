@@ -720,8 +720,10 @@ export class Member extends MemberBase {
         if (this.definition?.startsWith('typedef') ?? false) {
           itemType = 'typedef'
           assert(this.type !== undefined)
-          assert(this.argsstring !== undefined)
-          itemName = `${this.type} ${itemName}${this.argsstring}`
+          itemName = `${this.type} ${itemName}`
+          if (this.argsstring !== undefined) {
+            itemName += this.argsstring
+          }
         } else if (this.definition?.startsWith('using') ?? false) {
           itemType = 'using'
           if (this.type !== undefined) {
@@ -1073,8 +1075,10 @@ export class Member extends MemberBase {
       case 'friend':
         // console.log(this)
         assert(this.type !== undefined)
-        assert(this.parametersHtmlString !== undefined)
-        prototype = `friend ${this.type} ${this.parametersHtmlString}`
+        prototype = `friend ${this.type}`
+        if (this.parametersHtmlString !== undefined) {
+          prototype += ` ${this.parametersHtmlString}`
+        }
 
         if (this.detailedDescriptionHtmlLines !== undefined) {
           childrenLines.push(

@@ -141,7 +141,7 @@ export class Groups extends CollectionBase {
         const filePath = this.workspace.outputFolderPath + 'indices/groups/index.md';
         const permalink = 'groups';
         const frontMatter = {
-            title: 'The Topics Reference',
+            title: 'Topics',
             slug: `${this.workspace.slugBaseUrl}${permalink}`,
             // description: '...', // TODO
             custom_edit_url: null,
@@ -249,7 +249,7 @@ export class Group extends CompoundBase {
                 : '???';
         const { sidebarLabel } = this;
         this.indexName = sidebarLabel;
-        this.pageTitle = `The ${this.sidebarLabel} Reference`;
+        this.pageTitle = this.sidebarLabel;
         const sanitizedPath = sanitizeHierarchicalPath(this.compoundName);
         this.relativePermalink = `groups/${sanitizedPath}`;
         this.docusaurusId = `groups/${flattenPath(sanitizedPath)}`;

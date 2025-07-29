@@ -413,8 +413,8 @@ export class CompoundBase {
                         itemName = name;
                     }
                     const childrenLines = [];
-                    assert(permalink !== undefined);
-                    const morePermalink = innerDataObject.detailedDescriptionHtmlLines !== undefined
+                    const morePermalink = innerDataObject.detailedDescriptionHtmlLines !== undefined &&
+                        permalink !== undefined
                         ? `${permalink}/#details`
                         : undefined;
                     if (innerDataObject.briefDescriptionHtmlString !== undefined &&

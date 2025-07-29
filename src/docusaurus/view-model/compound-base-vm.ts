@@ -604,9 +604,9 @@ export abstract class CompoundBase {
 
           const childrenLines: string[] = []
 
-          assert(permalink !== undefined)
           const morePermalink =
-            innerDataObject.detailedDescriptionHtmlLines !== undefined
+            innerDataObject.detailedDescriptionHtmlLines !== undefined &&
+            permalink !== undefined
               ? `${permalink}/#details`
               : undefined
           if (
