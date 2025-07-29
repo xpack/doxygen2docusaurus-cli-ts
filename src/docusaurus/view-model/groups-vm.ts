@@ -109,16 +109,15 @@ export class Groups extends CollectionBase {
   }
 
   private createSidebarItemRecursively(group: Group): SidebarItem | undefined {
-    if (group.sidebarLabel === undefined) {
+    if (group.sidebarLabel === undefined || group.sidebarId === undefined) {
       return undefined
     }
 
-    assert(group.docusaurusId !== undefined)
     if (group.children.length === 0) {
       const docItem: SidebarDocItem = {
         type: 'doc',
         label: group.sidebarLabel,
-        id: `${this.workspace.sidebarBaseId}${group.docusaurusId}`,
+        id: `${this.workspace.sidebarBaseId}${group.sidebarId}`,
       }
       return docItem
     } else {
@@ -127,7 +126,7 @@ export class Groups extends CollectionBase {
         label: group.sidebarLabel,
         link: {
           type: 'doc',
-          id: `${this.workspace.sidebarBaseId}${group.docusaurusId}`,
+          id: `${this.workspace.sidebarBaseId}${group.sidebarId}`,
         },
         collapsed: true,
         items: [],
@@ -334,7 +333,7 @@ export class Group extends CompoundBase {
     const sanitizedPath = sanitizeHierarchicalPath(this.compoundName)
     this.relativePermalink = `groups/${sanitizedPath}`
 
-    this.docusaurusId = `groups/${flattenPath(sanitizedPath)}`
+    this.sidebarId = `groups/${flattenPath(sanitizedPath)}`
 
     this.createSections()
 

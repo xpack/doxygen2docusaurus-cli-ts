@@ -84,15 +84,11 @@ export class Pages extends CollectionBase {
       }
 
       const { sidebarLabel } = page
-      if (sidebarLabel === undefined) {
+      if (sidebarLabel === undefined || page.sidebarId === undefined) {
         continue
       }
 
-      if (page.docusaurusId === undefined) {
-        continue
-      }
-
-      const id = this.workspace.sidebarBaseId + page.docusaurusId
+      const id = this.workspace.sidebarBaseId + page.sidebarId
       const docItem: SidebarDocItem = {
         type: 'doc',
         label: sidebarLabel,
@@ -123,19 +119,14 @@ export class Pages extends CollectionBase {
         continue
       }
 
-      const { sidebarLabel: label } = page
-      if (label === undefined) {
+      if (page.sidebarLabel === undefined || page.sidebarId === undefined) {
         continue
       }
 
-      if (page.docusaurusId === undefined) {
-        continue
-      }
-      const id = `${this.workspace.sidebarBaseId}${page.docusaurusId}`
       const docItem: SidebarDocItem = {
         type: 'doc',
-        label,
-        id,
+        label: page.sidebarLabel,
+        id: `${this.workspace.sidebarBaseId}${page.sidebarId}`,
       }
 
       sidebarCategory.items.push(docItem)
@@ -176,7 +167,7 @@ export class Page extends CompoundBase {
     const sanitizedPath: string = sanitizeHierarchicalPath(this.compoundName)
     this.relativePermalink = `pages/${sanitizedPath}`
 
-    this.docusaurusId = `pages/${flattenPath(sanitizedPath)}`
+    this.sidebarId = `pages/${flattenPath(sanitizedPath)}`
 
     // SectionDefs for pages?
     assert(compoundDef.sectionDefs === undefined)

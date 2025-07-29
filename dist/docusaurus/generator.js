@@ -243,8 +243,8 @@ export class DocusaurusGenerator {
                 }
             }
             const permalink = compound.relativePermalink;
-            const { docusaurusId } = compound;
-            if (permalink === undefined || docusaurusId === undefined) {
+            const { sidebarId } = compound;
+            if (permalink === undefined || sidebarId === undefined) {
                 if (this.options.verbose) {
                     console.warn('Skip', compound.id, 'no permalink');
                 }
@@ -270,9 +270,9 @@ export class DocusaurusGenerator {
         }
     }
     async generatePage(compound) {
-        const { docusaurusId } = compound;
-        assert(docusaurusId !== undefined);
-        const fileName = `${docusaurusId}.md`;
+        const { sidebarId } = compound;
+        assert(sidebarId !== undefined);
+        const fileName = `${sidebarId}.md`;
         // console.log('fileName:', fileName)
         const filePath = `${this.workspace.outputFolderPath}${fileName}`;
         const permalink = compound.relativePermalink;

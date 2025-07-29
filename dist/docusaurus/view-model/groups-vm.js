@@ -81,15 +81,14 @@ export class Groups extends CollectionBase {
         }
     }
     createSidebarItemRecursively(group) {
-        if (group.sidebarLabel === undefined) {
+        if (group.sidebarLabel === undefined || group.sidebarId === undefined) {
             return undefined;
         }
-        assert(group.docusaurusId !== undefined);
         if (group.children.length === 0) {
             const docItem = {
                 type: 'doc',
                 label: group.sidebarLabel,
-                id: `${this.workspace.sidebarBaseId}${group.docusaurusId}`,
+                id: `${this.workspace.sidebarBaseId}${group.sidebarId}`,
             };
             return docItem;
         }
@@ -99,7 +98,7 @@ export class Groups extends CollectionBase {
                 label: group.sidebarLabel,
                 link: {
                     type: 'doc',
-                    id: `${this.workspace.sidebarBaseId}${group.docusaurusId}`,
+                    id: `${this.workspace.sidebarBaseId}${group.sidebarId}`,
                 },
                 collapsed: true,
                 items: [],
@@ -252,7 +251,7 @@ export class Group extends CompoundBase {
         this.pageTitle = this.sidebarLabel;
         const sanitizedPath = sanitizeHierarchicalPath(this.compoundName);
         this.relativePermalink = `groups/${sanitizedPath}`;
-        this.docusaurusId = `groups/${flattenPath(sanitizedPath)}`;
+        this.sidebarId = `groups/${flattenPath(sanitizedPath)}`;
         this.createSections();
         // console.log('0', this.id)
         // console.log('1', this.compoundName, this.titleMdText)

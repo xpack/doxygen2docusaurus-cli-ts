@@ -35,6 +35,13 @@ export class CompoundBase {
     childrenIds = [];
     children = [];
     /**
+     * @brief Short name, to fit the limited space in the sidebar.
+     *
+     * If undefined, the compound must not
+     * be referred in the sidebar.
+     */
+    sidebarLabel;
+    /**
      * @brief Relative path to the output folder.
      *
      * Starts with plural kind.
@@ -42,14 +49,7 @@ export class CompoundBase {
      * If undefined, the compound must not
      * be referred in the sidebar.
      */
-    docusaurusId;
-    /**
-     * @brief Short name, to fit the limited space in the sidebar.
-     *
-     * If undefined, the compound must not
-     * be referred in the sidebar.
-     */
-    sidebarLabel;
+    sidebarId;
     /**
      * @brief The part below outputFolderPath.
      *

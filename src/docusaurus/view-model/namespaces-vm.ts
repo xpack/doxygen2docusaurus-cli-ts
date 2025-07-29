@@ -192,16 +192,18 @@ export class Namespaces extends CollectionBase {
   private createNamespaceItemRecursively(
     namespace: Namespace
   ): SidebarItem | undefined {
-    if (namespace.sidebarLabel === undefined) {
+    if (
+      namespace.sidebarLabel === undefined ||
+      namespace.sidebarId === undefined
+    ) {
       return undefined
     }
 
-    assert(namespace.docusaurusId !== undefined)
     if (namespace.children.length === 0) {
       const docItem: SidebarDocItem = {
         type: 'doc',
         label: namespace.sidebarLabel,
-        id: `${this.workspace.sidebarBaseId}${namespace.docusaurusId}`,
+        id: `${this.workspace.sidebarBaseId}${namespace.sidebarId}`,
       }
       return docItem
     } else {
@@ -210,7 +212,7 @@ export class Namespaces extends CollectionBase {
         label: namespace.sidebarLabel,
         link: {
           type: 'doc',
-          id: `${this.workspace.sidebarBaseId}${namespace.docusaurusId}`,
+          id: `${this.workspace.sidebarBaseId}${namespace.sidebarId}`,
         },
         className: 'doxyEllipsis',
         collapsed: true,
@@ -498,7 +500,7 @@ export class Namespace extends CompoundBase {
         this.pageTitle = `\`${this.indexName}\` Namespace`
 
         this.relativePermalink = `namespaces/${sanitizedPath}`
-        this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
+        this.sidebarId = `namespaces/${flattenPath(sanitizedPath)}`
         const { unqualifiedName } = this
         this.sidebarLabel = unqualifiedName
       } else {
@@ -524,7 +526,7 @@ export class Namespace extends CompoundBase {
         this.pageTitle = `\`${this.indexName}\` Namespace`
 
         this.relativePermalink = `namespaces/${sanitizedPath}`
-        this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
+        this.sidebarId = `namespaces/${flattenPath(sanitizedPath)}`
         const { unqualifiedName } = this
         this.sidebarLabel = unqualifiedName
       }
@@ -549,7 +551,7 @@ export class Namespace extends CompoundBase {
         // Skip un-named namespaces, and generated ones,
         // since they can be duplicate.
         this.relativePermalink = `namespaces/${sanitizedPath}`
-        this.docusaurusId = `namespaces/${flattenPath(sanitizedPath)}`
+        this.sidebarId = `namespaces/${flattenPath(sanitizedPath)}`
         const { unqualifiedName } = this
         this.sidebarLabel = unqualifiedName
       } else {
@@ -584,7 +586,7 @@ export class Namespace extends CompoundBase {
         console.log(this.kind, this.compoundName, 'has no content, not shown')
       }
 
-      this.docusaurusId = undefined
+      this.sidebarId = undefined
       this.sidebarLabel = undefined
       this.relativePermalink = undefined
     }

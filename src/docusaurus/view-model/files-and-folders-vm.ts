@@ -166,7 +166,7 @@ export class FilesAndFolders extends CollectionBase {
       )
       folder.relativePermalink = `folders/${sanitizedPath}`
 
-      folder.docusaurusId = `folders/${flattenPath(sanitizedPath)}`
+      folder.sidebarId = `folders/${flattenPath(sanitizedPath)}`
 
       // console.log('0', folder.id)
       // console.log('1', folder.compoundName)
@@ -192,7 +192,7 @@ export class FilesAndFolders extends CollectionBase {
       const sanitizedPath: string = sanitizeHierarchicalPath(file.relativePath)
       file.relativePermalink = `files/${sanitizedPath}`
 
-      file.docusaurusId = `files/${flattenPath(sanitizedPath)}`
+      file.sidebarId = `files/${flattenPath(sanitizedPath)}`
 
       // console.log('0', file.id)
       // console.log('1', file.compoundName)
@@ -334,17 +334,16 @@ export class FilesAndFolders extends CollectionBase {
   private createFolderSidebarItemRecursively(
     folder: Folder
   ): SidebarItem | undefined {
-    if (folder.sidebarLabel === undefined) {
+    if (folder.sidebarLabel === undefined || folder.sidebarId == undefined) {
       return undefined
     }
 
-    assert(folder.docusaurusId !== undefined)
     const categoryItem: SidebarCategoryItem = {
       type: 'category',
       label: folder.sidebarLabel,
       link: {
         type: 'doc',
-        id: `${this.workspace.sidebarBaseId}${folder.docusaurusId}`,
+        id: `${this.workspace.sidebarBaseId}${folder.sidebarId}`,
       },
       className: 'doxyEllipsis',
       collapsed: true,
@@ -373,16 +372,15 @@ export class FilesAndFolders extends CollectionBase {
   }
 
   private createFileSidebarItem(file: File): SidebarItem | undefined {
-    if (file.sidebarLabel === undefined) {
+    if (file.sidebarLabel === undefined || file.sidebarId === undefined) {
       return undefined
     }
 
-    assert(file.docusaurusId !== undefined)
     const docItem: SidebarDocItem = {
       type: 'doc',
       label: file.sidebarLabel,
       className: 'doxyEllipsis',
-      id: `${this.workspace.sidebarBaseId}${file.docusaurusId}`,
+      id: `${this.workspace.sidebarBaseId}${file.sidebarId}`,
     }
     return docItem
   }
@@ -816,7 +814,7 @@ export class Folder extends CompoundBase {
         console.log(this.kind, this.compoundName, 'has no content, not shown')
       }
 
-      this.docusaurusId = undefined
+      this.sidebarId = undefined
       this.sidebarLabel = undefined
       this.relativePermalink = undefined
     }
@@ -876,7 +874,7 @@ export class File extends CompoundBase {
         console.log(this.kind, this.compoundName, 'has no content, not shown')
       }
 
-      this.docusaurusId = undefined
+      this.sidebarId = undefined
       this.sidebarLabel = undefined
       this.relativePermalink = undefined
     }

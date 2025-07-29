@@ -115,7 +115,7 @@ export class FilesAndFolders extends CollectionBase {
             folder.relativePath = `${parentPath}${folder.compoundName}`;
             const sanitizedPath = sanitizeHierarchicalPath(folder.relativePath);
             folder.relativePermalink = `folders/${sanitizedPath}`;
-            folder.docusaurusId = `folders/${flattenPath(sanitizedPath)}`;
+            folder.sidebarId = `folders/${flattenPath(sanitizedPath)}`;
             // console.log('0', folder.id)
             // console.log('1', folder.compoundName)
             // console.log('2', folder.relativePermalink)
@@ -136,7 +136,7 @@ export class FilesAndFolders extends CollectionBase {
             file.relativePath = `${parentPath}${file.compoundName}`;
             const sanitizedPath = sanitizeHierarchicalPath(file.relativePath);
             file.relativePermalink = `files/${sanitizedPath}`;
-            file.docusaurusId = `files/${flattenPath(sanitizedPath)}`;
+            file.sidebarId = `files/${flattenPath(sanitizedPath)}`;
             // console.log('0', file.id)
             // console.log('1', file.compoundName)
             // console.log('2', file.relativePermalink)
@@ -260,16 +260,15 @@ export class FilesAndFolders extends CollectionBase {
         sidebarCategory.items.push(filesCategory);
     }
     createFolderSidebarItemRecursively(folder) {
-        if (folder.sidebarLabel === undefined) {
+        if (folder.sidebarLabel === undefined || folder.sidebarId == undefined) {
             return undefined;
         }
-        assert(folder.docusaurusId !== undefined);
         const categoryItem = {
             type: 'category',
             label: folder.sidebarLabel,
             link: {
                 type: 'doc',
-                id: `${this.workspace.sidebarBaseId}${folder.docusaurusId}`,
+                id: `${this.workspace.sidebarBaseId}${folder.sidebarId}`,
             },
             className: 'doxyEllipsis',
             collapsed: true,
@@ -294,15 +293,14 @@ export class FilesAndFolders extends CollectionBase {
         return categoryItem;
     }
     createFileSidebarItem(file) {
-        if (file.sidebarLabel === undefined) {
+        if (file.sidebarLabel === undefined || file.sidebarId === undefined) {
             return undefined;
         }
-        assert(file.docusaurusId !== undefined);
         const docItem = {
             type: 'doc',
             label: file.sidebarLabel,
             className: 'doxyEllipsis',
-            id: `${this.workspace.sidebarBaseId}${file.docusaurusId}`,
+            id: `${this.workspace.sidebarBaseId}${file.sidebarId}`,
         };
         return docItem;
     }
@@ -635,7 +633,7 @@ export class Folder extends CompoundBase {
             if (this.collection.workspace.options.debug) {
                 console.log(this.kind, this.compoundName, 'has no content, not shown');
             }
-            this.docusaurusId = undefined;
+            this.sidebarId = undefined;
             this.sidebarLabel = undefined;
             this.relativePermalink = undefined;
         }
@@ -681,7 +679,7 @@ export class File extends CompoundBase {
             if (this.collection.workspace.options.debug) {
                 console.log(this.kind, this.compoundName, 'has no content, not shown');
             }
-            this.docusaurusId = undefined;
+            this.sidebarId = undefined;
             this.sidebarLabel = undefined;
             this.relativePermalink = undefined;
         }

@@ -158,16 +158,15 @@ export class Classes extends CollectionBase {
         sidebarCategory.items.push(classesCategory);
     }
     createSidebarItemRecursively(classs) {
-        if (classs.sidebarLabel === undefined) {
+        if (classs.sidebarLabel === undefined || classs.sidebarId === undefined) {
             return undefined;
         }
-        assert(classs.docusaurusId !== undefined);
         if (classs.children.length === 0) {
             const docItem = {
                 type: 'doc',
                 label: classs.sidebarLabel,
                 className: 'doxyEllipsis',
-                id: `${this.workspace.sidebarBaseId}${classs.docusaurusId}`,
+                id: `${this.workspace.sidebarBaseId}${classs.sidebarId}`,
             };
             return docItem;
         }
@@ -177,7 +176,7 @@ export class Classes extends CollectionBase {
                 label: classs.sidebarLabel,
                 link: {
                     type: 'doc',
-                    id: `${this.workspace.sidebarBaseId}${classs.docusaurusId}`,
+                    id: `${this.workspace.sidebarBaseId}${classs.sidebarId}`,
                 },
                 className: 'doxyEllipsis',
                 collapsed: true,
@@ -401,9 +400,8 @@ export class Class extends CompoundBase {
         else if (compoundDef.templateParamList !== undefined) {
             indexNameTemplateParameters = this.renderTemplateParameterNamesToString(compoundDef.templateParamList);
         }
-        const { unqualifiedName } = this;
-        this.sidebarLabel = unqualifiedName;
         this.indexName = `${this.unqualifiedName}${indexNameTemplateParameters}`;
+        this.sidebarLabel = this.indexName;
         if (this.indexName.length < 42) {
             const { indexName } = this;
             this.treeEntryName = indexName;
@@ -429,7 +427,7 @@ export class Class extends CompoundBase {
         }
         this.relativePermalink = `${pluralKind}/${sanitizedPath}`;
         // Replace slash with dash.
-        this.docusaurusId = `${pluralKind}/${flattenPath(sanitizedPath)}`;
+        this.sidebarId = `${pluralKind}/${flattenPath(sanitizedPath)}`;
         this.createSections(this.unqualifiedName);
         // console.log('0', compoundDef.id)
         // console.log('1', compoundDef.compoundName)

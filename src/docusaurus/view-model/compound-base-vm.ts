@@ -65,6 +65,14 @@ export abstract class CompoundBase {
   children: CompoundBase[] = []
 
   /**
+   * @brief Short name, to fit the limited space in the sidebar.
+   *
+   * If undefined, the compound must not
+   * be referred in the sidebar.
+   */
+  sidebarLabel: string | undefined
+
+  /**
    * @brief Relative path to the output folder.
    *
    * Starts with plural kind.
@@ -72,15 +80,7 @@ export abstract class CompoundBase {
    * If undefined, the compound must not
    * be referred in the sidebar.
    */
-  docusaurusId: string | undefined
-
-  /**
-   * @brief Short name, to fit the limited space in the sidebar.
-   *
-   * If undefined, the compound must not
-   * be referred in the sidebar.
-   */
-  sidebarLabel: string | undefined
+  sidebarId: string | undefined
 
   /**
    * @brief The part below outputFolderPath.

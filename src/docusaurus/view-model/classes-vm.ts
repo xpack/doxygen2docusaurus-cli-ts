@@ -206,17 +206,16 @@ export class Classes extends CollectionBase {
   }
 
   private createSidebarItemRecursively(classs: Class): SidebarItem | undefined {
-    if (classs.sidebarLabel === undefined) {
+    if (classs.sidebarLabel === undefined || classs.sidebarId === undefined) {
       return undefined
     }
 
-    assert(classs.docusaurusId !== undefined)
     if (classs.children.length === 0) {
       const docItem: SidebarDocItem = {
         type: 'doc',
         label: classs.sidebarLabel,
         className: 'doxyEllipsis',
-        id: `${this.workspace.sidebarBaseId}${classs.docusaurusId}`,
+        id: `${this.workspace.sidebarBaseId}${classs.sidebarId}`,
       }
       return docItem
     } else {
@@ -225,7 +224,7 @@ export class Classes extends CollectionBase {
         label: classs.sidebarLabel,
         link: {
           type: 'doc',
-          id: `${this.workspace.sidebarBaseId}${classs.docusaurusId}`,
+          id: `${this.workspace.sidebarBaseId}${classs.sidebarId}`,
         },
         className: 'doxyEllipsis',
         collapsed: true,
@@ -558,7 +557,7 @@ export class Class extends CompoundBase {
     this.relativePermalink = `${pluralKind}/${sanitizedPath}`
 
     // Replace slash with dash.
-    this.docusaurusId = `${pluralKind}/${flattenPath(sanitizedPath)}`
+    this.sidebarId = `${pluralKind}/${flattenPath(sanitizedPath)}`
 
     this.createSections(this.unqualifiedName)
 

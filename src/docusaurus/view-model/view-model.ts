@@ -348,8 +348,8 @@ export class ViewModel {
           count += 1
           assert(compound.relativePermalink !== undefined)
           compound.relativePermalink += suffix
-          assert(compound.docusaurusId !== undefined)
-          compound.docusaurusId += suffix
+          assert(compound.sidebarId !== undefined)
+          compound.sidebarId += suffix
 
           if (this.options.verbose) {
             console.warn('-', compound.relativePermalink, compound.id)
