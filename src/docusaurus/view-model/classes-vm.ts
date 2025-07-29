@@ -523,10 +523,8 @@ export class Class extends CompoundBase {
       )
     }
 
-    const { unqualifiedName } = this
-    this.sidebarLabel = unqualifiedName
-
     this.indexName = `${this.unqualifiedName}${indexNameTemplateParameters}`
+    this.sidebarLabel = this.indexName
 
     if (this.indexName.length < 42) {
       const { indexName } = this
