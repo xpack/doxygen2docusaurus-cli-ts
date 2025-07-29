@@ -13,6 +13,7 @@
 
 // import assert from 'node:assert'
 import * as path from 'node:path'
+import * as fs from 'node:fs/promises'
 // import * as util from 'node:util'
 
 // https://www.npmjs.com/package/commander
@@ -21,6 +22,7 @@ import { formatDuration } from '../docusaurus/utils.js'
 import { DataModel } from '../doxygen/data-model/data-model.js'
 import { DocusaurusGenerator } from '../docusaurus/generator.js'
 import { Workspace } from '../docusaurus/workspace.js'
+import { fileURLToPath } from 'node:url'
 
 // ----------------------------------------------------------------------------
 
@@ -35,12 +37,25 @@ import { Workspace } from '../docusaurus/workspace.js'
 export async function main(argv: string[]): Promise<number> {
   const startTime = Date.now()
 
+  // Like .../doxygen2docusaurus/dist/cli
+  const __dirname = path.dirname(fileURLToPath(import.meta.url))
+  const packageJsonPath = path.join(
+    path.dirname(path.dirname(__dirname)),
+    'package.json'
+  )
+  const packageJsonContent = await fs.readFile(packageJsonPath)
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const packageJson = JSON.parse(packageJsonContent.toString())
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+  const packageVersion: string = packageJson.version
+
   let commandLine: string = path.basename(argv[1] ?? 'doxygen2docusaurus')
   if (argv.length > 2) {
     commandLine += ` ${argv.slice(2).join(' ')}`
   }
 
-  console.log(`Running '${commandLine}'...`)
+  console.log(`Running '${commandLine}' (v${packageVersion})...`)
 
   const options = new CliOptions(argv)
   await options.parse()
