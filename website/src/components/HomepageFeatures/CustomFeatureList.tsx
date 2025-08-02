@@ -15,7 +15,7 @@ import type { FeatureItem } from './FeatureItem';
 
 export const FeatureList: FeatureItem[] = [
   {
-    title: 'Multi-language, cross-platform',
+    title: 'Multi-system, cross-platform',
     Svg: require('@site/static/img/mosaic.svg').default,
     description: (
       <>
