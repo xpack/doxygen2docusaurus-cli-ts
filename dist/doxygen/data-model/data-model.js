@@ -38,6 +38,7 @@ export class DataModel {
     doxygenindex; // from index.xml
     compoundDefs; // from `${'@_refid'}.xml`
     doxyfile; // from Doxyfile.xml
+    projectVersion;
     constructor(options) {
         this.options = options;
         this.xml = new DoxygenXmlParser(options);

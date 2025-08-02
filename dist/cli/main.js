@@ -50,6 +50,7 @@ export async function main(argv) {
     console.log();
     const dataModel = new DataModel(options);
     await dataModel.parse();
+    dataModel.projectVersion = packageVersion;
     const workspace = new Workspace(dataModel);
     const generator = new DocusaurusGenerator(workspace);
     exitCode = await generator.run();

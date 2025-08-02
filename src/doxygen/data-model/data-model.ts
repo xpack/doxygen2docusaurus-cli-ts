@@ -52,6 +52,8 @@ export class DataModel {
   compoundDefs: CompoundDefDataModel[] // from `${'@_refid'}.xml`
   doxyfile?: DoxygenFileDataModel // from Doxyfile.xml
 
+  projectVersion?: string
+
   constructor(options: CliOptions) {
     this.options = options
 

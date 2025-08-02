@@ -235,10 +235,13 @@ export class Workspace extends Renderers {
     lines.push('<hr/>')
     lines.push('')
     assert(this.dataModel.doxygenindex?.version !== undefined)
+    assert(this.dataModel.projectVersion !== undefined)
     lines.push(
       '<p class="doxyGeneratedBy">Generated via ' +
         '<a href="https://github.com/xpack/doxygen2docusaurus">' +
-        'doxygen2docusaurus</a> by ' +
+        'doxygen2docusaurus</a> ' +
+        this.dataModel.projectVersion +
+        ' by ' +
         '<a href="https://www.doxygen.nl">Doxygen</a> ' +
         this.dataModel.doxygenindex.version +
         '.' +
