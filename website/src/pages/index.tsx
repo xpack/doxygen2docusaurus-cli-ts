@@ -38,7 +38,7 @@ function HomepageHeader() {
         </span>
         </p>
         <div className={styles.installWithCopy}>
-          <InstallWithCopy>npm install @xpack/doxygen2docusaurus@1.0.1</InstallWithCopy>
+          <InstallWithCopy>npm install @xpack/doxygen2docusaurus@1.0.2</InstallWithCopy>
         </div>
       </div>
     </header>
