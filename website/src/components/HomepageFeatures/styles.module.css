@@ -1,0 +1,24 @@
+/*
+ * DO NOT EDIT!
+ * Automatically generated from docusaurus-template-liquid/templates/docusaurus.
+ */
+
+.features {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0 0.5rem 0; /* 2rem 0; */
+  width: 100%;
+}
+
+.featureSvg {
+  height: 100px;
+  width: 100px;
+}
+
+/* ------------------------------------------------------------------------- */
+
+svg.featureSvg path {
+  stroke: var(--docusaurus-svg-color);
+}
+
+/* ------------------------------------------------------------------------- */

@@ -1,16 +1,15 @@
 // DO NOT EDIT!
 // Automatically generated from docusaurus-template-liquid/templates/docusaurus.
 
-import { themes as prismThemes } from 'prism-react-renderer'
-import type { Config } from '@docusaurus/types'
-import type * as Preset from '@docusaurus/preset-classic'
+/* eslint-disable */
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
+import type * as Preset from '@docusaurus/preset-classic';
 // import logger from '@docusaurus/logger';
-import util from 'node:util'
+import util from 'node:util';
 
-import { redirects } from './docusaurus-config-redirects'
-import { getCustomFields } from './customFields'
-
-import tsdocApiNavbar from './docusaurus-config-navbar-tsdoc.json'
+import { redirects } from './docusaurus-config-redirects';
+import { getCustomFields } from './customFields';
 
 // The node.js modules cannot be used in modules imported in browser code:
 // webpack < 5 used to include polyfills for node.js core modules by default.
@@ -19,20 +18,18 @@ import tsdocApiNavbar from './docusaurus-config-navbar-tsdoc.json'
 
 // ----------------------------------------------------------------------------
 
-const customFields = getCustomFields()
-console.log('customFields: ' + util.inspect(customFields))
+const customFields = getCustomFields();
+console.log('customFields: ' + util.inspect(customFields));
 
-const actualBaseUrl =
-  process.env.DOCUSAURUS_BASEURL ?? '/doxygen2docusaurus-ts/'
+const actualBaseUrl = process.env.DOCUSAURUS_BASEURL ??
+  '/doxygen2docusaurus-cli-ts/';
 
 // ----------------------------------------------------------------------------
 
 const config: Config = {
-  title:
-    'doxygen2docusaurus - The documentation converter' +
-    (process.env.DOCUSAURUS_IS_PREVIEW === 'true' ? ' (preview)' : ''),
-  tagline:
-    'A CLI application to convert Doxygen XML files into Docusaurus documentation',
+  title: 'doxygen2docusaurus - The Documentation Converter' +
+    ((process.env.DOCUSAURUS_IS_PREVIEW === 'true') ? ' (preview)' : ''),
+  tagline: 'A CLI application to convert Doxygen XML files into Docusaurus documentation',
 
   // Explicitly set in headTags.
   // favicon: '/img/favicon.ico',
@@ -46,7 +43,7 @@ const config: Config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'xpack', // Usually your GitHub org/user name.
-  projectName: 'doxygen2docusaurus-ts', // Usually your repo name.
+  projectName: 'doxygen2docusaurus-cli-ts', // Usually your repo name.
 
   onBrokenAnchors: 'throw',
   onBrokenLinks: 'throw',
@@ -67,7 +64,7 @@ const config: Config = {
   },
 
   markdown: {
-    format: 'detect',
+    format: 'detect'
   },
 
   plugins: [
@@ -109,8 +106,7 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/xpack/doxygen2docusaurus-ts/edit/master/website/',
+          editUrl: 'https://github.com/xpack/doxygen2docusaurus-cli-ts/edit/website/website/',
           // showLastUpdateAuthor: true,
           showLastUpdateTime: true,
         },
@@ -124,8 +120,7 @@ const config: Config = {
           },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/xpack/doxygen2docusaurus-ts/edit/master/website/',
+          editUrl: 'https://github.com/xpack/doxygen2docusaurus-cli-ts/edit/website/website/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -146,7 +141,7 @@ const config: Config = {
           ignorePatterns: [
             actualBaseUrl + 'blog/archive/**',
             actualBaseUrl + 'blog/authors/**',
-            actualBaseUrl + 'blog/tags/**',
+            actualBaseUrl + 'blog/tags/**'
           ],
           filename: 'sitemap.xml',
         },
@@ -154,11 +149,9 @@ const config: Config = {
         debug: true,
 
         theme: {
-          customCss: [
-            './src/css/custom-tsdoc2docusaurus.css',
-            './src/css/custom.css'
-          ],
+          customCss: './src/css/custom.css',
         },
+
       } satisfies Preset.Options,
     ],
   ],
@@ -171,8 +164,8 @@ const config: Config = {
         rel: 'icon',
         type: 'image/png',
         href: actualBaseUrl + 'favicons/favicon-96x96.png',
-        sizes: '96x96',
-      },
+        sizes: '96x96'
+      }
     },
     {
       tagName: 'link',
@@ -180,39 +173,39 @@ const config: Config = {
         rel: 'icon',
         type: 'image/png',
         href: actualBaseUrl + 'favicons/favicon-48x48.png',
-        sizes: '48x48',
-      },
+        sizes: '48x48'
+      }
     },
     {
       tagName: 'link',
       attributes: {
         rel: 'icon',
         type: 'image/svg+xml',
-        href: actualBaseUrl + 'favicons/favicon.svg',
-      },
+        href: actualBaseUrl + 'favicons/favicon.svg'
+      }
     },
     {
       tagName: 'link',
       attributes: {
         rel: 'shortcut icon',
-        href: actualBaseUrl + 'favicons/favicon.ico',
-      },
+        href: actualBaseUrl + 'favicons/favicon.ico'
+      }
     },
     {
       // This might also go to themeConfig.metadata.
       tagName: 'meta',
       attributes: {
         name: 'apple-mobile-web-app-title',
-        content: 'xPack',
-      },
+        content: 'xPack'
+      }
     },
     {
       tagName: 'link',
       attributes: {
         rel: 'manifest',
-        href: actualBaseUrl + 'favicons/site.webmanifest',
-      },
-    },
+        href: actualBaseUrl + 'favicons/site.webmanifest'
+      }
+    }
   ],
 
   // https://docusaurus.io/docs/seo
@@ -223,8 +216,8 @@ const config: Config = {
     metadata: [
       {
         name: 'keywords',
-        content: 'xpack, doxygen2docusaurus',
-      },
+        content: 'xpack, doxygen2docusaurus'
+      }
     ],
     navbar: {
       title: 'The xPack Project',
@@ -232,14 +225,14 @@ const config: Config = {
       logo: {
         alt: 'xPack Logo',
         src: 'img/logo-256.png',
-        href: 'https://xpack.github.io/',
+        href: 'https://xpack.github.io/'
       },
       items: [
         {
           to: '/',
           label: 'doxygen2docusaurus',
           className: 'header-home-link',
-          position: 'left',
+          position: 'left'
         },
         {
           type: 'dropdown',
@@ -249,43 +242,42 @@ const config: Config = {
           items: [
             {
               label: 'Getting Started',
-              to: '/docs/getting-started',
+              to: '/docs/getting-started'
             },
             {
               label: 'Install Guide',
-              to: '/docs/install',
+              to: '/docs/install'
             },
             {
-              label: "User's Guide",
-              to: '/docs/user',
+              label: 'User\'s Guide',
+              to: '/docs/user'
             },
             {
-              label: "Contributor's Guide",
-              to: '/docs/developer',
+              label: 'Contributor\'s Guide',
+              to: '/docs/developer'
             },
             {
-              label: "Maintainer's Guide",
-              to: '/docs/maintainer',
+              label: 'Maintainer\'s Guide',
+              to: '/docs/maintainer'
             },
             {
               label: 'FAQ',
-              to: '/docs/faq',
+              to: '/docs/faq'
             },
             {
               label: 'Help Centre',
-              to: '/docs/support',
+              to: '/docs/support'
             },
             {
               label: 'Releases',
-              to: '/docs/releases',
+              to: '/docs/releases'
             },
             {
               label: 'About',
-              to: '/docs/project/about',
+              to: '/docs/project/about'
             },
           ],
         },
-        tsdocApiNavbar,
         {
           type: 'dropdown',
           to: '/blog',
@@ -294,33 +286,33 @@ const config: Config = {
           items: [
             {
               label: 'Recent',
-              to: '/blog',
+              to: '/blog'
             },
             {
               label: 'Archive',
-              to: '/blog/archive',
+              to: '/blog/archive'
             },
             {
               label: 'Tags',
-              to: '/blog/tags',
+              to: '/blog/tags'
             },
-          ],
+          ]
         },
         {
-          href: 'https://github.com/xpack/doxygen2docusaurus-ts/',
+          href: 'https://github.com/xpack/doxygen2docusaurus-cli-ts/',
           position: 'right',
           className: 'header-github-link',
           'aria-label': 'GitHub repository',
         },
         {
           type: 'dropdown',
-          href: 'https://github.com/xpack/doxygen2docusaurus-ts/',
+          href: 'https://github.com/xpack/doxygen2docusaurus-cli-ts/',
           position: 'right',
           label: 'GitHub',
           items: [
             {
-              label: `doxygen2docusaurus-ts project`,
-              href: `https://github.com/xpack/doxygen2docusaurus-ts/`,
+              label: `doxygen2docusaurus-cli-ts project`,
+              href: `https://github.com/xpack/doxygen2docusaurus-cli-ts/`,
             },
             {
               label: 'xpack org',
@@ -330,7 +322,7 @@ const config: Config = {
               label: 'xpack-dev-tools org',
               href: 'https://github.com/xpack-dev-tools/',
             },
-          ],
+          ]
         },
         {
           label: `${customFields.releaseVersion}`,
@@ -368,7 +360,7 @@ const config: Config = {
           items: [
             {
               label: 'GitHub Discussions',
-              href: 'https://github.com/xpack/doxygen2docusaurus-ts/discussions',
+              href: 'https://github.com/xpack/doxygen2docusaurus-cli-ts/discussions',
             },
             {
               label: 'Stack Overflow',
@@ -392,8 +384,8 @@ const config: Config = {
               href: 'https://www.paypal.com/donate/?hosted_button_id=5MFRG9ZRBETQ8',
             },
             {
-              label: 'GitHub doxygen2docusaurus-ts project',
-              href: 'https://github.com/xpack/doxygen2docusaurus-ts/',
+              label: 'GitHub doxygen2docusaurus-cli-ts project',
+              href: 'https://github.com/xpack/doxygen2docusaurus-cli-ts/',
             },
             {
               label: 'GitHub xpack org',
@@ -416,12 +408,12 @@ const config: Config = {
     // https://docsearch.algolia.com/docs/docsearch-v3/
     algolia: {
       // The application ID provided by Algolia
-      appId: 'KIDD7R4CL1',
+      appId: "KIDD7R4CL1",
 
       // Public API key: it is safe to commit it
-      apiKey: 'ca2ffc431941284609f2d50202fc5506',
+      apiKey: "ca2ffc431941284609f2d50202fc5506",
 
-      indexName: 'xpackio',
+      indexName: "xpackio",
 
       // It ensures that search results are relevant to the current
       // language and version. Enabled by default.
@@ -461,6 +453,6 @@ const config: Config = {
   // },
 
   customFields: customFields,
-}
+};
 
-export default config
+export default config;

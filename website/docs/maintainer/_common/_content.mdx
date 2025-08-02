@@ -1,0 +1,138 @@
+{/* DO NOT EDIT! */}
+{/* Automatically generated from docusaurus-template-liquid/templates/docusaurus. */}
+
+import CodeBlock from '@theme/CodeBlock';
+
+import CommonBuildWebsiteLocally from '@site/docs/_common/_build-website-locally.mdx';
+import CommonPrerequisites from '@site/docs/_common/_prerequisites.mdx';
+import CommonGetProjectSources from '@site/docs/_common/_get-project-sources.mdx';
+import CommonStartLocalWebServer from '@site/docs/_common/_start-local-web-server.mdx';
+import CommonPublishWebsite from '@site/docs/_common/_publish-website.mdx';
+import CommonPrepareWebsite from '@site/docs/_common/_prepare-website.mdx';
+import CommonGenerateWebsiteCommons from '@site/docs/_common/_generate-website-commons.mdx';
+
+import CommonAnalytics from '../_common/_analytics.mdx';
+import CommonCheckGit from '../_common/_check-git.mdx';
+import CommonIncreaseVersion from '../_common/_increase-version.mdx';
+import CommonCloseMilestone from '../_common/_close-milestone.mdx';
+import CommonCiTests from '../_common/_ci-tests.mdx';
+import CommonCloseOpenIssues from '../_common/_close-open-issues.mdx';
+import CommonFixOpenIssues from '../_common/_fix-open-issues.mdx';
+import CommonShareOnTwitter from '../_common/_share-on-twitter.mdx'
+import CommonTagNpmLatest from '../_common/_tag-npm-latest.mdx';
+import CommonUpdateMainBranch from '../_common/_update-main-branch.mdx';
+import CommonPublishRelease from '../_common/_publish-release.mdx'
+import CommonPrepareNewBlogPost from '../_common/_prepare-new-blog-post.mdx'
+import CommonSetNewVersion from '../_common/_set-new-version.mdx';
+import CommonPrepareRelease from '../_common/_prepare-release.mdx'
+import CommonUpdateChangelog from '../_common/_update-changelog.mdx';
+import CommonUpdateWebsiteConfig from '../_common/_update-website-config.mdx';
+
+import ProjectDependenciesDetails from '../_project/_dependencies-details.mdx';
+import ProjectMore from '../_project/_more.mdx';
+
+{/* ------------------------------------------------------------------------ */}
+
+<CommonPrerequisites nodeVersion="20.0.0" nodeVersionMajor="20"/>
+
+<CommonGetProjectSources />
+
+## Release schedule
+
+There are no fixed releases.
+
+## Prepare a new release
+
+<CommonCheckGit />
+
+### Update npm packages
+
+:::note
+
+This package is also used by the VS Code extension and, until VS Code will
+accept ESM dependencies, it must be
+kept as a legacy CommonJS dependency.
+
+:::
+
+- `npm outdated`
+- `npm update` or edit and `npm install`
+- repeat and possibly manually edit `package.json` until everything is
+  up to date
+- **commit** the changes
+
+Keep:
+
+- [`@types/node`](https://www.npmjs.com/package/@types/node?activeTab=versions)
+  locked to latest that still matches the oldest supported node (20).
+
+<ProjectDependenciesDetails />
+
+<CommonIncreaseVersion />
+
+<CommonUpdateWebsiteConfig />
+
+<CommonGenerateWebsiteCommons />
+
+<CommonStartLocalWebServer />
+
+<CommonFixOpenIssues />
+
+<CommonUpdateChangelog />
+
+<CommonPrepareRelease />
+
+<CommonSetNewVersion />
+
+<CommonCiTests />
+
+<CommonPrepareNewBlogPost />
+
+<CommonPublishRelease />
+
+### Manual install test
+
+Test if the package can be installed in a project:
+
+```bash
+rm -rf ~/tmp/doxygen2docusaurus-test && mkdir ~/tmp/doxygen2docusaurus-test && cd ~/tmp/doxygen2docusaurus-test
+npm init --yes
+npm install @xpack/doxygen2docusaurus@next
+```
+
+Validate the website content in a local build via the npm **build** script:
+
+```sh
+npm run build
+```
+
+<CommonPrepareWebsite />
+
+<CommonBuildWebsiteLocally />
+
+<CommonPublishWebsite />
+
+## Final updates
+
+<CommonUpdateMainBranch />
+
+<CommonCloseOpenIssues />
+
+<CommonCloseMilestone />
+
+<CommonTagNpmLatest />
+
+<CommonShareOnTwitter />
+
+<CommonAnalytics />
+
+## Useful links
+
+- https://www.typescriptlang.org/docs/
+- https://www.typescriptlang.org/tsconfig/
+- https://typedoc.org, https://typedoc.org/guides/doccomments/
+- https://tsdoc.org
+- https://jsdoc.app/index.html
+- https://redfin.engineering/node-modules-at-war-why-commonjs-and-es-modules-cant-get-along-9617135eeca1
+
+<ProjectMore />

@@ -1,0 +1,32 @@
+
+import CodeBlock from '@theme/CodeBlock';
+
+import customField from '@site/src/libs/customField';
+
+{/* ------------------------------------------------------------------------ */}
+
+A typical test result looks like:
+
+<CodeBlock language="console"> {
+`% npm run test-100-c8
+
+> @xpack/logger@${customField('releaseVersion')} pretest-100-c8 ...
+> npm run lint
+
+> @xpack/logger@${customField('releaseVersion')} lint ...
+> ts-standard src && standard esm
+
+> @xpack/logger@${customField('releaseVersion')} test-100-c8 ...
+> npm run test-tap-coverage-100-c8 -s
+
+...
+`} </CodeBlock>
+
+To run a specific test with more verbose output, use `npm run tap`:
+
+<CodeBlock language="console"> {
+`% npm run tap tests/tap/010-xxx.ts
+
+...
+`} </CodeBlock>
+

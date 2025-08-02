@@ -1,0 +1,31 @@
+{/* ------------------------------------------------------------------------ */}
+
+### November 2024
+
+The project was initiated as an experimental endeavour, driven by curiosity
+regarding the structure and content of Doxygen XML files.
+
+The initial implementation took the form of a Docusaurus plugin that
+generated Docusaurus `.mdx` files incorporating React components.
+
+### June 2025
+
+Given that Doxygen may embed arbitrary HTML code within documentation pages,
+whilst the MDX syntax enforces strict constraints and does not accommodate
+all HTML elements, the project was subsequently revised to generate
+CommonMark `.md` files.
+
+### July 2025
+
+Due to Docusaurus not guaranteeing ordered plugin initialisation, it proved
+impossible to devise an elegant solution for executing the conversion
+process prior to the documentation build phase.
+
+The adopted solution involved transforming the project into a command-line
+interface (CLI) application, enabling execution as a pre-build step before
+the Docusaurus build process commences.
+
+### August 2025
+
+The first public release was published.
+

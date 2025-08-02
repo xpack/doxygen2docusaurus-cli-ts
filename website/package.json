@@ -1,0 +1,93 @@
+{
+  "DO NOT EDIT": "Automatically generated from docusaurus-template-liquid/templates/docusaurus",
+  "name": "website",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "generate-website-commons": "bash node_modules/@xpack/docusaurus-template-liquid/maintenance-scripts/generate-website-commons.sh --xpack",
+    "npm-outdated": "npm outdated",
+    "npm-install": "npm install",
+    "npm-link-helpers": "npm link @xpack/docusaurus-template-liquid @xpack/npm-packages-helper",
+    "npm-ci": "npm ci",
+    "deep-clean": "del-cli .docusaurus build node_modules package-lock.json",
+    "docusaurus": "docusaurus",
+    "api-documenter": "del-cli ../api-extractor/markdown && api-documenter markdown --input-folder ../api-extractor --output-folder ../api-extractor/markdown",
+    "convert-tsdoc": "tsdoc2docusaurus",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy",
+    "clear": "docusaurus clear",
+    "serve": "docusaurus serve",
+    "write-translations": "docusaurus write-translations",
+    "write-heading-ids": "docusaurus write-heading-ids",
+    "generate-typedoc": "typedoc",
+    "typecheck": "tsc",
+    "import-website-releases": "bash node_modules/@xpack/docusaurus-template-liquid/maintenance-scripts/import-releases.sh --xpack",
+    "generate-website-blog-post": "bash node_modules/@xpack/docusaurus-template-liquid/maintenance-scripts/generate-blog-post.sh --xpack",
+    "generate-dependencies-details": "bash node_modules/@xpack/docusaurus-template-liquid/maintenance-scripts/generate-dependencies-details.sh --xpack"
+  },
+  "author": {
+    "name": "Liviu Ionescu",
+    "email": "ilg@livius.net",
+    "url": "https://github.com/ilg-ul"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@docusaurus/core": "3.8.1",
+    "@docusaurus/faster": "3.8.1",
+    "@docusaurus/plugin-client-redirects": "3.8.1",
+    "@docusaurus/plugin-ideal-image": "3.8.1",
+    "@docusaurus/preset-classic": "3.8.1",
+    "@docusaurus/theme-search-algolia": "3.8.1",
+    "@mdx-js/react": "^3.0.0",
+    "clsx": "^2.0.0",
+    "prism-react-renderer": "^2.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "$devDependenciesUrls": [
+    "https://www.npmjs.com/package/del-cli",
+    "https://www.npmjs.com/package/typedoc-plugin-markdown",
+    "https://www.npmjs.com/package/json",
+    "https://www.npmjs.com/package/liquidjs",
+    "https://www.npmjs.com/package/typedoc",
+    "https://www.npmjs.com/package/typescript"
+  ],
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "3.8.1",
+    "@docusaurus/tsconfig": "3.8.1",
+    "@docusaurus/types": "3.8.1",
+    "@microsoft/api-documenter": "^7.26.30",
+    "@xpack/tsdoc2docusaurus": "github:xpack/tsdoc2docusaurus-ts#v1.0.3",
+    "del-cli": "^6.0.0",
+    "json": "^11.0.0",
+    "liquidjs": "^10.20.1",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.0",
+    "typescript": "~5.8.3"
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 3 chrome version",
+      "last 3 firefox version",
+      "last 5 safari version"
+    ]
+  },
+  "websiteConfig": {
+    "title": "doxygen2docusaurus - The Documentation Converter",
+    "tagline": "A CLI application to convert Doxygen XML files into Docusaurus documentation",
+    "hasCustomHomepageFeatures": "true",
+    "skipTests": "true",
+    "preferShortName": "true",
+    "nodeVersion": "20.18.0"
+  },
+  "engines": {
+    "node": ">=20.0"
+  }
+}

@@ -1,8 +1,7 @@
 // DO NOT EDIT!
 // Automatically generated from docusaurus-template-liquid/templates/docusaurus.
 
-import type { SidebarsConfig } from '@docusaurus/plugin-content-docs'
-import tsdocSidebarItems from './sidebar-category-tsdoc.json';
+import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 
 /**
  * Creating a sidebar enables you to:
@@ -15,46 +14,47 @@ import tsdocSidebarItems from './sidebar-category-tsdoc.json';
  Create as many sidebars as you want.
  */
 const sidebars: SidebarsConfig = {
+
   docsSidebar: [
     {
       type: 'doc',
       id: 'getting-started/index',
-      label: 'Getting Started',
+      label: 'Getting Started'
     },
     {
       type: 'doc',
       id: 'install/index',
-      label: 'Install Guide',
+      label: 'Install Guide'
     },
     {
       type: 'doc',
       id: 'user/index',
-      label: "User's Guide",
+      label: 'User\'s Guide'
     },
     {
       type: 'doc',
       id: 'developer/index',
-      label: "Contributor's Guide",
+      label: 'Contributor\'s Guide'
     },
     {
       type: 'doc',
       id: 'maintainer/index',
-      label: "Maintainer's Guide",
+      label: 'Maintainer\'s Guide'
     },
     {
       type: 'doc',
       id: 'faq/index',
-      label: 'FAQ',
+      label: 'FAQ'
     },
     {
       type: 'doc',
       id: 'support/index',
-      label: 'Help Centre',
+      label: 'Help Centre'
     },
     {
       type: 'doc',
       id: 'releases/index',
-      label: 'Releases',
+      label: 'Releases'
     },
     {
       type: 'category',
@@ -68,25 +68,21 @@ const sidebars: SidebarsConfig = {
         {
           type: 'doc',
           id: 'project/about/index',
-          label: 'About',
+          label: 'About'
         },
         {
           type: 'doc',
           id: 'project/history/index',
-          label: 'History',
+          label: 'History'
         },
         {
           type: 'link',
           label: 'License',
           href: 'https://opensource.org/license/mit',
         },
-      ],
+      ]
     },
   ],
+};
 
-  apiSidebar: [
-    tsdocSidebarItems
-  ],
-}
-
-export default sidebars
+export default sidebars;

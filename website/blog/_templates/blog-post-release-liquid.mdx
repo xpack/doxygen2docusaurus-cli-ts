@@ -1,0 +1,92 @@
+---
+
+title: CLI application to convert Doxygen XMLs into Docusaurus docs v{{releaseVersion}} released
+seo_title: Version {{releaseVersion}} released
+description: Version v{{releaseVersion}} is a TODO new/maintenance release
+keywords:
+  - xpack
+  - doxygen2docusaurus
+  - release
+
+date: {{releaseDate}}
+
+authors: ilg-ul
+
+# To be listed in the Releases page.
+tags:
+  - releases
+
+# ----- Custom properties -----------------------------------------------------
+
+version: "{{releaseVersion}}"
+
+release_tag_url: "https://github.com/xpack/doxygen2docusaurus-ts/tree/v{{releaseVersion}}"
+
+---
+
+import {PageMetadata} from '@docusaurus/theme-common';
+import Image from '@theme/IdealImage';
+import CodeBlock from '@theme/CodeBlock';
+import Link from '@docusaurus/Link';
+
+import CommonPrerequisites from './_common/_prerequisites.mdx';
+import CommonDownloadAnalytics from './_common/_download-analytics.mdx';
+
+TODO: select one summary
+
+Version **{{releaseVersion}}** is a maintenance release; it fixes ...
+
+Version **{{releaseVersion}}** is a new release; it adds ....
+
+<!-- truncate -->
+
+<PageMetadata title={frontMatter.seo_title} />
+
+The [CLI application to convert Doxygen XMLs into Docusaurus docs](https://xpack.github.io/doxygen2docusaurus-ts/)
+project is a TypeScript and dual mode CommonJS/ECMAScript Node.js module.
+
+<CommonPrerequisites nodeVersion="20.0.0"/>
+
+## Install
+
+For installation instructions, please refer to the
+[Install Guide](/docs/install/)
+page.
+
+## Import
+
+To include this module in TypeScript and ECMAScript modules, use `import`:
+
+```typescript
+import { Xxx } from '@xpack/doxygen2docusaurus'
+```
+
+In JavaScript with CommonJS, use `require()`:
+
+```javascript
+const { Xxx } = request('@xpack/doxygen2docusaurus')
+```
+
+## Source code
+
+- <Link to={frontMatter.release_tag_url}>GitHub tag v{frontMatter.version} tree</Link>
+
+## Bug fixes
+
+- none
+
+## Enhancements
+
+- none
+
+## Known problems
+
+- none
+
+## CI tests
+
+Before publishing, a set of tests were performed .
+The results are available from:
+
+- [GitHub Actions](https://github.com/xpack/doxygen2docusaurus-ts/actions)
+

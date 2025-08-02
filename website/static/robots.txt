@@ -1,0 +1,7 @@
+Sitemap: https://xpack.github.io/doxygen2docusaurus-ts/sitemap.xml
+
+User-agent: *
+Disallow: /doxygen2docusaurus-ts/blog/archive/
+Disallow: /doxygen2docusaurus-ts/blog/authors/
+Disallow: /doxygen2docusaurus-ts/blog/page/
+Disallow: /doxygen2docusaurus-ts/blog/tags/
