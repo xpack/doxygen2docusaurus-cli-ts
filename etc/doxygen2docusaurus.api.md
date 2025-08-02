@@ -574,6 +574,8 @@ export class DataModel {
     processCompoundDefs(indexCompound: IndexCompoundDataModel, parsedDoxygenElements: XmlElement[]): void;
     processMemberdefs(): void;
     // (undocumented)
+    projectVersion?: string;
+    // (undocumented)
     xml: DoxygenXmlParser;
 }
 

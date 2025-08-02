@@ -163,6 +163,25 @@ Keep track of the number of XML files parsed.
 </td></tr>
 <tr><td>
 
+[projectVersion?](./doxygen2docusaurus.datamodel.projectversion.md)
+
+
+</td><td>
+
+
+</td><td>
+
+string
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
 [xml](./doxygen2docusaurus.datamodel.xml.md)
 
 
