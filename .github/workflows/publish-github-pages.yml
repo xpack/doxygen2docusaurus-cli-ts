@@ -13,8 +13,8 @@
 #
 # -----------------------------------------------------------------------------
 
-# https://xpack.github.io/doxygen2docusaurus-ts/
-# https://github.com/xpack/doxygen2docusaurus-ts/actions/workflows/publish-github-pages.yml
+# https://xpack.github.io/doxygen2docusaurus-cli-ts/
+# https://github.com/xpack/doxygen2docusaurus-cli-ts/actions/workflows/publish-github-pages.yml
 
 # Workflow for deploying static content to GitHub Pages.
 name: GitHub Pages
@@ -27,7 +27,7 @@ on:
   push:
     # ... on the `website` branch ...
     branches:
-      - 'master'
+      - 'website'
     # ... skip tags only ...
     tags-ignore:
       - '**'

@@ -48,7 +48,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xpack/doxygen2docusaurus-ts.git"
+    "url": "git+https://github.com/xpack/doxygen2docusaurus-cli-ts.git"
   },
   "author": {
     "name": "Liviu Ionescu",
@@ -57,9 +57,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/xpack/doxygen2docusaurus-ts/issues"
+    "url": "https://github.com/xpack/doxygen2docusaurus-cli-ts/issues"
   },
-  "homepage": "https://xpack.github.io/doxygen2docusaurus-ts/",
+  "homepage": "https://xpack.github.io/doxygen2docusaurus-cli-ts/",
   "dependencies": {
     "commander": "^14.0.0",
     "fast-xml-parser": "^5.2.5"
