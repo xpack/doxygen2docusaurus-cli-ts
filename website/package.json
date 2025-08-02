@@ -81,7 +81,7 @@
   },
   "websiteConfig": {
     "title": "doxygen2docusaurus - The Documentation Converter",
-    "tagline": "A CLI application to convert Doxygen XML files into Docusaurus documentation",
+    "tagline": "A Node.js CLI application to convert Doxygen XML files into Docusaurus documentation",
     "hasCustomHomepageFeatures": "true",
     "hasTSDocDocusaurusApi": "true",
     "skipTests": "true",
