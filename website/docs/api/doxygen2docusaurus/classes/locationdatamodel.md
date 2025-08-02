@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare class LocationDataModel extends AbstractLocationType
 ```
-**Extends:** [AbstractLocationType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype)
+**Extends:** [AbstractLocationType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/locationdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/locationdatamodel/constructor)
 
 
 </td><td>

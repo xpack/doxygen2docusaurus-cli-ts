@@ -25,7 +25,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[@xpack/doxygen2docusaurus](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus)
+[@xpack/doxygen2docusaurus](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus)
 
 
 </td><td>

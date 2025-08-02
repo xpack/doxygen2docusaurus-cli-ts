@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractEnumValueType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[briefDescription?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype/briefdescription)
+[briefDescription?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype/briefdescription)
 
 
 </td><td>
@@ -85,26 +85,7 @@ Description
 
 </td><td>
 
-[BriefDescriptionDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/briefdescriptiondatamodel) \| undefined
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-<tr><td>
-
-[detailedDescription?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype/detaileddescription)
-
-
-</td><td>
-
-
-</td><td>
-
-[DetailedDescriptionDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/detaileddescriptiondatamodel) \| undefined
+[BriefDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/briefdescriptiondatamodel) \| undefined
 
 
 </td><td>
@@ -115,7 +96,26 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[id](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype/id)
+[detailedDescription?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype/detaileddescription)
+
+
+</td><td>
+
+
+</td><td>
+
+[DetailedDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/detaileddescriptiondatamodel) \| undefined
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[id](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype/id)
 
 
 </td><td>
@@ -132,7 +132,7 @@ string
 </td></tr>
 <tr><td>
 
-[initializer?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype/initializer)
+[initializer?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype/initializer)
 
 
 </td><td>
@@ -140,7 +140,7 @@ string
 
 </td><td>
 
-[InitializerDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/initializerdatamodel) \| undefined
+[InitializerDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/initializerdatamodel) \| undefined
 
 
 </td><td>
@@ -151,7 +151,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[name](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype/name)
+[name](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype/name)
 
 
 </td><td>
@@ -168,7 +168,7 @@ string
 </td></tr>
 <tr><td>
 
-[prot](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype/prot)
+[prot](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype/prot)
 
 
 </td><td>

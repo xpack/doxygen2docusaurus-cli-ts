@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractSectionDefTypeBase extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(elementName, kind)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/constructor)
+[(constructor)(elementName, kind)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[description?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/description)
+[description?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/description)
 
 
 </td><td>
@@ -85,7 +85,7 @@ Description
 
 </td><td>
 
-[DescriptionDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/descriptiondatamodel) \| undefined
+[DescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/descriptiondatamodel) \| undefined
 
 
 </td><td>
@@ -96,7 +96,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[header?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/header)
+[header?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/header)
 
 
 </td><td>
@@ -115,7 +115,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[kind](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/kind)
+[kind](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/kind)
 
 
 </td><td>
@@ -132,7 +132,7 @@ string
 </td></tr>
 <tr><td>
 
-[memberDefs?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/memberdefs)
+[memberDefs?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/memberdefs)
 
 
 </td><td>
@@ -140,7 +140,7 @@ string
 
 </td><td>
 
-[MemberDefDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/memberdefdatamodel)<!-- -->\[\] \| undefined
+[MemberDefDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/memberdefdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -151,7 +151,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[members?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/members)
+[members?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/members)
 
 
 </td><td>
@@ -159,7 +159,7 @@ _(Optional)_
 
 </td><td>
 
-[MemberDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/memberdatamodel)<!-- -->\[\] \| undefined
+[MemberDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/memberdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -190,7 +190,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[computeAdjustedKind(sectionSuffix, memberSuffix)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/computeadjustedkind)
+[computeAdjustedKind(sectionSuffix, memberSuffix)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/computeadjustedkind)
 
 
 </td><td>
@@ -202,7 +202,7 @@ Description
 </td></tr>
 <tr><td>
 
-[hasMembers()](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/hasmembers)
+[hasMembers()](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase/hasmembers)
 
 
 </td><td>

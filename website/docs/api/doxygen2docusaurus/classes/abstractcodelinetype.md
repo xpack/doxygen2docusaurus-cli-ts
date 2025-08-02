@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractCodeLineType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcodelinetype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcodelinetype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[external?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcodelinetype/external)
+[external?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcodelinetype/external)
 
 
 </td><td>
@@ -96,7 +96,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[highlights?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcodelinetype/highlights)
+[highlights?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcodelinetype/highlights)
 
 
 </td><td>
@@ -104,7 +104,7 @@ _(Optional)_
 
 </td><td>
 
-[HighlightDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/highlightdatamodel)<!-- -->\[\] \| undefined
+[HighlightDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/highlightdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -115,7 +115,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[lineno?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcodelinetype/lineno)
+[lineno?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcodelinetype/lineno)
 
 
 </td><td>
@@ -134,7 +134,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[refid?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcodelinetype/refid)
+[refid?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcodelinetype/refid)
 
 
 </td><td>
@@ -153,7 +153,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[refkind?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcodelinetype/refkind)
+[refkind?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcodelinetype/refkind)
 
 
 </td><td>

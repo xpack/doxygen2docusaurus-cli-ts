@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractIncType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractinctype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractinctype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[local](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractinctype/local)
+[local](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractinctype/local)
 
 
 </td><td>
@@ -94,7 +94,7 @@ boolean
 </td></tr>
 <tr><td>
 
-[refId?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractinctype/refid)
+[refId?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractinctype/refid)
 
 
 </td><td>
@@ -113,7 +113,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[text](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractinctype/text)
+[text](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractinctype/text)
 
 
 </td><td>

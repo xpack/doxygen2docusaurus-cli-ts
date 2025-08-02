@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare class ListOfAllMembersDataModel extends AbstractListOfAllMembersType
 ```
-**Extends:** [AbstractListOfAllMembersType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlistofallmemberstype)
+**Extends:** [AbstractListOfAllMembersType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlistofallmemberstype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/listofallmembersdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/listofallmembersdatamodel/constructor)
 
 
 </td><td>

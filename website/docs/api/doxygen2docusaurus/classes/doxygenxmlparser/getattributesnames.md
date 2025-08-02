@@ -62,7 +62,7 @@ An array of strings containing the names of all attributes
 
 ## Remarks
 
-This method accesses the ':<!-- -->@<!-- -->' property of the XML element, which is the convention used by the XML parser for storing attributes, and returns the keys of this object as an array of attribute names. The method assumes the element has attributes and does not perform validation - use [DoxygenXmlParser.hasAttributes()](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/hasattributes) to check for attribute presence first.
+This method accesses the ':<!-- -->@<!-- -->' property of the XML element, which is the convention used by the XML parser for storing attributes, and returns the keys of this object as an array of attribute names. The method assumes the element has attributes and does not perform validation - use [DoxygenXmlParser.hasAttributes()](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/hasattributes) to check for attribute presence first.
 
 
 </div>

@@ -11,7 +11,7 @@
     "npm-ci": "npm ci",
     "deep-clean": "del-cli .docusaurus build node_modules package-lock.json",
     "docusaurus": "docusaurus",
-    "api-documenter": "del-cli ../api-extractor/markdown && api-documenter markdown --input-folder ../api-extractor --output-folder ../api-extractor/markdown",
+    "api-documenter": "del-cli --force ../api-extractor/markdown && api-documenter markdown --input-folder ../api-extractor --output-folder ../api-extractor/markdown",
     "convert-tsdoc": "tsdoc2docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
@@ -83,6 +83,7 @@
     "title": "doxygen2docusaurus - The Documentation Converter",
     "tagline": "A CLI application to convert Doxygen XML files into Docusaurus documentation",
     "hasCustomHomepageFeatures": "true",
+    "hasTSDocDocusaurusApi": "true",
     "skipTests": "true",
     "preferShortName": "true",
     "nodeVersion": "20.18.0"

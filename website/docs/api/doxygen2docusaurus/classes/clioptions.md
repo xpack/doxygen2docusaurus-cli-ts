@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(argv)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/constructor)
+[(constructor)(argv)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[apiBaseUrl](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/apibaseurl)
+[apiBaseUrl](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/apibaseurl)
 
 
 </td><td>
@@ -96,7 +96,7 @@ Relative to the docs home, like `api`<!-- -->, without initial/final slashes.
 </td></tr>
 <tr><td>
 
-[apiFolderPath](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/apifolderpath)
+[apiFolderPath](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/apifolderpath)
 
 
 </td><td>
@@ -115,7 +115,7 @@ Relative to the docs folder, like `api`<!-- -->, no initial/final slashes.
 </td></tr>
 <tr><td>
 
-[baseUrl](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/baseurl)
+[baseUrl](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/baseurl)
 
 
 </td><td>
@@ -134,7 +134,7 @@ Site base URL, like / or /xxx/.
 </td></tr>
 <tr><td>
 
-[compatibilityRedirectsOutputFolderPath?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/compatibilityredirectsoutputfolderpath)
+[compatibilityRedirectsOutputFolderPath?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/compatibilityredirectsoutputfolderpath)
 
 
 </td><td>
@@ -153,7 +153,7 @@ _(Optional)_ Relative to the current `website/static` folder, like `reference`<!
 </td></tr>
 <tr><td>
 
-[customCssFilePath](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/customcssfilepath)
+[customCssFilePath](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/customcssfilepath)
 
 
 </td><td>
@@ -172,7 +172,7 @@ Relative to the current website folder, default `src/css/custom-doxygen.css`
 </td></tr>
 <tr><td>
 
-[debug](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/debug)
+[debug](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/debug)
 
 
 </td><td>
@@ -191,7 +191,7 @@ Boolean to control debug verbosity.
 </td></tr>
 <tr><td>
 
-[docsBaseUrl](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/docsbaseurl)
+[docsBaseUrl](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/docsbaseurl)
 
 
 </td><td>
@@ -210,7 +210,7 @@ Relative to the web home, like `docs`<!-- -->, without initial/final slashes.
 </td></tr>
 <tr><td>
 
-[docsFolderPath](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/docsfolderpath)
+[docsFolderPath](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/docsfolderpath)
 
 
 </td><td>
@@ -229,7 +229,7 @@ Relative to the current website folder, like `docs`<!-- -->, no initial/final sl
 </td></tr>
 <tr><td>
 
-[doxygenXmlInputFolderPath](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/doxygenxmlinputfolderpath)
+[doxygenXmlInputFolderPath](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/doxygenxmlinputfolderpath)
 
 
 </td><td>
@@ -248,7 +248,7 @@ Relative to the current website folder, like `doxygen/xml`<!-- -->, no initial/ 
 </td></tr>
 <tr><td>
 
-[id](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/id)
+[id](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/id)
 
 
 </td><td>
@@ -267,7 +267,7 @@ String identifier in case of multiple instances.
 </td></tr>
 <tr><td>
 
-[imagesFolderPath](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/imagesfolderpath)
+[imagesFolderPath](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/imagesfolderpath)
 
 
 </td><td>
@@ -286,7 +286,7 @@ Relative to `static`
 </td></tr>
 <tr><td>
 
-[mainPageTitle](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/mainpagetitle)
+[mainPageTitle](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/mainpagetitle)
 
 
 </td><td>
@@ -305,7 +305,7 @@ The title to be displayed on the main page.
 </td></tr>
 <tr><td>
 
-[menuDropdownFilePath](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/menudropdownfilepath)
+[menuDropdownFilePath](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/menudropdownfilepath)
 
 
 </td><td>
@@ -324,7 +324,7 @@ Relative to the current website folder, default `docusaurus-config-doxygen-menu-
 </td></tr>
 <tr><td>
 
-[menuDropdownLabel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/menudropdownlabel)
+[menuDropdownLabel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/menudropdownlabel)
 
 
 </td><td>
@@ -343,7 +343,7 @@ Short text to be displayed in the menu.
 </td></tr>
 <tr><td>
 
-[originalPagesNote](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/originalpagesnote)
+[originalPagesNote](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/originalpagesnote)
 
 
 </td><td>
@@ -364,7 +364,7 @@ Location of original Doxygen pages
 </td></tr>
 <tr><td>
 
-[renderPagesAtTop](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/renderpagesattop)
+[renderPagesAtTop](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/renderpagesattop)
 
 
 </td><td>
@@ -383,7 +383,7 @@ Boolean to render the pages to the top.
 </td></tr>
 <tr><td>
 
-[renderProgramListing](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/renderprogramlisting)
+[renderProgramListing](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/renderprogramlisting)
 
 
 </td><td>
@@ -402,7 +402,7 @@ Boolean to render the program listing in the File pages.
 </td></tr>
 <tr><td>
 
-[renderProgramListingInline](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/renderprogramlistinginline)
+[renderProgramListingInline](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/renderprogramlistinginline)
 
 
 </td><td>
@@ -421,7 +421,7 @@ Boolean to render the program listing in the member definitions sections.
 </td></tr>
 <tr><td>
 
-[sidebarCategoryFilePath](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/sidebarcategoryfilepath)
+[sidebarCategoryFilePath](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/sidebarcategoryfilepath)
 
 
 </td><td>
@@ -440,7 +440,7 @@ Relative to the current website folder, default `sidebar-category-doxygen.json`<
 </td></tr>
 <tr><td>
 
-[sidebarCategoryLabel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/sidebarcategorylabel)
+[sidebarCategoryLabel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/sidebarcategorylabel)
 
 
 </td><td>
@@ -459,7 +459,7 @@ Short text to be displayed in the sidebar.
 </td></tr>
 <tr><td>
 
-[suggestToDoDescriptions](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/suggesttododescriptions)
+[suggestToDoDescriptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/suggesttododescriptions)
 
 
 </td><td>
@@ -478,7 +478,7 @@ Boolean to control if the TODO suggestions are shown.
 </td></tr>
 <tr><td>
 
-[verbose](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/verbose)
+[verbose](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/verbose)
 
 
 </td><td>
@@ -517,7 +517,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[parse()](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/parse)
+[parse()](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/parse)
 
 
 </td><td>
@@ -529,7 +529,7 @@ Description
 </td></tr>
 <tr><td>
 
-[selectMultiConfiguration(multiConfigurations)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions/selectmulticonfiguration)
+[selectMultiConfiguration(multiConfigurations)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/selectmulticonfiguration)
 
 
 </td><td>

@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractIndexMemberType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexmembertype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexmembertype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[kind](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexmembertype/kind)
+[kind](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexmembertype/kind)
 
 
 </td><td>
@@ -94,7 +94,7 @@ string
 </td></tr>
 <tr><td>
 
-[name](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexmembertype/name)
+[name](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexmembertype/name)
 
 
 </td><td>
@@ -111,7 +111,7 @@ string
 </td></tr>
 <tr><td>
 
-[refid](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexmembertype/refid)
+[refid](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexmembertype/refid)
 
 
 </td><td>

@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractListingTypeBase extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Properties
 
@@ -43,7 +43,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[codelines?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlistingtypebase/codelines)
+[codelines?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlistingtypebase/codelines)
 
 
 </td><td>
@@ -51,7 +51,7 @@ Description
 
 </td><td>
 
-[CodeLineDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/codelinedatamodel)<!-- -->\[\] \| undefined
+[CodeLineDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/codelinedatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -62,7 +62,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[filename?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlistingtypebase/filename)
+[filename?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlistingtypebase/filename)
 
 
 </td><td>

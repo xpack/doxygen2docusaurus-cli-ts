@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare class ReferencedByDataModel extends AbstractReferenceType
 ```
-**Extends:** [AbstractReferenceType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractreferencetype)
+**Extends:** [AbstractReferenceType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreferencetype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/referencedbydatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/referencedbydatamodel/constructor)
 
 
 </td><td>

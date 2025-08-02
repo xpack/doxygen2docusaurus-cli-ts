@@ -31,7 +31,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[BaseCompoundRefDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/basecompoundrefdatamodel)
+[BaseCompoundRefDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/basecompoundrefdatamodel)
 
 
 </td><td>
@@ -41,7 +41,7 @@ Description
 </td></tr>
 <tr><td>
 
-[BriefDescriptionDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/briefdescriptiondatamodel)
+[BriefDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/briefdescriptiondatamodel)
 
 
 </td><td>
@@ -51,7 +51,7 @@ Description
 </td></tr>
 <tr><td>
 
-[CliOptions](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions)
+[CliOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions)
 
 
 </td><td>
@@ -62,7 +62,7 @@ Options, as seen by the application. Most are mandatory.
 </td></tr>
 <tr><td>
 
-[CodeLineDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/codelinedatamodel)
+[CodeLineDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/codelinedatamodel)
 
 
 </td><td>
@@ -72,7 +72,7 @@ Options, as seen by the application. Most are mandatory.
 </td></tr>
 <tr><td>
 
-[CompoundDefDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/compounddefdatamodel)
+[CompoundDefDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/compounddefdatamodel)
 
 
 </td><td>
@@ -82,7 +82,7 @@ Options, as seen by the application. Most are mandatory.
 </td></tr>
 <tr><td>
 
-[DataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/datamodel)
+[DataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/datamodel)
 
 
 </td><td>
@@ -92,7 +92,7 @@ Options, as seen by the application. Most are mandatory.
 </td></tr>
 <tr><td>
 
-[DefValDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/defvaldatamodel)
+[DefValDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/defvaldatamodel)
 
 
 </td><td>
@@ -102,7 +102,7 @@ Options, as seen by the application. Most are mandatory.
 </td></tr>
 <tr><td>
 
-[DerivedCompoundRefDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/derivedcompoundrefdatamodel)
+[DerivedCompoundRefDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/derivedcompoundrefdatamodel)
 
 
 </td><td>
@@ -112,7 +112,7 @@ Options, as seen by the application. Most are mandatory.
 </td></tr>
 <tr><td>
 
-[DescriptionDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/descriptiondatamodel)
+[DescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/descriptiondatamodel)
 
 
 </td><td>
@@ -122,7 +122,7 @@ Options, as seen by the application. Most are mandatory.
 </td></tr>
 <tr><td>
 
-[DetailedDescriptionDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/detaileddescriptiondatamodel)
+[DetailedDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/detaileddescriptiondatamodel)
 
 
 </td><td>
@@ -132,7 +132,7 @@ Options, as seen by the application. Most are mandatory.
 </td></tr>
 <tr><td>
 
-[DoxygenFileDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenfiledatamodel)
+[DoxygenFileDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/doxygenfiledatamodel)
 
 
 </td><td>
@@ -142,7 +142,7 @@ Options, as seen by the application. Most are mandatory.
 </td></tr>
 <tr><td>
 
-[DoxygenFileOptionDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenfileoptiondatamodel)
+[DoxygenFileOptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/doxygenfileoptiondatamodel)
 
 
 </td><td>
@@ -152,7 +152,7 @@ Options, as seen by the application. Most are mandatory.
 </td></tr>
 <tr><td>
 
-[DoxygenIndexDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenindexdatamodel)
+[DoxygenIndexDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/doxygenindexdatamodel)
 
 
 </td><td>
@@ -162,7 +162,7 @@ Options, as seen by the application. Most are mandatory.
 </td></tr>
 <tr><td>
 
-[DoxygenXmlParser](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser)
+[DoxygenXmlParser](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser)
 
 
 </td><td>
@@ -173,7 +173,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[EnumValueDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/enumvaluedatamodel)
+[EnumValueDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/enumvaluedatamodel)
 
 
 </td><td>
@@ -183,7 +183,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[HighlightDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/highlightdatamodel)
+[HighlightDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/highlightdatamodel)
 
 
 </td><td>
@@ -193,7 +193,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[InbodyDescriptionDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/inbodydescriptiondatamodel)
+[InbodyDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/inbodydescriptiondatamodel)
 
 
 </td><td>
@@ -203,7 +203,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[IncludedByDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/includedbydatamodel)
+[IncludedByDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/includedbydatamodel)
 
 
 </td><td>
@@ -213,7 +213,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[IncludesDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/includesdatamodel)
+[IncludesDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/includesdatamodel)
 
 
 </td><td>
@@ -223,7 +223,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[IndexCompoundDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/indexcompounddatamodel)
+[IndexCompoundDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/indexcompounddatamodel)
 
 
 </td><td>
@@ -233,7 +233,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[IndexMemberDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/indexmemberdatamodel)
+[IndexMemberDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/indexmemberdatamodel)
 
 
 </td><td>
@@ -243,7 +243,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[InitializerDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/initializerdatamodel)
+[InitializerDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/initializerdatamodel)
 
 
 </td><td>
@@ -253,7 +253,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[InnerClassDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/innerclassdatamodel)
+[InnerClassDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/innerclassdatamodel)
 
 
 </td><td>
@@ -263,7 +263,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[InnerDirDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/innerdirdatamodel)
+[InnerDirDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/innerdirdatamodel)
 
 
 </td><td>
@@ -273,7 +273,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[InnerFileDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/innerfiledatamodel)
+[InnerFileDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/innerfiledatamodel)
 
 
 </td><td>
@@ -283,7 +283,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[InnerGroupDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/innergroupdatamodel)
+[InnerGroupDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/innergroupdatamodel)
 
 
 </td><td>
@@ -293,7 +293,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[InnerNamespaceDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/innernamespacedatamodel)
+[InnerNamespaceDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/innernamespacedatamodel)
 
 
 </td><td>
@@ -303,7 +303,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[InnerPageDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/innerpagedatamodel)
+[InnerPageDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/innerpagedatamodel)
 
 
 </td><td>
@@ -313,7 +313,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[ListOfAllMembersDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/listofallmembersdatamodel)
+[ListOfAllMembersDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/listofallmembersdatamodel)
 
 
 </td><td>
@@ -323,7 +323,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[LocationDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/locationdatamodel)
+[LocationDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/locationdatamodel)
 
 
 </td><td>
@@ -333,7 +333,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[MemberDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/memberdatamodel)
+[MemberDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/memberdatamodel)
 
 
 </td><td>
@@ -343,7 +343,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[MemberDefDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/memberdefdatamodel)
+[MemberDefDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/memberdefdatamodel)
 
 
 </td><td>
@@ -353,7 +353,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[MemberRefDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/memberrefdatamodel)
+[MemberRefDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/memberrefdatamodel)
 
 
 </td><td>
@@ -363,7 +363,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[ParamDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/paramdatamodel)
+[ParamDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/paramdatamodel)
 
 
 </td><td>
@@ -373,7 +373,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[ProgramListingDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/programlistingdatamodel)
+[ProgramListingDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/programlistingdatamodel)
 
 
 </td><td>
@@ -383,7 +383,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[ReferenceDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/referencedatamodel)
+[ReferenceDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/referencedatamodel)
 
 
 </td><td>
@@ -393,7 +393,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[ReferencedByDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/referencedbydatamodel)
+[ReferencedByDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/referencedbydatamodel)
 
 
 </td><td>
@@ -403,7 +403,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[ReimplementDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/reimplementdatamodel)
+[ReimplementDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/reimplementdatamodel)
 
 
 </td><td>
@@ -413,7 +413,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[SectionDefDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/sectiondefdatamodel)
+[SectionDefDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/sectiondefdatamodel)
 
 
 </td><td>
@@ -423,7 +423,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[TableOfContentsDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/tableofcontentsdatamodel)
+[TableOfContentsDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/tableofcontentsdatamodel)
 
 
 </td><td>
@@ -433,7 +433,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[TemplateParamListDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/templateparamlistdatamodel)
+[TemplateParamListDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/templateparamlistdatamodel)
 
 
 </td><td>
@@ -443,7 +443,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[TocSectDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/tocsectdatamodel)
+[TocSectDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/tocsectdatamodel)
 
 
 </td><td>
@@ -453,7 +453,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[TypeConstraintDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/typeconstraintdatamodel)
+[TypeConstraintDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/typeconstraintdatamodel)
 
 
 </td><td>
@@ -463,7 +463,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 </td></tr>
 <tr><td>
 
-[TypeDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/typedatamodel)
+[TypeDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/typedatamodel)
 
 
 </td><td>
@@ -488,7 +488,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[AbstractCodeLineType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcodelinetype)
+[AbstractCodeLineType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcodelinetype)
 
 
 </td><td>
@@ -498,7 +498,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractCompoundDefType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype)
+[AbstractCompoundDefType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype)
 
 
 </td><td>
@@ -508,7 +508,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractCompoundRefType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompoundreftype)
+[AbstractCompoundRefType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompoundreftype)
 
 
 </td><td>
@@ -518,7 +518,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+[AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 
 </td><td>
@@ -528,7 +528,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractDescriptionType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdescriptiontype)
+[AbstractDescriptionType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdescriptiontype)
 
 
 </td><td>
@@ -538,7 +538,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractDocImageType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype)
+[AbstractDocImageType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype)
 
 
 </td><td>
@@ -548,7 +548,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractDoxygenFileOptionType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype)
+[AbstractDoxygenFileOptionType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype)
 
 
 </td><td>
@@ -558,7 +558,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractDoxygenFileType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdoxygenfiletype)
+[AbstractDoxygenFileType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdoxygenfiletype)
 
 
 </td><td>
@@ -568,7 +568,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractEnumValueType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype)
+[AbstractEnumValueType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype)
 
 
 </td><td>
@@ -578,7 +578,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractHighlightType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstracthighlighttype)
+[AbstractHighlightType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstracthighlighttype)
 
 
 </td><td>
@@ -588,7 +588,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractIncType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractinctype)
+[AbstractIncType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractinctype)
 
 
 </td><td>
@@ -598,7 +598,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractIndexCompoundType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexcompoundtype)
+[AbstractIndexCompoundType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexcompoundtype)
 
 
 </td><td>
@@ -608,7 +608,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractIndexDoxygenType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexdoxygentype)
+[AbstractIndexDoxygenType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexdoxygentype)
 
 
 </td><td>
@@ -618,7 +618,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractIndexMemberType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexmembertype)
+[AbstractIndexMemberType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexmembertype)
 
 
 </td><td>
@@ -628,7 +628,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractLinkedTextType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlinkedtexttype)
+[AbstractLinkedTextType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlinkedtexttype)
 
 
 </td><td>
@@ -638,7 +638,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractListingType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlistingtype)
+[AbstractListingType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlistingtype)
 
 
 </td><td>
@@ -648,7 +648,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractListingTypeBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlistingtypebase)
+[AbstractListingTypeBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlistingtypebase)
 
 
 </td><td>
@@ -658,7 +658,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractListOfAllMembersType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlistofallmemberstype)
+[AbstractListOfAllMembersType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlistofallmemberstype)
 
 
 </td><td>
@@ -668,7 +668,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractLocationType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype)
+[AbstractLocationType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype)
 
 
 </td><td>
@@ -678,7 +678,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractMemberBaseType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractmemberbasetype)
+[AbstractMemberBaseType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractmemberbasetype)
 
 
 </td><td>
@@ -688,7 +688,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractMemberDefType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractmemberdeftype)
+[AbstractMemberDefType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractmemberdeftype)
 
 
 </td><td>
@@ -698,7 +698,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractMemberRefType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractmemberreftype)
+[AbstractMemberRefType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractmemberreftype)
 
 
 </td><td>
@@ -708,7 +708,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractMemberType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractmembertype)
+[AbstractMemberType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractmembertype)
 
 
 </td><td>
@@ -718,7 +718,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractParamType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype)
+[AbstractParamType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype)
 
 
 </td><td>
@@ -728,7 +728,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractReferenceType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractreferencetype)
+[AbstractReferenceType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreferencetype)
 
 
 </td><td>
@@ -738,7 +738,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractRefType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractreftype)
+[AbstractRefType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreftype)
 
 
 </td><td>
@@ -748,7 +748,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractReimplementType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractreimplementtype)
+[AbstractReimplementType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreimplementtype)
 
 
 </td><td>
@@ -758,7 +758,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractSectionDefType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftype)
+[AbstractSectionDefType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftype)
 
 
 </td><td>
@@ -768,7 +768,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractSectionDefTypeBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase)
+[AbstractSectionDefTypeBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase)
 
 
 </td><td>
@@ -778,7 +778,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractTableOfContentsKindType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstracttableofcontentskindtype)
+[AbstractTableOfContentsKindType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstracttableofcontentskindtype)
 
 
 </td><td>
@@ -788,7 +788,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractTableOfContentsType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstracttableofcontentstype)
+[AbstractTableOfContentsType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstracttableofcontentstype)
 
 
 </td><td>
@@ -798,7 +798,7 @@ Description
 </td></tr>
 <tr><td>
 
-[AbstractTemplateParamListType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstracttemplateparamlisttype)
+[AbstractTemplateParamListType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstracttemplateparamlisttype)
 
 
 </td><td>
@@ -823,7 +823,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[main(argv)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/functions/main)
+[main(argv)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/functions/main)
 
 
 </td><td>
@@ -849,7 +849,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[XmlElement](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/interfaces/xmlelement)
+[XmlElement](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/interfaces/xmlelement)
 
 
 </td><td>
@@ -874,7 +874,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[CliConfigurationOptions](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/type aliases/cliconfigurationoptions)
+[CliConfigurationOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/type aliases/cliconfigurationoptions)
 
 
 </td><td>
@@ -885,7 +885,7 @@ Options, as written by the user. All are optional.
 </td></tr>
 <tr><td>
 
-[MultiConfigurations](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/type aliases/multiconfigurations)
+[MultiConfigurations](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/type aliases/multiconfigurations)
 
 
 </td><td>

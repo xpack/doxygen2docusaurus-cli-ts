@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare class MemberRefDataModel extends AbstractMemberRefType
 ```
-**Extends:** [AbstractMemberRefType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractmemberreftype)
+**Extends:** [AbstractMemberRefType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractmemberreftype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/memberrefdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/memberrefdatamodel/constructor)
 
 
 </td><td>

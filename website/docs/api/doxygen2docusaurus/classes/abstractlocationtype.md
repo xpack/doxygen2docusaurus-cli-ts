@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractLocationType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[bodyend?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/bodyend)
+[bodyend?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/bodyend)
 
 
 </td><td>
@@ -96,7 +96,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[bodyfile?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/bodyfile)
+[bodyfile?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/bodyfile)
 
 
 </td><td>
@@ -115,7 +115,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[bodystart?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/bodystart)
+[bodystart?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/bodystart)
 
 
 </td><td>
@@ -134,7 +134,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[column?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/column)
+[column?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/column)
 
 
 </td><td>
@@ -153,7 +153,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[declcolumn?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/declcolumn)
+[declcolumn?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/declcolumn)
 
 
 </td><td>
@@ -172,7 +172,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[declfile?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/declfile)
+[declfile?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/declfile)
 
 
 </td><td>
@@ -191,7 +191,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[declline?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/declline)
+[declline?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/declline)
 
 
 </td><td>
@@ -210,7 +210,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[file](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/file)
+[file](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/file)
 
 
 </td><td>
@@ -227,7 +227,7 @@ string
 </td></tr>
 <tr><td>
 
-[line?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/line)
+[line?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlocationtype/line)
 
 
 </td><td>

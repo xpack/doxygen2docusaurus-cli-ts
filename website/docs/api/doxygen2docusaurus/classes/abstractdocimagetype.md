@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractDocImageType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[alt?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype/alt)
+[alt?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype/alt)
 
 
 </td><td>
@@ -96,7 +96,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[caption?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype/caption)
+[caption?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype/caption)
 
 
 </td><td>
@@ -115,7 +115,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[height?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype/height)
+[height?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype/height)
 
 
 </td><td>
@@ -134,7 +134,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[inline?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype/inline)
+[inline?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype/inline)
 
 
 </td><td>
@@ -153,7 +153,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[name?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype/name)
+[name?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype/name)
 
 
 </td><td>
@@ -172,7 +172,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[type?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype/type)
+[type?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype/type)
 
 
 </td><td>
@@ -191,7 +191,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[width?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype/width)
+[width?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdocimagetype/width)
 
 
 </td><td>

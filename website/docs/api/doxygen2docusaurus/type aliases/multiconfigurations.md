@@ -17,7 +17,7 @@ Options, when multi-configurations are used.
 ```typescript
 export type MultiConfigurations = Record<string, CliConfigurationOptions>;
 ```
-**References:** [CliConfigurationOptions](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/type aliases/cliconfigurationoptions)
+**References:** [CliConfigurationOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/type aliases/cliconfigurationoptions)
 
 
 </div>

@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractReimplementType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractreimplementtype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreimplementtype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[refId](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractreimplementtype/refid)
+[refId](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreimplementtype/refid)
 
 
 </td><td>
@@ -94,7 +94,7 @@ string
 </td></tr>
 <tr><td>
 
-[text](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractreimplementtype/text)
+[text](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreimplementtype/text)
 
 
 </td><td>

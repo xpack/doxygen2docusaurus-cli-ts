@@ -43,7 +43,7 @@ indexCompound
 
 </td><td>
 
-[IndexCompoundDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/indexcompounddatamodel)
+[IndexCompoundDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/indexcompounddatamodel)
 
 
 </td><td>
@@ -59,7 +59,7 @@ parsedDoxygenElements
 
 </td><td>
 
-[XmlElement](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/interfaces/xmlelement)<!-- -->\[\]
+[XmlElement](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/interfaces/xmlelement)<!-- -->\[\]
 
 
 </td><td>

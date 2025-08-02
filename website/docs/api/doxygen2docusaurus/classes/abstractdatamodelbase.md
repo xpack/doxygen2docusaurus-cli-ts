@@ -37,7 +37,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase/constructor)
+[(constructor)(elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase/constructor)
 
 
 </td><td>
@@ -76,7 +76,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[children?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase/children)
+[children?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase/children)
 
 
 </td><td>
@@ -84,7 +84,7 @@ Description
 
 </td><td>
 
-(string \| [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)<!-- -->)\[\]
+(string \| [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)<!-- -->)\[\]
 
 
 </td><td>
@@ -95,7 +95,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[elementName](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase/elementname)
+[elementName](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase/elementname)
 
 
 </td><td>
@@ -112,7 +112,7 @@ string
 </td></tr>
 <tr><td>
 
-[skipPara?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase/skippara)
+[skipPara?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase/skippara)
 
 
 </td><td>

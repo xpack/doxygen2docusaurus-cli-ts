@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractIndexCompoundType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexcompoundtype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexcompoundtype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[kind](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexcompoundtype/kind)
+[kind](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexcompoundtype/kind)
 
 
 </td><td>
@@ -94,7 +94,7 @@ string
 </td></tr>
 <tr><td>
 
-[members](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexcompoundtype/members)
+[members](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexcompoundtype/members)
 
 
 </td><td>
@@ -102,7 +102,7 @@ string
 
 </td><td>
 
-[IndexMemberDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/indexmemberdatamodel)<!-- -->\[\] \| undefined
+[IndexMemberDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/indexmemberdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -111,7 +111,7 @@ string
 </td></tr>
 <tr><td>
 
-[name](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexcompoundtype/name)
+[name](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexcompoundtype/name)
 
 
 </td><td>
@@ -128,7 +128,7 @@ string
 </td></tr>
 <tr><td>
 
-[refid](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexcompoundtype/refid)
+[refid](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexcompoundtype/refid)
 
 
 </td><td>

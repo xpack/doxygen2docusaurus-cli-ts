@@ -41,7 +41,7 @@ multiConfigurations
 
 </td><td>
 
-[CliConfigurationOptions](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/type aliases/cliconfigurationoptions) \| [MultiConfigurations](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/type aliases/multiconfigurations)
+[CliConfigurationOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/type aliases/cliconfigurationoptions) \| [MultiConfigurations](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/type aliases/multiconfigurations)
 
 
 </td><td>
@@ -52,7 +52,7 @@ multiConfigurations
 
 ## Returns
 
-[CliConfigurationOptions](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/type aliases/cliconfigurationoptions) \| undefined
+[CliConfigurationOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/type aliases/cliconfigurationoptions) \| undefined
 
 
 </div>

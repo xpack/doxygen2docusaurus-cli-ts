@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare class DetailedDescriptionDataModel extends AbstractDescriptionType
 ```
-**Extends:** [AbstractDescriptionType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdescriptiontype)
+**Extends:** [AbstractDescriptionType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdescriptiontype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/detaileddescriptiondatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/detaileddescriptiondatamodel/constructor)
 
 
 </td><td>

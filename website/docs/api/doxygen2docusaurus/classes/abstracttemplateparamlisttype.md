@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractTemplateParamListType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstracttemplateparamlisttype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstracttemplateparamlisttype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[params?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstracttemplateparamlisttype/params)
+[params?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstracttemplateparamlisttype/params)
 
 
 </td><td>
@@ -85,7 +85,7 @@ Description
 
 </td><td>
 
-[ParamDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/paramdatamodel)<!-- -->\[\] \| undefined
+[ParamDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/paramdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>

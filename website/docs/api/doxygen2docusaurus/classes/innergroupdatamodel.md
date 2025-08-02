@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare class InnerGroupDataModel extends AbstractRefType
 ```
-**Extends:** [AbstractRefType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractreftype)
+**Extends:** [AbstractRefType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreftype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/innergroupdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/innergroupdatamodel/constructor)
 
 
 </td><td>

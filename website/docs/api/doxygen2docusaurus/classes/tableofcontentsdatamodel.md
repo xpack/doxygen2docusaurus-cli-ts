@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare class TableOfContentsDataModel extends AbstractTableOfContentsType
 ```
-**Extends:** [AbstractTableOfContentsType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstracttableofcontentstype)
+**Extends:** [AbstractTableOfContentsType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstracttableofcontentstype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/tableofcontentsdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/tableofcontentsdatamodel/constructor)
 
 
 </td><td>

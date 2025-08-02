@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare class EnumValueDataModel extends AbstractEnumValueType
 ```
-**Extends:** [AbstractEnumValueType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype)
+**Extends:** [AbstractEnumValueType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractenumvaluetype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/enumvaluedatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/enumvaluedatamodel/constructor)
 
 
 </td><td>

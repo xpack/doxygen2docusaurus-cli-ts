@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractReferenceType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractreferencetype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreferencetype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[compoundref?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractreferencetype/compoundref)
+[compoundref?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreferencetype/compoundref)
 
 
 </td><td>
@@ -96,7 +96,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[endline](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractreferencetype/endline)
+[endline](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreferencetype/endline)
 
 
 </td><td>
@@ -113,7 +113,7 @@ number \| undefined
 </td></tr>
 <tr><td>
 
-[refid](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractreferencetype/refid)
+[refid](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreferencetype/refid)
 
 
 </td><td>
@@ -130,7 +130,7 @@ string
 </td></tr>
 <tr><td>
 
-[startline](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractreferencetype/startline)
+[startline](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreferencetype/startline)
 
 
 </td><td>
@@ -147,7 +147,7 @@ number \| undefined
 </td></tr>
 <tr><td>
 
-[text](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractreferencetype/text)
+[text](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreferencetype/text)
 
 
 </td><td>

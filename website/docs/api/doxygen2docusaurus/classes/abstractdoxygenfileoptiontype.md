@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractDoxygenFileOptionType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[default](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/default)
+[default](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/default)
 
 
 </td><td>
@@ -94,7 +94,7 @@ string
 </td></tr>
 <tr><td>
 
-[id](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/id)
+[id](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/id)
 
 
 </td><td>
@@ -111,7 +111,7 @@ string
 </td></tr>
 <tr><td>
 
-[type](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/type)
+[type](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/type)
 
 
 </td><td>
@@ -128,7 +128,7 @@ string
 </td></tr>
 <tr><td>
 
-[values](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/values)
+[values](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdoxygenfileoptiontype/values)
 
 
 </td><td>

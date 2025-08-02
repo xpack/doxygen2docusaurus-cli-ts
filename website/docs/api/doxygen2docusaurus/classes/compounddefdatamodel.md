@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare class CompoundDefDataModel extends AbstractCompoundDefType
 ```
-**Extends:** [AbstractCompoundDefType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype)
+**Extends:** [AbstractCompoundDefType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/compounddefdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/compounddefdatamodel/constructor)
 
 
 </td><td>

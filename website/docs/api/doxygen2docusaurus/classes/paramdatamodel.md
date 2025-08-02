@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare class ParamDataModel extends AbstractParamType
 ```
-**Extends:** [AbstractParamType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype)
+**Extends:** [AbstractParamType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/paramdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/paramdatamodel/constructor)
 
 
 </td><td>

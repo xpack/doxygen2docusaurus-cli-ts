@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare class IndexMemberDataModel extends AbstractIndexMemberType
 ```
-**Extends:** [AbstractIndexMemberType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexmembertype)
+**Extends:** [AbstractIndexMemberType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexmembertype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/indexmemberdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/indexmemberdatamodel/constructor)
 
 
 </td><td>

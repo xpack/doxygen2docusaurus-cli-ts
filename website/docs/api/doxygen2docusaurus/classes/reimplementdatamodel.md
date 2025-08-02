@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare class ReimplementDataModel extends AbstractReimplementType
 ```
-**Extends:** [AbstractReimplementType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractreimplementtype)
+**Extends:** [AbstractReimplementType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreimplementtype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/reimplementdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/reimplementdatamodel/constructor)
 
 
 </td><td>

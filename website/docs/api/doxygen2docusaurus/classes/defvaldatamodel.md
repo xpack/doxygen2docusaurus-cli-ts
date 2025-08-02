@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare class DefValDataModel extends AbstractLinkedTextType
 ```
-**Extends:** [AbstractLinkedTextType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlinkedtexttype)
+**Extends:** [AbstractLinkedTextType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlinkedtexttype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/defvaldatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/defvaldatamodel/constructor)
 
 
 </td><td>

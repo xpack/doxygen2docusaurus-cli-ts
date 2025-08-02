@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare class ProgramListingDataModel extends AbstractListingType
 ```
-**Extends:** [AbstractListingType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlistingtype)
+**Extends:** [AbstractListingType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlistingtype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/programlistingdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/programlistingdatamodel/constructor)
 
 
 </td><td>

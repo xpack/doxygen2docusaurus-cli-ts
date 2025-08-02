@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractMemberType extends AbstractMemberBaseType
 ```
-**Extends:** [AbstractMemberBaseType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractmemberbasetype)
+**Extends:** [AbstractMemberBaseType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractmemberbasetype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractmembertype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractmembertype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[refid](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractmembertype/refid)
+[refid](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractmembertype/refid)
 
 
 </td><td>

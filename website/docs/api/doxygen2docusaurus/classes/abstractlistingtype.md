@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractListingType extends AbstractListingTypeBase
 ```
-**Extends:** [AbstractListingTypeBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlistingtypebase)
+**Extends:** [AbstractListingTypeBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlistingtypebase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlistingtype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlistingtype/constructor)
 
 
 </td><td>

@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractParamType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[array?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/array)
+[array?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/array)
 
 
 </td><td>
@@ -96,7 +96,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[attributes?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/attributes)
+[attributes?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/attributes)
 
 
 </td><td>
@@ -115,7 +115,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[briefdescription?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/briefdescription)
+[briefdescription?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/briefdescription)
 
 
 </td><td>
@@ -123,7 +123,7 @@ _(Optional)_
 
 </td><td>
 
-[BriefDescriptionDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/briefdescriptiondatamodel) \| undefined
+[BriefDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/briefdescriptiondatamodel) \| undefined
 
 
 </td><td>
@@ -134,7 +134,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[declname?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/declname)
+[declname?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/declname)
 
 
 </td><td>
@@ -153,7 +153,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[defname?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/defname)
+[defname?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/defname)
 
 
 </td><td>
@@ -172,7 +172,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[defval?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/defval)
+[defval?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/defval)
 
 
 </td><td>
@@ -180,26 +180,7 @@ _(Optional)_
 
 </td><td>
 
-[DefValDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/defvaldatamodel) \| undefined
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-<tr><td>
-
-[type?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/type)
-
-
-</td><td>
-
-
-</td><td>
-
-[TypeDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/typedatamodel) \| undefined
+[DefValDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/defvaldatamodel) \| undefined
 
 
 </td><td>
@@ -210,7 +191,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[typeconstraint?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/typeconstraint)
+[type?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/type)
 
 
 </td><td>
@@ -218,7 +199,26 @@ _(Optional)_
 
 </td><td>
 
-[TypeConstraintDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/typeconstraintdatamodel) \| undefined
+[TypeDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/typedatamodel) \| undefined
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[typeconstraint?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractparamtype/typeconstraint)
+
+
+</td><td>
+
+
+</td><td>
+
+[TypeConstraintDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/typeconstraintdatamodel) \| undefined
 
 
 </td><td>

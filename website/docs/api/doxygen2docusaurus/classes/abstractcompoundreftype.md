@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractCompoundRefType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompoundreftype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompoundreftype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[prot](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompoundreftype/prot)
+[prot](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompoundreftype/prot)
 
 
 </td><td>
@@ -94,7 +94,7 @@ string
 </td></tr>
 <tr><td>
 
-[refid?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompoundreftype/refid)
+[refid?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompoundreftype/refid)
 
 
 </td><td>
@@ -113,7 +113,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[text](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompoundreftype/text)
+[text](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompoundreftype/text)
 
 
 </td><td>
@@ -130,7 +130,7 @@ string
 </td></tr>
 <tr><td>
 
-[virt](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompoundreftype/virt)
+[virt](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompoundreftype/virt)
 
 
 </td><td>

@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractSectionDefType extends AbstractSectionDefTypeBase
 ```
-**Extends:** [AbstractSectionDefTypeBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase)
+**Extends:** [AbstractSectionDefTypeBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftype/constructor)
 
 
 </td><td>

@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare class CodeLineDataModel extends AbstractCodeLineType
 ```
-**Extends:** [AbstractCodeLineType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcodelinetype)
+**Extends:** [AbstractCodeLineType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcodelinetype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/codelinedatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/codelinedatamodel/constructor)
 
 
 </td><td>

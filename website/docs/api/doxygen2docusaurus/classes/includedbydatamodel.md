@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare class IncludedByDataModel extends AbstractIncType
 ```
-**Extends:** [AbstractIncType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractinctype)
+**Extends:** [AbstractIncType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractinctype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/includedbydatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/includedbydatamodel/constructor)
 
 
 </td><td>

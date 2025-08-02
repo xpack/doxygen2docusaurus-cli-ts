@@ -8,6 +8,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 // import logger from '@docusaurus/logger';
 import util from 'node:util';
 
+import tsdocApiMenu from './docusaurus-config-navbar-tsdoc.json'
 import { redirects } from './docusaurus-config-redirects';
 import { getCustomFields } from './customFields';
 
@@ -149,7 +150,10 @@ const config: Config = {
         debug: true,
 
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: [
+            './src/css/custom.css',
+            './src/css/custom-tsdoc2docusaurus.css'
+          ],
         },
 
       } satisfies Preset.Options,
@@ -278,6 +282,7 @@ const config: Config = {
             },
           ],
         },
+        tsdocApiMenu,
         {
           type: 'dropdown',
           to: '/blog',

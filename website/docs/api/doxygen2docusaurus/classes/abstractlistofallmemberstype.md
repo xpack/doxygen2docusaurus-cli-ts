@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractListOfAllMembersType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlistofallmemberstype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlistofallmemberstype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[memberRefs?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractlistofallmemberstype/memberrefs)
+[memberRefs?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlistofallmemberstype/memberrefs)
 
 
 </td><td>
@@ -85,7 +85,7 @@ Description
 
 </td><td>
 
-[MemberRefDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/memberrefdatamodel)<!-- -->\[\] \| undefined
+[MemberRefDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/memberrefdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>

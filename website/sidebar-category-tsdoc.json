@@ -1866,6 +1866,12 @@
                 },
                 {
                   "type": "doc",
+                  "label": "projectVersion",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/datamodel/projectversion"
+                },
+                {
+                  "type": "doc",
                   "label": "xml",
                   "className": "tsdocEllipsis",
                   "id": "api/doxygen2docusaurus/classes/datamodel/xml"

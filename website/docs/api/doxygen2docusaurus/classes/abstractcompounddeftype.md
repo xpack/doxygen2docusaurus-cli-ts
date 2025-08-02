@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractCompoundDefType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[abstract?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/abstract)
+[abstract?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/abstract)
 
 
 </td><td>
@@ -96,7 +96,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[baseCompoundRefs?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/basecompoundrefs)
+[baseCompoundRefs?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/basecompoundrefs)
 
 
 </td><td>
@@ -104,26 +104,7 @@ _(Optional)_
 
 </td><td>
 
-[BaseCompoundRefDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/basecompoundrefdatamodel)<!-- -->\[\] \| undefined
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-<tr><td>
-
-[briefDescription?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/briefdescription)
-
-
-</td><td>
-
-
-</td><td>
-
-[BriefDescriptionDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/briefdescriptiondatamodel) \| undefined
+[BaseCompoundRefDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/basecompoundrefdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -134,7 +115,26 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[compoundName](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/compoundname)
+[briefDescription?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/briefdescription)
+
+
+</td><td>
+
+
+</td><td>
+
+[BriefDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/briefdescriptiondatamodel) \| undefined
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[compoundName](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/compoundname)
 
 
 </td><td>
@@ -151,7 +151,7 @@ string
 </td></tr>
 <tr><td>
 
-[derivedCompoundRefs?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/derivedcompoundrefs)
+[derivedCompoundRefs?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/derivedcompoundrefs)
 
 
 </td><td>
@@ -159,26 +159,7 @@ string
 
 </td><td>
 
-[DerivedCompoundRefDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/derivedcompoundrefdatamodel)<!-- -->\[\] \| undefined
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-<tr><td>
-
-[detailedDescription?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/detaileddescription)
-
-
-</td><td>
-
-
-</td><td>
-
-[DetailedDescriptionDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/detaileddescriptiondatamodel) \| undefined
+[DerivedCompoundRefDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/derivedcompoundrefdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -189,7 +170,26 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[final?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/final)
+[detailedDescription?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/detaileddescription)
+
+
+</td><td>
+
+
+</td><td>
+
+[DetailedDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/detaileddescriptiondatamodel) \| undefined
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[final?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/final)
 
 
 </td><td>
@@ -208,7 +208,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[id](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/id)
+[id](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/id)
 
 
 </td><td>
@@ -225,7 +225,7 @@ string
 </td></tr>
 <tr><td>
 
-[includedBy?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/includedby)
+[includedBy?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/includedby)
 
 
 </td><td>
@@ -233,26 +233,7 @@ string
 
 </td><td>
 
-[IncludedByDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/includedbydatamodel)<!-- -->\[\] \| undefined
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-<tr><td>
-
-[includes?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/includes)
-
-
-</td><td>
-
-
-</td><td>
-
-[IncludesDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/includesdatamodel)<!-- -->\[\] \| undefined
+[IncludedByDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/includedbydatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -263,7 +244,26 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[inline?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/inline)
+[includes?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/includes)
+
+
+</td><td>
+
+
+</td><td>
+
+[IncludesDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/includesdatamodel)<!-- -->\[\] \| undefined
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[inline?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/inline)
 
 
 </td><td>
@@ -282,7 +282,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[innerClasses?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/innerclasses)
+[innerClasses?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/innerclasses)
 
 
 </td><td>
@@ -290,26 +290,7 @@ _(Optional)_
 
 </td><td>
 
-[InnerClassDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/innerclassdatamodel)<!-- -->\[\] \| undefined
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-<tr><td>
-
-[innerDirs?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/innerdirs)
-
-
-</td><td>
-
-
-</td><td>
-
-[InnerDirDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/innerdirdatamodel)<!-- -->\[\] \| undefined
+[InnerClassDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/innerclassdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -320,7 +301,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[innerFiles?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/innerfiles)
+[innerDirs?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/innerdirs)
 
 
 </td><td>
@@ -328,26 +309,7 @@ _(Optional)_
 
 </td><td>
 
-[InnerFileDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/innerfiledatamodel)<!-- -->\[\] \| undefined
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-<tr><td>
-
-[innerGroups?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/innergroups)
-
-
-</td><td>
-
-
-</td><td>
-
-[InnerGroupDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/innergroupdatamodel)<!-- -->\[\] \| undefined
+[InnerDirDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/innerdirdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -358,7 +320,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[innerNamespaces?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/innernamespaces)
+[innerFiles?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/innerfiles)
 
 
 </td><td>
@@ -366,26 +328,7 @@ _(Optional)_
 
 </td><td>
 
-[InnerNamespaceDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/innernamespacedatamodel)<!-- -->\[\] \| undefined
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-<tr><td>
-
-[innerPages?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/innerpages)
-
-
-</td><td>
-
-
-</td><td>
-
-[InnerPageDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/innerpagedatamodel)<!-- -->\[\] \| undefined
+[InnerFileDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/innerfiledatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -396,7 +339,64 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[kind](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/kind)
+[innerGroups?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/innergroups)
+
+
+</td><td>
+
+
+</td><td>
+
+[InnerGroupDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/innergroupdatamodel)<!-- -->\[\] \| undefined
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[innerNamespaces?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/innernamespaces)
+
+
+</td><td>
+
+
+</td><td>
+
+[InnerNamespaceDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/innernamespacedatamodel)<!-- -->\[\] \| undefined
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[innerPages?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/innerpages)
+
+
+</td><td>
+
+
+</td><td>
+
+[InnerPageDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/innerpagedatamodel)<!-- -->\[\] \| undefined
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[kind](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/kind)
 
 
 </td><td>
@@ -413,7 +413,7 @@ string
 </td></tr>
 <tr><td>
 
-[language?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/language)
+[language?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/language)
 
 
 </td><td>
@@ -432,7 +432,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[listOfAllMembers?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/listofallmembers)
+[listOfAllMembers?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/listofallmembers)
 
 
 </td><td>
@@ -440,26 +440,7 @@ _(Optional)_
 
 </td><td>
 
-[ListOfAllMembersDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/listofallmembersdatamodel) \| undefined
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-<tr><td>
-
-[location?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/location)
-
-
-</td><td>
-
-
-</td><td>
-
-[LocationDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/locationdatamodel) \| undefined
+[ListOfAllMembersDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/listofallmembersdatamodel) \| undefined
 
 
 </td><td>
@@ -470,7 +451,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[programListing?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/programlisting)
+[location?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/location)
 
 
 </td><td>
@@ -478,7 +459,7 @@ _(Optional)_
 
 </td><td>
 
-[ProgramListingDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/programlistingdatamodel) \| undefined
+[LocationDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/locationdatamodel) \| undefined
 
 
 </td><td>
@@ -489,7 +470,26 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[prot?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/prot)
+[programListing?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/programlisting)
+
+
+</td><td>
+
+
+</td><td>
+
+[ProgramListingDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/programlistingdatamodel) \| undefined
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[prot?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/prot)
 
 
 </td><td>
@@ -508,7 +508,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[sealed?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/sealed)
+[sealed?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/sealed)
 
 
 </td><td>
@@ -527,7 +527,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[sectionDefs?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/sectiondefs)
+[sectionDefs?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/sectiondefs)
 
 
 </td><td>
@@ -535,26 +535,7 @@ _(Optional)_
 
 </td><td>
 
-[SectionDefDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/sectiondefdatamodel)<!-- -->\[\] \| undefined
-
-
-</td><td>
-
-_(Optional)_
-
-
-</td></tr>
-<tr><td>
-
-[tableOfContents?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/tableofcontents)
-
-
-</td><td>
-
-
-</td><td>
-
-[TableOfContentsDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/tableofcontentsdatamodel) \| undefined
+[SectionDefDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/sectiondefdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -565,7 +546,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[templateParamList?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/templateparamlist)
+[tableOfContents?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/tableofcontents)
 
 
 </td><td>
@@ -573,7 +554,7 @@ _(Optional)_
 
 </td><td>
 
-[TemplateParamListDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/templateparamlistdatamodel) \| undefined
+[TableOfContentsDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/tableofcontentsdatamodel) \| undefined
 
 
 </td><td>
@@ -584,7 +565,26 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[title?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/title)
+[templateParamList?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/templateparamlist)
+
+
+</td><td>
+
+
+</td><td>
+
+[TemplateParamListDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/templateparamlistdatamodel) \| undefined
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[title?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompounddeftype/title)
 
 
 </td><td>

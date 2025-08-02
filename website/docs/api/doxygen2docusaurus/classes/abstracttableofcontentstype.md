@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractTableOfContentsType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstracttableofcontentstype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstracttableofcontentstype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[tableOfContents](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstracttableofcontentstype/tableofcontents)
+[tableOfContents](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstracttableofcontentstype/tableofcontents)
 
 
 </td><td>
@@ -85,7 +85,7 @@ Description
 
 </td><td>
 
-[TableOfContentsDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/tableofcontentsdatamodel)<!-- -->\[\] \| undefined
+[TableOfContentsDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/tableofcontentsdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -94,7 +94,7 @@ Description
 </td></tr>
 <tr><td>
 
-[tocSect](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstracttableofcontentstype/tocsect)
+[tocSect](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstracttableofcontentstype/tocsect)
 
 
 </td><td>
@@ -102,7 +102,7 @@ Description
 
 </td><td>
 
-[TocSectDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/tocsectdatamodel)<!-- -->\[\] \| undefined
+[TocSectDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/tocsectdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>

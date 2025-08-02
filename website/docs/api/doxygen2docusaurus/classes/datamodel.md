@@ -37,7 +37,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(options)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/datamodel/constructor)
+[(constructor)(options)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/datamodel/constructor)
 
 
 </td><td>
@@ -76,7 +76,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[compoundDefs](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/datamodel/compounddefs)
+[compoundDefs](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/datamodel/compounddefs)
 
 
 </td><td>
@@ -84,7 +84,7 @@ Description
 
 </td><td>
 
-[CompoundDefDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/compounddefdatamodel)<!-- -->\[\]
+[CompoundDefDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/compounddefdatamodel)<!-- -->\[\]
 
 
 </td><td>
@@ -93,7 +93,7 @@ Description
 </td></tr>
 <tr><td>
 
-[doxyfile?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/datamodel/doxyfile)
+[doxyfile?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/datamodel/doxyfile)
 
 
 </td><td>
@@ -101,7 +101,7 @@ Description
 
 </td><td>
 
-[DoxygenFileDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenfiledatamodel)
+[DoxygenFileDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/doxygenfiledatamodel)
 
 
 </td><td>
@@ -112,7 +112,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[doxygenindex?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/datamodel/doxygenindex)
+[doxygenindex?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/datamodel/doxygenindex)
 
 
 </td><td>
@@ -120,7 +120,7 @@ _(Optional)_
 
 </td><td>
 
-[DoxygenIndexDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenindexdatamodel)
+[DoxygenIndexDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/doxygenindexdatamodel)
 
 
 </td><td>
@@ -131,7 +131,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[options](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/datamodel/options)
+[options](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/datamodel/options)
 
 
 </td><td>
@@ -139,7 +139,7 @@ _(Optional)_
 
 </td><td>
 
-[CliOptions](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/clioptions)
+[CliOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions)
 
 
 </td><td>
@@ -150,7 +150,7 @@ The global configuration options.
 </td></tr>
 <tr><td>
 
-[parsedFilesCounter](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/datamodel/parsedfilescounter)
+[parsedFilesCounter](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/datamodel/parsedfilescounter)
 
 
 </td><td>
@@ -169,7 +169,7 @@ Keep track of the number of XML files parsed.
 </td></tr>
 <tr><td>
 
-[xml](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/datamodel/xml)
+[projectVersion?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/datamodel/projectversion)
 
 
 </td><td>
@@ -177,7 +177,26 @@ Keep track of the number of XML files parsed.
 
 </td><td>
 
-[DoxygenXmlParser](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser)
+string
+
+
+</td><td>
+
+_(Optional)_
+
+
+</td></tr>
+<tr><td>
+
+[xml](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/datamodel/xml)
+
+
+</td><td>
+
+
+</td><td>
+
+[DoxygenXmlParser](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser)
 
 
 </td><td>
@@ -206,7 +225,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[parse()](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/datamodel/parse)
+[parse()](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/datamodel/parse)
 
 
 </td><td>
@@ -218,7 +237,7 @@ Description
 </td></tr>
 <tr><td>
 
-[parseDoxyfile()](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/datamodel/parsedoxyfile)
+[parseDoxyfile()](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/datamodel/parsedoxyfile)
 
 
 </td><td>
@@ -232,7 +251,7 @@ Parses the Doxyfile XML and initialises the configuration data model.
 </td></tr>
 <tr><td>
 
-[parseDoxygenIndex()](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/datamodel/parsedoxygenindex)
+[parseDoxygenIndex()](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/datamodel/parsedoxygenindex)
 
 
 </td><td>
@@ -246,7 +265,7 @@ Parses the main Doxygen index XML file and initialises the index data model.
 </td></tr>
 <tr><td>
 
-[parseFile({ fileName })](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/datamodel/parsefile)
+[parseFile({ fileName })](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/datamodel/parsefile)
 
 
 </td><td>
@@ -260,7 +279,7 @@ Reads and parses the specified XML file, returning the parsed content.
 </td></tr>
 <tr><td>
 
-[processCompoundDefs(indexCompound, parsedDoxygenElements)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/datamodel/processcompounddefs)
+[processCompoundDefs(indexCompound, parsedDoxygenElements)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/datamodel/processcompounddefs)
 
 
 </td><td>
@@ -274,7 +293,7 @@ Processes compound definitions from the parsed Doxygen XML elements.
 </td></tr>
 <tr><td>
 
-[processMemberdefs()](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/datamodel/processmemberdefs)
+[processMemberdefs()](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/datamodel/processmemberdefs)
 
 
 </td><td>

@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare abstract class AbstractIndexDoxygenType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexdoxygentype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexdoxygentype/constructor)
 
 
 </td><td>
@@ -77,7 +77,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[compounds?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexdoxygentype/compounds)
+[compounds?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexdoxygentype/compounds)
 
 
 </td><td>
@@ -85,7 +85,7 @@ Description
 
 </td><td>
 
-[IndexCompoundDataModel](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/indexcompounddatamodel)<!-- -->\[\] \| undefined
+[IndexCompoundDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/indexcompounddatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -96,7 +96,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[lang](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexdoxygentype/lang)
+[lang](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexdoxygentype/lang)
 
 
 </td><td>
@@ -113,7 +113,7 @@ string
 </td></tr>
 <tr><td>
 
-[noNamespaceSchemaLocation?](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexdoxygentype/nonamespaceschemalocation)
+[noNamespaceSchemaLocation?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexdoxygentype/nonamespaceschemalocation)
 
 
 </td><td>
@@ -132,7 +132,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-[version](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractindexdoxygentype/version)
+[version](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexdoxygentype/version)
 
 
 </td><td>

@@ -16,7 +16,7 @@ custom_edit_url: null
 ```typescript
 export declare class DoxygenFileDataModel extends AbstractDoxygenFileType
 ```
-**Extends:** [AbstractDoxygenFileType](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/abstractdoxygenfiletype)
+**Extends:** [AbstractDoxygenFileType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdoxygenfiletype)
 
 ## Constructors
 
@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-ts/docs/api/doxygen2docusaurus/classes/doxygenfiledatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/doxygenfiledatamodel/constructor)
 
 
 </td><td>

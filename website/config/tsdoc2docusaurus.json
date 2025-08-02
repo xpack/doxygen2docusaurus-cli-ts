@@ -2,9 +2,9 @@
   "apiJsonInputFilePath": "../api-extractor/doxygen2docusaurus.api.json",
   "apiJsonInputFolderPath": "../api-extractor",
   "apiMarkdownInputFolderPath": "../api-extractor/markdown",
-  "baseUrl": "/doxygen2docusaurus-ts/",
+  "baseUrl": "/doxygen2docusaurus-cli-ts/",
   "navbarLabel": "API",
   "navbarPosition": "left",
-  "verbose": true,
+  "verbose": false,
   "debug": false
 }
