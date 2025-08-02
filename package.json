@@ -1,7 +1,7 @@
 {
   "name": "@xpack/doxygen2docusaurus",
   "version": "1.0.1",
-  "description": "A CLI application to convert Doxygen XML files into Docusaurus documentation",
+  "description": "A Node.js CLI application to convert Doxygen XML files into Docusaurus documentation",
   "type": "module",
   "main": "./dist/index.js",
   "typings": "./dist/doxygen2docusaurus.d.ts",
