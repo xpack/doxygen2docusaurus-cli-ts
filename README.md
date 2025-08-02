@@ -5,7 +5,7 @@
 
 # The doxygen2docusaurus
 
-A CLI application to convert Doxygen XML files into Docusaurus documentation.
+A Node.js CLI application to convert Doxygen XML files into Docusaurus documentation.
 
 ## Project documentation
 
