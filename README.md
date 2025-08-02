@@ -22,7 +22,7 @@ To install the converter in your project’s website directory, run:
 (cd website; npm install xpack/doxygen2docusaurus-ts --save-dev)
 ```
 
-This is a temporary solution, installing from GitHub. When the publish will
+This is a temporary solution, installing from GitHub. When the project will
 be published on npm, the install command will be:
 
 ```sh
