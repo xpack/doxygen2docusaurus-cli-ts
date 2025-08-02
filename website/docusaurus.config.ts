@@ -28,7 +28,7 @@ const actualBaseUrl = process.env.DOCUSAURUS_BASEURL ??
 // ----------------------------------------------------------------------------
 
 const config: Config = {
-  title: 'doxygen2docusaurus - The Documentation Converter' +
+  title: 'doxygen2docusaurus - Doxygen Documentation Converter' +
     ((process.env.DOCUSAURUS_IS_PREVIEW === 'true') ? ' (preview)' : ''),
   tagline: 'A Node.js CLI application to convert Doxygen XML files into Docusaurus documentation',
 

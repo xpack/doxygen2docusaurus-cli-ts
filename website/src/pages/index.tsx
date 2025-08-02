@@ -27,7 +27,7 @@ function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <HeadTitle title="Welcome to doxygen2docusaurus - The Documentation Converter!" />
+      <HeadTitle title="Welcome to doxygen2docusaurus - Doxygen Documentation Converter!" />
       <div className="container">
         <Heading as="h1" className="hero__title">{siteConfig.title}</Heading>
         <p className="hero__subtitle">{siteConfig.tagline}
