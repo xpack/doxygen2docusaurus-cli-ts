@@ -84,7 +84,7 @@
     "descriptiveName": "doxygen2docusaurus",
     "permalinkName": "doxygen2docusaurus",
     "skipCiTests": "true",
-    "hasNoReleases": "true",
+    "hasNoGithubReleases": "true",
     "hasCli": "true",
     "useEslint": "true"
   },
