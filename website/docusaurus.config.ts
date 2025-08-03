@@ -249,7 +249,7 @@ const config: Config = {
               to: '/docs/getting-started'
             },
             {
-              label: 'Install Guide',
+              label: 'Installation Guide',
               to: '/docs/install'
             },
             {

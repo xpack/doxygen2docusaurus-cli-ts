@@ -25,7 +25,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'doc',
       id: 'install/index',
-      label: 'Install Guide'
+      label: 'Installation Guide'
     },
     {
       type: 'doc',
