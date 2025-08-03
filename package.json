@@ -20,7 +20,7 @@
   "scripts": {
     "generate-top-commons": "bash node_modules/@xpack/npm-packages-helper/maintenance-scripts/generate-top-commons.sh --xpack",
     "api-extractor": "api-extractor run --local --verbose",
-    "prepare": "del-cli dist && npm run prettier && npm run lint && npm run compile",
+    "prepare": "del-cli dist && npm run prettier && npm run lint && npm run compile && npm run api-extractor",
     "compile-watch": "tsc --build --verbose --watch src",
     "compile": "tsc --build --verbose src",
     "prettier": "prettier src --write",
