@@ -44,9 +44,17 @@ Alternatively, when integrated within `package.json`:
 }
 ```
 
-(the `config` intermediate level is optional)
+:::tip
+
+The `config` intermediate level is optional.
+
+:::
+
+:::tip
 
 If your Doxygen folder is located elsewhere, update the `doxygenXmlInputFolderPath` property accordingly.
+
+:::
 
 To simplify running the conversion, add an npm script like `convert-doxygen` to your `package.json`:
 
@@ -66,11 +74,11 @@ To execute the conversion, use:
 npm run convert-doxygen
 ```
 
-## Common Markdown
+## CommonMark
 
-As MDX syntax is particularly strict and does not support all HTML content, the output format is **Common Markdown**.
+As MDX syntax is particularly strict and does not support all HTML content, the output format is **CommonMark**.
 
-To configure Docusaurus to parse `.md` files as Common Markdown, add the following configuration to your `docusaurus-config.ts` file:
+To configure Docusaurus to parse `.md` files as CommonMark, add the following configuration to your `docusaurus-config.ts` file:
 
 ```ts
   markdown: {
@@ -118,7 +126,7 @@ const sidebars: SidebarsConfig = {
 };
 ```
 
-## Top Menu
+## Top Navigation Bar
 
 The converter also generates a dropdown menu for use within the top navigation bar.
 
