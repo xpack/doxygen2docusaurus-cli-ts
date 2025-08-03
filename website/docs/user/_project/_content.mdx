@@ -1,4 +1,148 @@
-
 {/* ------------------------------------------------------------------------ */}
 
-TODO
+The **doxygen2docusaurus** project utilises Doxygen's capability to generate XML output alongside its traditional HTML documentation. The converter processes these XML files and produces Markdown files within a Docusaurus folder such as `/docs/api/`. To maintain precise control over presentation, the generated content is primarily HTML. Since Docusaurus generates the Table of Contents exclusively by parsing Markdown section headers, the converter outputs these headers in Markdown format.
+
+## Doxygen Configuration
+
+To enable Doxygen to generate XML files, configure the following setting in your Doxygen configuration file:
+
+```txt
+GENERATE_XML= YES
+```
+
+By default, the XML output is placed within an `xml` subfolder of the Doxygen folder. For instance, if the Doxygen folder resides within your website folder, the XML files will be generated in `website/doxygen/xml`.
+
+## Converter Configuration
+
+By default, the converter attempts to retrieve its configuration from the following locations, in order of precedence:
+
+- the `config/doxygen2docusaurus.json` file
+- the `doxygen2docusaurus.json` file
+- the `config.doxygen2docusaurus` object in `package.json`
+- the `doxygen2docusaurus` object in `package.json`
+
+For example, the separate configuration file `config/doxygen2docusaurus.json` may appear as follows:
+
+```json
+{
+  "doxygenXmlInputFolderPath": "doxygen/xml",
+  "verbose": false
+}
+```
+
+Alternatively, when integrated within `package.json`:
+
+```json
+{
+  ...
+  "config": {
+    "doxygen2docusaurus": {
+      "doxygenXmlInputFolderPath": "doxygen/xml",
+      "verbose": false
+    }
+  }
+}
+```
+
+(the `config` intermediate level is optional)
+
+If your Doxygen folder is located elsewhere, update the `doxygenXmlInputFolderPath` property accordingly.
+
+To simplify running the conversion, add an npm script like `convert-doxygen` to your `package.json`:
+
+```json
+  "scripts": {
+    "docusaurus": "docusaurus",
+    "convert-doxygen": "doxygen2docusaurus",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    ...
+  }
+```
+
+To execute the conversion, use:
+
+```sh
+npm run convert-doxygen
+```
+
+## Common Markdown
+
+As MDX syntax is particularly strict and does not support all HTML content, the output format is **Common Markdown**.
+
+To configure Docusaurus to parse `.md` files as Common Markdown, add the following configuration to your `docusaurus-config.ts` file:
+
+```ts
+  markdown: {
+    format: 'detect'
+  },
+```
+
+## CSS
+
+The converter generates a file containing custom CSS definitions.
+
+To include this within the Docusaurus build process, edit your `docusaurus-config.ts` file and add the following line to the theme configuration:
+
+```ts
+  theme: {
+    customCss: [
+      './src/css/custom.css',
+      './src/css/custom-doxygen2docusaurus.css'
+    ],
+  },
+```
+
+## Sidebar
+
+The converter generates a dedicated sidebar for the Doxygen pages.
+
+To integrate this sidebar into the Docusaurus build, edit your `sidebars.ts` file and add the following import statement at the top:
+
+```ts
+import doxygenSidebarItems from './sidebar-category-doxygen2docusaurus.json';
+```
+
+Subsequently, add a new property to the `sidebars` object:
+
+```ts
+const sidebars: SidebarsConfig = {
+
+  docsSidebar: [
+    // ...
+  ],
+
+  doxygenSidebar: [
+    doxygenSidebarItems,
+  ],
+};
+```
+
+## Top Menu
+
+The converter also generates a dropdown menu for use within the top navigation bar.
+
+To include this within the Docusaurus build, edit your `docusaurus-config.ts` file and add the following import statement at the top:
+
+```ts
+import doxygenApiMenu from './docusaurus-config-menu-doxygen2docusaurus.json'
+```
+
+Subsequently, add `doxygenApiMenu` to the `navbar.items` array.
+
+## Memory Usage
+
+For particularly large sites, the `node` process may exhaust available memory resources.
+
+To increase the heap and/or stack size, invoke Docusaurus with a command such as:
+
+```sh
+node --max-old-space-size=8192 --stack-size=2048 ./node_modules/.bin/doxygen2docusaurus
+```
+
+Apply the same approach to the `start` and `build` commands if required.
+
+## Caveats
+
+Some reference sites may be exceptionally large, comprising tens of thousands of pages. Whilst Docusaurus is capable of handling relatively large sites, it requires substantial memory resources and the build process may be considerably time-consuming.
+
