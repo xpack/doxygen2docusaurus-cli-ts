@@ -5,15 +5,15 @@
 
 ### Prepare a new blog post
 
-- check and possibly update the `website/blog/_templates/blog-post*-release-liquid.mdx`
-- run the **generate-website-blog-post** npm script; this will add a file in the `website/blog` folder:
+- Check and possibly update the `website/blog/_templates/blog-post*-release-liquid.mdx`
+- Execute the **generate-website-blog-post** npm script; this will add a file to the `website/blog` folder:
   ```sh
   npm run generate-website-blog-post -C website
   ```
-- edit the front matter properties (the `description` property)
-- select the correct summary (maintenance vs. new release)
-- add entries in the **Bug fixes**; use the following syntax
+- Edit the front matter properties (the `description` property)
+- Select the correct summary (maintenance vs. new release)
+- Add entries in the **Bug fixes**; utilise the following syntax
   ```
   - [[#N](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/N)]:
   ```
-- **commit** with the message _**website: blog post release 1.0.2 published**_
+- **Commit** with the message _**website: blog post release 1.0.2 published**_
