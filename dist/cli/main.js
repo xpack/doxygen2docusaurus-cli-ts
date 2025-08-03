@@ -20,6 +20,8 @@ import { DataModel } from '../doxygen/data-model/data-model.js';
 import { DocusaurusGenerator } from '../docusaurus/generator.js';
 import { Workspace } from '../docusaurus/workspace.js';
 import { fileURLToPath } from 'node:url';
+// https://www.npmjs.com/package/commander
+import { Command } from 'commander';
 // ----------------------------------------------------------------------------
 /**
  * Main entry point for the doxygen2docusaurus CLI tool.
@@ -39,12 +41,27 @@ export async function main(argv) {
     const packageJson = JSON.parse(packageJsonContent.toString());
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     const packageVersion = packageJson.version;
+    const program = new Command();
+    program.option('--id <name>', 'configuration id, for multi-configurations');
+    program.option('--verbose', 'display more details during the conversion');
+    program.option('--debug', 'display debug lines during the conversion');
+    program.option('-v, --version', 'display version');
+    program.parse(argv);
+    const programOptions = program.opts();
+    if (programOptions.version) {
+        console.log(packageVersion);
+        return 0;
+    }
     let commandLine = path.basename(argv[1] ?? 'doxygen2docusaurus');
     if (argv.length > 2) {
         commandLine += ` ${argv.slice(2).join(' ')}`;
     }
     console.log(`Running '${commandLine}' (v${packageVersion})...`);
-    const options = new CliOptions(argv);
+    const id = programOptions.id ?? 'default';
+    const verbose = programOptions.verbose;
+    const debug = programOptions.debug;
+    const commandOptions = { id, verbose, debug };
+    const options = new CliOptions(commandOptions);
     await options.parse();
     let exitCode = 0;
     console.log();

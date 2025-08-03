@@ -511,7 +511,8 @@ type CliConfigurationOptions = Record<string, string | boolean>;
 
 // @public
 export class CliOptions {
-    constructor(argv: string[]);
+    // Warning: (ae-forgotten-export) The symbol "CommandOptions" needs to be exported by the entry point index.d.ts
+    constructor(commandOptions: CommandOptions);
     apiBaseUrl: string;
     apiFolderPath: string;
     baseUrl: string;
@@ -547,6 +548,9 @@ export class CliOptions {
 export class CodeLineDataModel extends AbstractCodeLineType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
+
+// @public (undocumented)
+type CommandOptions = Record<string, string | boolean | undefined>;
 
 // @public (undocumented)
 export class CompoundDefDataModel extends AbstractCompoundDefType {

@@ -12,9 +12,6 @@
 import assert from 'node:assert';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
-// import * as util from 'node:util'
-// https://www.npmjs.com/package/commander
-import { Command } from 'commander';
 /**
  * Options, as seen by the application. Most are mandatory.
  *
@@ -90,12 +87,14 @@ export class CliOptions {
     originalPagesNote = '';
     /** String identifier in case of multiple instances. */
     id = 'default';
-    constructor(argv) {
-        const program = new Command();
-        program.option('--id <name>', 'id, for multi-configurations');
-        program.parse(argv);
-        const programOptions = program.opts();
-        this.id = programOptions.id ?? 'default';
+    constructor(commandOptions) {
+        this.id = commandOptions.id;
+        if (commandOptions.verbose !== undefined) {
+            this.verbose = true;
+        }
+        if (commandOptions.debug !== undefined) {
+            this.debug = true;
+        }
         if (this.id !== 'default') {
             this.apiFolderPath = this.id;
             this.apiBaseUrl = this.id;
@@ -172,13 +171,19 @@ export class CliOptions {
                     const thisProperty = this[key];
                     const thisType = typeof thisProperty;
                     const valueType = typeof value;
-                    // Only override if types match
+                    if (['id', 'verbose', 'debug'].includes(key)) {
+                        continue;
+                    }
+                    // Override only if types match.
                     if (thisType === valueType) {
                         ;
                         this[key] = value;
                     }
                 }
             }
+        }
+        if (this.debug) {
+            this.verbose = true;
         }
         if (this.verbose) {
             console.log();
