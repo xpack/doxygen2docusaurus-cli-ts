@@ -1,5 +1,4 @@
 [![GitHub package.json version](https://img.shields.io/github/package-json/v/xpack/doxygen2docusaurus-cli-ts)](https://github.com/xpack/doxygen2docusaurus-cli-ts/blob/master/package.json)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/xpack/doxygen2docusaurus-cli-ts)](https://github.com/xpack/doxygen2docusaurus-cli-ts/releases)
 [![NPM Version](https://img.shields.io/npm/v/@xpack/doxygen2docusaurus?color=blue)](https://www.npmjs.com/package/@xpack/doxygen2docusaurus/)
 [![license](https://img.shields.io/github/license/xpack/doxygen2docusaurus-cli-ts)](https://github.com/xpack/doxygen2docusaurus-cli-ts/blob/master/LICENSE)
 
