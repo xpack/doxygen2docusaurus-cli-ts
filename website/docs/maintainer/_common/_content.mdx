@@ -92,12 +92,10 @@ Maintain:
 
 ### Manual install test
 
-Test if the package can be installed in a project:
+Test if the package can be installed globally:
 
 ```bash
-rm -rf ~/tmp/doxygen2docusaurus-test && mkdir ~/tmp/doxygen2docusaurus-test && cd ~/tmp/doxygen2docusaurus-test
-npm init --yes
-npm install @xpack/doxygen2docusaurus@next
+npm install --location=global @xpack/doxygen2docusaurus@next
 ```
 
 Validate the website content through a local build using the npm **build** script:
