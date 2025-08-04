@@ -57,6 +57,7 @@ export async function main(argv: string[]): Promise<number> {
   program.option('--id <name>', 'configuration id, for multi-configurations')
   program.option('--verbose', 'display more details during the conversion')
   program.option('--debug', 'display debug lines during the conversion')
+  program.option('-C <path>', 'change the current folder')
   program.option('-v, --version', 'display version')
   program.parse(argv)
 
@@ -65,6 +66,10 @@ export async function main(argv: string[]): Promise<number> {
   if (programOptions.version) {
     console.log(packageVersion)
     return 0
+  }
+
+  if (programOptions.C) {
+    process.chdir(programOptions.C as string)
   }
 
   let commandLine: string = path.basename(argv[1] ?? 'doxygen2docusaurus')

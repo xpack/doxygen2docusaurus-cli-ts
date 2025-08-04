@@ -45,12 +45,16 @@ export async function main(argv) {
     program.option('--id <name>', 'configuration id, for multi-configurations');
     program.option('--verbose', 'display more details during the conversion');
     program.option('--debug', 'display debug lines during the conversion');
+    program.option('-C <path>', 'change the current folder');
     program.option('-v, --version', 'display version');
     program.parse(argv);
     const programOptions = program.opts();
     if (programOptions.version) {
         console.log(packageVersion);
         return 0;
+    }
+    if (programOptions.C) {
+        process.chdir(programOptions.C);
     }
     let commandLine = path.basename(argv[1] ?? 'doxygen2docusaurus');
     if (argv.length > 2) {
