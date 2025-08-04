@@ -7,7 +7,7 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 // import logger from '@docusaurus/logger';
 import util from 'node:util';
-
+import cliNavbar from './docusaurus-config-navbar-cli';
 import tsdocApiMenu from './docusaurus-config-navbar-tsdoc.json'
 import { redirects } from './docusaurus-config-redirects';
 import { getCustomFields } from './customFields';
@@ -282,6 +282,7 @@ const config: Config = {
             },
           ],
         },
+        cliNavbar,
         tsdocApiMenu,
         {
           type: 'dropdown',

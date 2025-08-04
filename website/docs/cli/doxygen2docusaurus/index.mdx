@@ -1,0 +1,108 @@
+---
+
+title: doxygen2docusaurus
+description: Options applicable to doxygen2docusaurus.
+keywords:
+  - doxygen2docusaurus
+  - cli
+
+date: 2025-08-02 20:46:00 +0300
+
+---
+
+import CodeBlock from '@theme/CodeBlock';
+
+import customField from '@site/src/libs/customField';
+
+{/* ------------------------------------------------------------------------ */}
+
+# doxygen2docusaurus
+
+## Synopsis
+
+```sh
+doxygen2docusaurus [--id <name>] [--verbose|--debug] [-C <path>]
+doxygen2docusaurus --version
+doxygen2docusaurus --help
+```
+
+## Description
+
+The command converts Doxygen XML files to Docusaurus Markdown pages. It can also display the version or the help message.
+
+Without any options, it performs the conversion using the default configuration.
+
+<CodeBlock language="console"> {
+`% doxygen2docusaurus
+
+Running 'doxygen2docusaurus' (${customField('releaseVersion')})...
+
+Parsing Doxygen generated .xml files...
+98 xml files parsed
+
+Creating view model objects...
+Creating compounds hierarchies...
+Creating member definitions map...
+Performing compounds late initializations...
+Performing members late initializations...
+Validating permalinks...
+
+Removing existing folder docs/api/...
+
+Writing Docusaurus .md pages...
+119 .md files written
+
+Writing sidebar file sidebar-category-doxygen.json...
+Writing menu file docusaurus-config-navbar-doxygen.json...
+Copying image file static/img/doxygen2docusaurus/document-svgrepo-com.svg
+Copying image file static/img/doxygen2docusaurus/folder-svgrepo-com.svg
+Copying css file src/css/custom-doxygen2docusaurus.css
+
+Running 'doxygen2docusaurus' has completed successfully in 683 ms.
+`} </CodeBlock>
+
+## Options
+
+### Configuration id (`--id`)
+
+Specify a unique configuration identifier when the website comprises multiple reference sites.
+
+### Verbose (`--verbose`)
+
+Display additional details during the conversion process.
+
+### Debug (`--debug`)
+
+Display debug information during the conversion process.
+
+### Current folder (`-C`)
+
+Change the current working folder to the specified path before executing the conversion.
+
+### Version (`-v`, `--version`)
+
+Display the programme version.
+
+<CodeBlock language="console"> {
+`% doxygen2docusaurus -v
+${customField('releaseVersion')}
+`} </CodeBlock>
+
+### Help (`-h`, `--help`)
+
+Display the help message.
+
+```console
+$ doxygen2docusaurus --help
+Usage: doxygen2docusaurus [options]
+
+Options:
+  --id <name>    configuration id, for multi-configurations
+  --verbose      display more details during the conversion
+  --debug        display debug lines during the conversion
+  -C <path>      change the current folder
+  -v, --version  display version
+  -h, --help     display help for command
+```
+
+

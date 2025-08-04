@@ -2,6 +2,7 @@
 // Automatically generated from docusaurus-template-liquid/templates/docusaurus.
 
 import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
+import cliSidebar from "./sidebar-cli";
 import tsdocSidebarItems from './sidebar-category-tsdoc.json';
 
 /**
@@ -88,6 +89,8 @@ const sidebars: SidebarsConfig = {
   tsdocSidebar: [
     tsdocSidebarItems,
   ],
+
+  cliSidebar,
 };
 
 export default sidebars;
