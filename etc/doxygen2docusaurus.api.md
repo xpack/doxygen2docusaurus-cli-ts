@@ -524,13 +524,13 @@ export class CliOptions {
     doxygenXmlInputFolderPath: string;
     id: string;
     imagesFolderPath: string;
+    listPagesAtTop: boolean;
     mainPageTitle: string;
-    menuDropdownFilePath: string;
-    menuDropdownLabel: string;
+    navbarDropdownFilePath: string;
+    navbarDropdownLabel: string;
     originalPagesNote: string;
     // (undocumented)
     parse(): Promise<void>;
-    renderPagesAtTop: boolean;
     renderProgramListing: boolean;
     renderProgramListingInline: boolean;
     // Warning: (ae-forgotten-export) The symbol "CliConfigurationOptions" needs to be exported by the entry point index.d.ts

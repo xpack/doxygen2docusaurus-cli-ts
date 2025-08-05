@@ -85,8 +85,7 @@ export class CliOptions {
   mainPageTitle = ''
 
   /**
-   * Relative to the current website folder, default
-   * `sidebar-category-doxygen.json`.
+   * Relative to the current website folder.
    */
   sidebarCategoryFilePath = 'sidebar-category-doxygen.json'
 
@@ -94,13 +93,12 @@ export class CliOptions {
   sidebarCategoryLabel = 'API Reference (Doxygen)'
 
   /**
-   * Relative to the current website folder, default
-   * `docusaurus-config-doxygen-menu-dropdown.json`.
+   * Relative to the current website folder.
    */
-  menuDropdownFilePath = 'docusaurus-config-menu-doxygen.json'
+  navbarDropdownFilePath = 'docusaurus-config-navbar-doxygen.json'
 
-  /** Short text to be displayed in the menu. */
-  menuDropdownLabel = 'Reference'
+  /** Short text to be displayed in the top navigation bar. */
+  navbarDropdownLabel = 'Reference'
 
   /**
    * Relative to the current website folder, default
@@ -117,8 +115,8 @@ export class CliOptions {
   /** Boolean to control if the TODO suggestions are shown. */
   suggestToDoDescriptions = false
 
-  /** Boolean to render the pages to the top. */
-  renderPagesAtTop = true
+  /** Boolean to list the pages at the top of the sidebar. */
+  listPagesAtTop = true
 
   /** Boolean to render the program listing in the File pages. */
   renderProgramListing = true
@@ -159,14 +157,14 @@ export class CliOptions {
       this.imagesFolderPath = `img/doxygen-${this.id}`
       this.sidebarCategoryFilePath =
         'sidebar-category-doxygen' + `-${this.id}.json`
-      this.menuDropdownFilePath =
+      this.navbarDropdownFilePath =
         'docusaurus-config-navbar-doxygen' + `-${this.id}.json`
     } else {
       this.apiFolderPath = 'api'
       this.apiBaseUrl = 'api'
       this.imagesFolderPath = `img/doxygen`
       this.sidebarCategoryFilePath = `sidebar-category-doxygen.json`
-      this.menuDropdownFilePath = `docusaurus-config-navbar-doxygen.json`
+      this.navbarDropdownFilePath = `docusaurus-config-navbar-doxygen.json`
     }
   }
 

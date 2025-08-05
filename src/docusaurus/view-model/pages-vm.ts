@@ -72,7 +72,7 @@ export class Pages extends CollectionBase {
 
     for (const [pageId, page] of this.collectionCompoundsById) {
       if (
-        this.workspace.options.renderPagesAtTop &&
+        this.workspace.options.listPagesAtTop &&
         page instanceof Page &&
         page.isTopPage()
       ) {
@@ -105,8 +105,8 @@ export class Pages extends CollectionBase {
 
   createTopPagesSidebarItems(sidebarCategory: SidebarCategory): void {
     // Add pages to the sidebar.
-    if (!this.workspace.options.renderPagesAtTop) {
-      // Do not show pages to the top.
+    if (!this.workspace.options.listPagesAtTop) {
+      // Do not list pages at the top of the sidebar.
       return
     }
 

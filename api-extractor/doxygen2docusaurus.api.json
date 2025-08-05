@@ -8937,6 +8937,36 @@
             },
             {
               "kind": "Property",
+              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#listPagesAtTop:member",
+              "docComment": "/**\n * Boolean to list the pages at the top of the sidebar.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "listPagesAtTop: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "listPagesAtTop",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#mainPageTitle:member",
               "docComment": "/**\n * The title to be displayed on the main page.\n */\n",
               "excerptTokens": [
@@ -8967,12 +8997,12 @@
             },
             {
               "kind": "Property",
-              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#menuDropdownFilePath:member",
-              "docComment": "/**\n * Relative to the current website folder, default `docusaurus-config-doxygen-menu-dropdown.json`.\n */\n",
+              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#navbarDropdownFilePath:member",
+              "docComment": "/**\n * Relative to the current website folder.\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "menuDropdownFilePath: "
+                  "text": "navbarDropdownFilePath: "
                 },
                 {
                   "kind": "Content",
@@ -8986,7 +9016,7 @@
               "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
-              "name": "menuDropdownFilePath",
+              "name": "navbarDropdownFilePath",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
@@ -8997,12 +9027,12 @@
             },
             {
               "kind": "Property",
-              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#menuDropdownLabel:member",
-              "docComment": "/**\n * Short text to be displayed in the menu.\n */\n",
+              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#navbarDropdownLabel:member",
+              "docComment": "/**\n * Short text to be displayed in the top navigation bar.\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "menuDropdownLabel: "
+                  "text": "navbarDropdownLabel: "
                 },
                 {
                   "kind": "Content",
@@ -9016,7 +9046,7 @@
               "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
-              "name": "menuDropdownLabel",
+              "name": "navbarDropdownLabel",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
@@ -9090,36 +9120,6 @@
               "isOptional": false,
               "isAbstract": false,
               "name": "parse"
-            },
-            {
-              "kind": "Property",
-              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#renderPagesAtTop:member",
-              "docComment": "/**\n * Boolean to render the pages to the top.\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "renderPagesAtTop: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "boolean"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": false,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "renderPagesAtTop",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              },
-              "isStatic": false,
-              "isProtected": false,
-              "isAbstract": false
             },
             {
               "kind": "Property",
@@ -9247,7 +9247,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#sidebarCategoryFilePath:member",
-              "docComment": "/**\n * Relative to the current website folder, default `sidebar-category-doxygen.json`.\n */\n",
+              "docComment": "/**\n * Relative to the current website folder.\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",

@@ -144,7 +144,10 @@ export class DocusaurusGenerator {
   // --------------------------------------------------------------------------
 
   async generateMenuFile(): Promise<void> {
-    const { menuDropdownFilePath, menuDropdownLabel: label } = this.options
+    const {
+      navbarDropdownFilePath: menuDropdownFilePath,
+      navbarDropdownLabel: label,
+    } = this.options
     if (menuDropdownFilePath.trim().length === 0) {
       return
     }
