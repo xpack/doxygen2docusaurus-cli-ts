@@ -2,7 +2,7 @@
 [![NPM Version](https://img.shields.io/npm/v/@xpack/doxygen2docusaurus?color=blue)](https://www.npmjs.com/package/@xpack/doxygen2docusaurus/)
 [![license](https://img.shields.io/github/license/xpack/doxygen2docusaurus-cli-ts)](https://github.com/xpack/doxygen2docusaurus-cli-ts/blob/master/LICENSE)
 
-# The doxygen2docusaurus
+# The Doxygen Documentation Converter
 
 A Node.js CLI application to convert Doxygen XML files into Docusaurus documentation.
 
