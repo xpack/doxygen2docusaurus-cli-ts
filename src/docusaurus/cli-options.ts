@@ -76,7 +76,7 @@ export class CliOptions {
   apiBaseUrl = 'api'
 
   /** Relative to `static` */
-  imagesFolderPath = 'img/doxygen'
+  imagesFolderPath = 'assets/images/doxygen'
 
   /**  Relative to the current `website/static` folder, like `reference`. */
   compatibilityRedirectsOutputFolderPath?: string | undefined

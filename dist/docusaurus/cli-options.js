@@ -37,7 +37,7 @@ export class CliOptions {
     /** Relative to the docs home, like `api`, without initial/final slashes. */
     apiBaseUrl = 'api';
     /** Relative to `static` */
-    imagesFolderPath = 'img/doxygen';
+    imagesFolderPath = 'assets/images/doxygen';
     /**  Relative to the current `website/static` folder, like `reference`. */
     compatibilityRedirectsOutputFolderPath;
     /** The title to be displayed on the main page. */
