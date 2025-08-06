@@ -59,7 +59,7 @@
   "bugs": {
     "url": "https://github.com/xpack/doxygen2docusaurus-cli-ts/issues"
   },
-  "homepage": "https://xpack.github.io/doxygen2docusaurus-cli-ts/",
+  "homepage": "https://xpack.github.io/doxygen2docusaurus/",
   "homepagePreview": "https://xpack.github.io/doxygen2docusaurus-cli-ts/",
   "dependencies": {
     "commander": "^14.0.0",

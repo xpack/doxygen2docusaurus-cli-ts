@@ -9,7 +9,7 @@ A Node.js CLI application to convert Doxygen XML files into Docusaurus documenta
 ## Project documentation
 
 For information on how to install and use this project, please refer to the
-[project website](https://xpack.github.io/doxygen2docusaurus-cli-ts/).
+[project website](https://xpack.github.io/doxygen2docusaurus/).
 
 ## Project source
 
