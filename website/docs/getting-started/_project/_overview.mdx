@@ -1,13 +1,32 @@
 {/* ------------------------------------------------------------------------ */}
 
-
-The **doxygen2docusaurus** project is a command-line tool that bridges the gap between Doxygen-generated API documentation and modern Docusaurus websites. It converts Doxygen XML output into CommonMark files optimised for Docusaurus, enabling seamless integration of comprehensive API reference documentation within your project's documentation site. The tool maintains the rich structure and cross-references of Doxygen documentation whilst presenting it in Docusaurus's clean, modern interface.
-
-**doxygen2docusaurus** is designed to be executed on the development machine where the website is maintained.
+The **doxygen2docusaurus** project is a command-line tool that bridges the gap between Doxygen-generated API documentation and modern Docusaurus websites. It converts Doxygen XML output into CommonMark files optimised for Docusaurus, enabling seamless integration of comprehensive API reference documentation within your project's documentation site.
 
 ## Features & Benefits
 
-- Streamlined documentation workflow: Automate the conversion of Doxygen output to Docusaurus format, saving time and effort.
-- Enhanced documentation quality: Leverage Doxygen's powerful documentation capabilities while presenting the content in a modern, user-friendly interface.
-- Seamless integration: Easily incorporate API reference documentation into your existing Docusaurus site without manual intervention.
-- Customisable output: Tailor the generated CommonMark files to meet your project's specific needs and requirements.
+### Professional documentation pages
+
+The tool leverages Docusaurus's clean, modern interface to create visually appealing and professional-looking documentation pages.
+
+![doxygen2docusaurus function](/assets/images/function.png)
+
+### Enhanced navigation experience
+
+To improve the user navigation experience, for each reference sub-site, the tool generates a dropdown menu for the top navigation bar and a sidebar. For each page, it also creates the headers necessary for the table of contents.
+
+![doxygen2docusaurus navigation](/assets/images/navigation.png)
+
+### Customisable topic organisation
+
+The tool enables grouping of API reference documentation by topics, which can be customised to suit your project's requirements. This feature enhances the organisation of documentation, making it easier for users to locate relevant information. Each topic page is organised into clear sections, with comprehensive indices for all sections displayed at the beginning of the page for quick navigation.
+
+![doxygen2docusaurus topics](/assets/images/topics.png)
+
+### Streamlined documentation workflow
+
+**doxygen2docusaurus** is a versatile CLI application that can be employed in virtually any scenario, from manual invocation to automated CI/CD environments, with the generated pages either forming part of the repository or being created dynamically during website publishing.
+
+However, the recommended approach is to execute the tool on the development machine where the website is maintained, allowing the resulting CommonMark files to be seamlessly integrated into existing Docusaurus sites and stored within the project repository.
+
+Whilst this approach requires additional repository space, the significant advantage lies in enabling straightforward tracking of documentation changes.
+

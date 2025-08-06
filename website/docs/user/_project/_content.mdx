@@ -2,19 +2,55 @@
 
 The **doxygen2docusaurus** project utilises Doxygen's capability to generate XML output alongside its traditional HTML documentation. The converter processes these XML files and produces Markdown files within a Docusaurus folder such as `/docs/api/`. To maintain precise control over presentation, the generated content is primarily HTML. Since Docusaurus generates the Table of Contents exclusively by parsing Markdown section headers, the converter outputs these headers in Markdown format.
 
-## Doxygen Configuration
+## Project structure
 
-To enable Doxygen to generate XML files, configure the following setting in your Doxygen configuration file:
+The usual Docusaurus project structure uses a `website` subfolder:
 
-```txt
-GENERATE_XML= YES
+```
+<project>/
+├── package.json
+└── website/
+    ├── docusaurus.config.ts
+    ├── package.json
+    ├── doxygen/
+    │   ├── config.doxyfile
+    │   └── xml/
+    │       ├── index.xml
+    │       └── ...
+    ├── docs/
+    │   ├── api/
+    │   ├── user/
+    │   └── ...
+    ├── blog/
+    │   └── ...
+    ├── src/
+    │   └── ...
+    ├── static/
+    │   └── doxygen/
+    │       ├── index.html
+    │       └── ...
+    └── config/
+        └── doxygen2docusaurus.json
 ```
 
-By default, the XML output is placed within an `xml` subfolder of the Doxygen folder. For instance, if the Doxygen folder resides within your website folder, the XML files will be generated in `website/doxygen/xml`.
+For typical projects, the Doxygen files may be located within the `website` folder. Should the project employ a custom procedure to generate the Doxygen pages, the converter must be configured to reference the custom folder utilised by that procedure.
+
+It is recommended to commit the `docs/api` folder (and potentially the `doxygen/xml` folder) to the repository, as this facilitates effective version control of the documentation alongside the project code.
+
+## Doxygen Configuration
+
+To enable Doxygen to generate XML files, configure the following settings in your Doxygen configuration file:
+
+```txt
+GENERATE_XML = YES
+XML_OUTPUT = xml
+```
+
+With this configuration, the XML output is placed within an `xml` subfolder of the Doxygen folder. For instance, if the Doxygen folder resides within your website folder, the XML files will be generated in `website/doxygen/xml`.
 
 ## Converter Configuration
 
-By default, the converter attempts to retrieve its configuration from the following locations, in order of precedence:
+The converter attempts to retrieve its configuration from the following locations, in order of precedence:
 
 - the `config/doxygen2docusaurus.json` file
 - the `doxygen2docusaurus.json` file
@@ -23,22 +59,20 @@ By default, the converter attempts to retrieve its configuration from the follow
 
 For example, the separate configuration file `config/doxygen2docusaurus.json` may appear as follows:
 
-```json
+```json title="website/config/doxygen2docusaurus.json"
 {
-  "doxygenXmlInputFolderPath": "doxygen/xml",
-  "verbose": false
+  "baseUrl": "/micro-test-plus-xpack/"
 }
 ```
 
 Alternatively, when integrated within `package.json`:
 
-```json
+```json title="website/package.json"
 {
   ...
   "config": {
     "doxygen2docusaurus": {
-      "doxygenXmlInputFolderPath": "doxygen/xml",
-      "verbose": false
+      "baseUrl": "/micro-test-plus-xpack/"
     }
   }
 }
@@ -56,12 +90,51 @@ If your Doxygen folder is located elsewhere, update the `doxygenXmlInputFolderPa
 
 :::
 
+The full list of configuration variables is available in the separate [Configuration Variables](./configuration) page.
+
+## Multi-sites
+
+If your Docusaurus site contains multiple reference sites, you can specify a unique configuration identifier using the `--id` command-line option. This allows the converter to generate separate output folders and sidebar/navbar files for each site.
+
+To accommodate multiple sites, the configuration file must group the definitions in separate objects, each identified by the id.
+
+An example of such a configuration file is from the project that renders the Doxygen own site:
+
+```json title="website/config/doxygen2docusaurus.json"
+{
+  "manual": {
+    "doxygenXmlInputFolderPath": "../build/xml",
+    "apiFolderPath": "manual",
+    "baseUrl": "/web-doxygen/",
+    "apiBaseUrl": "",
+    "sidebarCategoryLabel": "Manual",
+    "navbarDropdownLabel": "Manual",
+    "mainPageTitle": "The Documentation Generator"
+  },
+  "api": {
+    "doxygenXmlInputFolderPath": "../build/doxygen_docs/xml",
+    "apiFolderPath": "api",
+    "baseUrl": "/web-doxygen/",
+    "apiBaseUrl": "api",
+    "sidebarCategoryLabel": "Doxygen Internals",
+    "navbarDropdownLabel": "Internals",
+    "mainPageTitle": "Doxygen Internals",
+    "renderProgramListing": false,
+    "renderProgramListingInline": true
+  }
+}
+```
+
+## npm script
+
 To simplify running the conversion, add an npm script like `convert-doxygen` to your `package.json`:
 
 ```json
   "scripts": {
-    "docusaurus": "docusaurus",
+    ...
+    "doxygen": "del-cli static/doxygen doxygen/xml; (cd doxygen; doxygen config.doxyfile)",
     "convert-doxygen": "doxygen2docusaurus",
+    "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
     ...
@@ -74,7 +147,9 @@ To execute the conversion, use:
 npm run convert-doxygen
 ```
 
-## CommonMark
+## Docusaurus Configuration
+
+### CommonMark
 
 As MDX syntax is particularly strict and does not support all HTML content, the output format is **CommonMark**.
 
@@ -86,7 +161,15 @@ To configure Docusaurus to parse `.md` files as CommonMark, add the following co
   },
 ```
 
-## CSS
+### Trailing slashes
+
+Docusaurus does not enforce trailing slashes in URLs, but GitHub redirects all URLs to include trailing slashes. Therefore, for websites hosted on GitHub, it is recommended to use trailing slashes for consistency. To ensure that the generated links include trailing slashes, configure the `trailingSlash` option in the `docusaurus-config.ts` file:
+
+```ts
+  trailingSlash: true,
+```
+
+### CSS
 
 The converter generates a file containing custom CSS definitions.
 
@@ -95,13 +178,27 @@ To include this within the Docusaurus build process, edit your `docusaurus-confi
 ```ts
   theme: {
     customCss: [
-      './src/css/custom.css',
-      './src/css/custom-doxygen2docusaurus.css'
+      './src/css/custom-doxygen2docusaurus.css',
+      './src/css/custom.css'
     ],
   },
 ```
 
-## Sidebar
+The order is important, as the `custom.css` file may need to override the generic Doxygen-specific definitions.
+
+### Top Navigation Bar
+
+The converter also generates a dropdown menu for use within the top navigation bar.
+
+To include this within the Docusaurus build, edit your `docusaurus-config.ts` file and add the following import statement at the top:
+
+```ts
+import doxygenApiNavbar from './docusaurus-config-navbar-doxygen2docusaurus.json'
+```
+
+Subsequently, add `doxygenApiNavbar` to the `navbar.items` array.
+
+### Sidebar
 
 The converter generates a dedicated sidebar for the Doxygen pages.
 
@@ -126,17 +223,16 @@ const sidebars: SidebarsConfig = {
 };
 ```
 
-## Top Navigation Bar
+## Known Limitations
 
-The converter also generates a dropdown menu for use within the top navigation bar.
+The converter was designed primarily for C/C++ projects and was implemented through an iterative process until it successfully processed all demonstration projects.
 
-To include this within the Docusaurus build, edit your `docusaurus-config.ts` file and add the following import statement at the top:
+Consequently, it may not function correctly with other programming languages.
 
-```ts
-import doxygenApiMenu from './docusaurus-config-menu-doxygen2docusaurus.json'
-```
+Additional known limitations include:
 
-Subsequently, add `doxygenApiMenu` to the `navbar.items` array.
+- no support for LaTeX mathematical expressions
+- no support for dependency graphs
 
 ## Memory Usage
 
@@ -148,7 +244,7 @@ To increase the heap and/or stack size, invoke Docusaurus with a command such as
 node --max-old-space-size=8192 --stack-size=2048 ./node_modules/.bin/doxygen2docusaurus
 ```
 
-Apply the same approach to the `start` and `build` commands if required.
+Apply the same approach to the `start` and `build` commands if necessary.
 
 ## Caveats
 

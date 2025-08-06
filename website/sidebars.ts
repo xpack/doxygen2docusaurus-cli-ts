@@ -3,6 +3,7 @@
 
 import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 import cliSidebar from "./sidebar-cli";
+import {customDocsSidebar} from "./sidebar-docs-custom";
 import tsdocSidebarItems from './sidebar-category-tsdoc.json';
 
 /**
@@ -17,74 +18,7 @@ import tsdocSidebarItems from './sidebar-category-tsdoc.json';
  */
 const sidebars: SidebarsConfig = {
 
-  docsSidebar: [
-    {
-      type: 'doc',
-      id: 'getting-started/index',
-      label: 'Getting Started'
-    },
-    {
-      type: 'doc',
-      id: 'install/index',
-      label: 'Installation Guide'
-    },
-    {
-      type: 'doc',
-      id: 'user/index',
-      label: 'User\'s Guide'
-    },
-    {
-      type: 'doc',
-      id: 'developer/index',
-      label: 'Contributor\'s Guide'
-    },
-    {
-      type: 'doc',
-      id: 'maintainer/index',
-      label: 'Maintainer\'s Guide'
-    },
-    {
-      type: 'doc',
-      id: 'faq/index',
-      label: 'FAQ'
-    },
-    {
-      type: 'doc',
-      id: 'support/index',
-      label: 'Help Centre'
-    },
-    {
-      type: 'doc',
-      id: 'releases/index',
-      label: 'Releases'
-    },
-    {
-      type: 'category',
-      label: 'Project',
-      link: {
-        type: 'doc',
-        id: 'project/about/index',
-      },
-      collapsed: false,
-      items: [
-        {
-          type: 'doc',
-          id: 'project/about/index',
-          label: 'About'
-        },
-        {
-          type: 'doc',
-          id: 'project/history/index',
-          label: 'History'
-        },
-        {
-          type: 'link',
-          label: 'License',
-          href: 'https://opensource.org/license/mit',
-        },
-      ]
-    },
-  ],
+  docsSidebar: customDocsSidebar,
 
   tsdocSidebar: [
     tsdocSidebarItems,

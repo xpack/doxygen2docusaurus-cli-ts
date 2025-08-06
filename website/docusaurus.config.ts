@@ -8,6 +8,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 // import logger from '@docusaurus/logger';
 import util from 'node:util';
 import cliNavbar from './docusaurus-config-navbar-cli';
+import { customDocsNavbarItem } from './navbar-docs-items';
 import tsdocApiMenu from './docusaurus-config-navbar-tsdoc.json'
 import { redirects } from './docusaurus-config-redirects';
 import { getCustomFields } from './customFields';
@@ -238,50 +239,7 @@ const config: Config = {
           className: 'header-home-link',
           position: 'left'
         },
-        {
-          type: 'dropdown',
-          label: 'Documentation',
-          to: 'docs/getting-started',
-          position: 'left',
-          items: [
-            {
-              label: 'Getting Started',
-              to: '/docs/getting-started'
-            },
-            {
-              label: 'Installation Guide',
-              to: '/docs/install'
-            },
-            {
-              label: 'User\'s Guide',
-              to: '/docs/user'
-            },
-            {
-              label: 'Contributor\'s Guide',
-              to: '/docs/developer'
-            },
-            {
-              label: 'Maintainer\'s Guide',
-              to: '/docs/maintainer'
-            },
-            {
-              label: 'FAQ',
-              to: '/docs/faq'
-            },
-            {
-              label: 'Help Centre',
-              to: '/docs/support'
-            },
-            {
-              label: 'Releases',
-              to: '/docs/releases'
-            },
-            {
-              label: 'About',
-              to: '/docs/project/about'
-            },
-          ],
-        },
+        customDocsNavbarItem,
         cliNavbar,
         tsdocApiMenu,
         {

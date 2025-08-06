@@ -81,8 +81,9 @@
     "@eslint/js": "^9.31.0"
   },
   "topConfig": {
-    "descriptiveName": "doxygen2docusaurus",
+    "descriptiveName": "Doxygen Documentation Converter",
     "permalinkName": "doxygen2docusaurus",
+    "preferShortName": "true",
     "skipCiTests": "true",
     "hasNoGithubReleases": "true",
     "hasCli": "true",

@@ -1,0 +1,194 @@
+---
+
+title: Configuration Variables
+description: Configuration variables for the doxygen2docusaurus CLI tool.
+keywords:
+  - doxygen2docusaurus
+  - user
+  - guide
+  - configuration
+
+date: 2025-08-05 13:06:00 +0300
+
+---
+
+The behaviour of the `doxygen2docusaurus` CLI tool can be customized using various configuration variables.
+
+## Configuration Variables Index
+
+The configuration variables, in lexicographic order, are:
+
+- **[apiBaseUrl](#apibaseurl)** - API documentation base URL
+- **[apiFolderPath](#apifolderpath)** - Path to API documentation folder
+- **[baseUrl](#baseurl)** - Site base URL
+- **[compatibilityRedirectsOutputFolderPath](#compatibilityredirectsoutputfolderpath)** - Path for compatibility redirects
+- **[customCssFilePath](#customcssfilepath)** - Path to custom CSS file
+- **[debug](#debug)** - Enable debug output
+- **[docsBaseUrl](#docsbaseurl)** - Documentation base URL
+- **[docsFolderPath](#docsfolderpath)** - Path to documentation folder
+- **[doxygenXmlInputFolderPath](#doxygenxmlinputfolderpath)** - Path to Doxygen XML input folder
+- **[imagesFolderPath](#imagesfolderpath)** - Path to images folder
+- **[mainPageTitle](#mainpagetitle)** - Title for the main page
+- **[menuDropdownFilePath](#menudropdownfilepath)** - Path to menu dropdown file
+- **[menuDropdownLabel](#menudropdownlabel)** - Label for menu dropdown
+- **[originalPagesNote](#originalpagesnote)** - Note about original Doxygen pages
+- **[renderPagesAtTop](#renderpagesattop)** - Render pages at top level
+- **[renderProgramListing](#renderprogramlisting)** - Render program listings in file pages
+- **[renderProgramListingInline](#renderprogramlistinginline)** - Render inline program listings
+- **[sidebarCategoryFilePath](#sidebarcategoryfilepath)** - Path to sidebar category file
+- **[sidebarCategoryLabel](#sidebarcategorylabel)** - Label for sidebar category
+- **[suggestToDoDescriptions](#suggesttododescriptions)** - Show TODO suggestions
+- **[verbose](#verbose)** - Enable verbose output
+
+
+## Configuration Variable Definitions
+
+All folder and file path variables are relative to the current folder from which the `doxygen2docusaurus` command is executed.
+
+It is recommended to invoke `doxygen2docusaurus` from the website folder, where the `docusaurus.config.ts` file is located; therefore, all paths are relative to the website folder.
+
+### `doxygenXmlInputFolderPath`
+
+The input folder where the Doxygen XML files are read from; no final slash is needed. Doxygen puts the XML files here via `XML_OUTPUT`.
+
+Default: `'doxygen/xml'`
+
+### `docsFolderPath`
+
+The folder where the Docusaurus **docs** files are stored; no final slash is needed.
+
+Traditionally Docusaurus `plugin-content-docs` uses `docs` as the default value.
+
+Default: `'docs'`
+
+### `apiFolderPath`
+
+The folder where the generated API documentation files are stored; since the reference `.md` pages must be parsed by Docusaurus `plugin-content-docs`, this folder must be below the Docusaurus `docs` folder; no final slash is needed.
+
+Default: `'api'`
+
+### `baseUrl`
+
+The URL pathname under which the site is served, like `/` if the site is a main site or `/<name>/` if the site is a sub-site. For GitHub pages deployment, it is often `/<projectName>/`
+
+It must match the Docusaurus site base URL used in `docusaurus.config.js`.
+
+Default: `'/'`
+
+### `docsBaseUrl`
+
+The URL pathname under which the documentation is served. Docusaurus differentiates between the location of a file in the filesystem hierarchy and the URL pathname under which the documentation is served. Usually they are the same, but in some cases they can differ.
+
+Relative to `baseUrl`, like `docs`, without initial/final slashes.
+
+Default: `'docs'`
+
+### `apiBaseUrl`
+
+The URL pathname under which the reference documentation is served.
+
+Relative to the docs URL pathname, like `api`, without initial/final slashes.
+
+Default: `'api'`
+
+### `imagesFolderPath`
+
+The folder where the images used in the reference documentation are stored. Docusaurus expects all static content to be located in the `static` folder, therefore this folder must be relative to website `static`; no final slash is needed.
+
+Default: `'assets/images/doxygen'`
+
+### `compatibilityRedirectsOutputFolderPath`
+
+If the website previously contained reference HTML pages generated directly by Doxygen within a static folder, the converter can generate compatibility redirects to the new Docusaurus pages.
+
+When defined, this specifies the folder where the compatibility redirects are written; no final slash is required.
+
+Relative to the current website `static` folder, such as `reference`.
+
+Default: `undefined` (no reference pages are generated)
+
+### `mainPageTitle`
+
+The title to be displayed on the main page. If left empty, the Doxygen `PROJECT_BRIEF` is used, followed by `API Reference`.
+
+Default: `''` (empty)
+
+### `sidebarCategoryFilePath`
+
+The file path where the sidebar category file is written. This file is included by the Docusaurus `sidebars.ts` file to generate the sidebar for the API reference documentation.
+
+Default: `'sidebar-category-doxygen.json'` or `'sidebar-category-doxygen-<id>.json'`
+
+### `sidebarCategoryLabel`
+
+A short text to be displayed as the top label in the sidebar.
+
+Default: `'API Reference (Doxygen)'`
+
+### `navbarDropdownFilePath`
+
+The file path where the menu dropdown file is written to. This file must be included by the Docusaurus `docusaurus.config.js` file to generate the custom top navigation bar.
+
+Default: `'docusaurus-config-navbar-doxygen.json'` or `'docusaurus-config-navbar-doxygen[-<id>].json'`
+
+### `navbarDropdownLabel`
+
+A short text to be displayed as the top label in the navigation bar.
+
+Default: `'Reference'`
+
+### `customCssFilePath`
+
+The file path where the custom CSS file is written to. This file must be included by the Docusaurus `docusaurus.config.js` file to apply custom styles to the API reference documentation.
+
+Default: `'src/css/custom-doxygen2docusaurus.css'`
+
+### `verbose`
+
+Boolean to control verbosity. Can be overridden by the command line `--verbose` option.
+
+Default: `false`
+
+### `debug`
+
+Boolean to control debug verbosity. Can be overridden by the command line `--debug` option.
+
+Default: `false`
+
+### `suggestToDoDescriptions`
+
+During development, it is often useful to have the TODO suggestions shown in the documentation pages. This boolean option controls if the TODO suggestions are shown.
+
+Default: `false`
+
+### `listPagesAtTop`
+
+Some Doxygen sites may include static pages. When using Docusaurus, these pages are usually migrated to docs pages, but if they are still present in the Doxygen XML files, the content can still be temporarily kept as such.
+
+This boolean option controls if the pages are list in the sidebar at the top level.
+
+Default: `true`
+
+### `renderProgramListing`
+
+Doxygen can generate full program listings of the parsed files with the documentation metadata removed, which is a useful feature since it makes the code easier to read.
+
+This boolean option controls if the program listing is rendered in the file pages.
+
+Default: `true`
+
+### `renderProgramListingInline`
+
+Doxygen can render program listings in the member definitions sections, which is useful for C/C++ projects.
+
+This boolean option controls if the program listing is rendered in the member definitions sections.
+
+Default: `true`
+
+### `originalPagesNote`
+
+During the transition to Docusaurus, it may be useful to keep the original Doxygen generated pages available for comparison.
+
+If this is the case, a note about the original Doxygen pages can be displayed at the bottom of the main page, including the URL of the static Doxygen pages.
+
+Default: `''` (empty, no note)
