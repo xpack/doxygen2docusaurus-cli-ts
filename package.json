@@ -10,7 +10,7 @@
   },
   "files": [
     "dist/",
-    "template"
+    "template/"
   ],
   "keywords": [
     "docusaurus",
