@@ -60,7 +60,7 @@
     "@docusaurus/tsconfig": "3.8.1",
     "@docusaurus/types": "3.8.1",
     "@microsoft/api-documenter": "^7.26.30",
-    "@xpack/tsdoc2docusaurus": "github:xpack/tsdoc2docusaurus-ts#v1.0.3",
+    "@xpack/tsdoc2docusaurus": "github:xpack/tsdoc2docusaurus-ts#v1.2.0",
     "del-cli": "^6.0.0",
     "json": "^11.0.0",
     "liquidjs": "^10.20.1",
