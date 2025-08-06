@@ -25,7 +25,6 @@
     "compile": "tsc --build --verbose src",
     "prettier": "prettier src --write",
     "fix": "eslint --fix src",
-    "generate-tsdoc": "api-extractor run --local --verbose && api-documenter markdown --input-folder api-extractor --output-folder api-extractor/markdown",
     "dev-cycle": "npm run fix && npm run compile && npm run test",
     "npm-install": "npm install",
     "npm-link-helpers": "npm link @xpack/npm-packages-helper @xpack/docusaurus-template-liquid",
