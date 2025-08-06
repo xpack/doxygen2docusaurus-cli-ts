@@ -13,7 +13,7 @@
 #
 # -----------------------------------------------------------------------------
 
-# https://xpack.github.io/doxygen2docusaurus-cli-ts/
+# https://xpack.github.io/doxygen2docusaurus/
 # https://github.com/xpack/doxygen2docusaurus-cli-ts/actions/workflows/publish-github-pages.yml
 
 # Workflow for deploying static content to GitHub Pages.
