@@ -88,6 +88,7 @@
     "hasCustomHomepageFeatures": "true",
     "hasTSDocDocusaurusApi": "true",
     "skipTests": "true",
+    "skipAlgolia": "true",
     "nodeVersion": "20.18.0"
   },
   "engines": {
