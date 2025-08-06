@@ -1,6 +1,6 @@
 ---
-slug: /api/doxygen2docusaurus/classes/clioptions/renderpagesattop
-title: CliOptions.renderPagesAtTop property
+slug: /api/doxygen2docusaurus/type aliases/commandoptions
+title: CommandOptions typealias
 custom_edit_url: null
 ---
 
@@ -10,12 +10,10 @@ custom_edit_url: null
 
 
 
-Boolean to render the pages to the top.
-
 ## Signature
 
 ```typescript
-renderPagesAtTop: boolean;
+export type CommandOptions = Record<string, string | boolean | undefined>;
 ```
 
 </div>

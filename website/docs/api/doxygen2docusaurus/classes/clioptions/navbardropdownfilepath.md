@@ -1,6 +1,6 @@
 ---
-slug: /api/doxygen2docusaurus/classes/clioptions/sidebarcategoryfilepath
-title: CliOptions.sidebarCategoryFilePath property
+slug: /api/doxygen2docusaurus/classes/clioptions/navbardropdownfilepath
+title: CliOptions.navbarDropdownFilePath property
 custom_edit_url: null
 ---
 
@@ -15,7 +15,7 @@ Relative to the current website folder.
 ## Signature
 
 ```typescript
-sidebarCategoryFilePath: string;
+navbarDropdownFilePath: string;
 ```
 
 </div>

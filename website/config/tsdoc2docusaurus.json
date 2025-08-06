@@ -1,10 +1,12 @@
 {
-  "apiJsonInputFilePath": "../api-extractor/doxygen2docusaurus.api.json",
-  "apiJsonInputFolderPath": "../api-extractor",
-  "apiMarkdownInputFolderPath": "../api-extractor/markdown",
-  "baseUrl": "/doxygen2docusaurus-cli-ts/",
-  "navbarLabel": "API",
-  "navbarPosition": "left",
-  "verbose": false,
-  "debug": false
+  "default": {
+    "apiJsonInputFilePath": "../api-extractor/doxygen2docusaurus.api.json",
+    "apiJsonInputFolderPath": "../api-extractor",
+    "apiMarkdownInputFolderPath": "../api-extractor/markdown",
+    "baseUrl": "/doxygen2docusaurus-cli-ts/",
+    "navbarLabel": "API",
+    "navbarPosition": "left",
+    "verbose": false,
+    "debug": false
+  }
 }

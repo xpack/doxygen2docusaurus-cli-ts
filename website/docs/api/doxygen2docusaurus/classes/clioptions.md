@@ -38,7 +38,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(argv)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/constructor)
+[(constructor)(commandOptions)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/constructor)
 
 
 </td><td>
@@ -286,6 +286,25 @@ Relative to `static`
 </td></tr>
 <tr><td>
 
+[listPagesAtTop](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/listpagesattop)
+
+
+</td><td>
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+Boolean to list the pages at the top of the sidebar.
+
+
+</td></tr>
+<tr><td>
+
 [mainPageTitle](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/mainpagetitle)
 
 
@@ -305,7 +324,7 @@ The title to be displayed on the main page.
 </td></tr>
 <tr><td>
 
-[menuDropdownFilePath](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/menudropdownfilepath)
+[navbarDropdownFilePath](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/navbardropdownfilepath)
 
 
 </td><td>
@@ -318,13 +337,13 @@ string
 
 </td><td>
 
-Relative to the current website folder, default `docusaurus-config-doxygen-menu-dropdown.json`<!-- -->.
+Relative to the current website folder.
 
 
 </td></tr>
 <tr><td>
 
-[menuDropdownLabel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/menudropdownlabel)
+[navbarDropdownLabel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/navbardropdownlabel)
 
 
 </td><td>
@@ -337,7 +356,7 @@ string
 
 </td><td>
 
-Short text to be displayed in the menu.
+Short text to be displayed in the top navigation bar.
 
 
 </td></tr>
@@ -359,25 +378,6 @@ string
 Location of original Doxygen pages
 
 'For comparison, the original Doxygen html pages, styled with the <a href="https://jothepro.github.io/doxygen-awesome-css/">doxygen-awesome-css</a> plugin, continue to be available via the <a href="pathname:///doxygen/topics.html"><code>.../doxygen/\*.html</b></code> URLs.'
-
-
-</td></tr>
-<tr><td>
-
-[renderPagesAtTop](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/renderpagesattop)
-
-
-</td><td>
-
-
-</td><td>
-
-boolean
-
-
-</td><td>
-
-Boolean to render the pages to the top.
 
 
 </td></tr>
@@ -434,7 +434,7 @@ string
 
 </td><td>
 
-Relative to the current website folder, default `sidebar-category-doxygen.json`<!-- -->.
+Relative to the current website folder.
 
 
 </td></tr>

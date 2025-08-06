@@ -885,6 +885,15 @@ Options, as written by the user. All are optional.
 </td></tr>
 <tr><td>
 
+[CommandOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/type aliases/commandoptions)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
 [MultiConfigurations](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/type aliases/multiconfigurations)
 
 

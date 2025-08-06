@@ -1704,33 +1704,33 @@
                 },
                 {
                   "type": "doc",
+                  "label": "listPagesAtTop",
+                  "className": "tsdocEllipsis",
+                  "id": "api/doxygen2docusaurus/classes/clioptions/listpagesattop"
+                },
+                {
+                  "type": "doc",
                   "label": "mainPageTitle",
                   "className": "tsdocEllipsis",
                   "id": "api/doxygen2docusaurus/classes/clioptions/mainpagetitle"
                 },
                 {
                   "type": "doc",
-                  "label": "menuDropdownFilePath",
+                  "label": "navbarDropdownFilePath",
                   "className": "tsdocEllipsis",
-                  "id": "api/doxygen2docusaurus/classes/clioptions/menudropdownfilepath"
+                  "id": "api/doxygen2docusaurus/classes/clioptions/navbardropdownfilepath"
                 },
                 {
                   "type": "doc",
-                  "label": "menuDropdownLabel",
+                  "label": "navbarDropdownLabel",
                   "className": "tsdocEllipsis",
-                  "id": "api/doxygen2docusaurus/classes/clioptions/menudropdownlabel"
+                  "id": "api/doxygen2docusaurus/classes/clioptions/navbardropdownlabel"
                 },
                 {
                   "type": "doc",
                   "label": "originalPagesNote",
                   "className": "tsdocEllipsis",
                   "id": "api/doxygen2docusaurus/classes/clioptions/originalpagesnote"
-                },
-                {
-                  "type": "doc",
-                  "label": "renderPagesAtTop",
-                  "className": "tsdocEllipsis",
-                  "id": "api/doxygen2docusaurus/classes/clioptions/renderpagesattop"
                 },
                 {
                   "type": "doc",
@@ -2714,6 +2714,17 @@
               "link": {
                 "type": "doc",
                 "id": "api/doxygen2docusaurus/type aliases/cliconfigurationoptions"
+              },
+              "className": "tsdocEllipsis",
+              "collapsed": true,
+              "items": []
+            },
+            {
+              "type": "category",
+              "label": "CommandOptions",
+              "link": {
+                "type": "doc",
+                "id": "api/doxygen2docusaurus/type aliases/commandoptions"
               },
               "className": "tsdocEllipsis",
               "collapsed": true,
