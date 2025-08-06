@@ -879,6 +879,15 @@ Options, as written by the user. All are optional.
 </td></tr>
 <tr><td>
 
+[CommandOptions](./doxygen2docusaurus.commandoptions.md)
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
 [MultiConfigurations](./doxygen2docusaurus.multiconfigurations.md)
 
 

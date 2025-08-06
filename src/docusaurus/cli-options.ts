@@ -233,11 +233,10 @@ export class CliOptions {
       }
     }
 
-    if (this.debug) {
-      console.log(configurationOptions)
-    }
-
     if (configurationOptions !== undefined) {
+      if (this.debug) {
+        console.log(configurationOptions)
+      }
       // Override only properties that exist in CliOptions
       const thisProperties = Object.getOwnPropertyNames(this)
 
@@ -303,7 +302,11 @@ export class CliOptions {
         configurationOptions.id = this.id
       }
     } else {
-      configurationOptions = multiConfigurations as CliConfigurationOptions
+      const multiConfig = multiConfigurations as MultiConfigurations
+      configurationOptions =
+        'default' in multiConfig
+          ? multiConfig.default
+          : (multiConfigurations as CliConfigurationOptions)
     }
     return configurationOptions
   }

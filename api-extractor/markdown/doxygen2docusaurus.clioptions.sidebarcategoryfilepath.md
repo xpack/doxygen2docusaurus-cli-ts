@@ -4,7 +4,7 @@
 
 ## CliOptions.sidebarCategoryFilePath property
 
-Relative to the current website folder, default `sidebar-category-doxygen.json`<!-- -->.
+Relative to the current website folder.
 
 **Signature:**
 

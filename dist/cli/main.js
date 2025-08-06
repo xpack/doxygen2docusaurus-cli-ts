@@ -12,6 +12,7 @@
 // import assert from 'node:assert'
 import * as path from 'node:path';
 import * as fs from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 // import * as util from 'node:util'
 // https://www.npmjs.com/package/commander
 import { CliOptions } from '../docusaurus/cli-options.js';
@@ -19,7 +20,6 @@ import { formatDuration } from '../docusaurus/utils.js';
 import { DataModel } from '../doxygen/data-model/data-model.js';
 import { DocusaurusGenerator } from '../docusaurus/generator.js';
 import { Workspace } from '../docusaurus/workspace.js';
-import { fileURLToPath } from 'node:url';
 // https://www.npmjs.com/package/commander
 import { Command } from 'commander';
 // ----------------------------------------------------------------------------

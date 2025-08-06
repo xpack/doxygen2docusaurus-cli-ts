@@ -156,10 +156,10 @@ export class CliOptions {
                 /* Cannot read/parse JSON */
             }
         }
-        if (this.debug) {
-            console.log(configurationOptions);
-        }
         if (configurationOptions !== undefined) {
+            if (this.debug) {
+                console.log(configurationOptions);
+            }
             // Override only properties that exist in CliOptions
             const thisProperties = Object.getOwnPropertyNames(this);
             for (const key of Object.keys(configurationOptions)) {
@@ -203,7 +203,11 @@ export class CliOptions {
             }
         }
         else {
-            configurationOptions = multiConfigurations;
+            const multiConfig = multiConfigurations;
+            configurationOptions =
+                'default' in multiConfig
+                    ? multiConfig.default
+                    : multiConfigurations;
         }
         return configurationOptions;
     }

@@ -9,7 +9,7 @@ Constructs a new instance of the `CliOptions` class
 **Signature:**
 
 ```typescript
-constructor(argv: string[]);
+constructor(commandOptions: CommandOptions);
 ```
 
 ## Parameters
@@ -32,12 +32,12 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-argv
+commandOptions
 
 
 </td><td>
 
-string\[\]
+[CommandOptions](./doxygen2docusaurus.commandoptions.md)
 
 
 </td><td>
