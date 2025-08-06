@@ -60,6 +60,7 @@
     "url": "https://github.com/xpack/doxygen2docusaurus-cli-ts/issues"
   },
   "homepage": "https://xpack.github.io/doxygen2docusaurus-cli-ts/",
+  "homepagePreview": "https://xpack.github.io/doxygen2docusaurus-cli-ts/",
   "dependencies": {
     "commander": "^14.0.0",
     "fast-xml-parser": "^5.2.5"
@@ -87,7 +88,9 @@
     "skipCiTests": "true",
     "hasNoGithubReleases": "true",
     "hasCli": "true",
-    "useEslint": "true"
+    "useEslint": "true",
+    "hasTriggerPublish": "true",
+    "isWebPreview": "true"
   },
   "prettier": {
     "printWidth": 80,

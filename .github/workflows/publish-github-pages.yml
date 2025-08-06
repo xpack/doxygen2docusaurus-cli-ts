@@ -13,7 +13,7 @@
 #
 # -----------------------------------------------------------------------------
 
-# https://xpack.github.io/doxygen2docusaurus-cli-ts/
+# https://xpack.github.io/doxygen2docusaurus/
 # https://github.com/xpack/doxygen2docusaurus-cli-ts/actions/workflows/publish-github-pages.yml
 
 # Workflow for deploying static content to GitHub Pages.
@@ -27,7 +27,7 @@ on:
   push:
     # ... on the `website` branch ...
     branches:
-      - 'website'
+      - 'development'
     # ... skip tags only ...
     tags-ignore:
       - '**'
@@ -85,6 +85,8 @@ jobs:
         run: (cd website; npm ci)
 
       - name: Build the Docusaurus site
+        env:
+          DOCUSAURUS_IS_PREVIEW: 'true'
         run: (cd website; npm run build)
 
       - name: Setup Pages
