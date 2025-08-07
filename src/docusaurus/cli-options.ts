@@ -95,10 +95,13 @@ export class CliOptions {
   /**
    * Relative to the current website folder.
    */
-  navbarDropdownFilePath = 'docusaurus-config-navbar-doxygen.json'
+  navbarFilePath = 'docusaurus-config-navbar-doxygen.json'
 
   /** Short text to be displayed in the top navigation bar. */
-  navbarDropdownLabel = 'Reference'
+  navbarLabel = 'Reference'
+
+  /** Where the menu is to be displayed, left or right. */
+  navbarPosition: 'left' | 'right' = 'left'
 
   /**
    * Relative to the current website folder, default
@@ -157,14 +160,14 @@ export class CliOptions {
       this.imagesFolderPath = `img/doxygen-${this.id}`
       this.sidebarCategoryFilePath =
         'sidebar-category-doxygen' + `-${this.id}.json`
-      this.navbarDropdownFilePath =
+      this.navbarFilePath =
         'docusaurus-config-navbar-doxygen' + `-${this.id}.json`
     } else {
       this.apiFolderPath = 'api'
       this.apiBaseUrl = 'api'
       this.imagesFolderPath = `img/doxygen`
       this.sidebarCategoryFilePath = `sidebar-category-doxygen.json`
-      this.navbarDropdownFilePath = `docusaurus-config-navbar-doxygen.json`
+      this.navbarFilePath = `docusaurus-config-navbar-doxygen.json`
     }
   }
 

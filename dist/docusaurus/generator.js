@@ -39,17 +39,23 @@ export class DocusaurusGenerator {
         else {
             console.log('Writing Docusaurus .md pages...');
         }
-        await this.generatePages();
+        await this.generateMdFiles();
         if (this.options.verbose) {
             console.log();
         }
         await this.generateTopIndexDotMdFile();
         await this.generateCollectionsIndexDotMdFiles();
-        await this.generatePerInitialsIndexMdFiles();
+        await this.generatePerInitialsIndexDotMdFiles();
         console.log(this.workspace.writtenMdFilesCounter, '.md files written');
         console.log();
-        await this.generateSidebarFile();
-        await this.generateMenuFile();
+        const sidebarCategory = this.generateSidebarCategory();
+        await this.writeSidebarFile(sidebarCategory);
+        // await this.generateSidebarFile()
+        if (this.options.navbarFilePath.trim().length > 0) {
+            const navbarItem = this.generateNavbarItem();
+            await this.writeNavbarFile(navbarItem);
+        }
+        // await this.generateMenuFile()
         // await this.generateManualRedirectFiles()
         await this.generateCompatibilityRedirectFiles();
         await this.copyFiles();
@@ -74,8 +80,8 @@ export class DocusaurusGenerator {
         await fs.mkdir(outputFolderPath, { recursive: true });
     }
     // --------------------------------------------------------------------------
-    async generateSidebarFile() {
-        const sidebarCategory = {
+    generateSidebarCategory() {
+        const sidebarTopCategory = {
             type: 'category',
             label: this.options.sidebarCategoryLabel,
             link: {
@@ -86,37 +92,32 @@ export class DocusaurusGenerator {
             items: [],
         };
         const pages = this.workspace.viewModel.collections.get('pages');
-        pages.createTopPagesSidebarItems(sidebarCategory);
+        pages.createTopPagesSidebarItems(sidebarTopCategory);
         // The order in sidebarCollectionNames also gives the the order
         // of items in the sidebar.
         for (const collectionName of this.workspace.sidebarCollectionNames) {
             // console.log(collectionName)
             const collection = this.workspace.viewModel.collections.get(collectionName);
             if (collection?.isVisibleInSidebar() === true) {
-                collection.addSidebarItems(sidebarCategory);
+                collection.addSidebarItems(sidebarTopCategory);
             }
         }
-        // console.log(
-        //   'sidebar:', util.inspect(sidebar, { compact: false, depth: 999 })
-        // )
-        const jsonString = JSON.stringify(sidebarCategory, null, 2);
-        const { sidebarCategoryFilePath } = this.options;
-        const relativeFilePath = sidebarCategoryFilePath;
-        const absoluteFilePath = path.resolve(relativeFilePath);
-        // Superfluous if done after prepareOutputFolder()
-        await fs.mkdir(path.dirname(absoluteFilePath), { recursive: true });
-        console.log(`Writing sidebar file ${relativeFilePath}...`);
-        await fs.writeFile(absoluteFilePath, jsonString, 'utf8');
+        return sidebarTopCategory;
     }
     // --------------------------------------------------------------------------
-    async generateMenuFile() {
-        const { navbarDropdownFilePath: menuDropdownFilePath, navbarDropdownLabel: label, } = this.options;
-        if (menuDropdownFilePath.trim().length === 0) {
-            return;
-        }
+    async writeSidebarFile(sidebarCategory) {
+        // console.log(util.inspect(sidebar, { compact: false, depth: 999 }));
+        // Write the sidebar to file.
+        const sidebarFilePath = this.workspace.options.sidebarCategoryFilePath;
+        console.log(`Writing sidebar file ${sidebarFilePath}...`);
+        const sidebarJson = JSON.stringify(sidebarCategory, null, 2);
+        await fs.writeFile(sidebarFilePath, sidebarJson);
+    }
+    // --------------------------------------------------------------------------
+    generateNavbarItem() {
         let navbarEntry = {
             type: 'dropdown',
-            label,
+            label: this.options.navbarLabel,
             to: this.workspace.menuBaseUrl,
             position: 'left',
             items: [],
@@ -128,32 +129,29 @@ export class DocusaurusGenerator {
             const collection = this.workspace.viewModel.collections.get(collectionName);
             if (collection?.isVisibleInSidebar() === true) {
                 assert(navbarEntry.items !== undefined);
-                const items = collection.createMenuItems();
+                const items = collection.createNavbarItems();
                 if (items.length > 0) {
-                    navbarEntry.items.push(...collection.createMenuItems());
+                    navbarEntry.items.push(...collection.createNavbarItems());
                     hasItems = true;
                 }
             }
         }
         if (!hasItems) {
             navbarEntry = {
-                label,
+                label: this.options.navbarLabel,
                 to: this.workspace.menuBaseUrl,
                 position: 'left',
             };
         }
-        // console.log(
-        //   'sidebarItems:',
-        //   util.inspect(sidebarItems, { compact: false, depth: 999 })
-        // )
-        const jsonString = JSON.stringify(navbarEntry, null, 2);
-        assert(menuDropdownFilePath.trim().length > 0);
-        const relativeFilePath = menuDropdownFilePath;
-        const absoluteFilePath = path.resolve(relativeFilePath);
-        // Superfluous if done after prepareOutputFolder()
-        await fs.mkdir(path.dirname(absoluteFilePath), { recursive: true });
-        console.log(`Writing menu file ${relativeFilePath}...`);
-        await fs.writeFile(absoluteFilePath, jsonString, 'utf8');
+        return navbarEntry;
+    }
+    async writeNavbarFile(navbarItem) {
+        // console.log(util.inspect(navbarItem, { compact: false, depth: 999 }));
+        // Write the sidebar to file.
+        const navbarFilePath = this.workspace.options.navbarFilePath;
+        console.log(`Writing navbar file ${navbarFilePath}...`);
+        const navbarJson = JSON.stringify(navbarItem, null, 2);
+        await fs.writeFile(navbarFilePath, navbarJson);
     }
     // --------------------------------------------------------------------------
     async generateCollectionsIndexDotMdFiles() {
@@ -220,7 +218,7 @@ export class DocusaurusGenerator {
         });
     }
     // --------------------------------------------------------------------------
-    async generatePerInitialsIndexMdFiles() {
+    async generatePerInitialsIndexDotMdFiles() {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         for (const [collectionName, collection] of this.workspace.viewModel
             .collections) {
@@ -230,7 +228,7 @@ export class DocusaurusGenerator {
         // TODO: parallelize
     }
     // --------------------------------------------------------------------------
-    async generatePages() {
+    async generateMdFiles() {
         const promises = [];
         for (const [, compound] of this.workspace.viewModel.compoundsById) {
             if (compound instanceof Page) {

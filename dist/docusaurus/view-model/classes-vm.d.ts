@@ -1,7 +1,7 @@
 import { CompoundBase } from './compound-base-vm.js';
 import type { CompoundDefDataModel } from '../../doxygen/data-model/compounds/compounddef-dm.js';
 import { CollectionBase } from './collection-base.js';
-import type { MenuItem, SidebarCategory, FrontMatter } from '../types.js';
+import type { SidebarCategory, FrontMatter, NavbarItem } from '../types.js';
 import type { BaseCompoundRefDataModel, DerivedCompoundRefDataModel } from '../../doxygen/data-model/compounds/compoundreftype-dm.js';
 import type { TemplateParamListDataModel } from '../../doxygen/data-model/compounds/templateparamlisttype-dm.js';
 export declare class Classes extends CollectionBase {
@@ -10,7 +10,7 @@ export declare class Classes extends CollectionBase {
     createCompoundsHierarchies(): void;
     addSidebarItems(sidebarCategory: SidebarCategory): void;
     private createSidebarItemRecursively;
-    createMenuItems(): MenuItem[];
+    createNavbarItems(): NavbarItem[];
     generateIndexDotMdFile(): Promise<void>;
     private generateIndexMdFileRecursively;
     generatePerInitialsIndexMdFiles(): Promise<void>;

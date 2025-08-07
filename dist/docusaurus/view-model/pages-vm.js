@@ -95,7 +95,7 @@ export class Pages extends CollectionBase {
         }
     }
     // --------------------------------------------------------------------------
-    createMenuItems() {
+    createNavbarItems() {
         // Pages do not show on the menu.
         // Reference 'this' to satisfy the linter.
         return [];

@@ -194,12 +194,12 @@ export class Classes extends CollectionBase {
         }
     }
     // --------------------------------------------------------------------------
-    createMenuItems() {
-        const menuItem = {
+    createNavbarItems() {
+        const navbarItem = {
             label: 'Classes',
             to: `${this.workspace.menuBaseUrl}classes/`,
         };
-        return [menuItem];
+        return [navbarItem];
     }
     // --------------------------------------------------------------------------
     async generateIndexDotMdFile() {

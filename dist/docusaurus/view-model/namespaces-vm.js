@@ -186,12 +186,12 @@ export class Namespaces extends CollectionBase {
         }
     }
     // --------------------------------------------------------------------------
-    createMenuItems() {
-        const menuItem = {
+    createNavbarItems() {
+        const navbarItem = {
             label: 'Namespaces',
             to: `${this.workspace.menuBaseUrl}namespaces/`,
         };
-        return [menuItem];
+        return [navbarItem];
     }
     // --------------------------------------------------------------------------
     async generateIndexDotMdFile() {

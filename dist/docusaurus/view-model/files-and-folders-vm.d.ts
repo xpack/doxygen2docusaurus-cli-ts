@@ -1,7 +1,7 @@
 import { CompoundBase } from './compound-base-vm.js';
 import type { CompoundDefDataModel } from '../../doxygen/data-model/compounds/compounddef-dm.js';
 import { CollectionBase } from './collection-base.js';
-import type { MenuItem, SidebarCategory, FrontMatter } from '../types.js';
+import type { NavbarItem, SidebarCategory, FrontMatter } from '../types.js';
 import type { Workspace } from '../workspace.js';
 import type { ProgramListingDataModel } from '../../doxygen/data-model/compounds/descriptiontype-dm.js';
 export declare class FilesAndFolders extends CollectionBase {
@@ -16,7 +16,7 @@ export declare class FilesAndFolders extends CollectionBase {
     addSidebarItems(sidebarCategory: SidebarCategory): void;
     private createFolderSidebarItemRecursively;
     private createFileSidebarItem;
-    createMenuItems(): MenuItem[];
+    createNavbarItems(): NavbarItem[];
     generateIndexDotMdFile(): Promise<void>;
     private generateIndexMdFileRecursively;
     private generateFileIndexMd;

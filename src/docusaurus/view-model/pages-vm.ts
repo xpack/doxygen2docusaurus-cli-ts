@@ -19,7 +19,7 @@ import type { CompoundDefDataModel } from '../../doxygen/data-model/compounds/co
 import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { CollectionBase } from './collection-base.js'
 import type {
-  MenuItem,
+  NavbarItem,
   SidebarCategory,
   SidebarCategoryItem,
   SidebarDocItem,
@@ -135,7 +135,7 @@ export class Pages extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createMenuItems(): MenuItem[] {
+  override createNavbarItems(): NavbarItem[] {
     // Pages do not show on the menu.
     // Reference 'this' to satisfy the linter.
     return []

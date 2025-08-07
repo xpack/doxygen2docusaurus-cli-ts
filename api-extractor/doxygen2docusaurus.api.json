@@ -8997,12 +8997,12 @@
             },
             {
               "kind": "Property",
-              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#navbarDropdownFilePath:member",
+              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#navbarFilePath:member",
               "docComment": "/**\n * Relative to the current website folder.\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "navbarDropdownFilePath: "
+                  "text": "navbarFilePath: "
                 },
                 {
                   "kind": "Content",
@@ -9016,7 +9016,7 @@
               "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
-              "name": "navbarDropdownFilePath",
+              "name": "navbarFilePath",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
@@ -9027,12 +9027,12 @@
             },
             {
               "kind": "Property",
-              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#navbarDropdownLabel:member",
+              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#navbarLabel:member",
               "docComment": "/**\n * Short text to be displayed in the top navigation bar.\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "navbarDropdownLabel: "
+                  "text": "navbarLabel: "
                 },
                 {
                   "kind": "Content",
@@ -9046,7 +9046,37 @@
               "isReadonly": false,
               "isOptional": false,
               "releaseTag": "Public",
-              "name": "navbarDropdownLabel",
+              "name": "navbarLabel",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#navbarPosition:member",
+              "docComment": "/**\n * Where the menu is to be displayed, left or right.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "navbarPosition: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "'left' | 'right'"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "navbarPosition",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2

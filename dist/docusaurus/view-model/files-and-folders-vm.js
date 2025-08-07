@@ -305,12 +305,12 @@ export class FilesAndFolders extends CollectionBase {
         return docItem;
     }
     // --------------------------------------------------------------------------
-    createMenuItems() {
-        const menuItem = {
+    createNavbarItems() {
+        const navbarItem = {
             label: 'Files',
             to: `${this.workspace.menuBaseUrl}files/`,
         };
-        return [menuItem];
+        return [navbarItem];
     }
     // --------------------------------------------------------------------------
     async generateIndexDotMdFile() {

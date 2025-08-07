@@ -19,7 +19,7 @@ import { CompoundBase } from './compound-base-vm.js'
 import type { CompoundDefDataModel } from '../../doxygen/data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
 import type {
-  MenuItem,
+  NavbarItem,
   SidebarCategory,
   SidebarCategoryItem,
   SidebarDocItem,
@@ -234,12 +234,12 @@ export class Namespaces extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createMenuItems(): MenuItem[] {
-    const menuItem: MenuItem = {
+  override createNavbarItems(): NavbarItem[] {
+    const navbarItem: NavbarItem = {
       label: 'Namespaces',
       to: `${this.workspace.menuBaseUrl}namespaces/`,
     }
-    return [menuItem]
+    return [navbarItem]
   }
 
   // --------------------------------------------------------------------------

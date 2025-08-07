@@ -526,8 +526,9 @@ export class CliOptions {
     imagesFolderPath: string;
     listPagesAtTop: boolean;
     mainPageTitle: string;
-    navbarDropdownFilePath: string;
-    navbarDropdownLabel: string;
+    navbarFilePath: string;
+    navbarLabel: string;
+    navbarPosition: 'left' | 'right';
     originalPagesNote: string;
     // (undocumented)
     parse(): Promise<void>;

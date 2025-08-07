@@ -18,7 +18,7 @@ import * as fs from 'node:fs/promises'
 
 import { Workspace } from './workspace.js'
 import { CliOptions, maxParallelPromises } from './cli-options.js'
-import type { MenuDropdown, SidebarCategory, FrontMatter } from './types.js'
+import type { SidebarCategory, FrontMatter, NavbarItem } from './types.js'
 import { folderExists } from './utils.js'
 import { Page } from './view-model/pages-vm.js'
 import type { Pages } from './view-model/pages-vm.js'
@@ -56,19 +56,28 @@ export class DocusaurusGenerator {
     } else {
       console.log('Writing Docusaurus .md pages...')
     }
-    await this.generatePages()
+    await this.generateMdFiles()
 
     if (this.options.verbose) {
       console.log()
     }
     await this.generateTopIndexDotMdFile()
     await this.generateCollectionsIndexDotMdFiles()
-    await this.generatePerInitialsIndexMdFiles()
+    await this.generatePerInitialsIndexDotMdFiles()
     console.log(this.workspace.writtenMdFilesCounter, '.md files written')
 
     console.log()
-    await this.generateSidebarFile()
-    await this.generateMenuFile()
+    const sidebarCategory = this.generateSidebarCategory()
+    await this.writeSidebarFile(sidebarCategory)
+
+    // await this.generateSidebarFile()
+
+    if (this.options.navbarFilePath.trim().length > 0) {
+      const navbarItem = this.generateNavbarItem()
+      await this.writeNavbarFile(navbarItem)
+    }
+
+    // await this.generateMenuFile()
 
     // await this.generateManualRedirectFiles()
     await this.generateCompatibilityRedirectFiles()
@@ -99,8 +108,8 @@ export class DocusaurusGenerator {
 
   // --------------------------------------------------------------------------
 
-  async generateSidebarFile(): Promise<void> {
-    const sidebarCategory: SidebarCategory = {
+  generateSidebarCategory(): SidebarCategory {
+    const sidebarTopCategory: SidebarCategory = {
       type: 'category',
       label: this.options.sidebarCategoryLabel,
       link: {
@@ -112,7 +121,7 @@ export class DocusaurusGenerator {
     }
 
     const pages = this.workspace.viewModel.collections.get('pages') as Pages
-    pages.createTopPagesSidebarItems(sidebarCategory)
+    pages.createTopPagesSidebarItems(sidebarTopCategory)
 
     // The order in sidebarCollectionNames also gives the the order
     // of items in the sidebar.
@@ -121,40 +130,30 @@ export class DocusaurusGenerator {
       const collection =
         this.workspace.viewModel.collections.get(collectionName)
       if (collection?.isVisibleInSidebar() === true) {
-        collection.addSidebarItems(sidebarCategory)
+        collection.addSidebarItems(sidebarTopCategory)
       }
     }
-
-    // console.log(
-    //   'sidebar:', util.inspect(sidebar, { compact: false, depth: 999 })
-    // )
-    const jsonString = JSON.stringify(sidebarCategory, null, 2)
-
-    const { sidebarCategoryFilePath } = this.options
-    const relativeFilePath = sidebarCategoryFilePath
-    const absoluteFilePath = path.resolve(relativeFilePath)
-
-    // Superfluous if done after prepareOutputFolder()
-    await fs.mkdir(path.dirname(absoluteFilePath), { recursive: true })
-
-    console.log(`Writing sidebar file ${relativeFilePath}...`)
-    await fs.writeFile(absoluteFilePath, jsonString, 'utf8')
+    return sidebarTopCategory
   }
 
   // --------------------------------------------------------------------------
 
-  async generateMenuFile(): Promise<void> {
-    const {
-      navbarDropdownFilePath: menuDropdownFilePath,
-      navbarDropdownLabel: label,
-    } = this.options
-    if (menuDropdownFilePath.trim().length === 0) {
-      return
-    }
+  async writeSidebarFile(sidebarCategory: SidebarCategory): Promise<void> {
+    // console.log(util.inspect(sidebar, { compact: false, depth: 999 }));
+    // Write the sidebar to file.
 
-    let navbarEntry: MenuDropdown = {
+    const sidebarFilePath = this.workspace.options.sidebarCategoryFilePath
+    console.log(`Writing sidebar file ${sidebarFilePath}...`)
+    const sidebarJson = JSON.stringify(sidebarCategory, null, 2)
+    await fs.writeFile(sidebarFilePath, sidebarJson)
+  }
+
+  // --------------------------------------------------------------------------
+
+  generateNavbarItem(): NavbarItem {
+    let navbarEntry: NavbarItem = {
       type: 'dropdown',
-      label,
+      label: this.options.navbarLabel,
       to: this.workspace.menuBaseUrl,
       position: 'left',
       items: [],
@@ -168,9 +167,9 @@ export class DocusaurusGenerator {
         this.workspace.viewModel.collections.get(collectionName)
       if (collection?.isVisibleInSidebar() === true) {
         assert(navbarEntry.items !== undefined)
-        const items = collection.createMenuItems()
+        const items = collection.createNavbarItems()
         if (items.length > 0) {
-          navbarEntry.items.push(...collection.createMenuItems())
+          navbarEntry.items.push(...collection.createNavbarItems())
           hasItems = true
         }
       }
@@ -178,27 +177,24 @@ export class DocusaurusGenerator {
 
     if (!hasItems) {
       navbarEntry = {
-        label,
+        label: this.options.navbarLabel,
         to: this.workspace.menuBaseUrl,
         position: 'left',
       }
     }
 
-    // console.log(
-    //   'sidebarItems:',
-    //   util.inspect(sidebarItems, { compact: false, depth: 999 })
-    // )
-    const jsonString = JSON.stringify(navbarEntry, null, 2)
+    return navbarEntry
+  }
 
-    assert(menuDropdownFilePath.trim().length > 0)
-    const relativeFilePath = menuDropdownFilePath
-    const absoluteFilePath = path.resolve(relativeFilePath)
+  async writeNavbarFile(navbarItem: NavbarItem): Promise<void> {
+    // console.log(util.inspect(navbarItem, { compact: false, depth: 999 }));
+    // Write the sidebar to file.
 
-    // Superfluous if done after prepareOutputFolder()
-    await fs.mkdir(path.dirname(absoluteFilePath), { recursive: true })
+    const navbarFilePath = this.workspace.options.navbarFilePath
+    console.log(`Writing navbar file ${navbarFilePath}...`)
 
-    console.log(`Writing menu file ${relativeFilePath}...`)
-    await fs.writeFile(absoluteFilePath, jsonString, 'utf8')
+    const navbarJson = JSON.stringify(navbarItem, null, 2)
+    await fs.writeFile(navbarFilePath, navbarJson)
   }
 
   // --------------------------------------------------------------------------
@@ -290,7 +286,7 @@ export class DocusaurusGenerator {
 
   // --------------------------------------------------------------------------
 
-  async generatePerInitialsIndexMdFiles(): Promise<void> {
+  async generatePerInitialsIndexDotMdFiles(): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (const [collectionName, collection] of this.workspace.viewModel
       .collections) {
@@ -302,7 +298,7 @@ export class DocusaurusGenerator {
 
   // --------------------------------------------------------------------------
 
-  async generatePages(): Promise<void> {
+  async generateMdFiles(): Promise<void> {
     const promises: Promise<void>[] = []
 
     for (const [, compound] of this.workspace.viewModel.compoundsById) {

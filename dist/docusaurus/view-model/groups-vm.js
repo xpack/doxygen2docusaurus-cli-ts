@@ -113,23 +113,23 @@ export class Groups extends CollectionBase {
         }
     }
     // --------------------------------------------------------------------------
-    createMenuItems() {
+    createNavbarItems() {
         if (this.topLevelGroups.length > 1) {
-            const menuItem = {
+            const navbarItem = {
                 label: 'Topics',
                 to: `${this.workspace.menuBaseUrl}groups/`,
             };
-            return [menuItem];
+            return [navbarItem];
         }
         else {
             const topLevelGroup = this.topLevelGroups[0];
             assert(topLevelGroup.sidebarLabel !== undefined);
             assert(topLevelGroup.relativePermalink !== undefined);
-            const menuItem = {
+            const navbarItem = {
                 label: topLevelGroup.sidebarLabel,
                 to: `${this.workspace.menuBaseUrl}${topLevelGroup.relativePermalink}/`,
             };
-            return [menuItem];
+            return [navbarItem];
         }
     }
     // --------------------------------------------------------------------------

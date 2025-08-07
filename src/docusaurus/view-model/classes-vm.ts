@@ -24,12 +24,12 @@ import {
   sanitizeHierarchicalPath,
 } from '../utils.js'
 import type {
-  MenuItem,
   SidebarCategory,
   SidebarCategoryItem,
   SidebarDocItem,
   SidebarItem,
   FrontMatter,
+  NavbarItem,
 } from '../types.js'
 import type {
   BaseCompoundRefDataModel,
@@ -246,12 +246,12 @@ export class Classes extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createMenuItems(): MenuItem[] {
-    const menuItem: MenuItem = {
+  override createNavbarItems(): NavbarItem[] {
+    const navbarItem: NavbarItem = {
       label: 'Classes',
       to: `${this.workspace.menuBaseUrl}classes/`,
     }
-    return [menuItem]
+    return [navbarItem]
   }
 
   // --------------------------------------------------------------------------

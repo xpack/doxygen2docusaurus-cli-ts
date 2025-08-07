@@ -1,6 +1,6 @@
 import type { Workspace } from '../workspace.js';
 import type { CompoundDefDataModel } from '../../doxygen/data-model/compounds/compounddef-dm.js';
-import type { MenuItem, SidebarCategory } from '../types.js';
+import type { NavbarItem, SidebarCategory } from '../types.js';
 import type { CompoundBase } from './compound-base-vm.js';
 import type { TreeEntryBase } from './tree-entries-vm.js';
 export declare abstract class CollectionBase {
@@ -10,7 +10,7 @@ export declare abstract class CollectionBase {
     abstract addChild(compoundDef: CompoundDefDataModel): CompoundBase;
     abstract createCompoundsHierarchies(): void;
     abstract addSidebarItems(sidebarCategory: SidebarCategory): void;
-    abstract createMenuItems(): MenuItem[];
+    abstract createNavbarItems(): NavbarItem[];
     abstract generateIndexDotMdFile(): Promise<void>;
     generatePerInitialsIndexMdFiles(): Promise<void>;
     isVisibleInSidebar(): boolean;

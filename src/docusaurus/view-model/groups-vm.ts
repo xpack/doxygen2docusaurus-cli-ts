@@ -21,7 +21,7 @@ import type { CompoundDefDataModel } from '../../doxygen/data-model/compounds/co
 import { flattenPath, sanitizeHierarchicalPath } from '../utils.js'
 import { CollectionBase } from './collection-base.js'
 import type {
-  MenuItem,
+  NavbarItem,
   SidebarCategory,
   SidebarCategoryItem,
   SidebarDocItem,
@@ -145,22 +145,22 @@ export class Groups extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createMenuItems(): MenuItem[] {
+  override createNavbarItems(): NavbarItem[] {
     if (this.topLevelGroups.length > 1) {
-      const menuItem: MenuItem = {
+      const navbarItem: NavbarItem = {
         label: 'Topics',
         to: `${this.workspace.menuBaseUrl}groups/`,
       }
-      return [menuItem]
+      return [navbarItem]
     } else {
       const topLevelGroup = this.topLevelGroups[0]
       assert(topLevelGroup.sidebarLabel !== undefined)
       assert(topLevelGroup.relativePermalink !== undefined)
-      const menuItem: MenuItem = {
+      const navbarItem: NavbarItem = {
         label: topLevelGroup.sidebarLabel,
         to: `${this.workspace.menuBaseUrl}${topLevelGroup.relativePermalink}/`,
       }
-      return [menuItem]
+      return [navbarItem]
     }
   }
 

@@ -16,7 +16,7 @@ import assert from 'node:assert'
 
 import type { Workspace } from '../workspace.js'
 import type { CompoundDefDataModel } from '../../doxygen/data-model/compounds/compounddef-dm.js'
-import type { MenuItem, SidebarCategory, FrontMatter } from '../types.js'
+import type { NavbarItem, SidebarCategory, FrontMatter } from '../types.js'
 import type { CompoundBase } from './compound-base-vm.js'
 import type { TreeEntryBase } from './tree-entries-vm.js'
 
@@ -39,7 +39,7 @@ export abstract class CollectionBase {
   abstract createCompoundsHierarchies(): void
 
   abstract addSidebarItems(sidebarCategory: SidebarCategory): void
-  abstract createMenuItems(): MenuItem[]
+  abstract createNavbarItems(): NavbarItem[]
   abstract generateIndexDotMdFile(): Promise<void>
 
   async generatePerInitialsIndexMdFiles(): Promise<void> {

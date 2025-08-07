@@ -18,7 +18,7 @@ import { CompoundBase } from './compound-base-vm.js'
 import type { CompoundDefDataModel } from '../../doxygen/data-model/compounds/compounddef-dm.js'
 import { CollectionBase } from './collection-base.js'
 import type {
-  MenuItem,
+  NavbarItem,
   SidebarCategory,
   SidebarCategoryItem,
   SidebarDocItem,
@@ -387,12 +387,12 @@ export class FilesAndFolders extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
-  override createMenuItems(): MenuItem[] {
-    const menuItem: MenuItem = {
+  override createNavbarItems(): NavbarItem[] {
+    const navbarItem: NavbarItem = {
       label: 'Files',
       to: `${this.workspace.menuBaseUrl}files/`,
     }
-    return [menuItem]
+    return [navbarItem]
   }
 
   // --------------------------------------------------------------------------

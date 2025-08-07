@@ -39,15 +39,11 @@ export interface SidebarCategoryItem {
     items: SidebarItem[];
 }
 export type SidebarItem = SidebarDocItem | SidebarCategoryItem;
-export interface MenuDropdown {
-    type?: 'dropdown';
+export interface NavbarItem {
+    type?: string;
     label: string;
     to: string;
-    position: 'left' | 'right';
-    items?: MenuItem[];
-}
-export interface MenuItem {
-    label: string;
-    to: string;
+    position?: 'left' | 'right';
+    items?: NavbarItem[];
 }
 //# sourceMappingURL=types.d.ts.map
