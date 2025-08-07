@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/doxygenxmlparser/constructor
 title: DoxygenXmlParser.(constructor)
 custom_edit_url: null
@@ -58,5 +62,8 @@ The global configuration options
 
 This constructor initialises the XML parser with settings that preserve the order and structure of the original XML content, remove namespace prefixes, and ensure that both tag and attribute values are parsed. The values are not trimmed, maintaining fidelity to the source XML. The provided options are stored for use throughout the parsing process.
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

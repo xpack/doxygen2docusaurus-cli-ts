@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/datamodel/parsedoxyfile
 title: DataModel.parseDoxyfile() method
 custom_edit_url: null
@@ -25,5 +29,8 @@ Promise&lt;void&gt;
 
 This method reads and parses the `Doxyfile.xml` file, ignoring the XML prologue and top-level text nodes. It extracts the `doxyfile` element and constructs the corresponding configuration data model. Any unrecognised elements are logged for diagnostic purposes.
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

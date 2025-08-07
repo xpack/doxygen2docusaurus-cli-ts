@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus
 title: doxygen2docusaurus package
 custom_edit_url: null
@@ -874,7 +878,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[CliConfigurationOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/type aliases/cliconfigurationoptions)
+[CliConfigurationOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/typealiases/cliconfigurationoptions)
 
 
 </td><td>
@@ -885,7 +889,7 @@ Options, as written by the user. All are optional.
 </td></tr>
 <tr><td>
 
-[CommandOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/type aliases/commandoptions)
+[CommandOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/typealiases/commandoptions)
 
 
 </td><td>
@@ -894,7 +898,7 @@ Options, as written by the user. All are optional.
 </td></tr>
 <tr><td>
 
-[MultiConfigurations](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/type aliases/multiconfigurations)
+[MultiConfigurations](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/typealiases/multiconfigurations)
 
 
 </td><td>
@@ -905,5 +909,8 @@ Options, when multi-configurations are used.
 </td></tr>
 </tbody></table>
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

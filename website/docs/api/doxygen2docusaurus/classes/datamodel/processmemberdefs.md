@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/datamodel/processmemberdefs
 title: DataModel.processMemberdefs() method
 custom_edit_url: null
@@ -25,5 +29,8 @@ void
 
 This method traverses all compound definitions and their associated sections. It collects member definitions by their identifiers and, for each member with an empty kind, assigns the kind from the corresponding member definition. This ensures that all members are correctly classified within the internal data model.
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

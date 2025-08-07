@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/doxygenxmlparser/hasinnerelement
 title: DoxygenXmlParser.hasInnerElement() method
 custom_edit_url: null
@@ -80,5 +84,8 @@ True if the inner element exists; otherwise, false
 
 This method checks for the presence of a named property on the XML element. For text nodes ('\#text'), it verifies the value is a string, number, or boolean. For other elements, it confirms the property is an array, as per the XML parser's convention.
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

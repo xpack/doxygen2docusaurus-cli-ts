@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/datamodel/parsedoxygenindex
 title: DataModel.parseDoxygenIndex() method
 custom_edit_url: null
@@ -25,5 +29,8 @@ Promise&lt;void&gt;
 
 This method reads and parses the `index.xml` file, ignoring the XML prologue and top-level text nodes. It extracts the `doxygenindex` element and constructs the corresponding data model. Any unrecognised elements are logged for diagnostic purposes.
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

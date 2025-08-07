@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/doxygenxmlparser/getattributebooleanvalue
 title: DoxygenXmlParser.getAttributeBooleanValue() method
 custom_edit_url: null
@@ -84,5 +88,8 @@ If the attribute does not exist or is not a string
 
 This method checks whether the specified attribute exists on the XML element, and returns true if its value is the string 'yes' (case-insensitive). If the attribute is missing or its value is not a string, an error is thrown.
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

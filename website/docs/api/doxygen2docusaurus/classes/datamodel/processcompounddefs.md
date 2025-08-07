@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/datamodel/processcompounddefs
 title: DataModel.processCompoundDefs() method
 custom_edit_url: null
@@ -78,5 +82,8 @@ void
 
 This method iterates through the parsed XML elements, ignoring the XML prologue and top-level text nodes. For recognised `doxygen` elements, it constructs the compound definitions and appends them to the internal data model. Unrecognised elements are logged for further analysis.
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

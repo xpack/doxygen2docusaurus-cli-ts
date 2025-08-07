@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/doxygenxmlparser/hasinnertext
 title: DoxygenXmlParser.hasInnerText() method
 custom_edit_url: null
@@ -64,5 +68,8 @@ True if the element contains a text node; otherwise, false
 
 This method checks for the presence of a '\#text' property on the XML element, and verifies that its value is a string, number, or boolean.
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/doxygenxmlparser/getattributesnames
 title: DoxygenXmlParser.getAttributesNames() method
 custom_edit_url: null
@@ -64,5 +68,8 @@ An array of strings containing the names of all attributes
 
 This method accesses the ':<!-- -->@<!-- -->' property of the XML element, which is the convention used by the XML parser for storing attributes, and returns the keys of this object as an array of attribute names. The method assumes the element has attributes and does not perform validation - use [DoxygenXmlParser.hasAttributes()](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/hasattributes) to check for attribute presence first.
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

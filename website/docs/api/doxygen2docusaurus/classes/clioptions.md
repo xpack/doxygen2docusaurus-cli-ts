@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/clioptions
 title: CliOptions class
 custom_edit_url: null
@@ -324,7 +328,7 @@ The title to be displayed on the main page.
 </td></tr>
 <tr><td>
 
-[navbarDropdownFilePath](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/navbardropdownfilepath)
+[navbarFilePath](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/navbarfilepath)
 
 
 </td><td>
@@ -343,7 +347,7 @@ Relative to the current website folder.
 </td></tr>
 <tr><td>
 
-[navbarDropdownLabel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/navbardropdownlabel)
+[navbarLabel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/navbarlabel)
 
 
 </td><td>
@@ -357,6 +361,25 @@ string
 </td><td>
 
 Short text to be displayed in the top navigation bar.
+
+
+</td></tr>
+<tr><td>
+
+[navbarPosition](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions/navbarposition)
+
+
+</td><td>
+
+
+</td><td>
+
+'left' \| 'right'
+
+
+</td><td>
+
+Where the menu is to be displayed, left or right.
 
 
 </td></tr>
@@ -541,5 +564,8 @@ Description
 </td></tr>
 </tbody></table>
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

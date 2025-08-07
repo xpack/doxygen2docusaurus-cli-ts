@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/doxygenxmlparser/isinnerelementtext
 title: DoxygenXmlParser.isInnerElementText() method
 custom_edit_url: null
@@ -80,5 +84,8 @@ True if the inner element contains text or is empty; otherwise, false
 
 This method checks if the specified inner element exists and contains a single text node, or is an empty array (representing an empty string). It asserts the expected structure and type of the value for robustness.
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

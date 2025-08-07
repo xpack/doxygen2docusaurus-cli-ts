@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/doxygenxmlparser/getattributestringvalue
 title: DoxygenXmlParser.getAttributeStringValue() method
 custom_edit_url: null
@@ -84,5 +88,8 @@ If the attribute does not exist
 
 This method checks whether the specified attribute exists on the XML element and returns its value as a string. If the attribute value is originally a number (as the XML parser may return numeric strings as numbers), it is converted to a string to maintain consistency with the DTD specification. If the attribute is missing, an error is thrown to indicate the absence.
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/doxygenxmlparser/getinnerelementnumber
 title: DoxygenXmlParser.getInnerElementNumber() method
 custom_edit_url: null
@@ -84,5 +88,8 @@ If the child element does not exist or contains more than one element
 
 This method accesses the specified child element and returns its value as a number. If the child element is missing, an error is thrown. If the child element is empty, NaN is returned. If there is more than one child element, an error is thrown to indicate unexpected structure.
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

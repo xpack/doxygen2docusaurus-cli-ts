@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/doxygenxmlparser/getinnerelements
 title: DoxygenXmlParser.getInnerElements() method
 custom_edit_url: null
@@ -84,5 +88,8 @@ If the child elements do not exist
 
 This method accesses the specified property on the XML element and returns it as an array of child elements. If the property is undefined, an error is thrown indicating the absence of the expected child element.
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

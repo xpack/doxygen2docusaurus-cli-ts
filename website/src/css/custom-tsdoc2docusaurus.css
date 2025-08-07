@@ -24,4 +24,9 @@ div.tsdocPage table p:last-child {
   margin-left: 4px;         /* Add some space between text and button */
 }
 
+p.doxyGeneratedBy {
+  font-size: smaller;
+  text-align: center;
+}
+
 /* --- */

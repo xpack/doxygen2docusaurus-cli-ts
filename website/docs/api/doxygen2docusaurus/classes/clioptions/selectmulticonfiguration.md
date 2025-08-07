@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/clioptions/selectmulticonfiguration
 title: CliOptions.selectMultiConfiguration() method
 custom_edit_url: null
@@ -41,7 +45,7 @@ multiConfigurations
 
 </td><td>
 
-[CliConfigurationOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/type aliases/cliconfigurationoptions) \| [MultiConfigurations](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/type aliases/multiconfigurations)
+[CliConfigurationOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/typealiases/cliconfigurationoptions) \| [MultiConfigurations](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/typealiases/multiconfigurations)
 
 
 </td><td>
@@ -52,7 +56,10 @@ multiConfigurations
 
 ## Returns
 
-[CliConfigurationOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/type aliases/cliconfigurationoptions) \| undefined
+[CliConfigurationOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/typealiases/cliconfigurationoptions) \| undefined
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

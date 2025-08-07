@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/datamodel/parsefile
 title: DataModel.parseFile() method
 custom_edit_url: null
@@ -64,5 +68,8 @@ A promise that resolves to the parsed XML content
 
 This method constructs the full file path using the configured input folder, reads the XML file as a UTF-8 string, and parses it using the configured XML parser. The method increments the internal counter for parsed files and, if verbose mode is enabled, logs the file being parsed.
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

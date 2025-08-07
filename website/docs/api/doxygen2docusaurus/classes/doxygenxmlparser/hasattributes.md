@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/doxygenxmlparser/hasattributes
 title: DoxygenXmlParser.hasAttributes() method
 custom_edit_url: null
@@ -64,5 +68,8 @@ True if the element has attributes; otherwise, false
 
 This method checks for the presence of the ':<!-- -->@<!-- -->' property on the XML element, which is the convention used by the XML parser for storing attributes. If this property exists, the element has attributes; if not, the element has no attributes. This is a prerequisite check before calling [DoxygenXmlParser.getAttributesNames()](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser/getattributesnames) or other attribute-related methods.
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>

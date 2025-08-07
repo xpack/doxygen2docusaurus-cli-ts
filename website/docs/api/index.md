@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api
 title: API Reference
 custom_edit_url: null
@@ -36,5 +40,8 @@ A CLI application to convert Doxygen XML files into Docusaurus documentation.
 </td></tr>
 </tbody></table>
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a>.</p>
 
 </div>

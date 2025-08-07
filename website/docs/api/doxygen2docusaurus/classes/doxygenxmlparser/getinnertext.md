@@ -1,4 +1,8 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated via tsdoc2docusaurus by API Documenter.
+
 slug: /api/doxygen2docusaurus/classes/doxygenxmlparser/getinnertext
 title: DoxygenXmlParser.getInnerText() method
 custom_edit_url: null
@@ -68,5 +72,8 @@ If the element does not contain a valid text node
 
 This method accesses the '\#text' property of the XML element and returns its value as a string. It asserts that the value is of type string, number, or boolean before converting it to a string. If the property is missing or the value is of an unexpected type, an error is thrown.
 
+<hr/>
+
+<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
 
 </div>
