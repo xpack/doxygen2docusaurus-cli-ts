@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.includes property
 
+Include file references for this compound.
+
 **Signature:**
 
 ```typescript
 includes?: IncludesDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains information about header files or modules that this compound includes or depends upon. This property captures dependency relationships extracted from 'includes' XML elements, providing visibility into the file inclusion structure.
+

@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.params property
 
+Parameter list for function or method members.
+
 **Signature:**
 
 ```typescript
 params?: ParamDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains detailed parameter information for function-like members, including parameter names, types, descriptions, and default values. This comprehensive parameter data enables complete function signature documentation and API reference generation.
+

@@ -4,8 +4,15 @@
 
 ## AbstractIndexDoxygenType.noNamespaceSchemaLocation property
 
+The XML schema location reference for validation.
+
 **Signature:**
 
 ```typescript
 noNamespaceSchemaLocation?: string | undefined;
 ```
+
+## Remarks
+
+Optional attribute that specifies the location of the XML schema definition used for validating the structure of the index XML file. This provides schema validation capabilities for the parsed content.
+

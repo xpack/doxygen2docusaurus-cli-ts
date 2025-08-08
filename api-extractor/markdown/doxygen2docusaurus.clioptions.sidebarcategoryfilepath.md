@@ -4,10 +4,15 @@
 
 ## CliOptions.sidebarCategoryFilePath property
 
-Relative to the current website folder.
+Path to the sidebar category configuration file.
 
 **Signature:**
 
 ```typescript
 sidebarCategoryFilePath: string;
 ```
+
+## Remarks
+
+Specifies the location where the generated sidebar category JSON configuration will be written, relative to the current website folder.
+

@@ -4,10 +4,15 @@
 
 ## CliOptions.navbarFilePath property
 
-Relative to the current website folder.
+Path to the navbar configuration file.
 
 **Signature:**
 
 ```typescript
 navbarFilePath: string;
 ```
+
+## Remarks
+
+Specifies the location where the generated navbar dropdown JSON configuration will be written, relative to the current website folder.
+

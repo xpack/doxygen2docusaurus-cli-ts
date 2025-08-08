@@ -4,8 +4,15 @@
 
 ## AbstractParamType.array property
 
+Array specification information for array parameters.
+
 **Signature:**
 
 ```typescript
 array?: string | undefined;
 ```
+
+## Remarks
+
+Contains array dimension information and specifications when the parameter represents an array type. This includes array bounds, size specifications, and dimensional characteristics essential for accurate parameter documentation.
+

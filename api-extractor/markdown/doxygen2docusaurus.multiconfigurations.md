@@ -4,7 +4,7 @@
 
 ## MultiConfigurations type
 
-Options, when multi-configurations are used.
+Multiple configuration sets for different build scenarios.
 
 **Signature:**
 
@@ -12,4 +12,8 @@ Options, when multi-configurations are used.
 export type MultiConfigurations = Record<string, CliConfigurationOptions>;
 ```
 **References:** [CliConfigurationOptions](./doxygen2docusaurus.cliconfigurationoptions.md)
+
+## Remarks
+
+Allows defining different configuration profiles that can be selected based on the build context or command line parameters.
 

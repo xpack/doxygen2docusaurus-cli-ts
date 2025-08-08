@@ -4,8 +4,15 @@
 
 ## AbstractDoxygenFileType.options property
 
+Collection of configuration option data models.
+
 **Signature:**
 
 ```typescript
 options?: DoxygenFileOptionDataModel[] | undefined;
 ```
+
+## Remarks
+
+Optional array containing option elements found within the Doxyfile structure. Each option represents a specific configuration setting that controls the behaviour of Doxygen during documentation generation. The array supports zero to many options as per the XML schema.
+

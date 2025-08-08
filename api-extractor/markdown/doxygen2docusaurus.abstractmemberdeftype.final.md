@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.final property
 
+Indicates whether the member is declared as final.
+
 **Signature:**
 
 ```typescript
 final?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that virtual members cannot be overridden in derived classes. This provides explicit control over inheritance hierarchies and enables compiler optimizations.
+

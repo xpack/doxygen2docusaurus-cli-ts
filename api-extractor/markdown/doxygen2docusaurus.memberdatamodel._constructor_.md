@@ -4,7 +4,7 @@
 
 ## MemberDataModel.(constructor)
 
-Constructs a new instance of the `MemberDataModel` class
+Constructs a new member data model instance.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The XML parser instance for processing elements
+
 
 </td></tr>
 <tr><td>
@@ -56,7 +58,13 @@ object
 
 </td><td>
 
+The source XML element containing member data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Initialises the data model with the specific element name 'member' and delegates processing to the abstract base class implementation. This ensures consistent handling of simplified member information whilst maintaining proper element identification for cross-referencing and navigation functionality.
 

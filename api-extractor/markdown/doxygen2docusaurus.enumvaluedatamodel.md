@@ -4,6 +4,7 @@
 
 ## EnumValueDataModel class
 
+Concrete implementation of enumeration value data model.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare class EnumValueDataModel extends AbstractEnumValueType 
 ```
 **Extends:** [AbstractEnumValueType](./doxygen2docusaurus.abstractenumvaluetype.md)
+
+## Remarks
+
+Represents a single enumeration value as parsed from Doxygen XML output. Inherits all functionality from the abstract base class and provides the specific element name for parsing.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `EnumValueDataModel` class
+Creates a new enumeration value data model from XML.
 
 
 </td></tr>

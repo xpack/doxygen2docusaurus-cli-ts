@@ -43,29 +43,54 @@ import { ViewModel } from './view-model/view-model.js';
 //   </xsd:restriction>
 // </xsd:simpleType>
 // ----------------------------------------------------------------------------
+/**
+ * Central workspace that coordinates the conversion process.
+ *
+ * @remarks
+ * The Workspace class serves as the primary orchestrator for transforming
+ * Doxygen XML data into Docusaurus-compatible documentation. It manages
+ * the data model, view model, rendering system, and output generation whilst
+ * providing centralised configuration and URL management for consistent
+ * documentation structure across all generated content.
+ *
+ * @public
+ */
 export class Workspace extends Renderers {
+    /** Configuration options controlling the conversion process. */
     // From the project docusaurus.config.ts or defaults.
     options;
+    /** The parsed Doxygen data model containing all source information. */
     // The data parsed from the Doxygen XML files.
     dataModel;
+    /** The view model that structures data for documentation generation. */
     viewModel;
+    /** The absolute path to the doxygen2docusaurus project directory. */
     // The doxygen2docusaurus project path.
     projectPath;
+    /** Doxygen configuration options from the original build process. */
     // The many options used by Doxygen during build.
     doxygenOptions;
+    /** The absolute base URL for the generated documentation site. */
     // Like `/micro-os-plus/docs/api/`.
     absoluteBaseUrl;
+    /** The page base URL for individual documentation pages. */
     // Like `/micro-os-plus/docs/api/`.
     pageBaseUrl;
+    /** The slug base URL for Docusaurus routing. */
     // Like `/api/`.
     slugBaseUrl;
+    /** The menu base URL for navigation elements. */
     // Like `/docs/api/`.
     menuBaseUrl;
+    /** The output folder path for generated Markdown files. */
     // Like `docs/api/`.
     outputFolderPath;
+    /** The sidebar base identifier for navigation structure. */
     // like `api/`.
     sidebarBaseId;
+    /** The main page compound, if one exists in the documentation. */
     mainPage;
+    /** Map of file paths to their corresponding File objects. */
     filesByPath = new Map();
     /**
      * @brief Map to keep track of indices that have content.
@@ -87,8 +112,11 @@ export class Workspace extends Renderers {
      * - enumvalues
      */
     indicesMaps = new Map();
+    /** Counter for the total number of Markdown files written. */
     writtenMdFilesCounter = 0;
+    /** Counter for the total number of HTML redirect files written. */
     writtenHtmlFilesCounter = 0;
+    /** Mapping of Doxygen compound kinds to collection names. */
     collectionNamesByKind = {
         class: 'classes',
         struct: 'classes',
@@ -109,6 +137,7 @@ export class Workspace extends Renderers {
         dir: 'files',
         // concept
     };
+    /** Defines the order of entries in the sidebar and top menu dropdown. */
     // The order of entries in the sidebar and in the top menu dropdown.
     sidebarCollectionNames = [
         'groups',
@@ -118,6 +147,17 @@ export class Workspace extends Renderers {
         'pages',
     ];
     // --------------------------------------------------------------------------
+    /**
+     * Constructs a new Workspace instance.
+     *
+     * @remarks
+     * Initialises the workspace with the provided data model and sets up
+     * the necessary paths, URLs, and configuration for documentation generation.
+     * This includes configuring base URLs, output paths, sidebar identifiers,
+     * and establishing the view model for structured documentation creation.
+     *
+     * @param dataModel - The parsed Doxygen data model.
+     */
     constructor(dataModel) {
         super();
         console.log();
@@ -155,6 +195,22 @@ export class Workspace extends Renderers {
         this.viewModel.create();
     }
     // --------------------------------------------------------------------------
+    /**
+     * Writes a Markdown output file with proper front matter and formatting.
+     *
+     * @remarks
+     * Creates a complete Docusaurus-compatible Markdown file including YAML
+     * front matter, content body, and generated footer information. The method
+     * handles permalink processing, emoji prevention, and proper file structure
+     * to ensure optimal integration with Docusaurus documentation sites.
+     *
+     * @param filePath - The output file path for the Markdown file.
+     * @param bodyLines - Array of content lines for the file body.
+     * @param frontMatter - YAML front matter configuration object.
+     * @param frontMatterCodeLines - Optional additional front matter code.
+     * @param title - Optional page title if not specified in front matter.
+     * @param pagePermalink - Optional page permalink for anchor processing.
+     */
     async writeOutputMdFile({ filePath, bodyLines, frontMatter, frontMatterCodeLines, title, pagePermalink, }) {
         const lines = [];
         lines.push('');
@@ -235,6 +291,17 @@ export class Workspace extends Renderers {
         this.writtenMdFilesCounter += 1;
     }
     // --------------------------------------------------------------------------
+    /**
+     * Marks paragraph elements to be skipped during rendering.
+     *
+     * @remarks
+     * Processes an array of elements and sets the skipPara flag on any
+     * ParaDataModel instances to prevent them from being rendered. This
+     * functionality is essential for controlling paragraph output in contexts
+     * where specific formatting requirements must be maintained.
+     *
+     * @param elements - Array of elements to process for paragraph skipping.
+     */
     skipElementsPara(elements) {
         if (elements === undefined) {
             return;
@@ -246,6 +313,20 @@ export class Workspace extends Renderers {
         }
     }
     // --------------------------------------------------------------------------
+    /**
+     * Resolves a reference identifier to its corresponding permalink URL.
+     *
+     * @remarks
+     * Determines the appropriate permalink for a given reference based on
+     * the reference type (compound, member, or xrefsect) and constructs
+     * the full URL including anchors where applicable. This method handles
+     * complex reference resolution including table of contents items and
+     * description sections for comprehensive cross-referencing capabilities.
+     *
+     * @param refid - The reference identifier to resolve.
+     * @param kindref - The kind of reference ('compound', 'member', 'xrefsect').
+     * @returns The resolved permalink URL, or undefined if not found.
+     */
     getPermalink({ refid, kindref, }) {
         // console.log(refid, kindref)
         let permalink = undefined;
@@ -314,6 +395,19 @@ export class Workspace extends Renderers {
         }
         return permalink;
     }
+    /**
+     * Retrieves the permalink URL for a specific page by reference identifier.
+     *
+     * @remarks
+     * Looks up a compound by its reference identifier and constructs the
+     * complete page permalink URL for linking purposes. The method includes
+     * comprehensive error handling and optional warning suppression for
+     * cases where references may not be resolvable during processing.
+     *
+     * @param refid - The reference identifier of the compound.
+     * @param noWarn - Whether to suppress warning messages for missing compounds.
+     * @returns The complete page permalink URL, or undefined if not found.
+     */
     getPagePermalink(refid, noWarn = false) {
         const dataObject = this.viewModel.compoundsById.get(refid);
         if (dataObject === undefined) {
@@ -331,6 +425,18 @@ export class Workspace extends Renderers {
         }
         return `${this.pageBaseUrl}${pagePermalink}`;
     }
+    /**
+     * Constructs a cross-reference permalink for documentation pages.
+     *
+     * @remarks
+     * Generates a permalink URL for cross-references by extracting the page
+     * and anchor components from the identifier and constructing the
+     * appropriate URL structure. This method specifically handles the pages
+     * collection format for cross-reference navigation within the documentation.
+     *
+     * @param id - The cross-reference identifier to process.
+     * @returns The constructed cross-reference permalink URL.
+     */
     getXrefPermalink(id) {
         // console.log('1', id, this.currentCompoundDef.id)
         const pagePart = id.replace(/_1.*/, '');

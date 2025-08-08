@@ -4,10 +4,15 @@
 
 ## CliOptions.baseUrl property
 
-Site base URL, like / or /xxx/.
+Base URL for the entire website.
 
 **Signature:**
 
 ```typescript
 baseUrl: string;
 ```
+
+## Remarks
+
+Defines the root URL path for the website, typically '/' for root deployment or '/project-name/' for GitHub Pages or similar hosting.
+

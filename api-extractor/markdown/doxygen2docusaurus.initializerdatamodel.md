@@ -4,6 +4,7 @@
 
 ## InitializerDataModel class
 
+Data model for initializer elements within documentation content.
 
 **Signature:**
 
@@ -11,6 +12,12 @@
 export declare class InitializerDataModel extends AbstractLinkedTextType 
 ```
 **Extends:** [AbstractLinkedTextType](./doxygen2docusaurus.abstractlinkedtexttype.md)
+
+## Remarks
+
+Represents initializer elements that contain variable or member initialization expressions within source code documentation. This implementation processes Doxygen's initializer elements, which contain mixed text and reference content describing the initial values assigned to variables, constants, or class members.
+
+The linked text structure enables cross-references to types and symbols used within initialization expressions.
 
 ## Constructors
 
@@ -40,7 +47,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `InitializerDataModel` class
+Constructs an InitializerDataModel from XML element data.
 
 
 </td></tr>

@@ -4,8 +4,15 @@
 
 ## AbstractDocImageType.type property
 
+Output format type for the image.
+
 **Signature:**
 
 ```typescript
 type?: string | undefined;
 ```
+
+## Remarks
+
+Specifies the target output format for the image, such as 'html', 'latex', 'docbook', 'rtf', or 'xml'. This determines how the image should be processed and rendered in different documentation outputs.
+

@@ -4,8 +4,15 @@
 
 ## AbstractHighlightType.classs property
 
+Mandatory highlight classification attribute.
+
 **Signature:**
 
 ```typescript
 classs: string;
 ```
+
+## Remarks
+
+Specifies the syntax highlighting class for this element, determining how the contained text should be styled in the generated documentation. The value must be one of the predefined DoxHighlightClass enumeration values such as 'keyword', 'comment', or 'stringliteral'.
+

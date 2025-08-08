@@ -4,10 +4,15 @@
 
 ## DataModel.parsedFilesCounter property
 
-Keep track of the number of XML files parsed.
+Counter tracking the number of XML files successfully parsed.
 
 **Signature:**
 
 ```typescript
 parsedFilesCounter: number;
 ```
+
+## Remarks
+
+Incremented for each XML file processed during the parsing operation, providing metrics for progress monitoring and diagnostic reporting.
+

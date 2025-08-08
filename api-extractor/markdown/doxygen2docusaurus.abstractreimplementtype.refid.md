@@ -4,8 +4,15 @@
 
 ## AbstractReimplementType.refId property
 
+The reference identifier for the reimplemented entity.
+
 **Signature:**
 
 ```typescript
 refId: string;
 ```
+
+## Remarks
+
+Mandatory attribute that provides a unique identifier for the entity being reimplemented. This reference enables linking and cross-referencing between related documentation elements, allowing navigation between implementations and their base declarations within the generated documentation structure.
+

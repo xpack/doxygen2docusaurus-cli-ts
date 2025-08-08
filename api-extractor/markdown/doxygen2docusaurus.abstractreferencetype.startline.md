@@ -4,8 +4,15 @@
 
 ## AbstractReferenceType.startline property
 
+The starting line number where the reference occurs.
+
 **Signature:**
 
 ```typescript
 startline: number | undefined;
 ```
+
+## Remarks
+
+Specifies the line number in the source code where the reference relationship begins. This location information enables precise source code navigation and helps establish the exact context of the reference within the original source files. Note that this attribute may be missing in some reference elements despite being defined as mandatory in the XML schema.
+

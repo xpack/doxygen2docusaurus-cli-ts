@@ -26,7 +26,29 @@ import { ElementLinesRendererBase } from './element-renderer-base.js';
 //        minOccurs="0" />
 //   </xsd:sequence>
 // </xsd:complexType>
+/**
+ * Renderer for parameter type elements in function documentation.
+ *
+ * @remarks
+ * Handles the rendering of function and method parameters as parsed from
+ * Doxygen XML, converting them into formatted output that includes type
+ * information, parameter names, and default values when available.
+ *
+ * @public
+ */
 export class ParamTypeLinesRenderer extends ElementLinesRendererBase {
+    /**
+     * Renders a parameter element to formatted output lines.
+     *
+     * @remarks
+     * Converts Doxygen parameter elements into formatted text including
+     * type information, parameter names, array specifications, and default
+     * values. Handles both declaration and definition name variants.
+     *
+     * @param element - The parameter element to render
+     * @param type - The rendering context type
+     * @returns Array of formatted output lines
+     */
     renderToLines(element, type) {
         // console.log(util.inspect(element, { compact: false, depth: 999 }))
         if (element.attributes !== undefined) {

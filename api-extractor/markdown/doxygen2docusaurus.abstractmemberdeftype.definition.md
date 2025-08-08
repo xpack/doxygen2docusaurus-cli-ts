@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.definition property
 
+The complete definition string for the member.
+
 **Signature:**
 
 ```typescript
 definition?: string | undefined;
 ```
+
+## Remarks
+
+Contains the full member definition as it appears in the source code, including type information, qualifiers, and parameter lists. This provides the complete syntactic representation of the member.
+

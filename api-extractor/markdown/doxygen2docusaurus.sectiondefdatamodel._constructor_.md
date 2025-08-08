@@ -4,7 +4,7 @@
 
 ## SectionDefDataModel.(constructor)
 
-Constructs a new instance of the `SectionDefDataModel` class
+Constructs a new section definition data model from XML.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance
+
 
 </td></tr>
 <tr><td>
@@ -56,7 +58,13 @@ object
 
 </td><td>
 
+The XML element containing section definition data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Creates a complete section definition data model by parsing the provided XML element. This constructor delegates to the parent class to handle all standard parsing operations for the sectiondef element type.
 

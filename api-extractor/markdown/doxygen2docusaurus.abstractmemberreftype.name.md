@@ -4,8 +4,15 @@
 
 ## AbstractMemberRefType.name property
 
+The identifier name of the referenced member element.
+
 **Signature:**
 
 ```typescript
 name: string;
 ```
+
+## Remarks
+
+Contains the simple identifier name for the member being referenced, which serves as the primary display name and is used for link generation within the documentation system. This name is used in conjunction with the scope to provide complete member identification.
+

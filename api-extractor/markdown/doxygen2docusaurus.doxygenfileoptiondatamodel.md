@@ -4,6 +4,7 @@
 
 ## DoxygenFileOptionDataModel class
 
+Concrete data model class for Doxyfile option elements.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare class DoxygenFileOptionDataModel extends AbstractDoxygenFileOptionType 
 ```
 **Extends:** [AbstractDoxygenFileOptionType](./doxygen2docusaurus.abstractdoxygenfileoptiontype.md)
+
+## Remarks
+
+Represents individual configuration option elements found within Doxyfile XML structures. This class extends the abstract base to provide specific handling for 'option' elements, which define individual Doxygen configuration settings including their identifiers, types, default status, and associated values. Each option corresponds to a specific configuration parameter that controls Doxygen's documentation generation behaviour.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `DoxygenFileOptionDataModel` class
+Constructs a new DoxygenFileOptionDataModel instance from XML data.
 
 
 </td></tr>

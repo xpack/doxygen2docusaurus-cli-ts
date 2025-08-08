@@ -4,10 +4,15 @@
 
 ## CliConfigurationOptions type
 
-Options, as written by the user. All are optional.
+Configuration options as specified by users in configuration files.
 
 **Signature:**
 
 ```typescript
 export type CliConfigurationOptions = Record<string, string | boolean>;
 ```
+
+## Remarks
+
+All options are optional and can be either string or boolean values depending on the specific configuration property.
+

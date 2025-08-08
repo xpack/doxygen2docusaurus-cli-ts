@@ -4,7 +4,7 @@
 
 ## AbstractMemberRefType.(constructor)
 
-Constructs a new instance of the `AbstractMemberRefType` class
+Constructs a new member reference data model from XML element data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The XML parser instance for processing element data
+
 
 </td></tr>
 <tr><td>
@@ -55,6 +57,8 @@ object
 
 
 </td><td>
+
+The XML element containing member reference information
 
 
 </td></tr>
@@ -70,7 +74,15 @@ string
 
 </td><td>
 
+The name of the XML element being processed
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Processes the XML element representing member reference information and extracts scope identification, member names, and reference attributes required for cross-referencing functionality. The constructor validates mandatory elements and attributes whilst gracefully handling optional ambiguity scope information.
+
+The implementation ensures that essential reference data (scope, name, refid, protection, virtual kind) is properly extracted and validated according to the memberRefType schema requirements.
 

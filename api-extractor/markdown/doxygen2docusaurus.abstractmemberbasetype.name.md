@@ -4,8 +4,15 @@
 
 ## AbstractMemberBaseType.name property
 
+The name of the member element.
+
 **Signature:**
 
 ```typescript
 name: string;
 ```
+
+## Remarks
+
+Contains the identifier name for the member as extracted from the documentation source. This represents the primary identification mechanism for the member within its containing scope.
+

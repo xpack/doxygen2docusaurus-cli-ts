@@ -4,8 +4,15 @@
 
 ## AbstractDoxygenFileType.version property
 
+The version of the Doxygen tool that generated the configuration.
+
 **Signature:**
 
 ```typescript
 version: string;
 ```
+
+## Remarks
+
+Mandatory attribute extracted from the XML structure that identifies the version of Doxygen used to generate the configuration file. This information is essential for compatibility and configuration parsing decisions.
+

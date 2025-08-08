@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.bitfield property
 
+Bitfield specification for member variables.
+
 **Signature:**
 
 ```typescript
 bitfield?: string | undefined;
 ```
+
+## Remarks
+
+Contains the bitfield width specification for member variables that are declared as bitfields in C/C++ structures or classes. This string represents the number of bits allocated to the member within the containing structure's memory layout.
+

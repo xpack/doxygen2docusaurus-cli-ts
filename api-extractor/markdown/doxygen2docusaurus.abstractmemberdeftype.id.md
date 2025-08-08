@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.id property
 
+The unique identifier for the member element.
+
 **Signature:**
 
 ```typescript
 id: string;
 ```
+
+## Remarks
+
+Provides a unique identification string for the member within the documentation system. This identifier is used for cross-referencing and linking between different parts of the documentation.
+

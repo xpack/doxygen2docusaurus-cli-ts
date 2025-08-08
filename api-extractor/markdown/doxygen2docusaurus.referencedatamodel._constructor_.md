@@ -4,7 +4,7 @@
 
 ## ReferenceDataModel.(constructor)
 
-Constructs a new instance of the `ReferenceDataModel` class
+Constructs a new reference relationship data model from XML.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance
+
 
 </td></tr>
 <tr><td>
@@ -56,7 +58,13 @@ object
 
 </td><td>
 
+The XML element containing reference relationship data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Creates a complete forward reference relationship data model by parsing the provided XML element. This constructor delegates to the parent class to handle all standard parsing operations for the references element type, establishing the forward dependency relationship between the current entity and the referenced component.
 

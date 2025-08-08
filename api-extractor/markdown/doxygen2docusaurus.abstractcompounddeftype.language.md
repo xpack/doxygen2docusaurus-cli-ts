@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.language property
 
+Programming language of the compound.
+
 **Signature:**
 
 ```typescript
 language?: string | undefined;
 ```
+
+## Remarks
+
+Specifies the programming language using DoxLanguage enumeration values when the compound is language-specific. This optional attribute enables language-aware processing and appropriate syntax highlighting in the generated documentation.
+

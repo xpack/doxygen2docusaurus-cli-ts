@@ -4,8 +4,15 @@
 
 ## AbstractReferenceType.endline property
 
+The ending line number where the reference concludes.
+
 **Signature:**
 
 ```typescript
 endline: number | undefined;
 ```
+
+## Remarks
+
+Specifies the line number in the source code where the reference relationship ends. Combined with the starting line, this provides a complete range for the reference occurrence, enabling precise source code highlighting and navigation capabilities. Note that this attribute may be missing in some reference elements despite being defined as mandatory in the XML schema.
+

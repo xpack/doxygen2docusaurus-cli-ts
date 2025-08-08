@@ -4,6 +4,7 @@
 
 ## AbstractMemberDefType class
 
+Abstract base class for comprehensive member definition data models.
 
 **Signature:**
 
@@ -11,6 +12,12 @@
 export declare abstract class AbstractMemberDefType extends AbstractMemberBaseType 
 ```
 **Extends:** [AbstractMemberBaseType](./doxygen2docusaurus.abstractmemberbasetype.md)
+
+## Remarks
+
+Extends the basic member functionality to provide complete member definition processing capabilities. This class handles the complex XML Schema definition for memberdefType elements, which represent detailed member information including location data, type information, parameters, descriptions, and various language-specific attributes.
+
+The implementation processes extensive member metadata including template parameters, function signatures, initialization values, documentation descriptions, and cross-reference information. It also manages a comprehensive set of language-specific attributes covering C++, Qt, C++/CLI, C\#, Objective-C, and UNO IDL constructs.
 
 ## Constructors
 
@@ -40,7 +47,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractMemberDefType` class
+Constructs a new member definition data model from XML element data.
 
 
 </td></tr>
@@ -84,7 +91,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The argument string for function members.
 
 
 </td></tr>
@@ -103,7 +110,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Bitfield specification for member variables.
 
 
 </td></tr>
@@ -122,7 +129,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Brief description of the member.
 
 
 </td></tr>
@@ -141,7 +148,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the member is declared as consteval.
 
 
 </td></tr>
@@ -160,7 +167,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the member is declared as constexpr.
 
 
 </td></tr>
@@ -179,7 +186,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the member is declared as constinit.
 
 
 </td></tr>
@@ -198,7 +205,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the member is declared as const.
 
 
 </td></tr>
@@ -217,7 +224,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The complete definition string for the member.
 
 
 </td></tr>
@@ -236,7 +243,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Detailed description of the member.
 
 
 </td></tr>
@@ -255,7 +262,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Enumeration values for enum members.
 
 
 </td></tr>
@@ -274,7 +281,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the member is declared as explicit.
 
 
 </td></tr>
@@ -293,7 +300,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the member has external linkage.
 
 
 </td></tr>
@@ -312,7 +319,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the member is declared as final.
 
 
 </td></tr>
@@ -331,6 +338,8 @@ string
 
 </td><td>
 
+The unique identifier for the member element.
+
 
 </td></tr>
 <tr><td>
@@ -348,7 +357,7 @@ string
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ In-body description of the member.
 
 
 </td></tr>
@@ -367,7 +376,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Initializer expression for the member.
 
 
 </td></tr>
@@ -386,7 +395,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the member is declared as inline.
 
 
 </td></tr>
@@ -405,6 +414,8 @@ _(Optional)_
 
 </td><td>
 
+The location information for the member definition.
+
 
 </td></tr>
 <tr><td>
@@ -422,7 +433,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the member is declared as mutable.
 
 
 </td></tr>
@@ -441,7 +452,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the member is declared as nodiscard.
 
 
 </td></tr>
@@ -460,7 +471,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the member is declared as noexcept.
 
 
 </td></tr>
@@ -479,7 +490,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the member has a noexcept expression.
 
 
 </td></tr>
@@ -498,7 +509,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Parameter list for function or method members.
 
 
 </td></tr>
@@ -517,6 +528,8 @@ string
 
 </td><td>
 
+The protection level of the member element.
+
 
 </td></tr>
 <tr><td>
@@ -534,7 +547,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The fully qualified name of the member element.
 
 
 </td></tr>
@@ -553,7 +566,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ References to this member from other entities.
 
 
 </td></tr>
@@ -572,7 +585,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ References made by this member to other entities.
 
 
 </td></tr>
@@ -591,7 +604,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates the reference qualifier for the member.
 
 
 </td></tr>
@@ -610,7 +623,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ List of members that reimplement this member.
 
 
 </td></tr>
@@ -629,7 +642,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ List of reimplemented member references.
 
 
 </td></tr>
@@ -648,6 +661,8 @@ boolean \| undefined
 
 </td><td>
 
+Indicates whether the member is declared as static.
+
 
 </td></tr>
 <tr><td>
@@ -665,7 +680,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the member has strong typing.
 
 
 </td></tr>
@@ -684,7 +699,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Template parameter list information for templated members.
 
 
 </td></tr>
@@ -703,7 +718,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Type information for the member element.
 
 
 </td></tr>
@@ -722,7 +737,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Virtual specification for the member.
 
 
 </td></tr>
@@ -741,7 +756,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the member is declared as volatile.
 
 
 </td></tr>

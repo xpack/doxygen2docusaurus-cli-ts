@@ -6,502 +6,336 @@
 
 import { XMLParser } from 'fast-xml-parser';
 
-// @public (undocumented)
+// @public
 export abstract class AbstractCodeLineType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     external?: boolean | undefined;
-    // (undocumented)
     highlights?: HighlightDataModel[] | undefined;
-    // (undocumented)
     lineno?: number | undefined;
-    // (undocumented)
     refid?: string | undefined;
-    // (undocumented)
     refkind?: string | undefined;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     abstract?: boolean | undefined;
-    // (undocumented)
     baseCompoundRefs?: BaseCompoundRefDataModel[] | undefined;
-    // (undocumented)
     briefDescription?: BriefDescriptionDataModel | undefined;
-    // (undocumented)
     compoundName: string;
-    // (undocumented)
     derivedCompoundRefs?: DerivedCompoundRefDataModel[] | undefined;
-    // (undocumented)
     detailedDescription?: DetailedDescriptionDataModel | undefined;
-    // (undocumented)
     final?: boolean | undefined;
-    // (undocumented)
     id: string;
-    // (undocumented)
     includedBy?: IncludedByDataModel[] | undefined;
-    // (undocumented)
     includes?: IncludesDataModel[] | undefined;
-    // (undocumented)
     inline?: boolean | undefined;
-    // (undocumented)
     innerClasses?: InnerClassDataModel[] | undefined;
-    // (undocumented)
     innerDirs?: InnerDirDataModel[] | undefined;
-    // (undocumented)
     innerFiles?: InnerFileDataModel[] | undefined;
-    // (undocumented)
     innerGroups?: InnerGroupDataModel[] | undefined;
-    // (undocumented)
     innerNamespaces?: InnerNamespaceDataModel[] | undefined;
-    // (undocumented)
     innerPages?: InnerPageDataModel[] | undefined;
-    // (undocumented)
     kind: string;
-    // (undocumented)
     language?: string | undefined;
-    // (undocumented)
     listOfAllMembers?: ListOfAllMembersDataModel | undefined;
-    // (undocumented)
     location?: LocationDataModel | undefined;
-    // (undocumented)
     programListing?: ProgramListingDataModel | undefined;
-    // (undocumented)
     prot?: string | undefined;
-    // (undocumented)
     sealed?: boolean | undefined;
-    // (undocumented)
     sectionDefs?: SectionDefDataModel[] | undefined;
-    // (undocumented)
     tableOfContents?: TableOfContentsDataModel | undefined;
-    // (undocumented)
     templateParamList?: TemplateParamListDataModel | undefined;
-    // (undocumented)
     title?: string | undefined;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractCompoundRefType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     prot: string;
-    // (undocumented)
     refid?: string | undefined;
-    // (undocumented)
     text: string;
-    // (undocumented)
     virt: string;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractDataModelBase {
     constructor(elementName: string);
-    // (undocumented)
     children?: (string | AbstractDataModelBase)[];
-    // (undocumented)
     elementName: string;
-    // (undocumented)
     skipPara?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractDescriptionType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     title?: string | undefined;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractDocImageType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     alt?: string | undefined;
-    // (undocumented)
     caption?: string | undefined;
-    // (undocumented)
     height?: string | undefined;
-    // (undocumented)
     inline?: boolean | undefined;
-    // (undocumented)
     name?: string | undefined;
-    // (undocumented)
     type?: string | undefined;
-    // (undocumented)
     width?: string | undefined;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractDoxygenFileOptionType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     default: string;
-    // (undocumented)
     id: string;
-    // (undocumented)
     type: string;
-    // (undocumented)
     values: string[] | undefined;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractDoxygenFileType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     lang: string;
-    // (undocumented)
     noNamespaceSchemaLocation?: string | undefined;
-    // (undocumented)
     options?: DoxygenFileOptionDataModel[] | undefined;
-    // (undocumented)
     version: string;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractEnumValueType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     briefDescription?: BriefDescriptionDataModel | undefined;
-    // (undocumented)
     detailedDescription?: DetailedDescriptionDataModel | undefined;
-    // (undocumented)
     id: string;
-    // (undocumented)
     initializer?: InitializerDataModel | undefined;
-    // (undocumented)
     name: string;
-    // (undocumented)
     prot: string;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractHighlightType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     classs: string;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractIncType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     local: boolean;
-    // (undocumented)
     refId?: string | undefined;
-    // (undocumented)
     text: string;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractIndexCompoundType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     kind: string;
-    // (undocumented)
     members: IndexMemberDataModel[] | undefined;
-    // (undocumented)
     name: string;
-    // (undocumented)
     refid: string;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractIndexDoxygenType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     compounds?: IndexCompoundDataModel[] | undefined;
-    // (undocumented)
     lang: string;
-    // (undocumented)
     noNamespaceSchemaLocation?: string | undefined;
-    // (undocumented)
     version: string;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractIndexMemberType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     kind: string;
-    // (undocumented)
     name: string;
-    // (undocumented)
     refid: string;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractLinkedTextType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractListingType extends AbstractListingTypeBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractListingTypeBase extends AbstractDataModelBase {
-    // (undocumented)
     codelines?: CodeLineDataModel[] | undefined;
-    // (undocumented)
     filename?: string | undefined;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractListOfAllMembersType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     memberRefs?: MemberRefDataModel[] | undefined;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractLocationType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     bodyend?: number | undefined;
-    // (undocumented)
     bodyfile?: string | undefined;
-    // (undocumented)
     bodystart?: number | undefined;
-    // (undocumented)
     column?: number | undefined;
-    // (undocumented)
     declcolumn?: number | undefined;
-    // (undocumented)
     declfile?: string | undefined;
-    // (undocumented)
     declline?: number | undefined;
-    // (undocumented)
     file: string;
-    // (undocumented)
     line?: number | undefined;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractMemberBaseType extends AbstractDataModelBase {
-    // (undocumented)
     kind: string;
-    // (undocumented)
     name: string;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     argsstring?: string | undefined;
-    // (undocumented)
     bitfield?: string | undefined;
-    // (undocumented)
     briefDescription?: BriefDescriptionDataModel | undefined;
-    // (undocumented)
     consteval?: boolean | undefined;
-    // (undocumented)
     constexpr?: boolean | undefined;
-    // (undocumented)
     constinit?: boolean | undefined;
-    // (undocumented)
     constt?: boolean | undefined;
-    // (undocumented)
     definition?: string | undefined;
-    // (undocumented)
     detailedDescription?: DetailedDescriptionDataModel | undefined;
-    // (undocumented)
     enumvalues?: EnumValueDataModel[] | undefined;
-    // (undocumented)
     explicit?: boolean | undefined;
-    // (undocumented)
     extern?: boolean | undefined;
-    // (undocumented)
     final?: boolean | undefined;
-    // (undocumented)
     id: string;
-    // (undocumented)
     inbodyDescription?: InbodyDescriptionDataModel | undefined;
-    // (undocumented)
     initializer?: InitializerDataModel | undefined;
-    // (undocumented)
     inline?: boolean | undefined;
-    // (undocumented)
     location: LocationDataModel | undefined;
-    // (undocumented)
     mutable?: boolean | undefined;
-    // (undocumented)
     nodiscard?: boolean | undefined;
-    // (undocumented)
     noexcept?: boolean | undefined;
-    // (undocumented)
     noexceptexpression?: boolean | undefined;
-    // (undocumented)
     params?: ParamDataModel[] | undefined;
-    // (undocumented)
     prot: string;
-    // (undocumented)
     qualifiedName?: string | undefined;
-    // (undocumented)
     referencedBy?: ReferencedByDataModel[] | undefined;
-    // (undocumented)
     references?: ReferenceDataModel[] | undefined;
-    // (undocumented)
     refqual?: boolean | undefined;
-    // (undocumented)
     reimplementedBys?: ReimplementDataModel[] | undefined;
-    // (undocumented)
     reimplements?: ReimplementDataModel[] | undefined;
-    // (undocumented)
     staticc: boolean | undefined;
-    // (undocumented)
     strong?: boolean | undefined;
-    // (undocumented)
     templateparamlist?: TemplateParamListDataModel | undefined;
-    // (undocumented)
     type?: TypeDataModel | undefined;
-    // (undocumented)
     virt?: string | undefined;
-    // (undocumented)
     volatile?: boolean | undefined;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractMemberRefType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     ambiguityscope?: string | undefined;
-    // (undocumented)
     name: string;
-    // (undocumented)
     prot: string;
-    // (undocumented)
     refid: string;
-    // (undocumented)
     scope: string;
-    // (undocumented)
     virt: string;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractMemberType extends AbstractMemberBaseType {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     refid: string;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractParamType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     array?: string | undefined;
-    // (undocumented)
     attributes?: string | undefined;
-    // (undocumented)
     briefdescription?: BriefDescriptionDataModel | undefined;
-    // (undocumented)
     declname?: string | undefined;
-    // (undocumented)
     defname?: string | undefined;
-    // (undocumented)
     defval?: DefValDataModel | undefined;
-    // (undocumented)
     type?: TypeDataModel | undefined;
-    // (undocumented)
     typeconstraint?: TypeConstraintDataModel | undefined;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractReferenceType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     compoundref?: string | undefined;
-    // (undocumented)
     endline: number | undefined;
-    // (undocumented)
     refid: string;
-    // (undocumented)
     startline: number | undefined;
-    // (undocumented)
     text: string;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractRefType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     inline?: boolean | undefined;
-    // (undocumented)
     prot?: string | undefined;
-    // (undocumented)
     refid: string;
-    // (undocumented)
     text: string;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractReimplementType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     refId: string;
-    // (undocumented)
     text: string;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractSectionDefType extends AbstractSectionDefTypeBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractSectionDefTypeBase extends AbstractDataModelBase {
     constructor(elementName: string, kind: string);
-    // (undocumented)
     computeAdjustedKind(sectionSuffix: string, memberSuffix?: string): string;
-    // (undocumented)
     description?: DescriptionDataModel | undefined;
-    // (undocumented)
     hasMembers(): boolean;
-    // (undocumented)
     header?: string | undefined;
-    // (undocumented)
     kind: string;
-    // (undocumented)
     memberDefs?: MemberDefDataModel[] | undefined;
-    // (undocumented)
     members?: MemberDataModel[] | undefined;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractTableOfContentsKindType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     name: string;
-    // (undocumented)
     reference: string;
-    // (undocumented)
     tableOfContents: TableOfContentsDataModel[] | undefined;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractTableOfContentsType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     tableOfContents: TableOfContentsDataModel[] | undefined;
-    // (undocumented)
     tocSect: TocSectDataModel[] | undefined;
 }
 
-// @public (undocumented)
+// @public
 export abstract class AbstractTemplateParamListType extends AbstractDataModelBase {
     constructor(xml: DoxygenXmlParser, element: object, elementName: string);
-    // (undocumented)
     params?: ParamDataModel[] | undefined;
 }
 
-// @public (undocumented)
+// @public
 export class BaseCompoundRefDataModel extends AbstractCompoundRefType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class BriefDescriptionDataModel extends AbstractDescriptionType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
@@ -530,14 +364,11 @@ export class CliOptions {
     navbarLabel: string;
     navbarPosition: 'left' | 'right';
     originalPagesNote: string;
-    // (undocumented)
     parse(): Promise<void>;
     renderProgramListing: boolean;
     renderProgramListingInline: boolean;
     // Warning: (ae-forgotten-export) The symbol "CliConfigurationOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "MultiConfigurations" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     selectMultiConfiguration(multiConfigurations: CliConfigurationOptions | MultiConfigurations): CliConfigurationOptions | undefined;
     sidebarCategoryFilePath: string;
     sidebarCategoryLabel: string;
@@ -545,30 +376,26 @@ export class CliOptions {
     verbose: boolean;
 }
 
-// @public (undocumented)
+// @public
 export class CodeLineDataModel extends AbstractCodeLineType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 type CommandOptions = Record<string, string | boolean | undefined>;
 
-// @public (undocumented)
+// @public
 export class CompoundDefDataModel extends AbstractCompoundDefType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class DataModel {
     constructor(options: CliOptions);
-    // (undocumented)
     compoundDefs: CompoundDefDataModel[];
-    // (undocumented)
     doxyfile?: DoxygenFileDataModel;
-    // (undocumented)
     doxygenindex?: DoxygenIndexDataModel;
     options: CliOptions;
-    // (undocumented)
     parse(): Promise<void>;
     parsedFilesCounter: number;
     parseDoxyfile(): Promise<void>;
@@ -578,43 +405,41 @@ export class DataModel {
     }): Promise<any>;
     processCompoundDefs(indexCompound: IndexCompoundDataModel, parsedDoxygenElements: XmlElement[]): void;
     processMemberdefs(): void;
-    // (undocumented)
     projectVersion?: string;
-    // (undocumented)
     xml: DoxygenXmlParser;
 }
 
-// @public (undocumented)
+// @public
 export class DefValDataModel extends AbstractLinkedTextType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class DerivedCompoundRefDataModel extends AbstractCompoundRefType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class DescriptionDataModel extends AbstractDescriptionType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class DetailedDescriptionDataModel extends AbstractDescriptionType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class DoxygenFileDataModel extends AbstractDoxygenFileType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class DoxygenFileOptionDataModel extends AbstractDoxygenFileOptionType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class DoxygenIndexDataModel extends AbstractIndexDoxygenType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
@@ -635,89 +460,88 @@ export class DoxygenXmlParser {
     hasAttributes(element: object): boolean;
     hasInnerElement(element: object, name: string): boolean;
     hasInnerText(element: object): boolean;
-    // (undocumented)
     images: AbstractDocImageType[];
     isInnerElementText(element: object, name: string): boolean;
     options: CliOptions;
     xmlParser: XMLParser;
 }
 
-// @public (undocumented)
+// @public
 export class EnumValueDataModel extends AbstractEnumValueType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class HighlightDataModel extends AbstractHighlightType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class InbodyDescriptionDataModel extends AbstractDescriptionType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class IncludedByDataModel extends AbstractIncType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class IncludesDataModel extends AbstractIncType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class IndexCompoundDataModel extends AbstractIndexCompoundType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class IndexMemberDataModel extends AbstractIndexMemberType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class InitializerDataModel extends AbstractLinkedTextType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class InnerClassDataModel extends AbstractRefType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class InnerDirDataModel extends AbstractRefType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class InnerFileDataModel extends AbstractRefType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class InnerGroupDataModel extends AbstractRefType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class InnerNamespaceDataModel extends AbstractRefType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class InnerPageDataModel extends AbstractRefType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class ListOfAllMembersDataModel extends AbstractListOfAllMembersType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class LocationDataModel extends AbstractLocationType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
@@ -725,17 +549,17 @@ export class LocationDataModel extends AbstractLocationType {
 // @public
 export function main(argv: string[]): Promise<number>;
 
-// @public (undocumented)
+// @public
 export class MemberDataModel extends AbstractMemberType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class MemberDefDataModel extends AbstractMemberDefType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class MemberRefDataModel extends AbstractMemberRefType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
@@ -743,62 +567,62 @@ export class MemberRefDataModel extends AbstractMemberRefType {
 // @public
 type MultiConfigurations = Record<string, CliConfigurationOptions>;
 
-// @public (undocumented)
+// @public
 export class ParamDataModel extends AbstractParamType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class ProgramListingDataModel extends AbstractListingType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class ReferenceDataModel extends AbstractReferenceType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class ReferencedByDataModel extends AbstractReferenceType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class ReimplementDataModel extends AbstractReimplementType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class SectionDefDataModel extends AbstractSectionDefType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class TableOfContentsDataModel extends AbstractTableOfContentsType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class TemplateParamListDataModel extends AbstractTemplateParamListType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class TocSectDataModel extends AbstractTableOfContentsKindType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class TypeConstraintDataModel extends AbstractLinkedTextType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export class TypeDataModel extends AbstractLinkedTextType {
     constructor(xml: DoxygenXmlParser, element: object);
 }
 
-// @public (undocumented)
+// @public
 export interface XmlElement {
     // (undocumented)
     '#text': string | number | boolean;

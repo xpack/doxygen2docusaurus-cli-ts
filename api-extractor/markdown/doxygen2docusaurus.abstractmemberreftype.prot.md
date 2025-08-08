@@ -4,8 +4,15 @@
 
 ## AbstractMemberRefType.prot property
 
+The protection level classification of the referenced member.
+
 **Signature:**
 
 ```typescript
 prot: string;
 ```
+
+## Remarks
+
+Specifies the access protection level such as 'public', 'private', or 'protected' based on Doxygen's DoxProtectionKind enumeration. This information determines the member's visibility and accessibility within its containing scope and affects documentation presentation.
+

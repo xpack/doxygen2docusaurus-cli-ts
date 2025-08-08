@@ -4,10 +4,15 @@
 
 ## CliOptions.apiFolderPath property
 
-Relative to the docs folder, like `api`<!-- -->, no initial/final slashes.
+Path to the API documentation folder relative to the docs folder.
 
 **Signature:**
 
 ```typescript
 apiFolderPath: string;
 ```
+
+## Remarks
+
+Specifies the subfolder within the docs folder where API reference documentation will be generated. Path should not include initial or final slashes.
+

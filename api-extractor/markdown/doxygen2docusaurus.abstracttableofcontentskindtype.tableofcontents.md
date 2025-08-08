@@ -4,8 +4,15 @@
 
 ## AbstractTableOfContentsKindType.tableOfContents property
 
+Collection of nested table of contents data models.
+
 **Signature:**
 
 ```typescript
 tableOfContents: TableOfContentsDataModel[] | undefined;
 ```
+
+## Remarks
+
+Optional array containing nested table of contents elements that create hierarchical documentation structures. This allows for multi-level table of contents organisation with subsections and sub-subsections as needed.
+

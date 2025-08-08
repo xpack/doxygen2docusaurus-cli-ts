@@ -4,8 +4,15 @@
 
 ## AbstractDocImageType.width property
 
+Width specification for the image.
+
 **Signature:**
 
 ```typescript
 width?: string | undefined;
 ```
+
+## Remarks
+
+Specifies the desired width for the image rendering. The format and units depend on the target output format and may include CSS-style dimensions or format-specific measurements.
+

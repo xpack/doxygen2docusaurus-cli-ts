@@ -4,6 +4,7 @@
 
 ## ReferencedByDataModel class
 
+Data model for referenced-by relationship elements.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare class ReferencedByDataModel extends AbstractReferenceType 
 ```
 **Extends:** [AbstractReferenceType](./doxygen2docusaurus.abstractreferencetype.md)
+
+## Remarks
+
+Represents a reverse reference relationship within Doxygen XML documentation, corresponding to the referencedby XML element. This class manages relationships where the current entity is referenced or used by another documented entity. The relationship provides bidirectional dependency information, enabling comprehensive understanding of how entities are utilised throughout the codebase. Referenced-by relationships are essential for impact analysis and understanding the scope of changes when modifying documented components.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `ReferencedByDataModel` class
+Constructs a new referenced-by relationship data model from XML.
 
 
 </td></tr>

@@ -4,6 +4,7 @@
 
 ## AbstractIndexDoxygenType class
 
+Abstract base class for Doxygen index type data models.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare abstract class AbstractIndexDoxygenType extends AbstractDataModelBase 
 ```
 **Extends:** [AbstractDataModelBase](./doxygen2docusaurus.abstractdatamodelbase.md)
+
+## Remarks
+
+Represents the top-level structure of Doxygen index XML files, corresponding to the DoxygenType complex type in the XML schema. This class handles the parsing of version and language attributes, along with compound element collections. Note that this definition may clash with similar types in compound.xsd, requiring careful namespace management.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractIndexDoxygenType` class
+Constructs a new AbstractIndexDoxygenType instance from XML data.
 
 
 </td></tr>
@@ -84,7 +89,7 @@ Description
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Collection of compound data models referenced in the index.
 
 
 </td></tr>
@@ -103,6 +108,8 @@ string
 
 </td><td>
 
+The language specification for the documentation content.
+
 
 </td></tr>
 <tr><td>
@@ -120,7 +127,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The XML schema location reference for validation.
 
 
 </td></tr>
@@ -138,6 +145,8 @@ string
 
 
 </td><td>
+
+The version of the Doxygen tool that generated the XML.
 
 
 </td></tr>

@@ -4,7 +4,7 @@
 
 ## AbstractTableOfContentsKindType.(constructor)
 
-Constructs a new instance of the `AbstractTableOfContentsKindType` class
+Constructs a new AbstractTableOfContentsKindType instance from XML data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML elements
+
 
 </td></tr>
 <tr><td>
@@ -55,6 +57,8 @@ object
 
 
 </td><td>
+
+The XML element containing the table of contents kind data
 
 
 </td></tr>
@@ -70,7 +74,13 @@ string
 
 </td><td>
 
+The name of the XML element being processed
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Parses the provided XML element to extract table of contents kind information including mandatory name and reference elements, along with optional nested table of contents structures. The constructor handles unknown 'docs' elements that may appear but are not defined in the DTD. This element type has no attributes as per the XML schema.
 

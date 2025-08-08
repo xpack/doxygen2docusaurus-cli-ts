@@ -4,6 +4,7 @@
 
 ## AbstractListingType class
 
+Abstract base class for processing listing-type XML elements with parsing logic.
 
 **Signature:**
 
@@ -11,6 +12,12 @@
 export declare abstract class AbstractListingType extends AbstractListingTypeBase 
 ```
 **Extends:** [AbstractListingTypeBase](./doxygen2docusaurus.abstractlistingtypebase.md)
+
+## Remarks
+
+Extends the base listing properties with comprehensive XML parsing capabilities. This class handles the extraction of code lines and filename attributes from Doxygen XML structures, providing the foundation for program listings and similar code-containing elements.
+
+The parser processes codeline elements whilst ignoring textual content that may appear between structured elements, maintaining compatibility with the mixed-content nature of XML listings.
 
 ## Constructors
 
@@ -40,7 +47,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractListingType` class
+Constructs an AbstractListingType instance from XML element data.
 
 
 </td></tr>

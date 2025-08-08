@@ -4,6 +4,7 @@
 
 ## AbstractIndexMemberType class
 
+Abstract base class for index member type data models.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare abstract class AbstractIndexMemberType extends AbstractDataModelBase 
 ```
 **Extends:** [AbstractDataModelBase](./doxygen2docusaurus.abstractdatamodelbase.md)
+
+## Remarks
+
+Represents member elements found within Doxygen index XML structures, corresponding to the MemberType complex type in the XML schema. This class handles the parsing of member names, reference identifiers, and member kinds from the XML structure. All concrete member data model classes should extend this abstract base to ensure consistent parsing and data representation.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractIndexMemberType` class
+Constructs a new AbstractIndexMemberType instance from XML data.
 
 
 </td></tr>
@@ -84,6 +89,8 @@ string
 
 </td><td>
 
+The kind classification of the member.
+
 
 </td></tr>
 <tr><td>
@@ -101,6 +108,8 @@ string
 
 </td><td>
 
+The name of the member element.
+
 
 </td></tr>
 <tr><td>
@@ -117,6 +126,8 @@ string
 
 
 </td><td>
+
+The reference identifier for the member.
 
 
 </td></tr>

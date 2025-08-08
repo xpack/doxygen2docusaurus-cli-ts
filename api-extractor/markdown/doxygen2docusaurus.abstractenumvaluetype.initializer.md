@@ -4,8 +4,15 @@
 
 ## AbstractEnumValueType.initializer property
 
+Optional initialiser expression for the enumeration value.
+
 **Signature:**
 
 ```typescript
 initializer?: InitializerDataModel | undefined;
 ```
+
+## Remarks
+
+Contains the explicit value assignment expression when the enumeration value is explicitly initialised in the source code.
+

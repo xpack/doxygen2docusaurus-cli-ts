@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.listOfAllMembers property
 
+Complete list of all members contained in the compound.
+
 **Signature:**
 
 ```typescript
 listOfAllMembers?: ListOfAllMembersDataModel | undefined;
 ```
+
+## Remarks
+
+Contains a comprehensive list of all members (methods, properties, etc.) that belong to this compound, including inherited members. This property captures member information extracted from 'listofallmembers' XML elements for complete API documentation.
+

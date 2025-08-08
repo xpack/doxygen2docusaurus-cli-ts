@@ -4,6 +4,7 @@
 
 ## CodeLineDataModel class
 
+Data model for individual code line elements within program listings.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare class CodeLineDataModel extends AbstractCodeLineType 
 ```
 **Extends:** [AbstractCodeLineType](./doxygen2docusaurus.abstractcodelinetype.md)
+
+## Remarks
+
+Represents a single line of source code with optional syntax highlighting, line numbering, and cross-reference information. This implementation processes Doxygen's codeline elements, which form the fundamental building blocks of program listings and code examples within the documentation.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `CodeLineDataModel` class
+Constructs a CodeLineDataModel from XML element data.
 
 
 </td></tr>

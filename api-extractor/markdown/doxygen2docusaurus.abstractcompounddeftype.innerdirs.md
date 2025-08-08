@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.innerDirs property
 
+Inner folder references contained within this compound.
+
 **Signature:**
 
 ```typescript
 innerDirs?: InnerDirDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to subdirectories or folders that are logically contained within this compound. This property captures hierarchical folder structure extracted from 'innerdir' XML elements, typically used for directory-based documentation organisation.
+

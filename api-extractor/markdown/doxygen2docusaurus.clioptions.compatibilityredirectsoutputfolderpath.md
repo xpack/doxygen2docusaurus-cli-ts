@@ -4,10 +4,15 @@
 
 ## CliOptions.compatibilityRedirectsOutputFolderPath property
 
-Relative to the current `website/static` folder, like `reference`<!-- -->.
+Output folder for compatibility redirect files.
 
 **Signature:**
 
 ```typescript
 compatibilityRedirectsOutputFolderPath?: string | undefined;
 ```
+
+## Remarks
+
+Optional path relative to the website/static folder where HTML redirect files will be generated to maintain compatibility with original Doxygen URLs. When undefined, no redirect files are created.
+

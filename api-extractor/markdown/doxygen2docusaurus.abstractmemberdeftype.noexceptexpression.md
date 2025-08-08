@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.noexceptexpression property
 
+Indicates whether the member has a noexcept expression.
+
 **Signature:**
 
 ```typescript
 noexceptexpression?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member's noexcept specification includes a conditional expression that determines exception safety at compile time based on template parameters or other conditions.
+

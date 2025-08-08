@@ -4,8 +4,15 @@
 
 ## AbstractTemplateParamListType.params property
 
+Collection of parameter data models within this template parameter list.
+
 **Signature:**
 
 ```typescript
 params?: ParamDataModel[] | undefined;
 ```
+
+## Remarks
+
+Optional array containing parameter elements found within the template parameter list structure. Each parameter represents a template parameter definition including its type, name, and other attributes. The array supports zero to many parameters as per the XML schema, accommodating both non-templated constructs and complex template declarations.
+

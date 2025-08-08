@@ -4,6 +4,7 @@
 
 ## AbstractListOfAllMembersType class
 
+Abstract base class for list-of-all-members elements within documentation.
 
 **Signature:**
 
@@ -11,6 +12,12 @@
 export declare abstract class AbstractListOfAllMembersType extends AbstractDataModelBase 
 ```
 **Extends:** [AbstractDataModelBase](./doxygen2docusaurus.abstractdatamodelbase.md)
+
+## Remarks
+
+Implements processing for list-of-all-members elements that contain comprehensive member reference collections within class and compound documentation. This class handles the XML Schema definition for listofallmembersType elements, which provide complete inventories of all members (including inherited members) associated with classes, structures, and other compound types.
+
+The implementation processes sequences of member reference elements, creating MemberRefDataModel instances to maintain detailed information about each member's identity, scope, and accessibility within the compound's complete member hierarchy.
 
 ## Constructors
 
@@ -40,7 +47,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractListOfAllMembersType` class
+Constructs a new list-of-all-members data model instance.
 
 
 </td></tr>
@@ -84,7 +91,7 @@ Description
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Collection of member reference elements within the list-of-all-members.
 
 
 </td></tr>

@@ -4,8 +4,15 @@
 
 ## AbstractIncType.refId property
 
+Optional reference identifier for cross-linking to the included file.
+
 **Signature:**
 
 ```typescript
 refId?: string | undefined;
 ```
+
+## Remarks
+
+Contains the reference identifier that links to the documentation of the included file. This enables navigation from include statements to the actual file documentation within the generated documentation system.
+

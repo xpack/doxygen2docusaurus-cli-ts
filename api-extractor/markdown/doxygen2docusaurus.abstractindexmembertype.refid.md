@@ -4,8 +4,15 @@
 
 ## AbstractIndexMemberType.refid property
 
+The reference identifier for the member.
+
 **Signature:**
 
 ```typescript
 refid: string;
 ```
+
+## Remarks
+
+Mandatory attribute that provides a unique identifier for referencing this member within the Doxygen documentation structure. Used to link index entries to their detailed definitions.
+

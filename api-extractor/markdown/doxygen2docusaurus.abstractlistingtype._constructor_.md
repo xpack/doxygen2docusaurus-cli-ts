@@ -4,7 +4,7 @@
 
 ## AbstractListingType.(constructor)
 
-Constructs a new instance of the `AbstractListingType` class
+Constructs an AbstractListingType instance from XML element data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML content
+
 
 </td></tr>
 <tr><td>
@@ -55,6 +57,8 @@ object
 
 
 </td><td>
+
+The XML element object containing the listing data
 
 
 </td></tr>
@@ -70,7 +74,13 @@ string
 
 </td><td>
 
+The name of the XML element being processed
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+This constructor processes listing elements by extracting codeline children and filename attributes. Text content between elements is deliberately ignored to accommodate the mixed-content model of XML listings, focusing on the structured code line elements that contain the meaningful programming content.
 

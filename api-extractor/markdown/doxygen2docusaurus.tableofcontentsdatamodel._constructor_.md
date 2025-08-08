@@ -4,7 +4,7 @@
 
 ## TableOfContentsDataModel.(constructor)
 
-Constructs a new instance of the `TableOfContentsDataModel` class
+Constructs a new TableOfContentsDataModel instance from XML data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML elements
+
 
 </td></tr>
 <tr><td>
@@ -56,7 +58,13 @@ object
 
 </td><td>
 
+The XML element containing the table of contents data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Initialises the table of contents data model by parsing the provided XML element as a 'tableofcontents' element type. The constructor delegates to the parent class for common table of contents processing whilst specifying the element name for proper XML structure handling.
 

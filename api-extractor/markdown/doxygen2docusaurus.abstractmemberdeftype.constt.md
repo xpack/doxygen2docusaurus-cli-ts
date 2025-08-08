@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.constt property
 
+Indicates whether the member is declared as const.
+
 **Signature:**
 
 ```typescript
 constt?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member is declared with the const qualifier, making it immutable after initialization. This affects the member's usage patterns and compiler optimizations.
+

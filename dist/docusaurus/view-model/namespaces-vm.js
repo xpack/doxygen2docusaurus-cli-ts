@@ -18,8 +18,25 @@ import { flattenPath, sanitizeAnonymousNamespace, sanitizeHierarchicalPath, } fr
 import { NamespaceTreeEntry } from './tree-entries-vm.js';
 import { Class } from './classes-vm.js';
 // ----------------------------------------------------------------------------
+/**
+ * Manages the collection of namespace documentation compounds.
+ *
+ * @remarks
+ * Handles the organisation and generation of namespace-based documentation,
+ * including nested namespace hierarchies, sidebar generation, and comprehensive
+ * index file creation. Namespaces provide logical code organisation beyond
+ * file boundaries, supporting complex software architectures.
+ *
+ * @public
+ */
 export class Namespaces extends CollectionBase {
-    // compoundsById: Map<string, Namespace>
+    /**
+     * Array of top-level namespaces without parent namespaces.
+     *
+     * @remarks
+     * Contains namespaces that are not nested within other namespaces,
+     * used for organising hierarchical displays and namespace trees.
+     */
     topLevelNamespaces = [];
     // --------------------------------------------------------------------------
     // constructor (workspace: Workspace) {
@@ -27,6 +44,19 @@ export class Namespaces extends CollectionBase {
     //   // this.compoundsById = new Map()
     // }
     // --------------------------------------------------------------------------
+    /**
+     * Adds a namespace compound to the collection.
+     *
+     * @remarks
+     * Creates a new Namespace instance from the compound definition and registers
+     * it in the collection for later processing. Anonymous namespaces with empty
+     * names are skipped unless they contain child namespaces.
+     *
+     * @param compoundDef - The compound definition for the namespace
+     * @returns The created Namespace instance
+     *
+     * @public
+     */
     addChild(compoundDef) {
         const namespace = new Namespace(this, compoundDef);
         // Skip
@@ -41,6 +71,17 @@ export class Namespaces extends CollectionBase {
         return namespace;
     }
     // --------------------------------------------------------------------------
+    /**
+     * Creates hierarchical relationships between namespace compounds.
+     *
+     * @remarks
+     * Establishes parent-child relationships based on namespace nesting data,
+     * building the namespace hierarchy tree and identifying top-level namespaces
+     * that have no parent. This enables proper nested namespace navigation
+     * and documentation organisation.
+     *
+     * @public
+     */
     createCompoundsHierarchies() {
         // Recreate namespaces hierarchies.
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -67,6 +108,20 @@ export class Namespaces extends CollectionBase {
         }
     }
     // --------------------------------------------------------------------------
+    /**
+     * Adds namespace sidebar items to the provided sidebar category.
+     *
+     * @remarks
+     * Creates comprehensive namespace navigation including hierarchical namespace
+     * trees and specialised indices for classes, functions, variables, typedefs,
+     * enums, and enum values. The structure provides multiple access paths to
+     * namespace content for improved user navigation.
+     *
+     * @param sidebarCategory - The sidebar category to populate with namespace
+     *   items
+     *
+     * @public
+     */
     addSidebarItems(sidebarCategory) {
         const indicesSet = this.workspace.indicesMaps.get('namespaces');
         if (indicesSet === undefined) {
@@ -149,6 +204,21 @@ export class Namespaces extends CollectionBase {
         }
         sidebarCategory.items.push(namespacesCategory);
     }
+    /**
+     * Creates sidebar items recursively for namespace hierarchies.
+     *
+     * @remarks
+     * Generates appropriate sidebar structure based on namespace nesting,
+     * creating document items for leaf namespaces and category items for
+     * namespaces with children. This method builds the hierarchical navigation
+     * structure with proper ellipsis styling for nested content.
+     *
+     * @param namespace - The namespace to create a sidebar item for
+     * @returns The created sidebar item, or undefined if the namespace is not
+     *   displayable
+     *
+     * @private
+     */
     createNamespaceItemRecursively(namespace) {
         if (namespace.sidebarLabel === undefined ||
             namespace.sidebarId === undefined) {
@@ -186,6 +256,18 @@ export class Namespaces extends CollectionBase {
         }
     }
     // --------------------------------------------------------------------------
+    /**
+     * Creates navbar items for namespace navigation.
+     *
+     * @remarks
+     * Generates a navigation bar item that provides access to the main
+     * namespaces index page, enabling users to explore namespace hierarchies
+     * and specialised namespace indices from the top-level navigation.
+     *
+     * @returns Array containing the namespaces navbar item
+     *
+     * @public
+     */
     createNavbarItems() {
         const navbarItem = {
             label: 'Namespaces',
@@ -194,6 +276,17 @@ export class Namespaces extends CollectionBase {
         return [navbarItem];
     }
     // --------------------------------------------------------------------------
+    /**
+     * Generates the main namespaces index Markdown file.
+     *
+     * @remarks
+     * Creates a comprehensive index file for namespaces when top-level namespaces
+     * exist. The index includes a hierarchical tree table showing all namespaces
+     * with their descriptions and navigation links, providing a complete overview
+     * of the project's namespace organisation.
+     *
+     * @public
+     */
     async generateIndexDotMdFile() {
         if (this.topLevelNamespaces.length === 0) {
             return;
@@ -226,6 +319,21 @@ export class Namespaces extends CollectionBase {
             bodyLines: lines,
         });
     }
+    /**
+     * Recursively generates index content for namespace hierarchies.
+     *
+     * @remarks
+     * Creates hierarchical HTML tree table rows for namespaces and their
+     * children, including appropriate indentation, icons, and navigation links.
+     * This method builds the complete nested structure for namespace
+     * documentation indices with proper depth handling.
+     *
+     * @param namespace - The namespace to generate index content for
+     * @param depth - The current nesting depth for indentation
+     * @returns Array of HTML lines representing the namespace hierarchy
+     *
+     * @private
+     */
     generateIndexMdFileRecursively(namespace, depth) {
         // console.log(util.inspect(namespace, { compact: false, depth: 999 }))
         const lines = [];
@@ -259,6 +367,17 @@ export class Namespaces extends CollectionBase {
         return lines;
     }
     // --------------------------------------------------------------------------
+    /**
+     * Generates specialised namespace index files by content type.
+     *
+     * @remarks
+     * Creates comprehensive index files for different types of namespace content
+     * including all definitions, classes, functions, variables, typedefs, enums,
+     * and enum values. Each index provides filtered views of namespace content
+     * for targeted exploration and documentation access.
+     *
+     * @public
+     */
     async generatePerInitialsIndexMdFiles() {
         if (this.topLevelNamespaces.length === 0) {
             return;
@@ -361,9 +480,49 @@ export class Namespaces extends CollectionBase {
     }
 }
 // ============================================================================
+/**
+ * Represents a namespace compound for code organisation documentation.
+ *
+ * @remarks
+ * Namespaces provide logical code organisation beyond file boundaries,
+ * supporting complex software architectures with hierarchical structure.
+ * Handles both named and anonymous namespaces with appropriate documentation
+ * generation, including special handling for compiler-generated anonymous
+ * namespaces.
+ *
+ * @public
+ */
 export class Namespace extends CompoundBase {
+    /**
+     * The unqualified namespace name without scope.
+     *
+     * @remarks
+     * Contains the simple name of the namespace without parent scope
+     * qualifiers, used for display and navigation purposes.
+     */
     unqualifiedName = '???';
+    /**
+     * Indicates if this is an anonymous namespace.
+     *
+     * @remarks
+     * True for anonymous namespaces that don't have explicit names,
+     * affecting how the namespace is displayed and documented.
+     */
     isAnonymous = false;
+    /**
+     * Initialises a new Namespace instance from compound definition data.
+     *
+     * @remarks
+     * Processes namespace metadata including nested namespace relationships,
+     * name extraction, and permalink generation. Handles special cases for
+     * anonymous namespaces and compiler-generated namespace structures.
+     * Sets up the namespace for integration into the documentation hierarchy.
+     *
+     * @param collection - The parent Namespaces collection
+     * @param compoundDef - The compound definition containing namespace metadata
+     *
+     * @public
+     */
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
         // console.log('Namespace.constructor', util.inspect(compoundDef))
@@ -444,6 +603,16 @@ export class Namespace extends CompoundBase {
         // console.log('5 ix', this.indexName)
         // console.log()
     }
+    /**
+     * Performs late initialisation for namespaces with content validation.
+     *
+     * @remarks
+     * Validates namespace content and conditionally disables sidebar generation
+     * for empty namespaces. This ensures that namespaces without meaningful
+     * documentation do not appear in the generated sidebar navigation.
+     *
+     * @public
+     */
     initializeLate() {
         super.initializeLate();
         // console.log(this)
@@ -456,6 +625,20 @@ export class Namespace extends CompoundBase {
             this.relativePermalink = undefined;
         }
     }
+    /**
+     * Determines if the namespace has any documentable content.
+     *
+     * @remarks
+     * Checks for child namespaces with content, inner compounds beyond just
+     * nested namespaces, and base class content to determine if the namespace
+     * should be included in documentation. This method helps filter empty
+     * namespaces from the generated output.
+     *
+     * @returns True if the namespace contains documentable content, false
+     *   otherwise
+     *
+     * @public
+     */
     hasAnyContent() {
         // console.log('checking', this.compoundName)
         for (const childNamespace of this.children) {
@@ -484,6 +667,21 @@ export class Namespace extends CompoundBase {
         return super.hasAnyContent();
     }
     // --------------------------------------------------------------------------
+    /**
+     * Renders the namespace documentation to Markdown lines.
+     *
+     * @remarks
+     * Generates comprehensive namespace documentation including brief
+     * description, namespace definition syntax, inner compound indices, section
+     * indices, detailed description, and sections. The output follows Docusaurus
+     * conventions for namespace pages with proper navigation and content
+     * organisation.
+     *
+     * @param frontMatter - The front matter configuration for the page
+     * @returns Array of Markdown lines representing the namespace documentation
+     *
+     * @public
+     */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToLines(frontMatter) {
         const lines = [];

@@ -4,8 +4,15 @@
 
 ## AbstractLocationType.bodystart property
 
+The starting line number of the implementation body.
+
 **Signature:**
 
 ```typescript
 bodystart?: number | undefined;
 ```
+
+## Remarks
+
+Line number where the implementation body begins, providing the starting boundary for locating function or method implementations. This is useful for identifying the complete scope of implementation code.
+

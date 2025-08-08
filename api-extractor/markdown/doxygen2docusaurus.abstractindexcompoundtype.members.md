@@ -4,8 +4,15 @@
 
 ## AbstractIndexCompoundType.members property
 
+Collection of member data models associated with this compound.
+
 **Signature:**
 
 ```typescript
 members: IndexMemberDataModel[] | undefined;
 ```
+
+## Remarks
+
+Optional array containing member elements found within the compound structure. Each member represents a documented entity that belongs to this compound, such as functions, variables, or other nested constructs. The array supports zero to many members as per the XML schema.
+

@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.prot property
 
+The protection level of the member element.
+
 **Signature:**
 
 ```typescript
 prot: string;
 ```
+
+## Remarks
+
+Specifies the access protection level (public, protected, private) for the member, determining its visibility and accessibility within the containing class or namespace scope.
+

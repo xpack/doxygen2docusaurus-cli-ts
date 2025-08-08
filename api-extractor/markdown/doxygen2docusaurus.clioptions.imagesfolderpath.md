@@ -4,10 +4,15 @@
 
 ## CliOptions.imagesFolderPath property
 
-Relative to `static`
+Path for images relative to the `static` folder.
 
 **Signature:**
 
 ```typescript
 imagesFolderPath: string;
 ```
+
+## Remarks
+
+Specifies where Doxygen-generated images will be stored within the Docusaurus static assets folder structure.
+

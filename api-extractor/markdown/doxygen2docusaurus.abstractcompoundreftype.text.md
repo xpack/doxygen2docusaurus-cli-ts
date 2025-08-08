@@ -4,8 +4,15 @@
 
 ## AbstractCompoundRefType.text property
 
+The name or identifier text of the referenced compound.
+
 **Signature:**
 
 ```typescript
 text: string;
 ```
+
+## Remarks
+
+Contains the textual content extracted from the compound reference XML element, typically representing the name of the referenced class, structure, or other compound entity. This text content serves as the primary identifier for the referenced compound in inheritance relationships and cross-references.
+

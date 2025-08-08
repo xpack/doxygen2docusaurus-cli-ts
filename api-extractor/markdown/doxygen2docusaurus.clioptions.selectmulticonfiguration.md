@@ -4,6 +4,8 @@
 
 ## CliOptions.selectMultiConfiguration() method
 
+Selects the appropriate configuration from multi-configuration options.
+
 **Signature:**
 
 ```typescript
@@ -40,6 +42,8 @@ multiConfigurations
 
 </td><td>
 
+Configuration object or multi-config map
+
 
 </td></tr>
 </tbody></table>
@@ -47,4 +51,10 @@ multiConfigurations
 **Returns:**
 
 [CliConfigurationOptions](./doxygen2docusaurus.cliconfigurationoptions.md) \| undefined
+
+Selected configuration options or undefined if not found
+
+## Remarks
+
+When using a specific ID, returns the corresponding configuration. For the default ID, returns either the 'default' configuration or treats the entire object as a single configuration.
 

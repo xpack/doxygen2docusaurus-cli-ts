@@ -4,8 +4,15 @@
 
 ## AbstractParamType.type property
 
+Type information for the parameter with linked text support.
+
 **Signature:**
 
 ```typescript
 type?: TypeDataModel | undefined;
 ```
+
+## Remarks
+
+Provides comprehensive type data including cross-references and embedded links to type definitions. This enables rich type presentation with navigation capabilities to related type documentation within the system.
+

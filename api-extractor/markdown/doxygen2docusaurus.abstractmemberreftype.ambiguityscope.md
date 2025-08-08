@@ -4,8 +4,17 @@
 
 ## AbstractMemberRefType.ambiguityscope property
 
+The ambiguity resolution scope for member reference disambiguation.
+
 **Signature:**
 
 ```typescript
 ambiguityscope?: string | undefined;
 ```
+
+## Remarks
+
+Provides optional scope information used to resolve ambiguous member references when multiple members with identical names exist within the documentation context. This field assists in ensuring accurate member identification when name conflicts occur.
+
+Note that this deviates from the XML Schema definition where it is marked as required, but in practice may be undefined for certain member references.
+

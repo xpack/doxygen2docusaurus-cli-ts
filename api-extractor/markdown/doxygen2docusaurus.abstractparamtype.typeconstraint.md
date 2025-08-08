@@ -4,8 +4,15 @@
 
 ## AbstractParamType.typeconstraint property
 
+Type constraint information for template parameters.
+
 **Signature:**
 
 ```typescript
 typeconstraint?: TypeConstraintDataModel | undefined;
 ```
+
+## Remarks
+
+Contains constraint specifications for template or generic parameters, including concept requirements, type bounds, and constraint expressions. This information is essential for documenting modern C++ concepts and generic programming constraints.
+

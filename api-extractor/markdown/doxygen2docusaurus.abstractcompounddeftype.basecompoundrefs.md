@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.baseCompoundRefs property
 
+Base compound references for inheritance relationships.
+
 **Signature:**
 
 ```typescript
 baseCompoundRefs?: BaseCompoundRefDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to base classes or parent compounds from which this compound inherits. This property captures the inheritance hierarchy information extracted from 'basecompoundref' XML elements for object-oriented documentation structures.
+

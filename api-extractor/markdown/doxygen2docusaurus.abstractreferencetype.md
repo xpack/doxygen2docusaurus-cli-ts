@@ -4,6 +4,7 @@
 
 ## AbstractReferenceType class
 
+Abstract base class for reference type data models.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare abstract class AbstractReferenceType extends AbstractDataModelBase 
 ```
 **Extends:** [AbstractDataModelBase](./doxygen2docusaurus.abstractdatamodelbase.md)
+
+## Remarks
+
+Represents the foundational structure for reference relationship elements within Doxygen XML documentation, corresponding to the referenceType complex type in the XML schema. This class manages bidirectional reference relationships between documented entities, capturing both the descriptive text and precise location information including line number ranges. The reference system enables comprehensive dependency tracking and cross- referencing capabilities, essential for understanding code relationships and generating accurate documentation navigation structures.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractReferenceType` class
+Constructs a new abstract reference type from XML data.
 
 
 </td></tr>
@@ -84,7 +89,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The compound reference identifier for the containing entity.
 
 
 </td></tr>
@@ -103,6 +108,8 @@ number \| undefined
 
 </td><td>
 
+The ending line number where the reference concludes.
+
 
 </td></tr>
 <tr><td>
@@ -119,6 +126,8 @@ string
 
 
 </td><td>
+
+The unique reference identifier for the referenced entity.
 
 
 </td></tr>
@@ -137,6 +146,8 @@ number \| undefined
 
 </td><td>
 
+The starting line number where the reference occurs.
+
 
 </td></tr>
 <tr><td>
@@ -153,6 +164,8 @@ string
 
 
 </td><td>
+
+The descriptive text content for this reference relationship.
 
 
 </td></tr>

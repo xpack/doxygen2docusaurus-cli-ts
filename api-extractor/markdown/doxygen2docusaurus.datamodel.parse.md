@@ -4,6 +4,8 @@
 
 ## DataModel.parse() method
 
+Orchestrates the complete parsing of Doxygen XML files and data model construction.
+
 **Signature:**
 
 ```typescript
@@ -12,4 +14,8 @@ parse(): Promise<void>;
 **Returns:**
 
 Promise&lt;void&gt;
+
+## Remarks
+
+This method performs the complete parsing workflow in sequential phases: parsing the main index file, processing all referenced compound XML files, and parsing the Doxyfile configuration. It maintains the original XML element order and content fidelity throughout the process. Progress information is logged to the console, with detailed output in verbose mode.
 

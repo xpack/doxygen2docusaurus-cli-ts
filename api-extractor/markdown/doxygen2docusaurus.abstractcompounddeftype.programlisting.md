@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.programListing property
 
+Program listing or source code for the compound.
+
 **Signature:**
 
 ```typescript
 programListing?: ProgramListingDataModel | undefined;
 ```
+
+## Remarks
+
+Contains the actual source code implementation or listing for the compound when available. This property captures code content extracted from 'programlisting' XML elements, providing syntax-highlighted source code display in the documentation.
+

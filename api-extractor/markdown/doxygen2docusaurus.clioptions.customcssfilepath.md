@@ -4,10 +4,15 @@
 
 ## CliOptions.customCssFilePath property
 
-Relative to the current website folder, default `src/css/custom-doxygen.css`
+Path to the custom CSS file for styling overrides.
 
 **Signature:**
 
 ```typescript
 customCssFilePath: string;
 ```
+
+## Remarks
+
+Specifies the location where custom CSS styles will be written to provide Doxygen-specific styling within the Docusaurus theme. Path is relative to the current website folder.
+

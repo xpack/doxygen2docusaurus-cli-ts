@@ -4,6 +4,7 @@
 
 ## AbstractHighlightType class
 
+Abstract base class for syntax highlighting elements within code listings.
 
 **Signature:**
 
@@ -11,6 +12,12 @@
 export declare abstract class AbstractHighlightType extends AbstractDataModelBase 
 ```
 **Extends:** [AbstractDataModelBase](./doxygen2docusaurus.abstractdatamodelbase.md)
+
+## Remarks
+
+Implements the XML Schema definition for highlightType elements, which provide syntax highlighting information for portions of source code. Each highlight element contains a mandatory class attribute that specifies the type of syntax element (keyword, comment, etc.) and may contain mixed content including text, spacing elements, and cross-references.
+
+The implementation supports the full range of Doxygen highlight classes including standard programming language constructs and specialised VHDL categories for hardware description language documentation.
 
 ## Constructors
 
@@ -40,7 +47,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractHighlightType` class
+Constructs an AbstractHighlightType instance from XML element data.
 
 
 </td></tr>
@@ -83,6 +90,8 @@ string
 
 
 </td><td>
+
+Mandatory highlight classification attribute.
 
 
 </td></tr>

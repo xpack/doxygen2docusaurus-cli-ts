@@ -4,8 +4,15 @@
 
 ## AbstractMemberRefType.refid property
 
+The unique reference identifier for cross-referencing the member.
+
 **Signature:**
 
 ```typescript
 refid: string;
 ```
+
+## Remarks
+
+Contains the Doxygen-generated unique identifier used for creating precise cross-references and hyperlinks to the member documentation. This identifier ensures unambiguous linking between documentation elements and enables accurate navigation within the generated documentation system.
+

@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.constinit property
 
+Indicates whether the member is declared as constinit.
+
 **Signature:**
 
 ```typescript
 constinit?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member must be initialized with a constant expression during static initialization. This C++20 feature helps prevent initialization order issues.
+

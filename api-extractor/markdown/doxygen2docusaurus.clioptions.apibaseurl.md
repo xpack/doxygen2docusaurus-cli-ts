@@ -4,10 +4,15 @@
 
 ## CliOptions.apiBaseUrl property
 
-Relative to the docs home, like `api`<!-- -->, without initial/final slashes.
+URL path to the API documentation relative to the docs section.
 
 **Signature:**
 
 ```typescript
 apiBaseUrl: string;
 ```
+
+## Remarks
+
+Defines the URL segment for API documentation within the docs section, without initial or final slashes. Used for generating navigation links.
+

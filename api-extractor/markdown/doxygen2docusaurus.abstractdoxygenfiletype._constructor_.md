@@ -4,7 +4,7 @@
 
 ## AbstractDoxygenFileType.(constructor)
 
-Constructs a new instance of the `AbstractDoxygenFileType` class
+Constructs a new AbstractDoxygenFileType instance from XML data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML elements
+
 
 </td></tr>
 <tr><td>
@@ -55,6 +57,8 @@ object
 
 
 </td><td>
+
+The XML element containing the Doxyfile data
 
 
 </td></tr>
@@ -70,7 +74,13 @@ string
 
 </td><td>
 
+The name of the XML element being processed
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Parses the provided XML element to extract Doxyfile configuration information including option collections and mandatory attributes (version and language). The constructor validates that all required attributes are present and processes option elements into the appropriate data models. Optional schema location attributes are also extracted when present.
 

@@ -4,6 +4,7 @@
 
 ## IncludedByDataModel class
 
+Data model for includedby elements within documentation content.
 
 **Signature:**
 
@@ -11,6 +12,12 @@
 export declare class IncludedByDataModel extends AbstractIncType 
 ```
 **Extends:** [AbstractIncType](./doxygen2docusaurus.abstractinctype.md)
+
+## Remarks
+
+Represents includedby elements that document files which include the current source file. This implementation processes Doxygen's includedby elements, which contain information about files that incorporate the current file through preprocessor directives, establishing reverse inclusion relationships within the documentation system.
+
+The includedby relationship indicates a dependency where other files incorporate content from the current file during compilation.
 
 ## Constructors
 
@@ -40,7 +47,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `IncludedByDataModel` class
+Constructs an IncludedByDataModel from XML element data.
 
 
 </td></tr>

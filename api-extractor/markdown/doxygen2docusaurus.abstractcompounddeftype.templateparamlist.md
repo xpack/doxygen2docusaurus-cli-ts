@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.templateParamList property
 
+Template parameter list for templated compounds.
+
 **Signature:**
 
 ```typescript
 templateParamList?: TemplateParamListDataModel | undefined;
 ```
+
+## Remarks
+
+Contains the template parameter definitions for templated classes, functions, or other templated entities. This property captures template information extracted from 'templateparamlist' XML elements, providing details about generic programming constructs.
+

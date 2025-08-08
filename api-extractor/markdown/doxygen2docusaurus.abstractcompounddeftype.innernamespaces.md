@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.innerNamespaces property
 
+Inner namespace references contained within this compound.
+
 **Signature:**
 
 ```typescript
 innerNamespaces?: InnerNamespaceDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to namespaces that are nested within this compound. This property captures namespace hierarchy relationships extracted from 'innernamespace' XML elements, supporting multi-level namespace documentation organisation.
+

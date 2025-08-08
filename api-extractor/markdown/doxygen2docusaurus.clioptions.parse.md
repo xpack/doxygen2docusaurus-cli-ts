@@ -4,6 +4,8 @@
 
 ## CliOptions.parse() method
 
+Parses configuration options from various JSON configuration sources.
+
 **Signature:**
 
 ```typescript
@@ -12,4 +14,12 @@ parse(): Promise<void>;
 **Returns:**
 
 Promise&lt;void&gt;
+
+## Exceptions
+
+Assertion error if required configuration properties are missing
+
+## Remarks
+
+Attempts to load configuration from multiple locations in order of preference: config/doxygen2docusaurus.json, doxygen2docusaurus.json, and package.json. Validates required properties and enables debug output if requested.
 

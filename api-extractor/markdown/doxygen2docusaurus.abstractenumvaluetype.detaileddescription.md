@@ -4,8 +4,15 @@
 
 ## AbstractEnumValueType.detailedDescription property
 
+Detailed description of the enumeration value.
+
 **Signature:**
 
 ```typescript
 detailedDescription?: DetailedDescriptionDataModel | undefined;
 ```
+
+## Remarks
+
+Comprehensive documentation comment providing full details about the enumeration value's purpose, usage, and behaviour.
+

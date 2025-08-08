@@ -4,8 +4,15 @@
 
 ## AbstractTableOfContentsType.tocSect property
 
+Collection of table of contents section data models.
+
 **Signature:**
 
 ```typescript
 tocSect: TocSectDataModel[] | undefined;
 ```
+
+## Remarks
+
+Optional array containing table of contents section elements, part of an exclusive choice with tableOfContents. Each section represents a specific part of the documentation structure with its own name, reference, and potentially nested content.
+

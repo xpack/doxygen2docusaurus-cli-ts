@@ -4,6 +4,7 @@
 
 ## CompoundDefDataModel class
 
+Concrete implementation of compound definition data model.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare class CompoundDefDataModel extends AbstractCompoundDefType 
 ```
 **Extends:** [AbstractCompoundDefType](./doxygen2docusaurus.abstractcompounddeftype.md)
+
+## Remarks
+
+Provides the primary data model implementation for Doxygen compound definitions, handling all types of compounds including classes, structures, files, namespaces, and pages. This class serves as the main entry point for processing compound definition XML elements in the Doxygen output.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `CompoundDefDataModel` class
+Constructs a new CompoundDefDataModel instance.
 
 
 </td></tr>

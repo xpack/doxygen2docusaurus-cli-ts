@@ -4,8 +4,15 @@
 
 ## AbstractCompoundRefType.prot property
 
+Protection level of the compound reference.
+
 **Signature:**
 
 ```typescript
 prot: string;
 ```
+
+## Remarks
+
+Specifies the access protection level using DoxProtectionKind enumeration values ('public', 'protected', 'private', 'package'). This mandatory attribute determines the visibility and accessibility of the referenced compound in inheritance relationships.
+

@@ -4,8 +4,15 @@
 
 ## AbstractDoxygenFileOptionType.type property
 
+The data type classification for this configuration option.
+
 **Signature:**
 
 ```typescript
 type: string;
 ```
+
+## Remarks
+
+Mandatory attribute that specifies the expected data type for the option's values. Corresponds to the typeType enumeration in the XML schema, indicating whether the option expects integer, boolean, string, or string list values.
+

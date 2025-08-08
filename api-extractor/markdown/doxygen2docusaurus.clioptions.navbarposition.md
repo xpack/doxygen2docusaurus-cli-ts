@@ -4,10 +4,15 @@
 
 ## CliOptions.navbarPosition property
 
-Where the menu is to be displayed, left or right.
+Position of the navigation menu in the top bar.
 
 **Signature:**
 
 ```typescript
 navbarPosition: 'left' | 'right';
 ```
+
+## Remarks
+
+Determines whether the API documentation menu appears on the left or right side of the Docusaurus navigation bar.
+

@@ -4,8 +4,15 @@
 
 ## AbstractIncType.text property
 
+The textual content representing the file path or name being included.
+
 **Signature:**
 
 ```typescript
 text: string;
 ```
+
+## Remarks
+
+Contains the file path or filename as specified in the include directive. This text content represents the actual filename that appears within the include statement in the source code, providing the reference to the included file within the documentation structure.
+

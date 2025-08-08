@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.abstract property
 
+Indicates whether the compound is abstract.
+
 **Signature:**
 
 ```typescript
 abstract?: boolean | undefined;
 ```
+
+## Remarks
+
+Specifies that the compound is abstract and cannot be instantiated directly, typically requiring concrete implementations of abstract methods or properties. This boolean attribute reflects abstract modifiers in object-oriented programming languages.
+

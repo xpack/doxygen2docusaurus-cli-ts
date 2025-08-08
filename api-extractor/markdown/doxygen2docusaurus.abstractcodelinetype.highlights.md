@@ -4,8 +4,15 @@
 
 ## AbstractCodeLineType.highlights property
 
+Array of syntax highlighting elements within the code line.
+
 **Signature:**
 
 ```typescript
 highlights?: HighlightDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains highlight elements that provide syntax colouring information for different parts of the code line. Each highlight element specifies a highlight class (such as keyword, comment, or string literal) and the corresponding text content to be styled.
+

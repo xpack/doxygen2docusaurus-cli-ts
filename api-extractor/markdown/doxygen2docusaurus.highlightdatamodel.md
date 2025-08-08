@@ -4,6 +4,7 @@
 
 ## HighlightDataModel class
 
+Data model for syntax highlight elements within code listings.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare class HighlightDataModel extends AbstractHighlightType 
 ```
 **Extends:** [AbstractHighlightType](./doxygen2docusaurus.abstracthighlighttype.md)
+
+## Remarks
+
+Represents individual syntax highlighting segments that specify how portions of source code should be styled in the generated documentation. This implementation processes Doxygen's highlight elements, which contain the highlight class information and associated text content for proper syntax colouring.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `HighlightDataModel` class
+Constructs a HighlightDataModel from XML element data.
 
 
 </td></tr>

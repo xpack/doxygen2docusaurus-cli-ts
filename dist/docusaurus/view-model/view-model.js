@@ -24,25 +24,63 @@ import { AbstractDocAnchorType, AbstractDocSectType, } from '../../doxygen/data-
 import { stripPermalinkHexAnchor } from '../utils.js';
 // ----------------------------------------------------------------------------
 /**
+ * View model that organises data for documentation generation.
+ *
+ * @remarks
+ * The ViewModel class transforms the raw Doxygen data model into structured
+ * collections suitable for generating Docusaurus documentation, including
+ * classes, files, namespaces, and other compound types. It coordinates the
+ * entire view model creation process, from object instantiation through
+ * hierarchy establishment to cross-reference resolution.
+ *
  * @public
  */
 export class ViewModel {
+    /** Configuration options controlling the view model behaviour. */
     options;
+    /** Reference to the parent workspace containing the data model. */
     workspace;
+    /** Map of collection names to their corresponding collection objects. */
     // The key is one of the above collection names.
     // groups, classes, namespaces, files, pages.
     collections;
+    /** Map of compound identifiers to their view model objects. */
     // View model objects.
     compoundsById = new Map();
+    /** Map of member identifiers to their view model objects. */
     membersById = new Map();
+    /** Array of description table of contents lists for navigation. */
     descriptionTocLists = [];
+    /** Map of TOC item identifiers to their corresponding objects. */
     descriptionTocItemsById = new Map();
+    /** Map of description anchor identifiers to their objects. */
     descriptionAnchorsById = new Map();
+    /**
+     * Constructs a new ViewModel instance.
+     *
+     * @remarks
+     * Initialises the view model with a reference to the parent workspace
+     * and sets up the collection mapping structure. This constructor prepares
+     * the foundation for transforming raw Doxygen data into organised
+     * documentation structures suitable for Docusaurus generation.
+     *
+     * @param workspace - The parent workspace containing the data model.
+     */
     constructor(workspace) {
         this.workspace = workspace;
         this.options = workspace.options;
         this.collections = new Map();
     }
+    /**
+     * Creates and populates all view model collections and objects.
+     *
+     * @remarks
+     * Orchestrates the complete view model creation process including
+     * collection instantiation, object creation, and hierarchy establishment.
+     * This method coordinates all phases of view model construction to ensure
+     * proper dependencies and cross-references are established between
+     * documentation elements.
+     */
     create() {
         this.collections.set('groups', new Groups(this.workspace));
         this.collections.set('namespaces', new Namespaces(this.workspace));
@@ -58,6 +96,16 @@ export class ViewModel {
         this.cleanups();
     }
     // --------------------------------------------------------------------------
+    /**
+     * Creates view model objects from the parsed Doxygen compound definitions.
+     *
+     * @remarks
+     * Iterates through all compound definitions from the data model and creates
+     * corresponding view model objects, organising them into appropriate
+     * collections and establishing identifier mappings. This method also
+     * processes detailed descriptions to extract navigation elements and
+     * cross-reference anchors for comprehensive documentation structure.
+     */
     createVieModelObjects() {
         console.log('Creating view model objects...');
         for (const compoundDefDataModel of this.workspace.dataModel.compoundDefs) {
@@ -93,6 +141,19 @@ export class ViewModel {
         }
         // console.log(this.descriptionTocLists)
     }
+    /**
+     * Recursively finds and processes description identifiers within elements.
+     *
+     * @remarks
+     * Traverses the element hierarchy to locate table of contents items,
+     * document sections, and anchors, creating appropriate view model
+     * structures for navigation and cross-referencing. This recursive processing
+     * ensures comprehensive extraction of all navigational elements from
+     * complex documentation structures.
+     *
+     * @param compound - The compound containing the description elements.
+     * @param element - The data model element to process recursively.
+     */
     findDescriptionIdsRecursively(compound, element) {
         // console.log(compound.id, typeof element)
         if (element.children === undefined) {
@@ -135,6 +196,15 @@ export class ViewModel {
         }
     }
     // --------------------------------------------------------------------------
+    /**
+     * Establishes hierarchical relationships between compound objects.
+     *
+     * @remarks
+     * Delegates to each collection to create parent-child relationships
+     * and other hierarchical structures within the compound objects. This
+     * phase is essential for building proper navigation trees and inheritance
+     * relationships that reflect the original code structure.
+     */
     createCompoundsHierarchies() {
         console.log('Creating compounds hierarchies...');
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -144,6 +214,16 @@ export class ViewModel {
         }
     }
     // --------------------------------------------------------------------------
+    /**
+     * Performs late initialisation of compound objects.
+     *
+     * @remarks
+     * Executes initialisation tasks that require all objects to be created
+     * first, allowing for proper cross-reference resolution and relationship
+     * establishment between compounds. This phase ensures that complex
+     * inter-compound dependencies are properly resolved after the initial
+     * object creation phase.
+     */
     // Required since references can be resolved only after all objects are in.
     initializeCompoundsLate() {
         console.log('Performing compounds late initializations...');
@@ -159,6 +239,16 @@ export class ViewModel {
         }
     }
     // --------------------------------------------------------------------------
+    /**
+     * Creates a comprehensive map of all member definitions.
+     *
+     * @remarks
+     * Iterates through all compounds and their sections to build a complete
+     * mapping of member identifiers to their objects, enabling efficient
+     * member lookup and cross-referencing. This method handles member
+     * deduplication and ensures that members are properly associated with
+     * their containing compounds.
+     */
     createMembersMap() {
         console.log('Creating member definitions map...');
         for (const [, compound] of this.compoundsById) {
@@ -195,6 +285,16 @@ export class ViewModel {
         }
     }
     // --------------------------------------------------------------------------
+    /**
+     * Performs late initialisation of member objects.
+     *
+     * @remarks
+     * Executes member initialisation tasks that depend on all objects being
+     * created, ensuring proper cross-references and relationships are
+     * established between members and their containing compounds. This phase
+     * completes the member setup process after all structural relationships
+     * have been established.
+     */
     // Required since references can be resolved only after all objects are in.
     initializeMemberLate() {
         console.log('Performing members late initializations...');
@@ -219,6 +319,15 @@ export class ViewModel {
         }
     }
     // --------------------------------------------------------------------------
+    /**
+     * Validates and resolves permalink uniqueness across all compounds.
+     *
+     * @remarks
+     * Ensures that all generated permalinks are unique by detecting conflicts
+     * and automatically appending suffixes to duplicate permalinks, maintaining
+     * proper navigation and linking functionality. This validation process is
+     * crucial for preventing URL conflicts in the generated documentation site.
+     */
     /**
      * @brief Validate the uniqueness of permalinks.
      */
@@ -274,6 +383,16 @@ export class ViewModel {
         }
     }
     // --------------------------------------------------------------------------
+    /**
+     * Performs cleanup operations on view model objects.
+     *
+     * @remarks
+     * Removes references to the original compound definition data models
+     * to free memory and prevent potential circular references after
+     * the view model creation is complete. This cleanup phase optimises
+     * memory usage by removing unnecessary data model references that
+     * are no longer needed for documentation generation.
+     */
     cleanups() {
         for (const [, compound] of this.compoundsById) {
             compound._private._compoundDef = undefined;

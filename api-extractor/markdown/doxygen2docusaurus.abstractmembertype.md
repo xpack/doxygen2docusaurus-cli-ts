@@ -4,6 +4,7 @@
 
 ## AbstractMemberType class
 
+Abstract base class for member type data models within documentation.
 
 **Signature:**
 
@@ -11,6 +12,12 @@
 export declare abstract class AbstractMemberType extends AbstractMemberBaseType 
 ```
 **Extends:** [AbstractMemberBaseType](./doxygen2docusaurus.abstractmemberbasetype.md)
+
+## Remarks
+
+Represents member elements as defined by the MemberType XML Schema, providing fundamental member identification and classification functionality. This class extends AbstractMemberBaseType to handle the specific requirements of member elements that contain simplified member information with reference identifiers.
+
+The implementation processes member elements that primarily serve as lightweight references to more detailed member definitions, maintaining essential identification data including names, reference identifiers, and member kind classifications for cross-referencing purposes.
 
 ## Constructors
 
@@ -40,7 +47,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractMemberType` class
+Constructs a new member type data model from XML element data.
 
 
 </td></tr>
@@ -83,6 +90,8 @@ string
 
 
 </td><td>
+
+The unique reference identifier for the member element.
 
 
 </td></tr>

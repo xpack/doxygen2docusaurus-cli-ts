@@ -4,10 +4,15 @@
 
 ## CliOptions.docsBaseUrl property
 
-Relative to the web home, like `docs`<!-- -->, without initial/final slashes.
+URL path to the documentation section relative to the website root.
 
 **Signature:**
 
 ```typescript
 docsBaseUrl: string;
 ```
+
+## Remarks
+
+Specifies the URL segment that leads to the documentation section, without initial or final slashes. Used for navigation and linking.
+

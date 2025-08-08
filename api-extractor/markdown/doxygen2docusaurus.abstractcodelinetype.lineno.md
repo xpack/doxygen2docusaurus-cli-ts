@@ -4,8 +4,15 @@
 
 ## AbstractCodeLineType.lineno property
 
+Optional line number for the code line.
+
 **Signature:**
 
 ```typescript
 lineno?: number | undefined;
 ```
+
+## Remarks
+
+Specifies the line number of this code line within the source file. This attribute enables line-based navigation and referencing within the documentation system.
+

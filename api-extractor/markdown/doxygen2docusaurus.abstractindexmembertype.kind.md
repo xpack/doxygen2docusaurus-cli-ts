@@ -4,8 +4,15 @@
 
 ## AbstractIndexMemberType.kind property
 
+The kind classification of the member.
+
 **Signature:**
 
 ```typescript
 kind: string;
 ```
+
+## Remarks
+
+Mandatory attribute specifying the type of member (e.g., function, variable, typedef). Corresponds to the MemberKind enumeration in the XML schema.
+

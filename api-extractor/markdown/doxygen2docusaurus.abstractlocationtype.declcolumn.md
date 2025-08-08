@@ -4,8 +4,15 @@
 
 ## AbstractLocationType.declcolumn property
 
+The column number of the declaration within the declaration file.
+
 **Signature:**
 
 ```typescript
 declcolumn?: number | undefined;
 ```
+
+## Remarks
+
+Column position where the declaration begins, providing precise horizontal location information for the declaration. This enables accurate positioning within development environments when navigating to declaration locations.
+

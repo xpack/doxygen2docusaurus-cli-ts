@@ -4,8 +4,15 @@
 
 ## AbstractParamType.briefdescription property
 
+Brief description documentation for the parameter.
+
 **Signature:**
 
 ```typescript
 briefdescription?: BriefDescriptionDataModel | undefined;
 ```
+
+## Remarks
+
+Provides concise parameter documentation including purpose, usage notes, and essential parameter information. This description enhances parameter understanding within function documentation and API reference materials.
+

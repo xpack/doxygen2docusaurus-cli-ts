@@ -4,8 +4,15 @@
 
 ## DataModel.doxyfile property
 
+The parsed Doxyfile configuration data model.
+
 **Signature:**
 
 ```typescript
 doxyfile?: DoxygenFileDataModel;
 ```
+
+## Remarks
+
+Contains the Doxygen configuration options and settings that influenced the generation of the XML documentation. Parsed from `Doxyfile.xml` if present in the input folder.
+

@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.type property
 
+Type information for the member element.
+
 **Signature:**
 
 ```typescript
 type?: TypeDataModel | undefined;
 ```
+
+## Remarks
+
+Provides comprehensive type data including linked text with embedded cross-references. This information describes the member's data type, return type for functions, or variable type for data members.
+

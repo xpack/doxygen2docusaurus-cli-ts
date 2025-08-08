@@ -4,6 +4,8 @@
 
 ## AbstractSectionDefTypeBase.computeAdjustedKind() method
 
+Computes an adjusted kind string based on section and member suffixes.
+
 **Signature:**
 
 ```typescript
@@ -40,6 +42,8 @@ string
 
 </td><td>
 
+The suffix to apply for section-based adjustments
+
 
 </td></tr>
 <tr><td>
@@ -54,7 +58,7 @@ string
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The suffix to apply for member-based adjustments
 
 
 </td></tr>
@@ -63,4 +67,10 @@ _(Optional)_
 **Returns:**
 
 string
+
+The adjusted kind string
+
+## Remarks
+
+Transforms the section kind for specific member types, such as converting 'public-func' into more specific kinds like 'public-constructor', 'public-destructor', or 'public-operator'. For user-defined sections, returns the member suffix directly. For hyphenated kinds, replaces the final component with the section suffix. Otherwise, returns the member suffix as the default behaviour.
 

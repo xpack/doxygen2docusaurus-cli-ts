@@ -4,8 +4,15 @@
 
 ## AbstractIncType.local property
 
+Indicates whether the include uses local or system include syntax.
+
 **Signature:**
 
 ```typescript
 local: boolean;
 ```
+
+## Remarks
+
+Determines the include syntax style: when true, indicates a local include using quotation marks ("filename"), when false, indicates a system include using angle brackets (<filename>). This distinction affects how the preprocessor searches for the included file.
+

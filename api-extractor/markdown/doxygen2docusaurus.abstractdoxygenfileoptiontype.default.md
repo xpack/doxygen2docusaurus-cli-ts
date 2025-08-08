@@ -4,8 +4,15 @@
 
 ## AbstractDoxygenFileOptionType.default property
 
+The default value indicator for this configuration option.
+
 **Signature:**
 
 ```typescript
 default: string;
 ```
+
+## Remarks
+
+Mandatory attribute that indicates whether this option is set to its default value. Corresponds to the defaultType enumeration in the XML schema, typically having values of 'yes' or 'no'.
+

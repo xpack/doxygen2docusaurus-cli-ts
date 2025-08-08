@@ -4,8 +4,15 @@
 
 ## AbstractSectionDefTypeBase.members property
 
+Collection of member reference data models.
+
 **Signature:**
 
 ```typescript
 members?: MemberDataModel[] | undefined;
 ```
+
+## Remarks
+
+Optional array containing member references for this section. This collection is mutually exclusive with the memberDefs array, as per the XML schema choice constraint. Each member reference provides summary information and links to detailed definitions.
+

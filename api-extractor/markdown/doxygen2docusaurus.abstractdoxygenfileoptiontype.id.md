@@ -4,8 +4,15 @@
 
 ## AbstractDoxygenFileOptionType.id property
 
+The unique identifier for this configuration option.
+
 **Signature:**
 
 ```typescript
 id: string;
 ```
+
+## Remarks
+
+Mandatory attribute that specifies the name or identifier of the Doxygen configuration option. This corresponds to the actual configuration parameter name used in Doxygen configuration files and determines the specific setting being configured.
+

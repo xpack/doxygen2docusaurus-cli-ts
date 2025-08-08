@@ -4,6 +4,7 @@
 
 ## MemberDataModel class
 
+Concrete implementation for member elements within documentation.
 
 **Signature:**
 
@@ -11,6 +12,12 @@
 export declare class MemberDataModel extends AbstractMemberType 
 ```
 **Extends:** [AbstractMemberType](./doxygen2docusaurus.abstractmembertype.md)
+
+## Remarks
+
+Provides specific handling for member XML elements that contain simplified member information within various documentation contexts. This implementation extends the abstract base class functionality to process member elements with the specific element name 'member'.
+
+The class represents lightweight member references that serve as cross-reference points to more detailed member definitions, maintaining essential identification data whilst enabling efficient navigation within the documentation system. These elements are commonly used in member lists and summary sections where full member details are not required.
 
 ## Constructors
 
@@ -40,7 +47,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `MemberDataModel` class
+Constructs a new member data model instance.
 
 
 </td></tr>

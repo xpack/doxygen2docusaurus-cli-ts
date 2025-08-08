@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.innerGroups property
 
+Inner group references contained within this compound.
+
 **Signature:**
 
 ```typescript
 innerGroups?: InnerGroupDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to documentation groups that are associated with this compound. This property captures group relationships extracted from 'innergroup' XML elements, supporting thematic organisation of related documentation elements.
+

@@ -4,8 +4,15 @@
 
 ## AbstractDocImageType.name property
 
+Name or path of the image file.
+
 **Signature:**
 
 ```typescript
 name?: string | undefined;
 ```
+
+## Remarks
+
+Contains the filename or path to the image resource. For HTML images, this typically references files that need to be copied to the output folder during documentation generation.
+

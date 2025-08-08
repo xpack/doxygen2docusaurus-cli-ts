@@ -4,8 +4,15 @@
 
 ## AbstractParamType.attributes property
 
+Parameter attributes specification string.
+
 **Signature:**
 
 ```typescript
 attributes?: string | undefined;
 ```
+
+## Remarks
+
+Contains language-specific parameter attributes such as qualifiers, modifiers, or annotations that apply to the parameter declaration. This information provides additional context about parameter behaviour and constraints within the function signature.
+

@@ -4,6 +4,7 @@
 
 ## IndexCompoundDataModel class
 
+Concrete data model class for index compound elements.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare class IndexCompoundDataModel extends AbstractIndexCompoundType 
 ```
 **Extends:** [AbstractIndexCompoundType](./doxygen2docusaurus.abstractindexcompoundtype.md)
+
+## Remarks
+
+Represents individual compound elements found within Doxygen index XML structures. This class extends the abstract base to provide specific handling for 'compound' elements, which reference documented entities such as classes, namespaces, files, and other structural components within the indexed documentation. Each compound serves as an entry point for accessing detailed documentation in separate XML files.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `IndexCompoundDataModel` class
+Constructs a new IndexCompoundDataModel instance from XML data.
 
 
 </td></tr>

@@ -4,7 +4,7 @@
 
 ## AbstractIndexCompoundType.(constructor)
 
-Constructs a new instance of the `AbstractIndexCompoundType` class
+Constructs a new AbstractIndexCompoundType instance from XML data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML elements
+
 
 </td></tr>
 <tr><td>
@@ -55,6 +57,8 @@ object
 
 
 </td><td>
+
+The XML element containing the compound data
 
 
 </td></tr>
@@ -70,7 +74,13 @@ string
 
 </td><td>
 
+The name of the XML element being processed
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Parses the provided XML element to extract compound information including the name element, member collections, and mandatory attributes (refid and kind). The constructor validates that all required data is present and properly formatted according to the XML schema specifications. Member elements are processed into IndexMemberDataModel instances when present.
 

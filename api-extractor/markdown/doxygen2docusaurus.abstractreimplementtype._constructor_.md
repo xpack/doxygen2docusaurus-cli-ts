@@ -4,7 +4,7 @@
 
 ## AbstractReimplementType.(constructor)
 
-Constructs a new instance of the `AbstractReimplementType` class
+Constructs a new abstract reimplement type from XML data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance
+
 
 </td></tr>
 <tr><td>
@@ -55,6 +57,8 @@ object
 
 
 </td><td>
+
+The XML element containing reimplement relationship data
 
 
 </td></tr>
@@ -70,7 +74,13 @@ string
 
 </td><td>
 
+The expected XML element name
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Parses the provided XML element to construct a complete reimplement relationship data model. The parsing process extracts the textual content from the element and processes the mandatory refid attribute. Validation ensures that both the descriptive text and reference identifier are present and non-empty, maintaining the integrity of the reimplement relationship documentation.
 

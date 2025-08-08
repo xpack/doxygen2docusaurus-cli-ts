@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.inline property
 
+Indicates whether the compound is inline.
+
 **Signature:**
 
 ```typescript
 inline?: boolean | undefined;
 ```
+
+## Remarks
+
+Specifies that the compound is defined inline, typically used for functions, methods, or other constructs that are implemented directly in header files. This boolean attribute reflects inline declarations in the source code.
+

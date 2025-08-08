@@ -4,8 +4,15 @@
 
 ## AbstractLocationType.line property
 
+The line number in the primary source file.
+
 **Signature:**
 
 ```typescript
 line?: number | undefined;
 ```
+
+## Remarks
+
+Line number where the declaration or definition appears within the primary source file. Note that whilst the XSD specification indicates this as mandatory, in practice it may be undefined for certain elements where precise line information is not available or applicable.
+

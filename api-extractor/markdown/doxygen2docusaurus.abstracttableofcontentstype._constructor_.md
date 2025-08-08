@@ -4,7 +4,7 @@
 
 ## AbstractTableOfContentsType.(constructor)
 
-Constructs a new instance of the `AbstractTableOfContentsType` class
+Constructs a new AbstractTableOfContentsType instance from XML data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML elements
+
 
 </td></tr>
 <tr><td>
@@ -55,6 +57,8 @@ object
 
 
 </td><td>
+
+The XML element containing the table of contents data
 
 
 </td></tr>
@@ -70,7 +74,13 @@ string
 
 </td><td>
 
+The name of the XML element being processed
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Parses the provided XML element to extract table of contents information following the exclusive choice pattern defined in the XML schema. The constructor processes either table of contents sections or nested table of contents elements, but not both, maintaining the mutually exclusive relationship. This element type has no attributes as per the schema.
 

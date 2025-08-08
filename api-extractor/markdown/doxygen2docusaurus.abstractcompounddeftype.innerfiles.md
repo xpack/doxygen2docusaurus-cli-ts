@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.innerFiles property
 
+Inner file references contained within this compound.
+
 **Signature:**
 
 ```typescript
 innerFiles?: InnerFileDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to files that are logically contained within this compound. This property captures file relationships extracted from 'innerfile' XML elements, providing visibility into compound-to-file associations in the documentation structure.
+

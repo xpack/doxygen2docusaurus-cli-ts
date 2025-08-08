@@ -4,10 +4,15 @@
 
 ## CliOptions.renderProgramListing property
 
-Boolean to render the program listing in the File pages.
+Controls program listing rendering in File pages.
 
 **Signature:**
 
 ```typescript
 renderProgramListing: boolean;
 ```
+
+## Remarks
+
+When enabled, includes syntax-highlighted source code listings within the generated File documentation pages.
+

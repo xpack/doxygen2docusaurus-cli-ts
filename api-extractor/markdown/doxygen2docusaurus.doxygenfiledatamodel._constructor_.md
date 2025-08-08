@@ -4,7 +4,7 @@
 
 ## DoxygenFileDataModel.(constructor)
 
-Constructs a new instance of the `DoxygenFileDataModel` class
+Constructs a new DoxygenFileDataModel instance from XML data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML elements
+
 
 </td></tr>
 <tr><td>
@@ -56,7 +58,13 @@ object
 
 </td><td>
 
+The XML element containing the doxyfile data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Initialises the Doxyfile data model by parsing the provided XML element as a 'doxyfile' element type. The constructor delegates to the parent class for common configuration processing whilst specifying the element name for proper XML structure handling.
 

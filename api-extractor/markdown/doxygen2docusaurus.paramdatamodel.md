@@ -4,6 +4,7 @@
 
 ## ParamDataModel class
 
+Concrete implementation for parameter elements within function documentation.
 
 **Signature:**
 
@@ -11,6 +12,12 @@
 export declare class ParamDataModel extends AbstractParamType 
 ```
 **Extends:** [AbstractParamType](./doxygen2docusaurus.abstractparamtype.md)
+
+## Remarks
+
+Provides specific handling for param XML elements that contain comprehensive parameter information within function and method documentation. This implementation extends the abstract base class functionality to process parameter elements with the specific element name 'param'.
+
+The class ensures proper instantiation of parameter data models whilst maintaining all the detailed parameter metadata required for accurate function signature documentation including type information, naming variations, default values, constraints, and descriptive information.
 
 ## Constructors
 
@@ -40,7 +47,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `ParamDataModel` class
+Constructs a new parameter data model instance.
 
 
 </td></tr>

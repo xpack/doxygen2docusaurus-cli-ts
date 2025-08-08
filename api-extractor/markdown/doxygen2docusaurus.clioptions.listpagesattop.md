@@ -4,10 +4,15 @@
 
 ## CliOptions.listPagesAtTop property
 
-Boolean to list the pages at the top of the sidebar.
+Controls whether pages are listed at the top of the sidebar.
 
 **Signature:**
 
 ```typescript
 listPagesAtTop: boolean;
 ```
+
+## Remarks
+
+When enabled, places page links prominently at the top of the sidebar navigation structure for easier access to important pages.
+

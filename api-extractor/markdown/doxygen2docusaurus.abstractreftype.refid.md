@@ -4,8 +4,15 @@
 
 ## AbstractRefType.refid property
 
+The unique reference identifier for the referenced entity.
+
 **Signature:**
 
 ```typescript
 refid: string;
 ```
+
+## Remarks
+
+Mandatory attribute that provides a unique identifier for the referenced entity within the Doxygen documentation system. This identifier enables precise linking and cross-referencing between documentation elements, allowing navigation to the detailed documentation of the referenced item.
+

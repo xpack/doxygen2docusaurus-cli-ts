@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.innerPages property
 
+Inner page references contained within this compound.
+
 **Signature:**
 
 ```typescript
 innerPages?: InnerPageDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to documentation pages that are logically associated with this compound. This property captures page relationships extracted from 'innerpage' XML elements, supporting structured documentation navigation.
+

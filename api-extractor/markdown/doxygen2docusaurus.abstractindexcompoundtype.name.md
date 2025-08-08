@@ -4,8 +4,15 @@
 
 ## AbstractIndexCompoundType.name property
 
+The name of the compound element.
+
 **Signature:**
 
 ```typescript
 name: string;
 ```
+
+## Remarks
+
+Extracted from the mandatory 'name' element within the compound XML structure. Represents the identifier or name of the documented compound such as a class name, namespace, or filename.
+

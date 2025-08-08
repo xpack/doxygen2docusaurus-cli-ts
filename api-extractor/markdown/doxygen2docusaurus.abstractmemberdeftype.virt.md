@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.virt property
 
+Virtual specification for the member.
+
 **Signature:**
 
 ```typescript
 virt?: string | undefined;
 ```
+
+## Remarks
+
+String indicating the virtual nature of the member using DoxVirtualKind values ('non-virtual', 'virtual', 'pure-virtual'). This determines the member's behaviour in inheritance hierarchies and polymorphism.
+

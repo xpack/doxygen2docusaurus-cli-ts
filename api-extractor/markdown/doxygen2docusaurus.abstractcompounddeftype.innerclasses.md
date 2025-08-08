@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.innerClasses property
 
+Inner class references contained within this compound.
+
 **Signature:**
 
 ```typescript
 innerClasses?: InnerClassDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to classes, structures, or other class-like entities that are defined within this compound. This property captures nested type relationships extracted from 'innerclass' XML elements, supporting hierarchical type documentation.
+

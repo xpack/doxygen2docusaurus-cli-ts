@@ -4,8 +4,15 @@
 
 ## AbstractRefType.inline property
 
+Indicates whether the referenced entity is inline.
+
 **Signature:**
 
 ```typescript
 inline?: boolean | undefined;
 ```
+
+## Remarks
+
+Optional boolean attribute that specifies whether the referenced entity is defined inline within its containing context. This information affects how the entity is presented and processed in the generated documentation, particularly for inline classes, functions, or other code constructs.
+

@@ -4,7 +4,7 @@
 
 ## DoxygenXmlParser class
 
-The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML files and constructing the internal data model.
+XML parser for Doxygen-generated documentation files.
 
 **Signature:**
 
@@ -15,6 +15,8 @@ export declare class DoxygenXmlParser
 ## Remarks
 
 This class initialises the XML parser with options that preserve the order and structure of the original XML content, ensuring accurate conversion for documentation purposes. It maintains a counter for the number of files parsed and stores the resulting data model.
+
+The parser is configured to handle Doxygen's specific XML format whilst maintaining fidelity to the source structure and content organisation.
 
 ## Example
 
@@ -96,6 +98,8 @@ Description
 
 </td><td>
 
+Collection of image references extracted during XML parsing.
+
 
 </td></tr>
 <tr><td>
@@ -113,7 +117,7 @@ Description
 
 </td><td>
 
-The global configuration options.
+The global configuration options for the parsing operation.
 
 
 </td></tr>
@@ -132,7 +136,7 @@ XMLParser
 
 </td><td>
 
-The XML parser instance configured for Doxygen XML.
+The XML parser instance configured specifically for Doxygen XML format.
 
 
 </td></tr>

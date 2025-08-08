@@ -4,7 +4,7 @@
 
 ## LocationDataModel.(constructor)
 
-Constructs a new instance of the `LocationDataModel` class
+Constructs a new location data model instance.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The XML parser instance for processing elements
+
 
 </td></tr>
 <tr><td>
@@ -56,7 +58,13 @@ object
 
 </td><td>
 
+The source XML element containing location data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Initialises the data model with the specific element name 'location' and delegates processing to the abstract base class implementation. This ensures consistent handling of location information whilst maintaining proper element identification.
 

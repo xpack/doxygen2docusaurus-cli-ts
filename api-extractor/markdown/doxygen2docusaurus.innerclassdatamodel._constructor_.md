@@ -4,7 +4,7 @@
 
 ## InnerClassDataModel.(constructor)
 
-Constructs a new instance of the `InnerClassDataModel` class
+Constructs a new inner class reference data model from XML.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance
+
 
 </td></tr>
 <tr><td>
@@ -56,7 +58,13 @@ object
 
 </td><td>
 
+The XML element containing inner class reference data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Creates a complete inner class reference data model by parsing the provided XML element. This constructor delegates to the parent class to handle all standard parsing operations for the innerclass element type, establishing the reference to the contained class entity.
 

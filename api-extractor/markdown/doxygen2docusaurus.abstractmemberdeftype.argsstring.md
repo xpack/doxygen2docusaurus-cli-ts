@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.argsstring property
 
+The argument string for function members.
+
 **Signature:**
 
 ```typescript
 argsstring?: string | undefined;
 ```
+
+## Remarks
+
+Contains the parameter list specification for function-like members, including parameter types, names, and default values. This information is essential for understanding function signatures and usage.
+

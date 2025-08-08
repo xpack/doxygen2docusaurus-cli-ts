@@ -28,17 +28,68 @@ import { AbstractDataModelBase } from '../types.js'
 //   <xsd:attribute ref="xml:lang" use="required"/>
 // </xsd:complexType>
 
+/**
+ * Abstract base class for the root Doxygen document type.
+ *
+ * @remarks
+ * Represents the top-level Doxygen XML document structure containing
+ * compound definitions and document metadata. This is the root element
+ * that contains all other documentation elements parsed from Doxygen XML.
+ *
+ * @public
+ */
 export abstract class AbstractDoxygenType extends AbstractDataModelBase {
   // Mandatory attributes.
+  /**
+   * The version of Doxygen that generated the XML.
+   *
+   * @remarks
+   * Version string indicating which Doxygen version was used to
+   * generate the XML output, useful for compatibility checking.
+   */
   version = ''
+
+  /**
+   * The language code for the documentation.
+   *
+   * @remarks
+   * XML language attribute indicating the primary language used
+   * in the documentation content.
+   */
   lang = ''
 
   // Optional elements.
+  /**
+   * Array of compound definition data models.
+   *
+   * @remarks
+   * Contains all the compound definitions (classes, files, namespaces, etc.)
+   * that are documented within this Doxygen XML file. This is the main
+   * content of the documentation.
+   */
   compoundDefs?: CompoundDefDataModel[] | undefined
 
   // Optional attributes.
+  /**
+   * XML schema location when no namespace is specified.
+   *
+   * @remarks
+   * Optional attribute specifying the schema location for XML
+   * validation when no explicit namespace is used.
+   */
   noNamespaceSchemaLocation?: string | undefined
 
+  /**
+   * Creates a new Doxygen document data model from XML.
+   *
+   * @remarks
+   * Parses the root XML element representing a Doxygen document and
+   * extracts all compound definitions and metadata attributes.
+   *
+   * @param xml - The XML parser instance
+   * @param element - The XML element to parse
+   * @param elementName - The name of the XML element
+   */
   constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
@@ -106,7 +157,27 @@ export abstract class AbstractDoxygenType extends AbstractDataModelBase {
 
 // <xsd:element name="doxygen" type="DoxygenType"/>
 
+/**
+ * Concrete implementation of the Doxygen document data model.
+ *
+ * @remarks
+ * Represents the root doxygen element in Doxygen XML files. Inherits
+ * all functionality from the abstract base class and provides the
+ * specific element name for parsing.
+ *
+ * @public
+ */
 export class DoxygenDataModel extends AbstractDoxygenType {
+  /**
+   * Creates a new Doxygen document data model from XML.
+   *
+   * @remarks
+   * Parses the XML element representing the root doxygen element using
+   * the inherited parsing logic with the 'doxygen' element name.
+   *
+   * @param xml - The XML parser instance
+   * @param element - The XML element to parse
+   */
   constructor(xml: DoxygenXmlParser, element: object) {
     // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
     super(xml, element, 'doxygen')

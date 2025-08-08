@@ -4,7 +4,7 @@
 
 ## InitializerDataModel.(constructor)
 
-Constructs a new instance of the `InitializerDataModel` class
+Constructs an InitializerDataModel from XML element data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML content
+
 
 </td></tr>
 <tr><td>
@@ -56,7 +58,13 @@ object
 
 </td><td>
 
+The XML element object containing the initializer data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+This constructor delegates to the parent AbstractLinkedTextType to handle linked text processing whilst identifying the element as 'initializer' for proper XML schema compliance and initialization expression content processing.
 

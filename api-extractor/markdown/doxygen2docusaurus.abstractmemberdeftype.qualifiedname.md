@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.qualifiedName property
 
+The fully qualified name of the member element.
+
 **Signature:**
 
 ```typescript
 qualifiedName?: string | undefined;
 ```
+
+## Remarks
+
+Provides the complete qualified name including namespace and class prefixes, enabling unambiguous identification of the member within the entire codebase context.
+

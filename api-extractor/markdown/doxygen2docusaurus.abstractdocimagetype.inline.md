@@ -4,8 +4,15 @@
 
 ## AbstractDocImageType.inline property
 
+Inline positioning flag for the image.
+
 **Signature:**
 
 ```typescript
 inline?: boolean | undefined;
 ```
+
+## Remarks
+
+Determines whether the image should be rendered inline with text content or as a block-level element. Inline images flow with text whilst block images create separate content sections.
+

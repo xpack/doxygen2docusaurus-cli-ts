@@ -4,8 +4,15 @@
 
 ## DataModel.doxygenindex property
 
+The parsed Doxygen index data model from the main index XML file.
+
 **Signature:**
 
 ```typescript
 doxygenindex?: DoxygenIndexDataModel;
 ```
+
+## Remarks
+
+Contains the top-level index structure that references all compound definitions and provides the navigation structure for the documentation. Populated during the initial parsing phase from `index.xml`<!-- -->.
+

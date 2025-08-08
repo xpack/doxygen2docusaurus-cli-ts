@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.id property
 
+Unique identifier for the compound.
+
 **Signature:**
 
 ```typescript
 id: string;
 ```
+
+## Remarks
+
+Contains the unique ID assigned to this compound by Doxygen for cross-referencing and linking purposes. This identifier is mandatory and serves as the primary key for compound identification throughout the documentation system.
+

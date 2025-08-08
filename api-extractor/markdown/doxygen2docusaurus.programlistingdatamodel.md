@@ -4,6 +4,7 @@
 
 ## ProgramListingDataModel class
 
+Data model for programlisting XML elements containing source code.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare class ProgramListingDataModel extends AbstractListingType 
 ```
 **Extends:** [AbstractListingType](./doxygen2docusaurus.abstractlistingtype.md)
+
+## Remarks
+
+Represents program listings that contain source code with optional syntax highlighting and line numbering. This implementation processes Doxygen's programlisting elements, which are commonly used to display code examples, function implementations, and other programming content within documentation.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `ProgramListingDataModel` class
+Constructs a ProgramListingDataModel from XML element data.
 
 
 </td></tr>

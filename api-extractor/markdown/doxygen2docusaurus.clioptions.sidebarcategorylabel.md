@@ -4,10 +4,15 @@
 
 ## CliOptions.sidebarCategoryLabel property
 
-Short text to be displayed in the sidebar.
+Label displayed in the Docusaurus sidebar for the API documentation.
 
 **Signature:**
 
 ```typescript
 sidebarCategoryLabel: string;
 ```
+
+## Remarks
+
+Short descriptive text that appears in the sidebar navigation to identify the API reference section.
+

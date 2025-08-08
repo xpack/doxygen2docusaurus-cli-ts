@@ -4,7 +4,7 @@
 
 ## AbstractDescriptionType.(constructor)
 
-Constructs a new instance of the `AbstractDescriptionType` class
+Constructs an AbstractDescriptionType instance from XML element data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML content
+
 
 </td></tr>
 <tr><td>
@@ -55,6 +57,8 @@ object
 
 
 </td><td>
+
+The XML element object containing the description data
 
 
 </td></tr>
@@ -70,7 +74,13 @@ string
 
 </td><td>
 
+The name of the XML element being processed
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+This constructor processes mixed content descriptions by iterating through all inner elements and handling text nodes, title elements, paragraphs, internal sections, and level-1 sections. The parser maintains the original order of elements in the children array whilst extracting the title into a separate property for convenient access.
 

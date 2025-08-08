@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.sectionDefs property
 
+Section definitions within the compound.
+
 **Signature:**
 
 ```typescript
 sectionDefs?: SectionDefDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains organised sections of members and documentation within the compound. This property captures structured content extracted from 'sectiondef' XML elements, providing hierarchical organisation of compound members by type and visibility.
+

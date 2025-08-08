@@ -4,7 +4,7 @@
 
 ## AbstractDocImageType.(constructor)
 
-Constructs a new instance of the `AbstractDocImageType` class
+Constructs an AbstractDocImageType instance from XML element data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML content
+
 
 </td></tr>
 <tr><td>
@@ -55,6 +57,8 @@ object
 
 
 </td><td>
+
+The XML element object containing the image data
 
 
 </td></tr>
@@ -70,7 +74,15 @@ string
 
 </td><td>
 
+The name of the XML element being processed
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+This constructor processes image elements by extracting all optional attributes including type, name, dimensions, alternative text, inline positioning, and caption information. For HTML images with local file references, the image is registered with the parser for asset tracking during documentation generation.
+
+The implementation also processes any mixed content within the image element, including text and formatting commands that may be part of the image description or caption.
 

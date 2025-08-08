@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.detailedDescription property
 
+Detailed description of the compound.
+
 **Signature:**
 
 ```typescript
 detailedDescription?: DetailedDescriptionDataModel | undefined;
 ```
+
+## Remarks
+
+Contains comprehensive documentation for the compound extracted from the 'detaileddescription' XML element. This includes full description text with formatting, examples, and other detailed documentation content.
+

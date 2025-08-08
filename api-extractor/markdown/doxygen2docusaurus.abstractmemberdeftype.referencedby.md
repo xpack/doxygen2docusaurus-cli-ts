@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.referencedBy property
 
+References to this member from other entities.
+
 **Signature:**
 
 ```typescript
 referencedBy?: ReferencedByDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains a list of other documented entities that reference or use this member. This reverse reference information helps understand the member's usage throughout the codebase and enables comprehensive cross-reference navigation.
+

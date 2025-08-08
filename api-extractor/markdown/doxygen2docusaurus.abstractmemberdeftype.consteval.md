@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.consteval property
 
+Indicates whether the member is declared as consteval.
+
 **Signature:**
 
 ```typescript
 consteval?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member must be evaluated at compile time. This C++20 feature is stronger than constexpr, requiring immediate evaluation during compilation.
+

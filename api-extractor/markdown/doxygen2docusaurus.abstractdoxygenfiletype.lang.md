@@ -4,8 +4,15 @@
 
 ## AbstractDoxygenFileType.lang property
 
+The language specification for the documentation configuration.
+
 **Signature:**
 
 ```typescript
 lang: string;
 ```
+
+## Remarks
+
+Mandatory attribute corresponding to the xml:lang attribute in the XML structure. Specifies the primary language used in the configuration and documentation generation process for internationalisation purposes.
+

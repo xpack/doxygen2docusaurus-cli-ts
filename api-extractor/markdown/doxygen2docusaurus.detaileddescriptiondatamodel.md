@@ -4,6 +4,7 @@
 
 ## DetailedDescriptionDataModel class
 
+Data model for detailed description elements within documentation.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare class DetailedDescriptionDataModel extends AbstractDescriptionType 
 ```
 **Extends:** [AbstractDescriptionType](./doxygen2docusaurus.abstractdescriptiontype.md)
+
+## Remarks
+
+Represents detailed description elements that provide comprehensive documentation content for entities. This implementation processes Doxygen's detaileddescription elements, which contain extensive descriptive content including paragraphs, sections, lists, and other rich documentation structures.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `DetailedDescriptionDataModel` class
+Constructs a DetailedDescriptionDataModel from XML element data.
 
 
 </td></tr>

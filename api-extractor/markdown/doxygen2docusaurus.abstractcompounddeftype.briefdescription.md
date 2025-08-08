@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.briefDescription property
 
+Brief description of the compound.
+
 **Signature:**
 
 ```typescript
 briefDescription?: BriefDescriptionDataModel | undefined;
 ```
+
+## Remarks
+
+Contains a concise summary description of the compound extracted from the 'briefdescription' XML element. This provides a short overview suitable for listings and summary views of the documented entity.
+

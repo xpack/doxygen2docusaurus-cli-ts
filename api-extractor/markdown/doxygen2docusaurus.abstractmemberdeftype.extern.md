@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.extern property
 
+Indicates whether the member has external linkage.
+
 **Signature:**
 
 ```typescript
 extern?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member is declared with external linkage, typically using the 'extern' keyword in C/C++. This affects the member's visibility and linkage across translation units.
+

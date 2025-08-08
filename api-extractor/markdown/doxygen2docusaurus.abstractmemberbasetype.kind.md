@@ -4,8 +4,15 @@
 
 ## AbstractMemberBaseType.kind property
 
+The kind classification of the member element.
+
 **Signature:**
 
 ```typescript
 kind: string;
 ```
+
+## Remarks
+
+Specifies the type category of the member, corresponding to the DoxMemberKind enumeration values. This classification determines how the member is processed and presented within the documentation generation workflow.
+

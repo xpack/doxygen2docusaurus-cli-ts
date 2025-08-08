@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.refqual property
 
+Indicates the reference qualifier for the member.
+
 **Signature:**
 
 ```typescript
 refqual?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag related to C++11 reference qualifiers (&amp;, &amp;&amp;) that specify whether member functions can be called on lvalue or rvalue objects. This affects method overload resolution and move semantics.
+

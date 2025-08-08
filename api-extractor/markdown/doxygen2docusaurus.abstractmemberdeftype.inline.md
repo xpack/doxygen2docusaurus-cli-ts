@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.inline property
 
+Indicates whether the member is declared as inline.
+
 **Signature:**
 
 ```typescript
 inline?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member is defined inline, suggesting to the compiler that calls should be expanded in place rather than using function call mechanisms. This affects performance and linking.
+

@@ -4,10 +4,15 @@
 
 ## CliOptions.navbarLabel property
 
-Short text to be displayed in the top navigation bar.
+Label displayed in the top navigation bar.
 
 **Signature:**
 
 ```typescript
 navbarLabel: string;
 ```
+
+## Remarks
+
+Short text that appears in the Docusaurus top navigation bar to provide access to the API documentation section.
+

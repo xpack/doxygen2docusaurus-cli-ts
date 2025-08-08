@@ -4,8 +4,15 @@
 
 ## AbstractMemberRefType.scope property
 
+The containing scope for the referenced member element.
+
 **Signature:**
 
 ```typescript
 scope: string;
 ```
+
+## Remarks
+
+Specifies the namespace, class, or other containing context that houses the referenced member. This scope information provides the qualified context necessary for proper member identification and disambiguation within the documentation hierarchy.
+

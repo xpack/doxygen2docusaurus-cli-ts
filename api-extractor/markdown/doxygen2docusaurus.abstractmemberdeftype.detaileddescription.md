@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.detailedDescription property
 
+Detailed description of the member.
+
 **Signature:**
 
 ```typescript
 detailedDescription?: DetailedDescriptionDataModel | undefined;
 ```
+
+## Remarks
+
+Contains comprehensive documentation for the member including detailed explanations, usage examples, parameter descriptions, and return value information. This forms the primary documentation content for the member in generated API documentation.
+

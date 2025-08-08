@@ -4,8 +4,15 @@
 
 ## AbstractEnumValueType.prot property
 
+Protection level of the enumeration value.
+
 **Signature:**
 
 ```typescript
 prot: string;
 ```
+
+## Remarks
+
+Indicates the visibility scope such as 'public', 'private', or 'protected' based on Doxygen's protection kind enumeration.
+

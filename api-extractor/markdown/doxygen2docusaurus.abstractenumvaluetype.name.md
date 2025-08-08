@@ -4,8 +4,15 @@
 
 ## AbstractEnumValueType.name property
 
+The name of the enumeration value.
+
 **Signature:**
 
 ```typescript
 name: string;
 ```
+
+## Remarks
+
+Simple identifier for the enumeration constant as it appears in the source code.
+

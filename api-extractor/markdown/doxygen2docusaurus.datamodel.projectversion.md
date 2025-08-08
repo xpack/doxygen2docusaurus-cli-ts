@@ -4,8 +4,15 @@
 
 ## DataModel.projectVersion property
 
+The project version string extracted from the documentation metadata.
+
 **Signature:**
 
 ```typescript
 projectVersion?: string;
 ```
+
+## Remarks
+
+Optional version identifier for the documented project, typically derived from the Doxygen configuration or project metadata during parsing.
+

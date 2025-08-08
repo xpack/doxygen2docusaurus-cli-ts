@@ -4,8 +4,15 @@
 
 ## AbstractIndexDoxygenType.compounds property
 
+Collection of compound data models referenced in the index.
+
 **Signature:**
 
 ```typescript
 compounds?: IndexCompoundDataModel[] | undefined;
 ```
+
+## Remarks
+
+Optional array containing compound elements found within the index structure. Each compound represents a documented entity such as classes, namespaces, or files that are catalogued in the index.
+

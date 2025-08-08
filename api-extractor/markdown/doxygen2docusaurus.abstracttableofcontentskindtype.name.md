@@ -4,8 +4,15 @@
 
 ## AbstractTableOfContentsKindType.name property
 
+The name of the table of contents section.
+
 **Signature:**
 
 ```typescript
 name: string;
 ```
+
+## Remarks
+
+Mandatory element extracted from the XML structure that provides the display name or title for this table of contents section. This name is used for navigation and presentation purposes.
+

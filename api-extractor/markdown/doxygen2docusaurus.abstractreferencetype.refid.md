@@ -4,8 +4,15 @@
 
 ## AbstractReferenceType.refid property
 
+The unique reference identifier for the referenced entity.
+
 **Signature:**
 
 ```typescript
 refid: string;
 ```
+
+## Remarks
+
+Mandatory attribute that provides a unique identifier for the entity being referenced. This identifier enables precise linking and cross- referencing between documentation elements, allowing navigation to the detailed documentation of the referenced item within the documentation structure.
+

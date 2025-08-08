@@ -4,8 +4,15 @@
 
 ## AbstractLocationType.column property
 
+The column number in the primary source file.
+
 **Signature:**
 
 ```typescript
 column?: number | undefined;
 ```
+
+## Remarks
+
+Column position where the declaration or definition begins, providing precise horizontal location information when available. This enables accurate source code navigation and positioning within development environments.
+

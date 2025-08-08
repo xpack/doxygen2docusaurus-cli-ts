@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.staticc property
 
+Indicates whether the member is declared as static.
+
 **Signature:**
 
 ```typescript
 staticc: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating static member declaration, affecting the member's association with class instances versus the class itself. This information is crucial for understanding member accessibility and usage patterns.
+

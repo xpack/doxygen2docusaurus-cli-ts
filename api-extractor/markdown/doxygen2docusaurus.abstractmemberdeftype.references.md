@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.references property
 
+References made by this member to other entities.
+
 **Signature:**
 
 ```typescript
 references?: ReferenceDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains a list of references to other documented entities that this member uses or calls. This information enables dependency analysis and cross-reference navigation in the generated documentation.
+

@@ -4,8 +4,15 @@
 
 ## AbstractSectionDefTypeBase.header property
 
+The optional header text for this section.
+
 **Signature:**
 
 ```typescript
 header?: string | undefined;
 ```
+
+## Remarks
+
+Optional element that provides a title or heading for the section. When present, this header is used for display and navigation purposes within the generated documentation.
+

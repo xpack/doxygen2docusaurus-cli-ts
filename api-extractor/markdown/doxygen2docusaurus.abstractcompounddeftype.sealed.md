@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.sealed property
 
+Indicates whether the compound is sealed.
+
 **Signature:**
 
 ```typescript
 sealed?: boolean | undefined;
 ```
+
+## Remarks
+
+Specifies that the compound is sealed and cannot be inherited from, similar to final but using different language-specific terminology. This boolean attribute reflects sealed modifiers found in languages like C\# or other object-oriented programming environments.
+

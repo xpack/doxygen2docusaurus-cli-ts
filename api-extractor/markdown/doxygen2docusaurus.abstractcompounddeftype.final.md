@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.final property
 
+Indicates whether the compound is marked as final.
+
 **Signature:**
 
 ```typescript
 final?: boolean | undefined;
 ```
+
+## Remarks
+
+Specifies that the compound cannot be inherited from or extended, typically used in object-oriented programming languages that support final classes or sealed types. This boolean attribute reflects the final modifier in the source code.
+

@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.kind property
 
+The kind or type of compound.
+
 **Signature:**
 
 ```typescript
 kind: string;
 ```
+
+## Remarks
+
+Specifies the compound type using DoxCompoundKind enumeration values such as 'class', 'struct', 'file', 'namespace', 'page', etc. This mandatory attribute determines how the compound should be processed and displayed in the documentation output.
+

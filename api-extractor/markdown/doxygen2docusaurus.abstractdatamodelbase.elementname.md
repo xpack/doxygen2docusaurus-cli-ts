@@ -4,8 +4,15 @@
 
 ## AbstractDataModelBase.elementName property
 
+The name of the XML element represented by this data model instance.
+
 **Signature:**
 
 ```typescript
 elementName: string;
 ```
+
+## Remarks
+
+Used to identify the XML element type for this data model object.
+

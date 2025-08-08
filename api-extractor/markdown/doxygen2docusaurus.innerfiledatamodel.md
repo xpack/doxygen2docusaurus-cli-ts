@@ -4,6 +4,7 @@
 
 ## InnerFileDataModel class
 
+Data model for inner file reference elements.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare class InnerFileDataModel extends AbstractRefType 
 ```
 **Extends:** [AbstractRefType](./doxygen2docusaurus.abstractreftype.md)
+
+## Remarks
+
+Represents a reference to an inner file within Doxygen XML documentation, corresponding to the innerfile XML element. This class manages references to files that are contained within the current documentation context, providing linking and navigation capabilities to detailed file documentation. Inner files typically represent source code files, headers, or other documented files within the project structure.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `InnerFileDataModel` class
+Constructs a new inner file reference data model from XML.
 
 
 </td></tr>

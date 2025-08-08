@@ -4,8 +4,15 @@
 
 ## AbstractSectionDefTypeBase.kind property
 
+The kind classification of this section definition.
+
 **Signature:**
 
 ```typescript
 kind: string;
 ```
+
+## Remarks
+
+Mandatory attribute that specifies the type of section, corresponding to the DoxSectionKind enumeration in the XML schema. This classification determines how the section is processed and presented in the documentation.
+

@@ -4,8 +4,15 @@
 
 ## AbstractLocationType.bodyfile property
 
+The file path containing the implementation body.
+
 **Signature:**
 
 ```typescript
 bodyfile?: string | undefined;
 ```
+
+## Remarks
+
+File path where the function or method body is implemented, separate from the declaration when they differ. This is particularly relevant for languages that support separate declaration and implementation files, enabling precise navigation to implementation code.
+

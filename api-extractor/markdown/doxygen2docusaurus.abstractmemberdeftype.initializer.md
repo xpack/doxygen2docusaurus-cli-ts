@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.initializer property
 
+Initializer expression for the member.
+
 **Signature:**
 
 ```typescript
 initializer?: InitializerDataModel | undefined;
 ```
+
+## Remarks
+
+Contains the initialization expression or default value assigned to the member in its declaration. This linked text may include cross-references to other documented entities and provides insight into the member's default behaviour or initial state.
+

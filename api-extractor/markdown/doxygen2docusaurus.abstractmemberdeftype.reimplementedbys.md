@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.reimplementedBys property
 
+List of members that reimplement this member.
+
 **Signature:**
 
 ```typescript
 reimplementedBys?: ReimplementDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to derived class members that reimplement or override this member. This property provides reverse inheritance relationship information, showing which child classes provide alternative implementations of this member.
+

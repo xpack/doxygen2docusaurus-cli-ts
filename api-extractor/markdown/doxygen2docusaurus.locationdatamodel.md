@@ -4,6 +4,7 @@
 
 ## LocationDataModel class
 
+Concrete implementation for location elements within documentation.
 
 **Signature:**
 
@@ -11,6 +12,12 @@
 export declare class LocationDataModel extends AbstractLocationType 
 ```
 **Extends:** [AbstractLocationType](./doxygen2docusaurus.abstractlocationtype.md)
+
+## Remarks
+
+Provides specific handling for location XML elements that contain comprehensive source code positioning information. This implementation extends the abstract base class functionality to process location elements with the specific element name 'location'.
+
+The class ensures proper instantiation of location data models whilst maintaining all the detailed positioning information required for accurate source code navigation and reference generation.
 
 ## Constructors
 
@@ -40,7 +47,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `LocationDataModel` class
+Constructs a new location data model instance.
 
 
 </td></tr>

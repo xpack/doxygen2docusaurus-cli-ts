@@ -4,7 +4,7 @@
 
 ## InnerNamespaceDataModel.(constructor)
 
-Constructs a new instance of the `InnerNamespaceDataModel` class
+Constructs a new inner namespace reference data model from XML.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance
+
 
 </td></tr>
 <tr><td>
@@ -56,7 +58,13 @@ object
 
 </td><td>
 
+The XML element containing inner namespace reference data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Creates a complete inner namespace reference data model by parsing the provided XML element. This constructor delegates to the parent class to handle all standard parsing operations for the innernamespace element type, establishing the reference to the contained namespace entity.
 

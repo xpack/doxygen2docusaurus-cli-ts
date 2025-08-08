@@ -4,7 +4,7 @@
 
 ## HighlightDataModel.(constructor)
 
-Constructs a new instance of the `HighlightDataModel` class
+Constructs a HighlightDataModel from XML element data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML content
+
 
 </td></tr>
 <tr><td>
@@ -56,7 +58,13 @@ object
 
 </td><td>
 
+The XML element object containing the highlight data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+This constructor delegates to the parent AbstractHighlightType to handle the standard highlight processing whilst specifically identifying the element as a 'highlight' type for proper XML schema compliance.
 

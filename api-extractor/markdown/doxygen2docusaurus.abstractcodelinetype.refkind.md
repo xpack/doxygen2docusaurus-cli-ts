@@ -4,8 +4,15 @@
 
 ## AbstractCodeLineType.refkind property
 
+Optional reference kind classification.
+
 **Signature:**
 
 ```typescript
 refkind?: string | undefined;
 ```
+
+## Remarks
+
+Specifies the type of reference represented by the refid attribute, such as compound, member, or other Doxygen reference kinds. This classification assists in determining the appropriate link target and display behaviour.
+

@@ -4,8 +4,15 @@
 
 ## AbstractDataModelBase.children property
 
+The child elements or text nodes contained within this data model element.
+
 **Signature:**
 
 ```typescript
 children?: (string | AbstractDataModelBase)[];
 ```
+
+## Remarks
+
+Contains an array of child elements or text nodes, supporting recursive data model structures for complex XML hierarchies.
+

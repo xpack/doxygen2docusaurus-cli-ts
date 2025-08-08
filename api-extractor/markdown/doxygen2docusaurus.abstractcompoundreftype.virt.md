@@ -4,8 +4,15 @@
 
 ## AbstractCompoundRefType.virt property
 
+Virtual specification of the compound reference.
+
 **Signature:**
 
 ```typescript
 virt: string;
 ```
+
+## Remarks
+
+Specifies the virtual nature using DoxVirtualKind enumeration values ('non-virtual', 'virtual', 'pure-virtual'). This mandatory attribute indicates whether the compound reference involves virtual inheritance or virtual methods in object-oriented programming contexts.
+

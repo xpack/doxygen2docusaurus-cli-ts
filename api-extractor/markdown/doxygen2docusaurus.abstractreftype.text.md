@@ -4,8 +4,15 @@
 
 ## AbstractRefType.text property
 
+The name of the referenced entity.
+
 **Signature:**
 
 ```typescript
 text: string;
 ```
+
+## Remarks
+
+Mandatory element containing the textual name of the referenced entity, passed as the element's text content. This name provides human-readable identification of the referenced item and is used for display and navigation purposes within the generated documentation.
+

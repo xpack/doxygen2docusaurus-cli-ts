@@ -4,6 +4,7 @@
 
 ## AbstractReimplementType class
 
+Abstract base class for reimplement type data models.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare abstract class AbstractReimplementType extends AbstractDataModelBase 
 ```
 **Extends:** [AbstractDataModelBase](./doxygen2docusaurus.abstractdatamodelbase.md)
+
+## Remarks
+
+Represents the foundational structure for reimplement relationship elements within Doxygen XML documentation, corresponding to the reimplementType complex type in the XML schema. This class manages relationships between methods, functions, or other documented entities that implement or override behaviour from base classes or interfaces. The reimplement relationship captures both the descriptive text and the reference identifier for the related entity, enabling comprehensive documentation of inheritance and polymorphic behaviours within the codebase.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractReimplementType` class
+Constructs a new abstract reimplement type from XML data.
 
 
 </td></tr>
@@ -84,6 +89,8 @@ string
 
 </td><td>
 
+The reference identifier for the reimplemented entity.
+
 
 </td></tr>
 <tr><td>
@@ -100,6 +107,8 @@ string
 
 
 </td><td>
+
+The descriptive text content for this reimplement relationship.
 
 
 </td></tr>

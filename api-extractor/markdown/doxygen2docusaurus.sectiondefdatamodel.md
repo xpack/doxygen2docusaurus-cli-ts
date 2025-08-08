@@ -4,6 +4,7 @@
 
 ## SectionDefDataModel class
 
+Concrete data model for section definition elements.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare class SectionDefDataModel extends AbstractSectionDefType 
 ```
 **Extends:** [AbstractSectionDefType](./doxygen2docusaurus.abstractsectiondeftype.md)
+
+## Remarks
+
+Represents a specific section definition within Doxygen XML documentation, corresponding to the sectiondef XML element. This class provides the complete implementation for parsing and managing section definition data, including all supported attributes, elements, and member collections. Each instance represents a single section within a compound or group structure.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `SectionDefDataModel` class
+Constructs a new section definition data model from XML.
 
 
 </td></tr>

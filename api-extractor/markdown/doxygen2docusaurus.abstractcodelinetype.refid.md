@@ -4,8 +4,15 @@
 
 ## AbstractCodeLineType.refid property
 
+Optional reference identifier for cross-linking.
+
 **Signature:**
 
 ```typescript
 refid?: string | undefined;
 ```
+
+## Remarks
+
+Contains a reference ID that can be used to create hyperlinks to related documentation elements such as function definitions, variable declarations, or other documented entities.
+

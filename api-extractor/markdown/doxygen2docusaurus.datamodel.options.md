@@ -4,10 +4,15 @@
 
 ## DataModel.options property
 
-The global configuration options.
+The global configuration options for the parsing operation.
 
 **Signature:**
 
 ```typescript
 options: CliOptions;
 ```
+
+## Remarks
+
+Contains command-line interface options that control the behaviour of the parser and influence how XML files are processed and data models are constructed.
+

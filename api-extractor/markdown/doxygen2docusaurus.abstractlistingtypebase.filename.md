@@ -4,8 +4,15 @@
 
 ## AbstractListingTypeBase.filename property
 
+Optional filename attribute for the listing source.
+
 **Signature:**
 
 ```typescript
 filename?: string | undefined;
 ```
+
+## Remarks
+
+Specifies the original filename of the source code when the listing represents content from a specific file. This attribute assists in providing context and navigation capabilities within the generated documentation.
+

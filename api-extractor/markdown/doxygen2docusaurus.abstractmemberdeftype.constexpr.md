@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.constexpr property
 
+Indicates whether the member is declared as constexpr.
+
 **Signature:**
 
 ```typescript
 constexpr?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member can be evaluated at compile time when given constant expressions as arguments. This C++11 feature enables compile-time computation and optimization.
+

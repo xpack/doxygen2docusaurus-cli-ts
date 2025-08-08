@@ -4,7 +4,7 @@
 
 ## ReferencedByDataModel.(constructor)
 
-Constructs a new instance of the `ReferencedByDataModel` class
+Constructs a new referenced-by relationship data model from XML.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance
+
 
 </td></tr>
 <tr><td>
@@ -56,7 +58,13 @@ object
 
 </td><td>
 
+The XML element containing referenced-by relationship data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Creates a complete reverse reference relationship data model by parsing the provided XML element. This constructor delegates to the parent class to handle all standard parsing operations for the referencedby element type, establishing the reverse dependency relationship indicating how other entities utilise the current component.
 

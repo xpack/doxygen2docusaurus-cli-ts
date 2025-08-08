@@ -4,10 +4,15 @@
 
 ## CliOptions.suggestToDoDescriptions property
 
-Boolean to control if the TODO suggestions are shown.
+Controls whether TODO suggestion descriptions are displayed.
 
 **Signature:**
 
 ```typescript
 suggestToDoDescriptions: boolean;
 ```
+
+## Remarks
+
+When enabled, shows suggestions for improvements or missing content that could enhance the generated documentation quality.
+

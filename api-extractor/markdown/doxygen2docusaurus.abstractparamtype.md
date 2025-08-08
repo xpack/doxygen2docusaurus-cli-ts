@@ -4,6 +4,7 @@
 
 ## AbstractParamType class
 
+Abstract base class for parameter data models within documentation.
 
 **Signature:**
 
@@ -11,6 +12,12 @@
 export declare abstract class AbstractParamType extends AbstractDataModelBase 
 ```
 **Extends:** [AbstractDataModelBase](./doxygen2docusaurus.abstractdatamodelbase.md)
+
+## Remarks
+
+Represents comprehensive parameter information as defined by the paramType XML Schema, handling function and method parameter definitions including type information, naming variations, default values, and constraints. This class processes the complete range of parameter metadata required for accurate function signature documentation.
+
+The implementation manages optional parameter elements including attributes, type specifications with linked text support, declaration and definition names, array specifications, default values, type constraints, and brief descriptions. All elements are optional, reflecting the flexible nature of parameter documentation within different programming contexts.
 
 ## Constructors
 
@@ -40,7 +47,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractParamType` class
+Constructs a new parameter data model from XML element data.
 
 
 </td></tr>
@@ -84,7 +91,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Array specification information for array parameters.
 
 
 </td></tr>
@@ -103,7 +110,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Parameter attributes specification string.
 
 
 </td></tr>
@@ -122,7 +129,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Brief description documentation for the parameter.
 
 
 </td></tr>
@@ -141,7 +148,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The declared parameter name as it appears in the declaration.
 
 
 </td></tr>
@@ -160,7 +167,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The defined parameter name as it appears in the definition.
 
 
 </td></tr>
@@ -179,7 +186,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Default value specification with linked text support.
 
 
 </td></tr>
@@ -198,7 +205,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Type information for the parameter with linked text support.
 
 
 </td></tr>
@@ -217,7 +224,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Type constraint information for template parameters.
 
 
 </td></tr>

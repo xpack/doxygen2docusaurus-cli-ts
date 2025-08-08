@@ -4,8 +4,15 @@
 
 ## CommandOptions type
 
+Command line argument options passed to the application.
+
 **Signature:**
 
 ```typescript
 export type CommandOptions = Record<string, string | boolean | undefined>;
 ```
+
+## Remarks
+
+Represents the parsed command line arguments with flexible typing to accommodate various option formats and undefined values.
+

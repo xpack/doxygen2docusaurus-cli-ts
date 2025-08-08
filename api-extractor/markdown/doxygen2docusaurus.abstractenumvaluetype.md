@@ -4,6 +4,7 @@
 
 ## AbstractEnumValueType class
 
+Abstract base class for enumeration value data models.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare abstract class AbstractEnumValueType extends AbstractDataModelBase 
 ```
 **Extends:** [AbstractDataModelBase](./doxygen2docusaurus.abstractdatamodelbase.md)
+
+## Remarks
+
+Represents individual values within enumeration types as parsed from Doxygen XML. Contains the value name, optional initialiser expression, and documentation descriptions with protection level information.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractEnumValueType` class
+Creates a new enumeration value data model.
 
 
 </td></tr>
@@ -84,7 +89,7 @@ Description
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Brief description of the enumeration value.
 
 
 </td></tr>
@@ -103,7 +108,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Detailed description of the enumeration value.
 
 
 </td></tr>
@@ -122,6 +127,8 @@ string
 
 </td><td>
 
+Unique identifier for the enumeration value.
+
 
 </td></tr>
 <tr><td>
@@ -139,7 +146,7 @@ string
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Optional initialiser expression for the enumeration value.
 
 
 </td></tr>
@@ -158,6 +165,8 @@ string
 
 </td><td>
 
+The name of the enumeration value.
+
 
 </td></tr>
 <tr><td>
@@ -174,6 +183,8 @@ string
 
 
 </td><td>
+
+Protection level of the enumeration value.
 
 
 </td></tr>

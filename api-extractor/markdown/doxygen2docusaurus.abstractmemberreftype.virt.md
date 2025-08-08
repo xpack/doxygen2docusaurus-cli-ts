@@ -4,8 +4,15 @@
 
 ## AbstractMemberRefType.virt property
 
+The virtual inheritance classification of the referenced member.
+
 **Signature:**
 
 ```typescript
 virt: string;
 ```
+
+## Remarks
+
+Indicates the virtual nature such as 'virtual', 'pure-virtual', or 'non-virtual' based on Doxygen's DoxVirtualKind enumeration. This classification is essential for understanding inheritance relationships and member override behaviour within class hierarchies.
+

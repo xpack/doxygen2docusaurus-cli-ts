@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.templateparamlist property
 
+Template parameter list information for templated members.
+
 **Signature:**
 
 ```typescript
 templateparamlist?: TemplateParamListDataModel | undefined;
 ```
+
+## Remarks
+
+Contains detailed information about template parameters when the member is part of a template declaration. This includes parameter names, types, and default values essential for template documentation.
+

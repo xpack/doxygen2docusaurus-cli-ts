@@ -4,6 +4,7 @@
 
 ## InbodyDescriptionDataModel class
 
+Data model for in-body description elements within documentation.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare class InbodyDescriptionDataModel extends AbstractDescriptionType 
 ```
 **Extends:** [AbstractDescriptionType](./doxygen2docusaurus.abstractdescriptiontype.md)
+
+## Remarks
+
+Represents in-body description elements that provide documentation content embedded within source code bodies. This implementation processes Doxygen's inbodydescription elements for documentation that appears inline within code implementations.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `InbodyDescriptionDataModel` class
+Constructs an InbodyDescriptionDataModel from XML element data.
 
 
 </td></tr>

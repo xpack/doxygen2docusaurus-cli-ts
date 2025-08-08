@@ -4,8 +4,15 @@
 
 ## AbstractListOfAllMembersType.memberRefs property
 
+Collection of member reference elements within the list-of-all-members.
+
 **Signature:**
 
 ```typescript
 memberRefs?: MemberRefDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains processed member reference data models representing all members associated with the compound, including both directly declared and inherited members. Each reference provides comprehensive identification and scope information for the corresponding member element.
+

@@ -4,8 +4,15 @@
 
 ## AbstractDataModelBase.skipPara property
 
+Indicates whether paragraph processing should be skipped for this element.
+
 **Signature:**
 
 ```typescript
 skipPara?: boolean;
 ```
+
+## Remarks
+
+Optional property used to control paragraph handling during documentation generation. If true, paragraph tags are not generated for this element.
+

@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.derivedCompoundRefs property
 
+Derived compound references for inheritance relationships.
+
 **Signature:**
 
 ```typescript
 derivedCompoundRefs?: DerivedCompoundRefDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to derived classes or child compounds that inherit from this compound. This property captures the inheritance hierarchy information extracted from 'derivedcompoundref' XML elements for complete inheritance documentation.
+

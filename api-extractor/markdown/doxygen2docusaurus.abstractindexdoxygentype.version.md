@@ -4,8 +4,15 @@
 
 ## AbstractIndexDoxygenType.version property
 
+The version of the Doxygen tool that generated the XML.
+
 **Signature:**
 
 ```typescript
 version: string;
 ```
+
+## Remarks
+
+Mandatory attribute extracted from the XML structure that identifies the version of Doxygen used to generate the documentation. This information is crucial for compatibility and parsing decisions.
+

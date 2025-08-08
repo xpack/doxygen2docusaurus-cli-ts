@@ -4,6 +4,7 @@
 
 ## AbstractCompoundDefType class
 
+Abstract base class for Doxygen compound definition data models.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare abstract class AbstractCompoundDefType extends AbstractDataModelBase 
 ```
 **Extends:** [AbstractDataModelBase](./doxygen2docusaurus.abstractdatamodelbase.md)
+
+## Remarks
+
+Represents the core structure of compound definitions in Doxygen XML output, including classes, structures, files, namespaces, and other compound types. This class handles the complete XML schema for compound definitions with comprehensive element and attribute processing to capture all aspects of the documented code structures.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractCompoundDefType` class
+Constructs a new compound definition data model instance.
 
 
 </td></tr>
@@ -84,7 +89,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the compound is abstract.
 
 
 </td></tr>
@@ -103,7 +108,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Base compound references for inheritance relationships.
 
 
 </td></tr>
@@ -122,7 +127,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Brief description of the compound.
 
 
 </td></tr>
@@ -141,6 +146,8 @@ string
 
 </td><td>
 
+The name of the compound element.
+
 
 </td></tr>
 <tr><td>
@@ -158,7 +165,7 @@ string
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Derived compound references for inheritance relationships.
 
 
 </td></tr>
@@ -177,7 +184,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Detailed description of the compound.
 
 
 </td></tr>
@@ -196,7 +203,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the compound is marked as final.
 
 
 </td></tr>
@@ -215,6 +222,8 @@ string
 
 </td><td>
 
+Unique identifier for the compound.
+
 
 </td></tr>
 <tr><td>
@@ -232,7 +241,7 @@ string
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Reverse include file references for this compound.
 
 
 </td></tr>
@@ -251,7 +260,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Include file references for this compound.
 
 
 </td></tr>
@@ -270,7 +279,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the compound is inline.
 
 
 </td></tr>
@@ -289,7 +298,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Inner class references contained within this compound.
 
 
 </td></tr>
@@ -308,7 +317,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Inner folder references contained within this compound.
 
 
 </td></tr>
@@ -327,7 +336,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Inner file references contained within this compound.
 
 
 </td></tr>
@@ -346,7 +355,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Inner group references contained within this compound.
 
 
 </td></tr>
@@ -365,7 +374,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Inner namespace references contained within this compound.
 
 
 </td></tr>
@@ -384,7 +393,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Inner page references contained within this compound.
 
 
 </td></tr>
@@ -403,6 +412,8 @@ string
 
 </td><td>
 
+The kind or type of compound.
+
 
 </td></tr>
 <tr><td>
@@ -420,7 +431,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Programming language of the compound.
 
 
 </td></tr>
@@ -439,7 +450,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Complete list of all members contained in the compound.
 
 
 </td></tr>
@@ -458,7 +469,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Location information for the compound definition.
 
 
 </td></tr>
@@ -477,7 +488,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Program listing or source code for the compound.
 
 
 </td></tr>
@@ -496,7 +507,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Protection level of the compound.
 
 
 </td></tr>
@@ -515,7 +526,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the compound is sealed.
 
 
 </td></tr>
@@ -534,7 +545,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Section definitions within the compound.
 
 
 </td></tr>
@@ -553,7 +564,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Table of contents for the compound documentation.
 
 
 </td></tr>
@@ -572,7 +583,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Template parameter list for templated compounds.
 
 
 </td></tr>
@@ -591,7 +602,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Optional title for the compound.
 
 
 </td></tr>

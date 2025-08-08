@@ -4,7 +4,7 @@
 
 ## AbstractCodeLineType.(constructor)
 
-Constructs a new instance of the `AbstractCodeLineType` class
+Constructs an AbstractCodeLineType instance from XML element data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML content
+
 
 </td></tr>
 <tr><td>
@@ -55,6 +57,8 @@ object
 
 
 </td><td>
+
+The XML element object containing the code line data
 
 
 </td></tr>
@@ -70,7 +74,13 @@ string
 
 </td><td>
 
+The name of the XML element being processed
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+This constructor processes code line elements by extracting highlight children and optional attributes including line numbers, reference IDs, reference kinds, and external flags. The parser handles empty code lines gracefully whilst ignoring textual content that may appear between structured highlight elements.
 

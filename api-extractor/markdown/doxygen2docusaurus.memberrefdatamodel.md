@@ -4,6 +4,7 @@
 
 ## MemberRefDataModel class
 
+Concrete implementation for member reference elements within documentation.
 
 **Signature:**
 
@@ -11,6 +12,12 @@
 export declare class MemberRefDataModel extends AbstractMemberRefType 
 ```
 **Extends:** [AbstractMemberRefType](./doxygen2docusaurus.abstractmemberreftype.md)
+
+## Remarks
+
+Provides specific handling for member XML elements that contain comprehensive member reference information within class and compound documentation. This implementation extends the abstract base class functionality to process member references with the specific element name 'member'.
+
+The class ensures proper instantiation of member reference data models whilst maintaining all the cross-referencing metadata required for accurate documentation linking and navigation between related members within the documentation system.
 
 ## Constructors
 
@@ -40,7 +47,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `MemberRefDataModel` class
+Constructs a new member reference data model instance.
 
 
 </td></tr>

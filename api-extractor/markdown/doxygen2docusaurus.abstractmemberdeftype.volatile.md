@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.volatile property
 
+Indicates whether the member is declared as volatile.
+
 **Signature:**
 
 ```typescript
 volatile?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member is declared with the volatile qualifier, preventing compiler optimizations that assume the value doesn't change unexpectedly. This is important for hardware registers and multi-threaded contexts.
+

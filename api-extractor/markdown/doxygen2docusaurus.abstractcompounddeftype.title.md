@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.title property
 
+Optional title for the compound.
+
 **Signature:**
 
 ```typescript
 title?: string | undefined;
 ```
+
+## Remarks
+
+Provides a human-readable title for the compound that may differ from the compound name. This is typically used for pages and groups where a descriptive title is more appropriate than the technical identifier.
+

@@ -4,6 +4,7 @@
 
 ## AbstractLocationType class
 
+Abstract base class for location information data models.
 
 **Signature:**
 
@@ -11,6 +12,12 @@
 export declare abstract class AbstractLocationType extends AbstractDataModelBase 
 ```
 **Extends:** [AbstractDataModelBase](./doxygen2docusaurus.abstractdatamodelbase.md)
+
+## Remarks
+
+Represents comprehensive source code location information as parsed from Doxygen XML elements, including file paths, line numbers, and column positions for both declarations and implementations. This class provides the foundation for tracking source location references within the documentation system, enabling precise navigation between documentation and source code.
+
+The implementation handles the XML Schema definition for locationType elements, which contain detailed positioning information for code elements including separate tracking of declaration and implementation locations when they differ (such as header/source file pairs).
 
 ## Constructors
 
@@ -40,7 +47,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractLocationType` class
+Constructs a new location data model from XML element data.
 
 
 </td></tr>
@@ -84,7 +91,7 @@ number \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The ending line number of the implementation body.
 
 
 </td></tr>
@@ -103,7 +110,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The file path containing the implementation body.
 
 
 </td></tr>
@@ -122,7 +129,7 @@ number \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The starting line number of the implementation body.
 
 
 </td></tr>
@@ -141,7 +148,7 @@ number \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The column number in the primary source file.
 
 
 </td></tr>
@@ -160,7 +167,7 @@ number \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The column number of the declaration within the declaration file.
 
 
 </td></tr>
@@ -179,7 +186,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The file path containing the declaration when separate from implementation.
 
 
 </td></tr>
@@ -198,7 +205,7 @@ number \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The line number of the declaration within the declaration file.
 
 
 </td></tr>
@@ -217,6 +224,8 @@ string
 
 </td><td>
 
+The source file path containing the primary declaration or definition.
+
 
 </td></tr>
 <tr><td>
@@ -234,7 +243,7 @@ number \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The line number in the primary source file.
 
 
 </td></tr>

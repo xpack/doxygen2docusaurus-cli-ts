@@ -4,6 +4,7 @@
 
 ## AbstractDoxygenFileType class
 
+Abstract base class for Doxygen file type data models.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare abstract class AbstractDoxygenFileType extends AbstractDataModelBase 
 ```
 **Extends:** [AbstractDataModelBase](./doxygen2docusaurus.abstractdatamodelbase.md)
+
+## Remarks
+
+Represents the structure of Doxyfile XML configurations, corresponding to the DoxygenFileType complex type in the XML schema. This class handles the parsing of Doxygen configuration options and mandatory attributes (version and language). All concrete Doxyfile data model classes should extend this abstract base to ensure consistent parsing and data representation of configuration settings.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractDoxygenFileType` class
+Constructs a new AbstractDoxygenFileType instance from XML data.
 
 
 </td></tr>
@@ -84,6 +89,8 @@ string
 
 </td><td>
 
+The language specification for the documentation configuration.
+
 
 </td></tr>
 <tr><td>
@@ -101,7 +108,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The XML schema location reference for validation.
 
 
 </td></tr>
@@ -120,7 +127,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Collection of configuration option data models.
 
 
 </td></tr>
@@ -138,6 +145,8 @@ string
 
 
 </td><td>
+
+The version of the Doxygen tool that generated the configuration.
 
 
 </td></tr>

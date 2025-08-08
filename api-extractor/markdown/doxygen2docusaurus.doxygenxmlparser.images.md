@@ -4,8 +4,15 @@
 
 ## DoxygenXmlParser.images property
 
+Collection of image references extracted during XML parsing.
+
 **Signature:**
 
 ```typescript
 images: AbstractDocImageType[];
 ```
+
+## Remarks
+
+Accumulates image elements found in the documentation content, allowing for centralised image processing and reference management.
+

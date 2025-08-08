@@ -4,8 +4,15 @@
 
 ## AbstractTableOfContentsKindType.reference property
 
+The reference identifier for this table of contents section.
+
 **Signature:**
 
 ```typescript
 reference: string;
 ```
+
+## Remarks
+
+Mandatory element that provides a reference or link target for this table of contents section. This reference is used to create navigation links and cross-references within the documentation.
+

@@ -9,34 +9,21 @@
  * be obtained from https://opensource.org/licenses/MIT.
  */
 // ----------------------------------------------------------------------------
-/**
- * @file doxygen-xml-parser.ts
- * @brief Provides the DoxygenXmlParser class for parsing Doxygen-generated
- * XML files.
- *
- * This module defines the {@link DoxygenXmlParser} class, which is responsible
- * for parsing XML output produced by Doxygen and constructing the internal
- * data model used by doxygen2docusaurus. It supports parsing the main index,
- * compound files, and configuration files, and provides utility methods for
- * extracting attributes and inner elements from the XML structure.
- *
- * The parser is designed to preserve the original XML content and element
- * order, ensuring accurate conversion to the documentation model. It is
- * intended for use within the xPack doxygen2docusaurus CLI tool.
- */
 import assert from 'node:assert';
 import * as util from 'node:util';
 import { XMLParser } from 'fast-xml-parser';
 // ----------------------------------------------------------------------------
 /**
- * The DoxygenXmlParser class is responsible for parsing
- * Doxygen-generated XML files and constructing the internal data model.
+ * XML parser for Doxygen-generated documentation files.
  *
  * @remarks
  * This class initialises the XML parser with options that preserve the order
  * and structure of the original XML content, ensuring accurate conversion
  * for documentation purposes. It maintains a counter for the number of files
  * parsed and stores the resulting data model.
+ *
+ * The parser is configured to handle Doxygen's specific XML format whilst
+ * maintaining fidelity to the source structure and content organisation.
  *
  * @example
  * ```typescript
@@ -48,13 +35,29 @@ import { XMLParser } from 'fast-xml-parser';
  */
 export class DoxygenXmlParser {
     /**
-     * The global configuration options.
+     * The global configuration options for the parsing operation.
+     *
+     * @remarks
+     * Contains the command-line interface options that control the behaviour
+     * of the parser throughout the XML processing workflow.
      */
     options;
     /**
-     * The XML parser instance configured for Doxygen XML.
+     * The XML parser instance configured specifically for Doxygen XML format.
+     *
+     * @remarks
+     * Configured with settings that preserve element order, remove namespace
+     * prefixes, and maintain fidelity to the original XML structure for
+     * accurate data model construction.
      */
     xmlParser;
+    /**
+     * Collection of image references extracted during XML parsing.
+     *
+     * @remarks
+     * Accumulates image elements found in the documentation content,
+     * allowing for centralised image processing and reference management.
+     */
     images = [];
     /**
      * Constructs a new instance of the DoxygenXmlParser class.
@@ -65,9 +68,8 @@ export class DoxygenXmlParser {
      * This constructor initialises the XML parser with settings that preserve the
      * order and structure of the original XML content, remove namespace prefixes,
      * and ensure that both tag and attribute values are parsed. The values are
-     * not
-     * trimmed, maintaining fidelity to the source XML. The provided options are
-     * stored for use throughout the parsing process.
+     * not trimmed, maintaining fidelity to the source XML. The provided options
+     * are stored for use throughout the parsing process.
      */
     constructor(options) {
         this.options = options;

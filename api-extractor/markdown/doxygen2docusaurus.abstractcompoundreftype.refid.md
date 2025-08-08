@@ -4,8 +4,15 @@
 
 ## AbstractCompoundRefType.refid property
 
+Optional reference identifier for cross-linking.
+
 **Signature:**
 
 ```typescript
 refid?: string | undefined;
 ```
+
+## Remarks
+
+Contains the unique identifier that can be used to create hyperlinks or cross-references to the referenced compound's documentation. When present, this identifier enables navigation between related compound definitions in the generated documentation.
+

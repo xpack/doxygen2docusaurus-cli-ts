@@ -4,8 +4,15 @@
 
 ## AbstractIndexCompoundType.refid property
 
+The unique reference identifier for this compound.
+
 **Signature:**
 
 ```typescript
 refid: string;
 ```
+
+## Remarks
+
+Mandatory attribute that provides a unique identifier for referencing this compound within the Doxygen documentation structure. Used to link index entries to their detailed definitions in separate XML files.
+

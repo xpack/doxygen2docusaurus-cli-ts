@@ -4,10 +4,15 @@
 
 ## DoxygenXmlParser.options property
 
-The global configuration options.
+The global configuration options for the parsing operation.
 
 **Signature:**
 
 ```typescript
 options: CliOptions;
 ```
+
+## Remarks
+
+Contains the command-line interface options that control the behaviour of the parser throughout the XML processing workflow.
+

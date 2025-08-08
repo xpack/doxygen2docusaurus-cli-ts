@@ -4,7 +4,7 @@
 
 ## AbstractLinkedTextType.(constructor)
 
-Constructs a new instance of the `AbstractLinkedTextType` class
+Constructs an AbstractLinkedTextType instance from XML element data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML content
+
 
 </td></tr>
 <tr><td>
@@ -55,6 +57,8 @@ object
 
 
 </td><td>
+
+The XML element object containing the linked text data
 
 
 </td></tr>
@@ -70,7 +74,13 @@ string
 
 </td><td>
 
+The name of the XML element being processed
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+This constructor processes linked text elements by extracting both textual content and reference elements in their original order. The parser maintains the mixed content structure whilst creating appropriate RefTextDataModel instances for cross-reference elements, ensuring proper content flow and interactive linking capabilities within the documentation system.
 

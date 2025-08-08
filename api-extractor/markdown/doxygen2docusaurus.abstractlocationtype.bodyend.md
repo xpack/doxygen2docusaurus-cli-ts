@@ -4,8 +4,15 @@
 
 ## AbstractLocationType.bodyend property
 
+The ending line number of the implementation body.
+
 **Signature:**
 
 ```typescript
 bodyend?: number | undefined;
 ```
+
+## Remarks
+
+Line number where the implementation body ends, providing the complete range of the implementation. Together with bodystart, this defines the full extent of the implementation code within the source file.
+

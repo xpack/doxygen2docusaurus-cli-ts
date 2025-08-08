@@ -4,8 +4,15 @@
 
 ## AbstractEnumValueType.id property
 
+Unique identifier for the enumeration value.
+
 **Signature:**
 
 ```typescript
 id: string;
 ```
+
+## Remarks
+
+Doxygen-generated identifier used for cross-referencing and creating links to this enumeration value.
+

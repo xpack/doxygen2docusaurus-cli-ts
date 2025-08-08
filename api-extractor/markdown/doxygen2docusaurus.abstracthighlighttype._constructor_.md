@@ -4,7 +4,7 @@
 
 ## AbstractHighlightType.(constructor)
 
-Constructs a new instance of the `AbstractHighlightType` class
+Constructs an AbstractHighlightType instance from XML element data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML content
+
 
 </td></tr>
 <tr><td>
@@ -55,6 +57,8 @@ object
 
 
 </td><td>
+
+The XML element object containing the highlight data
 
 
 </td></tr>
@@ -70,7 +74,13 @@ string
 
 </td><td>
 
+The name of the XML element being processed
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+This constructor processes highlight elements by extracting the mandatory class attribute and any mixed content including text nodes, spacing elements, and cross-reference elements. The parser maintains the original order of content elements in the children array to preserve the intended layout and formatting of the highlighted code segment.
 

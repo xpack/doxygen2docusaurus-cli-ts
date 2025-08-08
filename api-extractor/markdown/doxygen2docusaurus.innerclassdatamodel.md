@@ -4,6 +4,7 @@
 
 ## InnerClassDataModel class
 
+Data model for inner class reference elements.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare class InnerClassDataModel extends AbstractRefType 
 ```
 **Extends:** [AbstractRefType](./doxygen2docusaurus.abstractreftype.md)
+
+## Remarks
+
+Represents a reference to an inner class within Doxygen XML documentation, corresponding to the innerclass XML element. This class manages references to classes that are contained within the current documentation context, providing linking and navigation capabilities to detailed class documentation. Inner classes typically represent nested classes, inner types, or classes defined within other classes or namespaces.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `InnerClassDataModel` class
+Constructs a new inner class reference data model from XML.
 
 
 </td></tr>

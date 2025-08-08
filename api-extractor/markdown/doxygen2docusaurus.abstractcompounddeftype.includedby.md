@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.includedBy property
 
+Reverse include file references for this compound.
+
 **Signature:**
 
 ```typescript
 includedBy?: IncludedByDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains information about other files or compounds that include this compound. This property captures reverse dependency relationships extracted from 'includedby' XML elements, showing which entities depend on this compound.
+

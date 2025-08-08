@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.noexcept property
 
+Indicates whether the member is declared as noexcept.
+
 **Signature:**
 
 ```typescript
 noexcept?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member promises not to throw exceptions. This C++11 feature enables compiler optimizations and affects exception safety guarantees in the API design.
+

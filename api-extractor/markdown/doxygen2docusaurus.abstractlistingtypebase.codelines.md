@@ -4,8 +4,15 @@
 
 ## AbstractListingTypeBase.codelines property
 
+Array of code line elements within the listing.
+
 **Signature:**
 
 ```typescript
 codelines?: CodeLineDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains the individual code lines that comprise the listing content. Each code line may include syntax highlighting information, line numbers, and cross-reference data depending on the source documentation configuration.
+

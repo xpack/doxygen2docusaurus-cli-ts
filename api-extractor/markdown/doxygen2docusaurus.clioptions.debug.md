@@ -4,10 +4,15 @@
 
 ## CliOptions.debug property
 
-Boolean to control debug verbosity.
+Controls debug-level output during the conversion process.
 
 **Signature:**
 
 ```typescript
 debug: boolean;
 ```
+
+## Remarks
+
+When enabled, provides extensive debugging information useful for troubleshooting issues. Automatically enables verbose output as well.
+

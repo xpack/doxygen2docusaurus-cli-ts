@@ -4,8 +4,15 @@
 
 ## AbstractLocationType.file property
 
+The source file path containing the primary declaration or definition.
+
 **Signature:**
 
 ```typescript
 file: string;
 ```
+
+## Remarks
+
+File path as recorded by Doxygen, typically relative to the source tree root or absolute depending on configuration settings. This represents the primary file location where the documented element is defined.
+

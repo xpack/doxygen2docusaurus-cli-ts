@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.strong property
 
+Indicates whether the member has strong typing.
+
 **Signature:**
 
 ```typescript
 strong?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating strong type enforcement for the member, typically used in languages or contexts where type strength can be explicitly specified to prevent implicit conversions.
+

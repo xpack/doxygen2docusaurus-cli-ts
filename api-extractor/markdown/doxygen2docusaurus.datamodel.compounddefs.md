@@ -4,8 +4,15 @@
 
 ## DataModel.compoundDefs property
 
+Collection of compound definition data models parsed from individual XML files.
+
 **Signature:**
 
 ```typescript
 compoundDefs: CompoundDefDataModel[];
 ```
+
+## Remarks
+
+Each compound definition represents a documented entity such as a class, namespace, or file, along with its members and associated documentation. Populated by parsing XML files referenced in the index.
+

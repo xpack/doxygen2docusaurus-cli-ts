@@ -4,6 +4,7 @@
 
 ## TocSectDataModel class
 
+Concrete data model class for table of contents section elements.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare class TocSectDataModel extends AbstractTableOfContentsKindType 
 ```
 **Extends:** [AbstractTableOfContentsKindType](./doxygen2docusaurus.abstracttableofcontentskindtype.md)
+
+## Remarks
+
+Represents individual table of contents section elements found within Doxygen XML structures. This class extends the abstract base to provide specific handling for 'tocsect' elements, which define named sections within the table of contents hierarchy. Each section includes a name, reference, and potentially nested subsections for comprehensive documentation navigation.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `TocSectDataModel` class
+Constructs a new TocSectDataModel instance from XML data.
 
 
 </td></tr>

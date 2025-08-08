@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.location property
 
+Location information for the compound definition.
+
 **Signature:**
 
 ```typescript
 location?: LocationDataModel | undefined;
 ```
+
+## Remarks
+
+Contains file path, line number, and other location details for where the compound is defined in the source code. This property captures location metadata extracted from 'location' XML elements, enabling source code navigation and reference linking.
+

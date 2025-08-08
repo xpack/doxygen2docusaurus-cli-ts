@@ -4,8 +4,15 @@
 
 ## AbstractDocImageType.alt property
 
+Alternative text for accessibility and fallback purposes.
+
 **Signature:**
 
 ```typescript
 alt?: string | undefined;
 ```
+
+## Remarks
+
+Provides descriptive text for the image that can be used by screen readers and displayed when the image cannot be loaded. This supports accessibility requirements and fallback presentation.
+

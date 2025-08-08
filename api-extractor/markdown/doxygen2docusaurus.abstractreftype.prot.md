@@ -4,8 +4,15 @@
 
 ## AbstractRefType.prot property
 
+The protection level of the referenced entity.
+
 **Signature:**
 
 ```typescript
 prot?: string | undefined;
 ```
+
+## Remarks
+
+Optional attribute specifying the protection level according to the DoxProtectionKind enumeration. Values include 'public', 'protected', 'private', and 'package', indicating the accessibility scope of the referenced entity within its containing context.
+

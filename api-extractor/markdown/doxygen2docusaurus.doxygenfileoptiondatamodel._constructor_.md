@@ -4,7 +4,7 @@
 
 ## DoxygenFileOptionDataModel.(constructor)
 
-Constructs a new instance of the `DoxygenFileOptionDataModel` class
+Constructs a new DoxygenFileOptionDataModel instance from XML data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML elements
+
 
 </td></tr>
 <tr><td>
@@ -56,7 +58,13 @@ object
 
 </td><td>
 
+The XML element containing the option data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Initialises the option data model by parsing the provided XML element as an 'option' element type. The constructor delegates to the parent class for common option processing whilst specifying the element name for proper XML structure handling.
 

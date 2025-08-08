@@ -4,10 +4,15 @@
 
 ## CliOptions.id property
 
-String identifier in case of multiple instances.
+String identifier for distinguishing multiple configuration instances.
 
 **Signature:**
 
 ```typescript
 id: string;
 ```
+
+## Remarks
+
+Used when multiple configuration instances exist to provide unique identification. Particularly useful in multi-configuration scenarios where different settings need to be applied to different outputs.
+

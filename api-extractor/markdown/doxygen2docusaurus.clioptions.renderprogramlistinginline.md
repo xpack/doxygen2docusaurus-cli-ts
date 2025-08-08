@@ -4,10 +4,15 @@
 
 ## CliOptions.renderProgramListingInline property
 
-Boolean to render the program listing in the member definitions sections.
+Controls program listing rendering in member definition sections.
 
 **Signature:**
 
 ```typescript
 renderProgramListingInline: boolean;
 ```
+
+## Remarks
+
+When enabled, includes inline syntax-highlighted code snippets within member documentation sections for better context.
+

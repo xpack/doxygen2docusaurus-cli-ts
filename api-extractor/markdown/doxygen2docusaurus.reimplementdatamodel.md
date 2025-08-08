@@ -4,6 +4,7 @@
 
 ## ReimplementDataModel class
 
+Data model for reimplement relationship elements.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare class ReimplementDataModel extends AbstractReimplementType 
 ```
 **Extends:** [AbstractReimplementType](./doxygen2docusaurus.abstractreimplementtype.md)
+
+## Remarks
+
+Represents a specific reimplement relationship within Doxygen XML documentation, corresponding to the reimplements XML element. This class manages relationships where the current entity reimplements or overrides behaviour from a base class or interface. The relationship captures both the descriptive information and the reference to the original implementation, enabling comprehensive documentation of polymorphic behaviours and inheritance patterns within object-oriented codebases.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `ReimplementDataModel` class
+Constructs a new reimplement relationship data model from XML.
 
 
 </td></tr>

@@ -4,7 +4,7 @@
 
 ## CodeLineDataModel.(constructor)
 
-Constructs a new instance of the `CodeLineDataModel` class
+Constructs a CodeLineDataModel from XML element data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML content
+
 
 </td></tr>
 <tr><td>
@@ -56,7 +58,13 @@ object
 
 </td><td>
 
+The XML element object containing the codeline data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+This constructor delegates to the parent AbstractCodeLineType to handle the standard code line processing whilst specifically identifying the element as a 'codeline' type for proper XML schema compliance.
 

@@ -4,8 +4,15 @@
 
 ## AbstractLocationType.declline property
 
+The line number of the declaration within the declaration file.
+
 **Signature:**
 
 ```typescript
 declline?: number | undefined;
 ```
+
+## Remarks
+
+Line number where the declaration appears, separate from the implementation location when they differ. This provides precise positioning within the declaration file for accurate source navigation.
+

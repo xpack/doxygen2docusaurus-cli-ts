@@ -4,7 +4,7 @@
 
 ## AbstractSectionDefTypeBase.(constructor)
 
-Constructs a new instance of the `AbstractSectionDefTypeBase` class
+Constructs a new abstract section definition type base instance.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ string
 
 </td><td>
 
+The XML element name for this section definition
+
 
 </td></tr>
 <tr><td>
@@ -56,7 +58,13 @@ string
 
 </td><td>
 
+The section kind classification
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Initialises the base properties for a section definition, establishing the element name and kind classification that will be used throughout the processing lifecycle.
 

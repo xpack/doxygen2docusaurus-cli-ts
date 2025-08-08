@@ -4,7 +4,7 @@
 
 ## TypeConstraintDataModel.(constructor)
 
-Constructs a new instance of the `TypeConstraintDataModel` class
+Constructs a TypeConstraintDataModel from XML element data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML content
+
 
 </td></tr>
 <tr><td>
@@ -56,7 +58,13 @@ object
 
 </td><td>
 
+The XML element object containing the type constraint data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+This constructor delegates to the parent AbstractLinkedTextType to handle linked text processing whilst identifying the element as 'typeconstraint' for proper XML schema compliance and type constraint content processing.
 

@@ -33,7 +33,29 @@ import type { AbstractParamType } from '../../doxygen/data-model/compounds/param
 //   </xsd:sequence>
 // </xsd:complexType>
 
+/**
+ * Renderer for parameter type elements in function documentation.
+ *
+ * @remarks
+ * Handles the rendering of function and method parameters as parsed from
+ * Doxygen XML, converting them into formatted output that includes type
+ * information, parameter names, and default values when available.
+ *
+ * @public
+ */
 export class ParamTypeLinesRenderer extends ElementLinesRendererBase {
+  /**
+   * Renders a parameter element to formatted output lines.
+   *
+   * @remarks
+   * Converts Doxygen parameter elements into formatted text including
+   * type information, parameter names, array specifications, and default
+   * values. Handles both declaration and definition name variants.
+   *
+   * @param element - The parameter element to render
+   * @param type - The rendering context type
+   * @returns Array of formatted output lines
+   */
   override renderToLines(element: AbstractParamType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 

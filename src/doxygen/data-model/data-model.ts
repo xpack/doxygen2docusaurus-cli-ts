@@ -27,33 +27,106 @@ import { MemberDefDataModel } from './compounds/memberdeftype-dm.js'
 import { DoxygenXmlParser } from './doxygen-xml-parser.js'
 
 // ----------------------------------------------------------------------------
-// Top structure to hold the parsed Doxygen xml data as JS objects.
-// All objects are defined in the `data-model` folder.
+
 /**
+ * Top-level data model class for orchestrating Doxygen XML parsing and data
+ * organisation.
+ *
+ * @remarks
+ * This class serves as the primary entry point for parsing Doxygen-generated
+ * XML files and constructing a comprehensive data model. It coordinates the
+ * parsing of index files, compound definitions, and configuration files,
+ * maintaining references to all parsed content for subsequent processing.
+ * The class provides methods for sequential parsing operations and ensures
+ * data integrity throughout the parsing workflow.
+ *
  * @public
  */
-
 export class DataModel {
   /**
-   * The global configuration options.
+   * The global configuration options for the parsing operation.
+   *
+   * @remarks
+   * Contains command-line interface options that control the behaviour of
+   * the parser and influence how XML files are processed and data models
+   * are constructed.
    */
   options: CliOptions
 
+  /**
+   * The XML parser instance used for processing Doxygen XML files.
+   *
+   * @remarks
+   * Provides low-level XML parsing functionality and utility methods for
+   * extracting elements, attributes, and text content from the parsed XML
+   * structure.
+   */
   xml: DoxygenXmlParser
 
   /**
-   * Keep track of the number of XML files parsed.
+   * Counter tracking the number of XML files successfully parsed.
+   *
+   * @remarks
+   * Incremented for each XML file processed during the parsing operation,
+   * providing metrics for progress monitoring and diagnostic reporting.
    *
    * @defaultValue 0
    */
   parsedFilesCounter = 0
 
+  /**
+   * The parsed Doxygen index data model from the main index XML file.
+   *
+   * @remarks
+   * Contains the top-level index structure that references all compound
+   * definitions and provides the navigation structure for the documentation.
+   * Populated during the initial parsing phase from `index.xml`.
+   */
   doxygenindex?: DoxygenIndexDataModel // from index.xml
+
+  /**
+   * Collection of compound definition data models parsed from individual XML
+   * files.
+   *
+   * @remarks
+   * Each compound definition represents a documented entity such as a class,
+   * namespace, or file, along with its members and associated documentation.
+   * Populated by parsing XML files referenced in the index.
+   */
   compoundDefs: CompoundDefDataModel[] // from `${'@_refid'}.xml`
+
+  /**
+   * The parsed Doxyfile configuration data model.
+   *
+   * @remarks
+   * Contains the Doxygen configuration options and settings that influenced
+   * the generation of the XML documentation. Parsed from `Doxyfile.xml` if
+   * present in the input folder.
+   */
   doxyfile?: DoxygenFileDataModel // from Doxyfile.xml
 
+  /**
+   * The project version string extracted from the documentation metadata.
+   *
+   * @remarks
+   * Optional version identifier for the documented project, typically derived
+   * from the Doxygen configuration or project metadata during parsing.
+   */
   projectVersion?: string
 
+  /**
+   * Constructs a new DataModel instance with the specified configuration
+   * options.
+   *
+   * @param options - The command-line interface options for controlling parsing
+   * behaviour
+   *
+   * @remarks
+   * Initialises the data model with the provided configuration options and
+   * creates a new DoxygenXmlParser instance for XML processing. The compound
+   * definitions array is initialised as empty and will be populated during
+   * the parsing phase.
+   */
   constructor(options: CliOptions) {
     this.options = options
 
@@ -62,6 +135,17 @@ export class DataModel {
     this.compoundDefs = []
   }
 
+  /**
+   * Orchestrates the complete parsing of Doxygen XML files and data model
+   * construction.
+   *
+   * @remarks
+   * This method performs the complete parsing workflow in sequential phases:
+   * parsing the main index file, processing all referenced compound XML files,
+   * and parsing the Doxyfile configuration. It maintains the original XML
+   * element order and content fidelity throughout the process. Progress
+   * information is logged to the console, with detailed output in verbose mode.
+   */
   async parse(): Promise<void> {
     // The parser is configured to preserve the original, non-trimmed content
     // and the original elements order. The downsize

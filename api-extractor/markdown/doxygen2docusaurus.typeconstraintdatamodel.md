@@ -4,6 +4,7 @@
 
 ## TypeConstraintDataModel class
 
+Data model for type constraint elements within documentation content.
 
 **Signature:**
 
@@ -11,6 +12,12 @@
 export declare class TypeConstraintDataModel extends AbstractLinkedTextType 
 ```
 **Extends:** [AbstractLinkedTextType](./doxygen2docusaurus.abstractlinkedtexttype.md)
+
+## Remarks
+
+Represents type constraint elements that contain template and generic type constraint information within source code documentation. This implementation processes Doxygen's typeconstraint elements, which contain mixed text and reference content describing constraints applied to template parameters and generic types.
+
+The linked text structure enables cross-references to constraint types, concepts, and related template documentation within constraint expressions.
 
 ## Constructors
 
@@ -40,7 +47,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `TypeConstraintDataModel` class
+Constructs a TypeConstraintDataModel from XML element data.
 
 
 </td></tr>

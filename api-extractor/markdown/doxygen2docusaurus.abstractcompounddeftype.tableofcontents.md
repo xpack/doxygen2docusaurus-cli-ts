@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.tableOfContents property
 
+Table of contents for the compound documentation.
+
 **Signature:**
 
 ```typescript
 tableOfContents?: TableOfContentsDataModel | undefined;
 ```
+
+## Remarks
+
+Contains the navigation structure for complex compound documentation. This property captures hierarchical content organisation extracted from 'tableofcontents' XML elements, providing structured navigation for large documentation entities.
+

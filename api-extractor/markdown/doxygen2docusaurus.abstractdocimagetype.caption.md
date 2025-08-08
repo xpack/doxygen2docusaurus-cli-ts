@@ -4,8 +4,15 @@
 
 ## AbstractDocImageType.caption property
 
+Caption text for the image.
+
 **Signature:**
 
 ```typescript
 caption?: string | undefined;
 ```
+
+## Remarks
+
+Provides descriptive caption text that accompanies the image display. Captions typically appear below or adjacent to the image and provide additional context or explanation for the visual content.
+

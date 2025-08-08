@@ -4,8 +4,15 @@
 
 ## AbstractIndexMemberType.name property
 
+The name of the member element.
+
 **Signature:**
 
 ```typescript
 name: string;
 ```
+
+## Remarks
+
+Extracted from the mandatory 'name' element within the member XML structure. Represents the identifier or name of the documented member.
+

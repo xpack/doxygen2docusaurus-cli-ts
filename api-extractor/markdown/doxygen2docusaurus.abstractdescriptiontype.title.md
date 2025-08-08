@@ -4,8 +4,15 @@
 
 ## AbstractDescriptionType.title property
 
+Optional title element for the description.
+
 **Signature:**
 
 ```typescript
 title?: string | undefined;
 ```
+
+## Remarks
+
+Contains the title text for the description section when present. According to the XML schema, only one title element is permitted per description, hence the assertion that ensures uniqueness during parsing.
+

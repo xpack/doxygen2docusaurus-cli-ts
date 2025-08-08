@@ -4,10 +4,15 @@
 
 ## CliOptions.docsFolderPath property
 
-Relative to the current website folder, like `docs`<!-- -->, no initial/final slashes.
+Path to the documentation folder relative to the website folder.
 
 **Signature:**
 
 ```typescript
 docsFolderPath: string;
 ```
+
+## Remarks
+
+Defines the base folder where generated documentation will be placed within the Docusaurus website structure. Path should not include initial or final slashes.
+

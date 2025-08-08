@@ -4,6 +4,7 @@
 
 ## InnerNamespaceDataModel class
 
+Data model for inner namespace reference elements.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare class InnerNamespaceDataModel extends AbstractRefType 
 ```
 **Extends:** [AbstractRefType](./doxygen2docusaurus.abstractreftype.md)
+
+## Remarks
+
+Represents a reference to an inner namespace within Doxygen XML documentation, corresponding to the innernamespace XML element. This class manages references to namespaces that are contained within the current documentation context, providing linking and navigation capabilities to detailed namespace documentation. Inner namespaces typically represent nested namespaces or namespace aliases defined within other namespaces.
 
 ## Constructors
 
@@ -40,7 +45,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `InnerNamespaceDataModel` class
+Constructs a new inner namespace reference data model from XML.
 
 
 </td></tr>

@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.explicit property
 
+Indicates whether the member is declared as explicit.
+
 **Signature:**
 
 ```typescript
 explicit?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that constructors or conversion operators are marked as explicit, preventing implicit conversions. This is particularly important for type safety in C++ class design.
+

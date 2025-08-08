@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.inbodyDescription property
 
+In-body description of the member.
+
 **Signature:**
 
 ```typescript
 inbodyDescription?: InbodyDescriptionDataModel | undefined;
 ```
+
+## Remarks
+
+Contains documentation that appears within the member's implementation body, typically used for additional implementation notes or internal documentation that supplements the main member description.
+

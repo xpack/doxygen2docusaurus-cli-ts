@@ -4,8 +4,15 @@
 
 ## DataModel.xml property
 
+The XML parser instance used for processing Doxygen XML files.
+
 **Signature:**
 
 ```typescript
 xml: DoxygenXmlParser;
 ```
+
+## Remarks
+
+Provides low-level XML parsing functionality and utility methods for extracting elements, attributes, and text content from the parsed XML structure.
+

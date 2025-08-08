@@ -4,10 +4,15 @@
 
 ## CliOptions.mainPageTitle property
 
-The title to be displayed on the main page.
+Title displayed on the main API documentation page.
 
 **Signature:**
 
 ```typescript
 mainPageTitle: string;
 ```
+
+## Remarks
+
+When specified, this title overrides the default title generated from the project brief. When empty, the title is automatically constructed from the project configuration.
+

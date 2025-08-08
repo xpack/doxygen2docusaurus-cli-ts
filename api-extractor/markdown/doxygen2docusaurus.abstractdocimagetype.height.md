@@ -4,8 +4,15 @@
 
 ## AbstractDocImageType.height property
 
+Height specification for the image.
+
 **Signature:**
 
 ```typescript
 height?: string | undefined;
 ```
+
+## Remarks
+
+Specifies the desired height for the image rendering. The format and units depend on the target output format and may include CSS-style dimensions or format-specific measurements.
+

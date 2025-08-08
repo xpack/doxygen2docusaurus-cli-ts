@@ -18,66 +18,92 @@ import { Section } from './members-vm.js';
 import { RefTextDataModel } from '../../doxygen/data-model/compounds/reftexttype-dm.js';
 import { SectionDefByKindDataModel, } from '../../doxygen/data-model/compounds/sectiondeftype-dm.js';
 // ----------------------------------------------------------------------------
+/**
+ * Abstract base class for all compound documentation objects.
+ *
+ * The CompoundBase class provides common functionality and structure for
+ * all types of documentation compounds (classes, files, namespaces, etc.),
+ * including rendering, navigation, and metadata management.
+ *
+ * @public
+ */
 export class CompoundBase {
+    /** The Doxygen compound kind (class, file, namespace, etc.). */
     kind = '';
+    /** The display name of the compound. */
     compoundName = '';
+    /** Unique identifier for the compound. */
     id = '';
-    // The collection this compound is part of.
+    /** The collection this compound belongs to. */
     collection;
+    /** HTML-rendered title string for display purposes. */
     titleHtmlString;
+    /** File path where the compound is located in the source. */
     locationFilePath;
     // --------------------------------------------------------------------------
-    // Not used for classes, see Class.baseClasses.
+    /** Parent compound in the hierarchy (not used for classes). */
     parent;
-    // Set in 2 steps, first the Ids and then, when all objects are in,
-    // the references.
-    // Folder objects use separate arrays for files and folders children.
+    /**
+     * Array of child compound identifiers for two-step initialisation.
+     *
+     * Set in 2 steps, first the Ids and then, when all objects are in,
+     * the references.
+     * Folder objects use separate arrays for files and folders children.
+     */
     childrenIds = [];
+    /** Array of resolved child compound instances. */
     children = [];
     /**
-     * @brief Short name, to fit the limited space in the sidebar.
-     *
-     * If undefined, the compound must not
-     * be referred in the sidebar.
+     * Short name for sidebar display within limited space.
+     * If undefined, the compound is excluded from the sidebar.
      */
     sidebarLabel;
     /**
-     * @brief Relative path to the output folder.
-     *
-     * Starts with plural kind.
-     *
-     * If undefined, the compound must not
-     * be referred in the sidebar.
+     * Relative path to the output folder starting with plural kind.
+     * If undefined, the compound is excluded from the sidebar.
      */
     sidebarId;
     /**
-     * @brief The part below outputFolderPath.
-     *
-     * No leading slash.
-     *
-     * If undefined, the MD file for the compound must not be generated.
+     * Relative permalink below outputFolderPath without leading slash.
+     * If undefined, no Markdown file is generated for the compound.
      */
     relativePermalink;
     /** The name shown in the index section. */
     indexName = '';
-    /**
-     * @brief
-     * The named used in the tree entry rendered in the top index pages.
-     */
+    /** The name used in tree entries for top-level index pages. */
     treeEntryName = '';
     /** The name shown in the page title. */
     pageTitle = '';
+    /** HTML-rendered brief description for display purposes. */
     briefDescriptionHtmlString;
+    /** HTML-rendered detailed description lines for full documentation. */
     detailedDescriptionHtmlLines;
+    /** Flag indicating if detailed description contains sect1 elements. */
     hasSect1InDescription = false;
+    /** Location information lines for rendering file/line references. */
     locationLines;
+    /** Array of member sections organised by type and visibility. */
     sections = [];
+    /** Set of unique file locations for this compound. */
     locationSet = new Set();
-    // Shortcut
+    /** Array of include directives for this compound. */
     includes;
+    /** Map of inner compounds organised by type. */
     innerCompounds;
+    /** Private data storage for internal compound definition reference. */
     _private = {};
     // --------------------------------------------------------------------------
+    /**
+     * Creates a new compound base instance from definition data.
+     *
+     * @remarks
+     * Initialises the basic compound properties including kind, name,
+     * identifier, and optional title and location information. Sets up
+     * the collection reference and processes HTML rendering for titles.
+     *
+     * @param collection - The parent collection managing this compound
+     * @param compoundDef - The Doxygen compound definition containing source data
+     */
     constructor(collection, compoundDef) {
         this._private._compoundDef = compoundDef;
         this.collection = collection;
@@ -93,6 +119,18 @@ export class CompoundBase {
             this.locationFilePath = file;
         }
     }
+    /**
+     * Creates and organises member sections for the compound.
+     *
+     * @remarks
+     * Processes section definitions from the compound data model,
+     * reorders them by type and visibility, and creates Section
+     * instances for rendering. Sorts sections according to their
+     * logical display order.
+     *
+     * @param classUnqualifiedName - Optional class name for special method
+     *   detection
+     */
     createSections(classUnqualifiedName) {
         const reorderedSectionDefs = this.reorderSectionDefs(classUnqualifiedName);
         if (reorderedSectionDefs !== undefined) {
@@ -103,6 +141,19 @@ export class CompoundBase {
             this.sections = sections.sort((a, b) => a.getSectionOrderByKind() - b.getSectionOrderByKind());
         }
     }
+    /**
+     * Reorders section definitions by member type and adjusts section kinds.
+     *
+     * @remarks
+     * Processes member definitions and groups them by adjusted section
+     * kinds, handling user-defined sections separately. Creates new
+     * section definitions organised by member types for consistent
+     * display ordering.
+     *
+     * @param classUnqualifiedName - Optional class name for special method
+     *   detection
+     * @returns Array of reordered section definitions or undefined if none exist
+     */
     reorderSectionDefs(classUnqualifiedName) {
         const sectionDefs = this._private._compoundDef?.sectionDefs;
         if (sectionDefs === undefined) {
@@ -162,6 +213,21 @@ export class CompoundBase {
     //     <xsd:enumeration value="service" />
     //   </xsd:restriction>
     // </xsd:simpleType>
+    /**
+     * Adjusts section kind based on member type and context.
+     *
+     * @remarks
+     * Maps member kinds to appropriate section categories, handling
+     * special cases like operators, constructors, destructors, and
+     * various member types. Preserves visibility prefixes and applies
+     * context-specific adjustments.
+     *
+     * @param sectionDef - The section definition containing the member
+     * @param memberBase - The member whose section kind needs adjustment
+     * @param classUnqualifiedName - Optional class name for special method
+     *   detection
+     * @returns The adjusted section kind string
+     */
     adjustSectionKind(sectionDef, memberBase, classUnqualifiedName) {
         // In general, adjust to member kind.
         let adjustedSectionKind = memberBase.kind;
@@ -215,6 +281,15 @@ export class CompoundBase {
         // console.log('adjustedSectionKind:', memberBase.kind, adjustedSectionKind)
         return adjustedSectionKind;
     }
+    /**
+     * Performs late-stage initialisation after all compounds are loaded.
+     *
+     * @remarks
+     * Processes description content, location information, member sections,
+     * and inner compounds. Renders HTML strings and builds location sets
+     * for comprehensive compound documentation. Called after initial
+     * object creation phase.
+     */
     initializeLate() {
         const { workspace } = this.collection;
         const compoundDef = this._private._compoundDef;
@@ -277,6 +352,17 @@ export class CompoundBase {
             }
         }
     }
+    /**
+     * Determines if a member name represents an operator function.
+     *
+     * @remarks
+     * Checks if the name starts with 'operator' followed by operator
+     * characters, identifying C++ operator overload functions for
+     * proper categorisation in documentation sections.
+     *
+     * @param name - The member name to check
+     * @returns True if the name represents an operator function
+     */
     isOperator(name) {
         // Two word operators, like
         if (name.startsWith('operator') &&
@@ -806,7 +892,17 @@ export class CompoundBase {
         return text;
     }
     // --------------------------------------------------------------------------
-    // Override it
+    /**
+     * Determines whether the compound has any displayable content.
+     *
+     * @remarks
+     * Checks for the presence of brief descriptions, detailed descriptions,
+     * or member sections to determine if the compound documentation page
+     * should be generated. Can be overridden by derived classes to add
+     * additional content checks.
+     *
+     * @returns True if the compound has content worth displaying
+     */
     hasAnyContent() {
         if (this.briefDescriptionHtmlString !== undefined &&
             this.briefDescriptionHtmlString.length > 0) {

@@ -4,12 +4,17 @@
 
 ## AbstractDataModelBase class
 
+Abstract base class for all data model elements in the Doxygen XML layer.
 
 **Signature:**
 
 ```typescript
 export declare abstract class AbstractDataModelBase 
 ```
+
+## Remarks
+
+Provides the common interface and properties for all data model elements parsed from Doxygen XML files. All concrete data model classes should extend this base class to ensure consistent structure and behaviour.
 
 ## Constructors
 
@@ -39,7 +44,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractDataModelBase` class
+Constructs a new data model base instance for a given XML element name.
 
 
 </td></tr>
@@ -83,7 +88,7 @@ Description
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The child elements or text nodes contained within this data model element.
 
 
 </td></tr>
@@ -102,6 +107,8 @@ string
 
 </td><td>
 
+The name of the XML element represented by this data model instance.
+
 
 </td></tr>
 <tr><td>
@@ -119,7 +126,7 @@ boolean
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether paragraph processing should be skipped for this element.
 
 
 </td></tr>

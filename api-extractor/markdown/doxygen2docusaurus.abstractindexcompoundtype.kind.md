@@ -4,8 +4,15 @@
 
 ## AbstractIndexCompoundType.kind property
 
+The kind classification of this compound.
+
 **Signature:**
 
 ```typescript
 kind: string;
 ```
+
+## Remarks
+
+Mandatory attribute specifying the type of compound (e.g., class, struct, namespace, file). Corresponds to the CompoundKind enumeration in the XML schema, determining how the compound should be processed and presented.
+

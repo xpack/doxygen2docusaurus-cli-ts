@@ -4,10 +4,15 @@
 
 ## DoxygenXmlParser.xmlParser property
 
-The XML parser instance configured for Doxygen XML.
+The XML parser instance configured specifically for Doxygen XML format.
 
 **Signature:**
 
 ```typescript
 xmlParser: XMLParser;
 ```
+
+## Remarks
+
+Configured with settings that preserve element order, remove namespace prefixes, and maintain fidelity to the original XML structure for accurate data model construction.
+

@@ -4,8 +4,15 @@
 
 ## AbstractParamType.defname property
 
+The defined parameter name as it appears in the definition.
+
 **Signature:**
 
 ```typescript
 defname?: string | undefined;
 ```
+
+## Remarks
+
+Contains the parameter name as used in the function or method definition, which may differ from the declaration name in contexts where declarations and definitions are separate (such as header and implementation files).
+

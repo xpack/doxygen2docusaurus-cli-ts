@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.mutable property
 
+Indicates whether the member is declared as mutable.
+
 **Signature:**
 
 ```typescript
 mutable?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member can be modified even in const objects. This is typically used for caching, lazy evaluation, or other implementation details that don't affect the logical state.
+

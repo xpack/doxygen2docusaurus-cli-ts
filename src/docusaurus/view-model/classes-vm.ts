@@ -40,6 +40,13 @@ import { ClassTreeEntry, type TreeEntryBase } from './tree-entries-vm.js'
 
 // ----------------------------------------------------------------------------
 
+/**
+ * Mapping of class kinds to their plural display names.
+ *
+ * @remarks
+ * Used for generating appropriate headings and labels in the documentation
+ * output based on the specific type of class compound.
+ */
 const kindsPlurals: Record<string, string> = {
   class: 'Classes',
   struct: 'Structs',
@@ -48,8 +55,26 @@ const kindsPlurals: Record<string, string> = {
 
 // ----------------------------------------------------------------------------
 
+/**
+ * Manages the collection of class, struct, and union documentation.
+ *
+ * @remarks
+ * Handles the organisation and generation of class-type compound
+ * documentation, including hierarchy creation, sidebar generation,
+ * and index file creation. Supports inheritance relationships and
+ * alphabetical organisation.
+ *
+ * @public
+ */
 export class Classes extends CollectionBase {
   // compoundsById: Map<string, Class>
+  /**
+   * Array of top-level classes without parent classes.
+   *
+   * @remarks
+   * Contains classes that are not derived from other documented classes,
+   * used for organising hierarchical displays and inheritance trees.
+   */
   topLevelClasses: Class[] = []
 
   // --------------------------------------------------------------------------
@@ -62,6 +87,16 @@ export class Classes extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
+  /**
+   * Adds a class compound to the collection.
+   *
+   * @remarks
+   * Creates a new Class instance from the compound definition and registers
+   * it in the collection for later processing and hierarchy creation.
+   *
+   * @param compoundDef - The compound definition for the class
+   * @returns The created Class instance
+   */
   override addChild(compoundDef: CompoundDefDataModel): CompoundBase {
     const classs = new Class(this, compoundDef)
     this.collectionCompoundsById.set(classs.id, classs)
@@ -71,6 +106,14 @@ export class Classes extends CollectionBase {
 
   // --------------------------------------------------------------------------
 
+  /**
+   * Creates hierarchical relationships between class compounds.
+   *
+   * @remarks
+   * Establishes parent-child relationships based on inheritance data,
+   * building the class hierarchy tree and identifying top-level classes
+   * that have no documented parent classes.
+   */
   override createCompoundsHierarchies(): void {
     // Recreate classes hierarchies.
     for (const [classId, classs] of this.collectionCompoundsById) {
@@ -205,6 +248,18 @@ export class Classes extends CollectionBase {
     sidebarCategory.items.push(classesCategory)
   }
 
+  /**
+   * Creates sidebar item for class hierarchy recursively.
+   *
+   * @remarks
+   * Generates hierarchical sidebar structures for class inheritance
+   * trees, creating category items for classes with children and
+   * document items for leaf classes. Handles sidebar label and ID
+   * generation with proper CSS classes.
+   *
+   * @param classs - The class to create sidebar item for
+   * @returns The sidebar item or undefined if class lacks required data
+   */
   private createSidebarItemRecursively(classs: Class): SidebarItem | undefined {
     if (classs.sidebarLabel === undefined || classs.sidebarId === undefined) {
       return undefined
@@ -301,6 +356,19 @@ export class Classes extends CollectionBase {
     })
   }
 
+  /**
+   * Generates hierarchical index content for class documentation recursively.
+   *
+   * @remarks
+   * Creates HTML tree table rows for class hierarchies with proper
+   * indentation, icons, and descriptions. Processes inheritance
+   * relationships and generates nested table structures for parent-child
+   * class relationships.
+   *
+   * @param classs - The class to generate index content for
+   * @param depth - The current depth level in the hierarchy (1-based)
+   * @returns Array of HTML strings representing the tree table rows
+   */
   private generateIndexMdFileRecursively(
     classs: Class,
     depth: number
@@ -464,27 +532,62 @@ export class Classes extends CollectionBase {
 
 // ============================================================================
 
+/**
+ * Represents a single class, struct, or union compound for documentation.
+ *
+ * @remarks
+ * Manages individual class compound data including inheritance relationships,
+ * template parameters, member organisation, and documentation generation.
+ * Supports multiple inheritance, template specialisation, and hierarchical
+ * naming conventions for comprehensive class documentation.
+ *
+ * @public
+ */
 export class Class extends CompoundBase {
-  // Due to multiple-inheritance, there can be multiple parents.
+  /** Set of base class IDs for inheritance tracking (multiple inheritance). */
   baseClassIds = new Set<string>()
+
+  /** Array of resolved base class instances. */
   baseClasses: Class[] = []
 
+  /** Fully qualified class name including namespace hierarchy. */
   fullyQualifiedName = '???'
+
+  /** Simple class name without namespace qualifiers. */
   unqualifiedName = '???'
+
+  /** Template parameter specification string. */
   templateParameters = ''
 
+  /** Complete class name with rendered template parameters. */
   classFullName = '???'
+
+  /** Rendered template declaration for display purposes. */
   template: string | undefined
 
-  // Shortcuts, use data model objects.
-  // WARNING: May be duplicate.
+  /** Direct reference to base compound data model objects. */
   baseCompoundRefs: BaseCompoundRefDataModel[] | undefined
+
+  /** Direct reference to derived compound data model objects. */
   derivedCompoundRefs: DerivedCompoundRefDataModel[] | undefined
 
+  /** Template parameter list from the compound definition. */
   templateParamList: TemplateParamListDataModel | undefined
 
   // --------------------------------------------------------------------------
 
+  /**
+   * Creates a new Class instance from compound definition data.
+   *
+   * @remarks
+   * Initialises class metadata including inheritance relationships,
+   * template parameters, naming conventions, and URL structures.
+   * Processes fully qualified names, sidebar labels, and creates
+   * hierarchical path structures for documentation generation.
+   *
+   * @param collection - The parent Classes collection managing this class
+   * @param compoundDef - The Doxygen compound definition containing class data
+   */
   constructor(collection: Classes, compoundDef: CompoundDefDataModel) {
     super(collection, compoundDef)
 
@@ -571,6 +674,15 @@ export class Class extends CompoundBase {
     // console.log()
   }
 
+  /**
+   * Performs late-stage initialisation after all classes are loaded.
+   *
+   * @remarks
+   * Completes class setup by rendering template parameters to HTML,
+   * building full class names with template information, and storing
+   * references to compound definition objects for inheritance processing.
+   * Called after all compounds are registered.
+   */
   override initializeLate(): void {
     super.initializeLate()
 
@@ -610,6 +722,17 @@ export class Class extends CompoundBase {
     this.templateParamList = templateParamList
   }
 
+  /**
+   * Determines whether the class has any content to display.
+   *
+   * @remarks
+   * Checks for the presence of child classes, inner compounds,
+   * member sections, include directives, or base class content
+   * to determine if the class documentation page should be
+   * generated and displayed.
+   *
+   * @returns True if the class has displayable content, false otherwise
+   */
   override hasAnyContent(): boolean {
     if (this.childrenIds.length > 0) {
       return true
@@ -632,6 +755,18 @@ export class Class extends CompoundBase {
 
   // --------------------------------------------------------------------------
 
+  /**
+   * Renders the complete class documentation to markdown lines.
+   *
+   * @remarks
+   * Generates the full documentation page including class declaration,
+   * inheritance relationships, member indices, detailed descriptions,
+   * and location information. Handles base and derived class listings
+   * with proper HTML table formatting.
+   *
+   * @param frontMatter - The frontmatter configuration for the page
+   * @returns Array of markdown strings representing the complete documentation
+   */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override renderToLines(frontMatter: FrontMatter): string[] {
     const lines: string[] = []
@@ -882,6 +1017,17 @@ export class Class extends CompoundBase {
     return lines
   }
 
+  /**
+   * Renders the class as an index entry for member listings.
+   *
+   * @remarks
+   * Creates HTML table rows suitable for inclusion in member indices,
+   * with links to the class documentation page and brief descriptions.
+   * Generates formatted entries with appropriate CSS classes and
+   * structure for index displays.
+   *
+   * @returns Array of HTML strings representing the index entry
+   */
   renderIndexToLines(): string[] {
     // console.log(util.inspect(this, { compact: false, depth: 999 }))
     const lines: string[] = []

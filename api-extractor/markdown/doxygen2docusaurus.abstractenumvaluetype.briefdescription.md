@@ -4,8 +4,15 @@
 
 ## AbstractEnumValueType.briefDescription property
 
+Brief description of the enumeration value.
+
 **Signature:**
 
 ```typescript
 briefDescription?: BriefDescriptionDataModel | undefined;
 ```
+
+## Remarks
+
+Short documentation comment providing a concise explanation of the enumeration value's purpose or meaning.
+

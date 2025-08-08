@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.location property
 
+The location information for the member definition.
+
 **Signature:**
 
 ```typescript
 location: LocationDataModel | undefined;
 ```
+
+## Remarks
+
+Contains comprehensive source code location data including file paths, line numbers, and column positions for both declarations and implementations. This enables precise navigation between documentation and source code.
+

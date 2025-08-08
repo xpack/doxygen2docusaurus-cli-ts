@@ -4,8 +4,15 @@
 
 ## AbstractParamType.defval property
 
+Default value specification with linked text support.
+
 **Signature:**
 
 ```typescript
 defval?: DefValDataModel | undefined;
 ```
+
+## Remarks
+
+Provides the parameter's default value information including cross-references to related elements when the default value contains references to other documented entities. This enables comprehensive default value presentation with navigation capabilities.
+

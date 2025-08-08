@@ -4,8 +4,15 @@
 
 ## AbstractCompoundDefType.prot property
 
+Protection level of the compound.
+
 **Signature:**
 
 ```typescript
 prot?: string | undefined;
 ```
+
+## Remarks
+
+Specifies the access protection level (public, private, protected) for the compound using DoxProtectionKind enumeration values. Note that whilst this attribute is not marked as optional in the XML schema, it may not be present in all compound definitions.
+

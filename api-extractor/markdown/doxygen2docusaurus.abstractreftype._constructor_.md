@@ -4,7 +4,7 @@
 
 ## AbstractRefType.(constructor)
 
-Constructs a new instance of the `AbstractRefType` class
+Constructs a new abstract reference type from XML data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance
+
 
 </td></tr>
 <tr><td>
@@ -55,6 +57,8 @@ object
 
 
 </td><td>
+
+The XML element containing reference data
 
 
 </td></tr>
@@ -70,7 +74,13 @@ string
 
 </td><td>
 
+The expected XML element name
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Parses the provided XML element to construct a complete reference data model. The parsing process extracts the textual content from the element and processes all defined attributes including the mandatory refid and optional protection and inline attributes. Validation ensures that both the reference name and identifier are present and non-empty, maintaining the integrity of the reference documentation.
 

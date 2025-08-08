@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.enumvalues property
 
+Enumeration values for enum members.
+
 **Signature:**
 
 ```typescript
 enumvalues?: EnumValueDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains the list of enumeration constants when the member is an enum type. Each enumeration value includes its name, numeric value, and associated documentation, providing complete enum documentation for API references.
+

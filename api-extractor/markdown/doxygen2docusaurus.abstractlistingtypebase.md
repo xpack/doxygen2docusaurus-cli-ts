@@ -4,6 +4,7 @@
 
 ## AbstractListingTypeBase class
 
+Abstract base class providing properties for listing-type XML elements.
 
 **Signature:**
 
@@ -11,6 +12,10 @@
 export declare abstract class AbstractListingTypeBase extends AbstractDataModelBase 
 ```
 **Extends:** [AbstractDataModelBase](./doxygen2docusaurus.abstractdatamodelbase.md)
+
+## Remarks
+
+Defines the common structure for elements that contain code listings with optional filename attributes. This base class establishes the foundation for both full listing implementations and filtered subsets of code lines.
 
 ## Properties
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Array of code line elements within the listing.
 
 
 </td></tr>
@@ -69,7 +74,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Optional filename attribute for the listing source.
 
 
 </td></tr>

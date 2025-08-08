@@ -4,8 +4,15 @@
 
 ## AbstractCodeLineType.external property
 
+Optional flag indicating external reference status.
+
 **Signature:**
 
 ```typescript
 external?: boolean | undefined;
 ```
+
+## Remarks
+
+When true, indicates that the reference points to an external documentation source rather than an element within the current documentation set. This flag influences link generation and navigation behaviour.
+

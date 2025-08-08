@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.briefDescription property
 
+Brief description of the member.
+
 **Signature:**
 
 ```typescript
 briefDescription?: BriefDescriptionDataModel | undefined;
 ```
+
+## Remarks
+
+Contains a concise summary description of the member extracted from documentation comments. This brief description is typically used in member listings and summary views to provide quick understanding of the member's purpose.
+

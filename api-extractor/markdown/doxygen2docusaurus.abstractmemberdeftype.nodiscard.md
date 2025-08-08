@@ -4,8 +4,15 @@
 
 ## AbstractMemberDefType.nodiscard property
 
+Indicates whether the member is declared as nodiscard.
+
 **Signature:**
 
 ```typescript
 nodiscard?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member's return value should not be ignored by callers. This C++17 attribute helps prevent common programming errors where important return values are discarded.
+

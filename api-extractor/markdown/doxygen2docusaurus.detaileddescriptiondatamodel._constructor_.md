@@ -4,7 +4,7 @@
 
 ## DetailedDescriptionDataModel.(constructor)
 
-Constructs a new instance of the `DetailedDescriptionDataModel` class
+Constructs a DetailedDescriptionDataModel from XML element data.
 
 **Signature:**
 
@@ -42,6 +42,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML content
+
 
 </td></tr>
 <tr><td>
@@ -56,7 +58,13 @@ object
 
 </td><td>
 
+The XML element object containing the detailed description data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+This constructor delegates to the parent AbstractDescriptionType whilst identifying the element as 'detaileddescription' for comprehensive content processing and documentation organisation.
 

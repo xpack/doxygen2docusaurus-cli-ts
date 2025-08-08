@@ -4,8 +4,15 @@
 
 ## AbstractDoxygenFileOptionType.values property
 
+Collection of value strings associated with this configuration option.
+
 **Signature:**
 
 ```typescript
 values: string[] | undefined;
 ```
+
+## Remarks
+
+Optional array containing value elements found within the option structure. Each value represents a specific setting or parameter for the configuration option. The array supports zero to many values as per the XML schema, allowing for both single and multi-value configuration settings.
+

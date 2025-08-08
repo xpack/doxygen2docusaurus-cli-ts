@@ -4,6 +4,7 @@
 
 ## AbstractMemberRefType class
 
+Abstract base class for member reference data models within documentation.
 
 **Signature:**
 
@@ -11,6 +12,12 @@
 export declare abstract class AbstractMemberRefType extends AbstractDataModelBase 
 ```
 **Extends:** [AbstractDataModelBase](./doxygen2docusaurus.abstractdatamodelbase.md)
+
+## Remarks
+
+Represents comprehensive references to class or namespace members as parsed from Doxygen XML elements. This class processes memberRefType schema definitions which contain scope information, member names, and essential attributes required for cross-referencing and link generation within the documentation system.
+
+The implementation handles the complete set of member reference metadata including qualified scope identification, protection levels, virtual inheritance characteristics, and ambiguity resolution information. This enables accurate cross-reference generation and navigation between different parts of the documentation.
 
 ## Constructors
 
@@ -40,7 +47,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractMemberRefType` class
+Constructs a new member reference data model from XML element data.
 
 
 </td></tr>
@@ -84,7 +91,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The ambiguity resolution scope for member reference disambiguation.
 
 
 </td></tr>
@@ -103,6 +110,8 @@ string
 
 </td><td>
 
+The identifier name of the referenced member element.
+
 
 </td></tr>
 <tr><td>
@@ -119,6 +128,8 @@ string
 
 
 </td><td>
+
+The protection level classification of the referenced member.
 
 
 </td></tr>
@@ -137,6 +148,8 @@ string
 
 </td><td>
 
+The unique reference identifier for cross-referencing the member.
+
 
 </td></tr>
 <tr><td>
@@ -154,6 +167,8 @@ string
 
 </td><td>
 
+The containing scope for the referenced member element.
+
 
 </td></tr>
 <tr><td>
@@ -170,6 +185,8 @@ string
 
 
 </td><td>
+
+The virtual inheritance classification of the referenced member.
 
 
 </td></tr>

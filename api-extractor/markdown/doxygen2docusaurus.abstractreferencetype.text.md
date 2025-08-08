@@ -4,8 +4,15 @@
 
 ## AbstractReferenceType.text property
 
+The descriptive text content for this reference relationship.
+
 **Signature:**
 
 ```typescript
 text: string;
 ```
+
+## Remarks
+
+Contains the textual description of the reference relationship, typically including the name or signature of the referenced entity. This text provides human-readable context about the relationship and is used for display purposes within the generated documentation. Note that this property is not explicitly defined in the XML schema DTD but appears in practice within reference elements.
+
