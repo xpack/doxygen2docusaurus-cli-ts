@@ -408,15 +408,15 @@ export class DocusaurusGenerator {
     async copyFiles() {
         const destImgFolderPath = path.join('static', 'img', 'doxygen2docusaurus');
         await fs.mkdir(destImgFolderPath, { recursive: true });
-        let fromFilePath = path.join(this.workspace.projectPath, 'template', 'img', 'document-svgrepo-com.svg');
+        let fromFilePath = path.join(this.workspace.projectPath, 'templates', 'img', 'document-svgrepo-com.svg');
         let toFilePath = path.join(destImgFolderPath, 'document-svgrepo-com.svg');
         console.log('Copying image file', toFilePath);
         await fs.copyFile(fromFilePath, toFilePath);
-        fromFilePath = path.join(this.workspace.projectPath, 'template', 'img', 'folder-svgrepo-com.svg');
+        fromFilePath = path.join(this.workspace.projectPath, 'templates', 'img', 'folder-svgrepo-com.svg');
         toFilePath = path.join(destImgFolderPath, 'folder-svgrepo-com.svg');
         console.log('Copying image file', toFilePath);
         await fs.copyFile(fromFilePath, toFilePath);
-        fromFilePath = path.join(this.workspace.projectPath, 'template', 'css', 'custom.css');
+        fromFilePath = path.join(this.workspace.projectPath, 'templates', 'css', 'custom.css');
         toFilePath = this.options.customCssFilePath;
         if (!(await folderExists(path.dirname(toFilePath)))) {
             await fs.mkdir(path.dirname(toFilePath), { recursive: true });

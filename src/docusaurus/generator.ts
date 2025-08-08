@@ -532,7 +532,7 @@ export class DocusaurusGenerator {
 
     let fromFilePath = path.join(
       this.workspace.projectPath,
-      'template',
+      'templates',
       'img',
       'document-svgrepo-com.svg'
     )
@@ -542,7 +542,7 @@ export class DocusaurusGenerator {
 
     fromFilePath = path.join(
       this.workspace.projectPath,
-      'template',
+      'templates',
       'img',
       'folder-svgrepo-com.svg'
     )
@@ -552,7 +552,7 @@ export class DocusaurusGenerator {
 
     fromFilePath = path.join(
       this.workspace.projectPath,
-      'template',
+      'templates',
       'css',
       'custom.css'
     )

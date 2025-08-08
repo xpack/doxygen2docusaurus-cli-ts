@@ -4,6 +4,6 @@ coverage
 dist
 bin
 maintenance-scripts
-template
+templates
 tests
 
