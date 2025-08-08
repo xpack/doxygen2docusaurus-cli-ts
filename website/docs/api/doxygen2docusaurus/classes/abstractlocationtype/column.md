@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The column number in the primary source file.
+
 ## Signature
 
 ```typescript
 column?: number | undefined;
 ```
+
+## Remarks
+
+Column position where the declaration or definition begins, providing precise horizontal location information when available. This enables accurate source code navigation and positioning within development environments.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

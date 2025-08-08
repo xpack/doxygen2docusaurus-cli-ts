@@ -14,13 +14,17 @@ custom_edit_url: null
 
 
 
-Options, as seen by the application. Most are mandatory.
+Comprehensive CLI options class for documentation generation configuration.
 
 ## Signature
 
 ```typescript
 export declare class CliOptions
 ```
+
+## Remarks
+
+The CliOptions class contains all configuration parameters that control the behaviour of the doxygen2docusaurus conversion process, including paths, URLs, styling, and feature toggles.
 
 ## Constructors
 
@@ -50,7 +54,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `CliOptions` class
+Creates a new CliOptions instance with the specified command options.
 
 
 </td></tr>
@@ -94,7 +98,7 @@ string
 
 </td><td>
 
-Relative to the docs home, like `api`<!-- -->, without initial/final slashes.
+URL path to the API documentation relative to the docs section.
 
 
 </td></tr>
@@ -113,7 +117,7 @@ string
 
 </td><td>
 
-Relative to the docs folder, like `api`<!-- -->, no initial/final slashes.
+Path to the API documentation folder relative to the docs folder.
 
 
 </td></tr>
@@ -132,7 +136,7 @@ string
 
 </td><td>
 
-Site base URL, like / or /xxx/.
+Base URL for the entire website.
 
 
 </td></tr>
@@ -151,7 +155,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_ Relative to the current `website/static` folder, like `reference`<!-- -->.
+_(Optional)_ Output folder for compatibility redirect files.
 
 
 </td></tr>
@@ -170,7 +174,7 @@ string
 
 </td><td>
 
-Relative to the current website folder, default `src/css/custom-doxygen.css`
+Path to the custom CSS file for styling overrides.
 
 
 </td></tr>
@@ -189,7 +193,7 @@ boolean
 
 </td><td>
 
-Boolean to control debug verbosity.
+Controls debug-level output during the conversion process.
 
 
 </td></tr>
@@ -208,7 +212,7 @@ string
 
 </td><td>
 
-Relative to the web home, like `docs`<!-- -->, without initial/final slashes.
+URL path to the documentation section relative to the website root.
 
 
 </td></tr>
@@ -227,7 +231,7 @@ string
 
 </td><td>
 
-Relative to the current website folder, like `docs`<!-- -->, no initial/final slashes.
+Path to the documentation folder relative to the website folder.
 
 
 </td></tr>
@@ -246,7 +250,7 @@ string
 
 </td><td>
 
-Relative to the current website folder, like `doxygen/xml`<!-- -->, no initial/ final slashes.
+Path to the Doxygen XML input folder relative to the website folder.
 
 
 </td></tr>
@@ -265,7 +269,7 @@ string
 
 </td><td>
 
-String identifier in case of multiple instances.
+String identifier for distinguishing multiple configuration instances.
 
 
 </td></tr>
@@ -284,7 +288,7 @@ string
 
 </td><td>
 
-Relative to `static`
+Path for images relative to the `static` folder.
 
 
 </td></tr>
@@ -303,7 +307,7 @@ boolean
 
 </td><td>
 
-Boolean to list the pages at the top of the sidebar.
+Controls whether pages are listed at the top of the sidebar.
 
 
 </td></tr>
@@ -322,7 +326,7 @@ string
 
 </td><td>
 
-The title to be displayed on the main page.
+Title displayed on the main API documentation page.
 
 
 </td></tr>
@@ -341,7 +345,7 @@ string
 
 </td><td>
 
-Relative to the current website folder.
+Path to the navbar configuration file.
 
 
 </td></tr>
@@ -360,7 +364,7 @@ string
 
 </td><td>
 
-Short text to be displayed in the top navigation bar.
+Label displayed in the top navigation bar.
 
 
 </td></tr>
@@ -379,7 +383,7 @@ Short text to be displayed in the top navigation bar.
 
 </td><td>
 
-Where the menu is to be displayed, left or right.
+Position of the navigation menu in the top bar.
 
 
 </td></tr>
@@ -398,9 +402,7 @@ string
 
 </td><td>
 
-Location of original Doxygen pages
-
-'For comparison, the original Doxygen html pages, styled with the <a href="https://jothepro.github.io/doxygen-awesome-css/">doxygen-awesome-css</a> plugin, continue to be available via the <a href="pathname:///doxygen/topics.html"><code>.../doxygen/\*.html</b></code> URLs.'
+Note about the location of original Doxygen pages.
 
 
 </td></tr>
@@ -419,7 +421,7 @@ boolean
 
 </td><td>
 
-Boolean to render the program listing in the File pages.
+Controls program listing rendering in File pages.
 
 
 </td></tr>
@@ -438,7 +440,7 @@ boolean
 
 </td><td>
 
-Boolean to render the program listing in the member definitions sections.
+Controls program listing rendering in member definition sections.
 
 
 </td></tr>
@@ -457,7 +459,7 @@ string
 
 </td><td>
 
-Relative to the current website folder.
+Path to the sidebar category configuration file.
 
 
 </td></tr>
@@ -476,7 +478,7 @@ string
 
 </td><td>
 
-Short text to be displayed in the sidebar.
+Label displayed in the Docusaurus sidebar for the API documentation.
 
 
 </td></tr>
@@ -495,7 +497,7 @@ boolean
 
 </td><td>
 
-Boolean to control if the TODO suggestions are shown.
+Controls whether TODO suggestion descriptions are displayed.
 
 
 </td></tr>
@@ -514,7 +516,7 @@ boolean
 
 </td><td>
 
-Boolean to control verbosity.
+Controls verbose output during the conversion process.
 
 
 </td></tr>
@@ -548,6 +550,8 @@ Description
 
 </td><td>
 
+Parses configuration options from various JSON configuration sources.
+
 
 </td></tr>
 <tr><td>
@@ -559,6 +563,8 @@ Description
 
 
 </td><td>
+
+Selects the appropriate configuration from multi-configuration options.
 
 
 </td></tr>

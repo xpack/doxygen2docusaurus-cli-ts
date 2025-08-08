@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Inner page references contained within this compound.
+
 ## Signature
 
 ```typescript
 innerPages?: InnerPageDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to documentation pages that are logically associated with this compound. This property captures page relationships extracted from 'innerpage' XML elements, supporting structured documentation navigation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

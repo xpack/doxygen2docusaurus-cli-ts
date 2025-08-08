@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `InnerGroupDataModel` class
+Constructs a new inner group reference data model from XML.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance
+
 
 </td></tr>
 <tr><td>
@@ -66,9 +68,15 @@ object
 
 </td><td>
 
+The XML element containing inner group reference data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Creates a complete inner group reference data model by parsing the provided XML element. This constructor delegates to the parent class to handle all standard parsing operations for the innergroup element type, establishing the reference to the contained group entity.
 
 <hr/>
 

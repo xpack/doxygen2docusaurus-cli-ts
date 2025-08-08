@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Indicates whether the member is declared as inline.
+
 ## Signature
 
 ```typescript
 inline?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member is defined inline, suggesting to the compiler that calls should be expanded in place rather than using function call mechanisms. This affects performance and linking.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

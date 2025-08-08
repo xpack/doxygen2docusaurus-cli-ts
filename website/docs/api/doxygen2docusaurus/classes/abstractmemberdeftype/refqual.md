@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Indicates the reference qualifier for the member.
+
 ## Signature
 
 ```typescript
 refqual?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag related to C++11 reference qualifiers (&amp;, &amp;&amp;) that specify whether member functions can be called on lvalue or rvalue objects. This affects method overload resolution and move semantics.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

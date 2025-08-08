@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Optional reference identifier for cross-linking.
+
 ## Signature
 
 ```typescript
 refid?: string | undefined;
 ```
+
+## Remarks
+
+Contains the unique identifier that can be used to create hyperlinks or cross-references to the referenced compound's documentation. When present, this identifier enables navigation between related compound definitions in the generated documentation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

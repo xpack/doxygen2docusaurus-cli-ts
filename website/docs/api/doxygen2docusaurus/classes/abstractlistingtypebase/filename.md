@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Optional filename attribute for the listing source.
+
 ## Signature
 
 ```typescript
 filename?: string | undefined;
 ```
+
+## Remarks
+
+Specifies the original filename of the source code when the listing represents content from a specific file. This attribute assists in providing context and navigation capabilities within the generated documentation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

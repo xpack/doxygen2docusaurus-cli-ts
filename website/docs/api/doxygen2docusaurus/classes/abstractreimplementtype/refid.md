@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The reference identifier for the reimplemented entity.
+
 ## Signature
 
 ```typescript
 refId: string;
 ```
+
+## Remarks
+
+Mandatory attribute that provides a unique identifier for the entity being reimplemented. This reference enables linking and cross-referencing between related documentation elements, allowing navigation between implementations and their base declarations within the generated documentation structure.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

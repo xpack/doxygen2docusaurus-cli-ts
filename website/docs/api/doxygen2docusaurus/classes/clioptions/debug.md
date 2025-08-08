@@ -14,13 +14,18 @@ custom_edit_url: null
 
 
 
-Boolean to control debug verbosity.
+Controls debug-level output during the conversion process.
 
 ## Signature
 
 ```typescript
 debug: boolean;
 ```
+
+## Remarks
+
+When enabled, provides extensive debugging information useful for troubleshooting issues. Automatically enables verbose output as well.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

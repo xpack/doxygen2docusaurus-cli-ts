@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `IndexCompoundDataModel` class
+Constructs a new IndexCompoundDataModel instance from XML data.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML elements
+
 
 </td></tr>
 <tr><td>
@@ -66,9 +68,15 @@ object
 
 </td><td>
 
+The XML element containing the compound data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Initialises the compound data model by parsing the provided XML element as a 'compound' element type. The constructor delegates to the parent class for common compound processing whilst specifying the element name for proper XML structure handling.
 
 <hr/>
 

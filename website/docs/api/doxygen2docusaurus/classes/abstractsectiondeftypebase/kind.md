@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The kind classification of this section definition.
+
 ## Signature
 
 ```typescript
 kind: string;
 ```
+
+## Remarks
+
+Mandatory attribute that specifies the type of section, corresponding to the DoxSectionKind enumeration in the XML schema. This classification determines how the section is processed and presented in the documentation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

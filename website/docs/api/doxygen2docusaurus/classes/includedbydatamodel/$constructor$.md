@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `IncludedByDataModel` class
+Constructs an IncludedByDataModel from XML element data.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML content
+
 
 </td></tr>
 <tr><td>
@@ -66,9 +68,15 @@ object
 
 </td><td>
 
+The XML element object containing the includedby data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+This constructor delegates to the parent AbstractIncType to handle include processing whilst identifying the element as 'includedby' for proper XML schema compliance and reverse include relationship handling. The processed data represents files that include the current source file through preprocessor directives, establishing dependency relationships.
 
 <hr/>
 

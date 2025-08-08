@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Indicates whether the compound is marked as final.
+
 ## Signature
 
 ```typescript
 final?: boolean | undefined;
 ```
+
+## Remarks
+
+Specifies that the compound cannot be inherited from or extended, typically used in object-oriented programming languages that support final classes or sealed types. This boolean attribute reflects the final modifier in the source code.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Concrete data model class for table of contents elements.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare class TableOfContentsDataModel extends AbstractTableOfContentsType
 ```
 **Extends:** [AbstractTableOfContentsType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstracttableofcontentstype)
+
+## Remarks
+
+Represents individual table of contents elements found within Doxygen compound XML structures. This class extends the abstract base to provide specific handling for 'tableofcontents' elements, which define the structural navigation and organisation of documentation content. Each table of contents provides hierarchical access to documentation sections and subsections.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `TableOfContentsDataModel` class
+Constructs a new TableOfContentsDataModel instance from XML data.
 
 
 </td></tr>

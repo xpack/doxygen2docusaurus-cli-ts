@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Collection of table of contents section data models.
+
 ## Signature
 
 ```typescript
 tocSect: TocSectDataModel[] | undefined;
 ```
+
+## Remarks
+
+Optional array containing table of contents section elements, part of an exclusive choice with tableOfContents. Each section represents a specific part of the documentation structure with its own name, reference, and potentially nested content.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

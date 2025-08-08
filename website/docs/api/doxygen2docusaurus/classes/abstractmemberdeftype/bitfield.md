@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Bitfield specification for member variables.
+
 ## Signature
 
 ```typescript
 bitfield?: string | undefined;
 ```
+
+## Remarks
+
+Contains the bitfield width specification for member variables that are declared as bitfields in C/C++ structures or classes. This string represents the number of bits allocated to the member within the containing structure's memory layout.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The unique identifier for this configuration option.
+
 ## Signature
 
 ```typescript
 id: string;
 ```
+
+## Remarks
+
+Mandatory attribute that specifies the name or identifier of the Doxygen configuration option. This corresponds to the actual configuration parameter name used in Doxygen configuration files and determines the specific setting being configured.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

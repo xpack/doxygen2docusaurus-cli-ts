@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Inner folder references contained within this compound.
+
 ## Signature
 
 ```typescript
 innerDirs?: InnerDirDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to subdirectories or folders that are logically contained within this compound. This property captures hierarchical folder structure extracted from 'innerdir' XML elements, typically used for directory-based documentation organisation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

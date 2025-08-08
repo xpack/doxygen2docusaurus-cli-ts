@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `ListOfAllMembersDataModel` class
+Constructs a new listofallmembers data model instance.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The XML parser instance for processing elements
+
 
 </td></tr>
 <tr><td>
@@ -66,9 +68,15 @@ object
 
 </td><td>
 
+The source XML element containing listofallmembers data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Initialises the data model with the specific element name 'listofallmembers' and delegates processing to the abstract base class implementation. This ensures consistent handling of member reference collections whilst maintaining proper element identification.
 
 <hr/>
 

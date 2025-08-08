@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `CompoundDefDataModel` class
+Constructs a new CompoundDefDataModel instance.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The XML parser instance for processing elements
+
 
 </td></tr>
 <tr><td>
@@ -66,9 +68,15 @@ object
 
 </td><td>
 
+The XML element object to parse
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Creates a data model object for 'compounddef' XML elements by delegating to the parent constructor with the appropriate element name. This represents the root element for all compound definitions in Doxygen XML output.
 
 <hr/>
 

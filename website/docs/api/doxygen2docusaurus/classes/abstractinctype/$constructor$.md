@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `AbstractIncType` class
+Constructs an AbstractIncType instance from XML element data.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML content
+
 
 </td></tr>
 <tr><td>
@@ -65,6 +67,8 @@ object
 
 
 </td><td>
+
+The XML element object containing the include data
 
 
 </td></tr>
@@ -80,9 +84,17 @@ string
 
 </td><td>
 
+The name of the XML element being processed
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+This constructor processes include-type elements by extracting the textual content representing the filename and processing attributes that specify inclusion behaviour. The parser validates the presence of required content and attributes whilst maintaining compliance with the XML Schema definition for include elements.
+
+The implementation distinguishes between local and system includes through the local attribute and optionally associates reference identifiers for cross-linking to included file documentation.
 
 <hr/>
 

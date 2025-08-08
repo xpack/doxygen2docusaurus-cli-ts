@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Abstract base class for linked text elements within documentation content.
 
 ## Signature
 
@@ -21,6 +22,12 @@ custom_edit_url: null
 export declare abstract class AbstractLinkedTextType extends AbstractDataModelBase
 ```
 **Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+
+## Remarks
+
+Implements processing for linked text elements that contain mixed content including both textual content and reference elements. This class handles the XML Schema definition for linkedTextType elements, which support character data interspersed with reference elements that provide cross-linking capabilities within documentation structures.
+
+The implementation processes sequences of text strings and RefTextDataModel instances, maintaining their original order to preserve the intended content flow whilst enabling interactive cross-references within the generated documentation.
 
 ## Constructors
 
@@ -50,7 +57,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractLinkedTextType` class
+Constructs an AbstractLinkedTextType instance from XML element data.
 
 
 </td></tr>

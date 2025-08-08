@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Indicates whether the member is declared as nodiscard.
+
 ## Signature
 
 ```typescript
 nodiscard?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member's return value should not be ignored by callers. This C++17 attribute helps prevent common programming errors where important return values are discarded.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Data model for base compound references in inheritance relationships.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare class BaseCompoundRefDataModel extends AbstractCompoundRefType
 ```
 **Extends:** [AbstractCompoundRefType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompoundreftype)
+
+## Remarks
+
+Represents references to base classes or parent compounds in inheritance hierarchies as documented by Doxygen. This class handles the 'basecompoundref' XML elements that establish parent-child relationships in object-oriented documentation structures.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `BaseCompoundRefDataModel` class
+Constructs a new BaseCompoundRefDataModel instance.
 
 
 </td></tr>

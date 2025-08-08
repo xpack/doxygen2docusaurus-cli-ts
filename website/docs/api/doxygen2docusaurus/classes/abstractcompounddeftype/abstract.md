@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Indicates whether the compound is abstract.
+
 ## Signature
 
 ```typescript
 abstract?: boolean | undefined;
 ```
+
+## Remarks
+
+Specifies that the compound is abstract and cannot be instantiated directly, typically requiring concrete implementations of abstract methods or properties. This boolean attribute reflects abstract modifiers in object-oriented programming languages.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `AbstractReferenceType` class
+Constructs a new abstract reference type from XML data.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance
+
 
 </td></tr>
 <tr><td>
@@ -65,6 +67,8 @@ object
 
 
 </td><td>
+
+The XML element containing reference relationship data
 
 
 </td></tr>
@@ -80,9 +84,15 @@ string
 
 </td><td>
 
+The expected XML element name
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Parses the provided XML element to construct a complete reference relationship data model. The parsing process extracts the textual content from the element and processes all defined attributes including the mandatory refid attribute, line number information, and optional compound reference data. Validation ensures that the reference identifier is present, maintaining the integrity of the reference relationship documentation.
 
 <hr/>
 

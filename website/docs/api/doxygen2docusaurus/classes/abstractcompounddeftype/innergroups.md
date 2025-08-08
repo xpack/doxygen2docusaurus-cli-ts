@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Inner group references contained within this compound.
+
 ## Signature
 
 ```typescript
 innerGroups?: InnerGroupDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to documentation groups that are associated with this compound. This property captures group relationships extracted from 'innergroup' XML elements, supporting thematic organisation of related documentation elements.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

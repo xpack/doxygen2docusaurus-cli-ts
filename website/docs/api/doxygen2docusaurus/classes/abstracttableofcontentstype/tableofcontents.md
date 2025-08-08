@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Collection of nested table of contents data models.
+
 ## Signature
 
 ```typescript
 tableOfContents: TableOfContentsDataModel[] | undefined;
 ```
+
+## Remarks
+
+Optional array containing nested table of contents elements, part of an exclusive choice with tocSect. This allows for recursive table of contents structures to represent complex documentation hierarchies.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The optional description content for this section.
+
 ## Signature
 
 ```typescript
 description?: DescriptionDataModel | undefined;
 ```
+
+## Remarks
+
+Optional element containing detailed description information for the section. This description provides context and documentation about the section's purpose and contents.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

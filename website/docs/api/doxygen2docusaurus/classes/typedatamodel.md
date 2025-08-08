@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Data model for type elements within documentation content.
 
 ## Signature
 
@@ -21,6 +22,12 @@ custom_edit_url: null
 export declare class TypeDataModel extends AbstractLinkedTextType
 ```
 **Extends:** [AbstractLinkedTextType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlinkedtexttype)
+
+## Remarks
+
+Represents type elements that contain type information and declarations within source code documentation. This implementation processes Doxygen's type elements, which contain mixed text and reference content describing data types, including primitive types, class names, template parameters, and complex type expressions.
+
+The linked text structure enables cross-references to type definitions and related documentation within the type expressions.
 
 ## Constructors
 
@@ -50,7 +57,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `TypeDataModel` class
+Constructs a TypeDataModel from XML element data.
 
 
 </td></tr>

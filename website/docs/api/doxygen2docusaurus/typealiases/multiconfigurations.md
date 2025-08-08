@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Options, when multi-configurations are used.
+Multiple configuration sets for different build scenarios.
 
 ## Signature
 
@@ -22,6 +22,10 @@ Options, when multi-configurations are used.
 export type MultiConfigurations = Record<string, CliConfigurationOptions>;
 ```
 **References:** [CliConfigurationOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/typealiases/cliconfigurationoptions)
+
+## Remarks
+
+Allows defining different configuration profiles that can be selected based on the build context or command line parameters.
 
 <hr/>
 

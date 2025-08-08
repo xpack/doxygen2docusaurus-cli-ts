@@ -14,12 +14,17 @@ custom_edit_url: null
 
 
 
+Represents a generic XML element in the parsed structure.
 
 ## Signature
 
 ```typescript
 export interface XmlElement
 ```
+
+## Remarks
+
+Defines the structure used by the XML parser for representing parsed XML elements, including text content, attributes, and child elements. Each element maps keys to arrays of child elements.
 
 ## Properties
 

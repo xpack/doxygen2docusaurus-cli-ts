@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Indicates whether the member is declared as final.
+
 ## Signature
 
 ```typescript
 final?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that virtual members cannot be overridden in derived classes. This provides explicit control over inheritance hierarchies and enables compiler optimizations.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

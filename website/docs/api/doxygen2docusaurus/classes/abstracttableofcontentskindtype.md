@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Abstract base class for table of contents kind type data models.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare abstract class AbstractTableOfContentsKindType extends AbstractDataModelBase
 ```
 **Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+
+## Remarks
+
+Represents table of contents kind elements within Doxygen XML structures, corresponding to the tableofcontentsKindType complex type in the XML schema. This class handles the parsing of named table of contents sections with references and optional nested table of contents structures. All concrete table of contents kind data model classes should extend this abstract base to ensure consistent parsing and data representation.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractTableOfContentsKindType` class
+Constructs a new AbstractTableOfContentsKindType instance from XML data.
 
 
 </td></tr>
@@ -94,6 +99,8 @@ string
 
 </td><td>
 
+The name of the table of contents section.
+
 
 </td></tr>
 <tr><td>
@@ -111,6 +118,8 @@ string
 
 </td><td>
 
+The reference identifier for this table of contents section.
+
 
 </td></tr>
 <tr><td>
@@ -127,6 +136,8 @@ string
 
 
 </td><td>
+
+Collection of nested table of contents data models.
 
 
 </td></tr>

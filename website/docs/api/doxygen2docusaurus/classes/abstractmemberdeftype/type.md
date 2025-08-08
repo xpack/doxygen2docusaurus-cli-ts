@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Type information for the member element.
+
 ## Signature
 
 ```typescript
 type?: TypeDataModel | undefined;
 ```
+
+## Remarks
+
+Provides comprehensive type data including linked text with embedded cross-references. This information describes the member's data type, return type for functions, or variable type for data members.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

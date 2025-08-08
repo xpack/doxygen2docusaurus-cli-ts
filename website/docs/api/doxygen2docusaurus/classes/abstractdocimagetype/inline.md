@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Inline positioning flag for the image.
+
 ## Signature
 
 ```typescript
 inline?: boolean | undefined;
 ```
+
+## Remarks
+
+Determines whether the image should be rendered inline with text content or as a block-level element. Inline images flow with text whilst block images create separate content sections.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

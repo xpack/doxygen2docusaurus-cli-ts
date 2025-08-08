@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The version of the Doxygen tool that generated the configuration.
+
 ## Signature
 
 ```typescript
 version: string;
 ```
+
+## Remarks
+
+Mandatory attribute extracted from the XML structure that identifies the version of Doxygen used to generate the configuration file. This information is essential for compatibility and configuration parsing decisions.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

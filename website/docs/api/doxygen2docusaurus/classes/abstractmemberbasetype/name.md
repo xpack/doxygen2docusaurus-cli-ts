@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The name of the member element.
+
 ## Signature
 
 ```typescript
 name: string;
 ```
+
+## Remarks
+
+Contains the identifier name for the member as extracted from the documentation source. This represents the primary identification mechanism for the member within its containing scope.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

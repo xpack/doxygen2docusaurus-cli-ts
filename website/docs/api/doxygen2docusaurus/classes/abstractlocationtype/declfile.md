@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The file path containing the declaration when separate from implementation.
+
 ## Signature
 
 ```typescript
 declfile?: string | undefined;
 ```
+
+## Remarks
+
+File path for the declaration when it differs from the implementation file, typically occurring in header/source file pairs where declarations are placed in header files whilst implementations reside in source files. This separation is common in C/C++ development patterns.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

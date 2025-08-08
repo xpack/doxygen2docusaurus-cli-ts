@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `AbstractDataModelBase` class
+Constructs a new data model base instance for a given XML element name.
 
 ## Signature
 
@@ -52,9 +52,15 @@ string
 
 </td><td>
 
+The name of the XML element represented by this instance
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Initialises the base data model with the specified element name. All derived data model classes should call this constructor.
 
 <hr/>
 

@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Abstract base class for section definition type data models.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare abstract class AbstractSectionDefTypeBase extends AbstractDataModelBase
 ```
 **Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+
+## Remarks
+
+Represents the foundational structure for section definition elements within Doxygen XML documentation, corresponding to the sectiondefType complex type in the XML schema. This class provides the core properties and utility methods for managing section definitions, including kind classification, optional headers and descriptions, and member collections. All concrete section definition classes should extend this base to ensure consistent structure and behaviour.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractSectionDefTypeBase` class
+Constructs a new abstract section definition type base instance.
 
 
 </td></tr>
@@ -94,7 +99,7 @@ Description
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The optional description content for this section.
 
 
 </td></tr>
@@ -113,7 +118,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The optional header text for this section.
 
 
 </td></tr>
@@ -132,6 +137,8 @@ string
 
 </td><td>
 
+The kind classification of this section definition.
+
 
 </td></tr>
 <tr><td>
@@ -149,7 +156,7 @@ string
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Collection of member definition data models.
 
 
 </td></tr>
@@ -168,7 +175,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Collection of member reference data models.
 
 
 </td></tr>
@@ -202,6 +209,8 @@ Description
 
 </td><td>
 
+Computes an adjusted kind string based on section and member suffixes.
+
 
 </td></tr>
 <tr><td>
@@ -213,6 +222,8 @@ Description
 
 
 </td><td>
+
+Determines whether this section contains any member information.
 
 
 </td></tr>

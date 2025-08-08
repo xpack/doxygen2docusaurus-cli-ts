@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Parameter list for function or method members.
+
 ## Signature
 
 ```typescript
 params?: ParamDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains detailed parameter information for function-like members, including parameter names, types, descriptions, and default values. This comprehensive parameter data enables complete function signature documentation and API reference generation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `AbstractParamType` class
+Constructs a new parameter data model from XML element data.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The XML parser instance for processing element data
+
 
 </td></tr>
 <tr><td>
@@ -65,6 +67,8 @@ object
 
 
 </td><td>
+
+The XML element containing parameter information
 
 
 </td></tr>
@@ -80,9 +84,17 @@ string
 
 </td><td>
 
+The name of the XML element being processed
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Processes the XML element representing parameter information and extracts all available parameter metadata including attributes, type specifications, naming variations, default values, constraints, and descriptions. The constructor handles the paramType schema requirements where all elements are optional, reflecting the flexible nature of parameter documentation.
+
+The implementation processes various parameter representations including simple parameters, array parameters, template parameters with constraints, and parameters with default values. It ensures proper extraction of linked text elements that contain embedded cross-references to related documentation entities.
 
 <hr/>
 

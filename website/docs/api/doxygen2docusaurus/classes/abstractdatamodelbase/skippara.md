@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Indicates whether paragraph processing should be skipped for this element.
+
 ## Signature
 
 ```typescript
 skipPara?: boolean;
 ```
+
+## Remarks
+
+Optional property used to control paragraph handling during documentation generation. If true, paragraph tags are not generated for this element.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

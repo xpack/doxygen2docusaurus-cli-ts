@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The compound reference identifier for the containing entity.
+
 ## Signature
 
 ```typescript
 compoundref?: string | undefined;
 ```
+
+## Remarks
+
+Optional attribute that provides the identifier of the compound entity (such as a class or namespace) that contains the referenced item. This additional context enables more precise navigation and helps establish the hierarchical relationship between the referencing and referenced entities within the documentation structure.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

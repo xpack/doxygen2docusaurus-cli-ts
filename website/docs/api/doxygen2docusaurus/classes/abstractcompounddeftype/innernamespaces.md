@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Inner namespace references contained within this compound.
+
 ## Signature
 
 ```typescript
 innerNamespaces?: InnerNamespaceDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to namespaces that are nested within this compound. This property captures namespace hierarchy relationships extracted from 'innernamespace' XML elements, supporting multi-level namespace documentation organisation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

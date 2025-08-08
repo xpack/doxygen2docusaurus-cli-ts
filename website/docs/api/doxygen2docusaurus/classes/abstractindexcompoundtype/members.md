@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Collection of member data models associated with this compound.
+
 ## Signature
 
 ```typescript
 members: IndexMemberDataModel[] | undefined;
 ```
+
+## Remarks
+
+Optional array containing member elements found within the compound structure. Each member represents a documented entity that belongs to this compound, such as functions, variables, or other nested constructs. The array supports zero to many members as per the XML schema.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

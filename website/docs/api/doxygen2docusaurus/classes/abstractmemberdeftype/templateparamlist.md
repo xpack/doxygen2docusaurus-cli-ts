@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Template parameter list information for templated members.
+
 ## Signature
 
 ```typescript
 templateparamlist?: TemplateParamListDataModel | undefined;
 ```
+
+## Remarks
+
+Contains detailed information about template parameters when the member is part of a template declaration. This includes parameter names, types, and default values essential for template documentation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

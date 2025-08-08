@@ -14,13 +14,18 @@ custom_edit_url: null
 
 
 
-Site base URL, like / or /xxx/.
+Base URL for the entire website.
 
 ## Signature
 
 ```typescript
 baseUrl: string;
 ```
+
+## Remarks
+
+Defines the root URL path for the website, typically '/' for root deployment or '/project-name/' for GitHub Pages or similar hosting.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

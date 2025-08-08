@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The name of the compound element.
+
 ## Signature
 
 ```typescript
 compoundName: string;
 ```
+
+## Remarks
+
+Contains the fully qualified name of the compound (class, namespace, file, etc.) as extracted from the 'compoundname' XML element. This represents the primary identifier for the compound in the documentation hierarchy and is mandatory for all compound types except namespaces.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Detailed description of the member.
+
 ## Signature
 
 ```typescript
 detailedDescription?: DetailedDescriptionDataModel | undefined;
 ```
+
+## Remarks
+
+Contains comprehensive documentation for the member including detailed explanations, usage examples, parameter descriptions, and return value information. This forms the primary documentation content for the member in generated API documentation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Data model for inner page reference elements.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare class InnerPageDataModel extends AbstractRefType
 ```
 **Extends:** [AbstractRefType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreftype)
+
+## Remarks
+
+Represents a reference to an inner page within Doxygen XML documentation, corresponding to the innerpage XML element. This class manages references to pages that are contained within the current documentation context, providing linking and navigation capabilities to detailed page documentation. Inner pages typically represent documentation pages, tutorials, or other narrative content that is logically contained within the current documentation scope.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `InnerPageDataModel` class
+Constructs a new inner page reference data model from XML.
 
 
 </td></tr>

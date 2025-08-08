@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Collection of parameter data models within this template parameter list.
+
 ## Signature
 
 ```typescript
 params?: ParamDataModel[] | undefined;
 ```
+
+## Remarks
+
+Optional array containing parameter elements found within the template parameter list structure. Each parameter represents a template parameter definition including its type, name, and other attributes. The array supports zero to many parameters as per the XML schema, accommodating both non-templated constructs and complex template declarations.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

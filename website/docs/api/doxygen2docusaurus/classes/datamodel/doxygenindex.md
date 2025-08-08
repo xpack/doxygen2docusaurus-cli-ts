@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The parsed Doxygen index data model from the main index XML file.
+
 ## Signature
 
 ```typescript
 doxygenindex?: DoxygenIndexDataModel;
 ```
+
+## Remarks
+
+Contains the top-level index structure that references all compound definitions and provides the navigation structure for the documentation. Populated during the initial parsing phase from `index.xml`<!-- -->.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

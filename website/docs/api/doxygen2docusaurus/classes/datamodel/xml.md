@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The XML parser instance used for processing Doxygen XML files.
+
 ## Signature
 
 ```typescript
 xml: DoxygenXmlParser;
 ```
+
+## Remarks
+
+Provides low-level XML parsing functionality and utility methods for extracting elements, attributes, and text content from the parsed XML structure.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

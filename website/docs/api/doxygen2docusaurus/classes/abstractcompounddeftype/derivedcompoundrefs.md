@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Derived compound references for inheritance relationships.
+
 ## Signature
 
 ```typescript
 derivedCompoundRefs?: DerivedCompoundRefDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to derived classes or child compounds that inherit from this compound. This property captures the inheritance hierarchy information extracted from 'derivedcompoundref' XML elements for complete inheritance documentation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

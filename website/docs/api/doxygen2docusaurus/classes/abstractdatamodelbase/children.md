@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The child elements or text nodes contained within this data model element.
+
 ## Signature
 
 ```typescript
 children?: (string | AbstractDataModelBase)[];
 ```
+
+## Remarks
+
+Contains an array of child elements or text nodes, supporting recursive data model structures for complex XML hierarchies.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

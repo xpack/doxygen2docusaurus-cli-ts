@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The ending line number of the implementation body.
+
 ## Signature
 
 ```typescript
 bodyend?: number | undefined;
 ```
+
+## Remarks
+
+Line number where the implementation body ends, providing the complete range of the implementation. Together with bodystart, this defines the full extent of the implementation code within the source file.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

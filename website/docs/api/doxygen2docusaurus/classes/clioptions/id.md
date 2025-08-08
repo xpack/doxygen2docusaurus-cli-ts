@@ -14,13 +14,18 @@ custom_edit_url: null
 
 
 
-String identifier in case of multiple instances.
+String identifier for distinguishing multiple configuration instances.
 
 ## Signature
 
 ```typescript
 id: string;
 ```
+
+## Remarks
+
+Used when multiple configuration instances exist to provide unique identification. Particularly useful in multi-configuration scenarios where different settings need to be applied to different outputs.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

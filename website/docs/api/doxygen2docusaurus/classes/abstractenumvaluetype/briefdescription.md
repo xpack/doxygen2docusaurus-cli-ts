@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Brief description of the enumeration value.
+
 ## Signature
 
 ```typescript
 briefDescription?: BriefDescriptionDataModel | undefined;
 ```
+
+## Remarks
+
+Short documentation comment providing a concise explanation of the enumeration value's purpose or meaning.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

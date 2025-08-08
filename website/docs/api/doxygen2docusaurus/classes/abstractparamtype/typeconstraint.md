@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Type constraint information for template parameters.
+
 ## Signature
 
 ```typescript
 typeconstraint?: TypeConstraintDataModel | undefined;
 ```
+
+## Remarks
+
+Contains constraint specifications for template or generic parameters, including concept requirements, type bounds, and constraint expressions. This information is essential for documenting modern C++ concepts and generic programming constraints.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

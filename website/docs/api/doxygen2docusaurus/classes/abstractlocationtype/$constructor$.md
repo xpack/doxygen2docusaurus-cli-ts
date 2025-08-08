@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `AbstractLocationType` class
+Constructs a new location data model from XML element data.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The XML parser instance for processing element data
+
 
 </td></tr>
 <tr><td>
@@ -65,6 +67,8 @@ object
 
 
 </td><td>
+
+The XML element containing location information
 
 
 </td></tr>
@@ -80,9 +84,17 @@ string
 
 </td><td>
 
+The name of the XML element being processed
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Parses the XML element representing location information and extracts file paths, line numbers, and column positions for declarations and implementations. The constructor processes all available location attributes whilst handling the distinction between declaration and implementation locations when they differ.
+
+The implementation ensures that mandatory file information is present and validates the element structure according to the XML Schema definition for locationType elements.
 
 <hr/>
 

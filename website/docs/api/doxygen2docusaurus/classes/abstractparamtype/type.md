@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Type information for the parameter with linked text support.
+
 ## Signature
 
 ```typescript
 type?: TypeDataModel | undefined;
 ```
+
+## Remarks
+
+Provides comprehensive type data including cross-references and embedded links to type definitions. This enables rich type presentation with navigation capabilities to related type documentation within the system.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

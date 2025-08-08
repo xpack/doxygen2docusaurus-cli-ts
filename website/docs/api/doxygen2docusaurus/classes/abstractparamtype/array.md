@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Array specification information for array parameters.
+
 ## Signature
 
 ```typescript
 array?: string | undefined;
 ```
+
+## Remarks
+
+Contains array dimension information and specifications when the parameter represents an array type. This includes array bounds, size specifications, and dimensional characteristics essential for accurate parameter documentation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `AbstractMemberType` class
+Constructs a new member type data model from XML element data.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The XML parser instance for processing element data
+
 
 </td></tr>
 <tr><td>
@@ -65,6 +67,8 @@ object
 
 
 </td><td>
+
+The XML element containing member type information
 
 
 </td></tr>
@@ -80,9 +84,17 @@ string
 
 </td><td>
 
+The name of the XML element being processed
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Processes the XML element representing simplified member information and extracts the essential identification data including name and reference identifier. The constructor handles the MemberType schema requirements whilst accommodating the practical deviation where member names may be empty in certain contexts.
+
+The implementation validates mandatory attributes (refid, kind) and ensures proper element structure according to the XML Schema definition for MemberType elements.
 
 <hr/>
 

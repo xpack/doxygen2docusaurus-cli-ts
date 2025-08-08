@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The default value indicator for this configuration option.
+
 ## Signature
 
 ```typescript
 default: string;
 ```
+
+## Remarks
+
+Mandatory attribute that indicates whether this option is set to its default value. Corresponds to the defaultType enumeration in the XML schema, typically having values of 'yes' or 'no'.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

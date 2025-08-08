@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Location information for the compound definition.
+
 ## Signature
 
 ```typescript
 location?: LocationDataModel | undefined;
 ```
+
+## Remarks
+
+Contains file path, line number, and other location details for where the compound is defined in the source code. This property captures location metadata extracted from 'location' XML elements, enabling source code navigation and reference linking.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

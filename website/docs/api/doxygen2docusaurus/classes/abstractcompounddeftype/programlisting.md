@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Program listing or source code for the compound.
+
 ## Signature
 
 ```typescript
 programListing?: ProgramListingDataModel | undefined;
 ```
+
+## Remarks
+
+Contains the actual source code implementation or listing for the compound when available. This property captures code content extracted from 'programlisting' XML elements, providing syntax-highlighted source code display in the documentation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

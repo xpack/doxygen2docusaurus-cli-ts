@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The location information for the member definition.
+
 ## Signature
 
 ```typescript
 location: LocationDataModel | undefined;
 ```
+
+## Remarks
+
+Contains comprehensive source code location data including file paths, line numbers, and column positions for both declarations and implementations. This enables precise navigation between documentation and source code.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

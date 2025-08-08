@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The defined parameter name as it appears in the definition.
+
 ## Signature
 
 ```typescript
 defname?: string | undefined;
 ```
+
+## Remarks
+
+Contains the parameter name as used in the function or method definition, which may differ from the declaration name in contexts where declarations and definitions are separate (such as header and implementation files).
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

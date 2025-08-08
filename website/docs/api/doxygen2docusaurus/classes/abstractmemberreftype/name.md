@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The identifier name of the referenced member element.
+
 ## Signature
 
 ```typescript
 name: string;
 ```
+
+## Remarks
+
+Contains the simple identifier name for the member being referenced, which serves as the primary display name and is used for link generation within the documentation system. This name is used in conjunction with the scope to provide complete member identification.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

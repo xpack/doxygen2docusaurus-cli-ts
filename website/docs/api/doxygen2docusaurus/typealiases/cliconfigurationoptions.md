@@ -14,13 +14,18 @@ custom_edit_url: null
 
 
 
-Options, as written by the user. All are optional.
+Configuration options as specified by users in configuration files.
 
 ## Signature
 
 ```typescript
 export type CliConfigurationOptions = Record<string, string | boolean>;
 ```
+
+## Remarks
+
+All options are optional and can be either string or boolean values depending on the specific configuration property.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

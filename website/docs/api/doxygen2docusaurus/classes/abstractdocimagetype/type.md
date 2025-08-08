@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Output format type for the image.
+
 ## Signature
 
 ```typescript
 type?: string | undefined;
 ```
+
+## Remarks
+
+Specifies the target output format for the image, such as 'html', 'latex', 'docbook', 'rtf', or 'xml'. This determines how the image should be processed and rendered in different documentation outputs.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

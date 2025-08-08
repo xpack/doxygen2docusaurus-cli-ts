@@ -14,13 +14,18 @@ custom_edit_url: null
 
 
 
-Keep track of the number of XML files parsed.
+Counter tracking the number of XML files successfully parsed.
 
 ## Signature
 
 ```typescript
 parsedFilesCounter: number;
 ```
+
+## Remarks
+
+Incremented for each XML file processed during the parsing operation, providing metrics for progress monitoring and diagnostic reporting.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Optional flag indicating external reference status.
+
 ## Signature
 
 ```typescript
 external?: boolean | undefined;
 ```
+
+## Remarks
+
+When true, indicates that the reference points to an external documentation source rather than an element within the current documentation set. This flag influences link generation and navigation behaviour.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Protection level of the enumeration value.
+
 ## Signature
 
 ```typescript
 prot: string;
 ```
+
+## Remarks
+
+Indicates the visibility scope such as 'public', 'private', or 'protected' based on Doxygen's protection kind enumeration.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

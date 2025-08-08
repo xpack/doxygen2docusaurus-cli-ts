@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `CliOptions` class
+Creates a new CliOptions instance with the specified command options.
 
 ## Signature
 
@@ -52,9 +52,15 @@ commandOptions
 
 </td><td>
 
+Command-line options object containing ID and flags
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Initialises the configuration object by setting the ID and optional flags like verbose and debug. When the ID is not 'default', adjusts folder paths and file names to include the ID for multi-configuration scenarios.
 
 <hr/>
 

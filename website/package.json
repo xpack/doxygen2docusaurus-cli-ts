@@ -13,6 +13,7 @@
     "docusaurus": "docusaurus",
     "api-documenter": "del-cli --force ../api-extractor/markdown && api-documenter markdown --input-folder ../api-extractor --output-folder ../api-extractor/markdown",
     "convert-tsdoc-webpreview": "tsdoc2docusaurus --id webpreview",
+    "generate-api": "npm run api-documenter && npm run convert-tsdoc-webpreview",
     "convert-tsdoc-website": "tsdoc2docusaurus --id website",
     "start": "docusaurus start",
     "build": "docusaurus build",

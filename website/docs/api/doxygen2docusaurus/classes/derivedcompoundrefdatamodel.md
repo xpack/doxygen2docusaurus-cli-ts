@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Data model for derived compound references in inheritance relationships.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare class DerivedCompoundRefDataModel extends AbstractCompoundRefType
 ```
 **Extends:** [AbstractCompoundRefType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractcompoundreftype)
+
+## Remarks
+
+Represents references to derived classes or child compounds in inheritance hierarchies as documented by Doxygen. This class handles the 'derivedcompoundref' XML elements that establish child-parent relationships in object-oriented documentation structures.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `DerivedCompoundRefDataModel` class
+Constructs a new DerivedCompoundRefDataModel instance.
 
 
 </td></tr>

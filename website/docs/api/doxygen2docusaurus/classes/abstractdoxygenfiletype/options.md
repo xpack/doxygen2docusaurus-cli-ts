@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Collection of configuration option data models.
+
 ## Signature
 
 ```typescript
 options?: DoxygenFileOptionDataModel[] | undefined;
 ```
+
+## Remarks
+
+Optional array containing option elements found within the Doxyfile structure. Each option represents a specific configuration setting that controls the behaviour of Doxygen during documentation generation. The array supports zero to many options as per the XML schema.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

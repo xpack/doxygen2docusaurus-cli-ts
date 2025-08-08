@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `InnerFileDataModel` class
+Constructs a new inner file reference data model from XML.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance
+
 
 </td></tr>
 <tr><td>
@@ -66,9 +68,15 @@ object
 
 </td><td>
 
+The XML element containing inner file reference data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Creates a complete inner file reference data model by parsing the provided XML element. This constructor delegates to the parent class to handle all standard parsing operations for the innerfile element type, establishing the reference to the contained file entity.
 
 <hr/>
 

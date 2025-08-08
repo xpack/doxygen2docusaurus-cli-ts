@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The descriptive text content for this reimplement relationship.
+
 ## Signature
 
 ```typescript
 text: string;
 ```
+
+## Remarks
+
+Mandatory element containing the textual description of the reimplement relationship. This text typically includes the signature or name of the reimplemented entity, providing human-readable context about the relationship between the current entity and the referenced implementation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

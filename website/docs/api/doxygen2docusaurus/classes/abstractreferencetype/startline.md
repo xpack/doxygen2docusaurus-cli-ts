@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The starting line number where the reference occurs.
+
 ## Signature
 
 ```typescript
 startline: number | undefined;
 ```
+
+## Remarks
+
+Specifies the line number in the source code where the reference relationship begins. This location information enables precise source code navigation and helps establish the exact context of the reference within the original source files. Note that this attribute may be missing in some reference elements despite being defined as mandatory in the XML schema.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

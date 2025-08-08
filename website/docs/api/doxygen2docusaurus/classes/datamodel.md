@@ -14,12 +14,17 @@ custom_edit_url: null
 
 
 
+Top-level data model class for orchestrating Doxygen XML parsing and data organisation.
 
 ## Signature
 
 ```typescript
 export declare class DataModel
 ```
+
+## Remarks
+
+This class serves as the primary entry point for parsing Doxygen-generated XML files and constructing a comprehensive data model. It coordinates the parsing of index files, compound definitions, and configuration files, maintaining references to all parsed content for subsequent processing. The class provides methods for sequential parsing operations and ensures data integrity throughout the parsing workflow.
 
 ## Constructors
 
@@ -49,7 +54,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `DataModel` class
+Constructs a new DataModel instance with the specified configuration options.
 
 
 </td></tr>
@@ -93,6 +98,8 @@ Description
 
 </td><td>
 
+Collection of compound definition data models parsed from individual XML files.
+
 
 </td></tr>
 <tr><td>
@@ -110,7 +117,7 @@ Description
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The parsed Doxyfile configuration data model.
 
 
 </td></tr>
@@ -129,7 +136,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The parsed Doxygen index data model from the main index XML file.
 
 
 </td></tr>
@@ -148,7 +155,7 @@ _(Optional)_
 
 </td><td>
 
-The global configuration options.
+The global configuration options for the parsing operation.
 
 
 </td></tr>
@@ -167,7 +174,7 @@ number
 
 </td><td>
 
-Keep track of the number of XML files parsed.
+Counter tracking the number of XML files successfully parsed.
 
 
 </td></tr>
@@ -186,7 +193,7 @@ string
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The project version string extracted from the documentation metadata.
 
 
 </td></tr>
@@ -204,6 +211,8 @@ _(Optional)_
 
 
 </td><td>
+
+The XML parser instance used for processing Doxygen XML files.
 
 
 </td></tr>
@@ -236,6 +245,8 @@ Description
 
 
 </td><td>
+
+Orchestrates the complete parsing of Doxygen XML files and data model construction.
 
 
 </td></tr>

@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Brief description of the compound.
+
 ## Signature
 
 ```typescript
 briefDescription?: BriefDescriptionDataModel | undefined;
 ```
+
+## Remarks
+
+Contains a concise summary description of the compound extracted from the 'briefdescription' XML element. This provides a short overview suitable for listings and summary views of the documented entity.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

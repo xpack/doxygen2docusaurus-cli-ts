@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Collection of value strings associated with this configuration option.
+
 ## Signature
 
 ```typescript
 values: string[] | undefined;
 ```
+
+## Remarks
+
+Optional array containing value elements found within the option structure. Each value represents a specific setting or parameter for the configuration option. The array supports zero to many values as per the XML schema, allowing for both single and multi-value configuration settings.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

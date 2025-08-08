@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Concrete implementation for listofallmembers elements within compound documentation.
 
 ## Signature
 
@@ -21,6 +22,12 @@ custom_edit_url: null
 export declare class ListOfAllMembersDataModel extends AbstractListOfAllMembersType
 ```
 **Extends:** [AbstractListOfAllMembersType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlistofallmemberstype)
+
+## Remarks
+
+Provides specific handling for listofallmembers XML elements that contain comprehensive member inventories within class and compound documentation. This implementation extends the abstract base class functionality to process the complete collection of member references, including both directly declared and inherited members.
+
+The class ensures proper instantiation of member reference data models whilst maintaining the hierarchical structure and accessibility information required for comprehensive documentation generation.
 
 ## Constructors
 
@@ -50,7 +57,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `ListOfAllMembersDataModel` class
+Constructs a new listofallmembers data model instance.
 
 
 </td></tr>

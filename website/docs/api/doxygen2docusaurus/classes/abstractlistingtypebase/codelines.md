@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Array of code line elements within the listing.
+
 ## Signature
 
 ```typescript
 codelines?: CodeLineDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains the individual code lines that comprise the listing content. Each code line may include syntax highlighting information, line numbers, and cross-reference data depending on the source documentation configuration.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

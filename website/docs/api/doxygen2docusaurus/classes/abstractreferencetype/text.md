@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The descriptive text content for this reference relationship.
+
 ## Signature
 
 ```typescript
 text: string;
 ```
+
+## Remarks
+
+Contains the textual description of the reference relationship, typically including the name or signature of the referenced entity. This text provides human-readable context about the relationship and is used for display purposes within the generated documentation. Note that this property is not explicitly defined in the XML schema DTD but appears in practice within reference elements.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

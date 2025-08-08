@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Protection level of the compound.
+
 ## Signature
 
 ```typescript
 prot?: string | undefined;
 ```
+
+## Remarks
+
+Specifies the access protection level (public, private, protected) for the compound using DoxProtectionKind enumeration values. Note that whilst this attribute is not marked as optional in the XML schema, it may not be present in all compound definitions.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

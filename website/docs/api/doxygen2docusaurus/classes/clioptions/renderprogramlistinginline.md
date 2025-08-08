@@ -14,13 +14,18 @@ custom_edit_url: null
 
 
 
-Boolean to render the program listing in the member definitions sections.
+Controls program listing rendering in member definition sections.
 
 ## Signature
 
 ```typescript
 renderProgramListingInline: boolean;
 ```
+
+## Remarks
+
+When enabled, includes inline syntax-highlighted code snippets within member documentation sections for better context.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

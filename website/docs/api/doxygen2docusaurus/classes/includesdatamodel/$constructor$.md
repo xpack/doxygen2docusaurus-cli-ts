@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `IncludesDataModel` class
+Constructs an IncludesDataModel from XML element data.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML content
+
 
 </td></tr>
 <tr><td>
@@ -66,9 +68,15 @@ object
 
 </td><td>
 
+The XML element object containing the includes data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+This constructor delegates to the parent AbstractIncType to handle include processing whilst identifying the element as 'includes' for proper XML schema compliance and include relationship documentation. The processed data represents files that are included by the current source file through preprocessor directives.
 
 <hr/>
 

@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Collection of compound definition data models parsed from individual XML files.
+
 ## Signature
 
 ```typescript
 compoundDefs: CompoundDefDataModel[];
 ```
+
+## Remarks
+
+Each compound definition represents a documented entity such as a class, namespace, or file, along with its members and associated documentation. Populated by parsing XML files referenced in the index.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

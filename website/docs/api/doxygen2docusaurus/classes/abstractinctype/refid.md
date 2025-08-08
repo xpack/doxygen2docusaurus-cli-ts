@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Optional reference identifier for cross-linking to the included file.
+
 ## Signature
 
 ```typescript
 refId?: string | undefined;
 ```
+
+## Remarks
+
+Contains the reference identifier that links to the documentation of the included file. This enables navigation from include statements to the actual file documentation within the generated documentation system.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

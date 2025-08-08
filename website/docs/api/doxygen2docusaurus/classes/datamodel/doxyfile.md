@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The parsed Doxyfile configuration data model.
+
 ## Signature
 
 ```typescript
 doxyfile?: DoxygenFileDataModel;
 ```
+
+## Remarks
+
+Contains the Doxygen configuration options and settings that influenced the generation of the XML documentation. Parsed from `Doxyfile.xml` if present in the input folder.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

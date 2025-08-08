@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The column number of the declaration within the declaration file.
+
 ## Signature
 
 ```typescript
 declcolumn?: number | undefined;
 ```
+
+## Remarks
+
+Column position where the declaration begins, providing precise horizontal location information for the declaration. This enables accurate positioning within development environments when navigating to declaration locations.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

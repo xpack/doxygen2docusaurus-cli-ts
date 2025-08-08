@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The unique reference identifier for cross-referencing the member.
+
 ## Signature
 
 ```typescript
 refid: string;
 ```
+
+## Remarks
+
+Contains the Doxygen-generated unique identifier used for creating precise cross-references and hyperlinks to the member documentation. This identifier ensures unambiguous linking between documentation elements and enables accurate navigation within the generated documentation system.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

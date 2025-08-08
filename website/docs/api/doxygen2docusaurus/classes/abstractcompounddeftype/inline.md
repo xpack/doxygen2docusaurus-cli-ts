@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Indicates whether the compound is inline.
+
 ## Signature
 
 ```typescript
 inline?: boolean | undefined;
 ```
+
+## Remarks
+
+Specifies that the compound is defined inline, typically used for functions, methods, or other constructs that are implemented directly in header files. This boolean attribute reflects inline declarations in the source code.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

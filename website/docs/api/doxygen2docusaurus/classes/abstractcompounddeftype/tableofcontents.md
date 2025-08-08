@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Table of contents for the compound documentation.
+
 ## Signature
 
 ```typescript
 tableOfContents?: TableOfContentsDataModel | undefined;
 ```
+
+## Remarks
+
+Contains the navigation structure for complex compound documentation. This property captures hierarchical content organisation extracted from 'tableofcontents' XML elements, providing structured navigation for large documentation entities.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

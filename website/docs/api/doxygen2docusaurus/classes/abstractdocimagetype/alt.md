@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Alternative text for accessibility and fallback purposes.
+
 ## Signature
 
 ```typescript
 alt?: string | undefined;
 ```
+
+## Remarks
+
+Provides descriptive text for the image that can be used by screen readers and displayed when the image cannot be loaded. This supports accessibility requirements and fallback presentation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

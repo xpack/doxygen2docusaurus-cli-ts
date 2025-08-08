@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `BaseCompoundRefDataModel` class
+Constructs a new BaseCompoundRefDataModel instance.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The XML parser instance for processing elements
+
 
 </td></tr>
 <tr><td>
@@ -66,9 +68,15 @@ object
 
 </td><td>
 
+The XML element object to parse
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Creates a data model object for 'basecompoundref' XML elements, representing inheritance relationships where the current compound derives from the referenced base compound.
 
 <hr/>
 

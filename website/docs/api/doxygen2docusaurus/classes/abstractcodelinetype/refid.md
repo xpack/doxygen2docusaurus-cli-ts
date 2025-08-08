@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Optional reference identifier for cross-linking.
+
 ## Signature
 
 ```typescript
 refid?: string | undefined;
 ```
+
+## Remarks
+
+Contains a reference ID that can be used to create hyperlinks to related documentation elements such as function definitions, variable declarations, or other documented entities.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

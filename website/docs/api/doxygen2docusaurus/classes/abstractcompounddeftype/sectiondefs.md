@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Section definitions within the compound.
+
 ## Signature
 
 ```typescript
 sectionDefs?: SectionDefDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains organised sections of members and documentation within the compound. This property captures structured content extracted from 'sectiondef' XML elements, providing hierarchical organisation of compound members by type and visibility.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

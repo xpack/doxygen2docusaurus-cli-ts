@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+References made by this member to other entities.
+
 ## Signature
 
 ```typescript
 references?: ReferenceDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains a list of references to other documented entities that this member uses or calls. This information enables dependency analysis and cross-reference navigation in the generated documentation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

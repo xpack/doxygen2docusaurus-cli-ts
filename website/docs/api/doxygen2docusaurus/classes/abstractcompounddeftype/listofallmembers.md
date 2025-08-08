@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Complete list of all members contained in the compound.
+
 ## Signature
 
 ```typescript
 listOfAllMembers?: ListOfAllMembersDataModel | undefined;
 ```
+
+## Remarks
+
+Contains a comprehensive list of all members (methods, properties, etc.) that belong to this compound, including inherited members. This property captures member information extracted from 'listofallmembers' XML elements for complete API documentation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

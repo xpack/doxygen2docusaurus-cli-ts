@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Indicates whether the member has external linkage.
+
 ## Signature
 
 ```typescript
 extern?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member is declared with external linkage, typically using the 'extern' keyword in C/C++. This affects the member's visibility and linkage across translation units.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

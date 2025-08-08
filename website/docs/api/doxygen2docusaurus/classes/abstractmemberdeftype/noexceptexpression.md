@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Indicates whether the member has a noexcept expression.
+
 ## Signature
 
 ```typescript
 noexceptexpression?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member's noexcept specification includes a conditional expression that determines exception safety at compile time based on template parameters or other conditions.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

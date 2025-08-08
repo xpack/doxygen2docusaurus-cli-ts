@@ -14,13 +14,18 @@ custom_edit_url: null
 
 
 
-Relative to the current website folder.
+Path to the navbar configuration file.
 
 ## Signature
 
 ```typescript
 navbarFilePath: string;
 ```
+
+## Remarks
+
+Specifies the location where the generated navbar dropdown JSON configuration will be written, relative to the current website folder.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

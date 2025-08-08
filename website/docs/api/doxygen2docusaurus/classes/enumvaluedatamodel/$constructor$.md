@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `EnumValueDataModel` class
+Creates a new enumeration value data model from XML.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The XML parser instance
+
 
 </td></tr>
 <tr><td>
@@ -66,9 +68,15 @@ object
 
 </td><td>
 
+The XML element to parse
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Parses the XML element representing an enumeration value using the inherited parsing logic with the 'enumvalue' element name.
 
 <hr/>
 

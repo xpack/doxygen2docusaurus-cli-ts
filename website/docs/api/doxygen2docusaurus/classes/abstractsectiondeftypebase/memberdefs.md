@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Collection of member definition data models.
+
 ## Signature
 
 ```typescript
 memberDefs?: MemberDefDataModel[] | undefined;
 ```
+
+## Remarks
+
+Optional array containing detailed member definitions for this section. This collection is mutually exclusive with the members array, as per the XML schema choice constraint. Each member definition provides comprehensive information about documented entities.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

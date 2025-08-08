@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Array of syntax highlighting elements within the code line.
+
 ## Signature
 
 ```typescript
 highlights?: HighlightDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains highlight elements that provide syntax colouring information for different parts of the code line. Each highlight element specifies a highlight class (such as keyword, comment, or string literal) and the corresponding text content to be styled.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

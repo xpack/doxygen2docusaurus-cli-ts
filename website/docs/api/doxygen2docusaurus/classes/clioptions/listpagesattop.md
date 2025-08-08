@@ -14,13 +14,18 @@ custom_edit_url: null
 
 
 
-Boolean to list the pages at the top of the sidebar.
+Controls whether pages are listed at the top of the sidebar.
 
 ## Signature
 
 ```typescript
 listPagesAtTop: boolean;
 ```
+
+## Remarks
+
+When enabled, places page links prominently at the top of the sidebar navigation structure for easier access to important pages.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+References to this member from other entities.
+
 ## Signature
 
 ```typescript
 referencedBy?: ReferencedByDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains a list of other documented entities that reference or use this member. This reverse reference information helps understand the member's usage throughout the codebase and enables comprehensive cross-reference navigation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

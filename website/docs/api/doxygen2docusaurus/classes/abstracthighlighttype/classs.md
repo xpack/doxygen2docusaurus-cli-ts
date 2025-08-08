@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Mandatory highlight classification attribute.
+
 ## Signature
 
 ```typescript
 classs: string;
 ```
+
+## Remarks
+
+Specifies the syntax highlighting class for this element, determining how the contained text should be styled in the generated documentation. The value must be one of the predefined DoxHighlightClass enumeration values such as 'keyword', 'comment', or 'stringliteral'.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

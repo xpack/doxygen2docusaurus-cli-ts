@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Data model for includes elements within documentation content.
 
 ## Signature
 
@@ -21,6 +22,12 @@ custom_edit_url: null
 export declare class IncludesDataModel extends AbstractIncType
 ```
 **Extends:** [AbstractIncType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractinctype)
+
+## Remarks
+
+Represents includes elements that document files included by the current source file. This implementation processes Doxygen's includes elements, which contain information about files that are included through preprocessor directives such as \#include statements within the documented source code.
+
+The includes relationship indicates a dependency where the current file incorporates content from the referenced file during compilation.
 
 ## Constructors
 
@@ -50,7 +57,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `IncludesDataModel` class
+Constructs an IncludesDataModel from XML element data.
 
 
 </td></tr>

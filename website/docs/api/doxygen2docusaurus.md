@@ -40,6 +40,7 @@ Description
 
 </td><td>
 
+Data model for base compound references in inheritance relationships.
 
 
 </td></tr>
@@ -50,6 +51,7 @@ Description
 
 </td><td>
 
+Data model for brief description elements within documentation.
 
 
 </td></tr>
@@ -60,7 +62,7 @@ Description
 
 </td><td>
 
-Options, as seen by the application. Most are mandatory.
+Comprehensive CLI options class for documentation generation configuration.
 
 
 </td></tr>
@@ -71,6 +73,7 @@ Options, as seen by the application. Most are mandatory.
 
 </td><td>
 
+Data model for individual code line elements within program listings.
 
 
 </td></tr>
@@ -81,6 +84,7 @@ Options, as seen by the application. Most are mandatory.
 
 </td><td>
 
+Concrete implementation of compound definition data model.
 
 
 </td></tr>
@@ -91,6 +95,7 @@ Options, as seen by the application. Most are mandatory.
 
 </td><td>
 
+Top-level data model class for orchestrating Doxygen XML parsing and data organisation.
 
 
 </td></tr>
@@ -101,6 +106,7 @@ Options, as seen by the application. Most are mandatory.
 
 </td><td>
 
+Data model for default value elements within documentation content.
 
 
 </td></tr>
@@ -111,6 +117,7 @@ Options, as seen by the application. Most are mandatory.
 
 </td><td>
 
+Data model for derived compound references in inheritance relationships.
 
 
 </td></tr>
@@ -121,6 +128,7 @@ Options, as seen by the application. Most are mandatory.
 
 </td><td>
 
+Data model for general description elements within documentation.
 
 
 </td></tr>
@@ -131,6 +139,7 @@ Options, as seen by the application. Most are mandatory.
 
 </td><td>
 
+Data model for detailed description elements within documentation.
 
 
 </td></tr>
@@ -141,6 +150,7 @@ Options, as seen by the application. Most are mandatory.
 
 </td><td>
 
+Concrete data model class for doxyfile elements.
 
 
 </td></tr>
@@ -151,6 +161,7 @@ Options, as seen by the application. Most are mandatory.
 
 </td><td>
 
+Concrete data model class for Doxyfile option elements.
 
 
 </td></tr>
@@ -161,6 +172,7 @@ Options, as seen by the application. Most are mandatory.
 
 </td><td>
 
+Concrete data model class for doxygenindex elements.
 
 
 </td></tr>
@@ -171,7 +183,7 @@ Options, as seen by the application. Most are mandatory.
 
 </td><td>
 
-The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML files and constructing the internal data model.
+XML parser for Doxygen-generated documentation files.
 
 
 </td></tr>
@@ -182,6 +194,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Concrete implementation of enumeration value data model.
 
 
 </td></tr>
@@ -192,6 +205,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Data model for syntax highlight elements within code listings.
 
 
 </td></tr>
@@ -202,6 +216,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Data model for in-body description elements within documentation.
 
 
 </td></tr>
@@ -212,6 +227,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Data model for includedby elements within documentation content.
 
 
 </td></tr>
@@ -222,6 +238,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Data model for includes elements within documentation content.
 
 
 </td></tr>
@@ -232,6 +249,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Concrete data model class for index compound elements.
 
 
 </td></tr>
@@ -242,6 +260,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Concrete data model class for index member elements.
 
 
 </td></tr>
@@ -252,6 +271,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Data model for initializer elements within documentation content.
 
 
 </td></tr>
@@ -262,6 +282,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Data model for inner class reference elements.
 
 
 </td></tr>
@@ -272,6 +293,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Data model for inner folder reference elements.
 
 
 </td></tr>
@@ -282,6 +304,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Data model for inner file reference elements.
 
 
 </td></tr>
@@ -292,6 +315,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Data model for inner group reference elements.
 
 
 </td></tr>
@@ -302,6 +326,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Data model for inner namespace reference elements.
 
 
 </td></tr>
@@ -312,6 +337,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Data model for inner page reference elements.
 
 
 </td></tr>
@@ -322,6 +348,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Concrete implementation for listofallmembers elements within compound documentation.
 
 
 </td></tr>
@@ -332,6 +359,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Concrete implementation for location elements within documentation.
 
 
 </td></tr>
@@ -342,6 +370,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Concrete implementation for member elements within documentation.
 
 
 </td></tr>
@@ -352,6 +381,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Concrete implementation for memberdef elements within compound documentation.
 
 
 </td></tr>
@@ -362,6 +392,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Concrete implementation for member reference elements within documentation.
 
 
 </td></tr>
@@ -372,6 +403,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Concrete implementation for parameter elements within function documentation.
 
 
 </td></tr>
@@ -382,6 +414,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Data model for programlisting XML elements containing source code.
 
 
 </td></tr>
@@ -392,6 +425,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Data model for reference relationship elements.
 
 
 </td></tr>
@@ -402,6 +436,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Data model for referenced-by relationship elements.
 
 
 </td></tr>
@@ -412,6 +447,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Data model for reimplement relationship elements.
 
 
 </td></tr>
@@ -422,6 +458,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Concrete data model for section definition elements.
 
 
 </td></tr>
@@ -432,6 +469,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Concrete data model class for table of contents elements.
 
 
 </td></tr>
@@ -442,6 +480,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Concrete data model class for template parameter list elements.
 
 
 </td></tr>
@@ -452,6 +491,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Concrete data model class for table of contents section elements.
 
 
 </td></tr>
@@ -462,6 +502,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Data model for type constraint elements within documentation content.
 
 
 </td></tr>
@@ -472,6 +513,7 @@ The DoxygenXmlParser class is responsible for parsing Doxygen-generated XML file
 
 </td><td>
 
+Data model for type elements within documentation content.
 
 
 </td></tr>
@@ -497,6 +539,7 @@ Description
 
 </td><td>
 
+Abstract base class for code line elements with syntax highlighting support.
 
 
 </td></tr>
@@ -507,6 +550,7 @@ Description
 
 </td><td>
 
+Abstract base class for Doxygen compound definition data models.
 
 
 </td></tr>
@@ -517,6 +561,7 @@ Description
 
 </td><td>
 
+Abstract base class for compound reference data models.
 
 
 </td></tr>
@@ -527,6 +572,7 @@ Description
 
 </td><td>
 
+Abstract base class for all data model elements in the Doxygen XML layer.
 
 
 </td></tr>
@@ -537,6 +583,7 @@ Description
 
 </td><td>
 
+Abstract base class for Doxygen description elements containing mixed content.
 
 
 </td></tr>
@@ -547,6 +594,7 @@ Description
 
 </td><td>
 
+Abstract base class for image elements within documentation content.
 
 
 </td></tr>
@@ -557,6 +605,7 @@ Description
 
 </td><td>
 
+Abstract base class for Doxygen file option type data models.
 
 
 </td></tr>
@@ -567,6 +616,7 @@ Description
 
 </td><td>
 
+Abstract base class for Doxygen file type data models.
 
 
 </td></tr>
@@ -577,6 +627,7 @@ Description
 
 </td><td>
 
+Abstract base class for enumeration value data models.
 
 
 </td></tr>
@@ -587,6 +638,7 @@ Description
 
 </td><td>
 
+Abstract base class for syntax highlighting elements within code listings.
 
 
 </td></tr>
@@ -597,6 +649,7 @@ Description
 
 </td><td>
 
+Abstract base class for include-type elements within documentation.
 
 
 </td></tr>
@@ -607,6 +660,7 @@ Description
 
 </td><td>
 
+Abstract base class for index compound type data models.
 
 
 </td></tr>
@@ -617,6 +671,7 @@ Description
 
 </td><td>
 
+Abstract base class for Doxygen index type data models.
 
 
 </td></tr>
@@ -627,6 +682,7 @@ Description
 
 </td><td>
 
+Abstract base class for index member type data models.
 
 
 </td></tr>
@@ -637,6 +693,7 @@ Description
 
 </td><td>
 
+Abstract base class for linked text elements within documentation content.
 
 
 </td></tr>
@@ -647,6 +704,7 @@ Description
 
 </td><td>
 
+Abstract base class for processing listing-type XML elements with parsing logic.
 
 
 </td></tr>
@@ -657,6 +715,7 @@ Description
 
 </td><td>
 
+Abstract base class providing properties for listing-type XML elements.
 
 
 </td></tr>
@@ -667,6 +726,7 @@ Description
 
 </td><td>
 
+Abstract base class for list-of-all-members elements within documentation.
 
 
 </td></tr>
@@ -677,6 +737,7 @@ Description
 
 </td><td>
 
+Abstract base class for location information data models.
 
 
 </td></tr>
@@ -687,6 +748,7 @@ Description
 
 </td><td>
 
+Abstract base class for member-related data models within documentation.
 
 
 </td></tr>
@@ -697,6 +759,7 @@ Description
 
 </td><td>
 
+Abstract base class for comprehensive member definition data models.
 
 
 </td></tr>
@@ -707,6 +770,7 @@ Description
 
 </td><td>
 
+Abstract base class for member reference data models within documentation.
 
 
 </td></tr>
@@ -717,6 +781,7 @@ Description
 
 </td><td>
 
+Abstract base class for member type data models within documentation.
 
 
 </td></tr>
@@ -727,6 +792,7 @@ Description
 
 </td><td>
 
+Abstract base class for parameter data models within documentation.
 
 
 </td></tr>
@@ -737,6 +803,7 @@ Description
 
 </td><td>
 
+Abstract base class for reference type data models.
 
 
 </td></tr>
@@ -747,6 +814,7 @@ Description
 
 </td><td>
 
+Abstract base class for reference type data models.
 
 
 </td></tr>
@@ -757,6 +825,7 @@ Description
 
 </td><td>
 
+Abstract base class for reimplement type data models.
 
 
 </td></tr>
@@ -767,6 +836,7 @@ Description
 
 </td><td>
 
+Abstract class for XML-parsed section definition types.
 
 
 </td></tr>
@@ -777,6 +847,7 @@ Description
 
 </td><td>
 
+Abstract base class for section definition type data models.
 
 
 </td></tr>
@@ -787,6 +858,7 @@ Description
 
 </td><td>
 
+Abstract base class for table of contents kind type data models.
 
 
 </td></tr>
@@ -797,6 +869,7 @@ Description
 
 </td><td>
 
+Abstract base class for table of contents type data models.
 
 
 </td></tr>
@@ -807,6 +880,7 @@ Description
 
 </td><td>
 
+Abstract base class for template parameter list type data models.
 
 
 </td></tr>
@@ -858,6 +932,7 @@ Description
 
 </td><td>
 
+Represents a generic XML element in the parsed structure.
 
 
 </td></tr>
@@ -883,7 +958,7 @@ Description
 
 </td><td>
 
-Options, as written by the user. All are optional.
+Configuration options as specified by users in configuration files.
 
 
 </td></tr>
@@ -894,6 +969,8 @@ Options, as written by the user. All are optional.
 
 </td><td>
 
+Command line argument options passed to the application.
+
 
 </td></tr>
 <tr><td>
@@ -903,7 +980,7 @@ Options, as written by the user. All are optional.
 
 </td><td>
 
-Options, when multi-configurations are used.
+Multiple configuration sets for different build scenarios.
 
 
 </td></tr>

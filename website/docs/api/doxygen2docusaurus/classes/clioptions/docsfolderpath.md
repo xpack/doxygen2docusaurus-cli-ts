@@ -14,13 +14,18 @@ custom_edit_url: null
 
 
 
-Relative to the current website folder, like `docs`<!-- -->, no initial/final slashes.
+Path to the documentation folder relative to the website folder.
 
 ## Signature
 
 ```typescript
 docsFolderPath: string;
 ```
+
+## Remarks
+
+Defines the base folder where generated documentation will be placed within the Docusaurus website structure. Path should not include initial or final slashes.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

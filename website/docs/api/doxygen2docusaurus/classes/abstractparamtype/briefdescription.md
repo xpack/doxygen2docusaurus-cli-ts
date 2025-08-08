@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Brief description documentation for the parameter.
+
 ## Signature
 
 ```typescript
 briefdescription?: BriefDescriptionDataModel | undefined;
 ```
+
+## Remarks
+
+Provides concise parameter documentation including purpose, usage notes, and essential parameter information. This description enhances parameter understanding within function documentation and API reference materials.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

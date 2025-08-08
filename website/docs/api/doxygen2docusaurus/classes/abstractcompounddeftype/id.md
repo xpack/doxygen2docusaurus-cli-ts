@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Unique identifier for the compound.
+
 ## Signature
 
 ```typescript
 id: string;
 ```
+
+## Remarks
+
+Contains the unique ID assigned to this compound by Doxygen for cross-referencing and linking purposes. This identifier is mandatory and serves as the primary key for compound identification throughout the documentation system.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

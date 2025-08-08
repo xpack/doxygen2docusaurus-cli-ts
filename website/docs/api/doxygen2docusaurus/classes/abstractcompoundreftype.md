@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Abstract base class for compound reference data models.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare abstract class AbstractCompoundRefType extends AbstractDataModelBase
 ```
 **Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+
+## Remarks
+
+Represents references to other compound entities in Doxygen XML output, including inheritance relationships and cross-references. This class handles the 'compoundRefType' XML schema structure with text content and attributes for protection level, virtual specification, and optional reference identifiers.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractCompoundRefType` class
+Constructs a new compound reference data model instance.
 
 
 </td></tr>
@@ -94,6 +99,8 @@ string
 
 </td><td>
 
+Protection level of the compound reference.
+
 
 </td></tr>
 <tr><td>
@@ -111,7 +118,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Optional reference identifier for cross-linking.
 
 
 </td></tr>
@@ -130,6 +137,8 @@ string
 
 </td><td>
 
+The name or identifier text of the referenced compound.
+
 
 </td></tr>
 <tr><td>
@@ -146,6 +155,8 @@ string
 
 
 </td><td>
+
+Virtual specification of the compound reference.
 
 
 </td></tr>

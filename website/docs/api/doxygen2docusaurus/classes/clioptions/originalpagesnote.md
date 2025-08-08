@@ -14,15 +14,18 @@ custom_edit_url: null
 
 
 
-Location of original Doxygen pages
-
-'For comparison, the original Doxygen html pages, styled with the <a href="https://jothepro.github.io/doxygen-awesome-css/">doxygen-awesome-css</a> plugin, continue to be available via the <a href="pathname:///doxygen/topics.html"><code>.../doxygen/\*.html</b></code> URLs.'
+Note about the location of original Doxygen pages.
 
 ## Signature
 
 ```typescript
 originalPagesNote: string;
 ```
+
+## Remarks
+
+Provides information about where to find the original Doxygen HTML pages for comparison purposes. When populated, this note is displayed to inform users about the availability of alternative documentation formats.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

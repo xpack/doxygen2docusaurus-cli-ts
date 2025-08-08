@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Abstract base class for index compound type data models.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare abstract class AbstractIndexCompoundType extends AbstractDataModelBase
 ```
 **Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+
+## Remarks
+
+Represents compound elements found within Doxygen index XML structures, corresponding to the CompoundType complex type in the XML schema. This class handles the parsing of compound names, member collections, and mandatory attributes (refid and kind). All concrete compound data model classes should extend this abstract base to ensure consistent parsing and data representation.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractIndexCompoundType` class
+Constructs a new AbstractIndexCompoundType instance from XML data.
 
 
 </td></tr>
@@ -94,6 +99,8 @@ string
 
 </td><td>
 
+The kind classification of this compound.
+
 
 </td></tr>
 <tr><td>
@@ -110,6 +117,8 @@ string
 
 
 </td><td>
+
+Collection of member data models associated with this compound.
 
 
 </td></tr>
@@ -128,6 +137,8 @@ string
 
 </td><td>
 
+The name of the compound element.
+
 
 </td></tr>
 <tr><td>
@@ -144,6 +155,8 @@ string
 
 
 </td><td>
+
+The unique reference identifier for this compound.
 
 
 </td></tr>

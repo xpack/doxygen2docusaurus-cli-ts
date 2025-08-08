@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The textual content representing the file path or name being included.
+
 ## Signature
 
 ```typescript
 text: string;
 ```
+
+## Remarks
+
+Contains the file path or filename as specified in the include directive. This text content represents the actual filename that appears within the include statement in the source code, providing the reference to the included file within the documentation structure.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Data model for inner group reference elements.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare class InnerGroupDataModel extends AbstractRefType
 ```
 **Extends:** [AbstractRefType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreftype)
+
+## Remarks
+
+Represents a reference to an inner group within Doxygen XML documentation, corresponding to the innergroup XML element. This class manages references to groups that are contained within the current documentation context, providing linking and navigation capabilities to detailed group documentation. Inner groups typically represent logical collections or modules of related functionality that are organised within the current documentation scope.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `InnerGroupDataModel` class
+Constructs a new inner group reference data model from XML.
 
 
 </td></tr>

@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Concrete data model class for template parameter list elements.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare class TemplateParamListDataModel extends AbstractTemplateParamListType
 ```
 **Extends:** [AbstractTemplateParamListType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstracttemplateparamlisttype)
+
+## Remarks
+
+Represents individual template parameter list elements found within Doxygen compound XML structures. This class extends the abstract base to provide specific handling for 'templateparamlist' elements, which define the template parameters for templated constructs such as template classes, template functions, and template variables. Each template parameter list contains parameter definitions that specify the generic types and values used in template instantiation.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `TemplateParamListDataModel` class
+Constructs a new TemplateParamListDataModel instance from XML data.
 
 
 </td></tr>

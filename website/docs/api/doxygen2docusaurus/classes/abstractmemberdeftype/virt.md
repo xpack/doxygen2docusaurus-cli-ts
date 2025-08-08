@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Virtual specification for the member.
+
 ## Signature
 
 ```typescript
 virt?: string | undefined;
 ```
+
+## Remarks
+
+String indicating the virtual nature of the member using DoxVirtualKind values ('non-virtual', 'virtual', 'pure-virtual'). This determines the member's behaviour in inheritance hierarchies and polymorphism.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

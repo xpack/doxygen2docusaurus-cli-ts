@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `AbstractListOfAllMembersType` class
+Constructs a new list-of-all-members data model instance.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The XML parser instance for processing elements
+
 
 </td></tr>
 <tr><td>
@@ -65,6 +67,8 @@ object
 
 
 </td><td>
+
+The source XML element containing list-of-all-members data
 
 
 </td></tr>
@@ -80,9 +84,15 @@ string
 
 </td><td>
 
+The name of the XML element being processed
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Processes the XML element to extract and organise member reference information, creating appropriate data model instances for each member entry found within the comprehensive member listing. The constructor validates the element structure and ensures all member references are properly instantiated.
 
 <hr/>
 

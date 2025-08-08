@@ -14,13 +14,18 @@ custom_edit_url: null
 
 
 
-The XML parser instance configured for Doxygen XML.
+The XML parser instance configured specifically for Doxygen XML format.
 
 ## Signature
 
 ```typescript
 xmlParser: XMLParser;
 ```
+
+## Remarks
+
+Configured with settings that preserve element order, remove namespace prefixes, and maintain fidelity to the original XML structure for accurate data model construction.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

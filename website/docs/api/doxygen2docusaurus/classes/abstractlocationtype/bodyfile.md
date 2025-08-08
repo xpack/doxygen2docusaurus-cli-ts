@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The file path containing the implementation body.
+
 ## Signature
 
 ```typescript
 bodyfile?: string | undefined;
 ```
+
+## Remarks
+
+File path where the function or method body is implemented, separate from the declaration when they differ. This is particularly relevant for languages that support separate declaration and implementation files, enabling precise navigation to implementation code.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Include file references for this compound.
+
 ## Signature
 
 ```typescript
 includes?: IncludesDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains information about header files or modules that this compound includes or depends upon. This property captures dependency relationships extracted from 'includes' XML elements, providing visibility into the file inclusion structure.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

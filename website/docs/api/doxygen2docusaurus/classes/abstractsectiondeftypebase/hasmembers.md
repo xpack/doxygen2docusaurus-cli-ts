@@ -14,6 +14,8 @@ custom_edit_url: null
 
 
 
+Determines whether this section contains any member information.
+
 ## Signature
 
 ```typescript
@@ -22,6 +24,12 @@ hasMembers(): boolean;
 ## Returns
 
 boolean
+
+True if the section has member definitions or member references
+
+## Remarks
+
+Utility method that checks for the presence of either member definitions or member references within this section. This is useful for determining whether the section requires member processing or can be treated as documentation-only content.
 
 <hr/>
 

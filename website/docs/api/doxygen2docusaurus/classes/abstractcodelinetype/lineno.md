@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Optional line number for the code line.
+
 ## Signature
 
 ```typescript
 lineno?: number | undefined;
 ```
+
+## Remarks
+
+Specifies the line number of this code line within the source file. This attribute enables line-based navigation and referencing within the documentation system.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

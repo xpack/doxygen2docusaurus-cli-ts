@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The line number of the declaration within the declaration file.
+
 ## Signature
 
 ```typescript
 declline?: number | undefined;
 ```
+
+## Remarks
+
+Line number where the declaration appears, separate from the implementation location when they differ. This provides precise positioning within the declaration file for accurate source navigation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

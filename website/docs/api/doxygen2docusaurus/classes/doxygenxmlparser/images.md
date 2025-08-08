@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Collection of image references extracted during XML parsing.
+
 ## Signature
 
 ```typescript
 images: AbstractDocImageType[];
 ```
+
+## Remarks
+
+Accumulates image elements found in the documentation content, allowing for centralised image processing and reference management.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

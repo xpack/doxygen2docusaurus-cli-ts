@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Abstract class for XML-parsed section definition types.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare abstract class AbstractSectionDefType extends AbstractSectionDefTypeBase
 ```
 **Extends:** [AbstractSectionDefTypeBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractsectiondeftypebase)
+
+## Remarks
+
+Extends the base section definition type to provide XML parsing capabilities for constructing section definition data models from Doxygen XML elements. This class handles the complete parsing process including attributes, inner elements, headers, descriptions, and member collections. All concrete section definition implementations that require XML parsing should extend this class to benefit from the standardised parsing infrastructure.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractSectionDefType` class
+Constructs a new abstract section definition type from XML data.
 
 
 </td></tr>

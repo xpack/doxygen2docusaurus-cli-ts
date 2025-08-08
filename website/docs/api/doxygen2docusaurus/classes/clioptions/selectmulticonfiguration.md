@@ -14,6 +14,8 @@ custom_edit_url: null
 
 
 
+Selects the appropriate configuration from multi-configuration options.
+
 ## Signature
 
 ```typescript
@@ -50,6 +52,8 @@ multiConfigurations
 
 </td><td>
 
+Configuration object or multi-config map
+
 
 </td></tr>
 </tbody></table>
@@ -57,6 +61,12 @@ multiConfigurations
 ## Returns
 
 [CliConfigurationOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/typealiases/cliconfigurationoptions) \| undefined
+
+Selected configuration options or undefined if not found
+
+## Remarks
+
+When using a specific ID, returns the corresponding configuration. For the default ID, returns either the 'default' configuration or treats the entire object as a single configuration.
 
 <hr/>
 

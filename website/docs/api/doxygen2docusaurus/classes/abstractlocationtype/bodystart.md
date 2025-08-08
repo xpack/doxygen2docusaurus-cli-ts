@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The starting line number of the implementation body.
+
 ## Signature
 
 ```typescript
 bodystart?: number | undefined;
 ```
+
+## Remarks
+
+Line number where the implementation body begins, providing the starting boundary for locating function or method implementations. This is useful for identifying the complete scope of implementation code.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

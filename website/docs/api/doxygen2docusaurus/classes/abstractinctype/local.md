@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Indicates whether the include uses local or system include syntax.
+
 ## Signature
 
 ```typescript
 local: boolean;
 ```
+
+## Remarks
+
+Determines the include syntax style: when true, indicates a local include using quotation marks ("filename"), when false, indicates a system include using angle brackets (<filename>). This distinction affects how the preprocessor searches for the included file.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

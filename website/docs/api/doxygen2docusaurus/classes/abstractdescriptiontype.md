@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Abstract base class for Doxygen description elements containing mixed content.
 
 ## Signature
 
@@ -21,6 +22,12 @@ custom_edit_url: null
 export declare abstract class AbstractDescriptionType extends AbstractDataModelBase
 ```
 **Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+
+## Remarks
+
+Implements the XML Schema definition for descriptionType elements, which support mixed content (character data between child elements). This class handles the complex structure of documentation descriptions including titles, paragraphs, internal sections, and hierarchical section elements.
+
+The implementation processes the sequence of optional title elements followed by various documentation components such as paragraphs, internal documentation, and nested section structures up to level 1.
 
 ## Constructors
 
@@ -50,7 +57,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractDescriptionType` class
+Constructs an AbstractDescriptionType instance from XML element data.
 
 
 </td></tr>
@@ -94,7 +101,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Optional title element for the description.
 
 
 </td></tr>

@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The name of the referenced entity.
+
 ## Signature
 
 ```typescript
 text: string;
 ```
+
+## Remarks
+
+Mandatory element containing the textual name of the referenced entity, passed as the element's text content. This name provides human-readable identification of the referenced item and is used for display and navigation purposes within the generated documentation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Inner file references contained within this compound.
+
 ## Signature
 
 ```typescript
 innerFiles?: InnerFileDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to files that are logically contained within this compound. This property captures file relationships extracted from 'innerfile' XML elements, providing visibility into compound-to-file associations in the documentation structure.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

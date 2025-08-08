@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Base compound references for inheritance relationships.
+
 ## Signature
 
 ```typescript
 baseCompoundRefs?: BaseCompoundRefDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to base classes or parent compounds from which this compound inherits. This property captures the inheritance hierarchy information extracted from 'basecompoundref' XML elements for object-oriented documentation structures.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

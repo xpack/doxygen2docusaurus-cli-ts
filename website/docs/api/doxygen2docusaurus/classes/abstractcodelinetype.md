@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Abstract base class for code line elements with syntax highlighting support.
 
 ## Signature
 
@@ -21,6 +22,12 @@ custom_edit_url: null
 export declare abstract class AbstractCodeLineType extends AbstractDataModelBase
 ```
 **Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+
+## Remarks
+
+Implements the XML Schema definition for codelineType elements, which represent individual lines of source code within program listings. Each code line may contain syntax highlighting information, line numbers, cross-references to documentation elements, and external link indicators.
+
+All attributes are optional according to the schema, allowing for flexible representation of code content ranging from simple text lines to fully annotated source code with comprehensive metadata.
 
 ## Constructors
 
@@ -50,7 +57,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractCodeLineType` class
+Constructs an AbstractCodeLineType instance from XML element data.
 
 
 </td></tr>
@@ -94,7 +101,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Optional flag indicating external reference status.
 
 
 </td></tr>
@@ -113,7 +120,7 @@ _(Optional)_
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Array of syntax highlighting elements within the code line.
 
 
 </td></tr>
@@ -132,7 +139,7 @@ number \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Optional line number for the code line.
 
 
 </td></tr>
@@ -151,7 +158,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Optional reference identifier for cross-linking.
 
 
 </td></tr>
@@ -170,7 +177,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Optional reference kind classification.
 
 
 </td></tr>

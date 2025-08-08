@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `AbstractSectionDefType` class
+Constructs a new abstract section definition type from XML data.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance
+
 
 </td></tr>
 <tr><td>
@@ -65,6 +67,8 @@ object
 
 
 </td><td>
+
+The XML element containing section definition data
 
 
 </td></tr>
@@ -80,9 +84,15 @@ string
 
 </td><td>
 
+The expected XML element name
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Parses the provided XML element to construct a complete section definition data model. The parsing process handles all defined inner elements including headers, descriptions, member definitions, and member references, as well as the mandatory kind attribute. Validation ensures that required elements and attributes are present and conform to the expected XML schema structure.
 
 <hr/>
 

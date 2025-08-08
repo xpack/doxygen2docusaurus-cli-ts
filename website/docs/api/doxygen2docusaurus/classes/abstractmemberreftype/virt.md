@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The virtual inheritance classification of the referenced member.
+
 ## Signature
 
 ```typescript
 virt: string;
 ```
+
+## Remarks
+
+Indicates the virtual nature such as 'virtual', 'pure-virtual', or 'non-virtual' based on Doxygen's DoxVirtualKind enumeration. This classification is essential for understanding inheritance relationships and member override behaviour within class hierarchies.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

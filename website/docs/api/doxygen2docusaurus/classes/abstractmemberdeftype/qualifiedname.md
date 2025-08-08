@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The fully qualified name of the member element.
+
 ## Signature
 
 ```typescript
 qualifiedName?: string | undefined;
 ```
+
+## Remarks
+
+Provides the complete qualified name including namespace and class prefixes, enabling unambiguous identification of the member within the entire codebase context.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

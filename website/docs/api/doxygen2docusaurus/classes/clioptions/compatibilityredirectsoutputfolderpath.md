@@ -14,13 +14,18 @@ custom_edit_url: null
 
 
 
-Relative to the current `website/static` folder, like `reference`<!-- -->.
+Output folder for compatibility redirect files.
 
 ## Signature
 
 ```typescript
 compatibilityRedirectsOutputFolderPath?: string | undefined;
 ```
+
+## Remarks
+
+Optional path relative to the website/static folder where HTML redirect files will be generated to maintain compatibility with original Doxygen URLs. When undefined, no redirect files are created.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

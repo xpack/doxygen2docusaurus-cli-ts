@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The protection level of the member element.
+
 ## Signature
 
 ```typescript
 prot: string;
 ```
+
+## Remarks
+
+Specifies the access protection level (public, protected, private) for the member, determining its visibility and accessibility within the containing class or namespace scope.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

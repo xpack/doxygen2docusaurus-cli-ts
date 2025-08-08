@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Optional initialiser expression for the enumeration value.
+
 ## Signature
 
 ```typescript
 initializer?: InitializerDataModel | undefined;
 ```
+
+## Remarks
+
+Contains the explicit value assignment expression when the enumeration value is explicitly initialised in the source code.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

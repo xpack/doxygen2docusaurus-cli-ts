@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Data model for default value elements within documentation content.
 
 ## Signature
 
@@ -21,6 +22,12 @@ custom_edit_url: null
 export declare class DefValDataModel extends AbstractLinkedTextType
 ```
 **Extends:** [AbstractLinkedTextType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlinkedtexttype)
+
+## Remarks
+
+Represents default value elements that contain parameter default values within function and method documentation. This implementation processes Doxygen's defval elements, which contain mixed text and reference content describing the default values assigned to function parameters when no explicit value is provided during function calls.
+
+The linked text structure enables cross-references to constants, enums, and other symbols used within default value expressions.
 
 ## Constructors
 
@@ -50,7 +57,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `DefValDataModel` class
+Constructs a DefValDataModel from XML element data.
 
 
 </td></tr>

@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Inner class references contained within this compound.
+
 ## Signature
 
 ```typescript
 innerClasses?: InnerClassDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to classes, structures, or other class-like entities that are defined within this compound. This property captures nested type relationships extracted from 'innerclass' XML elements, supporting hierarchical type documentation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

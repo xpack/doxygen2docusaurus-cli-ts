@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The containing scope for the referenced member element.
+
 ## Signature
 
 ```typescript
 scope: string;
 ```
+
+## Remarks
+
+Specifies the namespace, class, or other containing context that houses the referenced member. This scope information provides the qualified context necessary for proper member identification and disambiguation within the documentation hierarchy.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

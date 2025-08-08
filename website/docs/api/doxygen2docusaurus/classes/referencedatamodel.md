@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Data model for reference relationship elements.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare class ReferenceDataModel extends AbstractReferenceType
 ```
 **Extends:** [AbstractReferenceType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreferencetype)
+
+## Remarks
+
+Represents a forward reference relationship within Doxygen XML documentation, corresponding to the references XML element. This class manages relationships where the current entity references or depends upon another documented entity. The relationship captures both the descriptive information and precise location data, enabling comprehensive dependency tracking and navigation capabilities. Forward references help document how entities use or depend on other components within the codebase.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `ReferenceDataModel` class
+Constructs a new reference relationship data model from XML.
 
 
 </td></tr>

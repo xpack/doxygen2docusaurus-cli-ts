@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Abstract base class for reference type data models.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare abstract class AbstractRefType extends AbstractDataModelBase
 ```
 **Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+
+## Remarks
+
+Represents the foundational structure for reference elements within Doxygen XML documentation, corresponding to the refType complex type in the XML schema. This class manages references to various documented entities such as classes, namespaces, files, folders, modules, pages, and groups. Each reference includes the entity name, a unique identifier for linking, and optional protection and inline attributes. All concrete reference implementations should extend this base to ensure consistent structure and parsing behaviour across different reference types.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractRefType` class
+Constructs a new abstract reference type from XML data.
 
 
 </td></tr>
@@ -94,7 +99,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Indicates whether the referenced entity is inline.
 
 
 </td></tr>
@@ -113,7 +118,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ The protection level of the referenced entity.
 
 
 </td></tr>
@@ -132,6 +137,8 @@ string
 
 </td><td>
 
+The unique reference identifier for the referenced entity.
+
 
 </td></tr>
 <tr><td>
@@ -148,6 +155,8 @@ string
 
 
 </td><td>
+
+The name of the referenced entity.
 
 
 </td></tr>

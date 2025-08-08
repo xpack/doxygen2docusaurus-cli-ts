@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The language specification for the documentation content.
+
 ## Signature
 
 ```typescript
 lang: string;
 ```
+
+## Remarks
+
+Mandatory attribute corresponding to the xml:lang attribute in the XML structure. Specifies the primary language used in the documented content for internationalisation purposes.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

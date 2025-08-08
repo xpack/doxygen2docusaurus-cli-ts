@@ -14,13 +14,18 @@ custom_edit_url: null
 
 
 
-The title to be displayed on the main page.
+Title displayed on the main API documentation page.
 
 ## Signature
 
 ```typescript
 mainPageTitle: string;
 ```
+
+## Remarks
+
+When specified, this title overrides the default title generated from the project brief. When empty, the title is automatically constructed from the project configuration.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

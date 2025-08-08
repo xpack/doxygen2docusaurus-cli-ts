@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Abstract base class for include-type elements within documentation.
 
 ## Signature
 
@@ -21,6 +22,12 @@ custom_edit_url: null
 export declare abstract class AbstractIncType extends AbstractDataModelBase
 ```
 **Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+
+## Remarks
+
+Implements processing for include-type elements that represent file inclusion relationships within source code documentation. This class handles the XML Schema definition for incType elements, which contain textual content representing file paths or names along with attributes that specify inclusion behaviour and reference relationships.
+
+The implementation processes both local and system includes, distinguishing between quoted includes ("filename") and angle-bracket includes (<filename>) through the local attribute. Optional reference identifiers enable cross-referencing to the included file's documentation.
 
 ## Constructors
 
@@ -50,7 +57,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractIncType` class
+Constructs an AbstractIncType instance from XML element data.
 
 
 </td></tr>
@@ -94,6 +101,8 @@ boolean
 
 </td><td>
 
+Indicates whether the include uses local or system include syntax.
+
 
 </td></tr>
 <tr><td>
@@ -111,7 +120,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Optional reference identifier for cross-linking to the included file.
 
 
 </td></tr>
@@ -129,6 +138,8 @@ string
 
 
 </td><td>
+
+The textual content representing the file path or name being included.
 
 
 </td></tr>

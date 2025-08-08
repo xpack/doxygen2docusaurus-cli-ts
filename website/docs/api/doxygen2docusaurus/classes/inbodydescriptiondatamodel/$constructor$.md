@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `InbodyDescriptionDataModel` class
+Constructs an InbodyDescriptionDataModel from XML element data.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML content
+
 
 </td></tr>
 <tr><td>
@@ -66,9 +68,15 @@ object
 
 </td><td>
 
+The XML element object containing the in-body description data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+This constructor delegates to the parent AbstractDescriptionType whilst identifying the element as 'inbodydescription' for inline documentation content processing within code implementations.
 
 <hr/>
 

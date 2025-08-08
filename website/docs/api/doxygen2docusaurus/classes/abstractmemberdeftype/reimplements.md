@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+List of reimplemented member references.
+
 ## Signature
 
 ```typescript
 reimplements?: ReimplementDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains references to members that this member reimplements or overrides from base classes. This property captures inheritance relationships where the current member provides a new implementation of a virtual method from a parent class.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

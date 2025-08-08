@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Indicates whether the member is declared as mutable.
+
 ## Signature
 
 ```typescript
 mutable?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member can be modified even in const objects. This is typically used for caching, lazy evaluation, or other implementation details that don't affect the logical state.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

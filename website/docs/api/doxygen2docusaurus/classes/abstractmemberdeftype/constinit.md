@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Indicates whether the member is declared as constinit.
+
 ## Signature
 
 ```typescript
 constinit?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member must be initialized with a constant expression during static initialization. This C++20 feature helps prevent initialization order issues.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

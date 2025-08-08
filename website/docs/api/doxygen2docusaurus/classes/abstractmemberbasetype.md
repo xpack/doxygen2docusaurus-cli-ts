@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Abstract base class for member-related data models within documentation.
 
 ## Signature
 
@@ -21,6 +22,12 @@ custom_edit_url: null
 export declare abstract class AbstractMemberBaseType extends AbstractDataModelBase
 ```
 **Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+
+## Remarks
+
+Provides foundational functionality for all member-related elements within the Doxygen documentation system. This class establishes the basic structure for member identification and classification, serving as the foundation for more specific member definition processing.
+
+The class maintains essential member information including name and kind identification, which are fundamental properties required by all member types within the documentation hierarchy.
 
 ## Properties
 
@@ -60,6 +67,8 @@ string
 
 </td><td>
 
+The kind classification of the member element.
+
 
 </td></tr>
 <tr><td>
@@ -76,6 +85,8 @@ string
 
 
 </td><td>
+
+The name of the member element.
 
 
 </td></tr>

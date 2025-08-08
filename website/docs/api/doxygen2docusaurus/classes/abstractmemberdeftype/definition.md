@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The complete definition string for the member.
+
 ## Signature
 
 ```typescript
 definition?: string | undefined;
 ```
+
+## Remarks
+
+Contains the full member definition as it appears in the source code, including type information, qualifiers, and parameter lists. This provides the complete syntactic representation of the member.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

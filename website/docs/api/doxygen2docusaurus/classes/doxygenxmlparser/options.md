@@ -14,13 +14,18 @@ custom_edit_url: null
 
 
 
-The global configuration options.
+The global configuration options for the parsing operation.
 
 ## Signature
 
 ```typescript
 options: CliOptions;
 ```
+
+## Remarks
+
+Contains the command-line interface options that control the behaviour of the parser throughout the XML processing workflow.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

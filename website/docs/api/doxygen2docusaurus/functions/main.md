@@ -64,6 +64,10 @@ Promise&lt;number&gt;
 
 Promise that resolves to the exit code (0 for success, 1 for error)
 
+## Remarks
+
+Orchestrates the complete conversion process from Doxygen XML to Docusaurus documentation. Handles command-line argument parsing, configuration loading, data model creation, workspace initialisation, and documentation generation. Provides timing information and appropriate exit codes for integration.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

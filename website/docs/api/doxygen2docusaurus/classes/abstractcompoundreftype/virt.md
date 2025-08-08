@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Virtual specification of the compound reference.
+
 ## Signature
 
 ```typescript
 virt: string;
 ```
+
+## Remarks
+
+Specifies the virtual nature using DoxVirtualKind enumeration values ('non-virtual', 'virtual', 'pure-virtual'). This mandatory attribute indicates whether the compound reference involves virtual inheritance or virtual methods in object-oriented programming contexts.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

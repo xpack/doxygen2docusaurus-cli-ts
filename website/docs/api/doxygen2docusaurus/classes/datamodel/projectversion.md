@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The project version string extracted from the documentation metadata.
+
 ## Signature
 
 ```typescript
 projectVersion?: string;
 ```
+
+## Remarks
+
+Optional version identifier for the documented project, typically derived from the Doxygen configuration or project metadata during parsing.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

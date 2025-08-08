@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `AbstractEnumValueType` class
+Creates a new enumeration value data model.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The XML parser instance
+
 
 </td></tr>
 <tr><td>
@@ -65,6 +67,8 @@ object
 
 
 </td><td>
+
+The XML element to parse
 
 
 </td></tr>
@@ -80,9 +84,15 @@ string
 
 </td><td>
 
+The name of the XML element
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Parses the XML element representing an enumeration value and extracts all relevant information including name, initialiser, descriptions, and attributes.
 
 <hr/>
 

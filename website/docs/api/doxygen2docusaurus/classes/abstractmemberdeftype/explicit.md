@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Indicates whether the member is declared as explicit.
+
 ## Signature
 
 ```typescript
 explicit?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that constructors or conversion operators are marked as explicit, preventing implicit conversions. This is particularly important for type safety in C++ class design.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

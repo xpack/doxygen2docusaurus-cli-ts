@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Abstract base class for Doxygen file option type data models.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare abstract class AbstractDoxygenFileOptionType extends AbstractDataModelBase
 ```
 **Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+
+## Remarks
+
+Represents configuration option elements within Doxyfile XML structures, corresponding to the OptionType complex type in the XML schema. This class handles the parsing of option values and mandatory attributes (id, default, and type). All concrete option data model classes should extend this abstract base to ensure consistent parsing and data representation of Doxygen configuration settings.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractDoxygenFileOptionType` class
+Constructs a new AbstractDoxygenFileOptionType instance from XML data.
 
 
 </td></tr>
@@ -94,6 +99,8 @@ string
 
 </td><td>
 
+The default value indicator for this configuration option.
+
 
 </td></tr>
 <tr><td>
@@ -110,6 +117,8 @@ string
 
 
 </td><td>
+
+The unique identifier for this configuration option.
 
 
 </td></tr>
@@ -128,6 +137,8 @@ string
 
 </td><td>
 
+The data type classification for this configuration option.
+
 
 </td></tr>
 <tr><td>
@@ -144,6 +155,8 @@ string\[\] \| undefined
 
 
 </td><td>
+
+Collection of value strings associated with this configuration option.
 
 
 </td></tr>

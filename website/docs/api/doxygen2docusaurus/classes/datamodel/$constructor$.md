@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `DataModel` class
+Constructs a new DataModel instance with the specified configuration options.
 
 ## Signature
 
@@ -52,9 +52,15 @@ options
 
 </td><td>
 
+The command-line interface options for controlling parsing behaviour
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Initialises the data model with the provided configuration options and creates a new DoxygenXmlParser instance for XML processing. The compound definitions array is initialised as empty and will be populated during the parsing phase.
 
 <hr/>
 

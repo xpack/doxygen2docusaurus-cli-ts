@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The XML schema location reference for validation.
+
 ## Signature
 
 ```typescript
 noNamespaceSchemaLocation?: string | undefined;
 ```
+
+## Remarks
+
+Optional attribute that specifies the location of the XML schema definition used for validating the structure of the Doxyfile XML. This provides schema validation capabilities for the parsed configuration content.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

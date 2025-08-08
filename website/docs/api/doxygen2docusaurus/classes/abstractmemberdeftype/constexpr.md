@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Indicates whether the member is declared as constexpr.
+
 ## Signature
 
 ```typescript
 constexpr?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member can be evaluated at compile time when given constant expressions as arguments. This C++11 feature enables compile-time computation and optimization.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `AbstractDoxygenFileOptionType` class
+Constructs a new AbstractDoxygenFileOptionType instance from XML data.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML elements
+
 
 </td></tr>
 <tr><td>
@@ -65,6 +67,8 @@ object
 
 
 </td><td>
+
+The XML element containing the option data
 
 
 </td></tr>
@@ -80,9 +84,15 @@ string
 
 </td><td>
 
+The name of the XML element being processed
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Parses the provided XML element to extract configuration option information including value collections and mandatory attributes (id, default, and type). The constructor validates that all required attributes are present and processes value elements into a string array when present. The parsing ensures compliance with the OptionType schema definition.
 
 <hr/>
 

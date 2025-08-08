@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Reverse include file references for this compound.
+
 ## Signature
 
 ```typescript
 includedBy?: IncludedByDataModel[] | undefined;
 ```
+
+## Remarks
+
+Contains information about other files or compounds that include this compound. This property captures reverse dependency relationships extracted from 'includedby' XML elements, showing which entities depend on this compound.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

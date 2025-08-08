@@ -14,13 +14,18 @@ custom_edit_url: null
 
 
 
-Boolean to control if the TODO suggestions are shown.
+Controls whether TODO suggestion descriptions are displayed.
 
 ## Signature
 
 ```typescript
 suggestToDoDescriptions: boolean;
 ```
+
+## Remarks
+
+When enabled, shows suggestions for improvements or missing content that could enhance the generated documentation quality.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

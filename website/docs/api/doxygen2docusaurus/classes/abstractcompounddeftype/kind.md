@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The kind or type of compound.
+
 ## Signature
 
 ```typescript
 kind: string;
 ```
+
+## Remarks
+
+Specifies the compound type using DoxCompoundKind enumeration values such as 'class', 'struct', 'file', 'namespace', 'page', etc. This mandatory attribute determines how the compound should be processed and displayed in the documentation output.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

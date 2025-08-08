@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Command line argument options passed to the application.
+
 ## Signature
 
 ```typescript
 export type CommandOptions = Record<string, string | boolean | undefined>;
 ```
+
+## Remarks
+
+Represents the parsed command line arguments with flexible typing to accommodate various option formats and undefined values.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

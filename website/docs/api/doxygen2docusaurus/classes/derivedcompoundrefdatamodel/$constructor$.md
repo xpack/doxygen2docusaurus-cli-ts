@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `DerivedCompoundRefDataModel` class
+Constructs a new DerivedCompoundRefDataModel instance.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The XML parser instance for processing elements
+
 
 </td></tr>
 <tr><td>
@@ -66,9 +68,15 @@ object
 
 </td><td>
 
+The XML element object to parse
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Creates a data model object for 'derivedcompoundref' XML elements, representing inheritance relationships where other compounds derive from the current compound as their base.
 
 <hr/>
 

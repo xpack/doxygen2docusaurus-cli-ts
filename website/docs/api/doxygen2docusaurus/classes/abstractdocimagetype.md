@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Abstract base class for image elements within documentation content.
 
 ## Signature
 
@@ -21,6 +22,12 @@ custom_edit_url: null
 export declare abstract class AbstractDocImageType extends AbstractDataModelBase
 ```
 **Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+
+## Remarks
+
+Represents image elements that can be embedded within documentation descriptions and content blocks. This implementation processes Doxygen's image elements, which support multiple output formats (HTML, LaTeX, DocBook, RTF, XML) and provide comprehensive image metadata including dimensions, captions, alternative text, and inline positioning.
+
+Image elements support mixed content with text and formatting commands, allowing for rich image descriptions and captions. The class tracks HTML images specifically for asset copying during documentation generation.
 
 ## Constructors
 
@@ -50,7 +57,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `AbstractDocImageType` class
+Constructs an AbstractDocImageType instance from XML element data.
 
 
 </td></tr>
@@ -94,7 +101,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Alternative text for accessibility and fallback purposes.
 
 
 </td></tr>
@@ -113,7 +120,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Caption text for the image.
 
 
 </td></tr>
@@ -132,7 +139,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Height specification for the image.
 
 
 </td></tr>
@@ -151,7 +158,7 @@ boolean \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Inline positioning flag for the image.
 
 
 </td></tr>
@@ -170,7 +177,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Name or path of the image file.
 
 
 </td></tr>
@@ -189,7 +196,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Output format type for the image.
 
 
 </td></tr>
@@ -208,7 +215,7 @@ string \| undefined
 
 </td><td>
 
-_(Optional)_
+_(Optional)_ Width specification for the image.
 
 
 </td></tr>

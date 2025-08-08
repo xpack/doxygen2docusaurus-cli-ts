@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Data model for inner folder reference elements.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare class InnerDirDataModel extends AbstractRefType
 ```
 **Extends:** [AbstractRefType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreftype)
+
+## Remarks
+
+Represents a reference to an inner folder within Doxygen XML documentation, corresponding to the innerdir XML element. This class manages references to folders that are contained within the current documentation context, providing linking and navigation capabilities to detailed folder documentation. Inner folders typically represent subdirectories within the project structure that contain related source files and documentation.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `InnerDirDataModel` class
+Constructs a new inner folder reference data model from XML.
 
 
 </td></tr>

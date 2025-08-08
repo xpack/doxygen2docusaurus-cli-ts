@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Indicates whether the member is declared as const.
+
 ## Signature
 
 ```typescript
 constt?: boolean | undefined;
 ```
+
+## Remarks
+
+Boolean flag indicating that the member is declared with the const qualifier, making it immutable after initialization. This affects the member's usage patterns and compiler optimizations.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

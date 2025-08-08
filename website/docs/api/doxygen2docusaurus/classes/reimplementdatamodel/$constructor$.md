@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `ReimplementDataModel` class
+Constructs a new reimplement relationship data model from XML.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance
+
 
 </td></tr>
 <tr><td>
@@ -66,9 +68,15 @@ object
 
 </td><td>
 
+The XML element containing reimplement relationship data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Creates a complete reimplement relationship data model by parsing the provided XML element. This constructor delegates to the parent class to handle all standard parsing operations for the reimplements element type, establishing the relationship between the current entity and the reimplemented base implementation.
 
 <hr/>
 

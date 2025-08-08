@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Template parameter list for templated compounds.
+
 ## Signature
 
 ```typescript
 templateParamList?: TemplateParamListDataModel | undefined;
 ```
+
+## Remarks
+
+Contains the template parameter definitions for templated classes, functions, or other templated entities. This property captures template information extracted from 'templateparamlist' XML elements, providing details about generic programming constructs.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

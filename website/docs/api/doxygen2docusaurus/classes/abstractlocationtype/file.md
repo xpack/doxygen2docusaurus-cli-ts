@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The source file path containing the primary declaration or definition.
+
 ## Signature
 
 ```typescript
 file: string;
 ```
+
+## Remarks
+
+File path as recorded by Doxygen, typically relative to the source tree root or absolute depending on configuration settings. This represents the primary file location where the documented element is defined.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

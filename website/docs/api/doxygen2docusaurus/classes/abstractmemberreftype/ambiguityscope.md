@@ -14,11 +14,20 @@ custom_edit_url: null
 
 
 
+The ambiguity resolution scope for member reference disambiguation.
+
 ## Signature
 
 ```typescript
 ambiguityscope?: string | undefined;
 ```
+
+## Remarks
+
+Provides optional scope information used to resolve ambiguous member references when multiple members with identical names exist within the documentation context. This field assists in ensuring accurate member identification when name conflicts occur.
+
+Note that this deviates from the XML Schema definition where it is marked as required, but in practice may be undefined for certain member references.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

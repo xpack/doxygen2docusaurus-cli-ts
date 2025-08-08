@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Optional reference kind classification.
+
 ## Signature
 
 ```typescript
 refkind?: string | undefined;
 ```
+
+## Remarks
+
+Specifies the type of reference represented by the refid attribute, such as compound, member, or other Doxygen reference kinds. This classification assists in determining the appropriate link target and display behaviour.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

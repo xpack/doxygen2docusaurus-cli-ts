@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Optional title for the compound.
+
 ## Signature
 
 ```typescript
 title?: string | undefined;
 ```
+
+## Remarks
+
+Provides a human-readable title for the compound that may differ from the compound name. This is typically used for pages and groups where a descriptive title is more appropriate than the technical identifier.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

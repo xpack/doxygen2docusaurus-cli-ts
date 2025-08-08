@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The name of the table of contents section.
+
 ## Signature
 
 ```typescript
 name: string;
 ```
+
+## Remarks
+
+Mandatory element extracted from the XML structure that provides the display name or title for this table of contents section. This name is used for navigation and presentation purposes.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

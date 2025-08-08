@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The argument string for function members.
+
 ## Signature
 
 ```typescript
 argsstring?: string | undefined;
 ```
+
+## Remarks
+
+Contains the parameter list specification for function-like members, including parameter types, names, and default values. This information is essential for understanding function signatures and usage.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

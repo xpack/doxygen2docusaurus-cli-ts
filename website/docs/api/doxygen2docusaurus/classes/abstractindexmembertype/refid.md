@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The reference identifier for the member.
+
 ## Signature
 
 ```typescript
 refid: string;
 ```
+
+## Remarks
+
+Mandatory attribute that provides a unique identifier for referencing this member within the Doxygen documentation structure. Used to link index entries to their detailed definitions.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The unique identifier for the member element.
+
 ## Signature
 
 ```typescript
 id: string;
 ```
+
+## Remarks
+
+Provides a unique identification string for the member within the documentation system. This identifier is used for cross-referencing and linking between different parts of the documentation.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

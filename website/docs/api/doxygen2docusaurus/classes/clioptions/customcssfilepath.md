@@ -14,13 +14,18 @@ custom_edit_url: null
 
 
 
-Relative to the current website folder, default `src/css/custom-doxygen.css`
+Path to the custom CSS file for styling overrides.
 
 ## Signature
 
 ```typescript
 customCssFilePath: string;
 ```
+
+## Remarks
+
+Specifies the location where custom CSS styles will be written to provide Doxygen-specific styling within the Docusaurus theme. Path is relative to the current website folder.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

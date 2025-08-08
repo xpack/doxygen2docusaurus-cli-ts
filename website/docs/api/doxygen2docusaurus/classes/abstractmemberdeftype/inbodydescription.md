@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+In-body description of the member.
+
 ## Signature
 
 ```typescript
 inbodyDescription?: InbodyDescriptionDataModel | undefined;
 ```
+
+## Remarks
+
+Contains documentation that appears within the member's implementation body, typically used for additional implementation notes or internal documentation that supplements the main member description.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

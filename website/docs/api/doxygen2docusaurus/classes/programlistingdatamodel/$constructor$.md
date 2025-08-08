@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `ProgramListingDataModel` class
+Constructs a ProgramListingDataModel from XML element data.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML content
+
 
 </td></tr>
 <tr><td>
@@ -66,9 +68,15 @@ object
 
 </td><td>
 
+The XML element object containing the programlisting data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+This constructor delegates to the parent AbstractListingType to handle the standard listing processing whilst specifically identifying the element as a 'programlisting' type for proper XML schema compliance.
 
 <hr/>
 

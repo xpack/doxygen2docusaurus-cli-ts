@@ -14,13 +14,18 @@ custom_edit_url: null
 
 
 
-Relative to the docs home, like `api`<!-- -->, without initial/final slashes.
+URL path to the API documentation relative to the docs section.
 
 ## Signature
 
 ```typescript
 apiBaseUrl: string;
 ```
+
+## Remarks
+
+Defines the URL segment for API documentation within the docs section, without initial or final slashes. Used for generating navigation links.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

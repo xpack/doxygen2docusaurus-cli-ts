@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Detailed description of the compound.
+
 ## Signature
 
 ```typescript
 detailedDescription?: DetailedDescriptionDataModel | undefined;
 ```
+
+## Remarks
+
+Contains comprehensive documentation for the compound extracted from the 'detaileddescription' XML element. This includes full description text with formatting, examples, and other detailed documentation content.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

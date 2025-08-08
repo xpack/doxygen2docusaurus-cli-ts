@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+Caption text for the image.
+
 ## Signature
 
 ```typescript
 caption?: string | undefined;
 ```
+
+## Remarks
+
+Provides descriptive caption text that accompanies the image display. Captions typically appear below or adjacent to the image and provide additional context or explanation for the visual content.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

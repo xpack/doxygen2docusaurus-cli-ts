@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Constructs a new instance of the `IndexMemberDataModel` class
+Constructs a new IndexMemberDataModel instance from XML data.
 
 ## Signature
 
@@ -52,6 +52,8 @@ xml
 
 </td><td>
 
+The Doxygen XML parser instance for processing XML elements
+
 
 </td></tr>
 <tr><td>
@@ -66,9 +68,15 @@ object
 
 </td><td>
 
+The XML element containing the member data
+
 
 </td></tr>
 </tbody></table>
+
+## Remarks
+
+Initialises the member data model by parsing the provided XML element as a 'member' element type. The constructor delegates to the parent class for common member processing whilst specifying the element name.
 
 <hr/>
 

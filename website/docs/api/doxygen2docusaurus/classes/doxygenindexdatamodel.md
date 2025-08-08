@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Concrete data model class for doxygenindex elements.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare class DoxygenIndexDataModel extends AbstractIndexDoxygenType
 ```
 **Extends:** [AbstractIndexDoxygenType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractindexdoxygentype)
+
+## Remarks
+
+Represents the root element of Doxygen index XML files, extending the abstract base class to provide specific handling for 'doxygenindex' elements. This class serves as the primary entry point for parsing index files and provides access to all compound definitions and metadata contained within the index structure.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `DoxygenIndexDataModel` class
+Constructs a new DoxygenIndexDataModel instance from XML data.
 
 
 </td></tr>

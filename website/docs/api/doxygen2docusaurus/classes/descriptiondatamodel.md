@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Data model for general description elements within documentation.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare class DescriptionDataModel extends AbstractDescriptionType
 ```
 **Extends:** [AbstractDescriptionType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdescriptiontype)
+
+## Remarks
+
+Represents general description elements that provide standard documentation content for entities. This implementation processes Doxygen's description elements, which contain descriptive content including paragraphs and other documentation structures for general-purpose descriptions.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `DescriptionDataModel` class
+Constructs a DescriptionDataModel from XML element data.
 
 
 </td></tr>

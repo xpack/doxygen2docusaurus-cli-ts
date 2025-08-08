@@ -14,13 +14,18 @@ custom_edit_url: null
 
 
 
-Boolean to render the program listing in the File pages.
+Controls program listing rendering in File pages.
 
 ## Signature
 
 ```typescript
 renderProgramListing: boolean;
 ```
+
+## Remarks
+
+When enabled, includes syntax-highlighted source code listings within the generated File documentation pages.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>

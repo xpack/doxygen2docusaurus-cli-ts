@@ -14,6 +14,7 @@ custom_edit_url: null
 
 
 
+Concrete data model class for doxyfile elements.
 
 ## Signature
 
@@ -21,6 +22,10 @@ custom_edit_url: null
 export declare class DoxygenFileDataModel extends AbstractDoxygenFileType
 ```
 **Extends:** [AbstractDoxygenFileType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdoxygenfiletype)
+
+## Remarks
+
+Represents the root element of Doxyfile XML configuration files, extending the abstract base class to provide specific handling for 'doxyfile' elements. This class serves as the primary entry point for parsing Doxygen configuration files and provides access to all configuration options and metadata contained within the file structure.
 
 ## Constructors
 
@@ -50,7 +55,7 @@ Description
 
 </td><td>
 
-Constructs a new instance of the `DoxygenFileDataModel` class
+Constructs a new DoxygenFileDataModel instance from XML data.
 
 
 </td></tr>

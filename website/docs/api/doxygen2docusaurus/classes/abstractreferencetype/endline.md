@@ -14,11 +14,18 @@ custom_edit_url: null
 
 
 
+The ending line number where the reference concludes.
+
 ## Signature
 
 ```typescript
 endline: number | undefined;
 ```
+
+## Remarks
+
+Specifies the line number in the source code where the reference relationship ends. Combined with the starting line, this provides a complete range for the reference occurrence, enabling precise source code highlighting and navigation capabilities. Note that this attribute may be missing in some reference elements despite being defined as mandatory in the XML schema.
+
 <hr/>
 
 <p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a> 7.52.8.</p>
