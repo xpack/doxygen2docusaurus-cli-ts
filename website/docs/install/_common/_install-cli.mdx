@@ -74,13 +74,12 @@ If, for any reason, you decide not to install **@xpack/doxygen2docusaurus**, you
 benefit from it by utilising the `npx` command, as a trampoline to start **doxygen2docusaurus**:
 
 <CodeBlock language="console"> {
-`$ npx doxygen2docusaurus --version
+`$ npx --package @xpack/doxygen2docusaurus -- doxygen2docusaurus --version
 2.0.0
 `} </CodeBlock>
 
-However, for regular usage, this method is not efficient, since
-**npx** will need to prepare the Node.js module
-for each execution, and this takes some time.
+However, for regular use, this method may be less convenient, as
+**npx** requires specifying the full package name on each invocation.
 
 ## npm folders
 
