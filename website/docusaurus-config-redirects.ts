@@ -1,6 +1,6 @@
 /*
  * This file is part of the xPack project (http://xpack.github.io).
- * Copyright (c) 2024 Liviu Ionescu. All rights reserved.
+ * Copyright (c) 2024-2026 Liviu Ionescu. All rights reserved.
  *
  * Permission to use, copy, modify, and/or distribute this software
  * for any purpose is hereby granted, under the terms of the MIT license.
@@ -9,7 +9,7 @@
  * be obtained from https://opensource.org/licenses/mit.
  */
 
-import util from 'node:util';
+import util from 'node:util'
 
 export const redirects = {
   // fromExtensions: ['html', 'htm'], // /myPage.html -> /myPage
@@ -27,7 +27,7 @@ export const redirects = {
     //   },
   ],
   createRedirects(existingPath) {
-    console.log(existingPath);
+    console.log(existingPath)
     //   if (existingPath.includes('/evenimente')) {
     //     // console.log(`to ${existingPath} from ${existingPath.replace('/evenimente', '/events')}`);
     //     // Redirect from /events/X to /evenimente/X
@@ -43,5 +43,5 @@ export const redirects = {
     //   }
     //   return undefined; // Return a falsy value: no redirect created
     //   },
-  }
+  },
 }
