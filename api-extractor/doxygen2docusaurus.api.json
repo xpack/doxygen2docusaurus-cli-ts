@@ -1,7 +1,7 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.52.8",
+    "toolVersion": "7.55.2",
     "schemaVersion": 1011,
     "oldestForwardsCompatibleVersion": 1001,
     "tsdocConfig": {
@@ -113,6 +113,22 @@
         {
           "tagName": "@virtual",
           "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@jsx",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@jsxRuntime",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@jsxFrag",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@jsxImportSource",
+          "syntaxKind": "block"
         },
         {
           "tagName": "@betaDocumentation",
@@ -8608,7 +8624,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#apiBaseUrl:member",
-              "docComment": "/**\n * URL path to the API documentation relative to the docs section.\n *\n * @remarks\n *\n * Defines the URL segment for API documentation within the docs section, without initial or final slashes. Used for generating navigation links.\n *\n * @defaultValue\n *\n * 'api'\n */\n",
+              "docComment": "/**\n * URL path to the API documentation relative to the docs section.\n *\n * @remarks\n *\n * Defines the URL segment for API documentation within the docs section, without initial or final slashes. Used for generating navigation links.\n *\n * @defaultValue 'api'\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -8638,7 +8654,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#apiFolderPath:member",
-              "docComment": "/**\n * Path to the API documentation folder relative to the docs folder.\n *\n * @remarks\n *\n * Specifies the subfolder within the docs folder where API reference documentation will be generated. Path should not include initial or final slashes.\n *\n * @defaultValue\n *\n * 'api'\n */\n",
+              "docComment": "/**\n * Path to the API documentation folder relative to the docs folder.\n *\n * @remarks\n *\n * Specifies the subfolder within the docs folder where API reference documentation will be generated. Path should not include initial or final slashes.\n *\n * @defaultValue 'api'\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -8668,7 +8684,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#baseUrl:member",
-              "docComment": "/**\n * Base URL for the entire website.\n *\n * @remarks\n *\n * Defines the root URL path for the website, typically '/' for root deployment or '/project-name/' for GitHub Pages or similar hosting.\n *\n * @defaultValue\n *\n * '/'\n */\n",
+              "docComment": "/**\n * Base URL for the entire website.\n *\n * @remarks\n *\n * Defines the root URL path for the website, typically '/' for root deployment or '/project-name/' for GitHub Pages or similar hosting.\n *\n * @defaultValue '/'\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -8728,7 +8744,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#customCssFilePath:member",
-              "docComment": "/**\n * Path to the custom CSS file for styling overrides.\n *\n * @remarks\n *\n * Specifies the location where custom CSS styles will be written to provide Doxygen-specific styling within the Docusaurus theme. Path is relative to the current website folder.\n *\n * @defaultValue\n *\n * 'src/css/custom-doxygen2docusaurus.css'\n */\n",
+              "docComment": "/**\n * Path to the custom CSS file for styling overrides.\n *\n * @remarks\n *\n * Specifies the location where custom CSS styles will be written to provide Doxygen-specific styling within the Docusaurus theme. Path is relative to the current website folder.\n *\n * @defaultValue 'src/css/custom-doxygen2docusaurus.css'\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -8758,7 +8774,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#debug:member",
-              "docComment": "/**\n * Controls debug-level output during the conversion process.\n *\n * @remarks\n *\n * When enabled, provides extensive debugging information useful for troubleshooting issues. Automatically enables verbose output as well.\n *\n * @defaultValue\n *\n * false\n */\n",
+              "docComment": "/**\n * Controls debug-level output during the conversion process.\n *\n * @remarks\n *\n * When enabled, provides extensive debugging information useful for troubleshooting issues. Automatically enables verbose output as well.\n *\n * @defaultValue false\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -8788,7 +8804,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#docsBaseUrl:member",
-              "docComment": "/**\n * URL path to the documentation section relative to the website root.\n *\n * @remarks\n *\n * Specifies the URL segment that leads to the documentation section, without initial or final slashes. Used for navigation and linking.\n *\n * @defaultValue\n *\n * 'docs'\n */\n",
+              "docComment": "/**\n * URL path to the documentation section relative to the website root.\n *\n * @remarks\n *\n * Specifies the URL segment that leads to the documentation section, without initial or final slashes. Used for navigation and linking.\n *\n * @defaultValue 'docs'\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -8818,7 +8834,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#docsFolderPath:member",
-              "docComment": "/**\n * Path to the documentation folder relative to the website folder.\n *\n * @remarks\n *\n * Defines the base folder where generated documentation will be placed within the Docusaurus website structure. Path should not include initial or final slashes.\n *\n * @defaultValue\n *\n * 'docs'\n */\n",
+              "docComment": "/**\n * Path to the documentation folder relative to the website folder.\n *\n * @remarks\n *\n * Defines the base folder where generated documentation will be placed within the Docusaurus website structure. Path should not include initial or final slashes.\n *\n * @defaultValue 'docs'\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -8848,7 +8864,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#doxygenXmlInputFolderPath:member",
-              "docComment": "/**\n * Path to the Doxygen XML input folder relative to the website folder.\n *\n * @remarks\n *\n * Specifies the location of XML files generated by Doxygen, typically containing the parsed documentation data. Path should not include initial or final slashes.\n *\n * @defaultValue\n *\n * 'doxygen/xml'\n */\n",
+              "docComment": "/**\n * Path to the Doxygen XML input folder relative to the website folder.\n *\n * @remarks\n *\n * Specifies the location of XML files generated by Doxygen, typically containing the parsed documentation data. Path should not include initial or final slashes.\n *\n * @defaultValue 'doxygen/xml'\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -8878,7 +8894,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#id:member",
-              "docComment": "/**\n * String identifier for distinguishing multiple configuration instances.\n *\n * @remarks\n *\n * Used when multiple configuration instances exist to provide unique identification. Particularly useful in multi-configuration scenarios where different settings need to be applied to different outputs.\n *\n * @defaultValue\n *\n * 'default'\n */\n",
+              "docComment": "/**\n * String identifier for distinguishing multiple configuration instances.\n *\n * @remarks\n *\n * Used when multiple configuration instances exist to provide unique identification. Particularly useful in multi-configuration scenarios where different settings need to be applied to different outputs.\n *\n * @defaultValue 'default'\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -8908,7 +8924,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#imagesFolderPath:member",
-              "docComment": "/**\n * Path for images relative to the `static` folder.\n *\n * @remarks\n *\n * Specifies where Doxygen-generated images will be stored within the Docusaurus static assets folder structure.\n *\n * @defaultValue\n *\n * 'assets/images/doxygen'\n */\n",
+              "docComment": "/**\n * Path for images relative to the `static` folder.\n *\n * @remarks\n *\n * Specifies where Doxygen-generated images will be stored within the Docusaurus static assets folder structure.\n *\n * @defaultValue 'assets/images/doxygen'\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -8938,7 +8954,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#listPagesAtTop:member",
-              "docComment": "/**\n * Controls whether pages are listed at the top of the sidebar.\n *\n * @remarks\n *\n * When enabled, places page links prominently at the top of the sidebar navigation structure for easier access to important pages.\n *\n * @defaultValue\n *\n * true\n */\n",
+              "docComment": "/**\n * Controls whether pages are listed at the top of the sidebar.\n *\n * @remarks\n *\n * When enabled, places page links prominently at the top of the sidebar navigation structure for easier access to important pages.\n *\n * @defaultValue true\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -8968,7 +8984,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#mainPageTitle:member",
-              "docComment": "/**\n * Title displayed on the main API documentation page.\n *\n * @remarks\n *\n * When specified, this title overrides the default title generated from the project brief. When empty, the title is automatically constructed from the project configuration.\n *\n * @defaultValue\n *\n * ''\n */\n",
+              "docComment": "/**\n * Title displayed on the main API documentation page.\n *\n * @remarks\n *\n * When specified, this title overrides the default title generated from the project brief. When empty, the title is automatically constructed from the project configuration.\n *\n * @defaultValue ''\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -8998,7 +9014,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#navbarFilePath:member",
-              "docComment": "/**\n * Path to the navbar configuration file.\n *\n * @remarks\n *\n * Specifies the location where the generated navbar dropdown JSON configuration will be written, relative to the current website folder.\n *\n * @defaultValue\n *\n * 'docusaurus-config-navbar-doxygen.json'\n */\n",
+              "docComment": "/**\n * Path to the navbar configuration file.\n *\n * @remarks\n *\n * Specifies the location where the generated navbar dropdown JSON configuration will be written, relative to the current website folder.\n *\n * @defaultValue 'docusaurus-config-navbar-doxygen.json'\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -9028,7 +9044,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#navbarLabel:member",
-              "docComment": "/**\n * Label displayed in the top navigation bar.\n *\n * @remarks\n *\n * Short text that appears in the Docusaurus top navigation bar to provide access to the API documentation section.\n *\n * @defaultValue\n *\n * 'Reference'\n */\n",
+              "docComment": "/**\n * Label displayed in the top navigation bar.\n *\n * @remarks\n *\n * Short text that appears in the Docusaurus top navigation bar to provide access to the API documentation section.\n *\n * @defaultValue 'Reference'\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -9058,7 +9074,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#navbarPosition:member",
-              "docComment": "/**\n * Position of the navigation menu in the top bar.\n *\n * @remarks\n *\n * Determines whether the API documentation menu appears on the left or right side of the Docusaurus navigation bar.\n *\n * @defaultValue\n *\n * 'left'\n */\n",
+              "docComment": "/**\n * Position of the navigation menu in the top bar.\n *\n * @remarks\n *\n * Determines whether the API documentation menu appears on the left or right side of the Docusaurus navigation bar.\n *\n * @defaultValue 'left'\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -9154,7 +9170,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#renderProgramListing:member",
-              "docComment": "/**\n * Controls program listing rendering in File pages.\n *\n * @remarks\n *\n * When enabled, includes syntax-highlighted source code listings within the generated File documentation pages.\n *\n * @defaultValue\n *\n * true\n */\n",
+              "docComment": "/**\n * Controls program listing rendering in File pages.\n *\n * @remarks\n *\n * When enabled, includes syntax-highlighted source code listings within the generated File documentation pages.\n *\n * @defaultValue true\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -9184,7 +9200,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#renderProgramListingInline:member",
-              "docComment": "/**\n * Controls program listing rendering in member definition sections.\n *\n * @remarks\n *\n * When enabled, includes inline syntax-highlighted code snippets within member documentation sections for better context.\n *\n * @defaultValue\n *\n * true\n */\n",
+              "docComment": "/**\n * Controls program listing rendering in member definition sections.\n *\n * @remarks\n *\n * When enabled, includes inline syntax-highlighted code snippets within member documentation sections for better context.\n *\n * @defaultValue true\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -9277,7 +9293,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#sidebarCategoryFilePath:member",
-              "docComment": "/**\n * Path to the sidebar category configuration file.\n *\n * @remarks\n *\n * Specifies the location where the generated sidebar category JSON configuration will be written, relative to the current website folder.\n *\n * @defaultValue\n *\n * 'sidebar-category-doxygen.json'\n */\n",
+              "docComment": "/**\n * Path to the sidebar category configuration file.\n *\n * @remarks\n *\n * Specifies the location where the generated sidebar category JSON configuration will be written, relative to the current website folder.\n *\n * @defaultValue 'sidebar-category-doxygen.json'\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -9307,7 +9323,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#sidebarCategoryLabel:member",
-              "docComment": "/**\n * Label displayed in the Docusaurus sidebar for the API documentation.\n *\n * @remarks\n *\n * Short descriptive text that appears in the sidebar navigation to identify the API reference section.\n *\n * @defaultValue\n *\n * 'API Reference (Doxygen)'\n */\n",
+              "docComment": "/**\n * Label displayed in the Docusaurus sidebar for the API documentation.\n *\n * @remarks\n *\n * Short descriptive text that appears in the sidebar navigation to identify the API reference section.\n *\n * @defaultValue 'API Reference (Doxygen)'\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -9337,7 +9353,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#suggestToDoDescriptions:member",
-              "docComment": "/**\n * Controls whether TODO suggestion descriptions are displayed.\n *\n * @remarks\n *\n * When enabled, shows suggestions for improvements or missing content that could enhance the generated documentation quality.\n *\n * @defaultValue\n *\n * false\n */\n",
+              "docComment": "/**\n * Controls whether TODO suggestion descriptions are displayed.\n *\n * @remarks\n *\n * When enabled, shows suggestions for improvements or missing content that could enhance the generated documentation quality.\n *\n * @defaultValue false\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -9367,7 +9383,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!CliOptions#verbose:member",
-              "docComment": "/**\n * Controls verbose output during the conversion process.\n *\n * @remarks\n *\n * When enabled, provides detailed logging information about the conversion process, including file processing status and statistics.\n *\n * @defaultValue\n *\n * false\n */\n",
+              "docComment": "/**\n * Controls verbose output during the conversion process.\n *\n * @remarks\n *\n * When enabled, provides detailed logging information about the conversion process, including file processing status and statistics.\n *\n * @defaultValue false\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -9806,7 +9822,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!DataModel#parsedFilesCounter:member",
-              "docComment": "/**\n * Counter tracking the number of XML files successfully parsed.\n *\n * @remarks\n *\n * Incremented for each XML file processed during the parsing operation, providing metrics for progress monitoring and diagnostic reporting.\n *\n * @defaultValue\n *\n * 0\n */\n",
+              "docComment": "/**\n * Counter tracking the number of XML files successfully parsed.\n *\n * @remarks\n *\n * Incremented for each XML file processed during the parsing operation, providing metrics for progress monitoring and diagnostic reporting.\n *\n * @defaultValue 0\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
