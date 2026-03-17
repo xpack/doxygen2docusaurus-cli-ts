@@ -90,6 +90,36 @@ If your Doxygen folder is located elsewhere, update the `doxygenXmlInputFolderPa
 
 :::
 
+A typical example with all available options is:
+
+```json
+{
+  "doxygenXmlInputFolderPath": "doxygen/xml",
+  "docsFolderPath": "docs",
+  "apiFolderPath": "api",
+  "baseUrl": "/micro-test-plus-xpack/",
+  "docsBaseUrl": "docs",
+  "apiBaseUrl": "api",
+  "imagesFolderPath": "assets/images/doxygen",
+  "$compatibilityRedirectsOutputFolderPath": "",
+  "mainPageTitle": "",
+  "sidebarCategoryFilePath": "sidebar-category-doxygen.json",
+  "sidebarCategoryLabel": "API Reference (Doxygen)",
+  "$navbarDropdownFilePath": "docusaurus-config-navbar-doxygen.json",
+  "$navbarDropdownLabel": "API Reference",
+  "navbarFilePath": "docusaurus-config-navbar-doxygen.json",
+  "navbarLabel": "API Reference",
+  "customCssFilePath": "src/css/custom-doxygen2docusaurus.css",
+  "verbose": false,
+  "debug": false,
+  "suggestToDoDescriptions": true,
+  "listPagesAtTop": true,
+  "renderProgramListings": true,
+  "renderProgramListingInline": true,
+  "originalPagesNote": "For comparison, the original Doxygen html pages continue to be available via the <a href=\"pathname:///doxygen/topics.html\">.../doxygen/*.html</b></a> URLs."
+}
+```
+
 The full list of configuration variables is available in the separate [Configuration Variables](./configuration) page.
 
 ## Multi-sites
@@ -133,7 +163,9 @@ To simplify running the conversion, add an npm script like `convert-doxygen` to 
   "scripts": {
     ...
     "doxygen": "del-cli static/doxygen doxygen/xml; (cd doxygen; doxygen config.doxyfile)",
+    "browse-doxygen": "open-cli static/doxygen/index.html",
     "convert-doxygen": "doxygen2docusaurus",
+    "generate-website-doxygen": "npm run doxygen && npm run convert-doxygen",
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
