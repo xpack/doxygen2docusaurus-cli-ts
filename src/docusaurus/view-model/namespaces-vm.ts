@@ -172,6 +172,10 @@ export class Namespaces extends CollectionBase {
         {
           type: 'category',
           label: 'Hierarchy',
+          link: {
+            type: 'doc',
+            id: `${this.workspace.sidebarBaseId}indices/namespaces/index`,
+          },
           collapsed: true,
           items: [],
         },

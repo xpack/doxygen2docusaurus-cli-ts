@@ -317,6 +317,10 @@ export class FilesAndFolders extends CollectionBase {
         {
           type: 'category',
           label: 'Hierarchy',
+          link: {
+            type: 'doc',
+            id: `${this.workspace.sidebarBaseId}indices/files/index`,
+          },
           collapsed: true,
           items: [],
         },

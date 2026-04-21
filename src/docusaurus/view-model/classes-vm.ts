@@ -174,6 +174,10 @@ export class Classes extends CollectionBase {
         {
           type: 'category',
           label: 'Hierarchy',
+          link: {
+            type: 'doc',
+            id: `${this.workspace.sidebarBaseId}indices/classes/index`,
+          },
           collapsed: true,
           items: [],
         },
