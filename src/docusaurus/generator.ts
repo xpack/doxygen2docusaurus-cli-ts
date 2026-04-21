@@ -108,7 +108,7 @@ export class DocusaurusGenerator {
 
     // await this.generateSidebarFile()
 
-    if (this.options.navbarFilePath.trim().length > 0) {
+    if (this.options.navbarDropdownFilePath.trim().length > 0) {
       const navbarItem = this.generateNavbarItem()
       await this.writeNavbarFile(navbarItem)
     }
@@ -229,9 +229,9 @@ export class DocusaurusGenerator {
   generateNavbarItem(): NavbarItem {
     let navbarEntry: NavbarItem = {
       type: 'dropdown',
-      label: this.options.navbarLabel,
+      label: this.options.navbarDropdownLabel,
       to: this.workspace.menuBaseUrl,
-      position: 'left',
+      position: this.options.navbarDropdownPosition,
       items: [],
     }
 
@@ -253,9 +253,9 @@ export class DocusaurusGenerator {
 
     if (!hasItems) {
       navbarEntry = {
-        label: this.options.navbarLabel,
+        label: this.options.navbarDropdownLabel,
         to: this.workspace.menuBaseUrl,
-        position: 'left',
+        position: this.options.navbarDropdownPosition,
       }
     }
 
@@ -276,7 +276,7 @@ export class DocusaurusGenerator {
     // console.log(util.inspect(navbarItem, { compact: false, depth: 999 }));
     // Write the sidebar to file.
 
-    const navbarFilePath = this.workspace.options.navbarFilePath
+    const navbarFilePath = this.workspace.options.navbarDropdownFilePath
     console.log(`Writing navbar file ${navbarFilePath}...`)
 
     const navbarJson = JSON.stringify(navbarItem, null, 2)

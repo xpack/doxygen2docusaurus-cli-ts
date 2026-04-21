@@ -212,7 +212,7 @@ export class CliOptions {
   sidebarCategoryLabel = 'API Reference (Doxygen)'
 
   /**
-   * Path to the navbar configuration file.
+   * Path to the navbar dropdown configuration file.
    *
    * @remarks
    * Specifies the location where the generated navbar dropdown JSON
@@ -220,7 +220,7 @@ export class CliOptions {
    *
    * @defaultValue 'docusaurus-config-navbar-doxygen.json'
    */
-  navbarFilePath = 'docusaurus-config-navbar-doxygen.json'
+  navbarDropdownFilePath = 'docusaurus-config-navbar-doxygen.json'
 
   /**
    * Label displayed in the top navigation bar.
@@ -229,9 +229,9 @@ export class CliOptions {
    * Short text that appears in the Docusaurus top navigation bar to
    * provide access to the API documentation section.
    *
-   * @defaultValue 'Reference'
+   * @defaultValue 'API Reference'
    */
-  navbarLabel = 'Reference'
+  navbarDropdownLabel = 'API Reference'
 
   /**
    * Position of the navigation menu in the top bar.
@@ -242,7 +242,7 @@ export class CliOptions {
    *
    * @defaultValue 'left'
    */
-  navbarPosition: 'left' | 'right' = 'left'
+  navbarDropdownPosition: 'left' | 'right' = 'left'
 
   /**
    * Path to the custom CSS file for styling overrides.
@@ -373,14 +373,14 @@ export class CliOptions {
       this.imagesFolderPath = `img/doxygen-${this.id}`
       this.sidebarCategoryFilePath =
         'sidebar-category-doxygen' + `-${this.id}.json`
-      this.navbarFilePath =
+      this.navbarDropdownFilePath =
         'docusaurus-config-navbar-doxygen' + `-${this.id}.json`
     } else {
       this.apiFolderPath = 'api'
       this.apiBaseUrl = 'api'
       this.imagesFolderPath = `img/doxygen`
       this.sidebarCategoryFilePath = `sidebar-category-doxygen.json`
-      this.navbarFilePath = `docusaurus-config-navbar-doxygen.json`
+      this.navbarDropdownFilePath = `docusaurus-config-navbar-doxygen.json`
     }
   }
 
