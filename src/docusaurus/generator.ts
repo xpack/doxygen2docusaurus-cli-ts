@@ -522,9 +522,10 @@ export class DocusaurusGenerator {
    * from Doxygen-generated documentation to Docusaurus.
    */
   async generateCompatibilityRedirectFiles(): Promise<void> {
-    const redirectsOutputFolderPath =
-      this.options.compatibilityRedirectsOutputFolderPath
-    if (redirectsOutputFolderPath === undefined) {
+    const redirectsOutputFolderPath = (
+      this.options.compatibilityRedirectsOutputFolderPath ?? ''
+    ).trim()
+    if (redirectsOutputFolderPath === '') {
       return
     }
 
