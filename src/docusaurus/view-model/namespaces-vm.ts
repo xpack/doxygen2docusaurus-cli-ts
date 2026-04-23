@@ -110,14 +110,20 @@ export class Namespaces extends CollectionBase {
    */
   override createCompoundsHierarchies(): void {
     // Recreate namespaces hierarchies.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (const [namespaceId, namespace] of this.collectionCompoundsById) {
       for (const childNamespaceId of namespace.childrenIds) {
         const childNamespace =
           this.collectionCompoundsById.get(childNamespaceId)
         assert(childNamespace !== undefined)
-        // console.log('namespaceId', childNamespaceId,'has parent',
-        // namespaceId)
+        if (this.workspace.options.debug) {
+          console.log(
+            'namespaceId:',
+            childNamespaceId,
+            childNamespace.compoundName,
+            'has parent',
+            namespace.compoundName
+          )
+        }
         childNamespace.parent = namespace
         namespace.children.push(childNamespace)
       }
@@ -128,7 +134,11 @@ export class Namespaces extends CollectionBase {
       if (namespace.parent === undefined) {
         if (namespace instanceof Namespace) {
           if (this.workspace.options.debug) {
-            console.log('topLevelNamespaces:', namespaceId)
+            console.log(
+              'topLevelNamespaceId:',
+              namespaceId,
+              namespace.compoundName
+            )
           }
           this.topLevelNamespaces.push(namespace)
         }
@@ -375,7 +385,7 @@ export class Namespaces extends CollectionBase {
     lines.push(...this.workspace.renderTreeTableToHtmlLines({ contentLines }))
 
     if (this.workspace.options.verbose) {
-      console.log(`Writing namespaces index file ${filePath}...`)
+      console.log(`Writing namespaces index file '${filePath}'...`)
     }
 
     await this.workspace.writeOutputMdFile({

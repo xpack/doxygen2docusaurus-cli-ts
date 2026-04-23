@@ -141,7 +141,7 @@ export class DocusaurusGenerator {
     try {
       await fs.access(outputFolderPath)
       // Remove the folder if it exist.
-      console.log(`Removing existing folder ${outputFolderPath}...`)
+      console.log(`Removing existing folder '${outputFolderPath}'...`)
       await fs.rm(outputFolderPath, { recursive: true, force: true })
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
@@ -209,7 +209,7 @@ export class DocusaurusGenerator {
     // Write the sidebar to file.
 
     const sidebarFilePath = this.workspace.options.sidebarCategoryFilePath
-    console.log(`Writing sidebar file ${sidebarFilePath}...`)
+    console.log(`Writing sidebar file '${sidebarFilePath}'...`)
     const sidebarJson = JSON.stringify(sidebarCategory, null, 2)
     await fs.writeFile(sidebarFilePath, sidebarJson)
   }
@@ -277,7 +277,7 @@ export class DocusaurusGenerator {
     // Write the sidebar to file.
 
     const navbarFilePath = this.workspace.options.navbarDropdownFilePath
-    console.log(`Writing navbar file ${navbarFilePath}...`)
+    console.log(`Writing navbar file '${navbarFilePath}'...`)
 
     const navbarJson = JSON.stringify(navbarItem, null, 2)
     await fs.writeFile(navbarFilePath, navbarJson)
@@ -378,7 +378,7 @@ export class DocusaurusGenerator {
     }
 
     if (this.options.verbose) {
-      console.log(`Writing top index file ${filePath}...`)
+      console.log(`Writing top index file '${filePath}'...`)
     }
 
     await this.workspace.writeOutputMdFile({
@@ -530,7 +530,7 @@ export class DocusaurusGenerator {
     }
 
     console.log(
-      `Removing existing folder static/${redirectsOutputFolderPath}...`
+      `Removing existing folder 'static/${redirectsOutputFolderPath}'...`
     )
     await fs.rm(`static/${redirectsOutputFolderPath}`, {
       recursive: true,
@@ -701,7 +701,7 @@ export class DocusaurusGenerator {
       'document-svgrepo-com.svg'
     )
     let toFilePath = path.join(destImgFolderPath, 'document-svgrepo-com.svg')
-    console.log('Copying image file', toFilePath)
+    console.log(`Copying image file '${toFilePath}'`)
     await fs.copyFile(fromFilePath, toFilePath)
 
     fromFilePath = path.join(
@@ -711,7 +711,7 @@ export class DocusaurusGenerator {
       'folder-svgrepo-com.svg'
     )
     toFilePath = path.join(destImgFolderPath, 'folder-svgrepo-com.svg')
-    console.log('Copying image file', toFilePath)
+    console.log(`Copying image file '${toFilePath}'`)
     await fs.copyFile(fromFilePath, toFilePath)
 
     fromFilePath = path.join(
@@ -725,7 +725,7 @@ export class DocusaurusGenerator {
     if (!(await folderExists(path.dirname(toFilePath)))) {
       await fs.mkdir(path.dirname(toFilePath), { recursive: true })
     }
-    console.log('Copying css file', toFilePath)
+    console.log(`Copying css file '${toFilePath}'`)
     await fs.copyFile(fromFilePath, toFilePath)
   }
 
@@ -777,7 +777,7 @@ export class DocusaurusGenerator {
       fromFilePath = path.join(this.options.doxygenXmlInputFolderPath, name)
       toFilePath = path.join(destImgFolderPath, name)
       if (this.options.verbose) {
-        console.log('Copying image file', toFilePath)
+        console.log(`Copying image file '${toFilePath}'`)
       }
       await fs.copyFile(fromFilePath, toFilePath)
     }

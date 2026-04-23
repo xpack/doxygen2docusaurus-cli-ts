@@ -283,7 +283,7 @@ export class Groups extends CollectionBase {
     lines.push(...this.workspace.renderTreeTableToHtmlLines({ contentLines }))
 
     if (this.workspace.options.verbose) {
-      console.log(`Writing groups index file ${filePath}...`)
+      console.log(`Writing groups index file '${filePath}'...`)
     }
 
     await this.workspace.writeOutputMdFile({

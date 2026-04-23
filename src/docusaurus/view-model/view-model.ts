@@ -153,13 +153,18 @@ export class ViewModel {
       const collection = this.collections.get(collectionName)
       if (collection !== undefined) {
         // Create the compound object and add it to the parent collection.
-        // console.log(
-        //   compoundDefDataModel.kind, compoundDefDataModel.compoundName
-        // )
+        if (this.options.debug) {
+          console.log(
+            compoundDefDataModel.kind,
+            compoundDefDataModel.compoundName
+          )
+        }
         compound = collection.addChild(compoundDefDataModel)
         // Also add it to the global compounds map.
         this.compoundsById.set(compound.id, compound)
-        // console.log('compoundsById.set', compound.kind, compound.id)
+        // if (this.options.debug) {
+        //   console.log('compoundsById.set', compound.kind, compound.id)
+        // }
       }
 
       if (compound !== undefined) {
@@ -259,6 +264,9 @@ export class ViewModel {
    * relationships that reflect the original code structure.
    */
   createCompoundsHierarchies(): void {
+    if (this.options.verbose) {
+      console.log()
+    }
     console.log('Creating compounds hierarchies...')
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -282,6 +290,9 @@ export class ViewModel {
    */
   // Required since references can be resolved only after all objects are in.
   initializeCompoundsLate(): void {
+    if (this.options.verbose) {
+      console.log()
+    }
     console.log('Performing compounds late initializations...')
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -309,6 +320,9 @@ export class ViewModel {
    * their containing compounds.
    */
   createMembersMap(): void {
+    if (this.options.verbose) {
+      console.log()
+    }
     console.log('Creating member definitions map...')
     for (const [, compound] of this.compoundsById) {
       // console.log(compound.kind, compound.compoundName, compound.id)
@@ -362,6 +376,9 @@ export class ViewModel {
    */
   // Required since references can be resolved only after all objects are in.
   initializeMemberLate(): void {
+    if (this.options.verbose) {
+      console.log()
+    }
     console.log('Performing members late initializations...')
     for (const [, compound] of this.compoundsById) {
       if (this.options.debug) {
@@ -400,6 +417,9 @@ export class ViewModel {
    * @brief Validate the uniqueness of permalinks.
    */
   validatePermalinks(): void {
+    if (this.options.verbose) {
+      console.log()
+    }
     console.log('Validating permalinks...')
 
     const pagePermalinksById = new Map<string, string>()

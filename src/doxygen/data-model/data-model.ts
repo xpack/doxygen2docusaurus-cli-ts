@@ -366,7 +366,7 @@ export class DataModel {
     const xmlString: string = await fs.readFile(filePath, { encoding: 'utf8' })
 
     if (this.options.verbose) {
-      console.log(`Parsing ${fileName}...`)
+      console.log(`Parsing '${fileName}'...`)
     }
     this.parsedFilesCounter += 1
 

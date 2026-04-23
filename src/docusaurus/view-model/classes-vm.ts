@@ -145,7 +145,7 @@ export class Classes extends CollectionBase {
 
       if (classs.baseClassIds.size === 0) {
         if (this.workspace.options.debug) {
-          console.log('topLevelClassId:', classId)
+          console.log('topLevelClassId:', classId, classs.compoundName)
         }
         this.topLevelClasses.push(classs)
       }
@@ -350,7 +350,7 @@ export class Classes extends CollectionBase {
     lines.push(...this.workspace.renderTreeTableToHtmlLines({ contentLines }))
 
     if (this.workspace.options.verbose) {
-      console.log(`Writing classes index file ${filePath}...`)
+      console.log(`Writing classes index file '${filePath}'...`)
     }
 
     await this.workspace.writeOutputMdFile({

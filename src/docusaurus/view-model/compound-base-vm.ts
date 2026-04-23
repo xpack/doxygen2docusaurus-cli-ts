@@ -591,6 +591,7 @@ export abstract class CompoundBase {
         lines.push(`<p>${briefDescriptionHtmlString}</p>`)
       } else if (todo.length > 0) {
         lines.push(`TODO: add <code>@brief</code> to <code>${todo}</code>`)
+        console.log('TODO: add @brief to', todo)
       }
     }
 
@@ -606,6 +607,7 @@ export abstract class CompoundBase {
     } else if (todo.length > 0) {
       lines.push('')
       lines.push(`TODO: add <code>@details</code> to <code>${todo}</code>`)
+      console.log('TODO: add @details to', todo)
     }
 
     return lines

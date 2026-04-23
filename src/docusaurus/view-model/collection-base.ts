@@ -330,7 +330,7 @@ export abstract class CollectionBase {
     lines.push(...this.outputEntries(orderedEntries))
 
     if (this.workspace.options.verbose) {
-      console.log(`Writing ${group} index file ${filePath}...`)
+      console.log(`Writing ${group} index file '${filePath}'...`)
     }
 
     await this.workspace.writeOutputMdFile({

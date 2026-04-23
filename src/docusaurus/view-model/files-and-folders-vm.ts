@@ -197,7 +197,7 @@ export class FilesAndFolders extends CollectionBase {
     for (const [folderId, folder] of this.compoundFoldersById) {
       if (folder.parent === undefined) {
         if (this.workspace.options.debug) {
-          console.log('topFolderId:', folderId)
+          console.log('topFolderId:', folderId, folder.compoundName)
         }
         this.topLevelFolders.push(folder)
       }
@@ -206,7 +206,7 @@ export class FilesAndFolders extends CollectionBase {
     for (const [fileId, file] of this.compoundFilesById) {
       if (file.parent === undefined) {
         if (this.workspace.options.debug) {
-          console.log('topFileId:', fileId)
+          console.log('topFileId:', fileId, file.compoundName)
         }
         this.topLevelFiles.push(file)
       }
@@ -541,7 +541,7 @@ export class FilesAndFolders extends CollectionBase {
     lines.push(...this.workspace.renderTreeTableToHtmlLines({ contentLines }))
 
     if (this.workspace.options.verbose) {
-      console.log(`Writing files index file ${filePath}...`)
+      console.log(`Writing files index file '${filePath}'...`)
     }
 
     await this.workspace.writeOutputMdFile({
