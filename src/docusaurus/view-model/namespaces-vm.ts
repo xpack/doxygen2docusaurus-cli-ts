@@ -754,15 +754,27 @@ export class Namespace extends CompoundBase {
   override initializeLate(): void {
     super.initializeLate()
 
+    const { workspace } = this.collection
+
     // console.log(this)
     if (!this.hasAnyContent()) {
-      if (this.collection.workspace.options.debug) {
+      if (!workspace.options.suggestToDoDescriptions) {
         console.log(this.kind, this.compoundName, 'has no content, not shown')
-      }
 
-      this.sidebarId = undefined
-      this.sidebarLabel = undefined
-      this.relativePermalink = undefined
+        this.sidebarId = undefined
+        this.sidebarLabel = undefined
+        this.relativePermalink = undefined
+
+        return
+      } else {
+        if (workspace.options.verbose) {
+          console.log(
+            this.kind,
+            this.compoundName,
+            'has no content, see the TODO description'
+          )
+        }
+      }
     }
   }
 
