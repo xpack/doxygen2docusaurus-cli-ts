@@ -577,6 +577,7 @@ export class DocusaurusGenerator {
 
     const indexFilesMap = new Map<string, string>()
     indexFilesMap.set('classes.html', 'classes')
+    indexFilesMap.set('concepts.html', 'concepts')
     indexFilesMap.set('files.html', 'files')
     indexFilesMap.set('index.html', '')
     indexFilesMap.set('namespaces.html', 'namespaces')

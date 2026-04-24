@@ -42,6 +42,10 @@ import { LocationDataModel } from './locationtype-dm.js'
 import { AbstractDataModelBase } from '../types.js'
 import { DoxygenXmlParser } from '../doxygen-xml-parser.js'
 import { TableOfContentsDataModel } from './tableofcontentstype-dm.js'
+import {
+  InitializerDataModel,
+  RequiresClauseDataModel,
+} from './linkedtexttype-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -457,6 +461,28 @@ export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
   // innerModules
 
   /**
+   * Requires clause for constrained templates or concepts.
+   *
+   * @remarks
+   * Contains the `requires` clause expression for constrained templates
+   * or concept definitions. This property captures constraint information
+   * extracted from 'requiresclause' XML elements, representing C++
+   * template constraints and concept requirements in the documentation.
+   */
+  requiresClause?: RequiresClauseDataModel | undefined
+
+  /**
+   * Initializer expression for the compound.
+   *
+   * @remarks
+   * Contains the initializer expression associated with this compound,
+   * typically used for concept definitions that include a defining
+   * expression. This property captures initializer content extracted
+   * from 'initializer' XML elements in the Doxygen compound output.
+   */
+  initializer?: InitializerDataModel | undefined
+
+  /**
    * Inner folder references contained within this compound.
    *
    * @remarks
@@ -748,6 +774,10 @@ export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
         this.sectionDefs.push(new SectionDefDataModel(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'tableofcontents')) {
         this.tableOfContents = new TableOfContentsDataModel(xml, innerElement)
+      } else if (xml.hasInnerElement(innerElement, 'requiresclause')) {
+        this.requiresClause = new RequiresClauseDataModel(xml, innerElement)
+      } else if (xml.hasInnerElement(innerElement, 'initializer')) {
+        this.initializer = new InitializerDataModel(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'inheritancegraph')) {
         // TODO: Ignored, not used for now.
       } else if (xml.hasInnerElement(innerElement, 'collaborationgraph')) {

@@ -36,6 +36,7 @@ import type {
   ReferenceDataModel,
   ReferencedByDataModel,
 } from '../../doxygen/data-model/compounds/referencetype-dm.js'
+import { Concept } from './concepts-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -762,6 +763,75 @@ export abstract class CompoundBase {
       lines.push('')
       lines.push('</table>')
     }
+
+    return lines
+  }
+
+  /**
+   * Renders an index table of concept compounds to markdown lines.
+   *
+   * @remarks
+   * Generates a `## Concepts Index` section containing an HTML table
+   * of concept entries. Each entry includes a hyperlinked name when a
+   * permalink is available, and an optional brief description with a
+   * `More...` link when detailed description content is present.
+   *
+   * @param concepts - Array of concept compounds to render in the index
+   * @returns Array of markdown strings representing the concepts index
+   */
+  renderConceptsIndexToLines(concepts: Concept[]): string[] {
+    const lines: string[] = []
+
+    lines.push('')
+    lines.push('## Concepts Index')
+
+    lines.push('')
+    lines.push('<table class="doxyMembersIndex">')
+
+    for (const concept of concepts) {
+      const itemType = 'concept'
+
+      const permalink = this.collection.workspace.getPagePermalink(concept.id)
+
+      let itemName = ''
+      if (permalink !== undefined && permalink.length > 0) {
+        itemName = `<a href="${permalink}">${concept.indexName}</a>`
+      } else {
+        itemName = concept.indexName
+      }
+
+      const childrenLines: string[] = []
+
+      const morePermalink =
+        concept.detailedDescriptionHtmlLines !== undefined &&
+        permalink !== undefined
+          ? `${permalink}/#details`
+          : undefined
+      if (
+        concept.briefDescriptionHtmlString !== undefined &&
+        concept.briefDescriptionHtmlString.length > 0
+      ) {
+        childrenLines.push(
+          this.renderBriefDescriptionToHtmlString({
+            briefDescriptionHtmlString: concept.briefDescriptionHtmlString,
+            morePermalink,
+          })
+        )
+      }
+
+      lines.push('')
+
+      lines.push(
+        ...this.collection.workspace.renderMembersIndexItemToHtmlLines({
+          type: itemType,
+          name: itemName,
+          childrenLines,
+        })
+      )
+    }
+
+    lines.push('')
+    lines.push('</table>')
 
     return lines
   }

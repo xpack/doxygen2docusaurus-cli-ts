@@ -167,7 +167,7 @@ export class Workspace extends Renderers {
     page: 'pages',
     // example
     dir: 'files',
-    // concept
+    concept: 'concepts',
   }
 
   /** Defines the order of entries in the sidebar and top menu dropdown. */
@@ -175,6 +175,7 @@ export class Workspace extends Renderers {
   sidebarCollectionNames: string[] = [
     'groups',
     'namespaces',
+    'concepts',
     'classes',
     'files',
     'pages',
@@ -416,11 +417,16 @@ export class Workspace extends Renderers {
     refid,
     kindref,
   }: {
-    refid: string
+    refid: string | undefined
     kindref: string // 'compound', 'member'
   }): string | undefined {
     // console.log(refid, kindref)
+
     let permalink: string | undefined = undefined
+    if (refid == undefined || refid.length === 0) {
+      return undefined
+    }
+
     if (kindref === 'compound') {
       permalink = this.getPagePermalink(refid)
     } else if (kindref === 'member') {

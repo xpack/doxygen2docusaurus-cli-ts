@@ -152,6 +152,40 @@ export class InitializerDataModel extends AbstractLinkedTextType {
 }
 
 /**
+ * Data model for requires clause elements within documentation content.
+ *
+ * @remarks
+ * Represents requires clause elements that contain C++20 concept constraint
+ * expressions within source code documentation. This implementation processes
+ * Doxygen's requiresclause elements, which contain mixed text and reference
+ * content describing the constraints imposed on template parameters and
+ * function arguments via C++20 `requires` clauses.
+ *
+ * The linked text structure enables cross-references to concepts and related
+ * symbols used within requires clause expressions.
+ *
+ * @public
+ */
+export class RequiresClauseDataModel extends AbstractLinkedTextType {
+  /**
+   * Constructs a RequiresClauseDataModel from XML element data.
+   *
+   * @param xml - The Doxygen XML parser instance for processing XML content
+   * @param element - The XML element object containing the requires clause data
+   *
+   * @remarks
+   * This constructor delegates to the parent AbstractLinkedTextType to
+   * handle linked text processing whilst identifying the element as
+   * 'requiresclause' for proper XML schema compliance and constraint
+   * expression content processing.
+   */
+  constructor(xml: DoxygenXmlParser, element: object) {
+    // console.log(elementName, util.inspect(element, { compact: false, depth: 999 }))
+    super(xml, element, 'requiresclause')
+  }
+}
+
+/**
  * Data model for type elements within documentation content.
  *
  * @remarks

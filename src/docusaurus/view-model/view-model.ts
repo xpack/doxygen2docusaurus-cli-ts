@@ -39,6 +39,7 @@ import {
 } from '../../doxygen/data-model/compounds/descriptiontype-dm.js'
 import { stripPermalinkHexAnchor } from '../utils.js'
 import { CliOptions } from '../cli-options.js'
+import { Concepts } from './concepts-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -113,6 +114,7 @@ export class ViewModel {
   create() {
     this.collections.set('groups', new Groups(this.workspace))
     this.collections.set('namespaces', new Namespaces(this.workspace))
+    this.collections.set('concepts', new Concepts(this.workspace))
     this.collections.set('classes', new Classes(this.workspace))
     this.collections.set('files', new FilesAndFolders(this.workspace))
     this.collections.set('pages', new Pages(this.workspace))

@@ -1215,6 +1215,12 @@ export class File extends CompoundBase {
       })
     )
 
+    // TODO: render Concepts Index
+    // For now the xml does not include the necessary information to do so,
+    // since the inner compounds only include namespaces and classes, but
+    // not concepts. This would require changes in the XML generation in
+    // Doxygen.
+
     lines.push(...this.renderSectionIndicesToLines())
 
     lines.push(

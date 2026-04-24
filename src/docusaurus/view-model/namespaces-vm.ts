@@ -34,6 +34,7 @@ import {
 import type { TreeEntryBase } from './tree-entries-vm.js'
 import { NamespaceTreeEntry } from './tree-entries-vm.js'
 import { Class } from './classes-vm.js'
+import { Concept } from './concepts-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -110,7 +111,7 @@ export class Namespaces extends CollectionBase {
    */
   override createCompoundsHierarchies(): void {
     // Recreate namespaces hierarchies.
-    for (const [namespaceId, namespace] of this.collectionCompoundsById) {
+    for (const [, namespace] of this.collectionCompoundsById) {
       for (const childNamespaceId of namespace.childrenIds) {
         const childNamespace =
           this.collectionCompoundsById.get(childNamespaceId)
@@ -144,6 +145,29 @@ export class Namespaces extends CollectionBase {
         }
       }
     }
+  }
+
+  /**
+   * Finds a namespace compound by its fully qualified compound name.
+   *
+   * @remarks
+   * Iterates over the collection and returns the first namespace whose
+   * `compoundName` matches the supplied string exactly. Used to resolve
+   * parent namespace references when building cross-collection hierarchies.
+   *
+   * @param compoundName - The fully qualified name to search for
+   * @returns The matching {@link Namespace}, or `undefined` if not found
+   *
+   * @public
+   */
+  findNamespaceByCompoundName(compoundName: string): Namespace | undefined {
+    for (const namespace of this.collectionCompoundsById.values()) {
+      assert(namespace instanceof Namespace)
+      if (namespace.compoundName === compoundName) {
+        return namespace
+      }
+    }
+    return undefined
   }
 
   // --------------------------------------------------------------------------
@@ -626,6 +650,16 @@ export class Namespace extends CompoundBase {
   isAnonymous = false
 
   /**
+   * Array of concept compounds defined within this namespace.
+   *
+   * @remarks
+   * Contains all C++20 concept compounds whose fully qualified names are
+   * scoped to this namespace, populated during cross-collection hierarchy
+   * construction.
+   */
+  concepts: Concept[] = []
+
+  /**
    * Initialises a new Namespace instance from compound definition data.
    *
    * @remarks
@@ -831,6 +865,34 @@ export class Namespace extends CompoundBase {
     return super.hasAnyContent()
   }
 
+  /**
+   * Determines whether this namespace or any of its descendants contain
+   * C++20 concept compounds.
+   *
+   * @remarks
+   * Checks the namespace's own `concepts` array first, then recurses into
+   * child namespaces. Used to conditionally include concept index sections
+   * in namespace documentation pages.
+   *
+   * @returns `true` if at least one concept is present in this namespace
+   *   or any nested namespace, `false` otherwise
+   *
+   * @public
+   */
+  hasConcepts(): boolean {
+    if (this.concepts.length > 0) {
+      return true
+    }
+
+    for (const child of this.children) {
+      assert(child instanceof Namespace)
+      if (child.hasConcepts()) {
+        return true
+      }
+    }
+    return false
+  }
+
   // --------------------------------------------------------------------------
 
   /**
@@ -890,6 +952,10 @@ export class Namespace extends CompoundBase {
         suffixes: ['Namespaces', 'Classes'],
       })
     )
+
+    if (this.hasConcepts()) {
+      lines.push(...this.renderConceptsIndexToLines(this.concepts))
+    }
 
     lines.push(...this.renderSectionIndicesToLines())
 

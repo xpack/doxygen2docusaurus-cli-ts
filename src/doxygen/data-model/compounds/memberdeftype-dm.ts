@@ -20,7 +20,11 @@ import {
   DetailedDescriptionDataModel,
   InbodyDescriptionDataModel,
 } from './descriptiontype-dm.js'
-import { InitializerDataModel, TypeDataModel } from './linkedtexttype-dm.js'
+import {
+  InitializerDataModel,
+  RequiresClauseDataModel,
+  TypeDataModel,
+} from './linkedtexttype-dm.js'
 import { LocationDataModel } from './locationtype-dm.js'
 import { ParamDataModel } from './paramtype-dm.js'
 import { AbstractDataModelBase } from '../types.js'
@@ -401,7 +405,17 @@ export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
    * for API references.
    */
   enumvalues?: EnumValueDataModel[] | undefined
-  // requiresclause?: LinkedTextType | undefined
+
+  /**
+   * The C++20 requires clause constraining the member.
+   *
+   * @remarks
+   * Contains the requires clause expression that constrains the member
+   * when it is a template function or method. The linked text may include
+   * cross-references to concept definitions used within the constraint
+   * expression.
+   */
+  requiresClause?: RequiresClauseDataModel | undefined
 
   /**
    * Initializer expression for the member.
@@ -704,6 +718,8 @@ export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
       } else if (xml.hasInnerElement(innerElement, 'enumvalue')) {
         this.enumvalues ??= []
         this.enumvalues.push(new EnumValueDataModel(xml, innerElement))
+      } else if (xml.hasInnerElement(innerElement, 'requiresclause')) {
+        this.requiresClause = new RequiresClauseDataModel(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'initializer')) {
         this.initializer = new InitializerDataModel(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'briefdescription')) {

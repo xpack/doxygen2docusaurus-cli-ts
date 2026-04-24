@@ -16,6 +16,7 @@ import { EnumValue, Member } from './members-vm.js'
 import { Namespace } from './namespaces-vm.js'
 import type { File } from './files-and-folders-vm.js'
 import { sanitizeAnonymousNamespace } from '../utils.js'
+import { Concept } from './concepts-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -122,6 +123,7 @@ export class TreeEntryBase {
    *
    * @param entry - The documentation object to create an entry for
    */
+  constructor(entry: Class | Namespace | Concept | Member | EnumValue) {
     this.id = entry.id
 
     if (entry instanceof Class) {
@@ -155,6 +157,18 @@ export class TreeEntryBase {
       this.linkName = treeEntryName
       this.permalink = collection.workspace.getPermalink({
         refid: this.id,
+        kindref: 'compound',
+      })
+    } else if (entry instanceof Concept) {
+      const { treeEntryName, unqualifiedName, kind, collection } = entry
+      this.name = treeEntryName
+      this.longName = unqualifiedName
+
+      this.kind = kind // concept
+
+      this.linkKind = kind
+      this.linkName = treeEntryName
+      this.permalink = collection.workspace.getPermalink({
         refid: this.id,
         kindref: 'compound',
       })
@@ -311,6 +325,46 @@ export class FileTreeEntry extends TreeEntryBase {
       refid: file.id,
       kindref: 'compound',
     })
+
+    // console.log(this)
+  }
+}
+
+/**
+ * Tree entry specifically for C++20 concept compounds in index views.
+ *
+ * @remarks
+ * Extends the base tree entry functionality with concept-specific
+ * link generation, associating the entry with its parent namespace
+ * (when present) or marking it as a top-level entry.
+ *
+ * @public
+ */
+export class ConceptEntry extends TreeEntryBase {
+  /**
+   * Creates a new concept tree entry.
+   *
+   * @remarks
+   * Initialises the tree entry with concept-specific information using
+   * the relative file path for display purposes in navigation structures.
+   *
+   * @param entry - The source entry object
+   * @param file - The file object providing context
+   */
+  constructor(entry: Concept) {
+    super(entry)
+
+    if (entry.parent !== undefined) {
+      this.linkKind = 'namespace'
+      this.linkName = entry.parent.compoundName
+      this.grouptPermalink = entry.collection.workspace.getPermalink({
+        refid: entry.parent.id,
+        kindref: 'compound',
+      })
+    } else {
+      this.linkKind = 'top'
+      this.linkName = 'namespace'
+    }
 
     // console.log(this)
   }
