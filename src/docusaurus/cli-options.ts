@@ -475,7 +475,8 @@ export class CliOptions {
           const thisType = typeof thisProperty
           const valueType = typeof value
 
-          if (['id', 'verbose', 'debug'].includes(key)) {
+          // if (['id', 'verbose', 'debug'].includes(key)) {
+          if (['id'].includes(key)) {
             continue
           }
 
