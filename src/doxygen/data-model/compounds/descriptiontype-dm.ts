@@ -1165,7 +1165,31 @@ export abstract class AbstractDocSect2Type extends AbstractDocSectType {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
+/**
+ * Abstract base class for third-level documentation section elements.
+ *
+ * @remarks
+ * Implements the XML Schema definition for docSect3Type elements, which
+ * represent the third level of hierarchical sections within documentation
+ * descriptions. These sections support mixed content and may contain
+ * titles, paragraphs, internal documentation sections, and nested
+ * fourth-level sections.
+ *
+ * @public
+ */
 export abstract class AbstractDocSect3Type extends AbstractDocSectType {
+  /**
+   * Constructs an AbstractDocSect3Type instance from XML element data.
+   *
+   * @param xml - The Doxygen XML parser instance for processing XML content
+   * @param element - The XML element object containing the section data
+   * @param elementName - The name of the XML element being processed
+   *
+   * @remarks
+   * Processes third-level section elements by extracting title elements,
+   * paragraphs, internal sections, and nested fourth-level sections,
+   * maintaining content ordering and structured access to section metadata.
+   */
   constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
@@ -1242,7 +1266,31 @@ export abstract class AbstractDocSect3Type extends AbstractDocSectType {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
+/**
+ * Abstract base class for fourth-level documentation section elements.
+ *
+ * @remarks
+ * Implements the XML Schema definition for docSect4Type elements, which
+ * represent the fourth level of hierarchical sections within documentation
+ * descriptions. These sections support mixed content and may contain
+ * titles, paragraphs, internal documentation sections, and nested
+ * fifth-level sections.
+ *
+ * @public
+ */
 export abstract class AbstractDocSect4Type extends AbstractDocSectType {
+  /**
+   * Constructs an AbstractDocSect4Type instance from XML element data.
+   *
+   * @param xml - The Doxygen XML parser instance for processing XML content
+   * @param element - The XML element object containing the section data
+   * @param elementName - The name of the XML element being processed
+   *
+   * @remarks
+   * Processes fourth-level section elements by extracting title elements,
+   * paragraphs, internal sections, and nested fifth-level sections,
+   * maintaining content ordering and structured access to section metadata.
+   */
   constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
@@ -1319,7 +1367,31 @@ export abstract class AbstractDocSect4Type extends AbstractDocSectType {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
+/**
+ * Abstract base class for fifth-level documentation section elements.
+ *
+ * @remarks
+ * Implements the XML Schema definition for docSect5Type elements, which
+ * represent the fifth level of hierarchical sections within documentation
+ * descriptions. These sections support mixed content and may contain
+ * titles, paragraphs, internal documentation sections, and nested
+ * sixth-level sections.
+ *
+ * @public
+ */
 export abstract class AbstractDocSect5Type extends AbstractDocSectType {
+  /**
+   * Constructs an AbstractDocSect5Type instance from XML element data.
+   *
+   * @param xml - The Doxygen XML parser instance for processing XML content
+   * @param element - The XML element object containing the section data
+   * @param elementName - The name of the XML element being processed
+   *
+   * @remarks
+   * Processes fifth-level section elements by extracting title elements,
+   * paragraphs, internal sections, and nested sixth-level sections,
+   * maintaining content ordering and structured access to section metadata.
+   */
   constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 
@@ -1395,7 +1467,30 @@ export abstract class AbstractDocSect5Type extends AbstractDocSectType {
 //   <xsd:attribute name="id" type="xsd:string" />
 // </xsd:complexType>
 
+/**
+ * Abstract base class for sixth-level documentation section elements.
+ *
+ * @remarks
+ * Implements the XML Schema definition for docSect6Type elements, which
+ * represent the sixth and deepest level of hierarchical sections within
+ * documentation descriptions. These sections support mixed content and
+ * may contain titles, paragraphs, and internal documentation sections.
+ *
+ * @public
+ */
 export abstract class AbstractDocSect6Type extends AbstractDocSectType {
+  /**
+   * Constructs an AbstractDocSect6Type instance from XML element data.
+   *
+   * @param xml - The Doxygen XML parser instance for processing XML content
+   * @param element - The XML element object containing the section data
+   * @param elementName - The name of the XML element being processed
+   *
+   * @remarks
+   * Processes sixth-level section elements by extracting title elements,
+   * paragraphs, and internal sections, maintaining content ordering
+   * and structured access to section metadata.
+   */
   constructor(xml: DoxygenXmlParser, element: object, elementName: string) {
     super(elementName)
 

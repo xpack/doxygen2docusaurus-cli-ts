@@ -70,6 +70,18 @@ import { AbstractDataModelBase } from '../../doxygen/data-model/types.js'
  * @public
  */
 export class DescriptionTypeLinesRenderer extends ElementLinesRendererBase {
+  /**
+   * Renders a description type element to formatted output lines.
+   *
+   * @remarks
+   * Passes the element's children to the workspace array renderer,
+   * producing one or more output lines. An optional title on the element
+   * is currently not rendered and triggers a console error if present.
+   *
+   * @param element - The description element to render
+   * @param type - The rendering context type
+   * @returns Array of formatted output lines
+   */
   renderToLines(element: AbstractDescriptionType, type: string): string[] {
     // console.log(util.inspect(element, { compact: false, depth: 999 }))
 
