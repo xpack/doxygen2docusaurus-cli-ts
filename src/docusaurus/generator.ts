@@ -331,7 +331,7 @@ export class DocusaurusGenerator {
     const frontMatter: FrontMatter = {
       title,
       slug: `${this.workspace.slugBaseUrl}${permalink}`,
-      // description: '...', // TODO
+      description: 'The main page of the API documentation',
       custom_edit_url: null,
       keywords: ['doxygen', 'reference'],
     }

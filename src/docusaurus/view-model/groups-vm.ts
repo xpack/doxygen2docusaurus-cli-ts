@@ -261,7 +261,7 @@ export class Groups extends CollectionBase {
     const frontMatter: FrontMatter = {
       title: 'Topics',
       slug: `${this.workspace.slugBaseUrl}${permalink}`,
-      // description: '...', // TODO
+      description: 'The topics defined in this project',
       custom_edit_url: null,
       keywords: ['doxygen', 'topics', 'reference'],
     }

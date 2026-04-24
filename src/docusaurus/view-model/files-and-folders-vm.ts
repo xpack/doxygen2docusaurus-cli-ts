@@ -516,7 +516,8 @@ export class FilesAndFolders extends CollectionBase {
     const frontMatter: FrontMatter = {
       title: 'Files & Folders',
       slug: `${this.workspace.slugBaseUrl}${permalink}`,
-      // description: '...', // TODO
+      description:
+        'The files and folders that contributed content to this site',
       custom_edit_url: null,
       keywords: ['doxygen', 'files', 'folders', 'reference'],
     }

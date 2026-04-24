@@ -327,7 +327,9 @@ export class Classes extends CollectionBase {
     const frontMatter: FrontMatter = {
       title: 'Classes',
       slug: `${this.workspace.slugBaseUrl}${permalink}`,
-      // description: '...', // TODO
+      description:
+        'The C++ classes, structs, unions, and interfaces ' +
+        'defined in the project',
       custom_edit_url: null,
       keywords: ['doxygen', 'classes', 'reference'],
     }
