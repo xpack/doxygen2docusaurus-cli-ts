@@ -701,7 +701,7 @@ export class DocusaurusGenerator {
       'document-svgrepo-com.svg'
     )
     let toFilePath = path.join(destImgFolderPath, 'document-svgrepo-com.svg')
-    console.log(`Copying image file '${toFilePath}'`)
+    console.log(`Copying image file '${toFilePath}'...`)
     await fs.copyFile(fromFilePath, toFilePath)
 
     fromFilePath = path.join(
@@ -711,7 +711,7 @@ export class DocusaurusGenerator {
       'folder-svgrepo-com.svg'
     )
     toFilePath = path.join(destImgFolderPath, 'folder-svgrepo-com.svg')
-    console.log(`Copying image file '${toFilePath}'`)
+    console.log(`Copying image file '${toFilePath}'...`)
     await fs.copyFile(fromFilePath, toFilePath)
 
     fromFilePath = path.join(
@@ -725,7 +725,7 @@ export class DocusaurusGenerator {
     if (!(await folderExists(path.dirname(toFilePath)))) {
       await fs.mkdir(path.dirname(toFilePath), { recursive: true })
     }
-    console.log(`Copying css file '${toFilePath}'`)
+    console.log(`Copying css file '${toFilePath}'...`)
     await fs.copyFile(fromFilePath, toFilePath)
   }
 
@@ -777,7 +777,7 @@ export class DocusaurusGenerator {
       fromFilePath = path.join(this.options.doxygenXmlInputFolderPath, name)
       toFilePath = path.join(destImgFolderPath, name)
       if (this.options.verbose) {
-        console.log(`Copying image file '${toFilePath}'`)
+        console.log(`Copying image file '${toFilePath}'...`)
       }
       await fs.copyFile(fromFilePath, toFilePath)
     }
