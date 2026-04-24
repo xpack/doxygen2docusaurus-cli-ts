@@ -224,7 +224,12 @@ export abstract class CollectionBase {
 
         let text = ''
 
-        text += `<li><b>${name}</b>: `
+        text += `<li>`
+        if (entry.permalink !== undefined && entry.permalink.length > 0) {
+          text += `<a href="${entry.permalink}"><b>${name}</b></a>: `
+        } else {
+          text += `<b>${name}</b>: `
+        }
         text += 'as '
         if (name !== entry.comparableLinkName) {
           text += `${kind} `
@@ -236,8 +241,11 @@ export abstract class CollectionBase {
           text += ' '
         }
 
-        if (entry.permalink !== undefined && entry.permalink.length > 0) {
-          text += `<a href="${entry.permalink}">${linkName}</a>`
+        if (
+          entry.grouptPermalink !== undefined &&
+          entry.grouptPermalink.length > 0
+        ) {
+          text += `<a href="${entry.grouptPermalink}">${linkName}</a>`
         } else {
           text += linkName
         }

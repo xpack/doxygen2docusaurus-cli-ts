@@ -104,6 +104,15 @@ export class TreeEntryBase {
   permalink?: string | undefined
 
   /**
+   * The URL of the parent group compound (class, namespace, or file).
+   *
+   * @remarks
+   * Permalink to the containing compound page, used in index tables
+   * to link the entry back to the group in which it is defined.
+   */
+  grouptPermalink?: string | undefined
+
+  /**
    * Creates a new tree entry from a compound or member object.
    *
    * @remarks
@@ -113,10 +122,10 @@ export class TreeEntryBase {
    *
    * @param entry - The documentation object to create an entry for
    */
-  constructor(entry: Class | Namespace | Member | EnumValue) {
+    this.id = entry.id
+
     if (entry instanceof Class) {
-      const { id, collection, treeEntryName, fullyQualifiedName, kind } = entry
-      this.id = id
+      const { collection, treeEntryName, fullyQualifiedName, kind } = entry
 
       // this.name = entry.unqualifiedName
       this.name = collection.workspace.renderString(treeEntryName, 'html')
@@ -131,12 +140,12 @@ export class TreeEntryBase {
       this.linkName = fullyQualifiedName
 
       this.permalink = collection.workspace.getPermalink({
-        refid: id,
+        refid: this.id,
         kindref: 'compound',
       })
     } else if (entry instanceof Namespace) {
-      const { id, treeEntryName, unqualifiedName, kind, collection } = entry
-      this.id = id
+      const { treeEntryName, unqualifiedName, kind, collection } = entry
+
       this.name = treeEntryName
       this.longName = unqualifiedName
 
@@ -145,27 +154,26 @@ export class TreeEntryBase {
       this.linkKind = kind
       this.linkName = treeEntryName
       this.permalink = collection.workspace.getPermalink({
-        refid: id,
+        refid: this.id,
+        refid: this.id,
         kindref: 'compound',
       })
     } else if (entry instanceof Member) {
-      const { id, name, qualifiedName, kind, section } = entry
-      this.id = id
+      const { name, qualifiedName, kind, section } = entry
       this.name = name
       this.longName = qualifiedName ?? '???'
 
       this.kind = kind
 
       this.permalink = section.compound.collection.workspace.getPermalink({
-        refid: id,
+        refid: this.id,
         kindref: 'member',
       })
       if (this.kind === 'function') {
         this.name += '()'
       }
     } else if (entry instanceof EnumValue) {
-      const { id, name, member } = entry
-      this.id = id
+      const { name, member } = entry
       this.name = name
       this.longName = name
 
@@ -173,7 +181,7 @@ export class TreeEntryBase {
 
       this.permalink =
         member.section.compound.collection.workspace.getPermalink({
-          refid: id,
+          refid: this.id,
           kindref: 'member',
         })
     } else {
@@ -222,6 +230,10 @@ export class ClassTreeEntry extends TreeEntryBase {
       'html'
     )
 
+    this.grouptPermalink = collection.workspace.getPermalink({
+      refid: clazz.id,
+      kindref: 'compound',
+    })
     // console.log(this)
   }
 }
@@ -258,6 +270,11 @@ export class NamespaceTreeEntry extends TreeEntryBase {
     this.linkName = sanitizeAnonymousNamespace(namespace.compoundName)
     const { treeEntryName } = namespace
     this.comparableLinkName = treeEntryName
+
+    this.grouptPermalink = namespace.collection.workspace.getPermalink({
+      refid: namespace.id,
+      kindref: 'compound',
+    })
     // console.log(this)
   }
 }
@@ -289,6 +306,11 @@ export class FileTreeEntry extends TreeEntryBase {
     this.linkKind = 'file'
     const { relativePath } = file
     this.linkName = relativePath
+
+    this.grouptPermalink = file.collection.workspace.getPermalink({
+      refid: file.id,
+      kindref: 'compound',
+    })
 
     // console.log(this)
   }
