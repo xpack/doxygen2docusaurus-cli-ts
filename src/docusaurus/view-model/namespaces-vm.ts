@@ -949,11 +949,13 @@ export class Namespace extends CompoundBase {
 
     lines.push(
       ...this.renderInnerIndicesToLines({
-        suffixes: ['Namespaces', 'Classes'],
+        suffixes: ['Namespaces', 'Classes', 'Concepts'],
       })
     )
 
-    if (this.hasConcepts()) {
+    // This is a compatibility check for older Doxygen versions (pre 1.15)
+    // that don't have innerConcepts.
+    if (this.hasConcepts() && !this.innerCompounds?.has('innerConcepts')) {
       lines.push(...this.renderConceptsIndexToLines(this.concepts))
     }
 

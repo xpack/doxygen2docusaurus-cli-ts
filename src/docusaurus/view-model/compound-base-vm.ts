@@ -631,7 +631,7 @@ export abstract class CompoundBase {
       return []
     }
 
-    for (const innerKey of Object.keys(this.innerCompounds)) {
+    for (const innerKey of this.innerCompounds.keys()) {
       if (innerKey.startsWith('inner')) {
         const suffix = innerKey.substring(5)
         if (!suffixes.includes(suffix)) {

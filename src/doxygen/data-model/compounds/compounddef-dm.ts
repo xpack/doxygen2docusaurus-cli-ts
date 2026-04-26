@@ -32,6 +32,7 @@ import {
 } from './descriptiontype-dm.js'
 import {
   InnerClassDataModel,
+  InnerConceptDataModel,
   InnerDirDataModel,
   InnerFileDataModel,
   InnerGroupDataModel,
@@ -514,7 +515,16 @@ export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
    * supporting hierarchical type documentation.
    */
   innerClasses?: InnerClassDataModel[] | undefined
-  // innerConcepts
+
+  /**
+   * Inner concept references contained within this compound.
+   *
+   * @remarks
+   * Contains references to concepts that are defined within this compound.
+   * This property captures nested concept relationships extracted from
+   * 'innerconcept' XML elements, supporting hierarchical concept documentation.
+   */
+  innerConcepts?: InnerConceptDataModel[] | undefined
 
   /**
    * Inner namespace references contained within this compound.
@@ -753,6 +763,9 @@ export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
       } else if (xml.hasInnerElement(innerElement, 'innerclass')) {
         this.innerClasses ??= []
         this.innerClasses.push(new InnerClassDataModel(xml, innerElement))
+      } else if (xml.hasInnerElement(innerElement, 'innerconcept')) {
+        this.innerConcepts ??= []
+        this.innerConcepts.push(new InnerConceptDataModel(xml, innerElement))
       } else if (xml.hasInnerElement(innerElement, 'innernamespace')) {
         this.innerNamespaces ??= []
         this.innerNamespaces.push(

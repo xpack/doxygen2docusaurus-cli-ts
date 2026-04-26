@@ -1211,7 +1211,7 @@ export class File extends CompoundBase {
 
     lines.push(
       ...this.renderInnerIndicesToLines({
-        suffixes: ['Namespaces', 'Classes'],
+        suffixes: ['Namespaces', 'Classes', 'Concepts'],
       })
     )
 
