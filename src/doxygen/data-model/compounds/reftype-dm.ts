@@ -138,7 +138,7 @@ export abstract class AbstractRefType extends AbstractDataModelBase {
       } else if (attributeName === '@_prot') {
         this.prot = xml.getAttributeStringValue(element, '@_prot')
       } else if (attributeName === '@_inline') {
-        this.inline = Boolean(xml.getAttributeBooleanValue(element, '@_inline'))
+        this.inline = xml.getAttributeBooleanValue(element, '@_inline')
       } else {
         console.error(util.inspect(element, { compact: false, depth: 999 }))
         console.error(

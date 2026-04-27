@@ -765,10 +765,7 @@ export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
     for (const attributeName of attributesNames) {
       // console.log(attributeName)
       if (attributeName === '@_kind') {
-        this.kind = xml.getAttributeStringValue(
-          element,
-          '@_kind'
-        ) as DoxMemberKind
+        this.kind = xml.getAttributeStringValue(element, '@_kind')
       } else if (attributeName === '@_id') {
         this.id = xml.getAttributeStringValue(element, '@_id')
       } else if (attributeName === '@_prot') {
@@ -776,55 +773,40 @@ export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
       } else if (attributeName === '@_static') {
         this.staticc = xml.getAttributeBooleanValue(element, '@_static')
       } else if (attributeName === '@_extern') {
-        this.extern = Boolean(xml.getAttributeBooleanValue(element, '@_extern'))
+        this.extern = xml.getAttributeBooleanValue(element, '@_extern')
       } else if (attributeName === '@_strong') {
-        this.strong = Boolean(xml.getAttributeBooleanValue(element, '@_strong'))
+        this.strong = xml.getAttributeBooleanValue(element, '@_strong')
       } else if (attributeName === '@_const') {
-        this.constt = Boolean(xml.getAttributeBooleanValue(element, '@_const'))
+        this.constt = xml.getAttributeBooleanValue(element, '@_const')
       } else if (attributeName === '@_explicit') {
-        this.explicit = Boolean(
-          xml.getAttributeBooleanValue(element, '@_explicit')
-        )
+        this.explicit = xml.getAttributeBooleanValue(element, '@_explicit')
       } else if (attributeName === '@_inline') {
-        this.inline = Boolean(xml.getAttributeBooleanValue(element, '@_inline'))
+        this.inline = xml.getAttributeBooleanValue(element, '@_inline')
       } else if (attributeName === '@_refqual') {
-        this.refqual = Boolean(
-          xml.getAttributeBooleanValue(element, '@_refqual')
-        )
+        this.refqual = xml.getAttributeBooleanValue(element, '@_refqual')
       } else if (attributeName === '@_virt') {
         this.virt = xml.getAttributeStringValue(element, '@_virt')
       } else if (attributeName === '@_volatile') {
         this.volatile = xml.getAttributeBooleanValue(element, '@_volatile')
       } else if (attributeName === '@_mutable') {
-        this.mutable = Boolean(
-          xml.getAttributeBooleanValue(element, '@_mutable')
-        )
+        this.mutable = xml.getAttributeBooleanValue(element, '@_mutable')
       } else if (attributeName === '@_noexcept') {
-        this.noexcept = Boolean(
-          xml.getAttributeBooleanValue(element, '@_noexcept')
-        )
+        this.noexcept = xml.getAttributeBooleanValue(element, '@_noexcept')
       } else if (attributeName === '@_noexceptexpression') {
-        this.noexceptexpression = Boolean(
-          xml.getAttributeBooleanValue(element, '@_noexceptexpression')
+        this.noexceptexpression = xml.getAttributeBooleanValue(
+          element,
+          '@_noexceptexpression'
         )
       } else if (attributeName === '@_nodiscard') {
-        this.nodiscard = Boolean(
-          xml.getAttributeBooleanValue(element, '@_nodiscard')
-        )
+        this.nodiscard = xml.getAttributeBooleanValue(element, '@_nodiscard')
       } else if (attributeName === '@_constexpr') {
-        this.constexpr = Boolean(
-          xml.getAttributeBooleanValue(element, '@_constexpr')
-        )
+        this.constexpr = xml.getAttributeBooleanValue(element, '@_constexpr')
       } else if (attributeName === '@_consteval') {
-        this.consteval = Boolean(
-          xml.getAttributeBooleanValue(element, '@_consteval')
-        )
+        this.consteval = xml.getAttributeBooleanValue(element, '@_consteval')
       } else if (attributeName === '@_constinit') {
-        this.constinit = Boolean(
-          xml.getAttributeBooleanValue(element, '@_constinit')
-        )
+        this.constinit = xml.getAttributeBooleanValue(element, '@_constinit')
       } else if (attributeName === '@_final') {
-        this.final = Boolean(xml.getAttributeBooleanValue(element, '@_final'))
+        this.final = xml.getAttributeBooleanValue(element, '@_final')
       } else {
         console.error(util.inspect(element, { compact: false, depth: 999 }))
         console.error(

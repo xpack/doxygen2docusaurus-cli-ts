@@ -529,15 +529,13 @@ export abstract class AbstractCodeLineType extends AbstractDataModelBase {
       const attributesNames = xml.getAttributesNames(element)
       for (const attributeName of attributesNames) {
         if (attributeName === '@_lineno') {
-          this.lineno = Number(xml.getAttributeNumberValue(element, '@_lineno'))
+          this.lineno = xml.getAttributeNumberValue(element, '@_lineno')
         } else if (attributeName === '@_refid') {
           this.refid = xml.getAttributeStringValue(element, '@_refid')
         } else if (attributeName === '@_refkind') {
           this.refkind = xml.getAttributeStringValue(element, '@_refkind')
         } else if (attributeName === '@_external') {
-          this.external = Boolean(
-            xml.getAttributeBooleanValue(element, '@_external')
-          )
+          this.external = xml.getAttributeBooleanValue(element, '@_external')
         } else {
           console.error(util.inspect(element, { compact: false, depth: 999 }))
           console.error(
@@ -848,7 +846,7 @@ export abstract class AbstractSpType extends AbstractDataModelBase {
       const attributesNames = xml.getAttributesNames(element)
       for (const attributeName of attributesNames) {
         if (attributeName === '@_value') {
-          this.value = Number(xml.getAttributeNumberValue(element, '@_value'))
+          this.value = xml.getAttributeNumberValue(element, '@_value')
         } else {
           console.error(util.inspect(element, { compact: false, depth: 999 }))
           console.error(
@@ -6584,7 +6582,7 @@ export abstract class AbstractDocListType extends AbstractDataModelBase {
           this.type = xml.getAttributeStringValue(element, '@_type')
         } else if (attributeName === '@_start') {
           assert(this.start === undefined)
-          this.start = Number(xml.getAttributeNumberValue(element, '@_start'))
+          this.start = xml.getAttributeNumberValue(element, '@_start')
         } else {
           console.error(util.inspect(element, { compact: false, depth: 999 }))
           console.error(
@@ -6713,7 +6711,7 @@ export abstract class AbstractDocListItemType extends AbstractDataModelBase {
           this.override = xml.getAttributeStringValue(element, '@_override')
         } else if (attributeName === '@_value') {
           assert(this.value === undefined)
-          this.value = Number(xml.getAttributeNumberValue(element, '@_value'))
+          this.value = xml.getAttributeNumberValue(element, '@_value')
         } else {
           console.error(util.inspect(element, { compact: false, depth: 999 }))
           console.error(
@@ -7447,14 +7445,10 @@ export abstract class AbstractDocEntryType extends AbstractDataModelBase {
           this.thead = xml.getAttributeBooleanValue(element, '@_thead')
         } else if (attributeName === '@_colspan') {
           assert(this.colspan === undefined)
-          this.colspan = Number(
-            xml.getAttributeNumberValue(element, '@_colspan')
-          )
+          this.colspan = xml.getAttributeNumberValue(element, '@_colspan')
         } else if (attributeName === '@_rowspan') {
           assert(this.rowspan === undefined)
-          this.rowspan = Number(
-            xml.getAttributeNumberValue(element, '@_rowspan')
-          )
+          this.rowspan = xml.getAttributeNumberValue(element, '@_rowspan')
         } else if (attributeName === '@_align') {
           assert(this.align === undefined)
           this.align = xml.getAttributeStringValue(element, '@_align')
@@ -7849,7 +7843,7 @@ export abstract class AbstractDocImageType extends AbstractDataModelBase {
       } else if (attributeName === '@_alt') {
         this.alt = xml.getAttributeStringValue(element, '@_alt')
       } else if (attributeName === '@_inline') {
-        this.inline = Boolean(xml.getAttributeBooleanValue(element, '@_inline'))
+        this.inline = xml.getAttributeBooleanValue(element, '@_inline')
       } else if (attributeName === '@_caption') {
         this.caption = xml.getAttributeStringValue(element, '@_caption')
       } else {

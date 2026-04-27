@@ -195,7 +195,7 @@ export class Groups extends CollectionBase {
       }
 
       for (const childGroup of group.children) {
-        const item = this.createSidebarItemRecursively(childGroup as Group)
+        const item = this.createSidebarItemRecursively(childGroup)
         if (item !== undefined) {
           categoryItem.items.push(item)
         }
@@ -404,7 +404,7 @@ export class Groups extends CollectionBase {
     if (group.children.length > 0) {
       for (const childGroup of group.children) {
         lines.push(
-          ...this.generateIndexMdFileRecursively(childGroup as Group, depth + 1)
+          ...this.generateIndexMdFileRecursively(childGroup, depth + 1)
         )
       }
     }

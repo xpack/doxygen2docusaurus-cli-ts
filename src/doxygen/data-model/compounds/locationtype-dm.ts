@@ -207,19 +207,15 @@ export abstract class AbstractLocationType extends AbstractDataModelBase {
       if (attributeName === '@_file') {
         this.file = xml.getAttributeStringValue(element, '@_file')
       } else if (attributeName === '@_line') {
-        this.line = Number(xml.getAttributeNumberValue(element, '@_line'))
+        this.line = xml.getAttributeNumberValue(element, '@_line')
       } else if (attributeName === '@_column') {
-        this.column = Number(xml.getAttributeNumberValue(element, '@_column'))
+        this.column = xml.getAttributeNumberValue(element, '@_column')
       } else if (attributeName === '@_declfile') {
         this.declfile = xml.getAttributeStringValue(element, '@_declfile')
       } else if (attributeName === '@_declline') {
-        this.declline = Number(
-          xml.getAttributeNumberValue(element, '@_declline')
-        )
+        this.declline = xml.getAttributeNumberValue(element, '@_declline')
       } else if (attributeName === '@_declcolumn') {
-        this.declcolumn = Number(
-          xml.getAttributeNumberValue(element, '@_declcolumn')
-        )
+        this.declcolumn = xml.getAttributeNumberValue(element, '@_declcolumn')
       } else if (attributeName === '@_bodyfile') {
         this.bodyfile = xml.getAttributeStringValue(element, '@_bodyfile')
       } else if (attributeName === '@_bodystart') {

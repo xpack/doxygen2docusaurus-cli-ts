@@ -147,11 +147,9 @@ export abstract class AbstractReferenceType extends AbstractDataModelBase {
       if (attributeName === '@_refid') {
         this.refid = xml.getAttributeStringValue(element, '@_refid')
       } else if (attributeName === '@_startline') {
-        this.startline = Number(
-          xml.getAttributeNumberValue(element, '@_startline')
-        )
+        this.startline = xml.getAttributeNumberValue(element, '@_startline')
       } else if (attributeName === '@_endline') {
-        this.endline = Number(xml.getAttributeNumberValue(element, '@_endline'))
+        this.endline = xml.getAttributeNumberValue(element, '@_endline')
       } else if (attributeName === '@_compoundref') {
         this.compoundref = xml.getAttributeStringValue(element, '@_compoundref')
       } else {

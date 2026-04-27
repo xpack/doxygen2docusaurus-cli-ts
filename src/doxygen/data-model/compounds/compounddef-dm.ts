@@ -200,9 +200,9 @@ export abstract class AbstractXyzType extends AbstractDataModelBase {
       } else if (attributeName === '@_language') {
         this.language = xml.getAttributeStringValue(element, '@_language')
       } else if (attributeName === '@_final') {
-        this.final = Boolean(xml.getAttributeBooleanValue(element, '@_final'))
+        this.final = xml.getAttributeBooleanValue(element, '@_final')
       } else if (attributeName === '@_lineno') {
-        this.lineno = Number(xml.getAttributeNumberValue(element, '@_lineno'))
+        this.lineno = xml.getAttributeNumberValue(element, '@_lineno')
       } else {
         console.error(util.inspect(element, { compact: false, depth: 999 }))
         console.error(
@@ -833,15 +833,13 @@ export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
       } else if (attributeName === '@_prot') {
         this.prot = xml.getAttributeStringValue(element, '@_prot')
       } else if (attributeName === '@_final') {
-        this.final = Boolean(xml.getAttributeBooleanValue(element, '@_final'))
+        this.final = xml.getAttributeBooleanValue(element, '@_final')
       } else if (attributeName === '@_inline') {
-        this.inline = Boolean(xml.getAttributeBooleanValue(element, '@_inline'))
+        this.inline = xml.getAttributeBooleanValue(element, '@_inline')
       } else if (attributeName === '@_sealed') {
-        this.sealed = Boolean(xml.getAttributeBooleanValue(element, '@_sealed'))
+        this.sealed = xml.getAttributeBooleanValue(element, '@_sealed')
       } else if (attributeName === '@_abstract') {
-        this.abstract = Boolean(
-          xml.getAttributeBooleanValue(element, '@_abstract')
-        )
+        this.abstract = xml.getAttributeBooleanValue(element, '@_abstract')
       } else {
         console.error(util.inspect(element, { compact: false, depth: 999 }))
         console.error(
