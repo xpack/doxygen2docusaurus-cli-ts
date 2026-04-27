@@ -275,7 +275,7 @@ export class NamespaceTreeEntry extends TreeEntryBase {
    * @param namespace - The namespace object providing context
    */
   constructor(
-    entry: Namespace | Class | Member | EnumValue,
+    entry: Namespace | Concept | Class | Member | EnumValue,
     namespace: Namespace
   ) {
     super(entry)
@@ -314,7 +314,10 @@ export class FileTreeEntry extends TreeEntryBase {
    * @param entry - The source entry object
    * @param file - The file object providing context
    */
-  constructor(entry: Namespace | Class | Member | EnumValue, file: File) {
+  constructor(
+    entry: Namespace | Concept | Class | Member | EnumValue,
+    file: File
+  ) {
     super(entry)
 
     this.linkKind = 'file'

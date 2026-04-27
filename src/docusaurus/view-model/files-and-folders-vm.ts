@@ -32,6 +32,7 @@ import { FileTreeEntry } from './tree-entries-vm.js'
 import type { TreeEntryBase } from './tree-entries-vm.js'
 import { Class } from './classes-vm.js'
 import { Namespace } from './namespaces-vm.js'
+import { Concept } from './concepts-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -346,6 +347,14 @@ export class FilesAndFolders extends CollectionBase {
         type: 'doc',
         label: 'All',
         id: `${this.workspace.sidebarBaseId}indices/files/all`,
+      })
+    }
+
+    if (indicesSet.has('concepts')) {
+      filesCategory.items.push({
+        type: 'doc',
+        label: 'Concepts',
+        id: `${this.workspace.sidebarBaseId}indices/files/concepts`,
       })
     }
 
@@ -689,10 +698,25 @@ export class FilesAndFolders extends CollectionBase {
       }
 
       if (compound.innerCompounds !== undefined) {
-        // console.log(
-        //   compound.indexName,
-        //   Array.from(compound.innerCompounds.keys())
-        // )
+        if (this.workspace.options.debug) {
+          console.log(
+            compound.indexName,
+            Array.from(compound.innerCompounds.keys())
+          )
+        }
+        const conceptCompoundDef = compound.innerCompounds.get('innerConcepts')
+        if (conceptCompoundDef?.innerConcepts !== undefined) {
+          for (const innerConcept of conceptCompoundDef.innerConcepts) {
+            // console.log(innerConcept.refid)
+            const compoundConcept = this.workspace.viewModel.compoundsById.get(
+              innerConcept.refid
+            )
+            if (compoundConcept instanceof Concept) {
+              const conceptEntry = new FileTreeEntry(compoundConcept, compound)
+              allUnorderedEntriesMap.set(conceptEntry.id, conceptEntry)
+            }
+          }
+        }
         const classCompoundDef = compound.innerCompounds.get('innerClasses')
         if (classCompoundDef?.innerClasses !== undefined) {
           for (const innerClass of classCompoundDef.innerClasses) {
@@ -748,6 +772,15 @@ export class FilesAndFolders extends CollectionBase {
       map: allUnorderedEntriesMap,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       filter: (kind) => true,
+    })
+
+    await this.generateIndexFile({
+      group: 'files',
+      fileKind: 'concepts',
+      title: 'Files Concepts Index',
+      description: 'The concepts defined in the project are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => kind === 'concept',
     })
 
     await this.generateIndexFile({

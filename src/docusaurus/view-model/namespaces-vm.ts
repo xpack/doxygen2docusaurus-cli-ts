@@ -231,6 +231,14 @@ export class Namespaces extends CollectionBase {
       })
     }
 
+    if (indicesSet.has('concepts')) {
+      namespacesCategory.items.push({
+        type: 'doc',
+        label: 'Concepts',
+        id: `${this.workspace.sidebarBaseId}indices/namespaces/concepts`,
+      })
+    }
+
     if (indicesSet.has('classes')) {
       namespacesCategory.items.push({
         type: 'doc',
@@ -513,8 +521,28 @@ export class Namespaces extends CollectionBase {
 
       // console.log(compound.indexName)
       if (compound.innerCompounds !== undefined) {
-        // console.log(compound.indexName,
-        // Array.from(compound.innerCompounds.keys()))
+        if (this.workspace.options.debug) {
+          console.log(
+            compound.indexName,
+            Array.from(compound.innerCompounds.keys())
+          )
+        }
+        const conceptCompoundDef = compound.innerCompounds.get('innerConcepts')
+        if (conceptCompoundDef?.innerConcepts !== undefined) {
+          for (const innerConcept of conceptCompoundDef.innerConcepts) {
+            // console.log(innerConcept.refid)
+            const compoundConcept = this.workspace.viewModel.compoundsById.get(
+              innerConcept.refid
+            )
+            if (compoundConcept instanceof Concept) {
+              const conceptEntry = new NamespaceTreeEntry(
+                compoundConcept,
+                compound
+              )
+              allUnorderedEntriesMap.set(conceptEntry.id, conceptEntry)
+            }
+          }
+        }
         const classCompoundDef = compound.innerCompounds.get('innerClasses')
         if (classCompoundDef?.innerClasses !== undefined) {
           for (const innerClass of classCompoundDef.innerClasses) {
@@ -554,6 +582,15 @@ export class Namespaces extends CollectionBase {
       map: allUnorderedEntriesMap,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       filter: (kind) => true,
+    })
+
+    await this.generateIndexFile({
+      group: 'namespaces',
+      fileKind: 'concepts',
+      title: 'Namespaces Concepts Index',
+      description: 'The concepts defined in the namespaces are:',
+      map: allUnorderedEntriesMap,
+      filter: (kind) => kind === 'concept',
     })
 
     await this.generateIndexFile({
