@@ -1,6 +1,6 @@
 {
   "name": "@xpack/doxygen2docusaurus",
-  "version": "2.0.0",
+  "version": "2.1.0-pre",
   "description": "A Node.js CLI application to convert Doxygen XML files into Docusaurus documentation",
   "type": "module",
   "main": "./dist/index.js",
@@ -61,24 +61,24 @@
   "homepage": "https://xpack.github.io/doxygen2docusaurus/",
   "homepagePreview": "https://xpack.github.io/doxygen2docusaurus-cli-ts/",
   "dependencies": {
-    "commander": "^14.0.0",
-    "fast-xml-parser": "^5.2.5"
+    "commander": "^14.0.3",
+    "fast-xml-parser": "^5.7.2"
   },
   "devDependencies": {
-    "@eslint/js": "^9.31.0",
-    "@microsoft/api-extractor": "^7.55.2",
-    "@tsconfig/node20": "^20.1.6",
-    "@types/node": "^24.0.14",
-    "del-cli": "^6.0.0",
-    "eslint": "^9.31.0",
+    "@eslint/js": "^9.39.4",
+    "@microsoft/api-extractor": "^7.58.7",
+    "@tsconfig/node20": "^20.1.9",
+    "@types/node": "^25.6.0",
+    "del-cli": "^7.0.0",
+    "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
-    "fs-extra": "^11.3.0",
+    "fs-extra": "^11.3.4",
     "json": "^11.0.0",
-    "liquidjs": "^10.19.1",
-    "prettier": "3.6.2",
+    "liquidjs": "^10.25.7",
+    "prettier": "3.8.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.38.0"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.59.0"
   },
   "topConfig": {
     "descriptiveName": "Doxygen Documentation Converter",
