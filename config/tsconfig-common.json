@@ -1,0 +1,29 @@
+{
+  // DO NOT EDIT!
+  // Automatically generated from npm-packages-helper/templates/*.
+  //
+  // Visit https://aka.ms/tsconfig to read more about this file
+  // https://www.npmjs.com/package/@tsconfig/node20
+  //
+  // TODO: update to node22 in the final xpm 1.x release.
+  "extends": "@tsconfig/node20/tsconfig.json",
+  "compilerOptions": {
+    // Generate .d.ts files from TypeScript and JavaScript files in your project.
+    "declaration": true,
+    // Create sourcemaps for d.ts files.                 
+    "declarationMap": true,
+    // Create source map files for emitted JavaScript files.                
+    "sourceMap": true,
+    // Do not include the source map inline in the emitted JavaScript files.                     
+    "inlineSourceMap": false,
+    // Do not emit the source alongside the sourcemaps within a single file.             
+    "inlineSources": false,
+    // Disable emitting comments.                
+    "removeComments": true,
+    // Emit additional JavaScript to ease support for importing CommonJS modules. 
+    // This enables `allowSyntheticDefaultImports` for type compatibility.
+    "esModuleInterop": true,
+    // Ensure that casing is correct in imports.
+    "forceConsistentCasingInFileNames": true,
+  }
+}

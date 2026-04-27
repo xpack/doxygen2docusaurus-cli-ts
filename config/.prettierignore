@@ -1,0 +1,14 @@
+# DO NOT EDIT!
+# Automatically generated from npm-packages-helper/templates/*.
+
+# Ignore artifacts:
+build
+coverage
+dist
+bin
+maintenance-scripts
+templates
+
+# Ignore Liquid template files.
+**/*-liquid.*
+**/*.liquid
