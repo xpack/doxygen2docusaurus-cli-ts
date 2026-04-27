@@ -978,9 +978,8 @@ export class Namespace extends CompoundBase {
     if (this.compoundName.startsWith('anonymous_namespace{')) {
       lines.push(`namespace ${dots}`)
     } else {
-      lines.push(
-        `namespace ${workspace.renderString(this.compoundName, 'html')} ${dots}`
-      )
+      const compoundName = workspace.renderString(this.compoundName, 'html')
+      lines.push(`namespace ${compoundName} ${dots}`)
     }
     lines.push('</div>')
 

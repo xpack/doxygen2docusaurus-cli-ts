@@ -101,7 +101,11 @@ export class ParamTypeLinesRenderer extends ElementLinesRendererBase {
         text += `=${element.array}`
       }
       if (element.defval !== undefined) {
-        text += `=${this.workspace.renderElementToString(element.defval, type)}`
+        const defvalStr = this.workspace.renderElementToString(
+          element.defval,
+          type
+        )
+        text += `=${defvalStr}`
       }
     }
 

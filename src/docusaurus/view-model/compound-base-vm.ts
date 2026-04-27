@@ -992,7 +992,8 @@ export abstract class CompoundBase {
               definitionPermalink !== undefined &&
               definitionPermalink.length > 0
             ) {
-              text += `<a href="${definitionPermalink}">${locationBodyFile}</a>`
+              text +=
+                `<a href="${definitionPermalink}">` + `${locationBodyFile}</a>`
             } else {
               text += locationBodyFile
             }
@@ -1018,7 +1019,8 @@ export abstract class CompoundBase {
             ) {
               const lineStr = location.line.toString()
               const lineHtml = workspace.renderString(lineStr, 'html')
-              text += `<a href="${permalink}/#${lineAttribute}">${lineHtml}</a>`
+              text +=
+                `<a href="${permalink}/#${lineAttribute}">` + `${lineHtml}</a>`
             } else {
               text += location.line.toString()
             }

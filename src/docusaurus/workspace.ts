@@ -233,8 +233,9 @@ export class Workspace extends Renderers {
       apiBaseUrl += '/'
     }
 
-    this.absoluteBaseUrl = `${this.options.baseUrl}${docsBaseUrl}/${apiBaseUrl}`
-    this.pageBaseUrl = `${this.options.baseUrl}${docsBaseUrl}/${apiBaseUrl}`
+    const baseUrl = this.options.baseUrl
+    this.absoluteBaseUrl = `${baseUrl}${docsBaseUrl}/${apiBaseUrl}`
+    this.pageBaseUrl = `${baseUrl}${docsBaseUrl}/${apiBaseUrl}`
     this.slugBaseUrl = `/${apiBaseUrl}`
     this.menuBaseUrl = `/${docsBaseUrl}/${apiBaseUrl}`
 
