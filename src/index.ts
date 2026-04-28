@@ -34,7 +34,12 @@ import {
   AbstractDataModelBase,
 } from './doxygen/data-model/types.js'
 import { DataModel } from './doxygen/data-model/data-model.js'
-import { CliOptions } from './docusaurus/cli-options.js'
+import {
+  CliOptions,
+  CommandOptions,
+  CliConfigurationOptions,
+  MultiConfigurations,
+} from './docusaurus/cli-options.js'
 import { DoxygenXmlParser } from './doxygen/data-model/doxygen-xml-parser.js'
 import {
   DoxygenFileDataModel,
@@ -74,6 +79,7 @@ import {
 import {
   AbstractRefType,
   InnerClassDataModel,
+  InnerConceptDataModel,
   InnerDirDataModel,
   InnerFileDataModel,
   InnerGroupDataModel,
@@ -138,6 +144,7 @@ import {
   TypeConstraintDataModel,
   AbstractLinkedTextType,
   InitializerDataModel,
+  RequiresClauseDataModel,
 } from './doxygen/data-model/compounds/linkedtexttype-dm.js'
 import {
   ReferenceDataModel,
@@ -161,6 +168,9 @@ export {
   AbstractCompoundDefType,
   DataModel,
   CliOptions,
+  CommandOptions,
+  CliConfigurationOptions,
+  MultiConfigurations,
   DoxygenXmlParser,
   DoxygenFileDataModel,
   DoxygenIndexDataModel,
@@ -208,6 +218,7 @@ export {
   EnumValueDataModel,
   InbodyDescriptionDataModel,
   InitializerDataModel,
+  RequiresClauseDataModel,
   ReferencedByDataModel,
   ReferenceDataModel,
   ReimplementDataModel,
@@ -232,6 +243,7 @@ export {
 
   // Inner types
   InnerClassDataModel,
+  InnerConceptDataModel,
   InnerDirDataModel,
   InnerFileDataModel,
   InnerGroupDataModel,
