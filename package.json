@@ -65,8 +65,6 @@
     "npm-link-helpers": "npm link @xpack/npm-packages-helper @xpack/docusaurus-template-liquid",
     "npm-outdated": "npm outdated",
     "npm-update": "npm update",
-    "npm-version-patch": "npm version patch",
-    "npm-version-minor": "npm version minor",
     "postversion": "git push origin --all && git push origin --tags",
     "npm-pack": "npm pack",
     "git-log": "git log --pretty='%cd * %h %s' --date=short",
