@@ -3,9 +3,13 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "rootDir": "../../src",
     "outDir": "../tsdoc/dist",
+    "types": [
+      "node"
+    ],
     // api-extractor reads the documentation from the comments in the compiled files.
-    "removeComments": false, 
+    "removeComments": false,
     // To show internal docs in the generated API reference.
     "stripInternal": false,
     // Only output d.ts files and not JavaScript files.
@@ -19,7 +23,7 @@
     // errors to be reported using line numbers from your original source 
     // files; without this, the error locations will instead refer to the 
     // generated .d.ts files.
-    "declarationMap": true, 
+    "declarationMap": true,
     "sourceMap": false,
   }
 }
