@@ -8,6 +8,7 @@ and close existing issues and pull requests.
 
 ## 2026-04-28
 
+* v2.1.0 published on npmjs.com
 * v2.1.0 prepared
 * 8e1f2b3 website/package*.json update
 * 2c0a353 website/config/tsconfig-api-extractor.json update for tsc 6.x
