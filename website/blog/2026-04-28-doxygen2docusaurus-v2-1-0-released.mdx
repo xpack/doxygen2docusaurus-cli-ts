@@ -1,0 +1,85 @@
+---
+title: doxygen2docusaurus v2.1.0 released
+seo_title: Version 2.1.0 released
+description: Version 2.1.0 is a new release
+keywords:
+  - xpack
+  - doxygen2docusaurus
+  - release
+
+date: 2026-04-28 18:37:10 +0300
+
+authors: ilg-ul
+
+# To be listed in the Releases page.
+tags:
+  - releases
+
+# ----- Custom properties -----------------------------------------------------
+
+version: '2.1.0'
+
+release_tag_url: 'https://github.com/xpack/doxygen2docusaurus-cli-ts/tree/v2.1.0'
+---
+
+import { PageMetadata } from '@docusaurus/theme-common'
+import Image from '@theme/IdealImage'
+import CodeBlock from '@theme/CodeBlock'
+import Link from '@docusaurus/Link'
+
+import CommonPrerequisites from './_common/_prerequisites.mdx'
+import CommonDownloadAnalytics from './_common/_download-analytics.mdx'
+
+Version **2.1.0** is a new release; it fixes several issues and adds support for C++20 concepts.
+
+<!-- truncate -->
+
+<PageMetadata title={frontMatter.seo_title} />
+
+The [Doxygen Docusaurus Converter](https://xpack.github.io/doxygen2docusaurus-ts/)
+project is a TypeScript ECMAScript Node.js module.
+
+<CommonPrerequisites nodeVersion="20.0.0" />
+
+## Install
+
+For installation instructions, please refer to the
+[Install Guide](/docs/install/)
+page.
+
+## Source code
+
+- <Link to={frontMatter.release_tag_url}>
+    GitHub tag v{frontMatter.version} tree
+  </Link>
+
+## Bug fixes
+
+- [[#4](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/4)]: the
+  navbar-related configuration options were inconsistent; all were renamed
+  to start with `navbarDropbox`
+- [[#4](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/4)]: the
+  logic to process options was improved to support empty strings for
+  `compatibilityRedirectsOutputFolderPath`
+- [[#5](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/5)]: for now,
+  the CSS stylesheets have a problem rendering sidebar categories without a link;
+  the code was updated to generate links for all categories; this looks better,
+  but it is still not optimal and should be addressed in a future release
+- [[#7](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/7)]:
+  multi-line declarations were not rendered as expected; `<br/>` elements were added
+- [[#8](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/8)]: in
+  certain conditions, the logic behind `suggestToDoDescriptions` did not
+  produce the expected output; this has been fixed.
+
+## Enhancements
+
+- [[#6](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/6)]: support
+  for C++20 concepts was added; Doxygen has supported these since version 1.15.
+
+## Known problems
+
+- none
+
+## CI tests
+
+- none
