@@ -36,7 +36,7 @@ export default tseslint.config(
       tseslint.configs.stylisticTypeChecked,
       prettierConfig,
     ],
-    ignores: [],
+    ignores: ['**/*.d.ts'],
     rules: {
       'max-len': [
         'warn',
