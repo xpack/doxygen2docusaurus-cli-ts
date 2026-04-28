@@ -1,5 +1,4 @@
 ---
-
 title: doxygen2docusaurus
 description: Options applicable to doxygen2docusaurus.
 keywords:
@@ -7,12 +6,11 @@ keywords:
   - cli
 
 date: 2025-08-02 20:46:00 +0300
-
 ---
 
-import CodeBlock from '@theme/CodeBlock';
+import CodeBlock from '@theme/CodeBlock'
 
-import customField from '@site/src/libs/customField';
+import customField from '@site/src/libs/customField'
 
 {/* ------------------------------------------------------------------------ */}
 
@@ -63,7 +61,7 @@ Running 'doxygen2docusaurus' has completed successfully in 683 ms.
 
 ## Options
 
-### Configuration id (`--id`)
+### Configuration ID (`--id`)
 
 Specify a unique configuration identifier when the website comprises multiple reference sites.
 
@@ -81,12 +79,14 @@ Change the current working folder to the specified path before executing the con
 
 ### Version (`-v`, `--version`)
 
-Display the programme version.
+Display the program version.
 
-<CodeBlock language="console"> {
-`% doxygen2docusaurus -v
+<CodeBlock language="console">
+  {' '}
+  {`% doxygen2docusaurus -v
 ${customField('releaseVersion')}
-`} </CodeBlock>
+`}{' '}
+</CodeBlock>
 
 ### Help (`-h`, `--help`)
 
@@ -104,5 +104,3 @@ Options:
   -v, --version  display version
   -h, --help     display help for command
 ```
-
-

@@ -33,7 +33,7 @@ import ProjectMore from '../_project/_more.mdx';
 
 {/* ------------------------------------------------------------------------ */}
 
-<CommonPrerequisites nodeVersion="20.0.0" nodeVersionMajor="20"/>
+<CommonPrerequisites nodeVersion="20.0" nodeVersionMajor="20"/>
 
 <CommonGetProjectSources />
 
@@ -47,24 +47,11 @@ There are no fixed releases.
 
 ### Update npm packages
 
-:::note
-
-This package is also utilised by the VS Code extension and, until VS Code
-accepts ESM dependencies, it must be
-maintained as a legacy CommonJS dependency.
-
-:::
-
 - `npm outdated`
 - `npm update` or edit and `npm install`
 - Repeat and possibly manually edit `package.json` until everything is
   up to date
 - **Commit** the changes
-
-Maintain:
-
-- [`@types/node`](https://www.npmjs.com/package/@types/node?activeTab=versions)
-  locked to the latest version that still matches the oldest supported node (20).
 
 <ProjectDependenciesDetails />
 
@@ -95,13 +82,13 @@ Maintain:
 Test if the package can be installed globally:
 
 ```bash
-npm install --location=global @xpack/doxygen2docusaurus@next
+npm install --location=global @xpack/doxygen2docusaurus@test
 ```
 
 Validate the website content through a local build using the npm **build** script:
 
 ```sh
-npm run build
+npm --prefix ~/Work/xpack/doxygen2docusaurus-cli-ts.git/website run build
 ```
 
 <CommonPrepareWebsite />

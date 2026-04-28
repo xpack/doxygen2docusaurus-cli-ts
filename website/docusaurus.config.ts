@@ -49,7 +49,6 @@ const config: Config = {
 
   onBrokenAnchors: 'throw',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'throw',
 
   onDuplicateRoutes: 'throw',
 
@@ -66,7 +65,10 @@ const config: Config = {
   },
 
   markdown: {
-    format: 'detect'
+    format: 'detect',
+    hooks: {
+        onBrokenMarkdownLinks: 'throw'
+    }
   },
 
   plugins: [
@@ -211,7 +213,7 @@ const config: Config = {
     metadata: [
       {
         name: 'keywords',
-        content: 'xpack, doxygen2docusaurus'
+        content: 'doxygen, docusaurus, documentation, converter, node.js, cli'
       }
     ],
     navbar: {

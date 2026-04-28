@@ -1,5 +1,4 @@
 ---
-
 title: Configuration Variables
 description: Configuration variables for the doxygen2docusaurus CLI tool.
 keywords:
@@ -9,10 +8,9 @@ keywords:
   - configuration
 
 date: 2025-08-05 13:06:00 +0300
-
 ---
 
-The behaviour of the `doxygen2docusaurus` CLI tool can be customized using various configuration variables.
+The behaviour of the `doxygen2docusaurus` CLI tool can be customised using various configuration variables.
 
 ## Configuration Variables Index
 
@@ -28,18 +26,17 @@ The configuration variables, in lexicographic order, are:
 - **[docsFolderPath](#docsfolderpath)** - Path to documentation folder
 - **[doxygenXmlInputFolderPath](#doxygenxmlinputfolderpath)** - Path to Doxygen XML input folder
 - **[imagesFolderPath](#imagesfolderpath)** - Path to images folder
+- **[listPagesAtTop](#listpagesattop)** - List pages at top level
 - **[mainPageTitle](#mainpagetitle)** - Title for the main page
 - **[navbarDropdownFilePath](#navbardropdownfilepath)** - Path to menu dropdown file
 - **[navbarDropdownLabel](#navbardropdownlabel)** - Label for menu dropdown
 - **[originalPagesNote](#originalpagesnote)** - Note about original Doxygen pages
-- **[listPagesAtTop](#listpagesattop)** - List pages at top level
 - **[renderProgramListing](#renderprogramlisting)** - Render program listings in file pages
 - **[renderProgramListingInline](#renderprogramlistinginline)** - Render inline program listings
 - **[sidebarCategoryFilePath](#sidebarcategoryfilepath)** - Path to sidebar category file
 - **[sidebarCategoryLabel](#sidebarcategorylabel)** - Label for sidebar category
 - **[suggestToDoDescriptions](#suggesttododescriptions)** - Show TODO suggestions
 - **[verbose](#verbose)** - Enable verbose output
-
 
 ## Configuration Variable Definitions
 
@@ -69,7 +66,7 @@ Default: `'api'` or the ID for multi-configurations.
 
 ### `baseUrl`
 
-The URL pathname under which the site is served, like `/` if the site is a main site or `/<name>/` if the site is a sub-site. For GitHub pages deployment, it is often `/<projectName>/`
+The URL pathname under which the site is served, like `/` if the site is a main site or `/<name>/` if the site is a sub-site. For GitHub Pages deployment, it is often `/<projectName>/`.
 
 It must match the Docusaurus site base URL used in `docusaurus.config.js`.
 
@@ -127,7 +124,7 @@ Default: `'API Reference (Doxygen)'`
 
 ### `navbarDropdownFilePath`
 
-The file path where the menu dropdown file is written to. This file must be included by the Docusaurus `docusaurus.config.js` file to generate the custom top navigation bar.
+The file path to which the menu dropdown file is written. This file must be included by the Docusaurus `docusaurus.config.js` file to generate the custom top navigation bar.
 
 Default: `'docusaurus-config-navbar-doxygen.json'` or `'docusaurus-config-navbar-doxygen[-<id>].json'`
 
@@ -139,7 +136,7 @@ Default: `'Reference'`
 
 ### `customCssFilePath`
 
-The file path where the custom CSS file is written to. This file must be included by the Docusaurus `docusaurus.config.js` file to apply custom styles to the API reference documentation.
+The file path to which the custom CSS file is written. This file must be included by the Docusaurus `docusaurus.config.js` file to apply custom styles to the API reference documentation.
 
 Default: `'src/css/custom-doxygen2docusaurus.css'`
 

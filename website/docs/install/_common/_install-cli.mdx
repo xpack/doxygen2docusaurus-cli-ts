@@ -35,13 +35,12 @@ npm install @xpack/doxygen2docusaurus@latest --save-dev
 For a **specific version**, use the explicit version numbers:
 
 <CodeBlock language="sh"> {
-`npm install @xpack/doxygen2docusaurus@2.0.0 --save-dev
+`npm install @xpack/doxygen2docusaurus@2.1.0 --save-dev
 `} </CodeBlock>
-
 
 ### Global installation
 
-Since the package provides executables, it may also
+Since the package includes command-line tools, it may also
 be installed globally and utilised in any project.
 
 ```sh
@@ -51,8 +50,122 @@ npm install --location=global @xpack/doxygen2docusaurus@latest
 For a **specific version**, use the explicit version numbers:
 
 <CodeBlock language="sh"> {
-`npm install --location=global @xpack/doxygen2docusaurus@2.0.0
+`npm install --location=global @xpack/doxygen2docusaurus@2.1.0
 `} </CodeBlock>
+
+<Tabs groupId="operating-systems">
+
+<TabItem value="windows" label="Windows" default>
+
+On Windows, global Node.js packages are installed in the
+user home folder, within `%APPDATA%\npm`
+(such as `C:\Users\ilg\AppData\Roaming\npm`), and managing packages
+does not require administrative rights.
+
+The result of installing **@xpack/doxygen2docusaurus** is a set of files in the `%APPDATA%\npm` folder:
+
+```txt
+C:\>dir "%APPDATA%"\npm\doxygen2docusaurus*
+ Volume in drive C has no label.
+ Volume Serial Number is B02D-925C
+
+ Directory of C:\Users\ilg\AppData\Roaming\npm
+
+29/07/2024  07:24               397 doxygen2docusaurus
+29/07/2024  07:24               329 doxygen2docusaurus.cmd
+29/07/2024  07:24               821 doxygen2docusaurus.ps1
+               3 File(s)          1,547 bytes
+               0 Dir(s)  39,088,439,296 bytes free
+```
+
+If you followed the instructions in the
+prerequisites section, you should
+already have this path configured and the programme should start normally:
+
+<CodeBlock language="console"> {
+`C:\>doxygen2docusaurus --version
+2.1.0
+`} </CodeBlock>
+
+<ProjectTroubleshootingWindows />
+
+</TabItem>
+
+<TabItem value="macos" label="macOS">
+
+On macOS, if you executed the `install-nvm-node-npm-xpm.sh` scripts described
+in the previous section, you should
+already have **npm** correctly configured to utilise a location in the home folder.
+
+<CodeBlock language="console"> {
+`% which doxygen2docusaurus
+/Users/ilg/.nvm/versions/node/${props.nodeVersion}/bin/doxygen2docusaurus
+`} </CodeBlock>
+
+To test if **doxygen2docusaurus** starts:
+
+<CodeBlock language="console"> {
+`% doxygen2docusaurus --version
+2.1.0
+`} </CodeBlock>
+
+<Heading as="h3">Show macOS hidden files</Heading>
+
+The default location used to install the global packages is
+below `~/Library`, a folder that, due to an unfortunate Apple decision,
+is hidden for regular browsing in Finder.
+
+To make it visible again, utilise:
+
+```sh
+/usr/bin/chflags nohidden ~/Library
+xattr -d com.apple.FinderInfo ~/Library
+```
+
+A more general solution is to make all hidden files visible:
+
+```sh
+defaults write com.apple.Finder AppleShowAllFiles true
+killall Finder
+```
+
+Another frustrating behaviour of the file browser is to hide names beginning
+with `.` (dot), which is unfortunate since the binary packages are
+extracted into a folder named `.content`.
+
+Fortunately, there is a workaround for this too:
+
+```console
+cmd+shift+'.'
+```
+
+This keyboard shortcut functions as a toggle; using it once makes files
+beginning with dot visible,
+and using it again reverts to hiding them.
+
+</TabItem>
+
+<TabItem value="linux" label="GNU/Linux">
+
+On GNU/Linux, by default, when using system packages,
+global Node.js packages are installed in
+`/usr/local`, and managing them requires administrative rights,
+but if you executed the `install-nvm-node-npm-xpm.sh` scripts described
+in the previous section, you should
+already have **npm** correctly configured to utilise a location in the home folder.
+
+To test if doxygen2docusaurus starts:
+
+<CodeBlock language="console"> {
+`$ which doxygen2docusaurus
+/home/ilg/.nvm/versions/node/${props.nodeVersion}/bin/doxygen2docusaurus
+$ doxygen2docusaurus --version
+2.1.0
+`} </CodeBlock>
+
+</TabItem>
+
+</Tabs>
 
 ## Uninstall
 
@@ -75,7 +188,7 @@ benefit from it by utilising the `npx` command, as a trampoline to start **doxyg
 
 <CodeBlock language="console"> {
 `$ npx --package @xpack/doxygen2docusaurus -- doxygen2docusaurus --version
-2.0.0
+2.1.0
 `} </CodeBlock>
 
 However, for regular use, this method may be less convenient, as invoking **npx** requires a more verbose command.

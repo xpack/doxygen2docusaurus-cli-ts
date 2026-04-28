@@ -1,6 +1,7 @@
 [![GitHub package.json version](https://img.shields.io/github/package-json/v/xpack/doxygen2docusaurus-cli-ts)](https://github.com/xpack/doxygen2docusaurus-cli-ts/blob/master/package.json)
 [![NPM Version](https://img.shields.io/npm/v/@xpack/doxygen2docusaurus?color=blue)](https://www.npmjs.com/package/@xpack/doxygen2docusaurus/)
 [![license](https://img.shields.io/github/license/xpack/doxygen2docusaurus-cli-ts)](https://github.com/xpack/doxygen2docusaurus-cli-ts/blob/master/LICENSE)
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Fxpack.github.io%2Fdoxygen2docusaurus-cli-ts%2F)](https://xpack.github.io/doxygen2docusaurus/)
 
 # The Doxygen Documentation Converter
 
@@ -14,7 +15,7 @@ For information on how to install and use this project, please refer to the
 ## Project source
 
 The source code of the current release is available on
-[GitHub tag v2.0.0 tree](https://github.com/xpack/doxygen2docusaurus-cli-ts/tree/v2.0.0).
+[GitHub tag v2.1.0 tree](https://github.com/xpack/doxygen2docusaurus-cli-ts/tree/v2.1.0).
 
 ## License
 

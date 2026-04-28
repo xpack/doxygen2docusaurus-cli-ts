@@ -1,13 +1,11 @@
 ---
-
 title: Author's Guide
-description: Some recommandations on how to write effective documentation.
+description: Some recommendations on how to write effective documentation.
 keywords:
   - author
   - guide
 
 date: 2025-08-05 19:49:40 +0300
-
 ---
 
 This page is intended for those who plan to add Doxygen documentation metadata to their code.
@@ -83,7 +81,7 @@ namespace micro_os_plus::micro_test_plus
 
 ## Declaration vs definitions
 
-In the header file document the declaration:
+In the header file, document the declaration:
 
 ```cpp
     /**
@@ -97,7 +95,7 @@ In the header file document the declaration:
     operator<< (const T& t);
 ```
 
-In the source file (or inline file) document the definition:
+In the source file (or inline file), document the definition:
 
 ```cpp
   /**
@@ -118,8 +116,8 @@ In the source file (or inline file) document the definition:
 
 ## `@headerfile`
 
-For class, struct, or union documentation, define the header where they are defined.
-It is displayed in the Included Headers
+For class, struct, or union documentation, specify the header file in which they are declared.
+It is displayed in the Included Headers section.
 
 ```cpp
 /**
@@ -150,7 +148,7 @@ For parameters, define the input/output type:
 
 ## `@code`
 
-Define the code sections with @code, not markdown:
+Define code sections using `@code`, not Markdown:
 
 ```cpp
    * @code{.cpp}
@@ -164,10 +162,10 @@ Define the code sections with @code, not markdown:
 
 ## `@par Example`
 
-To make this just a bold header, add an empty line after `@par Example` to
-terminate the line sequence.
+To render this as a bold heading only, add an empty line after `@par Example`
+to terminate the paragraph sequence.
 
-Otherwise the code will be indented.
+Otherwise, the following content will be indented.
 
 ## `@par Returns`
 
@@ -189,9 +187,9 @@ For functions without parameters, to make this explicit, use:
 
 ## Same line comments
 
-To shortly document the members of structs/classes/enums, use `/** ... */`.
+To briefly document the members of structs, classes, or enumerations, use `/** ... */`.
 
-Be sure the text is a properly formatted sentence, beginning with a capital letter and ending with a full stop.
+Ensure the text is a properly formatted sentence, beginning with a capital letter and ending with a full stop.
 
 ```cpp
   /**
@@ -218,9 +216,9 @@ Be sure the text is a properly formatted sentence, beginning with a capital lett
   };
 ```
 
-For enumerations, the comment may also be placed before the line, although in
-this case the `@brief` is mandatory, since the details are not shown in
-the compact list.
+For enumerations, the comment may also be placed before the member, although in
+this case the `@brief` tag is mandatory, since the description is not shown in
+the compact member list.
 
 ```cpp
   enum class verbosity

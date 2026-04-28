@@ -8,13 +8,11 @@ import CodeBlock from '@theme/CodeBlock';
 import CommonPrerequisites from '@site/docs/_common/_prerequisites.mdx';
 import CommonGetProjectSources from '@site/docs/_common/_get-project-sources.mdx';
 
-import ProjectTestResults from '../_project/_test-results.mdx';
 import ProjectStyleExceptions from '../_project/_style-exceptions.mdx';
-import ProjectCoverageExceptions from '../_project/_coverage-exceptions.mdx';
 
 {/* ------------------------------------------------------------------------ */}
 
-<CommonPrerequisites nodeVersion="20.0.0" nodeVersionMajor="20"/>
+<CommonPrerequisites nodeVersion="20.0" nodeVersionMajor="20"/>
 
 <CommonGetProjectSources />
 
@@ -69,10 +67,6 @@ Known and accepted exceptions:
 
 <ProjectStyleExceptions />
 
-## Prettier
-
-The project uses [Prettier](https://prettier.io) to format the code.
-
 ## Documentation metadata
 
 The documentation metadata utilises the
@@ -81,7 +75,8 @@ explicit types, as they are provided by TypeScript.
 
 ## Tips & tricks
 
-To trace TypeScript module resolution:
+To trace which files module imports resolve to, enable TypeScript
+module resolution tracing:
 
 ```json
     "compile": "tsc --traceResolution  -p ./",
