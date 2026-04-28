@@ -29,7 +29,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[@xpack/doxygen2docusaurus](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus)
+[@xpack/xpm-lib](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib)
 
 
 </td><td>
@@ -42,6 +42,6 @@ A CLI application to convert Doxygen XML files into Docusaurus documentation.
 
 <hr/>
 
-<p class="doxyGeneratedBy">Generated via <a href="https://xpack.github.io/doxygen2docusaurus">tsdoc2docusaurus</a> 1.3.0 by <a href="https://api-extractor.com">API Extractor/Documenter</a>.</p>
+<p class="tsdocGeneratedBy">Generated via <a href="https://xpack.github.io/tsdoc2docusaurus">tsdoc2docusaurus</a> 1.3.2 by <a href="https://api-extractor.com">API Extractor/Documenter</a>.</p>
 
 </div>
