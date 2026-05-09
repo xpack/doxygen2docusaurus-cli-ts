@@ -1,15 +1,3 @@
-/*
- * This file is part of the xPack project (http://xpack.github.io).
- * Copyright (c) 2025-2026 Liviu Ionescu. All rights reserved.
- *
- * Permission to use, copy, modify, and/or distribute this software for any
- * purpose is hereby granted, under the terms of the MIT license.
- *
- * If a copy of the license was not distributed with this file, it can be
- * obtained from https://opensource.org/licenses/mit.
- */
-// ----------------------------------------------------------------------------
-// import * as util from 'node:util'
 import assert from 'node:assert';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
@@ -18,82 +6,16 @@ import { FileTreeEntry } from './tree-entries-vm.js';
 import { Class } from './classes-vm.js';
 import { Namespace } from './namespaces-vm.js';
 import { Concept } from './concepts-vm.js';
-// ----------------------------------------------------------------------------
-/**
- * Manages the collection of file and folder documentation compounds.
- *
- * @remarks
- * Handles the organisation and generation of file-based documentation,
- * including folder hierarchies, file listings, sidebar generation, and
- * index file creation. Provides a structured view of the source code
- * organisation with proper navigation support.
- *
- * @public
- */
 export class FilesAndFolders extends CollectionBase {
-    // compoundsById: Map<string, File | Folder>
-    /**
-     * Map of folder compounds indexed by identifier.
-     *
-     * @remarks
-     * Stores all folder instances for efficient lookup and hierarchy
-     * construction, separate from the main compounds collection.
-     */
     compoundFoldersById;
-    /**
-     * Map of file compounds indexed by identifier.
-     *
-     * @remarks
-     * Stores all file instances for efficient lookup and organisation,
-     * separate from the main compounds collection.
-     */
     compoundFilesById;
-    /**
-     * Array of top-level folders without parent folders.
-     *
-     * @remarks
-     * Contains folders that are at the root level of the documentation
-     * hierarchy, used for organising hierarchical displays.
-     */
     topLevelFolders = [];
-    /**
-     * Array of top-level files without parent folders.
-     *
-     * @remarks
-     * Contains files that are at the root level of the documentation
-     * hierarchy, not contained within any documented folder.
-     */
     topLevelFiles = [];
-    // folders: Folders
-    // --------------------------------------------------------------------------
-    /**
-     * Creates a new files and folders collection.
-     *
-     * @remarks
-     * Initialises the collection with separate maps for folders and files
-     * to enable efficient organisation and hierarchy construction.
-     *
-     * @param workspace - The workspace instance
-     */
     constructor(workspace) {
         super(workspace);
-        // this.compoundsById = new Map()
         this.compoundFoldersById = new Map();
         this.compoundFilesById = new Map();
     }
-    // --------------------------------------------------------------------------
-    /**
-     * Adds a file or folder compound to the collection.
-     *
-     * @remarks
-     * Creates either a File or Folder instance based on the compound kind,
-     * registers it in the appropriate collections, and returns the created
-     * instance for further processing.
-     *
-     * @param compoundDef - The compound definition for the file or folder
-     * @returns The created File or Folder instance
-     * @throws Error if compound kind is not 'file' or 'dir'
-     */
     addChild(compoundDef) {
         if (compoundDef.kind === 'file') {
             const file = new File(this, compoundDef);
@@ -111,19 +33,7 @@ export class FilesAndFolders extends CollectionBase {
             throw new Error(`kind ${compoundDef.kind} not implemented in ${this.constructor.name}`);
         }
     }
-    // --------------------------------------------------------------------------
-    /**
-     * Creates hierarchical relationships between file and folder compounds.
-     *
-     * @remarks
-     * Establishes parent-child relationships for folders and files,
-     * builds the complete file hierarchy, and generates relative paths
-     * and permalinks for all compounds. Registers files in the workspace
-     * for global lookup and identifies top-level entities.
-     */
     createCompoundsHierarchies() {
-        // Recreate files and folders hierarchies.
-        // console.log(this.compoundsById.size)
         for (const [, folder] of this.compoundFoldersById) {
             for (const childFolderId of folder.childrenFolderIds) {
                 const childFolder = this.compoundFoldersById.get(childFolderId);
@@ -170,7 +80,6 @@ export class FilesAndFolders extends CollectionBase {
             assert(locationFilePath !== undefined);
             this.workspace.filesByPath.set(locationFilePath, file);
             if (this.workspace.options.debug) {
-                // console.log('filesByPath.set', path, file)
                 console.log('filesByPath.set', locationFilePath);
             }
         }
@@ -181,20 +90,11 @@ export class FilesAndFolders extends CollectionBase {
                     parentPath = `${this.getRelativePathRecursively(folder.parent)}/`;
                 }
             }
-            // console.log(folder.compoundName)
             folder.relativePath = `${parentPath}${folder.compoundName}`;
             const sanitizedPath = sanitizeHierarchicalPath(folder.relativePath);
             folder.relativePermalink = `folders/${sanitizedPath}`;
             folder.sidebarId = `folders/${flattenPath(sanitizedPath)}`;
-            // console.log('0', folder.id)
-            // console.log('1', folder.compoundName)
-            // console.log('2', folder.relativePermalink)
-            // console.log('3', folder.docusaurusId)
-            // console.log('4', folder.sidebarLabel)
-            // console.log('5', folder.indexName)
-            // console.log()
         }
-        // Cannot be done in each object, since it needs the hierarchy.
         for (const [, file] of this.compoundFilesById) {
             let parentPath = '';
             if (file.parent !== undefined) {
@@ -202,31 +102,12 @@ export class FilesAndFolders extends CollectionBase {
                     parentPath = `${this.getRelativePathRecursively(file.parent)}/`;
                 }
             }
-            // console.log(file.compoundName)
             file.relativePath = `${parentPath}${file.compoundName}`;
             const sanitizedPath = sanitizeHierarchicalPath(file.relativePath);
             file.relativePermalink = `files/${sanitizedPath}`;
             file.sidebarId = `files/${flattenPath(sanitizedPath)}`;
-            // console.log('0', file.id)
-            // console.log('1', file.compoundName)
-            // console.log('2', file.relativePermalink)
-            // console.log('3', file.docusaurusId)
-            // console.log('4', file.sidebarLabel)
-            // console.log('5', file.indexName)
-            // console.log()
         }
     }
-    /**
-     * Recursively builds the relative path for a folder from root.
-     *
-     * @remarks
-     * Traverses the folder hierarchy upwards to construct the complete
-     * relative path by concatenating parent folder names. Used for
-     * generating proper folder permalinks and navigation structures.
-     *
-     * @param folder - The folder to build the path for
-     * @returns The complete relative path from root to the folder
-     */
     getRelativePathRecursively(folder) {
         let parentPath = '';
         if (folder.parent !== undefined) {
@@ -236,14 +117,11 @@ export class FilesAndFolders extends CollectionBase {
         }
         return `${parentPath}${folder.compoundName}`;
     }
-    // --------------------------------------------------------------------------
     addSidebarItems(sidebarCategory) {
         const indicesSet = this.workspace.indicesMaps.get('files');
         if (indicesSet === undefined) {
             return;
         }
-        // Add folders & files to the sidebar.
-        // Top level folders & files are added below a Files category
         const filesCategory = {
             type: 'category',
             label: 'Files',
@@ -351,18 +229,6 @@ export class FilesAndFolders extends CollectionBase {
         }
         sidebarCategory.items.push(filesCategory);
     }
-    /**
-     * Creates sidebar items for folder hierarchies recursively.
-     *
-     * @remarks
-     * Generates hierarchical sidebar structures for folder trees,
-     * creating category items with nested children for subfolders
-     * and files. Processes folders first, then files within each
-     * folder level.
-     *
-     * @param folder - The folder to create sidebar items for
-     * @returns The sidebar category item or undefined if folder lacks data
-     */
     createFolderSidebarItemRecursively(folder) {
         if (folder.sidebarLabel === undefined || folder.sidebarId == undefined) {
             return undefined;
@@ -396,17 +262,6 @@ export class FilesAndFolders extends CollectionBase {
         }
         return categoryItem;
     }
-    /**
-     * Creates a sidebar document item for a file.
-     *
-     * @remarks
-     * Generates a simple document sidebar item for individual files
-     * with appropriate CSS classes and navigation links. Used for
-     * leaf nodes in the file hierarchy sidebar.
-     *
-     * @param file - The file to create a sidebar item for
-     * @returns The sidebar document item or undefined if file lacks data
-     */
     createFileSidebarItem(file) {
         if (file.sidebarLabel === undefined || file.sidebarId === undefined) {
             return undefined;
@@ -419,7 +274,6 @@ export class FilesAndFolders extends CollectionBase {
         };
         return docItem;
     }
-    // --------------------------------------------------------------------------
     createNavbarItems() {
         const navbarItem = {
             label: 'Files',
@@ -427,7 +281,6 @@ export class FilesAndFolders extends CollectionBase {
         };
         return [navbarItem];
     }
-    // --------------------------------------------------------------------------
     async generateIndexDotMdFile() {
         if (this.topLevelFolders.length === 0 && this.topLevelFiles.length === 0) {
             return;
@@ -463,25 +316,11 @@ export class FilesAndFolders extends CollectionBase {
             bodyLines: lines,
         });
     }
-    /**
-     * Generates hierarchical index content for folders recursively.
-     *
-     * @remarks
-     * Creates HTML tree table rows for folder hierarchies with proper
-     * indentation and folder icons. Processes subfolders first, then
-     * files within each folder level to maintain organised structure.
-     *
-     * @param folder - The folder to generate index content for
-     * @param depth - The current depth level in the hierarchy (0-based)
-     * @returns Array of HTML strings representing the tree table rows
-     */
     generateIndexMdFileRecursively(folder, depth) {
-        // console.log(util.inspect(folder, { compact: false, depth: 999 }))
         const lines = [];
         const label = this.workspace.renderString(folder.compoundName, 'html');
         const permalink = this.workspace.getPagePermalink(folder.id);
         if (permalink === undefined || permalink.length === 0) {
-            // console.log(namespace)
             return [];
         }
         let description = '';
@@ -511,21 +350,7 @@ export class FilesAndFolders extends CollectionBase {
         }
         return lines;
     }
-    /**
-     * Generates index content for individual files.
-     *
-     * @remarks
-     * Creates HTML tree table rows for file entries with appropriate
-     * file icons, labels, and descriptions. Generates consistent
-     * formatting for file documentation links within hierarchical
-     * index structures.
-     *
-     * @param file - The file to generate index content for
-     * @param depth - The current depth level in the hierarchy (0-based)
-     * @returns Array of HTML strings representing the file table row
-     */
     generateFileIndexMd(file, depth) {
-        // console.log(util.inspect(file, { compact: false, depth: 999 }))
         const lines = [];
         const label = this.workspace.renderString(file.compoundName, 'html');
         const permalink = this.workspace.getPagePermalink(file.id, true);
@@ -575,7 +400,6 @@ export class FilesAndFolders extends CollectionBase {
                 const conceptCompoundDef = compound.innerCompounds.get('innerConcepts');
                 if (conceptCompoundDef?.innerConcepts !== undefined) {
                     for (const innerConcept of conceptCompoundDef.innerConcepts) {
-                        // console.log(innerConcept.refid)
                         const compoundConcept = this.workspace.viewModel.compoundsById.get(innerConcept.refid);
                         if (compoundConcept instanceof Concept) {
                             const conceptEntry = new FileTreeEntry(compoundConcept, compound);
@@ -586,7 +410,6 @@ export class FilesAndFolders extends CollectionBase {
                 const classCompoundDef = compound.innerCompounds.get('innerClasses');
                 if (classCompoundDef?.innerClasses !== undefined) {
                     for (const innerClass of classCompoundDef.innerClasses) {
-                        // console.log(innerClass.refid)
                         const compoundClass = this.workspace.viewModel.compoundsById.get(innerClass.refid);
                         if (compoundClass instanceof Class) {
                             const classEntry = new FileTreeEntry(compoundClass, compound);
@@ -597,7 +420,6 @@ export class FilesAndFolders extends CollectionBase {
                 const namespaceCompoundDef = compound.innerCompounds.get('innerNamespaces');
                 if (namespaceCompoundDef?.innerNamespaces !== undefined) {
                     for (const innerNamespace of namespaceCompoundDef.innerNamespaces) {
-                        // console.log(innerNamespace.refid)
                         const compoundNamespace = this.workspace.viewModel.compoundsById.get(innerNamespace.refid);
                         if (compoundNamespace instanceof Namespace) {
                             const namespaceEntry = new FileTreeEntry(compoundNamespace, compound);
@@ -619,14 +441,12 @@ export class FilesAndFolders extends CollectionBase {
                 }
             }
         }
-        // ------------------------------------------------------------------------
         await this.generateIndexFile({
             group: 'files',
             fileKind: 'all',
             title: 'Files Definitions Index',
             description: 'The definitions part of the files are:',
             map: allUnorderedEntriesMap,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             filter: (kind) => true,
         });
         await this.generateIndexFile({
@@ -703,54 +523,20 @@ export class FilesAndFolders extends CollectionBase {
         });
     }
 }
-// ----------------------------------------------------------------------------
-/**
- * Represents a folder compound for directory documentation.
- *
- * @remarks
- * Manages folder-specific functionality including child file and folder
- * tracking, hierarchy construction, and documentation generation. Provides
- * structured organisation for file system hierarchies within the
- * documentation.
- *
- * @public
- */
 export class Folder extends CompoundBase {
-    /** Array of child file identifiers contained in this folder. */
     childrenFileIds = [];
-    /** Array of child folder identifiers contained in this folder. */
     childrenFolderIds = [];
-    /** Relative path from root to this folder. */
     relativePath = '';
-    // --------------------------------------------------------------------------
-    /**
-     * Creates a new Folder instance from compound definition data.
-     *
-     * @remarks
-     * Initialises folder metadata including child file and folder
-     * references, display labels, and page titles. Sets up the
-     * folder structure for hierarchy construction and documentation
-     * generation.
-     *
-     * @param collection - The parent FilesAndFolders collection
-     * @param compoundDef - The Doxygen compound definition for the folder
-     */
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
-        // console.log('folder:', util.inspect(compoundDef))
-        // console.log('folder:', compoundDef.compoundName)
         if (Array.isArray(compoundDef.innerDirs)) {
             for (const ref of compoundDef.innerDirs) {
-                // console.log(
-                //   'component', compoundDef.id, 'has child folder', ref.refid
-                // )
                 this.childrenIds.push(ref.refid);
                 this.childrenFolderIds.push(ref.refid);
             }
         }
         if (Array.isArray(compoundDef.innerFiles)) {
             for (const ref of compoundDef.innerFiles) {
-                // console.log('component', compoundDef.id, 'has child file', ref.refid)
                 this.childrenIds.push(ref.refid);
                 this.childrenFileIds.push(ref.refid);
             }
@@ -762,16 +548,6 @@ export class Folder extends CompoundBase {
         this.pageTitle = `\`${this.sidebarLabel}\` Folder`;
         this.createSections();
     }
-    /**
-     * Determines if the folder has any children worth displaying.
-     *
-     * @remarks
-     * Recursively checks for files or non-empty subfolders to determine
-     * if the folder should be included in documentation. Empty folders
-     * without content are typically excluded from navigation.
-     *
-     * @returns True if the folder contains files or non-empty subfolders
-     */
     hasChildren() {
         for (const child of this.children) {
             if (child instanceof File) {
@@ -784,34 +560,14 @@ export class Folder extends CompoundBase {
         return false;
     }
     hasAnyContent() {
-        // console.log('checking', this.compoundName)
         if (this.hasChildren()) {
-            // console.log('has content children', this)
             return true;
         }
-        // if (!super.hasAnyContent()) {
-        //   console.log('has no content', this)
-        // }
         return super.hasAnyContent();
     }
-    // --------------------------------------------------------------------------
-    /**
-     * Renders the complete folder documentation to markdown lines.
-     *
-     * @remarks
-     * Generates the full documentation page including brief descriptions,
-     * inner directory and file indices, member sections, and detailed
-     * descriptions. Creates structured folder documentation with proper
-     * navigation and content organisation.
-     *
-     * @param frontMatter - The frontmatter configuration for the page
-     * @returns Array of markdown strings representing the complete documentation
-     */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToLines(frontMatter) {
         const lines = [];
         const descriptionTodo = `@dir ${this.collection.workspace.renderString(this.relativePath, 'html')}`;
-        // The Description header is always shown.
         const morePermalink = '#details';
         lines.push(this.renderBriefDescriptionToHtmlString({
             briefDescriptionHtmlString: this.briefDescriptionHtmlString,
@@ -832,20 +588,9 @@ export class Folder extends CompoundBase {
         lines.push(...this.renderSectionsToLines());
         return lines;
     }
-    /**
-     * Performs late initialisation for folders with content validation.
-     *
-     * @remarks
-     * Validates folder content and conditionally disables sidebar generation for
-     * empty folders. This ensures that folders without meaningful documentation
-     * do not appear in the generated sidebar navigation.
-     *
-     * @public
-     */
     initializeLate() {
         super.initializeLate();
         const { workspace } = this.collection;
-        // console.log(this)
         if (!this.hasAnyContent()) {
             if (!workspace.options.suggestToDoDescriptions) {
                 console.log(this.kind, this.compoundName, 'has no content, not shown');
@@ -862,40 +607,12 @@ export class Folder extends CompoundBase {
         }
     }
 }
-// ----------------------------------------------------------------------------
-/**
- * Represents a file compound for source code documentation.
- *
- * @remarks
- * Manages file-specific functionality including program listings,
- * line number tracking, and source code documentation generation.
- * Provides structured representation of source files within the
- * documentation hierarchy.
- *
- * @public
- */
 export class File extends CompoundBase {
-    /** Relative path from root to this file. */
     relativePath = '';
-    /** Set of line numbers available in the program listing. */
     listingLineNumbers = new Set();
-    /** Program listing data for source code display. */
     programListing;
-    /**
-     * Creates a new File instance from compound definition data.
-     *
-     * @remarks
-     * Initialises file metadata including display labels, page titles,
-     * and member sections. Sets up the file structure for documentation
-     * generation and source code listing display.
-     *
-     * @param collection - The parent FilesAndFolders collection
-     * @param compoundDef - The Doxygen compound definition for the file
-     */
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
-        // console.log('file:', compoundDef.compoundName)
-        // The compoundName is the actual file name, without path.
         const { compoundName } = compoundDef;
         assert(compoundName.length > 0);
         this.sidebarLabel = compoundName;
@@ -904,16 +621,6 @@ export class File extends CompoundBase {
         this.pageTitle = `\`${this.sidebarLabel}\` File`;
         this.createSections();
     }
-    /**
-     * Performs late initialisation for files with program listing setup.
-     *
-     * @remarks
-     * Processes the program listing for source code rendering and tracks valid
-     * line numbers for link validation. Also validates file content and
-     * conditionally disables sidebar generation for empty files.
-     *
-     * @public
-     */
     initializeLate() {
         super.initializeLate();
         const compoundDef = this._private._compoundDef;
@@ -921,8 +628,6 @@ export class File extends CompoundBase {
         const { programListing } = compoundDef;
         this.programListing = programListing;
         if (this.collection.workspace.options.renderProgramListing) {
-            // Keep track of line number, since not all lines referred exist and
-            // this might result in broken links.
             if (this.programListing?.codelines !== undefined) {
                 for (const codeline of this.programListing.codelines) {
                     if (codeline.lineno !== undefined) {
@@ -932,7 +637,6 @@ export class File extends CompoundBase {
             }
         }
         const { workspace } = this.collection;
-        // console.log(this)
         if (!this.hasAnyContent()) {
             if (!workspace.options.suggestToDoDescriptions) {
                 console.log(this.kind, this.compoundName, 'has no content, not shown');
@@ -948,63 +652,24 @@ export class File extends CompoundBase {
             }
         }
     }
-    /**
-     * Determines if the file has any documentable content.
-     *
-     * @remarks
-     * Checks for children elements, inner compounds, and include relationships
-     * to determine content availability. This method helps filter empty files
-     * from the generated documentation.
-     *
-     * @returns True if the file contains documentable content, false otherwise.
-     *
-     * @public
-     */
     hasAnyContent() {
-        // console.log('checking', this.compoundName)
         if (this.childrenIds.length > 0) {
-            // console.log('has content childrenIds', this)
             return true;
         }
         if (this.children.length > 0) {
-            // console.log('has content children.length', this)
             return true;
         }
         if (this.innerCompounds !== undefined) {
-            // console.log('has content innerCompounds', this)
             return true;
         }
         if (this.includes !== undefined) {
-            // console.log('has content includes', this)
             return true;
         }
-        // if (this.collection.workspace.options.renderProgramListing) {
-        //   if (this.programListing !== undefined) {
-        //     return true
-        //   }
-        // }
         return super.hasAnyContent();
     }
-    // --------------------------------------------------------------------------
-    /**
-     * Renders the file documentation to Markdown lines.
-     *
-     * @remarks
-     * Generates comprehensive file documentation including brief description,
-     * includes index, inner compound indices, section indices, detailed
-     * description, and optionally the program listing. The output follows
-     * Docusaurus conventions for file documentation pages.
-     *
-     * @param frontMatter - The front matter configuration for the page
-     * @returns Array of Markdown lines representing the file documentation
-     *
-     * @public
-     */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToLines(frontMatter) {
         const lines = [];
         const descriptionTodo = `@file ${this.collection.workspace.renderString(this.relativePath, 'html')}`;
-        // The Description header is always shown.
         const morePermalink = '#details';
         lines.push(this.renderBriefDescriptionToHtmlString({
             briefDescriptionHtmlString: this.briefDescriptionHtmlString,
@@ -1015,11 +680,6 @@ export class File extends CompoundBase {
         lines.push(...this.renderInnerIndicesToLines({
             suffixes: ['Namespaces', 'Classes', 'Concepts'],
         }));
-        // TODO: render Concepts Index
-        // For now the xml does not include the necessary information to do so,
-        // since the inner compounds only include namespaces and classes, but
-        // not concepts. This would require changes in the XML generation in
-        // Doxygen.
         lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToHtmlLines({
             briefDescriptionHtmlString: this.briefDescriptionHtmlString,
@@ -1040,5 +700,4 @@ export class File extends CompoundBase {
         return lines;
     }
 }
-// ----------------------------------------------------------------------------
 //# sourceMappingURL=files-and-folders-vm.js.map
