@@ -221,7 +221,7 @@ export class Concepts extends CollectionBase {
       return undefined
     }
 
-    if (!namespace.hasConcepts()) {
+    if (!namespace.hasConceptsRecursively()) {
       return undefined
     }
 
@@ -391,7 +391,7 @@ export class Concepts extends CollectionBase {
       return []
     }
 
-    if (!namespace.hasConcepts()) {
+    if (!namespace.hasConceptsRecursively()) {
       return []
     }
 

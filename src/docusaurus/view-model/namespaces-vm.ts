@@ -916,16 +916,35 @@ export class Namespace extends CompoundBase {
    *
    * @public
    */
-  hasConcepts(): boolean {
+  hasConceptsRecursively(): boolean {
     if (this.concepts.length > 0) {
       return true
     }
 
     for (const child of this.children) {
       assert(child instanceof Namespace)
-      if (child.hasConcepts()) {
+      if (child.hasConceptsRecursively()) {
         return true
       }
+    }
+    return false
+  }
+
+  /**
+   * Determines whether this namespace contains any C++20 concept compounds.
+   *
+   * @remarks
+   * Checks the namespace's own `concepts` array to determine if it contains
+   * any concepts. This method does not recurse into child namespaces.
+   *
+   * @returns `true` if at least one concept is present in this namespace,
+   *   `false` otherwise
+   *
+   * @public
+   */
+  hasConcepts(): boolean {
+    if (this.concepts.length > 0) {
+      return true
     }
     return false
   }
