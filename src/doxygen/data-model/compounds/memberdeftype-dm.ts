@@ -60,6 +60,10 @@ import {
 //     <xsd:element name="requiresclause" type="linkedTextType" minOccurs="0" />
 //     <xsd:element name="initializer" type="linkedTextType" minOccurs="0" />
 //     <xsd:element name="exceptions" type="linkedTextType" minOccurs="0" />
+
+//     <xsd:element name="satisfies" type="requirementRefsType" minOccurs="0" maxOccurs="1" />
+//     <xsd:element name="verifies" type="requirementRefsType" minOccurs="0" maxOccurs="1" />
+
 //     <xsd:element name="briefdescription" type="descriptionType" minOccurs="0" />
 //     <xsd:element name="detaileddescription" type="descriptionType" minOccurs="0" />
 //     <xsd:element name="inbodydescription" type="descriptionType" minOccurs="0" />
@@ -82,6 +86,9 @@ import {
 //   <xsd:attribute name="virt" type="DoxVirtualKind" use="optional"/>
 //   <xsd:attribute name="volatile" type="DoxBool" use="optional"/>
 //   <xsd:attribute name="mutable" type="DoxBool" use="optional"/>
+
+//   <xsd:attribute name="thread_local" type="DoxBool" use="optional"/>
+
 //   <xsd:attribute name="noexcept" type="DoxBool" use="optional"/>
 //   <xsd:attribute name="noexceptexpression" type="xsd:string" use="optional"/>
 //   <xsd:attribute name="nodiscard" type="DoxBool" use="optional"/>

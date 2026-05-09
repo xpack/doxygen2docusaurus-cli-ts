@@ -565,6 +565,19 @@ export class Concept extends CompoundBase {
   initializerString = '???'
 
   /**
+   * Rendered HTML lines for the concept parts content.
+   *
+   * @remarks
+   * Stores the rendered output of the Doxygen `conceptParts` element, which
+   * may contain an ordered mixture of documentation fragments and code
+   * fragments associated with the concept. Populated during
+   * {@link initializeLate}, and appended to the generated page body by
+   * {@link renderToLines}. The array remains empty when the compound does not
+   * include any concept parts.
+   */
+  conceptPartsHtmlLines: string[] = []
+
+  /**
    * Creates a new Concept instance.
    *
    * @remarks
@@ -652,6 +665,15 @@ export class Concept extends CompoundBase {
         .join('<br/>\n')
         .replace(/template/, 'template ')
     }
+
+    const conceptParts = this._private._compoundDef?.conceptParts
+    if (conceptParts !== undefined) {
+      this.conceptPartsHtmlLines = workspace.renderElementToLines(
+        conceptParts,
+        'html'
+      )
+      // console.log('conceptParts', this.conceptPartsHtmlLines)
+    }
   }
 
   /**
@@ -708,9 +730,17 @@ export class Concept extends CompoundBase {
       })
     )
 
+    if (this.locationLines !== undefined) {
+      lines.push(...this.locationLines)
+    }
+
+    lines.push(...this.conceptPartsHtmlLines)
+
+    // Currently here are no sections.
     // lines.push(...this.renderSectionsToLines())
 
-    lines.push(...this.renderGeneratedFromToLines())
+    // Currently there are none.
+    // lines.push(...this.renderGeneratedFromToLines())
 
     return lines
   }

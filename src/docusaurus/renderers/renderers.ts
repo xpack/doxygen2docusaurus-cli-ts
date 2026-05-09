@@ -74,6 +74,10 @@ import {
 import { TocListLinesRenderer } from './tableofcontentstype.js'
 import { ReferenceTypeStringRenderer } from './referencetype.js'
 import type { DataModelElement } from '../../doxygen/data-model/types.js'
+import {
+  ConceptCodePartLinesRenderer,
+  ConceptPartsLinesRenderer,
+} from './conceptparts.js'
 
 // ----------------------------------------------------------------------------
 
@@ -105,11 +109,38 @@ export class Renderers {
   registerRenderers(workspace: Workspace): void {
     // Add renderers for the parsed xml elements (in alphabetical order).
 
+    // ------------------------------------------------------------------------
+    // Register line-based renderers for elements that produce multi-line
+    // output.
+    //
+    // Some renderers are designed for specific types, while others are
+    // designed for abstract types and will be used as base renderers for
+    // multiple concrete types.
+    //
+    // The order of registration is significant, the specific renderers must
+    // be registered before the abstract ones.
+    //
+    // For readability and ease of maintenance, the renderers are registered
+    // in alphabetical order, with specific renderers listed before the
+    // abstract ones they are based on.
+
+    // This is a specific renderer.
     this.elementLinesRenderers.set(
       'VariableListPairDataModel',
       new VariableListPairLinesRenderer(workspace)
     )
 
+    // The following renderers are for abstract types, and will be used
+    // for all their concrete subtypes.
+
+    this.elementLinesRenderers.set(
+      'AbstractConceptCodePart',
+      new ConceptCodePartLinesRenderer(workspace)
+    )
+    this.elementLinesRenderers.set(
+      'AbstractConceptParts',
+      new ConceptPartsLinesRenderer(workspace)
+    )
     this.elementLinesRenderers.set(
       'AbstractDescriptionType',
       new DescriptionTypeLinesRenderer(workspace)
@@ -218,13 +249,27 @@ export class Renderers {
       'AbstractRefType',
       new RefTypeLinesRenderer(workspace)
     )
-    // console.log(this.elementGenerators.size, 'element generators')
 
+    // ------------------------------------------------------------------------
+    // Register string-based renderers for elements that produce single-line
+    // output.
+    //
+    // Same as for line renderers, the specific renderers must be registered
+    // before the abstract ones they are based on, and the renderers are
+    // registered in alphabetical order.
+
+    // This is a specific renderer.
     this.elementStringRenderers.set(
       'ComputerOutputDataModel',
       new ComputerOutputDataModelStringRenderer(workspace)
     )
 
+    // The following renderers are for abstract types, and will be used
+    // for all their concrete subtypes.
+    this.elementStringRenderers.set(
+      'ComputerOutputDataModel',
+      new ComputerOutputDataModelStringRenderer(workspace)
+    )
     this.elementStringRenderers.set(
       'AbstractDocEmptyType',
       new DocEmptyTypeStringRenderer(workspace)
@@ -425,12 +470,14 @@ export class Renderers {
    * @remarks
    * Determines the appropriate renderer based on element type and delegates
    * rendering. Handles strings, arrays, and objects with fallback logic
-   * between line and string renderers. Provides error handling for
-   * unrecognised element types.
+   * between line and string renderers. Leading spaces at the start of each
+   * rendered line are converted to HTML non-breaking space entities so that
+   * indentation is preserved in the generated output. Provides error
+   * handling for unrecognised element types.
    *
    * @param element - The element to render (single, array, or undefined)
    * @param type - The rendering context type
-   * @returns Array of formatted output lines
+   * @returns Array of formatted output lines with preserved indentation
    */
   renderElementToLines(
     element: DataModelElement | DataModelElement[] | undefined,
@@ -459,13 +506,22 @@ export class Renderers {
     const linesRenderer: ElementLinesRendererBase | undefined =
       this.getElementLinesRenderer(element)
     if (linesRenderer !== undefined) {
-      return linesRenderer.renderToLines(element, type)
+      return linesRenderer
+        .renderToLines(element, type)
+        .map((line) =>
+          line.replace(/^ +/, (match) => '&nbsp;'.repeat(match.length))
+        )
     }
 
     const textRenderer: ElementStringRendererBase | undefined =
       this.getElementTextRenderer(element)
     if (textRenderer !== undefined) {
-      return textRenderer.renderToString(element, type).split('\n')
+      return textRenderer
+        .renderToString(element, type)
+        .split('\n')
+        .map((line) =>
+          line.replace(/^ +/, (match) => '&nbsp;'.repeat(match.length))
+        )
     }
 
     console.error(util.inspect(element, { compact: false, depth: 999 }))

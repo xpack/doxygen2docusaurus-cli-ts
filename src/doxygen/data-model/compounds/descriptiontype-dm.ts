@@ -1859,7 +1859,7 @@ export abstract class AbstractDocInternalS4Type extends AbstractDataModelBase {
 // <xsd:complexType name="docInternalS5Type" mixed="true">   <-- Character data is allowed to appear between the child elements!
 //   <xsd:sequence>
 //     <xsd:element name="para"  type="docParaType"  minOccurs="0" maxOccurs="unbounded" />
-//     <xsd:element name="sect5" type="docSect6Type" minOccurs="0" maxOccurs="unbounded" />
+//     <xsd:element name="sect6" type="docSect6Type" minOccurs="0" maxOccurs="unbounded" />
 //   </xsd:sequence>
 // </xsd:complexType>
 
@@ -1993,6 +1993,9 @@ export abstract class AbstractDocInternalS6Type extends AbstractDataModelBase {
 //     <xsd:element name="dot" type="docDotMscType" />
 //     <xsd:element name="msc" type="docDotMscType" />
 //     <xsd:element name="plantuml" type="docPlantumlType" />
+
+//     <xsd:element name="mermaid" type="docMermaidType" />
+
 //     <xsd:element name="anchor" type="docAnchorType" />
 //     <xsd:element name="formula" type="docFormulaType" />
 //     <xsd:element name="ref" type="docRefTextType" />
@@ -2990,6 +2993,9 @@ export class AbstractDocTitleType extends AbstractDataModelBase {
 //     <xsd:element name="dot" type="docDotMscType" />
 //     <xsd:element name="msc" type="docDotMscType" />
 //     <xsd:element name="plantuml" type="docPlantumlType" />
+
+//     <xsd:element name="mermaid" type="docMermaidType" />
+
 //     <xsd:element name="anchor" type="docAnchorType" />
 //     <xsd:element name="formula" type="docFormulaType" />
 //     <xsd:element name="ref" type="docRefTextType" />
@@ -3265,6 +3271,7 @@ export class AbstractDocTitleType extends AbstractDataModelBase {
 //     <xsd:element name="mscfile" type="docImageFileType" />
 //     <xsd:element name="diafile" type="docImageFileType" />
 //     <xsd:element name="plantumlfile" type="docImageFileType" />
+//     <xsd:element name="mermaidfile" type="docImageFileType" />
 //     <xsd:element name="toclist" type="docTocListType" />
 //     <xsd:element name="language" type="docLanguageType" />
 //     <xsd:element name="parameterlist" type="docParamListType" />

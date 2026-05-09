@@ -47,6 +47,7 @@ import {
   InitializerDataModel,
   RequiresClauseDataModel,
 } from './linkedtexttype-dm.js'
+import { ConceptPartsDataModel } from './concepts-dm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -282,15 +283,25 @@ export class XyzDataModel extends AbstractXyzType {
 //     <xsd:element name="tableofcontents" type="tableofcontentsType" minOccurs="0" maxOccurs="1" />
 //     <xsd:element name="requiresclause" type="linkedTextType" minOccurs="0" />
 //     <xsd:element name="initializer" type="linkedTextType" minOccurs="0" />
+
+//     <xsd:element name="conceptparts" type="conceptParts" minOccurs="0" />
+
 //     <xsd:element name="briefdescription" type="descriptionType" minOccurs="0" />
 //     <xsd:element name="detaileddescription" type="descriptionType" minOccurs="0" />
 //     <xsd:element name="exports" type="exportsType" minOccurs="0" maxOccurs="1"/>
 //     <xsd:element name="inheritancegraph" type="graphType" minOccurs="0" />
 //     <xsd:element name="collaborationgraph" type="graphType" minOccurs="0" />
 //     <xsd:element name="programlisting" type="listingType" minOccurs="0" />
+
+//     <xsd:element name="satisfies" type="requirementRefsType" minOccurs="0" maxOccurs="1" />
+//     <xsd:element name="verifies" type="requirementRefsType" minOccurs="0" maxOccurs="1" />
+
 //     <xsd:element name="location" type="locationType" minOccurs="0" />
 //     <xsd:element name="listofallmembers" type="listofallmembersType" minOccurs="0" />
+
+//     <xsd:element name="requirementslist" type="requirementslistType" minOccurs="0" />
 //   </xsd:sequence>
+
 //   <xsd:attribute name="id" type="xsd:string" />
 //   <xsd:attribute name="kind" type="DoxCompoundKind" />
 //   <xsd:attribute name="language" type="DoxLanguage" use="optional"/>
@@ -321,6 +332,8 @@ export class XyzDataModel extends AbstractXyzType {
 //   <xsd:enumeration value="example" />
 //   <xsd:enumeration value="dir" />
 //   <xsd:enumeration value="concept" />
+//   <xsd:enumeration value="requirement" />
+//   <xsd:enumeration value="requirements" />
 // </xsd:restriction>
 // </xsd:simpleType>
 
@@ -482,6 +495,18 @@ export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
    * from 'initializer' XML elements in the Doxygen compound output.
    */
   initializer?: InitializerDataModel | undefined
+
+  /**
+   * Concept parts associated with the compound.
+   *
+   * @remarks
+   * Contains the structured `conceptparts` content emitted by Doxygen for
+   * concept definitions. This property captures the ordered mixture of code
+   * fragments and documentation fragments extracted from 'conceptparts'
+   * XML elements, preserving their original sequence for later rendering in
+   * the generated documentation.
+   */
+  conceptParts?: ConceptPartsDataModel | undefined
 
   /**
    * Inner folder references contained within this compound.
@@ -791,6 +816,8 @@ export abstract class AbstractCompoundDefType extends AbstractDataModelBase {
         this.requiresClause = new RequiresClauseDataModel(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'initializer')) {
         this.initializer = new InitializerDataModel(xml, innerElement)
+      } else if (xml.hasInnerElement(innerElement, 'conceptparts')) {
+        this.conceptParts = new ConceptPartsDataModel(xml, innerElement)
       } else if (xml.hasInnerElement(innerElement, 'inheritancegraph')) {
         // TODO: Ignored, not used for now.
       } else if (xml.hasInnerElement(innerElement, 'collaborationgraph')) {
@@ -1152,5 +1179,52 @@ export class DocBookOnlyDataModel extends AbstractStringType {
     super(xml, element, 'docbookonly')
   }
 }
+
+// ----------------------------------------------------------------------------
+
+// <xsd:complexType name="docMermaidType" mixed="true">
+//   <xsd:group ref="docTitleCmdGroup" minOccurs="0" maxOccurs="unbounded" />
+//   <xsd:attribute name="name" type="xsd:string" use="optional"/>
+//   <xsd:attribute name="width" type="xsd:string" use="optional"/>
+//   <xsd:attribute name="height" type="xsd:string" use="optional"/>
+//   <xsd:attribute name="caption" type="xsd:string" use="optional"/>
+// </xsd:complexType>
+
+// <xsd:complexType name="tableofcontentsNameType">
+//   <xsd:sequence>
+//     <xsd:element name="para" type="docParaType" minOccurs="0" maxOccurs="unbounded" />
+//   </xsd:sequence>
+// </xsd:complexType>
+
+// <xsd:simpleType name="DoxPlantumlEngine">
+//   <xsd:restriction base="xsd:string">
+//     <xsd:enumeration value="uml"/>
+//     <xsd:enumeration value="bpm"/>
+//     <xsd:enumeration value="wire"/>
+//     <xsd:enumeration value="dot"/>
+//     <xsd:enumeration value="ditaa"/>
+//     <xsd:enumeration value="salt"/>
+//     <xsd:enumeration value="math"/>
+//     <xsd:enumeration value="latex"/>
+//     <xsd:enumeration value="gantt"/>
+//     <xsd:enumeration value="mindmap"/>
+//     <xsd:enumeration value="wbs"/>
+//     <xsd:enumeration value="yaml"/>
+//     <xsd:enumeration value="creole"/>
+//     <xsd:enumeration value="json"/>
+//     <xsd:enumeration value="flow"/>
+//     <xsd:enumeration value="board"/>
+//     <xsd:enumeration value="git"/>
+//     <xsd:enumeration value="hcl"/>
+//     <xsd:enumeration value="regex"/>
+//     <xsd:enumeration value="ebnf"/>
+//     <xsd:enumeration value="files"/>
+//     <xsd:enumeration value="chart"/>
+//     <xsd:enumeration value="nwdiag"/>
+//     <xsd:enumeration value="packetdiag"/>
+//     <xsd:enumeration value="project"/>
+//     <xsd:enumeration value="sprites"/>
+//   </xsd:restriction>
+// </xsd:simpleType>
 
 // ----------------------------------------------------------------------------
