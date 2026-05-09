@@ -159,6 +159,10 @@ import {
   EnumValueDataModel,
   AbstractEnumValueType,
 } from './doxygen/data-model/compounds/enumvaluetype-dm.js'
+import {
+  AbstractConceptParts,
+  ConceptPartsDataModel,
+} from './doxygen/data-model/compounds/concepts-dm.js'
 
 export * from './cli/main.js'
 
@@ -227,6 +231,8 @@ export {
   AbstractHighlightType,
   AbstractReferenceType,
   AbstractReimplementType,
+  AbstractConceptParts,
+  ConceptPartsDataModel,
 
   // Description types
   BriefDescriptionDataModel,
