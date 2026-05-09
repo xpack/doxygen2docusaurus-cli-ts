@@ -6,10 +6,35 @@ Please check
 [GitHub](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/)
 and close existing issues and pull requests.
 
+## 2026-05-09
+
+* v2.2.0 prepared
+* 95fe915 dist update
+* 642e7c7 index.ts update
+* 503c241 re-generate website commons
+* b4cb355 dist update
+* e98540d update copyright messages
+* 010223a re-generate top commons
+* 58f9c68 package*.json bump deps
+* cba0452 #12: update for doxygen 1.17 - conceptparts
+* fd2b164 tsconfig.json: node & ES2022
+* 33cfb50 #13: Pages index preamble
+* 7c03a49 #10: Show doxygen version
+* 2eb826d #13: add Pages index page
+* 5e4d088 #11: Hide empty Concepts
+
 ## 2026-04-28
 
-* v2.1.0 published on npmjs.com
-* v2.1.0 prepared
+* c93a355 re-generate top commons
+* cdbd437 package*.json: bump deps
+* e91b569 website maintainer cleanup
+* e2ab4c9 website: blog post release 2.1.0 published
+* f7ec670 2.1.0
+* d991b9b package.json cleanups
+* 26c980e CHANGELOG: publish npm v2.1.0
+* a4abd74 eslint.config.js: ignore d.ts
+* cf2ec06 CHANGELOG update
+* 9cdd7d0 website/package.json update
 * 8e1f2b3 website/package*.json update
 * 2c0a353 website/config/tsconfig-api-extractor.json update for tsc 6.x
 * 57769d7 website api update
