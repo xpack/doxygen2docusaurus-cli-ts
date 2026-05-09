@@ -233,6 +233,9 @@ export class Pages extends CollectionBase {
 
     const lines: string[] = []
 
+    lines.push('The Doxygen contributed pages are:')
+    lines.push('')
+
     for (const [pageId, page] of this.collectionCompoundsById) {
       // console.log(`Page: ${pageId} (${page.compoundName})`)
       if (pageId === 'indexpage') {
