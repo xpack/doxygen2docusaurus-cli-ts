@@ -90,6 +90,17 @@ Concrete implementation of compound definition data model.
 </td></tr>
 <tr><td>
 
+[ConceptPartsDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/conceptpartsdatamodel)
+
+
+</td><td>
+
+Data model for `conceptparts` elements.
+
+
+</td></tr>
+<tr><td>
+
 [DataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/datamodel)
 
 
@@ -584,6 +595,17 @@ Abstract base class for Doxygen compound definition data models.
 </td><td>
 
 Abstract base class for compound reference data models.
+
+
+</td></tr>
+<tr><td>
+
+[AbstractConceptParts](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractconceptparts)
+
+
+</td><td>
+
+Abstract base class for concept parts containers.
 
 
 </td></tr>

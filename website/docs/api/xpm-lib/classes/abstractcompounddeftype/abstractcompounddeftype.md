@@ -162,6 +162,25 @@ The name of the compound element.
 </td></tr>
 <tr><td>
 
+[conceptParts?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/conceptparts)
+
+
+</td><td>
+
+
+</td><td>
+
+[ConceptPartsDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/conceptpartsdatamodel) \| undefined
+
+
+</td><td>
+
+_(Optional)_ Concept parts associated with the compound.
+
+
+</td></tr>
+<tr><td>
+
 [derivedCompoundRefs?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/derivedcompoundrefs)
 
 

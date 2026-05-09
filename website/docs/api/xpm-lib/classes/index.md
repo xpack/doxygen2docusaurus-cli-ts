@@ -46,6 +46,15 @@ Abstract base class for compound reference data models.
 </td></tr>
 <tr><td>
 
+[AbstractConceptParts](/docs/api/xpm-lib/classes/abstractconceptparts)
+
+</td><td>
+
+Abstract base class for concept parts containers.
+
+</td></tr>
+<tr><td>
+
 [AbstractDataModelBase](/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 </td><td>
@@ -348,6 +357,15 @@ Data model for individual code line elements within program listings.
 </td><td>
 
 Concrete implementation of compound definition data model.
+
+</td></tr>
+<tr><td>
+
+[ConceptPartsDataModel](/docs/api/xpm-lib/classes/conceptpartsdatamodel)
+
+</td><td>
+
+Data model for `conceptparts` elements.
 
 </td></tr>
 <tr><td>

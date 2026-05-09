@@ -152,6 +152,25 @@ The name of the compound element.
 </td></tr>
 <tr><td>
 
+[conceptParts?](./xpm-lib.abstractcompounddeftype.conceptparts.md)
+
+
+</td><td>
+
+
+</td><td>
+
+[ConceptPartsDataModel](./xpm-lib.conceptpartsdatamodel.md) \| undefined
+
+
+</td><td>
+
+_(Optional)_ Concept parts associated with the compound.
+
+
+</td></tr>
+<tr><td>
+
 [derivedCompoundRefs?](./xpm-lib.abstractcompounddeftype.derivedcompoundrefs.md)
 
 

@@ -80,6 +80,17 @@ Concrete implementation of compound definition data model.
 </td></tr>
 <tr><td>
 
+[ConceptPartsDataModel](./xpm-lib.conceptpartsdatamodel.md)
+
+
+</td><td>
+
+Data model for `conceptparts` elements.
+
+
+</td></tr>
+<tr><td>
+
 [DataModel](./xpm-lib.datamodel.md)
 
 
@@ -574,6 +585,17 @@ Abstract base class for Doxygen compound definition data models.
 </td><td>
 
 Abstract base class for compound reference data models.
+
+
+</td></tr>
+<tr><td>
+
+[AbstractConceptParts](./xpm-lib.abstractconceptparts.md)
+
+
+</td><td>
+
+Abstract base class for concept parts containers.
 
 
 </td></tr>

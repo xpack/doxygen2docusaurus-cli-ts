@@ -16,7 +16,7 @@ For information on how to install and use this project, please refer to the
 
 The source code of the current release is available on
 GitHub as [xpack/doxygen2docusaurus-cli-ts](https://github.com/xpack/doxygen2docusaurus-cli-ts),
-the [v2.1.0](https://github.com/xpack/doxygen2docusaurus-cli-ts/tree/v2.1.0) tree.
+the [v2.2.0](https://github.com/xpack/doxygen2docusaurus-cli-ts/tree/v2.2.0) tree.
 
 ## License
 

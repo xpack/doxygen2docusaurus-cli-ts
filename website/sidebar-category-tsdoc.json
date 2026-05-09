@@ -118,6 +118,12 @@
                 },
                 {
                   "type": "doc",
+                  "label": "conceptParts",
+                  "className": "tsdocEllipsis",
+                  "id": "api/xpm-lib/classes/abstractcompounddeftype/conceptparts"
+                },
+                {
+                  "type": "doc",
                   "label": "derivedCompoundRefs",
                   "className": "tsdocEllipsis",
                   "id": "api/xpm-lib/classes/abstractcompounddeftype/derivedcompoundrefs"
@@ -319,6 +325,24 @@
                   "label": "virt",
                   "className": "tsdocEllipsis",
                   "id": "api/xpm-lib/classes/abstractcompoundreftype/virt"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "AbstractConceptParts",
+              "link": {
+                "type": "doc",
+                "id": "api/xpm-lib/classes/abstractconceptparts/abstractconceptparts"
+              },
+              "className": "tsdocEllipsis",
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/xpm-lib/classes/abstractconceptparts/$_constructor_$"
                 }
               ]
             },
@@ -1849,6 +1873,24 @@
                   "label": "(constructor)",
                   "className": "tsdocEllipsis",
                   "id": "api/xpm-lib/classes/compounddefdatamodel/$_constructor_$"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "ConceptPartsDataModel",
+              "link": {
+                "type": "doc",
+                "id": "api/xpm-lib/classes/conceptpartsdatamodel/conceptpartsdatamodel"
+              },
+              "className": "tsdocEllipsis",
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/xpm-lib/classes/conceptpartsdatamodel/$_constructor_$"
                 }
               ]
             },
