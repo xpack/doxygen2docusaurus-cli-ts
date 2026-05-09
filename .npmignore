@@ -98,4 +98,7 @@ maintenance-scripts/
 api-extractor.json
 eslint.config.js
 
+.cmake-format.yaml
+code-review.md
+
 #end
