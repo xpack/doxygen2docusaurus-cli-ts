@@ -1,3 +1,15 @@
+/*
+ * This file is part of the xPack project (http://xpack.github.io).
+ * Copyright (c) 2025-2026 Liviu Ionescu. All rights reserved.
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose is hereby granted, under the terms of the MIT license.
+ *
+ * If a copy of the license was not distributed with this file, it can be
+ * obtained from https://opensource.org/licenses/mit.
+ */
+// ----------------------------------------------------------------------------
+// import * as util from 'node:util'
 import assert from 'node:assert';
 import path from 'node:path';
 import { ParaDataModel } from '../../doxygen/data-model/compounds/descriptiontype-dm.js';
@@ -5,31 +17,93 @@ import { joinWithLast, sanitizeAnonymousNamespace } from '../utils.js';
 import { Section } from './members-vm.js';
 import { RefTextDataModel } from '../../doxygen/data-model/compounds/reftexttype-dm.js';
 import { SectionDefByKindDataModel, } from '../../doxygen/data-model/compounds/sectiondeftype-dm.js';
+// ----------------------------------------------------------------------------
+/**
+ * Abstract base class for all compound documentation objects.
+ *
+ * The CompoundBase class provides common functionality and structure for
+ * all types of documentation compounds (classes, files, namespaces, etc.),
+ * including rendering, navigation, and metadata management.
+ *
+ * @public
+ */
 export class CompoundBase {
+    /** The Doxygen compound kind (class, file, namespace, etc.). */
     kind = '';
+    /** The display name of the compound. */
     compoundName = '';
+    /** Unique identifier for the compound. */
     id = '';
+    /** The collection this compound belongs to. */
     collection;
+    /** HTML-rendered title string for display purposes. */
     titleHtmlString;
+    /** File path where the compound is located in the source. */
     locationFilePath;
+    // --------------------------------------------------------------------------
+    /** Parent compound in the hierarchy (not used for classes). */
     parent;
+    /**
+     * Array of child compound identifiers for two-step initialisation.
+     *
+     * Set in 2 steps, first the Ids and then, when all objects are in,
+     * the references.
+     * Folder objects use separate arrays for files and folders children.
+     */
     childrenIds = [];
+    /** Array of resolved child compound instances. */
     children = [];
+    /**
+     * Short name for sidebar display within limited space.
+     * If undefined, the compound is excluded from the sidebar.
+     */
     sidebarLabel;
+    /**
+     * Relative path to the output folder starting with plural kind.
+     * If undefined, the compound is excluded from the sidebar.
+     */
     sidebarId;
+    /**
+     * Relative permalink below outputFolderPath without leading slash.
+     * If undefined, no Markdown file is generated for the compound.
+     */
     relativePermalink;
+    /** The name shown in the index section. */
     indexName = '';
+    /** The name used in tree entries for top-level index pages. */
     treeEntryName = '';
+    /** The name shown in the page title. */
     pageTitle = '';
+    /** HTML-rendered brief description for display purposes. */
     briefDescriptionHtmlString;
+    /** HTML-rendered detailed description lines for full documentation. */
     detailedDescriptionHtmlLines;
+    /** Flag indicating if detailed description contains sect1 elements. */
     hasSect1InDescription = false;
+    /** Location information lines for rendering file/line references. */
     locationLines;
+    /** Array of member sections organised by type and visibility. */
     sections = [];
+    /** Set of unique file locations for this compound. */
     locationSet = new Set();
+    /** Array of include directives for this compound. */
     includes;
+    /** Map of inner compounds organised by type. */
     innerCompounds;
+    /** Private data storage for internal compound definition reference. */
     _private = {};
+    // --------------------------------------------------------------------------
+    /**
+     * Creates a new compound base instance from definition data.
+     *
+     * @remarks
+     * Initialises the basic compound properties including kind, name,
+     * identifier, and optional title and location information. Sets up
+     * the collection reference and processes HTML rendering for titles.
+     *
+     * @param collection - The parent collection managing this compound
+     * @param compoundDef - The Doxygen compound definition containing source data
+     */
     constructor(collection, compoundDef) {
         this._private._compoundDef = compoundDef;
         this.collection = collection;
@@ -45,6 +119,18 @@ export class CompoundBase {
             this.locationFilePath = file;
         }
     }
+    /**
+     * Creates and organises member sections for the compound.
+     *
+     * @remarks
+     * Processes section definitions from the compound data model,
+     * reorders them by type and visibility, and creates Section
+     * instances for rendering. Sorts sections according to their
+     * logical display order.
+     *
+     * @param classUnqualifiedName - Optional class name for special method
+     *   detection
+     */
     createSections(classUnqualifiedName) {
         const reorderedSectionDefs = this.reorderSectionDefs(classUnqualifiedName);
         if (reorderedSectionDefs !== undefined) {
@@ -55,6 +141,19 @@ export class CompoundBase {
             this.sections = sections.sort((a, b) => a.getSectionOrderByKind() - b.getSectionOrderByKind());
         }
     }
+    /**
+     * Reorders section definitions by member type and adjusts section kinds.
+     *
+     * @remarks
+     * Processes member definitions and groups them by adjusted section
+     * kinds, handling user-defined sections separately. Creates new
+     * section definitions organised by member types for consistent
+     * display ordering.
+     *
+     * @param classUnqualifiedName - Optional class name for special method
+     *   detection
+     * @returns Array of reordered section definitions or undefined if none exist
+     */
     reorderSectionDefs(classUnqualifiedName) {
         const sectionDefs = this._private._compoundDef?.sectionDefs;
         if (sectionDefs === undefined) {
@@ -96,10 +195,45 @@ export class CompoundBase {
         resultSectionDefs.push(...sectionDefsByKind.values());
         return resultSectionDefs;
     }
+    // <xsd:simpleType name="DoxMemberKind">
+    //   <xsd:restriction base="xsd:string">
+    //     <xsd:enumeration value="define" />
+    //     <xsd:enumeration value="property" />
+    //     <xsd:enumeration value="event" />
+    //     <xsd:enumeration value="variable" />
+    //     <xsd:enumeration value="typedef" />
+    //     <xsd:enumeration value="enum" />
+    //     <xsd:enumeration value="function" />
+    //     <xsd:enumeration value="signal" />
+    //     <xsd:enumeration value="prototype" />
+    //     <xsd:enumeration value="friend" />
+    //     <xsd:enumeration value="dcop" />
+    //     <xsd:enumeration value="slot" />
+    //     <xsd:enumeration value="interface" />
+    //     <xsd:enumeration value="service" />
+    //   </xsd:restriction>
+    // </xsd:simpleType>
+    /**
+     * Adjusts section kind based on member type and context.
+     *
+     * @remarks
+     * Maps member kinds to appropriate section categories, handling
+     * special cases like operators, constructors, destructors, and
+     * various member types. Preserves visibility prefixes and applies
+     * context-specific adjustments.
+     *
+     * @param sectionDef - The section definition containing the member
+     * @param memberBase - The member whose section kind needs adjustment
+     * @param classUnqualifiedName - Optional class name for special method
+     *   detection
+     * @returns The adjusted section kind string
+     */
     adjustSectionKind(sectionDef, memberBase, classUnqualifiedName) {
+        // In general, adjust to member kind.
         let adjustedSectionKind = memberBase.kind;
         switch (memberBase.kind) {
             case 'function':
+                // If public/protected/private, preserve the prefix.
                 if (this.isOperator(memberBase.name)) {
                     adjustedSectionKind = sectionDef.computeAdjustedKind('operator');
                 }
@@ -127,19 +261,41 @@ export class CompoundBase {
             case 'slot':
                 adjustedSectionKind = sectionDef.computeAdjustedKind('slot');
                 break;
+            // case 'define':
+            // case 'property':
+            // case 'event':
+            // case 'enum':
+            // case 'signal':
+            // case 'prototype':
+            // case 'friend':
+            // case 'dcop':
+            // case 'interface':
+            // case 'service':
             default: {
+                // Adjust to member kind.
                 const { kind } = memberBase;
                 adjustedSectionKind = kind;
                 break;
             }
         }
+        // console.log('adjustedSectionKind:', memberBase.kind, adjustedSectionKind)
         return adjustedSectionKind;
     }
+    /**
+     * Performs late-stage initialisation after all compounds are loaded.
+     *
+     * @remarks
+     * Processes description content, location information, member sections,
+     * and inner compounds. Renders HTML strings and builds location sets
+     * for comprehensive compound documentation. Called after initial
+     * object creation phase.
+     */
     initializeLate() {
         const { workspace } = this.collection;
         const compoundDef = this._private._compoundDef;
         assert(compoundDef !== undefined);
         if (compoundDef.briefDescription !== undefined) {
+            // console.log(compoundDef.briefDescription)
             assert(compoundDef.briefDescription.children !== undefined);
             if (compoundDef.briefDescription.children.length > 1) {
                 assert(compoundDef.briefDescription.children[1] instanceof ParaDataModel);
@@ -154,11 +310,14 @@ export class CompoundBase {
             }
         }
         if (compoundDef.detailedDescription !== undefined) {
+            // console.log(compoundDef.detailedDescription)
             this.detailedDescriptionHtmlLines = workspace.renderElementToLines(compoundDef.detailedDescription, 'html');
         }
         if (this.kind === 'page') {
+            // The location for pages is not usable.
         }
         else if (this.kind === 'dir') {
+            // The location for folders is not used.
         }
         else {
             if (compoundDef.location !== undefined) {
@@ -186,19 +345,33 @@ export class CompoundBase {
         }
         for (const innerKey of Object.keys(compoundDef)) {
             if (innerKey.startsWith('inner') &&
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
                 compoundDef[innerKey] !== undefined) {
                 this.innerCompounds ??= new Map();
                 this.innerCompounds.set(innerKey, compoundDef);
             }
         }
     }
+    /**
+     * Determines if a member name represents an operator function.
+     *
+     * @remarks
+     * Checks if the name starts with 'operator' followed by operator
+     * characters, identifying C++ operator overload functions for
+     * proper categorisation in documentation sections.
+     *
+     * @param name - The member name to check
+     * @returns True if the name represents an operator function
+     */
     isOperator(name) {
+        // Two word operators, like
         if (name.startsWith('operator') &&
             ' =!<>+-*/%&|^~,"(['.includes(name.charAt(8))) {
             return true;
         }
         return false;
     }
+    // --------------------------------------------------------------------------
     renderBriefDescriptionToHtmlString({ briefDescriptionHtmlString, todo = '', morePermalink, }) {
         let text = '';
         if (!this.collection.workspace.options.suggestToDoDescriptions) {
@@ -228,6 +401,7 @@ export class CompoundBase {
         if (!this.collection.workspace.options.suggestToDoDescriptions) {
             todo = '';
         }
+        // const workspace = this.collection.workspace
         if (showHeader) {
             if ((detailedDescriptionHtmlLines !== undefined &&
                 detailedDescriptionHtmlLines.length > 0) ||
@@ -245,6 +419,7 @@ export class CompoundBase {
             }
             if (briefDescriptionHtmlString !== undefined &&
                 briefDescriptionHtmlString.length > 0) {
+                // lines.push(`<p>${briefDescriptionNoParaString}</p>`)
                 lines.push(`<p>${briefDescriptionHtmlString}</p>`);
             }
             else if (todo.length > 0) {
@@ -252,6 +427,9 @@ export class CompoundBase {
                 console.log('TODO: add @brief to', todo);
             }
         }
+        // console.log(
+        //   util.inspect(detailedDescriptionLines, { compact: false, depth: 999 })
+        // )
         if (detailedDescriptionHtmlLines !== undefined &&
             detailedDescriptionHtmlLines.length > 0) {
             lines.push('');
@@ -264,6 +442,7 @@ export class CompoundBase {
         }
         return lines;
     }
+    // --------------------------------------------------------------------------
     hasInnerIndices() {
         return this.innerCompounds !== undefined && this.innerCompounds.size > 0;
     }
@@ -288,7 +467,9 @@ export class CompoundBase {
             if (innerCompound === undefined) {
                 continue;
             }
-            const innerObjects = innerCompound[innerKey];
+            const innerObjects = 
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+            innerCompound[innerKey];
             if (innerObjects === undefined || innerObjects.length === 0) {
                 continue;
             }
@@ -301,11 +482,16 @@ export class CompoundBase {
             lines.push('');
             lines.push('<table class="doxyMembersIndex">');
             for (const innerObject of innerObjects) {
+                // console.log(
+                //   util.inspect(innerObject, { compact: false, depth: 999 })
+                // )
                 const innerDataObject = workspace.viewModel.compoundsById.get(innerObject.refid);
                 if (innerDataObject !== undefined) {
                     const { kind } = innerDataObject;
                     const itemType = kind === 'dir' ? 'folder' : kind === 'group' ? '&nbsp;' : kind;
                     const permalink = workspace.getPagePermalink(innerObject.refid);
+                    // Debatable. The compound name has the full namespace,
+                    // the index has the template signature.
                     const name = this.collection.workspace.renderString(innerDataObject.indexName, 'html');
                     let itemName = '';
                     if (permalink !== undefined && permalink.length > 0) {
@@ -356,6 +542,18 @@ export class CompoundBase {
         }
         return lines;
     }
+    /**
+     * Renders an index table of concept compounds to markdown lines.
+     *
+     * @remarks
+     * Generates a `## Concepts Index` section containing an HTML table
+     * of concept entries. Each entry includes a hyperlinked name when a
+     * permalink is available, and an optional brief description with a
+     * `More...` link when detailed description content is present.
+     *
+     * @param concepts - Array of concept compounds to render in the index
+     * @returns Array of markdown strings representing the concepts index
+     */
     renderConceptsIndexToLines(concepts) {
         const lines = [];
         lines.push('');
@@ -401,10 +599,12 @@ export class CompoundBase {
     renderSectionIndicesToLines() {
         const lines = [];
         for (const section of this.sections) {
+            // console.log(sectionDef)
             lines.push(...section.renderIndexToLines());
         }
         return lines;
     }
+    // --------------------------------------------------------------------------
     renderIncludesIndexToLines() {
         const lines = [];
         const { workspace } = this.collection;
@@ -421,6 +621,7 @@ export class CompoundBase {
         }
         return lines;
     }
+    // --------------------------------------------------------------------------
     renderSectionsToLines() {
         const lines = [];
         for (const section of this.sections) {
@@ -433,9 +634,14 @@ export class CompoundBase {
         let text = '';
         const { workspace } = this.collection;
         if (location !== undefined) {
+            // console.log('location.file:', location.file)
             if (location.file.includes('[')) {
+                // Ignore cases like `[generated]`, encountered in llvm.
                 return lines;
             }
+            // console.log(
+            //   'renderLocationToLines', this.kind, this.compoundName, this.id
+            // )
             const file = workspace.filesByPath.get(location.file);
             if (file !== undefined) {
                 const permalink = workspace.getPagePermalink(file.id);
@@ -575,6 +781,7 @@ export class CompoundBase {
             const { workspace } = this.collection;
             const sortedFiles = [...this.locationSet].sort((a, b) => a.localeCompare(b));
             for (const fileName of sortedFiles) {
+                // console.log('search', fileName)
                 const fileNameEscaped = workspace.renderString(path.basename(fileName), 'html');
                 const file = workspace.filesByPath.get(fileName);
                 if (file !== undefined) {
@@ -635,12 +842,19 @@ export class CompoundBase {
         text += '\n';
         return text;
     }
+    // --------------------------------------------------------------------------
+    /**
+     * Return an array of types, like `class T`, or `class U = T`, or `N T::* MP`
+     * @param templateParamList
+     * @returns
+     */
     collectTemplateParameters({ templateParamList, withDefaults = false, }) {
         if (templateParamList?.params === undefined) {
             return [];
         }
         const templateParameters = [];
         for (const param of templateParamList.params) {
+            // console.log(util.inspect(param, { compact: false, depth: 999 }))
             assert(param.type !== undefined);
             let paramString = '';
             assert(param.type.children !== undefined);
@@ -683,8 +897,10 @@ export class CompoundBase {
         }
         const templateParameterNames = [];
         for (const param of templateParamList.params) {
+            // console.log(util.inspect(param, { compact: false, depth: 999 }))
             assert(param.type !== undefined);
             let paramString = '';
+            // declname? defname? order?
             if (param.declname !== undefined) {
                 paramString += param.declname;
             }
@@ -692,6 +908,7 @@ export class CompoundBase {
                 assert(param.type.children !== undefined);
                 for (const child of param.type.children) {
                     if (typeof child === 'string') {
+                        // Extract the parameter name, passed as `class T`.
                         paramString += child;
                     }
                     else if (child instanceof RefTextDataModel) {
@@ -729,19 +946,35 @@ export class CompoundBase {
         }
         return text;
     }
+    // --------------------------------------------------------------------------
+    /**
+     * Determines whether the compound has any displayable content.
+     *
+     * @remarks
+     * Checks for the presence of brief descriptions, detailed descriptions,
+     * or member sections to determine if the compound documentation page
+     * should be generated. Can be overridden by derived classes to add
+     * additional content checks.
+     *
+     * @returns True if the compound has content worth displaying
+     */
     hasAnyContent() {
         if (this.briefDescriptionHtmlString !== undefined &&
             this.briefDescriptionHtmlString.length > 0) {
+            // console.log('has content brief', this.compoundName)
             return true;
         }
         if (this.detailedDescriptionHtmlLines !== undefined &&
             this.detailedDescriptionHtmlLines.length > 0) {
+            // console.log('has content details', this.compoundName)
             return true;
         }
         if (this.sections.length > 0) {
+            // console.log('has content sections.length', this)
             return true;
         }
         return false;
     }
 }
+// ----------------------------------------------------------------------------
 //# sourceMappingURL=compound-base-vm.js.map

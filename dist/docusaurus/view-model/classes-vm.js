@@ -1,29 +1,97 @@
+/*
+ * This file is part of the xPack project (http://xpack.github.io).
+ * Copyright (c) 2025-2026 Liviu Ionescu. All rights reserved.
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose is hereby granted, under the terms of the MIT license.
+ *
+ * If a copy of the license was not distributed with this file, it can be
+ * obtained from https://opensource.org/licenses/mit.
+ */
+// ----------------------------------------------------------------------------
+// import * as util from 'node:util'
 import assert from 'node:assert';
 import crypto from 'node:crypto';
 import { CompoundBase } from './compound-base-vm.js';
 import { CollectionBase } from './collection-base.js';
 import { flattenPath, sanitizeAnonymousNamespace, sanitizeHierarchicalPath, } from '../utils.js';
 import { ClassTreeEntry } from './tree-entries-vm.js';
+// ----------------------------------------------------------------------------
+/**
+ * Mapping of class kinds to their plural display names.
+ *
+ * @remarks
+ * Used for generating appropriate headings and labels in the documentation
+ * output based on the specific type of class compound.
+ */
 const kindsPlurals = {
     class: 'Classes',
     struct: 'Structs',
     union: 'Unions',
 };
+// ----------------------------------------------------------------------------
+/**
+ * Manages the collection of class, struct, and union documentation.
+ *
+ * @remarks
+ * Handles the organisation and generation of class-type compound
+ * documentation, including hierarchy creation, sidebar generation,
+ * and index file creation. Supports inheritance relationships and
+ * alphabetical organisation.
+ *
+ * @public
+ */
 export class Classes extends CollectionBase {
+    // compoundsById: Map<string, Class>
+    /**
+     * Array of top-level classes without parent classes.
+     *
+     * @remarks
+     * Contains classes that are not derived from other documented classes,
+     * used for organising hierarchical displays and inheritance trees.
+     */
     topLevelClasses = [];
+    // --------------------------------------------------------------------------
+    // constructor (workspace: Workspace) {
+    //   super(workspace)
+    //   // this.compoundsById = new Map()
+    // }
+    // --------------------------------------------------------------------------
+    /**
+     * Adds a class compound to the collection.
+     *
+     * @remarks
+     * Creates a new Class instance from the compound definition and registers
+     * it in the collection for later processing and hierarchy creation.
+     *
+     * @param compoundDef - The compound definition for the class
+     * @returns The created Class instance
+     */
     addChild(compoundDef) {
         const classs = new Class(this, compoundDef);
         this.collectionCompoundsById.set(classs.id, classs);
         return classs;
     }
+    // --------------------------------------------------------------------------
+    /**
+     * Creates hierarchical relationships between class compounds.
+     *
+     * @remarks
+     * Establishes parent-child relationships based on inheritance data,
+     * building the class hierarchy tree and identifying top-level classes
+     * that have no documented parent classes.
+     */
     createCompoundsHierarchies() {
+        // Recreate classes hierarchies.
         for (const [classId, classs] of this.collectionCompoundsById) {
             if (!(classs instanceof Class)) {
                 continue;
             }
             for (const baseClassId of classs.baseClassIds) {
+                // console.log(classId, baseClassId)
                 const baseClass = this.collectionCompoundsById.get(baseClassId);
                 if (baseClass instanceof Class) {
+                    // console.log('baseClassId', baseClassId, 'has child', classId)
                     baseClass.children.push(classs);
                     classs.baseClasses.push(baseClass);
                 }
@@ -47,11 +115,14 @@ export class Classes extends CollectionBase {
             }
         }
     }
+    // --------------------------------------------------------------------------
     addSidebarItems(sidebarCategory) {
         const indicesSet = this.workspace.indicesMaps.get('classes');
         if (indicesSet === undefined) {
             return;
         }
+        // Add classes to the sidebar.
+        // Top level classes are added below a Class category
         const classesCategory = {
             type: 'category',
             label: 'Classes',
@@ -73,6 +144,7 @@ export class Classes extends CollectionBase {
                 },
             ],
         };
+        // Add the hierarchy.
         for (const classs of this.topLevelClasses) {
             const item = this.createSidebarItemRecursively(classs);
             if (item !== undefined) {
@@ -80,6 +152,7 @@ export class Classes extends CollectionBase {
                 classesCategory.items[0].items.push(item);
             }
         }
+        // Add the rest of the entries.
         if (indicesSet.has('classes')) {
             classesCategory.items.push({
                 type: 'doc',
@@ -131,6 +204,18 @@ export class Classes extends CollectionBase {
         }
         sidebarCategory.items.push(classesCategory);
     }
+    /**
+     * Creates sidebar item for class hierarchy recursively.
+     *
+     * @remarks
+     * Generates hierarchical sidebar structures for class inheritance
+     * trees, creating category items for classes with children and
+     * document items for leaf classes. Handles sidebar label and ID
+     * generation with proper CSS classes.
+     *
+     * @param classs - The class to create sidebar item for
+     * @returns The sidebar item or undefined if class lacks required data
+     */
     createSidebarItemRecursively(classs) {
         if (classs.sidebarLabel === undefined || classs.sidebarId === undefined) {
             return undefined;
@@ -167,6 +252,7 @@ export class Classes extends CollectionBase {
             return categoryItem;
         }
     }
+    // --------------------------------------------------------------------------
     createNavbarItems() {
         const navbarItem = {
             label: 'Classes',
@@ -174,6 +260,7 @@ export class Classes extends CollectionBase {
         };
         return [navbarItem];
     }
+    // --------------------------------------------------------------------------
     async generateIndexDotMdFile() {
         if (this.topLevelClasses.length === 0) {
             return;
@@ -207,7 +294,21 @@ export class Classes extends CollectionBase {
             bodyLines: lines,
         });
     }
+    /**
+     * Generates hierarchical index content for class documentation recursively.
+     *
+     * @remarks
+     * Creates HTML tree table rows for class hierarchies with proper
+     * indentation, icons, and descriptions. Processes inheritance
+     * relationships and generates nested table structures for parent-child
+     * class relationships.
+     *
+     * @param classs - The class to generate index content for
+     * @param depth - The current depth level in the hierarchy (1-based)
+     * @returns Array of HTML strings representing the tree table rows
+     */
     generateIndexMdFileRecursively(classs, depth) {
+        // console.log(util.inspect(classs, { compact: false, depth: 999 }))
         const lines = [];
         const permalink = this.workspace.getPagePermalink(classs.id);
         assert(permalink !== undefined && permalink.length > 0);
@@ -217,6 +318,7 @@ export class Classes extends CollectionBase {
             union: 'U',
         };
         let iconLetter = iconLetters[classs.kind];
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (iconLetter === undefined) {
             console.error('Icon kind', classs.kind, 'not supported yet in', this.constructor.name, '(using ?)');
             iconLetter = '?';
@@ -266,12 +368,14 @@ export class Classes extends CollectionBase {
                 }
             }
         }
+        // ------------------------------------------------------------------------
         await this.generateIndexFile({
             group: 'classes',
             fileKind: 'all',
             title: 'Classes and Members Index',
             description: 'The classes, structs, unions and their members are:',
             map: allUnorderedEntriesMap,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             filter: (kind) => true,
         });
         await this.generateIndexFile({
@@ -322,30 +426,70 @@ export class Classes extends CollectionBase {
             map: allUnorderedEntriesMap,
             filter: (kind) => kind === 'enumvalue',
         });
+        // ------------------------------------------------------------------------
     }
 }
+// ============================================================================
+/**
+ * Represents a single class, struct, or union compound for documentation.
+ *
+ * @remarks
+ * Manages individual class compound data including inheritance relationships,
+ * template parameters, member organisation, and documentation generation.
+ * Supports multiple inheritance, template specialisation, and hierarchical
+ * naming conventions for comprehensive class documentation.
+ *
+ * @public
+ */
 export class Class extends CompoundBase {
+    /** Set of base class IDs for inheritance tracking (multiple inheritance). */
     baseClassIds = new Set();
+    /** Array of resolved base class instances. */
     baseClasses = [];
+    /** Fully qualified class name including namespace hierarchy. */
     fullyQualifiedName = '???';
+    /** Simple class name without namespace qualifiers. */
     unqualifiedName = '???';
+    /** Template parameter specification string. */
     templateParameters = '';
+    /** Complete class name with rendered template parameters. */
     classFullName = '???';
+    /** Rendered template declaration for display purposes. */
     template;
+    /** Direct reference to base compound data model objects. */
     baseCompoundRefs;
+    /** Direct reference to derived compound data model objects. */
     derivedCompoundRefs;
+    /** Template parameter list from the compound definition. */
     templateParamList;
+    // --------------------------------------------------------------------------
+    /**
+     * Creates a new Class instance from compound definition data.
+     *
+     * @remarks
+     * Initialises class metadata including inheritance relationships,
+     * template parameters, naming conventions, and URL structures.
+     * Processes fully qualified names, sidebar labels, and creates
+     * hierarchical path structures for documentation generation.
+     *
+     * @param collection - The parent Classes collection managing this class
+     * @param compoundDef - The Doxygen compound definition containing class data
+     */
     constructor(collection, compoundDef) {
         super(collection, compoundDef);
+        // console.log('Class.constructor', util.inspect(compoundDef))
         const { workspace } = this.collection;
         if (Array.isArray(compoundDef.baseCompoundRefs)) {
             for (const ref of compoundDef.baseCompoundRefs) {
+                // console.log('component', compoundDef.id, 'has base', ref.refid)
                 if (ref.refid !== undefined) {
                     this.baseClassIds.add(ref.refid);
                 }
             }
         }
+        // Remove the template parameters.
         this.fullyQualifiedName = sanitizeAnonymousNamespace(compoundDef.compoundName.replace(/<.*>/, ''));
+        // Remove the namespaces(s).
         this.unqualifiedName = this.fullyQualifiedName.replace(/.*::/, '');
         const index = compoundDef.compoundName.indexOf('<');
         let indexNameTemplateParameters = '';
@@ -375,16 +519,37 @@ export class Class extends CompoundBase {
         if (compoundDef.templateParamList !== undefined) {
             this.pageTitle += ' Template';
         }
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         assert(kindsPlurals[kind] !== undefined);
         const pluralKind = kindsPlurals[kind].toLowerCase();
+        // Turn the namespace into a hierarchical path. Keep the dot.
         let sanitizedPath = sanitizeHierarchicalPath(this.fullyQualifiedName.replaceAll(/::/g, '/'));
         if (this.templateParameters.length > 0) {
+            // sanitizedPath += sanitizeName(this.templateParameters)
             sanitizedPath += `-${crypto.hash('md5', this.templateParameters)}`;
         }
         this.relativePermalink = `${pluralKind}/${sanitizedPath}`;
+        // Replace slash with dash.
         this.sidebarId = `${pluralKind}/${flattenPath(sanitizedPath)}`;
         this.createSections(this.unqualifiedName);
+        // console.log('0', compoundDef.id)
+        // console.log('1', compoundDef.compoundName)
+        // console.log('2', this.relativePermalink)
+        // console.log('3', this.docusaurusId)
+        // console.log('4', this.sidebarLabel)
+        // console.log('5', this.indexName)
+        // console.log('6', this.templateParameters)
+        // console.log()
     }
+    /**
+     * Performs late-stage initialisation after all classes are loaded.
+     *
+     * @remarks
+     * Completes class setup by rendering template parameters to HTML,
+     * building full class names with template information, and storing
+     * references to compound definition objects for inheritance processing.
+     * Called after all compounds are registered.
+     */
     initializeLate() {
         super.initializeLate();
         const compoundDef = this._private._compoundDef;
@@ -410,6 +575,17 @@ export class Class extends CompoundBase {
         this.derivedCompoundRefs = derivedCompoundRefs;
         this.templateParamList = templateParamList;
     }
+    /**
+     * Determines whether the class has any content to display.
+     *
+     * @remarks
+     * Checks for the presence of child classes, inner compounds,
+     * member sections, include directives, or base class content
+     * to determine if the class documentation page should be
+     * generated and displayed.
+     *
+     * @returns True if the class has displayable content, false otherwise
+     */
     hasAnyContent() {
         if (this.childrenIds.length > 0) {
             return true;
@@ -428,11 +604,26 @@ export class Class extends CompoundBase {
         }
         return super.hasAnyContent();
     }
+    // --------------------------------------------------------------------------
+    /**
+     * Renders the complete class documentation to markdown lines.
+     *
+     * @remarks
+     * Generates the full documentation page including class declaration,
+     * inheritance relationships, member indices, detailed descriptions,
+     * and location information. Handles base and derived class listings
+     * with proper HTML table formatting.
+     *
+     * @param frontMatter - The frontmatter configuration for the page
+     * @returns Array of markdown strings representing the complete documentation
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToLines(frontMatter) {
         const lines = [];
         const { workspace } = this.collection;
         const name = this.collection.workspace.renderString(this.compoundName, 'html');
         const descriptionTodo = `@${this.kind} ${name}`;
+        // The Description header is always shown.
         const morePermalink = '#details';
         lines.push(this.renderBriefDescriptionToHtmlString({
             briefDescriptionHtmlString: this.briefDescriptionHtmlString,
@@ -475,6 +666,9 @@ export class Class extends CompoundBase {
                 lines.push('');
                 lines.push('<table class="doxyMembersIndex">');
                 for (const baseCompoundRef of baseCompoundRefs.values()) {
+                    // console.log(
+                    //   util.inspect(baseCompoundRef, { compact: false, depth: 999 })
+                    // )
                     if (baseCompoundRef.refid !== undefined) {
                         const { collection } = this;
                         const baseClass = collection.collectionCompoundsById.get(baseCompoundRef.refid);
@@ -508,6 +702,11 @@ export class Class extends CompoundBase {
                     if (collection instanceof Classes) {
                         const baseClass = collection.collectionCompoundsById.get(baseClassId);
                         if (baseClass instanceof Class) {
+                            // console.log(
+                            //   util.inspect(
+                            //     derivedCompoundDef, { compact: false, depth: 999 }
+                            //   )
+                            // )
                             lines.push(...baseClass.renderIndexToLines());
                         }
                     }
@@ -521,6 +720,9 @@ export class Class extends CompoundBase {
                 lines.push('');
                 lines.push('<table class="doxyMembersIndex">');
                 for (const derivedCompoundRef of this.derivedCompoundRefs) {
+                    // console.log(
+                    //   util.inspect(derivedCompoundRef, { compact: false, depth: 999 })
+                    // )
                     if (derivedCompoundRef.refid !== undefined) {
                         let derivedClass = undefined;
                         if ('collectionCompoundsById' in this.collection &&
@@ -567,6 +769,12 @@ export class Class extends CompoundBase {
                     const { collection } = this;
                     const derivedClassCandidate = collection.collectionCompoundsById.get(derivedClassId);
                     if (derivedClassCandidate instanceof Class) {
+                        // console.log(
+                        //   util.inspect(
+                        //     derivedCompoundDef,
+                        //     { compact: false, depth: 999 }
+                        //   )
+                        // )
                         lines.push(...derivedClassCandidate.renderIndexToLines());
                     }
                     else {
@@ -595,7 +803,19 @@ export class Class extends CompoundBase {
         lines.push(...this.renderGeneratedFromToLines());
         return lines;
     }
+    /**
+     * Renders the class as an index entry for member listings.
+     *
+     * @remarks
+     * Creates HTML table rows suitable for inclusion in member indices,
+     * with links to the class documentation page and brief descriptions.
+     * Generates formatted entries with appropriate CSS classes and
+     * structure for index displays.
+     *
+     * @returns Array of HTML strings representing the index entry
+     */
     renderIndexToLines() {
+        // console.log(util.inspect(this, { compact: false, depth: 999 }))
         const lines = [];
         const { workspace } = this.collection;
         const permalink = workspace.getPagePermalink(this.id);
@@ -629,4 +849,5 @@ export class Class extends CompoundBase {
         return lines;
     }
 }
+// ----------------------------------------------------------------------------
 //# sourceMappingURL=classes-vm.js.map

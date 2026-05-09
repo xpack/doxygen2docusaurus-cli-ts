@@ -1,3 +1,27 @@
+/*
+ * This file is part of the xPack project (http://xpack.github.io).
+ * Copyright (c) 2025-2026 Liviu Ionescu. All rights reserved.
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose is hereby granted, under the terms of the MIT license.
+ *
+ * If a copy of the license was not distributed with this file, it can be
+ * obtained from https://opensource.org/licenses/mit.
+ */
+/**
+ * A CLI application to convert Doxygen XML files into Docusaurus
+ * documentation.
+ *
+ * @remarks
+ * This tool facilitates the integration of Doxygen reference pages into
+ * Docusaurus documentation sites. It parses Doxygen-generated XML files and
+ * produces Docusaurus `.md` documents, along with the corresponding sidebars
+ * and menu entries.
+ *
+ * @packageDocumentation
+ */
+// ----------------------------------------------------------------------------
+// The top entry point into the plugin, mentioned in `package.json`.
 import { AbstractCompoundDefType, CompoundDefDataModel, } from './doxygen/data-model/compounds/compounddef-dm.js';
 import { AbstractDataModelBase, } from './doxygen/data-model/types.js';
 import { DataModel } from './doxygen/data-model/data-model.js';
@@ -27,5 +51,19 @@ import { ReferenceDataModel, ReferencedByDataModel, AbstractReferenceType, } fro
 import { ReimplementDataModel, AbstractReimplementType, } from './doxygen/data-model/compounds/reimplementtype-dm.js';
 import { EnumValueDataModel, AbstractEnumValueType, } from './doxygen/data-model/compounds/enumvaluetype-dm.js';
 export * from './cli/main.js';
-export { CompoundDefDataModel, AbstractCompoundDefType, DataModel, CliOptions, DoxygenXmlParser, DoxygenFileDataModel, DoxygenIndexDataModel, AbstractIncType, AbstractIndexCompoundType, AbstractDocImageType, AbstractDoxygenFileType, AbstractIndexDoxygenType, AbstractDataModelBase, AbstractListingType, AbstractListOfAllMembersType, AbstractLocationType, AbstractRefType, AbstractSectionDefType, AbstractTableOfContentsType, AbstractTemplateParamListType, IndexMemberDataModel, AbstractListingTypeBase, MemberRefDataModel, AbstractSectionDefTypeBase, TocSectDataModel, ParamDataModel, AbstractCompoundRefType, AbstractDescriptionType, AbstractDoxygenFileOptionType, AbstractTableOfContentsKindType, CodeLineDataModel, DescriptionDataModel, MemberDefDataModel, MemberDataModel, AbstractIndexMemberType, AbstractMemberRefType, AbstractParamType, DefValDataModel, TypeDataModel, TypeConstraintDataModel, AbstractCodeLineType, AbstractMemberType, AbstractMemberDefType, HighlightDataModel, AbstractMemberBaseType, EnumValueDataModel, InbodyDescriptionDataModel, InitializerDataModel, RequiresClauseDataModel, ReferencedByDataModel, ReferenceDataModel, ReimplementDataModel, AbstractLinkedTextType, AbstractEnumValueType, AbstractHighlightType, AbstractReferenceType, AbstractReimplementType, BriefDescriptionDataModel, DetailedDescriptionDataModel, ProgramListingDataModel, BaseCompoundRefDataModel, DerivedCompoundRefDataModel, IncludesDataModel, IncludedByDataModel, InnerClassDataModel, InnerConceptDataModel, InnerDirDataModel, InnerFileDataModel, InnerGroupDataModel, InnerNamespaceDataModel, InnerPageDataModel, LocationDataModel, SectionDefDataModel, TemplateParamListDataModel, ListOfAllMembersDataModel, TableOfContentsDataModel, IndexCompoundDataModel, DoxygenFileOptionDataModel, };
+export { 
+// Core classes
+CompoundDefDataModel, AbstractCompoundDefType, DataModel, CliOptions, DoxygenXmlParser, DoxygenFileDataModel, DoxygenIndexDataModel, AbstractIncType, AbstractIndexCompoundType, AbstractDocImageType, AbstractDoxygenFileType, AbstractIndexDoxygenType, AbstractDataModelBase, AbstractListingType, AbstractListOfAllMembersType, AbstractLocationType, AbstractRefType, AbstractSectionDefType, AbstractTableOfContentsType, AbstractTemplateParamListType, 
+// Missing symbols for API Extractor
+IndexMemberDataModel, AbstractListingTypeBase, MemberRefDataModel, AbstractSectionDefTypeBase, TocSectDataModel, ParamDataModel, AbstractCompoundRefType, AbstractDescriptionType, AbstractDoxygenFileOptionType, AbstractTableOfContentsKindType, CodeLineDataModel, DescriptionDataModel, MemberDefDataModel, MemberDataModel, AbstractIndexMemberType, AbstractMemberRefType, AbstractParamType, DefValDataModel, TypeDataModel, TypeConstraintDataModel, AbstractCodeLineType, AbstractMemberType, AbstractMemberDefType, HighlightDataModel, AbstractMemberBaseType, EnumValueDataModel, InbodyDescriptionDataModel, InitializerDataModel, RequiresClauseDataModel, ReferencedByDataModel, ReferenceDataModel, ReimplementDataModel, AbstractLinkedTextType, AbstractEnumValueType, AbstractHighlightType, AbstractReferenceType, AbstractReimplementType, 
+// Description types
+BriefDescriptionDataModel, DetailedDescriptionDataModel, ProgramListingDataModel, 
+// Compound references
+BaseCompoundRefDataModel, DerivedCompoundRefDataModel, 
+// Include types
+IncludesDataModel, IncludedByDataModel, 
+// Inner types
+InnerClassDataModel, InnerConceptDataModel, InnerDirDataModel, InnerFileDataModel, InnerGroupDataModel, InnerNamespaceDataModel, InnerPageDataModel, 
+// Other data models
+LocationDataModel, SectionDefDataModel, TemplateParamListDataModel, ListOfAllMembersDataModel, TableOfContentsDataModel, IndexCompoundDataModel, DoxygenFileOptionDataModel, };
 //# sourceMappingURL=index.js.map
