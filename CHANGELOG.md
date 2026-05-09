@@ -8,6 +8,7 @@ and close existing issues and pull requests.
 
 ## 2026-05-09
 
+* v2.2.0 published on npmjs.com
 * v2.2.0 prepared
 * 95fe915 dist update
 * 642e7c7 index.ts update
