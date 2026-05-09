@@ -41,12 +41,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "3.10.0",
-    "@docusaurus/faster": "3.10.0",
-    "@docusaurus/plugin-client-redirects": "3.10.0",
-    "@docusaurus/plugin-ideal-image": "3.10.0",
-    "@docusaurus/preset-classic": "3.10.0",
-    "@docusaurus/theme-search-algolia": "3.10.0",
+    "@docusaurus/core": "3.10.1",
+    "@docusaurus/faster": "3.10.1",
+    "@docusaurus/plugin-client-redirects": "3.10.1",
+    "@docusaurus/plugin-ideal-image": "3.10.1",
+    "@docusaurus/preset-classic": "3.10.1",
+    "@docusaurus/theme-search-algolia": "3.10.1",
     "@mdx-js/react": "^3.1.1",
     "clsx": "^2.0.0",
     "prism-react-renderer": "^2.3.0",
@@ -60,9 +60,9 @@
     "typescript": "https://www.npmjs.com/package/typescript"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.10.0",
-    "@docusaurus/tsconfig": "3.10.0",
-    "@docusaurus/types": "3.10.0",
+    "@docusaurus/module-type-aliases": "3.10.1",
+    "@docusaurus/tsconfig": "3.10.1",
+    "@docusaurus/types": "3.10.1",
     "@microsoft/api-documenter": "^7.28.2",
     "@microsoft/api-extractor": "^7.55.2",
     "@xpack/docusaurus-template-liquid": "github:xpack/docusaurus-template-liquid",
@@ -98,7 +98,8 @@
     "hasTSDocDocusaurusApi": "true",
     "skipTests": "true",
     "skipAlgolia": "true",
-    "nodeVersion": "20.18.1"
+    "nodeVersion": "20.18.1",
+    "shareOnTwitter": "true"
   },
   "overrides": {
     "webpackbar": "7.0.0"
