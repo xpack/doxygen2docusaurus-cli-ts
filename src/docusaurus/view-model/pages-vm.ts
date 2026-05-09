@@ -103,7 +103,10 @@ export class Pages extends CollectionBase {
     const pagesCategory: SidebarCategoryItem = {
       type: 'category',
       label: 'Pages',
-      // There is no index page.
+      link: {
+        type: 'doc',
+        id: `${this.workspace.sidebarBaseId}indices/pages/index`,
+      },
       collapsed: true,
       items: [],
     }
@@ -213,7 +216,48 @@ export class Pages extends CollectionBase {
    * @returns Promise that resolves immediately
    */
   override async generateIndexDotMdFile(): Promise<void> {
-    // There is no pages index.
+    if (this.collectionCompoundsById.size === 0) {
+      return
+    }
+
+    const filePath = `${this.workspace.outputFolderPath}indices/pages/index.md`
+    const permalink = 'pages'
+
+    const frontMatter: FrontMatter = {
+      title: 'Pages',
+      slug: `${this.workspace.slugBaseUrl}${permalink}`,
+      description: 'The pages that contributed content to this site',
+      custom_edit_url: null,
+      keywords: ['doxygen', 'pages', 'reference'],
+    }
+
+    const lines: string[] = []
+
+    for (const [pageId, page] of this.collectionCompoundsById) {
+      // console.log(`Page: ${pageId} (${page.compoundName})`)
+      if (pageId === 'indexpage') {
+        continue
+      }
+      if (
+        page.sidebarLabel === undefined ||
+        page.sidebarId === undefined ||
+        page.relativePermalink === undefined
+      ) {
+        continue
+      }
+      const pagePermalink = this.workspace.pageBaseUrl + page.relativePermalink
+      lines.push(`- [${page.sidebarLabel}](${pagePermalink})`)
+    }
+
+    if (this.workspace.options.verbose) {
+      console.log(`Writing pages index file '${filePath}'...`)
+    }
+
+    await this.workspace.writeOutputMdFile({
+      filePath,
+      frontMatter,
+      bodyLines: lines,
+    })
   }
 }
 
