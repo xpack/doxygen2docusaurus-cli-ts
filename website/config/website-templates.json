@@ -1,0 +1,14 @@
+{
+  "metadataKeywords": "doxygen, docusaurus, documentation, converter, node.js, cli",
+  "programName": "doxygen2docusaurus",
+  "tagline": "A Node.js CLI application to convert Doxygen XML files into Docusaurus documentation",
+  "title": "doxygen2docusaurus - Doxygen Documentation Converter",
+  "hasCustomDocsNavbarItem": true,
+  "hasCustomHomepageFeatures": true,
+  "hasCustomSidebar": true,
+  "hasTSDocDocusaurusApi": true,
+  "shareOnTwitter": true,
+  "skipAlgolia": true,
+  "skipTests": true,
+  "useApiDocumenter": true
+}
