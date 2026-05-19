@@ -2,6 +2,7 @@
   "descriptiveName": "Doxygen Documentation Converter",
   "permalinkName": "doxygen2docusaurus",
   "preferredName": "doxygen2docusaurus",
+  "programName": "doxygen2docusaurus",
   "hasCli": true,
   "hasNoGithubReleases": true,
   "hasTriggerPublish": true,
