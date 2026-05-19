@@ -34,26 +34,37 @@
   "homepage": "https://xpack.github.io/doxygen2docusaurus/",
   "homepagePreview": "https://xpack.github.io/doxygen2docusaurus-cli-ts/",
   "$dependenciesUrls": {
-    "@tsconfig/node20": "https://www.npmjs.com/package/@tsconfig/node20"
+    "@tsconfig/node20": "https://www.npmjs.com/package/@tsconfig/node20",
+    "del-cli": "https://www.npmjs.com/package/del-cli",
+    "json": "https://www.npmjs.com/package/json",
+    "liquidjs": "https://www.npmjs.com/package/liquidjs",
+    "@types/node": "https://www.npmjs.com/package/@types/node",
+    "ts-node": "https://www.npmjs.com/package/ts-node",
+    "eslint": "https://www.npmjs.com/package/eslint",
+    "@eslint/js": "https://www.npmjs.com/package/@eslint/js",
+    "eslint-config-prettier": "https://www.npmjs.com/package/eslint-config-prettier",
+    "typescript-eslint": "https://www.npmjs.com/package/typescript-eslint",
+    "prettier": "https://www.npmjs.com/package/prettier",
+    "typescript": "https://www.npmjs.com/package/typescript"
   },
   "dependencies": {
     "commander": "^14.0.3",
-    "fast-xml-parser": "^5.7.3"
+    "fast-xml-parser": "^5.8.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.31.0",
     "@tsconfig/node20": "^20.1.9",
-    "@types/node": "^25.0.9",
+    "@types/node": "^25.9.0",
     "del-cli": "^7.0.0",
-    "eslint": "^9.31.0",
+    "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "fs-extra": "^11.3.5",
     "json": "^11.0.0",
-    "liquidjs": "^10.24.0",
-    "prettier": "^3.8.1",
+    "liquidjs": "^10.27.0",
+    "prettier": "^3.8.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.59.2"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.59.4"
   },
   "scripts": {
     "generate-top-commons": "bash node_modules/@xpack/npm-packages-helper/maintenance-scripts/generate-top-commons.sh --xpack",
@@ -82,7 +93,7 @@
     "prepublishOnly": "npm run lint && npm run test",
     "postpublish": "git push origin --follow-tags"
   },
-  "topConfig": {
+  "_topConfig": {
     "descriptiveName": "Doxygen Documentation Converter",
     "permalinkName": "doxygen2docusaurus",
     "preferShortName": "true",

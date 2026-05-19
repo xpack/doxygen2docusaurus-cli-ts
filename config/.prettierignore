@@ -12,3 +12,6 @@ templates
 # Ignore Liquid template files.
 **/*-liquid.*
 **/*.liquid
+
+**/CODE-REVIEW.md
+**/code-review.md

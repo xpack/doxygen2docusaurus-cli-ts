@@ -87,6 +87,8 @@ wrappers/
 extras/
 inspiration/
 maintenance-scripts/
+tests/
+config/
 
 # config
 
@@ -98,7 +100,8 @@ maintenance-scripts/
 api-extractor.json
 eslint.config.js
 
-.cmake-format.yaml
-code-review.md
+**/.cmake-format.yaml
+**/code-review.md
+**/CODE-REVIEW.md
 
 #end
