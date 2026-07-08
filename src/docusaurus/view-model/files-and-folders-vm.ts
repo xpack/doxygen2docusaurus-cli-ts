@@ -33,6 +33,7 @@ import type { TreeEntryBase } from './tree-entries-vm.js'
 import { Class } from './classes-vm.js'
 import { Namespace } from './namespaces-vm.js'
 import { Concept } from './concepts-vm.js'
+import { Member, MemberRef } from './members-vm.js'
 
 // ----------------------------------------------------------------------------
 
@@ -757,6 +758,37 @@ export class FilesAndFolders extends CollectionBase {
               const enumValueEntry = new FileTreeEntry(enumValue, compound)
               allUnorderedEntriesMap.set(enumValueEntry.id, enumValueEntry)
             }
+          }
+        }
+        for (const indexMember of section.indexMembers) {
+          let member: Member
+          if (indexMember instanceof MemberRef) {
+            const resolved = this.workspace.viewModel.membersById.get(
+              indexMember.refid
+            )
+            if (resolved === undefined) {
+              console.warn(
+                'member refid',
+                indexMember.refid,
+                'not found in membersById'
+              )
+              continue
+            }
+            member = resolved
+          } else {
+            member = indexMember
+          }
+          const memberEntry = new FileTreeEntry(member, compound)
+          if (!allUnorderedEntriesMap.has(memberEntry.id)) {
+            allUnorderedEntriesMap.set(memberEntry.id, memberEntry)
+          } else if (this.workspace.options.debug) {
+            console.log(
+              'skipping duplicate',
+              member.name,
+              member.id,
+              'for',
+              compound.compoundName
+            )
           }
         }
       }
