@@ -49,22 +49,22 @@
   },
   "dependencies": {
     "commander": "^14.0.3",
-    "fast-xml-parser": "^5.8.0"
+    "fast-xml-parser": "^5.9.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
     "@tsconfig/node20": "^20.1.9",
-    "@types/node": "^25.9.0",
+    "@types/node": "^26.1.1",
     "del-cli": "^7.0.0",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
-    "fs-extra": "^11.3.5",
+    "fs-extra": "^11.3.6",
     "json": "^11.0.0",
-    "liquidjs": "^10.27.0",
-    "prettier": "^3.8.3",
+    "liquidjs": "^10.27.1",
+    "prettier": "^3.9.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.59.4"
+    "typescript-eslint": "^8.63.0"
   },
   "scripts": {
     "generate-top-commons": "bash node_modules/@xpack/npm-packages-helper/maintenance-scripts/generate-top-commons.sh --xpack",
