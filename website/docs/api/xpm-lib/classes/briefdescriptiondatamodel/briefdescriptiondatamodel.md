@@ -21,7 +21,7 @@ Data model for brief description elements within documentation.
 ```typescript
 export declare class BriefDescriptionDataModel extends AbstractDescriptionType
 ```
-**Extends:** [AbstractDescriptionType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdescriptiontype)
+**Extends:** [AbstractDescriptionType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdescriptiontype)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/briefdescriptiondatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/briefdescriptiondatamodel/constructor)
 
 
 </td><td>

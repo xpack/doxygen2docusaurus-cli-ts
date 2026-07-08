@@ -21,7 +21,7 @@ Abstract base class for index member type data models.
 ```typescript
 export declare abstract class AbstractIndexMemberType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexmembertype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexmembertype/constructor)
 
 
 </td><td>
@@ -86,7 +86,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[kind](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexmembertype/kind)
+[kind](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexmembertype/kind)
 
 
 </td><td>
@@ -105,7 +105,7 @@ The kind classification of the member.
 </td></tr>
 <tr><td>
 
-[name](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexmembertype/name)
+[name](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexmembertype/name)
 
 
 </td><td>
@@ -124,7 +124,7 @@ The name of the member element.
 </td></tr>
 <tr><td>
 
-[refid](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexmembertype/refid)
+[refid](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexmembertype/refid)
 
 
 </td><td>

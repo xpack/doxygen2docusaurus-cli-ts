@@ -21,7 +21,7 @@ Abstract base class for compound reference data models.
 ```typescript
 export declare abstract class AbstractCompoundRefType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompoundreftype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompoundreftype/constructor)
 
 
 </td><td>
@@ -86,7 +86,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[prot](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompoundreftype/prot)
+[prot](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompoundreftype/prot)
 
 
 </td><td>
@@ -105,7 +105,7 @@ Protection level of the compound reference.
 </td></tr>
 <tr><td>
 
-[refid?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompoundreftype/refid)
+[refid?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompoundreftype/refid)
 
 
 </td><td>
@@ -124,7 +124,7 @@ _(Optional)_ Optional reference identifier for cross-linking.
 </td></tr>
 <tr><td>
 
-[text](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompoundreftype/text)
+[text](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompoundreftype/text)
 
 
 </td><td>
@@ -143,7 +143,7 @@ The name or identifier text of the referenced compound.
 </td></tr>
 <tr><td>
 
-[virt](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompoundreftype/virt)
+[virt](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompoundreftype/virt)
 
 
 </td><td>

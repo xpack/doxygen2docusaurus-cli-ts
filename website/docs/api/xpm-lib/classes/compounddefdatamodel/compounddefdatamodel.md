@@ -21,7 +21,7 @@ Concrete implementation of compound definition data model.
 ```typescript
 export declare class CompoundDefDataModel extends AbstractCompoundDefType
 ```
-**Extends:** [AbstractCompoundDefType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype)
+**Extends:** [AbstractCompoundDefType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/compounddefdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/compounddefdatamodel/constructor)
 
 
 </td><td>

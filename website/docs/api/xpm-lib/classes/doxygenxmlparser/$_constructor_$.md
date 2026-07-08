@@ -47,7 +47,7 @@ options
 
 </td><td>
 
-[CliOptions](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions)
+[CliOptions](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions)
 
 
 </td><td>

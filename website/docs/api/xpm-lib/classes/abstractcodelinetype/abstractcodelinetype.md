@@ -21,7 +21,7 @@ Abstract base class for code line elements with syntax highlighting support.
 ```typescript
 export declare abstract class AbstractCodeLineType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcodelinetype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcodelinetype/constructor)
 
 
 </td><td>
@@ -88,7 +88,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[external?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcodelinetype/external)
+[external?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcodelinetype/external)
 
 
 </td><td>
@@ -107,7 +107,7 @@ _(Optional)_ Optional flag indicating external reference status.
 </td></tr>
 <tr><td>
 
-[highlights?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcodelinetype/highlights)
+[highlights?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcodelinetype/highlights)
 
 
 </td><td>
@@ -115,7 +115,7 @@ _(Optional)_ Optional flag indicating external reference status.
 
 </td><td>
 
-[HighlightDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/highlightdatamodel)<!-- -->\[\] \| undefined
+[HighlightDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/highlightdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -126,7 +126,7 @@ _(Optional)_ Array of syntax highlighting elements within the code line.
 </td></tr>
 <tr><td>
 
-[lineno?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcodelinetype/lineno)
+[lineno?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcodelinetype/lineno)
 
 
 </td><td>
@@ -145,7 +145,7 @@ _(Optional)_ Optional line number for the code line.
 </td></tr>
 <tr><td>
 
-[refid?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcodelinetype/refid)
+[refid?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcodelinetype/refid)
 
 
 </td><td>
@@ -164,7 +164,7 @@ _(Optional)_ Optional reference identifier for cross-linking.
 </td></tr>
 <tr><td>
 
-[refkind?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcodelinetype/refkind)
+[refkind?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcodelinetype/refkind)
 
 
 </td><td>

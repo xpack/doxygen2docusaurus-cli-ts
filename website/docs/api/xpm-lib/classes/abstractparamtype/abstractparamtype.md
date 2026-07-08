@@ -21,7 +21,7 @@ Abstract base class for parameter data models within documentation.
 ```typescript
 export declare abstract class AbstractParamType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractparamtype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractparamtype/constructor)
 
 
 </td><td>
@@ -88,7 +88,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[array?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractparamtype/array)
+[array?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractparamtype/array)
 
 
 </td><td>
@@ -107,7 +107,7 @@ _(Optional)_ Array specification information for array parameters.
 </td></tr>
 <tr><td>
 
-[attributes?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractparamtype/attributes)
+[attributes?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractparamtype/attributes)
 
 
 </td><td>
@@ -126,7 +126,7 @@ _(Optional)_ Parameter attributes specification string.
 </td></tr>
 <tr><td>
 
-[briefdescription?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractparamtype/briefdescription)
+[briefdescription?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractparamtype/briefdescription)
 
 
 </td><td>
@@ -134,7 +134,7 @@ _(Optional)_ Parameter attributes specification string.
 
 </td><td>
 
-[BriefDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/briefdescriptiondatamodel) \| undefined
+[BriefDescriptionDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/briefdescriptiondatamodel) \| undefined
 
 
 </td><td>
@@ -145,7 +145,7 @@ _(Optional)_ Brief description documentation for the parameter.
 </td></tr>
 <tr><td>
 
-[declname?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractparamtype/declname)
+[declname?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractparamtype/declname)
 
 
 </td><td>
@@ -164,7 +164,7 @@ _(Optional)_ The declared parameter name as it appears in the declaration.
 </td></tr>
 <tr><td>
 
-[defname?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractparamtype/defname)
+[defname?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractparamtype/defname)
 
 
 </td><td>
@@ -183,7 +183,7 @@ _(Optional)_ The defined parameter name as it appears in the definition.
 </td></tr>
 <tr><td>
 
-[defval?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractparamtype/defval)
+[defval?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractparamtype/defval)
 
 
 </td><td>
@@ -191,7 +191,7 @@ _(Optional)_ The defined parameter name as it appears in the definition.
 
 </td><td>
 
-[DefValDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/defvaldatamodel) \| undefined
+[DefValDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/defvaldatamodel) \| undefined
 
 
 </td><td>
@@ -202,7 +202,7 @@ _(Optional)_ Default value specification with linked text support.
 </td></tr>
 <tr><td>
 
-[type?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractparamtype/type)
+[type?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractparamtype/type)
 
 
 </td><td>
@@ -210,7 +210,7 @@ _(Optional)_ Default value specification with linked text support.
 
 </td><td>
 
-[TypeDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/typedatamodel) \| undefined
+[TypeDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/typedatamodel) \| undefined
 
 
 </td><td>
@@ -221,7 +221,7 @@ _(Optional)_ Type information for the parameter with linked text support.
 </td></tr>
 <tr><td>
 
-[typeconstraint?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractparamtype/typeconstraint)
+[typeconstraint?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractparamtype/typeconstraint)
 
 
 </td><td>
@@ -229,7 +229,7 @@ _(Optional)_ Type information for the parameter with linked text support.
 
 </td><td>
 
-[TypeConstraintDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/typeconstraintdatamodel) \| undefined
+[TypeConstraintDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/typeconstraintdatamodel) \| undefined
 
 
 </td><td>

@@ -21,7 +21,7 @@ Abstract base class for template parameter list type data models.
 ```typescript
 export declare abstract class AbstractTemplateParamListType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstracttemplateparamlisttype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstracttemplateparamlisttype/constructor)
 
 
 </td><td>
@@ -86,7 +86,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[params?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstracttemplateparamlisttype/params)
+[params?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstracttemplateparamlisttype/params)
 
 
 </td><td>
@@ -94,7 +94,7 @@ Description
 
 </td><td>
 
-[ParamDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/paramdatamodel)<!-- -->\[\] \| undefined
+[ParamDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/paramdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>

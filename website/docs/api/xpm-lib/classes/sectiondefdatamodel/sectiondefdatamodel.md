@@ -21,7 +21,7 @@ Concrete data model for section definition elements.
 ```typescript
 export declare class SectionDefDataModel extends AbstractSectionDefType
 ```
-**Extends:** [AbstractSectionDefType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractsectiondeftype)
+**Extends:** [AbstractSectionDefType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractsectiondeftype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/sectiondefdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/sectiondefdatamodel/constructor)
 
 
 </td><td>

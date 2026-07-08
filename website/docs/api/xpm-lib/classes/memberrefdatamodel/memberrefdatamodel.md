@@ -21,7 +21,7 @@ Concrete implementation for member reference elements within documentation.
 ```typescript
 export declare class MemberRefDataModel extends AbstractMemberRefType
 ```
-**Extends:** [AbstractMemberRefType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberreftype)
+**Extends:** [AbstractMemberRefType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberreftype)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/memberrefdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/memberrefdatamodel/constructor)
 
 
 </td><td>

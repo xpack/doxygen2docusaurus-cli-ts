@@ -21,7 +21,7 @@ Data model for syntax highlight elements within code listings.
 ```typescript
 export declare class HighlightDataModel extends AbstractHighlightType
 ```
-**Extends:** [AbstractHighlightType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstracthighlighttype)
+**Extends:** [AbstractHighlightType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstracthighlighttype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/highlightdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/highlightdatamodel/constructor)
 
 
 </td><td>

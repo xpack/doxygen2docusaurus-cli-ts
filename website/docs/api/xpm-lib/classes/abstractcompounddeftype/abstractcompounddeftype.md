@@ -21,7 +21,7 @@ Abstract base class for Doxygen compound definition data models.
 ```typescript
 export declare abstract class AbstractCompoundDefType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/constructor)
 
 
 </td><td>
@@ -86,7 +86,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[abstract?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/abstract)
+[abstract?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/abstract)
 
 
 </td><td>
@@ -105,7 +105,7 @@ _(Optional)_ Indicates whether the compound is abstract.
 </td></tr>
 <tr><td>
 
-[baseCompoundRefs?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/basecompoundrefs)
+[baseCompoundRefs?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/basecompoundrefs)
 
 
 </td><td>
@@ -113,7 +113,7 @@ _(Optional)_ Indicates whether the compound is abstract.
 
 </td><td>
 
-[BaseCompoundRefDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/basecompoundrefdatamodel)<!-- -->\[\] \| undefined
+[BaseCompoundRefDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/basecompoundrefdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -124,7 +124,7 @@ _(Optional)_ Base compound references for inheritance relationships.
 </td></tr>
 <tr><td>
 
-[briefDescription?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/briefdescription)
+[briefDescription?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/briefdescription)
 
 
 </td><td>
@@ -132,7 +132,7 @@ _(Optional)_ Base compound references for inheritance relationships.
 
 </td><td>
 
-[BriefDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/briefdescriptiondatamodel) \| undefined
+[BriefDescriptionDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/briefdescriptiondatamodel) \| undefined
 
 
 </td><td>
@@ -143,7 +143,7 @@ _(Optional)_ Brief description of the compound.
 </td></tr>
 <tr><td>
 
-[compoundName](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/compoundname)
+[compoundName](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/compoundname)
 
 
 </td><td>
@@ -162,7 +162,7 @@ The name of the compound element.
 </td></tr>
 <tr><td>
 
-[conceptParts?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/conceptparts)
+[conceptParts?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/conceptparts)
 
 
 </td><td>
@@ -170,7 +170,7 @@ The name of the compound element.
 
 </td><td>
 
-[ConceptPartsDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/conceptpartsdatamodel) \| undefined
+[ConceptPartsDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/conceptpartsdatamodel) \| undefined
 
 
 </td><td>
@@ -181,7 +181,7 @@ _(Optional)_ Concept parts associated with the compound.
 </td></tr>
 <tr><td>
 
-[derivedCompoundRefs?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/derivedcompoundrefs)
+[derivedCompoundRefs?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/derivedcompoundrefs)
 
 
 </td><td>
@@ -189,7 +189,7 @@ _(Optional)_ Concept parts associated with the compound.
 
 </td><td>
 
-[DerivedCompoundRefDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/derivedcompoundrefdatamodel)<!-- -->\[\] \| undefined
+[DerivedCompoundRefDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/derivedcompoundrefdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -200,7 +200,7 @@ _(Optional)_ Derived compound references for inheritance relationships.
 </td></tr>
 <tr><td>
 
-[detailedDescription?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/detaileddescription)
+[detailedDescription?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/detaileddescription)
 
 
 </td><td>
@@ -208,7 +208,7 @@ _(Optional)_ Derived compound references for inheritance relationships.
 
 </td><td>
 
-[DetailedDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/detaileddescriptiondatamodel) \| undefined
+[DetailedDescriptionDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/detaileddescriptiondatamodel) \| undefined
 
 
 </td><td>
@@ -219,7 +219,7 @@ _(Optional)_ Detailed description of the compound.
 </td></tr>
 <tr><td>
 
-[final?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/final)
+[final?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/final)
 
 
 </td><td>
@@ -238,7 +238,7 @@ _(Optional)_ Indicates whether the compound is marked as final.
 </td></tr>
 <tr><td>
 
-[id](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/id)
+[id](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/id)
 
 
 </td><td>
@@ -257,7 +257,7 @@ Unique identifier for the compound.
 </td></tr>
 <tr><td>
 
-[includedBy?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/includedby)
+[includedBy?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/includedby)
 
 
 </td><td>
@@ -265,7 +265,7 @@ Unique identifier for the compound.
 
 </td><td>
 
-[IncludedByDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/includedbydatamodel)<!-- -->\[\] \| undefined
+[IncludedByDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/includedbydatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -276,7 +276,7 @@ _(Optional)_ Reverse include file references for this compound.
 </td></tr>
 <tr><td>
 
-[includes?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/includes)
+[includes?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/includes)
 
 
 </td><td>
@@ -284,7 +284,7 @@ _(Optional)_ Reverse include file references for this compound.
 
 </td><td>
 
-[IncludesDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/includesdatamodel)<!-- -->\[\] \| undefined
+[IncludesDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/includesdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -295,7 +295,7 @@ _(Optional)_ Include file references for this compound.
 </td></tr>
 <tr><td>
 
-[initializer?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/initializer)
+[initializer?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/initializer)
 
 
 </td><td>
@@ -303,7 +303,7 @@ _(Optional)_ Include file references for this compound.
 
 </td><td>
 
-[InitializerDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/initializerdatamodel) \| undefined
+[InitializerDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/initializerdatamodel) \| undefined
 
 
 </td><td>
@@ -314,7 +314,7 @@ _(Optional)_ Initializer expression for the compound.
 </td></tr>
 <tr><td>
 
-[inline?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/inline)
+[inline?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/inline)
 
 
 </td><td>
@@ -333,7 +333,7 @@ _(Optional)_ Indicates whether the compound is inline.
 </td></tr>
 <tr><td>
 
-[innerClasses?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/innerclasses)
+[innerClasses?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/innerclasses)
 
 
 </td><td>
@@ -341,7 +341,7 @@ _(Optional)_ Indicates whether the compound is inline.
 
 </td><td>
 
-[InnerClassDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/innerclassdatamodel)<!-- -->\[\] \| undefined
+[InnerClassDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/innerclassdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -352,7 +352,7 @@ _(Optional)_ Inner class references contained within this compound.
 </td></tr>
 <tr><td>
 
-[innerConcepts?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/innerconcepts)
+[innerConcepts?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/innerconcepts)
 
 
 </td><td>
@@ -360,7 +360,7 @@ _(Optional)_ Inner class references contained within this compound.
 
 </td><td>
 
-[InnerConceptDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/innerconceptdatamodel)<!-- -->\[\] \| undefined
+[InnerConceptDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/innerconceptdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -371,7 +371,7 @@ _(Optional)_ Inner concept references contained within this compound.
 </td></tr>
 <tr><td>
 
-[innerDirs?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/innerdirs)
+[innerDirs?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/innerdirs)
 
 
 </td><td>
@@ -379,7 +379,7 @@ _(Optional)_ Inner concept references contained within this compound.
 
 </td><td>
 
-[InnerDirDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/innerdirdatamodel)<!-- -->\[\] \| undefined
+[InnerDirDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/innerdirdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -390,7 +390,7 @@ _(Optional)_ Inner folder references contained within this compound.
 </td></tr>
 <tr><td>
 
-[innerFiles?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/innerfiles)
+[innerFiles?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/innerfiles)
 
 
 </td><td>
@@ -398,7 +398,7 @@ _(Optional)_ Inner folder references contained within this compound.
 
 </td><td>
 
-[InnerFileDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/innerfiledatamodel)<!-- -->\[\] \| undefined
+[InnerFileDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/innerfiledatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -409,7 +409,7 @@ _(Optional)_ Inner file references contained within this compound.
 </td></tr>
 <tr><td>
 
-[innerGroups?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/innergroups)
+[innerGroups?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/innergroups)
 
 
 </td><td>
@@ -417,7 +417,7 @@ _(Optional)_ Inner file references contained within this compound.
 
 </td><td>
 
-[InnerGroupDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/innergroupdatamodel)<!-- -->\[\] \| undefined
+[InnerGroupDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/innergroupdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -428,7 +428,7 @@ _(Optional)_ Inner group references contained within this compound.
 </td></tr>
 <tr><td>
 
-[innerNamespaces?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/innernamespaces)
+[innerNamespaces?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/innernamespaces)
 
 
 </td><td>
@@ -436,7 +436,7 @@ _(Optional)_ Inner group references contained within this compound.
 
 </td><td>
 
-[InnerNamespaceDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/innernamespacedatamodel)<!-- -->\[\] \| undefined
+[InnerNamespaceDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/innernamespacedatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -447,7 +447,7 @@ _(Optional)_ Inner namespace references contained within this compound.
 </td></tr>
 <tr><td>
 
-[innerPages?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/innerpages)
+[innerPages?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/innerpages)
 
 
 </td><td>
@@ -455,7 +455,7 @@ _(Optional)_ Inner namespace references contained within this compound.
 
 </td><td>
 
-[InnerPageDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/innerpagedatamodel)<!-- -->\[\] \| undefined
+[InnerPageDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/innerpagedatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -466,7 +466,7 @@ _(Optional)_ Inner page references contained within this compound.
 </td></tr>
 <tr><td>
 
-[kind](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/kind)
+[kind](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/kind)
 
 
 </td><td>
@@ -485,7 +485,7 @@ The kind or type of compound.
 </td></tr>
 <tr><td>
 
-[language?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/language)
+[language?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/language)
 
 
 </td><td>
@@ -504,7 +504,7 @@ _(Optional)_ Programming language of the compound.
 </td></tr>
 <tr><td>
 
-[listOfAllMembers?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/listofallmembers)
+[listOfAllMembers?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/listofallmembers)
 
 
 </td><td>
@@ -512,7 +512,7 @@ _(Optional)_ Programming language of the compound.
 
 </td><td>
 
-[ListOfAllMembersDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/listofallmembersdatamodel) \| undefined
+[ListOfAllMembersDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/listofallmembersdatamodel) \| undefined
 
 
 </td><td>
@@ -523,7 +523,7 @@ _(Optional)_ Complete list of all members contained in the compound.
 </td></tr>
 <tr><td>
 
-[location?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/location)
+[location?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/location)
 
 
 </td><td>
@@ -531,7 +531,7 @@ _(Optional)_ Complete list of all members contained in the compound.
 
 </td><td>
 
-[LocationDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/locationdatamodel) \| undefined
+[LocationDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/locationdatamodel) \| undefined
 
 
 </td><td>
@@ -542,7 +542,7 @@ _(Optional)_ Location information for the compound definition.
 </td></tr>
 <tr><td>
 
-[programListing?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/programlisting)
+[programListing?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/programlisting)
 
 
 </td><td>
@@ -550,7 +550,7 @@ _(Optional)_ Location information for the compound definition.
 
 </td><td>
 
-[ProgramListingDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/programlistingdatamodel) \| undefined
+[ProgramListingDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/programlistingdatamodel) \| undefined
 
 
 </td><td>
@@ -561,7 +561,7 @@ _(Optional)_ Program listing or source code for the compound.
 </td></tr>
 <tr><td>
 
-[prot?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/prot)
+[prot?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/prot)
 
 
 </td><td>
@@ -580,7 +580,7 @@ _(Optional)_ Protection level of the compound.
 </td></tr>
 <tr><td>
 
-[requiresClause?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/requiresclause)
+[requiresClause?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/requiresclause)
 
 
 </td><td>
@@ -588,7 +588,7 @@ _(Optional)_ Protection level of the compound.
 
 </td><td>
 
-[RequiresClauseDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/requiresclausedatamodel) \| undefined
+[RequiresClauseDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/requiresclausedatamodel) \| undefined
 
 
 </td><td>
@@ -599,7 +599,7 @@ _(Optional)_ Requires clause for constrained templates or concepts.
 </td></tr>
 <tr><td>
 
-[sealed?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/sealed)
+[sealed?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/sealed)
 
 
 </td><td>
@@ -618,7 +618,7 @@ _(Optional)_ Indicates whether the compound is sealed.
 </td></tr>
 <tr><td>
 
-[sectionDefs?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/sectiondefs)
+[sectionDefs?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/sectiondefs)
 
 
 </td><td>
@@ -626,7 +626,7 @@ _(Optional)_ Indicates whether the compound is sealed.
 
 </td><td>
 
-[SectionDefDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/sectiondefdatamodel)<!-- -->\[\] \| undefined
+[SectionDefDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/sectiondefdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -637,7 +637,7 @@ _(Optional)_ Section definitions within the compound.
 </td></tr>
 <tr><td>
 
-[tableOfContents?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/tableofcontents)
+[tableOfContents?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/tableofcontents)
 
 
 </td><td>
@@ -645,7 +645,7 @@ _(Optional)_ Section definitions within the compound.
 
 </td><td>
 
-[TableOfContentsDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/tableofcontentsdatamodel) \| undefined
+[TableOfContentsDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/tableofcontentsdatamodel) \| undefined
 
 
 </td><td>
@@ -656,7 +656,7 @@ _(Optional)_ Table of contents for the compound documentation.
 </td></tr>
 <tr><td>
 
-[templateParamList?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/templateparamlist)
+[templateParamList?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/templateparamlist)
 
 
 </td><td>
@@ -664,7 +664,7 @@ _(Optional)_ Table of contents for the compound documentation.
 
 </td><td>
 
-[TemplateParamListDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/templateparamlistdatamodel) \| undefined
+[TemplateParamListDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/templateparamlistdatamodel) \| undefined
 
 
 </td><td>
@@ -675,7 +675,7 @@ _(Optional)_ Template parameter list for templated compounds.
 </td></tr>
 <tr><td>
 
-[title?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype/title)
+[title?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype/title)
 
 
 </td><td>

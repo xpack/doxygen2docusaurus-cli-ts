@@ -21,7 +21,7 @@ Abstract base class for enumeration value data models.
 ```typescript
 export declare abstract class AbstractEnumValueType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractenumvaluetype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractenumvaluetype/constructor)
 
 
 </td><td>
@@ -86,7 +86,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[briefDescription?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractenumvaluetype/briefdescription)
+[briefDescription?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractenumvaluetype/briefdescription)
 
 
 </td><td>
@@ -94,7 +94,7 @@ Description
 
 </td><td>
 
-[BriefDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/briefdescriptiondatamodel) \| undefined
+[BriefDescriptionDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/briefdescriptiondatamodel) \| undefined
 
 
 </td><td>
@@ -105,7 +105,7 @@ _(Optional)_ Brief description of the enumeration value.
 </td></tr>
 <tr><td>
 
-[detailedDescription?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractenumvaluetype/detaileddescription)
+[detailedDescription?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractenumvaluetype/detaileddescription)
 
 
 </td><td>
@@ -113,7 +113,7 @@ _(Optional)_ Brief description of the enumeration value.
 
 </td><td>
 
-[DetailedDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/detaileddescriptiondatamodel) \| undefined
+[DetailedDescriptionDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/detaileddescriptiondatamodel) \| undefined
 
 
 </td><td>
@@ -124,7 +124,7 @@ _(Optional)_ Detailed description of the enumeration value.
 </td></tr>
 <tr><td>
 
-[id](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractenumvaluetype/id)
+[id](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractenumvaluetype/id)
 
 
 </td><td>
@@ -143,7 +143,7 @@ Unique identifier for the enumeration value.
 </td></tr>
 <tr><td>
 
-[initializer?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractenumvaluetype/initializer)
+[initializer?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractenumvaluetype/initializer)
 
 
 </td><td>
@@ -151,7 +151,7 @@ Unique identifier for the enumeration value.
 
 </td><td>
 
-[InitializerDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/initializerdatamodel) \| undefined
+[InitializerDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/initializerdatamodel) \| undefined
 
 
 </td><td>
@@ -162,7 +162,7 @@ _(Optional)_ Optional initialiser expression for the enumeration value.
 </td></tr>
 <tr><td>
 
-[name](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractenumvaluetype/name)
+[name](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractenumvaluetype/name)
 
 
 </td><td>
@@ -181,7 +181,7 @@ The name of the enumeration value.
 </td></tr>
 <tr><td>
 
-[prot](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractenumvaluetype/prot)
+[prot](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractenumvaluetype/prot)
 
 
 </td><td>

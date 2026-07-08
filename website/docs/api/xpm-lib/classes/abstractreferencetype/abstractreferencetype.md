@@ -21,7 +21,7 @@ Abstract base class for reference type data models.
 ```typescript
 export declare abstract class AbstractReferenceType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractreferencetype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractreferencetype/constructor)
 
 
 </td><td>
@@ -86,7 +86,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[compoundref?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractreferencetype/compoundref)
+[compoundref?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractreferencetype/compoundref)
 
 
 </td><td>
@@ -105,7 +105,7 @@ _(Optional)_ The compound reference identifier for the containing entity.
 </td></tr>
 <tr><td>
 
-[endline](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractreferencetype/endline)
+[endline](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractreferencetype/endline)
 
 
 </td><td>
@@ -124,7 +124,7 @@ The ending line number where the reference concludes.
 </td></tr>
 <tr><td>
 
-[refid](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractreferencetype/refid)
+[refid](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractreferencetype/refid)
 
 
 </td><td>
@@ -143,7 +143,7 @@ The unique reference identifier for the referenced entity.
 </td></tr>
 <tr><td>
 
-[startline](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractreferencetype/startline)
+[startline](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractreferencetype/startline)
 
 
 </td><td>
@@ -162,7 +162,7 @@ The starting line number where the reference occurs.
 </td></tr>
 <tr><td>
 
-[text](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractreferencetype/text)
+[text](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractreferencetype/text)
 
 
 </td><td>

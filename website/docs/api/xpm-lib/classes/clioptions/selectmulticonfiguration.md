@@ -47,7 +47,7 @@ multiConfigurations
 
 </td><td>
 
-[CliConfigurationOptions](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/typealiases/cliconfigurationoptions) \| [MultiConfigurations](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/typealiases/multiconfigurations)
+[CliConfigurationOptions](/doxygen2docusaurus/docs/api/xpm-lib/typealiases/cliconfigurationoptions) \| [MultiConfigurations](/doxygen2docusaurus/docs/api/xpm-lib/typealiases/multiconfigurations)
 
 
 </td><td>
@@ -60,7 +60,7 @@ Configuration object or multi-config map
 
 ## Returns
 
-[CliConfigurationOptions](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/typealiases/cliconfigurationoptions) \| undefined
+[CliConfigurationOptions](/doxygen2docusaurus/docs/api/xpm-lib/typealiases/cliconfigurationoptions) \| undefined
 
 Selected configuration options or undefined if not found
 

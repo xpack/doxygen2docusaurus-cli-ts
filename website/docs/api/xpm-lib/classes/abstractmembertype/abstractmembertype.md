@@ -21,7 +21,7 @@ Abstract base class for member type data models within documentation.
 ```typescript
 export declare abstract class AbstractMemberType extends AbstractMemberBaseType
 ```
-**Extends:** [AbstractMemberBaseType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberbasetype)
+**Extends:** [AbstractMemberBaseType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberbasetype)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmembertype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmembertype/constructor)
 
 
 </td><td>
@@ -88,7 +88,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[refid](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmembertype/refid)
+[refid](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmembertype/refid)
 
 
 </td><td>

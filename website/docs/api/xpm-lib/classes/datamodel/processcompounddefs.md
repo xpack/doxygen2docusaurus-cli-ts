@@ -47,7 +47,7 @@ indexCompound
 
 </td><td>
 
-[IndexCompoundDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/indexcompounddatamodel)
+[IndexCompoundDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/indexcompounddatamodel)
 
 
 </td><td>
@@ -63,7 +63,7 @@ parsedDoxygenElements
 
 </td><td>
 
-[XmlElement](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/interfaces/xmlelement)<!-- -->\[\]
+[XmlElement](/doxygen2docusaurus/docs/api/xpm-lib/interfaces/xmlelement)<!-- -->\[\]
 
 
 </td><td>

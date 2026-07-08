@@ -21,7 +21,7 @@ Abstract base class for table of contents kind type data models.
 ```typescript
 export declare abstract class AbstractTableOfContentsKindType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstracttableofcontentskindtype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstracttableofcontentskindtype/constructor)
 
 
 </td><td>
@@ -86,7 +86,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[name](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstracttableofcontentskindtype/name)
+[name](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstracttableofcontentskindtype/name)
 
 
 </td><td>
@@ -105,7 +105,7 @@ The name of the table of contents section.
 </td></tr>
 <tr><td>
 
-[reference](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstracttableofcontentskindtype/reference)
+[reference](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstracttableofcontentskindtype/reference)
 
 
 </td><td>
@@ -124,7 +124,7 @@ The reference identifier for this table of contents section.
 </td></tr>
 <tr><td>
 
-[tableOfContents](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstracttableofcontentskindtype/tableofcontents)
+[tableOfContents](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstracttableofcontentskindtype/tableofcontents)
 
 
 </td><td>
@@ -132,7 +132,7 @@ The reference identifier for this table of contents section.
 
 </td><td>
 
-[TableOfContentsDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/tableofcontentsdatamodel)<!-- -->\[\] \| undefined
+[TableOfContentsDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/tableofcontentsdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>

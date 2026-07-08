@@ -21,7 +21,7 @@ Abstract base class for reimplement type data models.
 ```typescript
 export declare abstract class AbstractReimplementType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractreimplementtype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractreimplementtype/constructor)
 
 
 </td><td>
@@ -86,7 +86,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[refId](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractreimplementtype/refid)
+[refId](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractreimplementtype/refid)
 
 
 </td><td>
@@ -105,7 +105,7 @@ The reference identifier for the reimplemented entity.
 </td></tr>
 <tr><td>
 
-[text](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractreimplementtype/text)
+[text](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractreimplementtype/text)
 
 
 </td><td>

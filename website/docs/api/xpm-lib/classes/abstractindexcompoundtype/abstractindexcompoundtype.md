@@ -21,7 +21,7 @@ Abstract base class for index compound type data models.
 ```typescript
 export declare abstract class AbstractIndexCompoundType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexcompoundtype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexcompoundtype/constructor)
 
 
 </td><td>
@@ -86,7 +86,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[kind](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexcompoundtype/kind)
+[kind](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexcompoundtype/kind)
 
 
 </td><td>
@@ -105,7 +105,7 @@ The kind classification of this compound.
 </td></tr>
 <tr><td>
 
-[members](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexcompoundtype/members)
+[members](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexcompoundtype/members)
 
 
 </td><td>
@@ -113,7 +113,7 @@ The kind classification of this compound.
 
 </td><td>
 
-[IndexMemberDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/indexmemberdatamodel)<!-- -->\[\] \| undefined
+[IndexMemberDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/indexmemberdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -124,7 +124,7 @@ Collection of member data models associated with this compound.
 </td></tr>
 <tr><td>
 
-[name](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexcompoundtype/name)
+[name](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexcompoundtype/name)
 
 
 </td><td>
@@ -143,7 +143,7 @@ The name of the compound element.
 </td></tr>
 <tr><td>
 
-[refid](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexcompoundtype/refid)
+[refid](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexcompoundtype/refid)
 
 
 </td><td>

@@ -21,7 +21,7 @@ Abstract class for XML-parsed section definition types.
 ```typescript
 export declare abstract class AbstractSectionDefType extends AbstractSectionDefTypeBase
 ```
-**Extends:** [AbstractSectionDefTypeBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractsectiondeftypebase)
+**Extends:** [AbstractSectionDefTypeBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractsectiondeftypebase)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractsectiondeftype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractsectiondeftype/constructor)
 
 
 </td><td>

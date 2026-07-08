@@ -21,7 +21,7 @@ Data model for inner concept reference elements.
 ```typescript
 export declare class InnerConceptDataModel extends AbstractRefType
 ```
-**Extends:** [AbstractRefType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractreftype)
+**Extends:** [AbstractRefType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractreftype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/innerconceptdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/innerconceptdatamodel/constructor)
 
 
 </td><td>

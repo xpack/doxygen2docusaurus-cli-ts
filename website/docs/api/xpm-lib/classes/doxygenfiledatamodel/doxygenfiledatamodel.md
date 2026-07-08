@@ -21,7 +21,7 @@ Concrete data model class for doxyfile elements.
 ```typescript
 export declare class DoxygenFileDataModel extends AbstractDoxygenFileType
 ```
-**Extends:** [AbstractDoxygenFileType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdoxygenfiletype)
+**Extends:** [AbstractDoxygenFileType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdoxygenfiletype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenfiledatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenfiledatamodel/constructor)
 
 
 </td><td>

@@ -21,7 +21,7 @@ Data model for reimplement relationship elements.
 ```typescript
 export declare class ReimplementDataModel extends AbstractReimplementType
 ```
-**Extends:** [AbstractReimplementType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractreimplementtype)
+**Extends:** [AbstractReimplementType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractreimplementtype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/reimplementdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/reimplementdatamodel/constructor)
 
 
 </td><td>

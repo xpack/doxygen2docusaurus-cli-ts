@@ -21,7 +21,7 @@ Abstract base class for Doxygen index type data models.
 ```typescript
 export declare abstract class AbstractIndexDoxygenType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexdoxygentype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexdoxygentype/constructor)
 
 
 </td><td>
@@ -86,7 +86,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[compounds?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexdoxygentype/compounds)
+[compounds?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexdoxygentype/compounds)
 
 
 </td><td>
@@ -94,7 +94,7 @@ Description
 
 </td><td>
 
-[IndexCompoundDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/indexcompounddatamodel)<!-- -->\[\] \| undefined
+[IndexCompoundDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/indexcompounddatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -105,7 +105,7 @@ _(Optional)_ Collection of compound data models referenced in the index.
 </td></tr>
 <tr><td>
 
-[lang](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexdoxygentype/lang)
+[lang](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexdoxygentype/lang)
 
 
 </td><td>
@@ -124,7 +124,7 @@ The language specification for the documentation content.
 </td></tr>
 <tr><td>
 
-[noNamespaceSchemaLocation?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexdoxygentype/nonamespaceschemalocation)
+[noNamespaceSchemaLocation?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexdoxygentype/nonamespaceschemalocation)
 
 
 </td><td>
@@ -143,7 +143,7 @@ _(Optional)_ The XML schema location reference for validation.
 </td></tr>
 <tr><td>
 
-[version](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexdoxygentype/version)
+[version](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexdoxygentype/version)
 
 
 </td><td>

@@ -56,7 +56,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(options)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/constructor)
+[(constructor)(options)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/constructor)
 
 
 </td><td>
@@ -95,7 +95,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[images](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/images)
+[images](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/images)
 
 
 </td><td>
@@ -103,7 +103,7 @@ Description
 
 </td><td>
 
-[AbstractDocImageType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdocimagetype)<!-- -->\[\]
+[AbstractDocImageType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdocimagetype)<!-- -->\[\]
 
 
 </td><td>
@@ -114,7 +114,7 @@ Collection of image references extracted during XML parsing.
 </td></tr>
 <tr><td>
 
-[options](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/options)
+[options](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/options)
 
 
 </td><td>
@@ -122,7 +122,7 @@ Collection of image references extracted during XML parsing.
 
 </td><td>
 
-[CliOptions](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions)
+[CliOptions](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions)
 
 
 </td><td>
@@ -133,7 +133,7 @@ The global configuration options for the parsing operation.
 </td></tr>
 <tr><td>
 
-[xmlParser](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/xmlparser)
+[xmlParser](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/xmlparser)
 
 
 </td><td>
@@ -172,7 +172,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[getAttributeBooleanValue(element, name)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/getattributebooleanvalue)
+[getAttributeBooleanValue(element, name)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/getattributebooleanvalue)
 
 
 </td><td>
@@ -186,7 +186,7 @@ Retrieves the value of a named attribute as a boolean.
 </td></tr>
 <tr><td>
 
-[getAttributeNumberValue(element, name)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/getattributenumbervalue)
+[getAttributeNumberValue(element, name)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/getattributenumbervalue)
 
 
 </td><td>
@@ -200,7 +200,7 @@ Retrieves the value of a named attribute as a number.
 </td></tr>
 <tr><td>
 
-[getAttributesNames(element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/getattributesnames)
+[getAttributesNames(element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/getattributesnames)
 
 
 </td><td>
@@ -214,7 +214,7 @@ Retrieves the names of all attributes present on the specified XML element.
 </td></tr>
 <tr><td>
 
-[getAttributeStringValue(element, name)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/getattributestringvalue)
+[getAttributeStringValue(element, name)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/getattributestringvalue)
 
 
 </td><td>
@@ -228,7 +228,7 @@ Retrieves the value of a named attribute as a string.
 </td></tr>
 <tr><td>
 
-[getInnerElementBoolean(element, name)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/getinnerelementboolean)
+[getInnerElementBoolean(element, name)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/getinnerelementboolean)
 
 
 </td><td>
@@ -242,7 +242,7 @@ Retrieves the boolean value of a named child element.
 </td></tr>
 <tr><td>
 
-[getInnerElementNumber(element, name)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/getinnerelementnumber)
+[getInnerElementNumber(element, name)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/getinnerelementnumber)
 
 
 </td><td>
@@ -256,7 +256,7 @@ Retrieves the numeric value of a named child element.
 </td></tr>
 <tr><td>
 
-[getInnerElements(element, name)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/getinnerelements)
+[getInnerElements(element, name)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/getinnerelements)
 
 
 </td><td>
@@ -270,7 +270,7 @@ Retrieves an array of named child elements from the given XML element.
 </td></tr>
 <tr><td>
 
-[getInnerElementText(element, name)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/getinnerelementtext)
+[getInnerElementText(element, name)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/getinnerelementtext)
 
 
 </td><td>
@@ -284,7 +284,7 @@ Retrieves the text content of a named child element.
 </td></tr>
 <tr><td>
 
-[getInnerText(element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/getinnertext)
+[getInnerText(element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/getinnertext)
 
 
 </td><td>
@@ -298,7 +298,7 @@ Retrieves the text content of the XML element.
 </td></tr>
 <tr><td>
 
-[hasAttribute(element, name)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/hasattribute)
+[hasAttribute(element, name)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/hasattribute)
 
 
 </td><td>
@@ -312,7 +312,7 @@ Determines whether the specified attribute exists on the given XML element.
 </td></tr>
 <tr><td>
 
-[hasAttributes(element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/hasattributes)
+[hasAttributes(element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/hasattributes)
 
 
 </td><td>
@@ -326,7 +326,7 @@ Determines whether the specified XML element has any attributes.
 </td></tr>
 <tr><td>
 
-[hasInnerElement(element, name)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/hasinnerelement)
+[hasInnerElement(element, name)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/hasinnerelement)
 
 
 </td><td>
@@ -340,7 +340,7 @@ Determines whether the specified inner element exists on the given XML element.
 </td></tr>
 <tr><td>
 
-[hasInnerText(element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/hasinnertext)
+[hasInnerText(element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/hasinnertext)
 
 
 </td><td>
@@ -354,7 +354,7 @@ Determines whether the XML element contains a text node.
 </td></tr>
 <tr><td>
 
-[isInnerElementText(element, name)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/isinnerelementtext)
+[isInnerElementText(element, name)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/isinnerelementtext)
 
 
 </td><td>

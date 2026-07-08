@@ -21,7 +21,7 @@ Multiple configuration sets for different build scenarios.
 ```typescript
 export type MultiConfigurations = Record<string, CliConfigurationOptions>;
 ```
-**References:** [CliConfigurationOptions](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/typealiases/cliconfigurationoptions)
+**References:** [CliConfigurationOptions](/doxygen2docusaurus/docs/api/xpm-lib/typealiases/cliconfigurationoptions)
 
 ## Remarks
 

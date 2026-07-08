@@ -21,7 +21,7 @@ Abstract base class for syntax highlighting elements within code listings.
 ```typescript
 export declare abstract class AbstractHighlightType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstracthighlighttype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstracthighlighttype/constructor)
 
 
 </td><td>
@@ -88,7 +88,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[classs](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstracthighlighttype/classs)
+[classs](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstracthighlighttype/classs)
 
 
 </td><td>

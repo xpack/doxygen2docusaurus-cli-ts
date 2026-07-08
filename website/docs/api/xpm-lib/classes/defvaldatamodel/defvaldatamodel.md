@@ -21,7 +21,7 @@ Data model for default value elements within documentation content.
 ```typescript
 export declare class DefValDataModel extends AbstractLinkedTextType
 ```
-**Extends:** [AbstractLinkedTextType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlinkedtexttype)
+**Extends:** [AbstractLinkedTextType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlinkedtexttype)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/defvaldatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/defvaldatamodel/constructor)
 
 
 </td><td>

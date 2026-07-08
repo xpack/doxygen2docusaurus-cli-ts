@@ -21,7 +21,7 @@ Abstract base class for processing listing-type XML elements with parsing logic.
 ```typescript
 export declare abstract class AbstractListingType extends AbstractListingTypeBase
 ```
-**Extends:** [AbstractListingTypeBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlistingtypebase)
+**Extends:** [AbstractListingTypeBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlistingtypebase)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlistingtype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlistingtype/constructor)
 
 
 </td><td>

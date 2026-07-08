@@ -66,7 +66,7 @@ True if the element has attributes; otherwise, false
 
 ## Remarks
 
-This method checks for the presence of the ':<!-- -->@<!-- -->' property on the XML element, which is the convention used by the XML parser for storing attributes. If this property exists, the element has attributes; if not, the element has no attributes. This is a prerequisite check before calling [DoxygenXmlParser.getAttributesNames()](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser/getattributesnames) or other attribute-related methods.
+This method checks for the presence of the ':<!-- -->@<!-- -->' property on the XML element, which is the convention used by the XML parser for storing attributes. If this property exists, the element has attributes; if not, the element has no attributes. This is a prerequisite check before calling [DoxygenXmlParser.getAttributesNames()](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser/getattributesnames) or other attribute-related methods.
 
 <hr/>
 

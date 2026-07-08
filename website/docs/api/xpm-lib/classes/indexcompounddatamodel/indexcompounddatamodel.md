@@ -21,7 +21,7 @@ Concrete data model class for index compound elements.
 ```typescript
 export declare class IndexCompoundDataModel extends AbstractIndexCompoundType
 ```
-**Extends:** [AbstractIndexCompoundType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexcompoundtype)
+**Extends:** [AbstractIndexCompoundType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexcompoundtype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/indexcompounddatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/indexcompounddatamodel/constructor)
 
 
 </td><td>

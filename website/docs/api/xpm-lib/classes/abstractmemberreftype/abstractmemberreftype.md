@@ -21,7 +21,7 @@ Abstract base class for member reference data models within documentation.
 ```typescript
 export declare abstract class AbstractMemberRefType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberreftype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberreftype/constructor)
 
 
 </td><td>
@@ -88,7 +88,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[ambiguityscope?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberreftype/ambiguityscope)
+[ambiguityscope?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberreftype/ambiguityscope)
 
 
 </td><td>
@@ -107,7 +107,7 @@ _(Optional)_ The ambiguity resolution scope for member reference disambiguation.
 </td></tr>
 <tr><td>
 
-[name](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberreftype/name)
+[name](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberreftype/name)
 
 
 </td><td>
@@ -126,7 +126,7 @@ The identifier name of the referenced member element.
 </td></tr>
 <tr><td>
 
-[prot](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberreftype/prot)
+[prot](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberreftype/prot)
 
 
 </td><td>
@@ -145,7 +145,7 @@ The protection level classification of the referenced member.
 </td></tr>
 <tr><td>
 
-[refid](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberreftype/refid)
+[refid](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberreftype/refid)
 
 
 </td><td>
@@ -164,7 +164,7 @@ The unique reference identifier for cross-referencing the member.
 </td></tr>
 <tr><td>
 
-[scope](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberreftype/scope)
+[scope](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberreftype/scope)
 
 
 </td><td>
@@ -183,7 +183,7 @@ The containing scope for the referenced member element.
 </td></tr>
 <tr><td>
 
-[virt](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberreftype/virt)
+[virt](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberreftype/virt)
 
 
 </td><td>

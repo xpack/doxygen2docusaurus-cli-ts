@@ -46,7 +46,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase/constructor)
+[(constructor)(elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase/constructor)
 
 
 </td><td>
@@ -85,7 +85,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[children?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase/children)
+[children?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase/children)
 
 
 </td><td>
@@ -93,7 +93,7 @@ Description
 
 </td><td>
 
-(string \| [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)<!-- -->)\[\]
+(string \| [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)<!-- -->)\[\]
 
 
 </td><td>
@@ -104,7 +104,7 @@ _(Optional)_ The child elements or text nodes contained within this data model e
 </td></tr>
 <tr><td>
 
-[elementName](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase/elementname)
+[elementName](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase/elementname)
 
 
 </td><td>
@@ -123,7 +123,7 @@ The name of the XML element represented by this data model instance.
 </td></tr>
 <tr><td>
 
-[skipPara?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase/skippara)
+[skipPara?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase/skippara)
 
 
 </td><td>

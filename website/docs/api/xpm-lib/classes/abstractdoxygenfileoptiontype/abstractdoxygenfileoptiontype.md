@@ -21,7 +21,7 @@ Abstract base class for Doxygen file option type data models.
 ```typescript
 export declare abstract class AbstractDoxygenFileOptionType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdoxygenfileoptiontype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdoxygenfileoptiontype/constructor)
 
 
 </td><td>
@@ -86,7 +86,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[default](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdoxygenfileoptiontype/default)
+[default](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdoxygenfileoptiontype/default)
 
 
 </td><td>
@@ -105,7 +105,7 @@ The default value indicator for this configuration option.
 </td></tr>
 <tr><td>
 
-[id](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdoxygenfileoptiontype/id)
+[id](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdoxygenfileoptiontype/id)
 
 
 </td><td>
@@ -124,7 +124,7 @@ The unique identifier for this configuration option.
 </td></tr>
 <tr><td>
 
-[type](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdoxygenfileoptiontype/type)
+[type](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdoxygenfileoptiontype/type)
 
 
 </td><td>
@@ -143,7 +143,7 @@ The data type classification for this configuration option.
 </td></tr>
 <tr><td>
 
-[values](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdoxygenfileoptiontype/values)
+[values](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdoxygenfileoptiontype/values)
 
 
 </td><td>

@@ -21,7 +21,7 @@ Abstract base class for location information data models.
 ```typescript
 export declare abstract class AbstractLocationType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlocationtype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlocationtype/constructor)
 
 
 </td><td>
@@ -88,7 +88,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[bodyend?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlocationtype/bodyend)
+[bodyend?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlocationtype/bodyend)
 
 
 </td><td>
@@ -107,7 +107,7 @@ _(Optional)_ The ending line number of the implementation body.
 </td></tr>
 <tr><td>
 
-[bodyfile?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlocationtype/bodyfile)
+[bodyfile?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlocationtype/bodyfile)
 
 
 </td><td>
@@ -126,7 +126,7 @@ _(Optional)_ The file path containing the implementation body.
 </td></tr>
 <tr><td>
 
-[bodystart?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlocationtype/bodystart)
+[bodystart?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlocationtype/bodystart)
 
 
 </td><td>
@@ -145,7 +145,7 @@ _(Optional)_ The starting line number of the implementation body.
 </td></tr>
 <tr><td>
 
-[column?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlocationtype/column)
+[column?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlocationtype/column)
 
 
 </td><td>
@@ -164,7 +164,7 @@ _(Optional)_ The column number in the primary source file.
 </td></tr>
 <tr><td>
 
-[declcolumn?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlocationtype/declcolumn)
+[declcolumn?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlocationtype/declcolumn)
 
 
 </td><td>
@@ -183,7 +183,7 @@ _(Optional)_ The column number of the declaration within the declaration file.
 </td></tr>
 <tr><td>
 
-[declfile?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlocationtype/declfile)
+[declfile?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlocationtype/declfile)
 
 
 </td><td>
@@ -202,7 +202,7 @@ _(Optional)_ The file path containing the declaration when separate from impleme
 </td></tr>
 <tr><td>
 
-[declline?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlocationtype/declline)
+[declline?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlocationtype/declline)
 
 
 </td><td>
@@ -221,7 +221,7 @@ _(Optional)_ The line number of the declaration within the declaration file.
 </td></tr>
 <tr><td>
 
-[file](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlocationtype/file)
+[file](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlocationtype/file)
 
 
 </td><td>
@@ -240,7 +240,7 @@ The source file path containing the primary declaration or definition.
 </td></tr>
 <tr><td>
 
-[line?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlocationtype/line)
+[line?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlocationtype/line)
 
 
 </td><td>

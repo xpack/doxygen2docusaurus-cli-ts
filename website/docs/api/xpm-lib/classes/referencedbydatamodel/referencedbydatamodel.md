@@ -21,7 +21,7 @@ Data model for referenced-by relationship elements.
 ```typescript
 export declare class ReferencedByDataModel extends AbstractReferenceType
 ```
-**Extends:** [AbstractReferenceType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractreferencetype)
+**Extends:** [AbstractReferenceType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractreferencetype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/referencedbydatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/referencedbydatamodel/constructor)
 
 
 </td><td>

@@ -21,7 +21,7 @@ Data model for base compound references in inheritance relationships.
 ```typescript
 export declare class BaseCompoundRefDataModel extends AbstractCompoundRefType
 ```
-**Extends:** [AbstractCompoundRefType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompoundreftype)
+**Extends:** [AbstractCompoundRefType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompoundreftype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/basecompoundrefdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/basecompoundrefdatamodel/constructor)
 
 
 </td><td>

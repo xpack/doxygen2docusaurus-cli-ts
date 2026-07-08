@@ -21,7 +21,7 @@ Abstract base class for table of contents type data models.
 ```typescript
 export declare abstract class AbstractTableOfContentsType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstracttableofcontentstype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstracttableofcontentstype/constructor)
 
 
 </td><td>
@@ -86,7 +86,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[tableOfContents](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstracttableofcontentstype/tableofcontents)
+[tableOfContents](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstracttableofcontentstype/tableofcontents)
 
 
 </td><td>
@@ -94,7 +94,7 @@ Description
 
 </td><td>
 
-[TableOfContentsDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/tableofcontentsdatamodel)<!-- -->\[\] \| undefined
+[TableOfContentsDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/tableofcontentsdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -105,7 +105,7 @@ Collection of nested table of contents data models.
 </td></tr>
 <tr><td>
 
-[tocSect](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstracttableofcontentstype/tocsect)
+[tocSect](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstracttableofcontentstype/tocsect)
 
 
 </td><td>
@@ -113,7 +113,7 @@ Collection of nested table of contents data models.
 
 </td><td>
 
-[TocSectDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/tocsectdatamodel)<!-- -->\[\] \| undefined
+[TocSectDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/tocsectdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>

@@ -21,7 +21,7 @@ Data model for includes elements within documentation content.
 ```typescript
 export declare class IncludesDataModel extends AbstractIncType
 ```
-**Extends:** [AbstractIncType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractinctype)
+**Extends:** [AbstractIncType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractinctype)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/includesdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/includesdatamodel/constructor)
 
 
 </td><td>

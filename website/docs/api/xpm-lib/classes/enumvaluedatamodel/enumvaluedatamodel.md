@@ -21,7 +21,7 @@ Concrete implementation of enumeration value data model.
 ```typescript
 export declare class EnumValueDataModel extends AbstractEnumValueType
 ```
-**Extends:** [AbstractEnumValueType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractenumvaluetype)
+**Extends:** [AbstractEnumValueType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractenumvaluetype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/enumvaluedatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/enumvaluedatamodel/constructor)
 
 
 </td><td>

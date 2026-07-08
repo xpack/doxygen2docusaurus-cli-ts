@@ -21,7 +21,7 @@ Concrete data model class for doxygenindex elements.
 ```typescript
 export declare class DoxygenIndexDataModel extends AbstractIndexDoxygenType
 ```
-**Extends:** [AbstractIndexDoxygenType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexdoxygentype)
+**Extends:** [AbstractIndexDoxygenType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexdoxygentype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenindexdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenindexdatamodel/constructor)
 
 
 </td><td>

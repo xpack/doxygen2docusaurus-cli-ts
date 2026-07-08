@@ -6,10 +6,35 @@ Please check
 [GitHub](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/)
 and close existing issues and pull requests.
 
+## 2026-07-08
+
+* v2.2.1 prepared
+* 01dc7ab launch.json add diag-trace
+* bb8ff1e re-generate top commons
+* 621fad0 re-format
+* 56c0655 debug show member.name
+* 44b5948 #15 add File -> Functions to sidebar
+
+## 2026-07-07
+
+* 716d24d cleanups
+* 88a577d re-generate top commons
+
+## 2026-05-19
+
+* eb3ec60 top-templates.json update
+* 9d6881a package*.json update
+* 267cee0 re-generate website commons
+* 0a2ea8c re-generate top commons
+
 ## 2026-05-09
 
-* v2.2.0 published on npmjs.com
-* v2.2.0 prepared
+* 7cdf826 website update
+* 0ce64f3 website: blog post release 2.2.0 published
+* f767f57 2.2.0
+* 84bf5a8 CHANGELOG: publish npm v2.2.0
+* 3c53eb9 prepare v2.2.0
+* a6b7359 website update
 * 95fe915 dist update
 * 642e7c7 index.ts update
 * 503c241 re-generate website commons

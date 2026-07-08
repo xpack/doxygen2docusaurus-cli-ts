@@ -21,7 +21,7 @@ Abstract base class for image elements within documentation content.
 ```typescript
 export declare abstract class AbstractDocImageType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdocimagetype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdocimagetype/constructor)
 
 
 </td><td>
@@ -88,7 +88,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[alt?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdocimagetype/alt)
+[alt?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdocimagetype/alt)
 
 
 </td><td>
@@ -107,7 +107,7 @@ _(Optional)_ Alternative text for accessibility and fallback purposes.
 </td></tr>
 <tr><td>
 
-[caption?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdocimagetype/caption)
+[caption?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdocimagetype/caption)
 
 
 </td><td>
@@ -126,7 +126,7 @@ _(Optional)_ Caption text for the image.
 </td></tr>
 <tr><td>
 
-[height?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdocimagetype/height)
+[height?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdocimagetype/height)
 
 
 </td><td>
@@ -145,7 +145,7 @@ _(Optional)_ Height specification for the image.
 </td></tr>
 <tr><td>
 
-[inline?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdocimagetype/inline)
+[inline?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdocimagetype/inline)
 
 
 </td><td>
@@ -164,7 +164,7 @@ _(Optional)_ Inline positioning flag for the image.
 </td></tr>
 <tr><td>
 
-[name?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdocimagetype/name)
+[name?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdocimagetype/name)
 
 
 </td><td>
@@ -183,7 +183,7 @@ _(Optional)_ Name or path of the image file.
 </td></tr>
 <tr><td>
 
-[type?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdocimagetype/type)
+[type?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdocimagetype/type)
 
 
 </td><td>
@@ -202,7 +202,7 @@ _(Optional)_ Output format type for the image.
 </td></tr>
 <tr><td>
 
-[width?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdocimagetype/width)
+[width?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdocimagetype/width)
 
 
 </td><td>

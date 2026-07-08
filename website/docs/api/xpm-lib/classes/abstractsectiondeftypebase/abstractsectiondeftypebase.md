@@ -21,7 +21,7 @@ Abstract base class for section definition type data models.
 ```typescript
 export declare abstract class AbstractSectionDefTypeBase extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(elementName, kind)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractsectiondeftypebase/constructor)
+[(constructor)(elementName, kind)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractsectiondeftypebase/constructor)
 
 
 </td><td>
@@ -86,7 +86,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[description?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractsectiondeftypebase/description)
+[description?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractsectiondeftypebase/description)
 
 
 </td><td>
@@ -94,7 +94,7 @@ Description
 
 </td><td>
 
-[DescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/descriptiondatamodel) \| undefined
+[DescriptionDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/descriptiondatamodel) \| undefined
 
 
 </td><td>
@@ -105,7 +105,7 @@ _(Optional)_ The optional description content for this section.
 </td></tr>
 <tr><td>
 
-[header?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractsectiondeftypebase/header)
+[header?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractsectiondeftypebase/header)
 
 
 </td><td>
@@ -124,7 +124,7 @@ _(Optional)_ The optional header text for this section.
 </td></tr>
 <tr><td>
 
-[kind](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractsectiondeftypebase/kind)
+[kind](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractsectiondeftypebase/kind)
 
 
 </td><td>
@@ -143,7 +143,7 @@ The kind classification of this section definition.
 </td></tr>
 <tr><td>
 
-[memberDefs?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractsectiondeftypebase/memberdefs)
+[memberDefs?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractsectiondeftypebase/memberdefs)
 
 
 </td><td>
@@ -151,7 +151,7 @@ The kind classification of this section definition.
 
 </td><td>
 
-[MemberDefDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/memberdefdatamodel)<!-- -->\[\] \| undefined
+[MemberDefDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/memberdefdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -162,7 +162,7 @@ _(Optional)_ Collection of member definition data models.
 </td></tr>
 <tr><td>
 
-[members?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractsectiondeftypebase/members)
+[members?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractsectiondeftypebase/members)
 
 
 </td><td>
@@ -170,7 +170,7 @@ _(Optional)_ Collection of member definition data models.
 
 </td><td>
 
-[MemberDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/memberdatamodel)<!-- -->\[\] \| undefined
+[MemberDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/memberdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -201,7 +201,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[computeAdjustedKind(sectionSuffix, memberSuffix)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractsectiondeftypebase/computeadjustedkind)
+[computeAdjustedKind(sectionSuffix, memberSuffix)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractsectiondeftypebase/computeadjustedkind)
 
 
 </td><td>
@@ -215,7 +215,7 @@ Computes an adjusted kind string based on section and member suffixes.
 </td></tr>
 <tr><td>
 
-[hasMembers()](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractsectiondeftypebase/hasmembers)
+[hasMembers()](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractsectiondeftypebase/hasmembers)
 
 
 </td><td>

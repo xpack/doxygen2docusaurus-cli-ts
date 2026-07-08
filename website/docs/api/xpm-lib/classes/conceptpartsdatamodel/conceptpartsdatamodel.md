@@ -21,7 +21,7 @@ Data model for `conceptparts` elements.
 ```typescript
 export declare class ConceptPartsDataModel extends AbstractConceptParts
 ```
-**Extends:** [AbstractConceptParts](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractconceptparts)
+**Extends:** [AbstractConceptParts](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractconceptparts)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/conceptpartsdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/conceptpartsdatamodel/constructor)
 
 
 </td><td>

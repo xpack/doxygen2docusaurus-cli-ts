@@ -21,7 +21,7 @@ Abstract base class for comprehensive member definition data models.
 ```typescript
 export declare abstract class AbstractMemberDefType extends AbstractMemberBaseType
 ```
-**Extends:** [AbstractMemberBaseType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberbasetype)
+**Extends:** [AbstractMemberBaseType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberbasetype)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/constructor)
 
 
 </td><td>
@@ -88,7 +88,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[argsstring?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/argsstring)
+[argsstring?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/argsstring)
 
 
 </td><td>
@@ -107,7 +107,7 @@ _(Optional)_ The argument string for function members.
 </td></tr>
 <tr><td>
 
-[bitfield?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/bitfield)
+[bitfield?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/bitfield)
 
 
 </td><td>
@@ -126,7 +126,7 @@ _(Optional)_ Bitfield specification for member variables.
 </td></tr>
 <tr><td>
 
-[briefDescription?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/briefdescription)
+[briefDescription?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/briefdescription)
 
 
 </td><td>
@@ -134,7 +134,7 @@ _(Optional)_ Bitfield specification for member variables.
 
 </td><td>
 
-[BriefDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/briefdescriptiondatamodel) \| undefined
+[BriefDescriptionDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/briefdescriptiondatamodel) \| undefined
 
 
 </td><td>
@@ -145,7 +145,7 @@ _(Optional)_ Brief description of the member.
 </td></tr>
 <tr><td>
 
-[consteval?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/consteval)
+[consteval?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/consteval)
 
 
 </td><td>
@@ -164,7 +164,7 @@ _(Optional)_ Indicates whether the member is declared as consteval.
 </td></tr>
 <tr><td>
 
-[constexpr?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/constexpr)
+[constexpr?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/constexpr)
 
 
 </td><td>
@@ -183,7 +183,7 @@ _(Optional)_ Indicates whether the member is declared as constexpr.
 </td></tr>
 <tr><td>
 
-[constinit?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/constinit)
+[constinit?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/constinit)
 
 
 </td><td>
@@ -202,7 +202,7 @@ _(Optional)_ Indicates whether the member is declared as constinit.
 </td></tr>
 <tr><td>
 
-[constt?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/constt)
+[constt?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/constt)
 
 
 </td><td>
@@ -221,7 +221,7 @@ _(Optional)_ Indicates whether the member is declared as const.
 </td></tr>
 <tr><td>
 
-[definition?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/definition)
+[definition?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/definition)
 
 
 </td><td>
@@ -240,7 +240,7 @@ _(Optional)_ The complete definition string for the member.
 </td></tr>
 <tr><td>
 
-[detailedDescription?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/detaileddescription)
+[detailedDescription?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/detaileddescription)
 
 
 </td><td>
@@ -248,7 +248,7 @@ _(Optional)_ The complete definition string for the member.
 
 </td><td>
 
-[DetailedDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/detaileddescriptiondatamodel) \| undefined
+[DetailedDescriptionDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/detaileddescriptiondatamodel) \| undefined
 
 
 </td><td>
@@ -259,7 +259,7 @@ _(Optional)_ Detailed description of the member.
 </td></tr>
 <tr><td>
 
-[enumvalues?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/enumvalues)
+[enumvalues?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/enumvalues)
 
 
 </td><td>
@@ -267,7 +267,7 @@ _(Optional)_ Detailed description of the member.
 
 </td><td>
 
-[EnumValueDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/enumvaluedatamodel)<!-- -->\[\] \| undefined
+[EnumValueDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/enumvaluedatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -278,7 +278,7 @@ _(Optional)_ Enumeration values for enum members.
 </td></tr>
 <tr><td>
 
-[explicit?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/explicit)
+[explicit?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/explicit)
 
 
 </td><td>
@@ -297,7 +297,7 @@ _(Optional)_ Indicates whether the member is declared as explicit.
 </td></tr>
 <tr><td>
 
-[extern?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/extern)
+[extern?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/extern)
 
 
 </td><td>
@@ -316,7 +316,7 @@ _(Optional)_ Indicates whether the member has external linkage.
 </td></tr>
 <tr><td>
 
-[final?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/final)
+[final?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/final)
 
 
 </td><td>
@@ -335,7 +335,7 @@ _(Optional)_ Indicates whether the member is declared as final.
 </td></tr>
 <tr><td>
 
-[id](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/id)
+[id](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/id)
 
 
 </td><td>
@@ -354,7 +354,7 @@ The unique identifier for the member element.
 </td></tr>
 <tr><td>
 
-[inbodyDescription?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/inbodydescription)
+[inbodyDescription?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/inbodydescription)
 
 
 </td><td>
@@ -362,7 +362,7 @@ The unique identifier for the member element.
 
 </td><td>
 
-[InbodyDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/inbodydescriptiondatamodel) \| undefined
+[InbodyDescriptionDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/inbodydescriptiondatamodel) \| undefined
 
 
 </td><td>
@@ -373,7 +373,7 @@ _(Optional)_ In-body description of the member.
 </td></tr>
 <tr><td>
 
-[initializer?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/initializer)
+[initializer?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/initializer)
 
 
 </td><td>
@@ -381,7 +381,7 @@ _(Optional)_ In-body description of the member.
 
 </td><td>
 
-[InitializerDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/initializerdatamodel) \| undefined
+[InitializerDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/initializerdatamodel) \| undefined
 
 
 </td><td>
@@ -392,7 +392,7 @@ _(Optional)_ Initializer expression for the member.
 </td></tr>
 <tr><td>
 
-[inline?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/inline)
+[inline?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/inline)
 
 
 </td><td>
@@ -411,7 +411,7 @@ _(Optional)_ Indicates whether the member is declared as inline.
 </td></tr>
 <tr><td>
 
-[location](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/location)
+[location](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/location)
 
 
 </td><td>
@@ -419,7 +419,7 @@ _(Optional)_ Indicates whether the member is declared as inline.
 
 </td><td>
 
-[LocationDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/locationdatamodel) \| undefined
+[LocationDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/locationdatamodel) \| undefined
 
 
 </td><td>
@@ -430,7 +430,7 @@ The location information for the member definition.
 </td></tr>
 <tr><td>
 
-[mutable?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/mutable)
+[mutable?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/mutable)
 
 
 </td><td>
@@ -449,7 +449,7 @@ _(Optional)_ Indicates whether the member is declared as mutable.
 </td></tr>
 <tr><td>
 
-[nodiscard?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/nodiscard)
+[nodiscard?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/nodiscard)
 
 
 </td><td>
@@ -468,7 +468,7 @@ _(Optional)_ Indicates whether the member is declared as nodiscard.
 </td></tr>
 <tr><td>
 
-[noexcept?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/noexcept)
+[noexcept?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/noexcept)
 
 
 </td><td>
@@ -487,7 +487,7 @@ _(Optional)_ Indicates whether the member is declared as noexcept.
 </td></tr>
 <tr><td>
 
-[noexceptexpression?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/noexceptexpression)
+[noexceptexpression?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/noexceptexpression)
 
 
 </td><td>
@@ -506,7 +506,7 @@ _(Optional)_ Indicates whether the member has a noexcept expression.
 </td></tr>
 <tr><td>
 
-[params?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/params)
+[params?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/params)
 
 
 </td><td>
@@ -514,7 +514,7 @@ _(Optional)_ Indicates whether the member has a noexcept expression.
 
 </td><td>
 
-[ParamDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/paramdatamodel)<!-- -->\[\] \| undefined
+[ParamDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/paramdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -525,7 +525,7 @@ _(Optional)_ Parameter list for function or method members.
 </td></tr>
 <tr><td>
 
-[prot](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/prot)
+[prot](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/prot)
 
 
 </td><td>
@@ -544,7 +544,7 @@ The protection level of the member element.
 </td></tr>
 <tr><td>
 
-[qualifiedName?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/qualifiedname)
+[qualifiedName?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/qualifiedname)
 
 
 </td><td>
@@ -563,7 +563,7 @@ _(Optional)_ The fully qualified name of the member element.
 </td></tr>
 <tr><td>
 
-[referencedBy?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/referencedby)
+[referencedBy?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/referencedby)
 
 
 </td><td>
@@ -571,7 +571,7 @@ _(Optional)_ The fully qualified name of the member element.
 
 </td><td>
 
-[ReferencedByDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/referencedbydatamodel)<!-- -->\[\] \| undefined
+[ReferencedByDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/referencedbydatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -582,7 +582,7 @@ _(Optional)_ References to this member from other entities.
 </td></tr>
 <tr><td>
 
-[references?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/references)
+[references?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/references)
 
 
 </td><td>
@@ -590,7 +590,7 @@ _(Optional)_ References to this member from other entities.
 
 </td><td>
 
-[ReferenceDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/referencedatamodel)<!-- -->\[\] \| undefined
+[ReferenceDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/referencedatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -601,7 +601,7 @@ _(Optional)_ References made by this member to other entities.
 </td></tr>
 <tr><td>
 
-[refqual?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/refqual)
+[refqual?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/refqual)
 
 
 </td><td>
@@ -620,7 +620,7 @@ _(Optional)_ Indicates the reference qualifier for the member.
 </td></tr>
 <tr><td>
 
-[reimplementedBys?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/reimplementedbys)
+[reimplementedBys?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/reimplementedbys)
 
 
 </td><td>
@@ -628,7 +628,7 @@ _(Optional)_ Indicates the reference qualifier for the member.
 
 </td><td>
 
-[ReimplementDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/reimplementdatamodel)<!-- -->\[\] \| undefined
+[ReimplementDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/reimplementdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -639,7 +639,7 @@ _(Optional)_ List of members that reimplement this member.
 </td></tr>
 <tr><td>
 
-[reimplements?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/reimplements)
+[reimplements?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/reimplements)
 
 
 </td><td>
@@ -647,7 +647,7 @@ _(Optional)_ List of members that reimplement this member.
 
 </td><td>
 
-[ReimplementDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/reimplementdatamodel)<!-- -->\[\] \| undefined
+[ReimplementDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/reimplementdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -658,7 +658,7 @@ _(Optional)_ List of reimplemented member references.
 </td></tr>
 <tr><td>
 
-[requiresClause?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/requiresclause)
+[requiresClause?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/requiresclause)
 
 
 </td><td>
@@ -666,7 +666,7 @@ _(Optional)_ List of reimplemented member references.
 
 </td><td>
 
-[RequiresClauseDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/requiresclausedatamodel) \| undefined
+[RequiresClauseDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/requiresclausedatamodel) \| undefined
 
 
 </td><td>
@@ -677,7 +677,7 @@ _(Optional)_ The C++20 requires clause constraining the member.
 </td></tr>
 <tr><td>
 
-[staticc](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/staticc)
+[staticc](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/staticc)
 
 
 </td><td>
@@ -696,7 +696,7 @@ Indicates whether the member is declared as static.
 </td></tr>
 <tr><td>
 
-[strong?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/strong)
+[strong?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/strong)
 
 
 </td><td>
@@ -715,7 +715,7 @@ _(Optional)_ Indicates whether the member has strong typing.
 </td></tr>
 <tr><td>
 
-[templateparamlist?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/templateparamlist)
+[templateparamlist?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/templateparamlist)
 
 
 </td><td>
@@ -723,7 +723,7 @@ _(Optional)_ Indicates whether the member has strong typing.
 
 </td><td>
 
-[TemplateParamListDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/templateparamlistdatamodel) \| undefined
+[TemplateParamListDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/templateparamlistdatamodel) \| undefined
 
 
 </td><td>
@@ -734,7 +734,7 @@ _(Optional)_ Template parameter list information for templated members.
 </td></tr>
 <tr><td>
 
-[type?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/type)
+[type?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/type)
 
 
 </td><td>
@@ -742,7 +742,7 @@ _(Optional)_ Template parameter list information for templated members.
 
 </td><td>
 
-[TypeDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/typedatamodel) \| undefined
+[TypeDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/typedatamodel) \| undefined
 
 
 </td><td>
@@ -753,7 +753,7 @@ _(Optional)_ Type information for the member element.
 </td></tr>
 <tr><td>
 
-[virt?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/virt)
+[virt?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/virt)
 
 
 </td><td>
@@ -772,7 +772,7 @@ _(Optional)_ Virtual specification for the member.
 </td></tr>
 <tr><td>
 
-[volatile?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype/volatile)
+[volatile?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype/volatile)
 
 
 </td><td>

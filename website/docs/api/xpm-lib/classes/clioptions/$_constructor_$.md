@@ -47,7 +47,7 @@ commandOptions
 
 </td><td>
 
-[CommandOptions](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/typealiases/commandoptions)
+[CommandOptions](/doxygen2docusaurus/docs/api/xpm-lib/typealiases/commandoptions)
 
 
 </td><td>

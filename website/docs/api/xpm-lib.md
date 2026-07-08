@@ -35,7 +35,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[BaseCompoundRefDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/basecompoundrefdatamodel)
+[BaseCompoundRefDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/basecompoundrefdatamodel)
 
 
 </td><td>
@@ -46,7 +46,7 @@ Data model for base compound references in inheritance relationships.
 </td></tr>
 <tr><td>
 
-[BriefDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/briefdescriptiondatamodel)
+[BriefDescriptionDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/briefdescriptiondatamodel)
 
 
 </td><td>
@@ -57,7 +57,7 @@ Data model for brief description elements within documentation.
 </td></tr>
 <tr><td>
 
-[CliOptions](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions)
+[CliOptions](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions)
 
 
 </td><td>
@@ -68,7 +68,7 @@ Comprehensive CLI options class for documentation generation configuration.
 </td></tr>
 <tr><td>
 
-[CodeLineDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/codelinedatamodel)
+[CodeLineDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/codelinedatamodel)
 
 
 </td><td>
@@ -79,7 +79,7 @@ Data model for individual code line elements within program listings.
 </td></tr>
 <tr><td>
 
-[CompoundDefDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/compounddefdatamodel)
+[CompoundDefDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/compounddefdatamodel)
 
 
 </td><td>
@@ -90,7 +90,7 @@ Concrete implementation of compound definition data model.
 </td></tr>
 <tr><td>
 
-[ConceptPartsDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/conceptpartsdatamodel)
+[ConceptPartsDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/conceptpartsdatamodel)
 
 
 </td><td>
@@ -101,7 +101,7 @@ Data model for `conceptparts` elements.
 </td></tr>
 <tr><td>
 
-[DataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/datamodel)
+[DataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/datamodel)
 
 
 </td><td>
@@ -112,7 +112,7 @@ Top-level data model class for orchestrating Doxygen XML parsing and data organi
 </td></tr>
 <tr><td>
 
-[DefValDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/defvaldatamodel)
+[DefValDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/defvaldatamodel)
 
 
 </td><td>
@@ -123,7 +123,7 @@ Data model for default value elements within documentation content.
 </td></tr>
 <tr><td>
 
-[DerivedCompoundRefDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/derivedcompoundrefdatamodel)
+[DerivedCompoundRefDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/derivedcompoundrefdatamodel)
 
 
 </td><td>
@@ -134,7 +134,7 @@ Data model for derived compound references in inheritance relationships.
 </td></tr>
 <tr><td>
 
-[DescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/descriptiondatamodel)
+[DescriptionDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/descriptiondatamodel)
 
 
 </td><td>
@@ -145,7 +145,7 @@ Data model for general description elements within documentation.
 </td></tr>
 <tr><td>
 
-[DetailedDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/detaileddescriptiondatamodel)
+[DetailedDescriptionDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/detaileddescriptiondatamodel)
 
 
 </td><td>
@@ -156,7 +156,7 @@ Data model for detailed description elements within documentation.
 </td></tr>
 <tr><td>
 
-[DoxygenFileDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenfiledatamodel)
+[DoxygenFileDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenfiledatamodel)
 
 
 </td><td>
@@ -167,7 +167,7 @@ Concrete data model class for doxyfile elements.
 </td></tr>
 <tr><td>
 
-[DoxygenFileOptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenfileoptiondatamodel)
+[DoxygenFileOptionDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenfileoptiondatamodel)
 
 
 </td><td>
@@ -178,7 +178,7 @@ Concrete data model class for Doxyfile option elements.
 </td></tr>
 <tr><td>
 
-[DoxygenIndexDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenindexdatamodel)
+[DoxygenIndexDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenindexdatamodel)
 
 
 </td><td>
@@ -189,7 +189,7 @@ Concrete data model class for doxygenindex elements.
 </td></tr>
 <tr><td>
 
-[DoxygenXmlParser](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser)
+[DoxygenXmlParser](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser)
 
 
 </td><td>
@@ -200,7 +200,7 @@ XML parser for Doxygen-generated documentation files.
 </td></tr>
 <tr><td>
 
-[EnumValueDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/enumvaluedatamodel)
+[EnumValueDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/enumvaluedatamodel)
 
 
 </td><td>
@@ -211,7 +211,7 @@ Concrete implementation of enumeration value data model.
 </td></tr>
 <tr><td>
 
-[HighlightDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/highlightdatamodel)
+[HighlightDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/highlightdatamodel)
 
 
 </td><td>
@@ -222,7 +222,7 @@ Data model for syntax highlight elements within code listings.
 </td></tr>
 <tr><td>
 
-[InbodyDescriptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/inbodydescriptiondatamodel)
+[InbodyDescriptionDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/inbodydescriptiondatamodel)
 
 
 </td><td>
@@ -233,7 +233,7 @@ Data model for in-body description elements within documentation.
 </td></tr>
 <tr><td>
 
-[IncludedByDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/includedbydatamodel)
+[IncludedByDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/includedbydatamodel)
 
 
 </td><td>
@@ -244,7 +244,7 @@ Data model for includedby elements within documentation content.
 </td></tr>
 <tr><td>
 
-[IncludesDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/includesdatamodel)
+[IncludesDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/includesdatamodel)
 
 
 </td><td>
@@ -255,7 +255,7 @@ Data model for includes elements within documentation content.
 </td></tr>
 <tr><td>
 
-[IndexCompoundDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/indexcompounddatamodel)
+[IndexCompoundDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/indexcompounddatamodel)
 
 
 </td><td>
@@ -266,7 +266,7 @@ Concrete data model class for index compound elements.
 </td></tr>
 <tr><td>
 
-[IndexMemberDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/indexmemberdatamodel)
+[IndexMemberDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/indexmemberdatamodel)
 
 
 </td><td>
@@ -277,7 +277,7 @@ Concrete data model class for index member elements.
 </td></tr>
 <tr><td>
 
-[InitializerDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/initializerdatamodel)
+[InitializerDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/initializerdatamodel)
 
 
 </td><td>
@@ -288,7 +288,7 @@ Data model for initializer elements within documentation content.
 </td></tr>
 <tr><td>
 
-[InnerClassDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/innerclassdatamodel)
+[InnerClassDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/innerclassdatamodel)
 
 
 </td><td>
@@ -299,7 +299,7 @@ Data model for inner class reference elements.
 </td></tr>
 <tr><td>
 
-[InnerConceptDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/innerconceptdatamodel)
+[InnerConceptDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/innerconceptdatamodel)
 
 
 </td><td>
@@ -310,7 +310,7 @@ Data model for inner concept reference elements.
 </td></tr>
 <tr><td>
 
-[InnerDirDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/innerdirdatamodel)
+[InnerDirDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/innerdirdatamodel)
 
 
 </td><td>
@@ -321,7 +321,7 @@ Data model for inner folder reference elements.
 </td></tr>
 <tr><td>
 
-[InnerFileDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/innerfiledatamodel)
+[InnerFileDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/innerfiledatamodel)
 
 
 </td><td>
@@ -332,7 +332,7 @@ Data model for inner file reference elements.
 </td></tr>
 <tr><td>
 
-[InnerGroupDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/innergroupdatamodel)
+[InnerGroupDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/innergroupdatamodel)
 
 
 </td><td>
@@ -343,7 +343,7 @@ Data model for inner group reference elements.
 </td></tr>
 <tr><td>
 
-[InnerNamespaceDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/innernamespacedatamodel)
+[InnerNamespaceDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/innernamespacedatamodel)
 
 
 </td><td>
@@ -354,7 +354,7 @@ Data model for inner namespace reference elements.
 </td></tr>
 <tr><td>
 
-[InnerPageDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/innerpagedatamodel)
+[InnerPageDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/innerpagedatamodel)
 
 
 </td><td>
@@ -365,7 +365,7 @@ Data model for inner page reference elements.
 </td></tr>
 <tr><td>
 
-[ListOfAllMembersDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/listofallmembersdatamodel)
+[ListOfAllMembersDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/listofallmembersdatamodel)
 
 
 </td><td>
@@ -376,7 +376,7 @@ Concrete implementation for listofallmembers elements within compound documentat
 </td></tr>
 <tr><td>
 
-[LocationDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/locationdatamodel)
+[LocationDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/locationdatamodel)
 
 
 </td><td>
@@ -387,7 +387,7 @@ Concrete implementation for location elements within documentation.
 </td></tr>
 <tr><td>
 
-[MemberDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/memberdatamodel)
+[MemberDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/memberdatamodel)
 
 
 </td><td>
@@ -398,7 +398,7 @@ Concrete implementation for member elements within documentation.
 </td></tr>
 <tr><td>
 
-[MemberDefDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/memberdefdatamodel)
+[MemberDefDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/memberdefdatamodel)
 
 
 </td><td>
@@ -409,7 +409,7 @@ Concrete implementation for memberdef elements within compound documentation.
 </td></tr>
 <tr><td>
 
-[MemberRefDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/memberrefdatamodel)
+[MemberRefDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/memberrefdatamodel)
 
 
 </td><td>
@@ -420,7 +420,7 @@ Concrete implementation for member reference elements within documentation.
 </td></tr>
 <tr><td>
 
-[ParamDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/paramdatamodel)
+[ParamDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/paramdatamodel)
 
 
 </td><td>
@@ -431,7 +431,7 @@ Concrete implementation for parameter elements within function documentation.
 </td></tr>
 <tr><td>
 
-[ProgramListingDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/programlistingdatamodel)
+[ProgramListingDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/programlistingdatamodel)
 
 
 </td><td>
@@ -442,7 +442,7 @@ Data model for programlisting XML elements containing source code.
 </td></tr>
 <tr><td>
 
-[ReferenceDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/referencedatamodel)
+[ReferenceDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/referencedatamodel)
 
 
 </td><td>
@@ -453,7 +453,7 @@ Data model for reference relationship elements.
 </td></tr>
 <tr><td>
 
-[ReferencedByDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/referencedbydatamodel)
+[ReferencedByDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/referencedbydatamodel)
 
 
 </td><td>
@@ -464,7 +464,7 @@ Data model for referenced-by relationship elements.
 </td></tr>
 <tr><td>
 
-[ReimplementDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/reimplementdatamodel)
+[ReimplementDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/reimplementdatamodel)
 
 
 </td><td>
@@ -475,7 +475,7 @@ Data model for reimplement relationship elements.
 </td></tr>
 <tr><td>
 
-[RequiresClauseDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/requiresclausedatamodel)
+[RequiresClauseDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/requiresclausedatamodel)
 
 
 </td><td>
@@ -486,7 +486,7 @@ Data model for requires clause elements within documentation content.
 </td></tr>
 <tr><td>
 
-[SectionDefDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/sectiondefdatamodel)
+[SectionDefDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/sectiondefdatamodel)
 
 
 </td><td>
@@ -497,7 +497,7 @@ Concrete data model for section definition elements.
 </td></tr>
 <tr><td>
 
-[TableOfContentsDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/tableofcontentsdatamodel)
+[TableOfContentsDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/tableofcontentsdatamodel)
 
 
 </td><td>
@@ -508,7 +508,7 @@ Concrete data model class for table of contents elements.
 </td></tr>
 <tr><td>
 
-[TemplateParamListDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/templateparamlistdatamodel)
+[TemplateParamListDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/templateparamlistdatamodel)
 
 
 </td><td>
@@ -519,7 +519,7 @@ Concrete data model class for template parameter list elements.
 </td></tr>
 <tr><td>
 
-[TocSectDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/tocsectdatamodel)
+[TocSectDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/tocsectdatamodel)
 
 
 </td><td>
@@ -530,7 +530,7 @@ Concrete data model class for table of contents section elements.
 </td></tr>
 <tr><td>
 
-[TypeConstraintDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/typeconstraintdatamodel)
+[TypeConstraintDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/typeconstraintdatamodel)
 
 
 </td><td>
@@ -541,7 +541,7 @@ Data model for type constraint elements within documentation content.
 </td></tr>
 <tr><td>
 
-[TypeDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/typedatamodel)
+[TypeDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/typedatamodel)
 
 
 </td><td>
@@ -567,7 +567,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[AbstractCodeLineType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcodelinetype)
+[AbstractCodeLineType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcodelinetype)
 
 
 </td><td>
@@ -578,7 +578,7 @@ Abstract base class for code line elements with syntax highlighting support.
 </td></tr>
 <tr><td>
 
-[AbstractCompoundDefType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompounddeftype)
+[AbstractCompoundDefType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompounddeftype)
 
 
 </td><td>
@@ -589,7 +589,7 @@ Abstract base class for Doxygen compound definition data models.
 </td></tr>
 <tr><td>
 
-[AbstractCompoundRefType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcompoundreftype)
+[AbstractCompoundRefType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcompoundreftype)
 
 
 </td><td>
@@ -600,7 +600,7 @@ Abstract base class for compound reference data models.
 </td></tr>
 <tr><td>
 
-[AbstractConceptParts](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractconceptparts)
+[AbstractConceptParts](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractconceptparts)
 
 
 </td><td>
@@ -611,7 +611,7 @@ Abstract base class for concept parts containers.
 </td></tr>
 <tr><td>
 
-[AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+[AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 
 </td><td>
@@ -622,7 +622,7 @@ Abstract base class for all data model elements in the Doxygen XML layer.
 </td></tr>
 <tr><td>
 
-[AbstractDescriptionType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdescriptiontype)
+[AbstractDescriptionType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdescriptiontype)
 
 
 </td><td>
@@ -633,7 +633,7 @@ Abstract base class for Doxygen description elements containing mixed content.
 </td></tr>
 <tr><td>
 
-[AbstractDocImageType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdocimagetype)
+[AbstractDocImageType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdocimagetype)
 
 
 </td><td>
@@ -644,7 +644,7 @@ Abstract base class for image elements within documentation content.
 </td></tr>
 <tr><td>
 
-[AbstractDoxygenFileOptionType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdoxygenfileoptiontype)
+[AbstractDoxygenFileOptionType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdoxygenfileoptiontype)
 
 
 </td><td>
@@ -655,7 +655,7 @@ Abstract base class for Doxygen file option type data models.
 </td></tr>
 <tr><td>
 
-[AbstractDoxygenFileType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdoxygenfiletype)
+[AbstractDoxygenFileType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdoxygenfiletype)
 
 
 </td><td>
@@ -666,7 +666,7 @@ Abstract base class for Doxygen file type data models.
 </td></tr>
 <tr><td>
 
-[AbstractEnumValueType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractenumvaluetype)
+[AbstractEnumValueType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractenumvaluetype)
 
 
 </td><td>
@@ -677,7 +677,7 @@ Abstract base class for enumeration value data models.
 </td></tr>
 <tr><td>
 
-[AbstractHighlightType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstracthighlighttype)
+[AbstractHighlightType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstracthighlighttype)
 
 
 </td><td>
@@ -688,7 +688,7 @@ Abstract base class for syntax highlighting elements within code listings.
 </td></tr>
 <tr><td>
 
-[AbstractIncType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractinctype)
+[AbstractIncType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractinctype)
 
 
 </td><td>
@@ -699,7 +699,7 @@ Abstract base class for include-type elements within documentation.
 </td></tr>
 <tr><td>
 
-[AbstractIndexCompoundType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexcompoundtype)
+[AbstractIndexCompoundType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexcompoundtype)
 
 
 </td><td>
@@ -710,7 +710,7 @@ Abstract base class for index compound type data models.
 </td></tr>
 <tr><td>
 
-[AbstractIndexDoxygenType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexdoxygentype)
+[AbstractIndexDoxygenType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexdoxygentype)
 
 
 </td><td>
@@ -721,7 +721,7 @@ Abstract base class for Doxygen index type data models.
 </td></tr>
 <tr><td>
 
-[AbstractIndexMemberType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractindexmembertype)
+[AbstractIndexMemberType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractindexmembertype)
 
 
 </td><td>
@@ -732,7 +732,7 @@ Abstract base class for index member type data models.
 </td></tr>
 <tr><td>
 
-[AbstractLinkedTextType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlinkedtexttype)
+[AbstractLinkedTextType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlinkedtexttype)
 
 
 </td><td>
@@ -743,7 +743,7 @@ Abstract base class for linked text elements within documentation content.
 </td></tr>
 <tr><td>
 
-[AbstractListingType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlistingtype)
+[AbstractListingType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlistingtype)
 
 
 </td><td>
@@ -754,7 +754,7 @@ Abstract base class for processing listing-type XML elements with parsing logic.
 </td></tr>
 <tr><td>
 
-[AbstractListingTypeBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlistingtypebase)
+[AbstractListingTypeBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlistingtypebase)
 
 
 </td><td>
@@ -765,7 +765,7 @@ Abstract base class providing properties for listing-type XML elements.
 </td></tr>
 <tr><td>
 
-[AbstractListOfAllMembersType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlistofallmemberstype)
+[AbstractListOfAllMembersType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlistofallmemberstype)
 
 
 </td><td>
@@ -776,7 +776,7 @@ Abstract base class for list-of-all-members elements within documentation.
 </td></tr>
 <tr><td>
 
-[AbstractLocationType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlocationtype)
+[AbstractLocationType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlocationtype)
 
 
 </td><td>
@@ -787,7 +787,7 @@ Abstract base class for location information data models.
 </td></tr>
 <tr><td>
 
-[AbstractMemberBaseType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberbasetype)
+[AbstractMemberBaseType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberbasetype)
 
 
 </td><td>
@@ -798,7 +798,7 @@ Abstract base class for member-related data models within documentation.
 </td></tr>
 <tr><td>
 
-[AbstractMemberDefType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberdeftype)
+[AbstractMemberDefType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberdeftype)
 
 
 </td><td>
@@ -809,7 +809,7 @@ Abstract base class for comprehensive member definition data models.
 </td></tr>
 <tr><td>
 
-[AbstractMemberRefType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmemberreftype)
+[AbstractMemberRefType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmemberreftype)
 
 
 </td><td>
@@ -820,7 +820,7 @@ Abstract base class for member reference data models within documentation.
 </td></tr>
 <tr><td>
 
-[AbstractMemberType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractmembertype)
+[AbstractMemberType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractmembertype)
 
 
 </td><td>
@@ -831,7 +831,7 @@ Abstract base class for member type data models within documentation.
 </td></tr>
 <tr><td>
 
-[AbstractParamType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractparamtype)
+[AbstractParamType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractparamtype)
 
 
 </td><td>
@@ -842,7 +842,7 @@ Abstract base class for parameter data models within documentation.
 </td></tr>
 <tr><td>
 
-[AbstractReferenceType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractreferencetype)
+[AbstractReferenceType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractreferencetype)
 
 
 </td><td>
@@ -853,7 +853,7 @@ Abstract base class for reference type data models.
 </td></tr>
 <tr><td>
 
-[AbstractRefType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractreftype)
+[AbstractRefType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractreftype)
 
 
 </td><td>
@@ -864,7 +864,7 @@ Abstract base class for reference type data models.
 </td></tr>
 <tr><td>
 
-[AbstractReimplementType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractreimplementtype)
+[AbstractReimplementType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractreimplementtype)
 
 
 </td><td>
@@ -875,7 +875,7 @@ Abstract base class for reimplement type data models.
 </td></tr>
 <tr><td>
 
-[AbstractSectionDefType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractsectiondeftype)
+[AbstractSectionDefType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractsectiondeftype)
 
 
 </td><td>
@@ -886,7 +886,7 @@ Abstract class for XML-parsed section definition types.
 </td></tr>
 <tr><td>
 
-[AbstractSectionDefTypeBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractsectiondeftypebase)
+[AbstractSectionDefTypeBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractsectiondeftypebase)
 
 
 </td><td>
@@ -897,7 +897,7 @@ Abstract base class for section definition type data models.
 </td></tr>
 <tr><td>
 
-[AbstractTableOfContentsKindType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstracttableofcontentskindtype)
+[AbstractTableOfContentsKindType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstracttableofcontentskindtype)
 
 
 </td><td>
@@ -908,7 +908,7 @@ Abstract base class for table of contents kind type data models.
 </td></tr>
 <tr><td>
 
-[AbstractTableOfContentsType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstracttableofcontentstype)
+[AbstractTableOfContentsType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstracttableofcontentstype)
 
 
 </td><td>
@@ -919,7 +919,7 @@ Abstract base class for table of contents type data models.
 </td></tr>
 <tr><td>
 
-[AbstractTemplateParamListType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstracttemplateparamlisttype)
+[AbstractTemplateParamListType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstracttemplateparamlisttype)
 
 
 </td><td>
@@ -945,7 +945,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[main(argv)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/functions/main)
+[main(argv)](/doxygen2docusaurus/docs/api/xpm-lib/functions/main)
 
 
 </td><td>
@@ -971,7 +971,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[XmlElement](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/interfaces/xmlelement)
+[XmlElement](/doxygen2docusaurus/docs/api/xpm-lib/interfaces/xmlelement)
 
 
 </td><td>
@@ -997,7 +997,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[CliConfigurationOptions](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/typealiases/cliconfigurationoptions)
+[CliConfigurationOptions](/doxygen2docusaurus/docs/api/xpm-lib/typealiases/cliconfigurationoptions)
 
 
 </td><td>
@@ -1008,7 +1008,7 @@ Configuration options as specified by users in configuration files.
 </td></tr>
 <tr><td>
 
-[CommandOptions](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/typealiases/commandoptions)
+[CommandOptions](/doxygen2docusaurus/docs/api/xpm-lib/typealiases/commandoptions)
 
 
 </td><td>
@@ -1019,7 +1019,7 @@ Command line argument options passed to the application.
 </td></tr>
 <tr><td>
 
-[MultiConfigurations](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/typealiases/multiconfigurations)
+[MultiConfigurations](/doxygen2docusaurus/docs/api/xpm-lib/typealiases/multiconfigurations)
 
 
 </td><td>

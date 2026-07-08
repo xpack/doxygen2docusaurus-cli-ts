@@ -21,7 +21,7 @@ Concrete data model class for Doxyfile option elements.
 ```typescript
 export declare class DoxygenFileOptionDataModel extends AbstractDoxygenFileOptionType
 ```
-**Extends:** [AbstractDoxygenFileOptionType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdoxygenfileoptiontype)
+**Extends:** [AbstractDoxygenFileOptionType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdoxygenfileoptiontype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenfileoptiondatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenfileoptiondatamodel/constructor)
 
 
 </td><td>

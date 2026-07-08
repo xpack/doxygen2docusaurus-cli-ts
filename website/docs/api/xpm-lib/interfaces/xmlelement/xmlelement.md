@@ -51,7 +51,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[":@"?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/interfaces/xmlelement/____)
+[":@"?](/doxygen2docusaurus/docs/api/xpm-lib/interfaces/xmlelement/____)
 
 
 </td><td>
@@ -70,7 +70,7 @@ _(Optional)_
 </td></tr>
 <tr><td>
 
-["\#text"](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/interfaces/xmlelement/__text_)
+["\#text"](/doxygen2docusaurus/docs/api/xpm-lib/interfaces/xmlelement/__text_)
 
 
 </td><td>

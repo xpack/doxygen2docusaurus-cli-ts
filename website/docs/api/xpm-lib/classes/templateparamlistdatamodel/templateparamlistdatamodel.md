@@ -21,7 +21,7 @@ Concrete data model class for template parameter list elements.
 ```typescript
 export declare class TemplateParamListDataModel extends AbstractTemplateParamListType
 ```
-**Extends:** [AbstractTemplateParamListType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstracttemplateparamlisttype)
+**Extends:** [AbstractTemplateParamListType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstracttemplateparamlisttype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/templateparamlistdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/templateparamlistdatamodel/constructor)
 
 
 </td><td>

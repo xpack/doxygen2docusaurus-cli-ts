@@ -46,7 +46,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(options)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/datamodel/constructor)
+[(constructor)(options)](/doxygen2docusaurus/docs/api/xpm-lib/classes/datamodel/constructor)
 
 
 </td><td>
@@ -85,7 +85,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[compoundDefs](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/datamodel/compounddefs)
+[compoundDefs](/doxygen2docusaurus/docs/api/xpm-lib/classes/datamodel/compounddefs)
 
 
 </td><td>
@@ -93,7 +93,7 @@ Description
 
 </td><td>
 
-[CompoundDefDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/compounddefdatamodel)<!-- -->\[\]
+[CompoundDefDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/compounddefdatamodel)<!-- -->\[\]
 
 
 </td><td>
@@ -104,7 +104,7 @@ Collection of compound definition data models parsed from individual XML files.
 </td></tr>
 <tr><td>
 
-[doxyfile?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/datamodel/doxyfile)
+[doxyfile?](/doxygen2docusaurus/docs/api/xpm-lib/classes/datamodel/doxyfile)
 
 
 </td><td>
@@ -112,7 +112,7 @@ Collection of compound definition data models parsed from individual XML files.
 
 </td><td>
 
-[DoxygenFileDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenfiledatamodel)
+[DoxygenFileDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenfiledatamodel)
 
 
 </td><td>
@@ -123,7 +123,7 @@ _(Optional)_ The parsed Doxyfile configuration data model.
 </td></tr>
 <tr><td>
 
-[doxygenindex?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/datamodel/doxygenindex)
+[doxygenindex?](/doxygen2docusaurus/docs/api/xpm-lib/classes/datamodel/doxygenindex)
 
 
 </td><td>
@@ -131,7 +131,7 @@ _(Optional)_ The parsed Doxyfile configuration data model.
 
 </td><td>
 
-[DoxygenIndexDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenindexdatamodel)
+[DoxygenIndexDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenindexdatamodel)
 
 
 </td><td>
@@ -142,7 +142,7 @@ _(Optional)_ The parsed Doxygen index data model from the main index XML file.
 </td></tr>
 <tr><td>
 
-[options](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/datamodel/options)
+[options](/doxygen2docusaurus/docs/api/xpm-lib/classes/datamodel/options)
 
 
 </td><td>
@@ -150,7 +150,7 @@ _(Optional)_ The parsed Doxygen index data model from the main index XML file.
 
 </td><td>
 
-[CliOptions](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions)
+[CliOptions](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions)
 
 
 </td><td>
@@ -161,7 +161,7 @@ The global configuration options for the parsing operation.
 </td></tr>
 <tr><td>
 
-[parsedFilesCounter](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/datamodel/parsedfilescounter)
+[parsedFilesCounter](/doxygen2docusaurus/docs/api/xpm-lib/classes/datamodel/parsedfilescounter)
 
 
 </td><td>
@@ -180,7 +180,7 @@ Counter tracking the number of XML files successfully parsed.
 </td></tr>
 <tr><td>
 
-[projectVersion?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/datamodel/projectversion)
+[projectVersion?](/doxygen2docusaurus/docs/api/xpm-lib/classes/datamodel/projectversion)
 
 
 </td><td>
@@ -199,7 +199,7 @@ _(Optional)_ The project version string extracted from the documentation metadat
 </td></tr>
 <tr><td>
 
-[xml](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/datamodel/xml)
+[xml](/doxygen2docusaurus/docs/api/xpm-lib/classes/datamodel/xml)
 
 
 </td><td>
@@ -207,7 +207,7 @@ _(Optional)_ The project version string extracted from the documentation metadat
 
 </td><td>
 
-[DoxygenXmlParser](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenxmlparser)
+[DoxygenXmlParser](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenxmlparser)
 
 
 </td><td>
@@ -238,7 +238,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[parse()](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/datamodel/parse)
+[parse()](/doxygen2docusaurus/docs/api/xpm-lib/classes/datamodel/parse)
 
 
 </td><td>
@@ -252,7 +252,7 @@ Orchestrates the complete parsing of Doxygen XML files and data model constructi
 </td></tr>
 <tr><td>
 
-[parseDoxyfile()](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/datamodel/parsedoxyfile)
+[parseDoxyfile()](/doxygen2docusaurus/docs/api/xpm-lib/classes/datamodel/parsedoxyfile)
 
 
 </td><td>
@@ -266,7 +266,7 @@ Parses the Doxyfile XML and initialises the configuration data model.
 </td></tr>
 <tr><td>
 
-[parseDoxygenIndex()](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/datamodel/parsedoxygenindex)
+[parseDoxygenIndex()](/doxygen2docusaurus/docs/api/xpm-lib/classes/datamodel/parsedoxygenindex)
 
 
 </td><td>
@@ -280,7 +280,7 @@ Parses the main Doxygen index XML file and initialises the index data model.
 </td></tr>
 <tr><td>
 
-[parseFile({ fileName }, input)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/datamodel/parsefile)
+[parseFile({ fileName }, input)](/doxygen2docusaurus/docs/api/xpm-lib/classes/datamodel/parsefile)
 
 
 </td><td>
@@ -294,7 +294,7 @@ Reads and parses the specified XML file, returning the parsed content.
 </td></tr>
 <tr><td>
 
-[processCompoundDefs(indexCompound, parsedDoxygenElements)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/datamodel/processcompounddefs)
+[processCompoundDefs(indexCompound, parsedDoxygenElements)](/doxygen2docusaurus/docs/api/xpm-lib/classes/datamodel/processcompounddefs)
 
 
 </td><td>
@@ -308,7 +308,7 @@ Processes compound definitions from the parsed Doxygen XML elements.
 </td></tr>
 <tr><td>
 
-[processMemberdefs()](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/datamodel/processmemberdefs)
+[processMemberdefs()](/doxygen2docusaurus/docs/api/xpm-lib/classes/datamodel/processmemberdefs)
 
 
 </td><td>

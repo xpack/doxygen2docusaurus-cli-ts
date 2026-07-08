@@ -21,7 +21,7 @@ Data model for individual code line elements within program listings.
 ```typescript
 export declare class CodeLineDataModel extends AbstractCodeLineType
 ```
-**Extends:** [AbstractCodeLineType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractcodelinetype)
+**Extends:** [AbstractCodeLineType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractcodelinetype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/codelinedatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/codelinedatamodel/constructor)
 
 
 </td><td>

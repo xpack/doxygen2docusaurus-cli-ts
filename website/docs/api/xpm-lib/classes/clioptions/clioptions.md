@@ -46,7 +46,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(commandOptions)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/constructor)
+[(constructor)(commandOptions)](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/constructor)
 
 
 </td><td>
@@ -85,7 +85,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[apiBaseUrl](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/apibaseurl)
+[apiBaseUrl](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/apibaseurl)
 
 
 </td><td>
@@ -104,7 +104,7 @@ URL path to the API documentation relative to the docs section.
 </td></tr>
 <tr><td>
 
-[apiFolderPath](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/apifolderpath)
+[apiFolderPath](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/apifolderpath)
 
 
 </td><td>
@@ -123,7 +123,7 @@ Path to the API documentation folder relative to the docs folder.
 </td></tr>
 <tr><td>
 
-[baseUrl](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/baseurl)
+[baseUrl](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/baseurl)
 
 
 </td><td>
@@ -142,7 +142,7 @@ Base URL for the entire website.
 </td></tr>
 <tr><td>
 
-[compatibilityRedirectsOutputFolderPath?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/compatibilityredirectsoutputfolderpath)
+[compatibilityRedirectsOutputFolderPath?](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/compatibilityredirectsoutputfolderpath)
 
 
 </td><td>
@@ -161,7 +161,7 @@ _(Optional)_ Output folder for compatibility redirect files.
 </td></tr>
 <tr><td>
 
-[customCssFilePath](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/customcssfilepath)
+[customCssFilePath](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/customcssfilepath)
 
 
 </td><td>
@@ -180,7 +180,7 @@ Path to the custom CSS file for styling overrides.
 </td></tr>
 <tr><td>
 
-[debug](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/debug)
+[debug](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/debug)
 
 
 </td><td>
@@ -199,7 +199,7 @@ Controls debug-level output during the conversion process.
 </td></tr>
 <tr><td>
 
-[docsBaseUrl](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/docsbaseurl)
+[docsBaseUrl](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/docsbaseurl)
 
 
 </td><td>
@@ -218,7 +218,7 @@ URL path to the documentation section relative to the website root.
 </td></tr>
 <tr><td>
 
-[docsFolderPath](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/docsfolderpath)
+[docsFolderPath](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/docsfolderpath)
 
 
 </td><td>
@@ -237,7 +237,7 @@ Path to the documentation folder relative to the website folder.
 </td></tr>
 <tr><td>
 
-[doxygenXmlInputFolderPath](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/doxygenxmlinputfolderpath)
+[doxygenXmlInputFolderPath](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/doxygenxmlinputfolderpath)
 
 
 </td><td>
@@ -256,7 +256,7 @@ Path to the Doxygen XML input folder relative to the website folder.
 </td></tr>
 <tr><td>
 
-[id](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/id)
+[id](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/id)
 
 
 </td><td>
@@ -275,7 +275,7 @@ String identifier for distinguishing multiple configuration instances.
 </td></tr>
 <tr><td>
 
-[imagesFolderPath](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/imagesfolderpath)
+[imagesFolderPath](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/imagesfolderpath)
 
 
 </td><td>
@@ -294,7 +294,7 @@ Path for images relative to the `static` folder.
 </td></tr>
 <tr><td>
 
-[listPagesAtTop](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/listpagesattop)
+[listPagesAtTop](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/listpagesattop)
 
 
 </td><td>
@@ -313,7 +313,7 @@ Controls whether pages are listed at the top of the sidebar.
 </td></tr>
 <tr><td>
 
-[mainPageTitle](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/mainpagetitle)
+[mainPageTitle](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/mainpagetitle)
 
 
 </td><td>
@@ -332,7 +332,7 @@ Title displayed on the main API documentation page.
 </td></tr>
 <tr><td>
 
-[navbarDropdownFilePath](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/navbardropdownfilepath)
+[navbarDropdownFilePath](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/navbardropdownfilepath)
 
 
 </td><td>
@@ -351,7 +351,7 @@ Path to the navbar dropdown configuration file.
 </td></tr>
 <tr><td>
 
-[navbarDropdownLabel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/navbardropdownlabel)
+[navbarDropdownLabel](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/navbardropdownlabel)
 
 
 </td><td>
@@ -370,7 +370,7 @@ Label displayed in the top navigation bar.
 </td></tr>
 <tr><td>
 
-[navbarDropdownPosition](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/navbardropdownposition)
+[navbarDropdownPosition](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/navbardropdownposition)
 
 
 </td><td>
@@ -389,7 +389,7 @@ Position of the navigation menu in the top bar.
 </td></tr>
 <tr><td>
 
-[originalPagesNote](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/originalpagesnote)
+[originalPagesNote](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/originalpagesnote)
 
 
 </td><td>
@@ -408,7 +408,7 @@ Note about the location of original Doxygen pages.
 </td></tr>
 <tr><td>
 
-[renderProgramListing](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/renderprogramlisting)
+[renderProgramListing](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/renderprogramlisting)
 
 
 </td><td>
@@ -427,7 +427,7 @@ Controls program listing rendering in File pages.
 </td></tr>
 <tr><td>
 
-[renderProgramListingInline](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/renderprogramlistinginline)
+[renderProgramListingInline](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/renderprogramlistinginline)
 
 
 </td><td>
@@ -446,7 +446,7 @@ Controls program listing rendering in member definition sections.
 </td></tr>
 <tr><td>
 
-[sidebarCategoryFilePath](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/sidebarcategoryfilepath)
+[sidebarCategoryFilePath](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/sidebarcategoryfilepath)
 
 
 </td><td>
@@ -465,7 +465,7 @@ Path to the sidebar category configuration file.
 </td></tr>
 <tr><td>
 
-[sidebarCategoryLabel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/sidebarcategorylabel)
+[sidebarCategoryLabel](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/sidebarcategorylabel)
 
 
 </td><td>
@@ -484,7 +484,7 @@ Label displayed in the Docusaurus sidebar for the API documentation.
 </td></tr>
 <tr><td>
 
-[suggestToDoDescriptions](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/suggesttododescriptions)
+[suggestToDoDescriptions](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/suggesttododescriptions)
 
 
 </td><td>
@@ -503,7 +503,7 @@ Controls whether TODO suggestion descriptions are displayed.
 </td></tr>
 <tr><td>
 
-[verbose](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/verbose)
+[verbose](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/verbose)
 
 
 </td><td>
@@ -542,7 +542,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[parse()](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/parse)
+[parse()](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/parse)
 
 
 </td><td>
@@ -556,7 +556,7 @@ Parses configuration options from various JSON configuration sources.
 </td></tr>
 <tr><td>
 
-[selectMultiConfiguration(multiConfigurations)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/clioptions/selectmulticonfiguration)
+[selectMultiConfiguration(multiConfigurations)](/doxygen2docusaurus/docs/api/xpm-lib/classes/clioptions/selectmulticonfiguration)
 
 
 </td><td>

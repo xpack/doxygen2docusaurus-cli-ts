@@ -21,7 +21,7 @@ Concrete implementation for location elements within documentation.
 ```typescript
 export declare class LocationDataModel extends AbstractLocationType
 ```
-**Extends:** [AbstractLocationType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlocationtype)
+**Extends:** [AbstractLocationType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlocationtype)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/locationdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/locationdatamodel/constructor)
 
 
 </td><td>

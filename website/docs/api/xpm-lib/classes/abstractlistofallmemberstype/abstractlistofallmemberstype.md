@@ -21,7 +21,7 @@ Abstract base class for list-of-all-members elements within documentation.
 ```typescript
 export declare abstract class AbstractListOfAllMembersType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlistofallmemberstype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlistofallmemberstype/constructor)
 
 
 </td><td>
@@ -88,7 +88,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[memberRefs?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlistofallmemberstype/memberrefs)
+[memberRefs?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlistofallmemberstype/memberrefs)
 
 
 </td><td>
@@ -96,7 +96,7 @@ Description
 
 </td><td>
 
-[MemberRefDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/memberrefdatamodel)<!-- -->\[\] \| undefined
+[MemberRefDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/memberrefdatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>

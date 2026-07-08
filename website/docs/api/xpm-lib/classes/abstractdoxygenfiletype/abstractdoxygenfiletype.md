@@ -21,7 +21,7 @@ Abstract base class for Doxygen file type data models.
 ```typescript
 export declare abstract class AbstractDoxygenFileType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdoxygenfiletype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdoxygenfiletype/constructor)
 
 
 </td><td>
@@ -86,7 +86,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[lang](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdoxygenfiletype/lang)
+[lang](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdoxygenfiletype/lang)
 
 
 </td><td>
@@ -105,7 +105,7 @@ The language specification for the documentation configuration.
 </td></tr>
 <tr><td>
 
-[noNamespaceSchemaLocation?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdoxygenfiletype/nonamespaceschemalocation)
+[noNamespaceSchemaLocation?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdoxygenfiletype/nonamespaceschemalocation)
 
 
 </td><td>
@@ -124,7 +124,7 @@ _(Optional)_ The XML schema location reference for validation.
 </td></tr>
 <tr><td>
 
-[options?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdoxygenfiletype/options)
+[options?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdoxygenfiletype/options)
 
 
 </td><td>
@@ -132,7 +132,7 @@ _(Optional)_ The XML schema location reference for validation.
 
 </td><td>
 
-[DoxygenFileOptionDataModel](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/doxygenfileoptiondatamodel)<!-- -->\[\] \| undefined
+[DoxygenFileOptionDataModel](/doxygen2docusaurus/docs/api/xpm-lib/classes/doxygenfileoptiondatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -143,7 +143,7 @@ _(Optional)_ Collection of configuration option data models.
 </td></tr>
 <tr><td>
 
-[version](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdoxygenfiletype/version)
+[version](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdoxygenfiletype/version)
 
 
 </td><td>

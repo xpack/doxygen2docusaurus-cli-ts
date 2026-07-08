@@ -21,7 +21,7 @@ Concrete implementation for listofallmembers elements within compound documentat
 ```typescript
 export declare class ListOfAllMembersDataModel extends AbstractListOfAllMembersType
 ```
-**Extends:** [AbstractListOfAllMembersType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlistofallmemberstype)
+**Extends:** [AbstractListOfAllMembersType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlistofallmemberstype)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/listofallmembersdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/listofallmembersdatamodel/constructor)
 
 
 </td><td>

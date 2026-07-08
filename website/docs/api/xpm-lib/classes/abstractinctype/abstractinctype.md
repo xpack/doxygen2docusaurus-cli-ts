@@ -21,7 +21,7 @@ Abstract base class for include-type elements within documentation.
 ```typescript
 export declare abstract class AbstractIncType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractinctype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractinctype/constructor)
 
 
 </td><td>
@@ -88,7 +88,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[local](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractinctype/local)
+[local](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractinctype/local)
 
 
 </td><td>
@@ -107,7 +107,7 @@ Indicates whether the include uses local or system include syntax.
 </td></tr>
 <tr><td>
 
-[refId?](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractinctype/refid)
+[refId?](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractinctype/refid)
 
 
 </td><td>
@@ -126,7 +126,7 @@ _(Optional)_ Optional reference identifier for cross-linking to the included fil
 </td></tr>
 <tr><td>
 
-[text](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractinctype/text)
+[text](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractinctype/text)
 
 
 </td><td>

@@ -21,7 +21,7 @@ Concrete implementation for parameter elements within function documentation.
 ```typescript
 export declare class ParamDataModel extends AbstractParamType
 ```
-**Extends:** [AbstractParamType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractparamtype)
+**Extends:** [AbstractParamType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractparamtype)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/paramdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/paramdatamodel/constructor)
 
 
 </td><td>

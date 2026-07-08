@@ -21,7 +21,7 @@ Data model for programlisting XML elements containing source code.
 ```typescript
 export declare class ProgramListingDataModel extends AbstractListingType
 ```
-**Extends:** [AbstractListingType](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/abstractlistingtype)
+**Extends:** [AbstractListingType](/doxygen2docusaurus/docs/api/xpm-lib/classes/abstractlistingtype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/xpm-lib/classes/programlistingdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/xpm-lib/classes/programlistingdatamodel/constructor)
 
 
 </td><td>
