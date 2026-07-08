@@ -19,7 +19,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[@xpack/xpm-lib](./xpm-lib.md)
+[@xpack/doxygen2docusaurus](./doxygen2docusaurus.md)
 
 
 </td><td>

@@ -29,7 +29,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[@xpack/xpm-lib](/doxygen2docusaurus/docs/api/xpm-lib)
+[@xpack/doxygen2docusaurus](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus)
 
 
 </td><td>

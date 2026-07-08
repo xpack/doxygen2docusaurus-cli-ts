@@ -5,19 +5,19 @@
   "items": [
     {
       "label": "Classes",
-      "to": "/docs/api/xpm-lib/classes"
+      "to": "/docs/api/doxygen2docusaurus/classes"
     },
     {
       "label": "Type Aliases",
-      "to": "/docs/api/xpm-lib/typealiases"
+      "to": "/docs/api/doxygen2docusaurus/typealiases"
     },
     {
       "label": "Functions",
-      "to": "/docs/api/xpm-lib/functions"
+      "to": "/docs/api/doxygen2docusaurus/functions"
     },
     {
       "label": "Interfaces",
-      "to": "/docs/api/xpm-lib/interfaces"
+      "to": "/docs/api/doxygen2docusaurus/interfaces"
     }
   ]
 }

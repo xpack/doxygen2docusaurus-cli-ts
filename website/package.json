@@ -14,7 +14,7 @@
     "compile-tsdoc": "del-cli --force tsdoc/dist && tsc --project config/tsconfig-api-extractor.json",
     "api-extractor-init": "api-extractor init",
     "api-extractor": "api-extractor run --local --verbose",
-    "patch-doc-model-json": "bash config/patch-doc-model-json.sh tsdoc/doc-model/website.api.json website @xpack/xpm-lib",
+    "patch-doc-model-json": "bash config/patch-doc-model-json.sh tsdoc/doc-model/website.api.json website @xpack/doxygen2docusaurus",
     "api-documenter": "del-cli --force tsdoc/markdown && api-documenter markdown --input-folder tsdoc/doc-model --output-folder tsdoc/markdown",
     "tsdoc2docusaurus": "tsdoc2docusaurus --id website",
     "generate-website-tsdoc": "npm run compile-tsdoc && npm run api-extractor && npm run patch-doc-model-json && npm run api-documenter && npm run tsdoc2docusaurus",
