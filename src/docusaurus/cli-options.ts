@@ -445,9 +445,7 @@ export class CliOptions {
         const pkgJson: GenericPackageConfiguration = JSON.parse(pkgJsonRaw)
 
         const multiConfigurations:
-          | CliConfigurationOptions
-          | MultiConfigurations
-          | undefined =
+          CliConfigurationOptions | MultiConfigurations | undefined =
           pkgJson.config?.doxygen2docusaurus ?? pkgJson.doxygen2docusaurus
 
         if (multiConfigurations !== undefined) {
