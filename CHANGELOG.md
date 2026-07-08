@@ -8,7 +8,9 @@ and close existing issues and pull requests.
 
 ## 2026-07-08
 
-* v2.2.1 prepared
+* v2.2.1 published on npmjs.com
+* 0c5418a prepare v2.2.1
+* d3e16d0 package.json: bump deps
 * 01dc7ab launch.json add diag-trace
 * bb8ff1e re-generate top commons
 * 621fad0 re-format
