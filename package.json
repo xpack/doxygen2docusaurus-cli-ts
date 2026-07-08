@@ -68,7 +68,7 @@
   },
   "scripts": {
     "generate-top-commons": "bash node_modules/@xpack/npm-packages-helper/maintenance-scripts/generate-top-commons.sh --xpack",
-    "compile-watch": "tsc --build --verbose --watch src",
+    "compile-watch": "tsc --project tsconfig.json --watch",
     "prettier": "prettier src tests --write --config config/.prettierrc.json --ignore-path config/.prettierignore",
     "fix": "eslint --config config/eslint.config.js --fix src",
     "compile": "tsc --project tsconfig.json",

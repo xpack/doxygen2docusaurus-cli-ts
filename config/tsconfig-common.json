@@ -8,6 +8,8 @@
   // TODO: update to node22 in the final xpm 1.x release.
   "extends": "@tsconfig/node20/tsconfig.json",
   "compilerOptions": {
+    // Include Node.js global type declarations (console, process, etc.).
+    "types": ["node"],
     // Generate .d.ts files from TypeScript and JavaScript files in your project.
     "declaration": true,
     // Create sourcemaps for d.ts files.                 
