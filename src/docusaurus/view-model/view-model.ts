@@ -395,7 +395,7 @@ export class ViewModel {
         for (const member of section.indexMembers) {
           if (member instanceof Member) {
             if (this.options.debug) {
-              console.log('    ', member.kind, member.id)
+              console.log('    ', member.kind, member.name, member.id)
             }
             member.initializeLate()
           }
