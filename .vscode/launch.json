@@ -18,6 +18,21 @@
         "${workspaceFolder}/**/*.js"
       ],
       "stopOnEntry": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch doxygen2docusaurus diag-trace",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "cwd": "/Users/ilg/MyProjects/micro-os-plus.github/xPacks/diag-trace-xpack.git/website",
+      "program": "${workspaceFolder}/bin/doxygen2docusaurus.js",
+      "args": [],
+      "outFiles": [
+        "${workspaceFolder}/**/*.js"
+      ],
+      "stopOnEntry": true
     }
   ]
 }
