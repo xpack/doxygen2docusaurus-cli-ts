@@ -1,6 +1,6 @@
 {
-  // DO NOT EDIT!
-  // Automatically generated from npm-packages-helper/templates/*.
+  // DO NOT EDIT! Automatically generated from template file:
+  // npm-packages-helper/templates/common/config/_xpack/tsconfig-common-liquid.json
   //
   // Visit https://aka.ms/tsconfig to read more about this file
   // https://www.npmjs.com/package/@tsconfig/node20
