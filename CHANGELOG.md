@@ -8,6 +8,7 @@ and close existing issues and pull requests.
 
 ## 2026-07-30
 
+* v2.2.2 published on npmjs.com
 * v2.2.2 prepared
 * 3bac57d re-generate website commons
 * 6b8866b re-generate top commons
