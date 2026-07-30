@@ -523,7 +523,7 @@ export class Group extends CompoundBase {
 
     lines.push(
       ...this.renderInnerIndicesToLines({
-        suffixes: ['Groups', 'Classes'],
+        suffixes: ['Groups', 'Classes', 'Concepts'],
       })
     )
 
