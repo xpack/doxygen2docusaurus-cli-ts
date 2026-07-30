@@ -6,9 +6,24 @@ Please check
 [GitHub](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/)
 and close existing issues and pull requests.
 
+## 2026-07-30
+
+* v2.2.2 prepared
+* 3bac57d re-generate website commons
+* 6b8866b re-generate top commons
+* 4e8394d launch.json add utils-lists
+* 43da29c #17: show the Concepts group in namespaces indices
+
 ## 2026-07-08
 
-* v2.2.1 published on npmjs.com
+* 6e46e63 package.json updates
+* 5a379d2 website package.json updates
+* d485e8e trigger-publish remove concurrency
+* f9ba124 package.json cleanups
+* 4585513 prepare webpreview
+* bbd2328 website: blog post release 2.2.1 published
+* 2d80102 2.2.1
+* 60050d0 CHANGELOG: publish npm v2.2.1
 * 0c5418a prepare v2.2.1
 * d3e16d0 package.json: bump deps
 * 01dc7ab launch.json add diag-trace
