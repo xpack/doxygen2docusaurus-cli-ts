@@ -187,6 +187,8 @@ export class DoxygenXmlParser {
         // but the DTD defines them as strings and the applications expects
         // strings.
         return String(attributeValue)
+      } else if (typeof attributeValue === 'boolean') {
+        return String(attributeValue)
       }
     }
     throw new Error(
@@ -229,24 +231,29 @@ export class DoxygenXmlParser {
    *
    * @param element - The XML element containing the attribute
    * @param name - The name of the attribute to retrieve
-   * @returns True if the attribute value is 'yes' (case-insensitive);
-   * otherwise, false
-   * @throws If the attribute does not exist or is not a string
+   * @returns True if the attribute value is 'yes' (case-insensitive) or
+   * `true`; otherwise, false
+   * @throws If the attribute does not exist or is not a string or boolean
    *
    * @remarks
    * This method checks whether the specified attribute exists on the XML
    * element, and returns true if its value is the string 'yes'
-   * (case-insensitive). If the attribute is missing or its value is not a
-   * string, an error is thrown.
+   * (case-insensitive). Values like `true`/`false`, which the XML parser
+   * returns as booleans, are returned as such. If the attribute is missing
+   * or its value is neither a string nor a boolean, an error is thrown.
    */
   getAttributeBooleanValue(element: object, name: string): boolean {
     if (this.hasAttribute(element, name)) {
       const elementWithNamedAttribute = (
-        element as { ':@': { [name]: string } }
+        element as { ':@': { [name]: string | boolean } }
       )[':@']
       const attributeValue = elementWithNamedAttribute[name]
       if (typeof attributeValue === 'string') {
         return attributeValue.toLowerCase() === 'yes'
+      } else if (typeof attributeValue === 'boolean') {
+        // The xml parser returns attributes like
+        // `noexceptexpression="false"` as booleans.
+        return attributeValue
       }
     }
     throw new Error(

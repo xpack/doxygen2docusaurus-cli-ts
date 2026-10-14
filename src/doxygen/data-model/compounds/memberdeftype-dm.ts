@@ -596,11 +596,11 @@ export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
    * Indicates whether the member has a noexcept expression.
    *
    * @remarks
-   * Boolean flag indicating that the member's noexcept specification
+   * String indicating that the member's noexcept specification
    * includes a conditional expression that determines exception safety
    * at compile time based on template parameters or other conditions.
    */
-  noexceptexpression?: boolean | undefined
+  noexceptexpression?: string | undefined
 
   /**
    * Indicates whether the member is declared as nodiscard.
@@ -800,7 +800,7 @@ export abstract class AbstractMemberDefType extends AbstractMemberBaseType {
       } else if (attributeName === '@_noexcept') {
         this.noexcept = xml.getAttributeBooleanValue(element, '@_noexcept')
       } else if (attributeName === '@_noexceptexpression') {
-        this.noexceptexpression = xml.getAttributeBooleanValue(
+        this.noexceptexpression = xml.getAttributeStringValue(
           element,
           '@_noexceptexpression'
         )

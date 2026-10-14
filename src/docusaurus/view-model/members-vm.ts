@@ -625,6 +625,14 @@ export class Member extends MemberBase {
   argsstring: string | undefined
 
   /**
+   * Noexcept expression for the member function.
+   *
+   * @remarks
+   * Contains the noexcept specification for function-type members, if any.
+   */
+  noexceptexpression: string | undefined
+
+  /**
    * Fully qualified member name.
    *
    * @remarks
@@ -863,8 +871,9 @@ export class Member extends MemberBase {
       )
     }
 
-    const { argsstring } = memberDef
+    const { argsstring, noexceptexpression } = memberDef
     this.argsstring = argsstring
+    this.noexceptexpression = noexceptexpression
 
     if (memberDef.type !== undefined) {
       this.type = workspace.renderElementToString(memberDef.type, 'html').trim()
@@ -916,6 +925,11 @@ export class Member extends MemberBase {
     }
     if (memberDef.noexcept?.valueOf() ?? false) {
       labels.push('noexcept')
+    } else if (
+      noexceptexpression !== undefined &&
+      noexceptexpression.length > 0
+    ) {
+      labels.push(`noexcept(${noexceptexpression})`)
     }
     if (memberDef.prot === 'protected') {
       labels.push('protected')
