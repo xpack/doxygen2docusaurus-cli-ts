@@ -356,11 +356,9 @@ export class DocusaurusGenerator {
             }
         }
         const uniqueNames = Array.from(images).sort();
-        let fromFilePath = '';
-        let toFilePath = '';
         for (const name of uniqueNames) {
-            fromFilePath = path.join(this.options.doxygenXmlInputFolderPath, name);
-            toFilePath = path.join(destImgFolderPath, name);
+            const fromFilePath = path.join(this.options.doxygenXmlInputFolderPath, name);
+            const toFilePath = path.join(destImgFolderPath, name);
             if (this.options.verbose) {
                 console.log(`Copying image file '${toFilePath}'...`);
             }

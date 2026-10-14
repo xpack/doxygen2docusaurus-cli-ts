@@ -97,7 +97,7 @@ export class CompoundBase {
         return resultSectionDefs;
     }
     adjustSectionKind(sectionDef, memberBase, classUnqualifiedName) {
-        let adjustedSectionKind = memberBase.kind;
+        let adjustedSectionKind;
         switch (memberBase.kind) {
             case 'function':
                 if (this.isOperator(memberBase.name)) {
@@ -307,7 +307,7 @@ export class CompoundBase {
                     const itemType = kind === 'dir' ? 'folder' : kind === 'group' ? '&nbsp;' : kind;
                     const permalink = workspace.getPagePermalink(innerObject.refid);
                     const name = this.collection.workspace.renderString(innerDataObject.indexName, 'html');
-                    let itemName = '';
+                    let itemName;
                     if (permalink !== undefined && permalink.length > 0) {
                         itemName = `<a href="${permalink}">${name}</a>`;
                     }
@@ -365,7 +365,7 @@ export class CompoundBase {
         for (const concept of concepts) {
             const itemType = 'concept';
             const permalink = this.collection.workspace.getPagePermalink(concept.id);
-            let itemName = '';
+            let itemName;
             if (permalink !== undefined && permalink.length > 0) {
                 itemName = `<a href="${permalink}">${concept.indexName}</a>`;
             }

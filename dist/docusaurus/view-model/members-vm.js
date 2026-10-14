@@ -198,6 +198,7 @@ export class Member extends MemberBase {
     briefDescriptionHtmlString;
     detailedDescriptionHtmlLines;
     argsstring;
+    noexceptexpression;
     qualifiedName;
     definition;
     type;
@@ -243,8 +244,9 @@ export class Member extends MemberBase {
         if (memberDef.detailedDescription !== undefined) {
             this.detailedDescriptionHtmlLines = workspace.renderElementToLines(memberDef.detailedDescription, 'html');
         }
-        const { argsstring } = memberDef;
+        const { argsstring, noexceptexpression } = memberDef;
         this.argsstring = argsstring;
+        this.noexceptexpression = noexceptexpression;
         if (memberDef.type !== undefined) {
             this.type = workspace.renderElementToString(memberDef.type, 'html').trim();
         }
@@ -280,6 +282,10 @@ export class Member extends MemberBase {
         }
         if (memberDef.noexcept?.valueOf() ?? false) {
             labels.push('noexcept');
+        }
+        else if (noexceptexpression !== undefined &&
+            noexceptexpression.length > 0) {
+            labels.push(`noexcept(${noexceptexpression})`);
         }
         if (memberDef.prot === 'protected') {
             labels.push('protected');

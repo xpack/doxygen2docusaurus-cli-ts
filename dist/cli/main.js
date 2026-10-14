@@ -40,14 +40,13 @@ export async function main(argv) {
     const commandOptions = { id, verbose, debug };
     const options = new CliOptions(commandOptions);
     await options.parse();
-    let exitCode = 0;
     console.log();
     const dataModel = new DataModel(options);
     await dataModel.parse();
     dataModel.projectVersion = packageVersion;
     const workspace = new Workspace(dataModel);
     const generator = new DocusaurusGenerator(workspace);
-    exitCode = await generator.run();
+    const exitCode = await generator.run();
     const durationString = formatDuration(Date.now() - startTime);
     if (exitCode === 0) {
         console.log();

@@ -601,7 +601,7 @@ export class Class extends CompoundBase {
         const permalink = workspace.getPagePermalink(this.id);
         const indexName = this.collection.workspace.renderString(this.indexName, 'html');
         const { kind: itemType } = this;
-        let itemName = '';
+        let itemName;
         if (permalink !== undefined && permalink.length > 0) {
             itemName = `<a href="${permalink}">${indexName}</a>`;
         }

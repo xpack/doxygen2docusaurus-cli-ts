@@ -45,7 +45,7 @@ export declare abstract class AbstractMemberDefType extends AbstractMemberBaseTy
     volatile?: boolean | undefined;
     mutable?: boolean | undefined;
     noexcept?: boolean | undefined;
-    noexceptexpression?: boolean | undefined;
+    noexceptexpression?: string | undefined;
     nodiscard?: boolean | undefined;
     constexpr?: boolean | undefined;
     consteval?: boolean | undefined;

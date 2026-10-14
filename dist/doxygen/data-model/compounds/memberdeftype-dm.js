@@ -173,7 +173,7 @@ export class AbstractMemberDefType extends AbstractMemberBaseType {
                 this.noexcept = xml.getAttributeBooleanValue(element, '@_noexcept');
             }
             else if (attributeName === '@_noexceptexpression') {
-                this.noexceptexpression = xml.getAttributeBooleanValue(element, '@_noexceptexpression');
+                this.noexceptexpression = xml.getAttributeStringValue(element, '@_noexceptexpression');
             }
             else if (attributeName === '@_nodiscard') {
                 this.nodiscard = xml.getAttributeBooleanValue(element, '@_nodiscard');

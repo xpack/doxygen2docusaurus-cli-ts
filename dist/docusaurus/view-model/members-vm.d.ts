@@ -36,6 +36,7 @@ export declare class Member extends MemberBase {
     briefDescriptionHtmlString: string | undefined;
     detailedDescriptionHtmlLines: string[] | undefined;
     argsstring: string | undefined;
+    noexceptexpression: string | undefined;
     qualifiedName: string | undefined;
     definition: string | undefined;
     type: string | undefined;

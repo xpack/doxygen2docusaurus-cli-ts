@@ -6,10 +6,21 @@ Please check
 [GitHub](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/)
 and close existing issues and pull requests.
 
+## 2026-10-14
+
+* v2.2.3 prepared
+* 7c6a5a9 re-generate website commons
+* 6b70a98 fix eslint no-useless-assignment errors
+* 4ba5f46 #18: fix noexceptexpression parsing
+* 8f519d1 package.json bump deps, except ts
+
 ## 2026-07-30
 
-* v2.2.2 published on npmjs.com
-* v2.2.2 prepared
+* 7049887 fix release page
+* 3899f3e website: blog post release 2.2.2 published
+* 4675fe1 2.2.2
+* 2f852a5 CHANGELOG: publish npm v2.2.2
+* 792f3aa prepare v2.2.2
 * 3bac57d re-generate website commons
 * 6b8866b re-generate top commons
 * 4e8394d launch.json add utils-lists

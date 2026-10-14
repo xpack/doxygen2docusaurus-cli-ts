@@ -41,6 +41,9 @@ export class DoxygenXmlParser {
             else if (typeof attributeValue === 'number') {
                 return String(attributeValue);
             }
+            else if (typeof attributeValue === 'boolean') {
+                return String(attributeValue);
+            }
         }
         throw new Error(`Element ${util.inspect(element)} does not have the ${name} attribute`);
     }
@@ -61,6 +64,9 @@ export class DoxygenXmlParser {
             const attributeValue = elementWithNamedAttribute[name];
             if (typeof attributeValue === 'string') {
                 return attributeValue.toLowerCase() === 'yes';
+            }
+            else if (typeof attributeValue === 'boolean') {
+                return attributeValue;
             }
         }
         throw new Error(`Element ${util.inspect(element)} does not have the ${name} ` +

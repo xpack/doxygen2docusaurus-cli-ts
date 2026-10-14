@@ -120,7 +120,7 @@ export class CliOptions {
         assert(this.sidebarCategoryFilePath.length > 0, 'sidebarCategoryFilePath is required');
     }
     selectMultiConfiguration(multiConfigurations) {
-        let configurationOptions = undefined;
+        let configurationOptions;
         if (this.id !== 'default') {
             configurationOptions = multiConfigurations[this.id];
             if (configurationOptions !== undefined) {
