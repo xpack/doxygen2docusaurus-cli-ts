@@ -8,6 +8,7 @@ and close existing issues and pull requests.
 
 ## 2026-10-14
 
+* v2.2.3 published on npmjs.com
 * v2.2.3 prepared
 * 7c6a5a9 re-generate website commons
 * 6b70a98 fix eslint no-useless-assignment errors
