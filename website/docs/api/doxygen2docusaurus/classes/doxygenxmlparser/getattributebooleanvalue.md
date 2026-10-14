@@ -78,15 +78,15 @@ The name of the attribute to retrieve
 
 boolean
 
-True if the attribute value is 'yes' (case-insensitive); otherwise, false
+True if the attribute value is 'yes' (case-insensitive) or `true`<!-- -->; otherwise, false
 
 ## Exceptions
 
-If the attribute does not exist or is not a string
+If the attribute does not exist or is not a string or boolean
 
 ## Remarks
 
-This method checks whether the specified attribute exists on the XML element, and returns true if its value is the string 'yes' (case-insensitive). If the attribute is missing or its value is not a string, an error is thrown.
+This method checks whether the specified attribute exists on the XML element, and returns true if its value is the string 'yes' (case-insensitive). Values like `true`<!-- -->/`false`<!-- -->, which the XML parser returns as booleans, are returned as such. If the attribute is missing or its value is neither a string nor a boolean, an error is thrown.
 
 <hr/>
 

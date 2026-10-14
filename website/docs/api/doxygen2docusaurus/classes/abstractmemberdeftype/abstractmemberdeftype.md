@@ -495,7 +495,7 @@ _(Optional)_ Indicates whether the member is declared as noexcept.
 
 </td><td>
 
-boolean \| undefined
+string \| undefined
 
 
 </td><td>

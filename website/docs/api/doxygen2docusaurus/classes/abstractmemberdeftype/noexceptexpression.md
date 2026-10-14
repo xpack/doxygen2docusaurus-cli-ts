@@ -19,12 +19,12 @@ Indicates whether the member has a noexcept expression.
 ## Signature
 
 ```typescript
-noexceptexpression?: boolean | undefined;
+noexceptexpression?: string | undefined;
 ```
 
 ## Remarks
 
-Boolean flag indicating that the member's noexcept specification includes a conditional expression that determines exception safety at compile time based on template parameters or other conditions.
+String indicating that the member's noexcept specification includes a conditional expression that determines exception safety at compile time based on template parameters or other conditions.
 
 <hr/>
 

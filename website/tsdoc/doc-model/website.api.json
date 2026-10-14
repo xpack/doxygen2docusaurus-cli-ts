@@ -5817,7 +5817,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/doxygen2docusaurus!AbstractMemberDefType#noexceptexpression:member",
-              "docComment": "/**\n * Indicates whether the member has a noexcept expression.\n *\n * @remarks\n *\n * Boolean flag indicating that the member's noexcept specification includes a conditional expression that determines exception safety at compile time based on template parameters or other conditions.\n */\n",
+              "docComment": "/**\n * Indicates whether the member has a noexcept expression.\n *\n * @remarks\n *\n * String indicating that the member's noexcept specification includes a conditional expression that determines exception safety at compile time based on template parameters or other conditions.\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -5825,7 +5825,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "boolean | undefined"
+                  "text": "string | undefined"
                 },
                 {
                   "kind": "Content",
@@ -11119,7 +11119,7 @@
             {
               "kind": "Method",
               "canonicalReference": "@xpack/doxygen2docusaurus!DoxygenXmlParser#getAttributeBooleanValue:member(1)",
-              "docComment": "/**\n * Retrieves the value of a named attribute as a boolean.\n *\n * @remarks\n *\n * This method checks whether the specified attribute exists on the XML element, and returns true if its value is the string 'yes' (case-insensitive). If the attribute is missing or its value is not a string, an error is thrown.\n *\n * @param element - The XML element containing the attribute\n *\n * @param name - The name of the attribute to retrieve\n *\n * @returns True if the attribute value is 'yes' (case-insensitive); otherwise, false\n *\n * @throws\n *\n * If the attribute does not exist or is not a string\n */\n",
+              "docComment": "/**\n * Retrieves the value of a named attribute as a boolean.\n *\n * @remarks\n *\n * This method checks whether the specified attribute exists on the XML element, and returns true if its value is the string 'yes' (case-insensitive). Values like `true`/`false`, which the XML parser returns as booleans, are returned as such. If the attribute is missing or its value is neither a string nor a boolean, an error is thrown.\n *\n * @param element - The XML element containing the attribute\n *\n * @param name - The name of the attribute to retrieve\n *\n * @returns True if the attribute value is 'yes' (case-insensitive) or `true`; otherwise, false\n *\n * @throws\n *\n * If the attribute does not exist or is not a string or boolean\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
