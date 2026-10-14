@@ -1047,7 +1047,7 @@ export class Class extends CompoundBase {
       'html'
     )
     const { kind: itemType } = this
-    let itemName = ''
+    let itemName: string
     if (permalink !== undefined && permalink.length > 0) {
       itemName = `<a href="${permalink}">${indexName}</a>`
     } else {

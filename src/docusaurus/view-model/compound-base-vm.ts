@@ -317,7 +317,7 @@ export abstract class CompoundBase {
     classUnqualifiedName: string | undefined
   ): string {
     // In general, adjust to member kind.
-    let adjustedSectionKind: string = memberBase.kind
+    let adjustedSectionKind: string
 
     switch (memberBase.kind) {
       case 'function':
@@ -699,7 +699,7 @@ export abstract class CompoundBase {
             'html'
           )
 
-          let itemName = ''
+          let itemName: string
           if (permalink !== undefined && permalink.length > 0) {
             itemName = `<a href="${permalink}">${name}</a>`
           } else {
@@ -793,7 +793,7 @@ export abstract class CompoundBase {
 
       const permalink = this.collection.workspace.getPagePermalink(concept.id)
 
-      let itemName = ''
+      let itemName: string
       if (permalink !== undefined && permalink.length > 0) {
         itemName = `<a href="${permalink}">${concept.indexName}</a>`
       } else {

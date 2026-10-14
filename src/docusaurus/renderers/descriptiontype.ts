@@ -1080,7 +1080,7 @@ export class ImageStringRenderer extends ElementStringRendererBase {
       text += '  <img'
       if (element.name !== undefined) {
         const { name } = element
-        let imageSrc = ''
+        let imageSrc: string
         if (isUrl(name)) {
           imageSrc = name
         } else {

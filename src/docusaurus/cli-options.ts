@@ -526,7 +526,7 @@ export class CliOptions {
   selectMultiConfiguration(
     multiConfigurations: CliConfigurationOptions | MultiConfigurations
   ): CliConfigurationOptions | undefined {
-    let configurationOptions: CliConfigurationOptions | undefined = undefined
+    let configurationOptions: CliConfigurationOptions | undefined
     if (this.id !== 'default') {
       configurationOptions = (
         multiConfigurations as Record<

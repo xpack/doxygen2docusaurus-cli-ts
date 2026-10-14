@@ -93,8 +93,6 @@ export async function main(argv: string[]): Promise<number> {
   const options = new CliOptions(commandOptions)
   await options.parse()
 
-  let exitCode = 0
-
   console.log()
 
   const dataModel = new DataModel(options)
@@ -104,7 +102,7 @@ export async function main(argv: string[]): Promise<number> {
   const workspace = new Workspace(dataModel)
 
   const generator = new DocusaurusGenerator(workspace)
-  exitCode = await generator.run()
+  const exitCode = await generator.run()
 
   const durationString = formatDuration(Date.now() - startTime)
 
