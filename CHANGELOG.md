@@ -13,6 +13,7 @@ and close existing issues and pull requests.
 
 ## 2026-10-14
 
+* v2.2.4 published on npmjs.com
 * v2.2.4 prepared
 * 07208d7d blog update
 * 285bf78b website update
