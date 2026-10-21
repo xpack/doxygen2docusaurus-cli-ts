@@ -6,10 +6,21 @@ Please check
 [GitHub](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/)
 and close existing issues and pull requests.
 
+## 2026-10-21
+
+* 6ea371df re-generate website commons
+* 14b4b0e8 #20: no longer crash for empty xrefdescription
+
 ## 2026-10-14
 
-* v2.2.3 published on npmjs.com
-* v2.2.3 prepared
+* v2.2.4 prepared
+* 07208d7d blog update
+* 285bf78b website update
+* 73a5687f website update
+* 80dba2e7 website: blog post release 2.2.3 published
+* 5c6516df 2.2.3
+* 48dabb79 CHANGELOG: publish npm v2.2.3
+* 4e5c13ea prepare v2.2.3
 * 7c6a5a9 re-generate website commons
 * 6b70a98 fix eslint no-useless-assignment errors
 * 4ba5f46 #18: fix noexceptexpression parsing
