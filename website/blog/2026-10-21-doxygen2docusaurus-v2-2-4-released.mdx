@@ -1,0 +1,73 @@
+---
+
+title: doxygen2docusaurus v2.2.4 released
+seo_title: Version 2.2.4 released
+description: Version v2.2.4 is a maintenance release
+keywords:
+  - xpack
+  - doxygen2docusaurus
+  - release
+
+date: 2026-10-21 22:33:10 +0300
+
+authors: ilg-ul
+
+# To be listed in the Releases page.
+tags:
+  - releases
+
+# ----- Custom properties -----------------------------------------------------
+
+version: "2.2.4"
+
+release_tag_url: "https://github.com/xpack/doxygen2docusaurus-cli-ts/tree/v2.2.4"
+
+---
+
+import {PageMetadata} from '@docusaurus/theme-common';
+import Image from '@theme/IdealImage';
+import CodeBlock from '@theme/CodeBlock';
+import Link from '@docusaurus/Link';
+
+import CommonPrerequisites from './_common/_prerequisites.mdx';
+import CommonDownloadAnalytics from './_common/_download-analytics.mdx';
+
+TODO: select one summary
+
+Version **2.2.4** is a maintenance release; it fixes the issue with AbstractDescriptionType having no inner elements.
+
+<!-- truncate -->
+
+<PageMetadata title={frontMatter.seo_title} />
+
+The [Doxygen Docusaurus Converter](https://xpack.github.io/doxygen2docusaurus-ts/)
+project is a TypeScript ECMAScript Node.js module.
+
+<CommonPrerequisites nodeVersion="20.0.0"/>
+
+## Install
+
+For installation instructions, please refer to the
+[Install Guide](/docs/install/)
+page.
+
+## Source code
+
+- <Link to={frontMatter.release_tag_url}>GitHub tag v{frontMatter.version} tree</Link>
+
+## Bug fixes
+
+- [[#20](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/20)]: accept
+AbstractDescriptionType with no inner elements
+
+## Enhancements
+
+- none
+
+## Known problems
+
+- none
+
+## CI tests
+
+- none
