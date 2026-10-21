@@ -20,7 +20,6 @@ export class AbstractDescriptionType extends AbstractDataModelBase {
     constructor(xml, element, elementName) {
         super(elementName);
         const innerElements = xml.getInnerElements(element, elementName);
-        assert(innerElements.length > 0);
         this.children = [];
         for (const innerElement of innerElements) {
             if (xml.hasInnerText(innerElement)) {
