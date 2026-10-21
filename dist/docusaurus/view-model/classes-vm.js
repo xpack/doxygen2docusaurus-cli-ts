@@ -578,7 +578,7 @@ export class Class extends CompoundBase {
             }
         }
         lines.push(...this.renderInnerIndicesToLines({
-            suffixes: [],
+            suffixes: ['Classes'],
         }));
         lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToHtmlLines({

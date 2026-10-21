@@ -996,7 +996,7 @@ export class Class extends CompoundBase {
 
     lines.push(
       ...this.renderInnerIndicesToLines({
-        suffixes: [],
+        suffixes: ['Classes'],
       })
     )
 
