@@ -143,7 +143,8 @@ export abstract class AbstractDescriptionType extends AbstractDataModelBase {
     // Process elements.
 
     const innerElements = xml.getInnerElements(element, elementName)
-    assert(innerElements.length > 0)
+    // xrefdescription may have not inner elements.
+    // assert(innerElements.length > 0)
 
     this.children = []
 
