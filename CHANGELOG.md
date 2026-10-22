@@ -6,8 +6,21 @@ Please check
 [GitHub](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/)
 and close existing issues and pull requests.
 
+## 2026-10-22
+
+* v2.2.4 prepared
+* f3e1b66c re-generate website commons
+* e59848cf re-generate top commons
+* bb039384 #21: render classes inner classes
+
 ## 2026-10-21
 
+* 18a520ad website: blog post update
+* 6f5ab903 website: blog post release 2.2.4 published
+* 96bfa22a 2.2.4
+* 1320a0d1 dist update
+* 49397579 CHANGELOG: publish npm v2.2.4
+* 5713cc66 prepare v2.2.4
 * 6ea371df re-generate website commons
 * 14b4b0e8 #20: no longer crash for empty xrefdescription
 
