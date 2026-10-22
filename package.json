@@ -45,7 +45,8 @@
     "eslint-config-prettier": "https://www.npmjs.com/package/eslint-config-prettier",
     "typescript-eslint": "https://www.npmjs.com/package/typescript-eslint",
     "prettier": "https://www.npmjs.com/package/prettier",
-    "typescript": "https://www.npmjs.com/package/typescript"
+    "typescript": "https://www.npmjs.com/package/typescript",
+    "glob": "https://www.npmjs.com/package/glob"
   },
   "dependencies": {
     "commander": "^14.0.3",
@@ -59,6 +60,7 @@
     "eslint": "^10.12.0",
     "eslint-config-prettier": "^10.1.8",
     "fs-extra": "^11.4.1",
+    "glob": "^13.0.6",
     "json": "^11.0.0",
     "liquidjs": "^10.30.0",
     "prettier": "^3.9.10",
@@ -67,7 +69,7 @@
     "typescript-eslint": "^8.71.2"
   },
   "scripts": {
-    "generate-top-commons": "bash node_modules/@xpack/npm-packages-helper/maintenance-scripts/generate-top-commons.sh --xpack",
+    "generate-top-commons": "node node_modules/@xpack/npm-packages-helper/maintenance/scripts/generate-top-commons.mjs --xpack",
     "compile-watch": "tsc --project tsconfig.json --watch",
     "prettier": "prettier src tests --write --config config/.prettierrc.json --ignore-path config/.prettierignore",
     "fix": "eslint --config config/eslint.config.js --fix src",
