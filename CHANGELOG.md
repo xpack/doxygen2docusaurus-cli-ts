@@ -8,7 +8,8 @@ and close existing issues and pull requests.
 
 ## 2026-10-22
 
-* v2.2.4 prepared
+* v2.2.5 published on npmjs.com
+* v2.2.5 prepared
 * f3e1b66c re-generate website commons
 * e59848cf re-generate top commons
 * bb039384 #21: render classes inner classes
