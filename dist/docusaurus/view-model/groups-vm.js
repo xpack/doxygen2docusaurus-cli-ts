@@ -207,7 +207,7 @@ export class Group extends CompoundBase {
             morePermalink,
         }));
         lines.push(...this.renderInnerIndicesToLines({
-            suffixes: ['Groups', 'Classes', 'Concepts'],
+            suffixes: ['Groups', 'Namespaces', 'Classes', 'Concepts'],
         }));
         lines.push(...this.renderSectionIndicesToLines());
         lines.push(...this.renderDetailedDescriptionToHtmlLines({

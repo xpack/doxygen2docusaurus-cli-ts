@@ -6,10 +6,19 @@ Please check
 [GitHub](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/)
 and close existing issues and pull requests.
 
+## 2026-11-02
+
+* v2.2.6 published on npmjs.com
+* v2.2.6 prepared
+* d5cdeb43 re-generate website commons
+* b5f3ec7c #23: make group pages display inner namespaces
+
 ## 2026-10-22
 
-* v2.2.5 published on npmjs.com
-* v2.2.5 prepared
+* 3f2439df website: blog post release 2.2.5 published
+* 943c3821 2.2.5
+* eb157a49 CHANGELOG: publish npm v2.2.5
+* a88cb1d0 prepare v2.2.4
 * f3e1b66c re-generate website commons
 * e59848cf re-generate top commons
 * bb039384 #21: render classes inner classes
