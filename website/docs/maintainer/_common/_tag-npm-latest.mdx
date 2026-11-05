@@ -18,7 +18,7 @@ npm dist-tag ls @xpack/doxygen2docusaurus
 When the release is considered stable, promote it as `latest`:
 
 <CodeBlock language="sh"> {
-`npm dist-tag add @xpack/doxygen2docusaurus@2.2.6 latest
+`npm dist-tag add @xpack/doxygen2docusaurus@2.2.7 latest
 `} </CodeBlock>
 
 Check the result:
@@ -27,8 +27,16 @@ Check the result:
 `npm dist-tag ls @xpack/doxygen2docusaurus
 `} </CodeBlock>
 
-Should the release prove problematic and require unpublishing:
+Should the release prove problematic, deprecate it, so that the users get a
+warning when they install it; the version remains available:
 
 <CodeBlock language="sh"> {
-`npm unpublish @xpack/doxygen2docusaurus@2.2.6
+`npm deprecate @xpack/doxygen2docusaurus@2.2.7 "<reason>"
+`} </CodeBlock>
+
+npm allows unpublishing a version only within 72 hours of its publication, so
+this should be used only for a release published by mistake:
+
+<CodeBlock language="sh"> {
+`npm unpublish @xpack/doxygen2docusaurus@2.2.7
 `} </CodeBlock>

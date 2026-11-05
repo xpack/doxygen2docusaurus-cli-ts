@@ -12,8 +12,14 @@
   ```
 - Fix the TODO in the front matter `description` property (select maintenance vs. new release)
 - Fix the TODO in the summary (select maintenance vs. new release)
-- Add entries in the **Bug fixes**; utilise the following syntax
+- In the relevant sections (**Major changes**, **Bug fixes**, **Enhancements**), replace the `- None.` placeholder with entries; to link to GitHub issues, use:
   ```
-  - [[#N](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/N)]:
+  - [[#N](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/N)]: Title
   ```
-- **Commit** with the message _**website: blog post release 2.2.6 published**_
+- If compatibility notices were added for the release, move their details
+  from the **Getting Started** category to a **Detailed changes** section at
+  the end of the blog post, with the `{#details}` anchor
+  (`## Detailed changes {#details}`), and replace the notice with a summary
+  of no more than three sentences, which links to that section
+  (`/blog/YYYY/MM/DD/<post>/#details`)
+- **Commit** with the message _**website: blog post release 2.2.7 published**_

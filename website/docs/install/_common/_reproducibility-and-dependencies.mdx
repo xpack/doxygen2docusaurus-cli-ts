@@ -9,7 +9,7 @@ import CodeBlock from '@theme/CodeBlock';
 <summary>Reproducibility and `dependencies`</summary>
 
 To ensure reproducibility, it is essential for each project to always
-utilise the exact desired versions of the required libraries, regardless of the
+use the exact desired versions of the required libraries, regardless of the
 libraries installed in the system.
 
 To achieve this objective, **xpm** records all locally installed packages
@@ -19,10 +19,10 @@ The result appears as follows:
 
 <CodeBlock language="json"> {
 `  "xpack": {
-    "minimumXpmRequired": "0.20.7",
+    "minimumXpmRequired": "0.23.3",
     "dependencies": {
       "@xpack/doxygen2docusaurus": {
-        "specifier": "2.2.6",
+        "specifier": "2.2.7",
         "local": "link",
         "platforms": "all"
       }

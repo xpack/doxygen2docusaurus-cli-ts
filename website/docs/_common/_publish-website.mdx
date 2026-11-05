@@ -6,35 +6,33 @@
 ### Publish the website
 
 The website deployment is performed automatically when pushing to the
-`website` branch, utilising a dedicated workflow in
+`website` branch, using a dedicated workflow in
 [GitHub Actions](https://github.com/xpack/doxygen2docusaurus-cli-ts/actions/workflows/publish-github-pages.yml).
 
 - Open https://xpack.github.io/doxygen2docusaurus/docs/maintainer/#publish-the-website in a separate window
 - **Stop** the local web server
 - Switch to the `webpreview` branch
-- **Rebase** the `development` branch onto the `webpreview` branch
+- **Rebase** the `webpreview` branch onto the `development` branch (`git rebase development`)
 - **Push** the `webpreview` branch to GitHub
   :::info
-  At this point, an automated GitHub Action will generate and publish 
+  At this point, an automated GitHub Action will generate and publish
   the [preview website](https://xpack.github.io/doxygen2docusaurus-cli-ts/).
   :::
 - Switch to the `website` branch
-- run the `npm install` command, to ensure `package-lock.json` is up to date
-- **Rebase** the `development` branch onto the `website` branch
+- **Run** the `npm install` command, to ensure `package-lock.json` is up to date
+- **Rebase** the `website` branch onto the `development` branch (`git rebase development`)
 - **Push** the `website` branch to GitHub
   :::info
-  At this point, an automated forwarding GitHub Action will trigger 
-  a GitHub Action in the separate project to generate and publish 
+  At this point, an automated forwarding GitHub Action will trigger
+  a GitHub Action in the separate project to generate and publish
   the [website](https://xpack.github.io/doxygen2docusaurus/).
   :::
 - Check out the `development` branch
-- **Wait** for the publication to complete 
-- check [GitHub Pages](https://github.com/xpack/doxygen2docusaurus-cli-ts/actions/workflows/publish-github-pages.yml) workflow
+- **Wait** for the publication to complete
+- **Check** the [GitHub Pages](https://github.com/xpack/doxygen2docusaurus-cli-ts/actions/workflows/publish-github-pages.yml) workflow
 - **Refresh** the web page
-- The new release blog post is available
-at https://xpack.github.io/doxygen2docusaurus/blog/
-- Record the post URL, as it must be used to update the release page
-and the X/Twitter announcement
+- **Open** the new release blog post, available at https://xpack.github.io/doxygen2docusaurus/blog/
+- **Record** the post URL, as it must be used to update the release page and the X/Twitter announcement
 
 The `website` branch may be subsequently updated, provided the
 version in `package.json` remains unchanged.

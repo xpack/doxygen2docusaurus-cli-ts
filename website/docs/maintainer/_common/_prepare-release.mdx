@@ -10,11 +10,13 @@
 - `npm run fix`
 - If there are changes, **commit** all changes to the `development` branch
 - `npm run test`
-- Check the latest commits `npm run git-log`
-- Update `CHANGELOG.md`, add a line such as _**\* v2.2.6 published on npmjs.com**_
-- **Commit** with the message _**CHANGELOG: publish npm v2.2.6**_
+- Check the latest commits with `npm run git-log`
+- Update `CHANGELOG.md`, add a line such as _**\* v2.2.7 published on npmjs.com**_
+- **Commit** with the message _**CHANGELOG: publish npm v2.2.7**_
 - Check the list of files included in the npm package:
   ```sh
   npm run npm-pack
   ```
-- Possibly update `.npmignore`
+- If the list is not correct, fix `.npmignore`; since this file is generated,
+  change its template in the helper project, and regenerate it with the
+  **generate-top-commons** npm script

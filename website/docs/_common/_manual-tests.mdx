@@ -10,12 +10,11 @@ import CommonXpmCleanUps from '@site/docs/_common/_xpm-clean-ups.mdx';
 There are predefined xpm actions available to manually execute various
 tests on the local development machine.
 
-It is recommended to commence by performing some clean-ups (not necessary
-following the initial `git clone`):
+Start with a clean-up (not needed after the initial `git clone`):
 
 ```sh
 npm --prefix ~/Work/xpack/doxygen2docusaurus-cli-ts.git/tests install
-xpm run deep-clean -C ~/Work/xpack/doxygen2docusaurus-cli-ts.git/tests
+npm --prefix ~/Work/xpack/doxygen2docusaurus-cli-ts.git/tests run deep-clean
 ```
 
 :::tip
@@ -58,14 +57,14 @@ xpm run test-all -C ~/Work/xpack/doxygen2docusaurus-cli-ts.git/tests
 
 Executing all tests may require several gigabytes of space.
 
-To clean up the tests folder, utilise:
+To clean up the tests folder, use:
 
 ```sh
 npm --prefix ~/Work/xpack/doxygen2docusaurus-cli-ts.git/tests install
-xpm run deep-clean -C ~/Work/xpack/doxygen2docusaurus-cli-ts.git/tests
+npm --prefix ~/Work/xpack/doxygen2docusaurus-cli-ts.git/tests run deep-clean
 ```
 
-A considerable amount of space may also be utilised by the toolchains.
+A considerable amount of space may also be used by the toolchains.
 When no longer required, they can be removed with `xpm uninstall`.
 
 <details>

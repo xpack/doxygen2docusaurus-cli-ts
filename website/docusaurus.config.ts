@@ -98,9 +98,9 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/xpack/doxygen2docusaurus-cli-ts/edit/website/website/',
+          // No `editUrl`, to have no "edit this page" links: most pages are
+          // generated from templates, and the links would lead to files whose
+          // changes are overwritten.
           // showLastUpdateAuthor: true,
           showLastUpdateTime: true,
         },
@@ -112,9 +112,9 @@ const config: Config = {
             type: ['rss', 'atom'],
             xslt: true,
           },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/xpack/doxygen2docusaurus-cli-ts/edit/website/website/',
+          // No `editUrl`, to have no "edit this page" links: most pages are
+          // generated from templates, and the links would lead to files whose
+          // changes are overwritten.
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -324,11 +324,11 @@ const config: Config = {
             },
             {
               label: 'Discord',
-              href: 'https://discord.com/invite/kbzWaJerFG',
+              href: 'https://discord.gg/EkU7Spstr',
             },
             {
               label: 'X/Twitter',
-              href: 'https://twitter.com/xpack_project',
+              href: 'https://x.com/xpack_project',
             },
           ],
         },
@@ -362,11 +362,13 @@ const config: Config = {
     },
   } satisfies Preset.ThemeConfig,
 
-  // TODO: find out how to disable cascade CSSs.
-  // future: {
-  //   v4: true,
-  //   experimental_faster: true,
-  // },
+  // https://docusaurus.io/blog/releases/3.6#docusaurus-faster
+  future: {
+    v4: {
+      removeLegacyPostBuildHeadAttribute: true,
+    },
+    faster: true,
+  },
 
   customFields: customFields,
 };

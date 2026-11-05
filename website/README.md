@@ -21,11 +21,11 @@ cd website
 npm install typedoc typedoc-plugin-markdown docusaurus-plugin-typedoc --save-dev
 ```
 
-[!NOTE]
-There is a new spec ([TSDoc](https://tsdoc.org)), pushed by
-Microsoft, slightly different, for example there are no
-categories or groups.
+> [!NOTE]
+> There is a newer specification ([TSDoc](https://tsdoc.org)), from
+> Microsoft, which is slightly different; for example, it has no
+> categories or groups.
 
-[!NOTE]
-There is also another plugin, `docusaurus-plugin-typedoc-api`, but
-it is no longer maintained.
+> [!NOTE]
+> There is also another plugin, `docusaurus-plugin-typedoc-api`, but
+> it is no longer maintained.

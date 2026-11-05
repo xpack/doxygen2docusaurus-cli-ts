@@ -8,16 +8,16 @@
 
 The above `xpm install` command will perform the following:
 
-* identify the desired version
+- identify the desired version
   of @xpack/doxygen2docusaurus, download it into a cache and unpack
   it into a versioned folder
   within the **user's global xPacks store** (if not already present);
   check the output of the `xpm install` command for the actual
   folder used on your platform;
-* create a local symbolic link
+- create a local symbolic link
   such as <code>xpacks/@xpack/doxygen2docusaurus</code> pointing to the
   versioned folder in the user's global xPacks store
-* add <code>@xpack/doxygen2docusaurus</code> to
+- add <code>@xpack/doxygen2docusaurus</code> to
   `package.json` as a
   dependency; this associates a specific version of doxygen2docusaurus with
   the current project (details below).
@@ -25,7 +25,7 @@ The above `xpm install` command will perform the following:
 :::tip
 
 The installation location may be configured using the
-`XPACKS_STORE_FOLDER` environment variable; for more details please refer to the
+`XPACKS_STORE_FOLDER` environment variable; for more details, see the
 [xpm folders](https://xpack.github.io/xpm/folders/) page.
 
 :::
