@@ -345,9 +345,7 @@ export class Classes extends CollectionBase {
 
     const lines: string[] = []
 
-    lines.push(
-      'The classes, structs, union and interfaces used by this project are:'
-    )
+    lines.push('The classes and structs used by this project are:')
 
     lines.push(...this.workspace.renderTreeTableToHtmlLines({ contentLines }))
 
