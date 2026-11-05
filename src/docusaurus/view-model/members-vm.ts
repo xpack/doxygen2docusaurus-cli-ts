@@ -1770,7 +1770,8 @@ export class Member extends MemberBase {
         ).replace(/[.]$/, '')
         // console.log(`|${enumBriefDescription}|`)
         const { initializerHtmlString: value } = enumValue
-        if (value !== undefined && value.length > 0) {
+        const hasValue = value !== undefined && value.length > 0
+        if (hasValue && enumValue.detailedDescriptionHtmlLines === undefined) {
           enumBriefDescriptionHtmlString += ` (${value})`
         }
 
@@ -1783,7 +1784,21 @@ export class Member extends MemberBase {
         )
         // lines.push(`<td class="doxyEnumItemDescription">`+
         // `<p>${enumBriefDescription}</p></td>`)
-        if (!enumBriefDescriptionHtmlString.includes('\n')) {
+        if (enumValue.detailedDescriptionHtmlLines !== undefined) {
+          // The detailed description follows the brief description, as
+          // for the other members; a comment without an explicit brief is
+          // stored by Doxygen only here.
+          lines.push('<td class="doxyEnumItemDescription">')
+          if (enumBriefDescriptionHtmlString.length > 0) {
+            lines.push(...enumBriefDescriptionHtmlString.split('\n'))
+          }
+          lines.push(...enumValue.detailedDescriptionHtmlLines)
+          if (hasValue) {
+            // After the descriptions, so that it does not precede them.
+            lines.push(`<p>(${value})</p>`)
+          }
+          lines.push('</td>')
+        } else if (!enumBriefDescriptionHtmlString.includes('\n')) {
           lines.push(
             `<td class="doxyEnumItemDescription">` +
               `${enumBriefDescriptionHtmlString}</td>`
@@ -1888,6 +1903,19 @@ export class EnumValue {
   briefDescriptionHtmlString: string | undefined
 
   /**
+   * Detailed description in HTML format, as lines.
+   *
+   * @remarks
+   * Optional detailed description of the enumeration value, rendered like
+   * the detailed descriptions of the other members. Doxygen stores a
+   * trailing comment that has only text, with no explicit brief, as a
+   * detailed description, so it is needed to display such comments.
+   * The value is `undefined` when the enumeration value has no detailed
+   * description with text.
+   */
+  detailedDescriptionHtmlLines: string[] | undefined
+
+  /**
    * Initialiser value in HTML format.
    *
    * @remarks
@@ -1942,6 +1970,15 @@ export class EnumValue {
       this.briefDescriptionHtmlString = workspace
         .renderElementToString(enumValue.briefDescription, 'html')
         .trim()
+    }
+
+    if (enumValue.detailedDescription !== undefined) {
+      const lines = workspace
+        .renderElementToLines(enumValue.detailedDescription, 'html')
+        .filter((line) => line.trim().length > 0)
+      if (lines.length > 0) {
+        this.detailedDescriptionHtmlLines = lines
+      }
     }
 
     if (enumValue.initializer !== undefined) {
