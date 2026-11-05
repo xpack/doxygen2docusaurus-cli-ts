@@ -360,10 +360,15 @@ export abstract class CompoundBase {
         adjustedSectionKind = sectionDef.computeAdjustedKind('slot')
         break
 
+      case 'enum':
+        // If public/protected/private, preserve the prefix, so that the
+        // enumerations of a class are listed as Public/Protected/Private.
+        adjustedSectionKind = sectionDef.computeAdjustedKind('enum')
+        break
+
       // case 'define':
       // case 'property':
       // case 'event':
-      // case 'enum':
       // case 'signal':
       // case 'prototype':
       // case 'friend':

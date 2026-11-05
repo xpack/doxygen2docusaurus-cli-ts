@@ -39,6 +39,11 @@ export const sectionHeaders: Record<string, [string, number]> = {
   'package-type': ['Package Member Typedefs', 140],
 
   enum: ['Enumerations', 150], // DoxMemberKind too
+  // Extra, not present in Doxygen.
+  'public-enum': ['Public Enumerations', 150],
+  'protected-enum': ['Protected Enumerations', 151],
+  'private-enum': ['Private Enumerations', 152],
+  'package-enum': ['Package Enumerations', 153],
 
   friend: ['Friends', 160], // DoxMemberKind too
 
