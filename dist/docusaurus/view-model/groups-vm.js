@@ -144,7 +144,7 @@ export class Groups extends CollectionBase {
         }
         const lines = [];
         const projectBrief = this.workspace.doxygenOptions.getOptionCdataValue('PROJECT_BRIEF');
-        lines.push(`${projectBrief} topics with brief descriptions are:`);
+        lines.push(`The ${projectBrief} topics, with their brief descriptions, are:`);
         lines.push(...this.workspace.renderTreeTableToHtmlLines({ contentLines }));
         return lines;
     }

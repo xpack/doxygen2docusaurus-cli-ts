@@ -127,6 +127,9 @@ export class CompoundBase {
             case 'slot':
                 adjustedSectionKind = sectionDef.computeAdjustedKind('slot');
                 break;
+            case 'enum':
+                adjustedSectionKind = sectionDef.computeAdjustedKind('enum');
+                break;
             default: {
                 const { kind } = memberBase;
                 adjustedSectionKind = kind;

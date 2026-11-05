@@ -9,6 +9,10 @@ export const sectionHeaders = {
     'private-type': ['Private Member Typedefs', 130],
     'package-type': ['Package Member Typedefs', 140],
     enum: ['Enumerations', 150],
+    'public-enum': ['Public Enumerations', 150],
+    'protected-enum': ['Protected Enumerations', 151],
+    'private-enum': ['Private Enumerations', 152],
+    'package-enum': ['Package Enumerations', 153],
     friend: ['Friends', 160],
     interface: ['Interfaces', 170],
     constructorr: ['Constructors', 200],
@@ -818,14 +822,26 @@ export class Member extends MemberBase {
                 const anchor = getPermalinkAnchor(enumValue.id);
                 let enumBriefDescriptionHtmlString = (enumValue.briefDescriptionHtmlString ?? '').replace(/[.]$/, '');
                 const { initializerHtmlString: value } = enumValue;
-                if (value !== undefined && value.length > 0) {
+                const hasValue = value !== undefined && value.length > 0;
+                if (hasValue && enumValue.detailedDescriptionHtmlLines === undefined) {
                     enumBriefDescriptionHtmlString += ` (${value})`;
                 }
                 lines.push('');
                 lines.push('<tr class="doxyEnumItem">');
                 lines.push(`<td class="doxyEnumItemName">${enumValue.name}` +
                     `<a id="${anchor}"></a></td>`);
-                if (!enumBriefDescriptionHtmlString.includes('\n')) {
+                if (enumValue.detailedDescriptionHtmlLines !== undefined) {
+                    lines.push('<td class="doxyEnumItemDescription">');
+                    if (enumBriefDescriptionHtmlString.length > 0) {
+                        lines.push(...enumBriefDescriptionHtmlString.split('\n'));
+                    }
+                    lines.push(...enumValue.detailedDescriptionHtmlLines);
+                    if (hasValue) {
+                        lines.push(`<p>(${value})</p>`);
+                    }
+                    lines.push('</td>');
+                }
+                else if (!enumBriefDescriptionHtmlString.includes('\n')) {
                     lines.push(`<td class="doxyEnumItemDescription">` +
                         `${enumBriefDescriptionHtmlString}</td>`);
                 }
@@ -856,6 +872,7 @@ export class EnumValue {
     name;
     id;
     briefDescriptionHtmlString;
+    detailedDescriptionHtmlLines;
     initializerHtmlString;
     member;
     constructor(member, enumValue) {
@@ -877,6 +894,14 @@ export class EnumValue {
             this.briefDescriptionHtmlString = workspace
                 .renderElementToString(enumValue.briefDescription, 'html')
                 .trim();
+        }
+        if (enumValue.detailedDescription !== undefined) {
+            const lines = workspace
+                .renderElementToLines(enumValue.detailedDescription, 'html')
+                .filter((line) => line.trim().length > 0);
+            if (lines.length > 0) {
+                this.detailedDescriptionHtmlLines = lines;
+            }
         }
         if (enumValue.initializer !== undefined) {
             this.initializerHtmlString = workspace.renderElementToString(enumValue.initializer, 'html');

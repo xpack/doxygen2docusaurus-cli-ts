@@ -196,7 +196,7 @@ export class Classes extends CollectionBase {
             return;
         }
         const lines = [];
-        lines.push('The classes, structs, union and interfaces used by this project are:');
+        lines.push('The classes and structs used by this project are:');
         lines.push(...this.workspace.renderTreeTableToHtmlLines({ contentLines }));
         if (this.workspace.options.verbose) {
             console.log(`Writing classes index file '${filePath}'...`);

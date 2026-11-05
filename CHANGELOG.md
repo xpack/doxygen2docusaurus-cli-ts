@@ -6,10 +6,23 @@ Please check
 [GitHub](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/)
 and close existing issues and pull requests.
 
+## 2026-11-05
+
+* v2.2.7 published on npmjs.com
+* v2.2.7 prepared
+* 3432e3ff .npmignore update
+* aaa4440a website update
+* 337671ee add maintenance
+* 667b60b2 add skills
+* 30dc5586 #26: reword the Classes and Topics index introductions
+* c2ea0414 #25: group class enumerations by access
+* 7c854c56 #24: render enumeration value detailed descriptions
+
 ## 2026-11-02
 
-* v2.2.6 published on npmjs.com
-* v2.2.6 prepared
+* 936a196f website: blog post release 2.2.6 published
+* cc63e5f5 2.2.6
+* eb25f03f prepare v2.2.6
 * d5cdeb43 re-generate website commons
 * b5f3ec7c #23: make group pages display inner namespaces
 

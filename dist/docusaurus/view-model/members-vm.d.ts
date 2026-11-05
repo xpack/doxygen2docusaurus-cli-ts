@@ -74,6 +74,7 @@ export declare class EnumValue {
     name: string;
     id: string;
     briefDescriptionHtmlString: string | undefined;
+    detailedDescriptionHtmlLines: string[] | undefined;
     initializerHtmlString: string | undefined;
     member: Member;
     constructor(member: Member, enumValue: EnumValueDataModel);
