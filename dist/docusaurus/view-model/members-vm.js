@@ -568,7 +568,8 @@ export class Member extends MemberBase {
     renderToLines() {
         const lines = [];
         const workspace = this.section.compound.collection.workspace;
-        const isFunction = this.section.kind.startsWith('func') ||
+        const isFunction = this.kind === 'function' ||
+            this.section.kind.startsWith('func') ||
             this.section.kind.endsWith('func') ||
             this.section.kind.endsWith('constructorr') ||
             this.section.kind.endsWith('destructor') ||
