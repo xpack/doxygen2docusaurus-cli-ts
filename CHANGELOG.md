@@ -6,10 +6,22 @@ Please check
 [GitHub](https://github.com/xpack/doxygen2docusaurus-cli-ts/issues/)
 and close existing issues and pull requests.
 
+## 2026-11-06
+
+* v2.2.8 published on npmjs.com
+* v2.2.8 prepared
+* c4acc0c7 dist update
+* 223fddfb website update 2.2.8
+* f13c7f00 #30: add () to functions in user-defined sections
+* d2fc6884 dist update
+* 98c688c5 #29: render the array specification of parameters
+* 7eaa2683 #27: do not parse the text of XML elements
+
 ## 2026-11-05
 
-* v2.2.7 published on npmjs.com
-* v2.2.7 prepared
+* 8a5062ba website: blog post release 2.2.7 published
+* 74d80134 2.2.7
+* de9aa7b8 prepare v2.2.7
 * 3432e3ff .npmignore update
 * aaa4440a website update
 * 337671ee add maintenance
