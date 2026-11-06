@@ -21,7 +21,7 @@ Abstract base class for concept parts containers.
 ```typescript
 export declare abstract class AbstractConceptParts extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractconceptparts/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractconceptparts/constructor)
 
 
 </td><td>

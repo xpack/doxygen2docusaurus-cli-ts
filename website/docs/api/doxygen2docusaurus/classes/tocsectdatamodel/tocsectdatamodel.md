@@ -21,7 +21,7 @@ Concrete data model class for table of contents section elements.
 ```typescript
 export declare class TocSectDataModel extends AbstractTableOfContentsKindType
 ```
-**Extends:** [AbstractTableOfContentsKindType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstracttableofcontentskindtype)
+**Extends:** [AbstractTableOfContentsKindType](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstracttableofcontentskindtype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/tocsectdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/tocsectdatamodel/constructor)
 
 
 </td><td>

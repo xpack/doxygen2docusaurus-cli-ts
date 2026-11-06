@@ -21,7 +21,7 @@ Concrete implementation for memberdef elements within compound documentation.
 ```typescript
 export declare class MemberDefDataModel extends AbstractMemberDefType
 ```
-**Extends:** [AbstractMemberDefType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractmemberdeftype)
+**Extends:** [AbstractMemberDefType](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractmemberdeftype)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/memberdefdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/memberdefdatamodel/constructor)
 
 
 </td><td>

@@ -21,7 +21,7 @@ Abstract base class providing properties for listing-type XML elements.
 ```typescript
 export declare abstract class AbstractListingTypeBase extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -52,7 +52,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[codelines?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlistingtypebase/codelines)
+[codelines?](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractlistingtypebase/codelines)
 
 
 </td><td>
@@ -60,7 +60,7 @@ Description
 
 </td><td>
 
-[CodeLineDataModel](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/codelinedatamodel)<!-- -->\[\] \| undefined
+[CodeLineDataModel](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/codelinedatamodel)<!-- -->\[\] \| undefined
 
 
 </td><td>
@@ -71,7 +71,7 @@ _(Optional)_ Array of code line elements within the listing.
 </td></tr>
 <tr><td>
 
-[filename?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlistingtypebase/filename)
+[filename?](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractlistingtypebase/filename)
 
 
 </td><td>

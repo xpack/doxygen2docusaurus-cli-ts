@@ -47,7 +47,7 @@ xml
 
 </td><td>
 
-[DoxygenXmlParser](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/doxygenxmlparser)
+[DoxygenXmlParser](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/doxygenxmlparser)
 
 
 </td><td>

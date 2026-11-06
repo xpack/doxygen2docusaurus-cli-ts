@@ -47,7 +47,7 @@ options
 
 </td><td>
 
-[CliOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/clioptions)
+[CliOptions](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/clioptions)
 
 
 </td><td>
