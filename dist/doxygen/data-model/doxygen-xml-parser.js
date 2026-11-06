@@ -11,7 +11,7 @@ export class DoxygenXmlParser {
             preserveOrder: true,
             removeNSPrefix: true,
             ignoreAttributes: false,
-            parseTagValue: true,
+            parseTagValue: false,
             parseAttributeValue: true,
             trimValues: false,
         });

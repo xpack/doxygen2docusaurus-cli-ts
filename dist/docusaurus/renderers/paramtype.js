@@ -21,9 +21,17 @@ export class ParamTypeLinesRenderer extends ElementLinesRendererBase {
         let text = '';
         text += this.workspace.renderElementToString(element.type, type);
         if (element.declname !== undefined) {
-            text += ` ${element.declname}`;
+            const declarator = /(\(\s*(?:&amp;|&|\*)+\s*)\)\s*$/.exec(text);
+            if (element.array !== undefined && declarator !== null) {
+                text =
+                    text.slice(0, declarator.index) +
+                        `${declarator[1]}${element.declname})`;
+            }
+            else {
+                text += ` ${element.declname}`;
+            }
             if (element.array !== undefined) {
-                text += `=${element.array}`;
+                text += element.array;
             }
             if (element.defval !== undefined) {
                 const defvalStr = this.workspace.renderElementToString(element.defval, type);
