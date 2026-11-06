@@ -39,7 +39,8 @@ import type { AbstractParamType } from '../../doxygen/data-model/compounds/param
  * @remarks
  * Handles the rendering of function and method parameters as parsed from
  * Doxygen XML, converting them into formatted output that includes type
- * information, parameter names, and default values when available.
+ * information, parameter names, array specifications, and default values
+ * when available.
  *
  * @public
  */
@@ -96,9 +97,21 @@ export class ParamTypeLinesRenderer extends ElementLinesRendererBase {
 
     text += this.workspace.renderElementToString(element.type, type)
     if (element.declname !== undefined) {
-      text += ` ${element.declname}`
+      // The array specification is part of the declarator, not a default
+      // value: `char * argv[]`. For a reference or a pointer to an array,
+      // Doxygen ends the type with the empty declarator `(&)` or `(*)`,
+      // and the name goes inside the parentheses: `const char(&name)[N]`;
+      // the type may be already escaped for HTML (`&amp;`).
+      const declarator = /(\(\s*(?:&amp;|&|\*)+\s*)\)\s*$/.exec(text)
+      if (element.array !== undefined && declarator !== null) {
+        text =
+          text.slice(0, declarator.index) +
+          `${declarator[1]}${element.declname})`
+      } else {
+        text += ` ${element.declname}`
+      }
       if (element.array !== undefined) {
-        text += `=${element.array}`
+        text += element.array
       }
       if (element.defval !== undefined) {
         const defvalStr = this.workspace.renderElementToString(
