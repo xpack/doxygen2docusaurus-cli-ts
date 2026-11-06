@@ -21,7 +21,7 @@ Abstract base class for Doxygen description elements containing mixed content.
 ```typescript
 export declare abstract class AbstractDescriptionType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractdescriptiontype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdescriptiontype/constructor)
 
 
 </td><td>
@@ -88,7 +88,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[title?](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractdescriptiontype/title)
+[title?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdescriptiontype/title)
 
 
 </td><td>

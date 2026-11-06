@@ -21,7 +21,7 @@ Data model for type constraint elements within documentation content.
 ```typescript
 export declare class TypeConstraintDataModel extends AbstractLinkedTextType
 ```
-**Extends:** [AbstractLinkedTextType](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractlinkedtexttype)
+**Extends:** [AbstractLinkedTextType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractlinkedtexttype)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/typeconstraintdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/typeconstraintdatamodel/constructor)
 
 
 </td><td>

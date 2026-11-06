@@ -21,7 +21,7 @@ Data model for inner namespace reference elements.
 ```typescript
 export declare class InnerNamespaceDataModel extends AbstractRefType
 ```
-**Extends:** [AbstractRefType](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractreftype)
+**Extends:** [AbstractRefType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreftype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/innernamespacedatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/innernamespacedatamodel/constructor)
 
 
 </td><td>

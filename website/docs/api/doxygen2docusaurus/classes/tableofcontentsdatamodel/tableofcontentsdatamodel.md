@@ -21,7 +21,7 @@ Concrete data model class for table of contents elements.
 ```typescript
 export declare class TableOfContentsDataModel extends AbstractTableOfContentsType
 ```
-**Extends:** [AbstractTableOfContentsType](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstracttableofcontentstype)
+**Extends:** [AbstractTableOfContentsType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstracttableofcontentstype)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/tableofcontentsdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/tableofcontentsdatamodel/constructor)
 
 
 </td><td>

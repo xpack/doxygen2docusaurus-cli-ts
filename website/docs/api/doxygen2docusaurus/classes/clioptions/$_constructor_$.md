@@ -47,7 +47,7 @@ commandOptions
 
 </td><td>
 
-[CommandOptions](/doxygen2docusaurus/docs/api/doxygen2docusaurus/typealiases/commandoptions)
+[CommandOptions](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/typealiases/commandoptions)
 
 
 </td><td>

@@ -21,7 +21,7 @@ Concrete implementation for member elements within documentation.
 ```typescript
 export declare class MemberDataModel extends AbstractMemberType
 ```
-**Extends:** [AbstractMemberType](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractmembertype)
+**Extends:** [AbstractMemberType](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractmembertype)
 
 ## Remarks
 
@@ -49,7 +49,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element)](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/memberdatamodel/constructor)
+[(constructor)(xml, element)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/memberdatamodel/constructor)
 
 
 </td><td>

@@ -21,7 +21,7 @@ Abstract base class for reference type data models.
 ```typescript
 export declare abstract class AbstractRefType extends AbstractDataModelBase
 ```
-**Extends:** [AbstractDataModelBase](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
+**Extends:** [AbstractDataModelBase](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractdatamodelbase)
 
 ## Remarks
 
@@ -47,7 +47,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[(constructor)(xml, element, elementName)](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractreftype/constructor)
+[(constructor)(xml, element, elementName)](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreftype/constructor)
 
 
 </td><td>
@@ -86,7 +86,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[inline?](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractreftype/inline)
+[inline?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreftype/inline)
 
 
 </td><td>
@@ -105,7 +105,7 @@ _(Optional)_ Indicates whether the referenced entity is inline.
 </td></tr>
 <tr><td>
 
-[prot?](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractreftype/prot)
+[prot?](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreftype/prot)
 
 
 </td><td>
@@ -124,7 +124,7 @@ _(Optional)_ The protection level of the referenced entity.
 </td></tr>
 <tr><td>
 
-[refid](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractreftype/refid)
+[refid](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreftype/refid)
 
 
 </td><td>
@@ -143,7 +143,7 @@ The unique reference identifier for the referenced entity.
 </td></tr>
 <tr><td>
 
-[text](/doxygen2docusaurus/docs/api/doxygen2docusaurus/classes/abstractreftype/text)
+[text](/doxygen2docusaurus-cli-ts/docs/api/doxygen2docusaurus/classes/abstractreftype/text)
 
 
 </td><td>
