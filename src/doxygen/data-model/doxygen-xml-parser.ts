@@ -79,7 +79,11 @@ export class DoxygenXmlParser {
    * @remarks
    * This constructor initialises the XML parser with settings that preserve the
    * order and structure of the original XML content, remove namespace prefixes,
-   * and ensure that both tag and attribute values are parsed. The values are
+   * and ensure that the attribute values are parsed. The text of the elements
+   * is deliberately kept as written, since parsing it would change the
+   * numeric-looking text of the documentation (`010` would become `10`, `42.0`
+   * would become `42`, and `0x7F` would become `127`); the methods that need
+   * a number or a boolean convert the text themselves. The values are
    * not trimmed, maintaining fidelity to the source XML. The provided options
    * are stored for use throughout the parsing process.
    */
@@ -90,7 +94,7 @@ export class DoxygenXmlParser {
       preserveOrder: true,
       removeNSPrefix: true,
       ignoreAttributes: false,
-      parseTagValue: true,
+      parseTagValue: false,
       parseAttributeValue: true,
       trimValues: false,
     })
