@@ -1383,7 +1383,11 @@ export class Member extends MemberBase {
 
     const workspace = this.section.compound.collection.workspace
 
+    // The kind of the member is needed, since the members of the
+    // user-defined sections (the `@name` groups) are in a section of the
+    // 'user-defined' kind, whatever their own kind.
     const isFunction: boolean =
+      this.kind === 'function' ||
       this.section.kind.startsWith('func') ||
       this.section.kind.endsWith('func') ||
       this.section.kind.endsWith('constructorr') ||
